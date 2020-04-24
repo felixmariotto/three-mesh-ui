@@ -14,6 +14,8 @@ pagesConf = pages.map( (name)=> {
 
 module.exports = {
 
+	mode: "development",
+
 	entry: './src/three-mesh-ui.js',
 
 	plugins: pagesConf,
