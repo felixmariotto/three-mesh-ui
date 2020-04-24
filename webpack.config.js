@@ -1,7 +1,7 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
-let pages = [ 'index', 'secondPage' ];
+let pages = [ 'index', '0_basic_setup', '1_advanced_demo' ];
 
 pagesConf = pages.map( (name)=> {
 	return new HtmlWebpackPlugin({
