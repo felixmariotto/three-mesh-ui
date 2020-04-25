@@ -30,17 +30,31 @@ function LayoutModule( options ) {
 	layout.type = 'layout';
 
 	layout.update = function Update() {
-		
+
 		if ( !layout.height ) return
 		if ( !layout.width ) return
 
-		var frame = Frame(
+		// cleanup previous depictions
+
+		layout.threeOBJ.traverse( (obj)=> {
+			if ( obj.material ) obj.material.dispose();
+			if ( obj.geometry ) obj.geometry.dispose();
+			layout.threeOBJ.remove( obj );
+		});
+
+		// create new depictions
+
+		const frame = Frame(
 			layout.width,
 			layout.height,
 			layout.backgroundMaterial 
 		);
 
 		layout.threeOBJ.add( frame );
+
+		layout.children.forEach( (child)=> {
+			child.update();
+		});
 
 	};
 	layout.update();

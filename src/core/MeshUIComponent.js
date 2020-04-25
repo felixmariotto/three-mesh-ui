@@ -5,20 +5,22 @@
 */
 
 import FontLibrary from './FontLibrary';
+import MaterialLibrary from './MaterialLibrary';
 
 function generateSerial() {
 
-	var chars = '1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz',
-	serialLength = 10,
-	randomSerial = "",
-	i,
-	randomNumber;
+	const CHARS = '1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
+	const serialLength = 10;
+
+	let randomSerial = "";
+	let i;
+	let randomNumber;
 
 	for (i = 0; i < serialLength; i = i + 1) {
 
-		randomNumber = Math.floor(Math.random() * chars.length);
+		randomNumber = Math.floor(Math.random() * CHARS.length);
 
-		randomSerial += chars.substring(randomNumber, randomNumber + 1);
+		randomSerial += CHARS.substring(randomNumber, randomNumber + 1);
 
 	};
 
@@ -29,15 +31,23 @@ function generateSerial() {
 function MeshUIComponent() {
 
 	// look for the fontFamily property, and if does not exist, find it in parent or above
-	function getFontFamily() {
+	function getFontFamily( component ) {
 
-		if ( this.fontFamily ) {
+		component = component || this;
 
-			return this.fontFamily
+		let font = FontLibrary.getFontOf( component );
+
+		if ( !font && component.parent ) {
+
+			return getFontFamily( component.parent );
+
+		} else if ( font ) {
+
+			return font
 
 		} else {
 
-			return 'no font';
+			return null
 
 		};
 
@@ -77,6 +87,7 @@ function MeshUIComponent() {
 	function appendChild( child ) {
 
 		this.children.push( child );
+		child._addParent( this );
 
 	};
 
@@ -84,6 +95,19 @@ function MeshUIComponent() {
 	function removeChild( child ) {
 
 		this.children.splice( this.children.indexOf( child ), 1 );
+		child._removeParent();
+
+	};
+
+	function _addParent( parent ) {
+
+		this.parent = parent ;
+
+	};
+
+	function _removeParent() {
+
+		this.parent = undefined;
 
 	};
 
@@ -95,9 +119,9 @@ function MeshUIComponent() {
 
 	};
 
+	// Called by FontLibrary when the font requested for the current component is ready.
+	// Trigger an update for the component whose font is now available.
 	function _updateFont( url ) {
-
-		console.log( this.type )
 
 		this.fontFamily = url;
 		this.update();
@@ -105,9 +129,7 @@ function MeshUIComponent() {
 	};
 
 	return {
-		fontFamily: undefined, // font that is found for creating text shape AND positioning in height and so forth
 		fontSize: 0.1, // font size in world units
-		fontMaterial: undefined, // material, one instance is shared between all the components that use it, since all these components will be merged. If a component uses this material but another one when hover or when click, then a different instance of the material is used
 		children: [],
 		parent: undefined,
 		type: 'MeshUIComponent',
@@ -117,6 +139,8 @@ function MeshUIComponent() {
 		getFontMaterial,
 		appendChild,
 		removeChild,
+		_addParent,
+		_removeParent,
 		setFont,
 		_updateFont
 	};

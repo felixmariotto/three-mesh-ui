@@ -27,10 +27,14 @@
 		const WIDTH = window.innerWidth;
 		const HEIGHT = window.innerHeight;
 
-		var scene, camera, renderer ;
+		let scene, camera, renderer ;
 
 		window.addEventListener('load', ()=> {
 			init();
+		});
+
+		window.addEventListener('resize', ()=> {
+			onWindowResize();
 		});
 
 		function init() {
@@ -60,19 +64,33 @@
 
 			const layout = ThreeMeshUI.Layout({
 				height: 1.8,
-				width: 0.9
+				width: 0.7
 			});
+
 			layout.setFont( 'fonts/helvetiker_regular.typeface.json' )
 
 			layout.threeOBJ.position.set( 0, 1.6, -1.8 );
+
 			scene.add( layout.threeOBJ );
 
-			const paragraph = ThreeMeshUI.Paragraph({
-				text: "blabla"
-			});
-			paragraph.setFont( 'fonts/helvetiker_regular.typeface.json' )
+			//
 
-			console.log( paragraph );
+			const paragraph = ThreeMeshUI.Paragraph({
+				text: "blablagergergre"
+			});
+			
+			layout.appendChild( paragraph );
+
+		};
+
+		//
+
+		function onWindowResize() {
+
+			camera.aspect = window.innerWidth / window.innerHeight;
+			camera.updateProjectionMatrix();
+
+			renderer.setSize( window.innerWidth, window.innerHeight );
 
 		};
 
@@ -81,6 +99,7 @@
 		function loop() {
 			renderer.render( scene, camera );
 			requestAnimationFrame( loop );
+			// console.log( renderer.info.render.calls );
 		};
 
 	</script>

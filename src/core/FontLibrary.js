@@ -55,7 +55,7 @@ function setFont( component, url ) {
 function getFontOf( component ) {
 
 	// return the record associated with this component, or undefined
-	var record = records[ component.id ];
+	const record = records[ component.id ];
 
 	return record ? fonts[ record.url ] : null ;
 
