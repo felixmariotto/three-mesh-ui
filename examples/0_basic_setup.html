@@ -36,7 +36,7 @@
 		function init() {
 
 			scene = new THREE.Scene();
-			scene.background = new THREE.Color( 0xff00ff );
+			scene.background = new THREE.Color( 0x383838 );
 
 			camera = new THREE.PerspectiveCamera( 60, WIDTH / HEIGHT, 0.1, 100 );
 			camera.position.set( 0, 1.6, 0 );
@@ -48,9 +48,28 @@
 			renderer.setSize( WIDTH, HEIGHT );
 			document.body.appendChild( renderer.domElement );
 
+			makeTextPanel();
+
 			loop();
 
 		};
+
+		//
+
+		function makeTextPanel() {
+
+			const component = ThreeMeshUI.Layout({
+				height: 1.8,
+				width: 0.9
+			});
+
+			component.threeOBJ.position.set( 0, 1.6, -1.8 );
+
+			scene.add( component.threeOBJ )
+
+		};
+
+		//
 
 		function loop() {
 			renderer.render( scene, camera );

@@ -1,8 +1,8 @@
 {
   "name": "three-mesh-ui",
-  "version": "0.0.0",
+  "version": "0.0.3",
   "description": "a library on top of three.js to help in creating 3D user interfaces",
-  "main": "index.js",
+  "main": "src/three-mesh-ui.js",
   "scripts": {
     "startdev": "webpack-dev-server --open",
     "build": "npx webpack --config webpack.config.js",
@@ -23,11 +23,13 @@
     "url": "https://github.com/felixmariotto/Three-Mesh-UI/issues"
   },
   "homepage": "https://github.com/felixmariotto/Three-Mesh-UI#readme",
-  "dependencies": {
+  "devDependencies": {
     "html-webpack-plugin": "^4.2.0",
-    "three": "^0.115.0",
     "webpack": "^4.43.0",
     "webpack-cli": "^3.3.11",
     "webpack-dev-server": "^3.10.3"
+  },
+  "dependencies": {
+    "three": "^0.115.0"
   }
 }

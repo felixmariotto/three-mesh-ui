@@ -1,5 +1,13 @@
-import { Scene } from 'three';
+import MeshUIComponent from './core/MeshUIComponent';
+import Layout from './components/Layout';
 
-const scene = new Scene();
+const ThreeMeshUI = {
+	MeshUIComponent,
+	Layout
+};
 
-console.log('hello from the bundle: ', scene)
+global.ThreeMeshUI = ThreeMeshUI;
+
+export { MeshUIComponent }
+export { Layout }
+export default ThreeMeshUI
