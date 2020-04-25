@@ -11,11 +11,14 @@ import Frame from '../depictions/Frame';
 
 function LayoutModule( options ) {
 
+	options = options || {};
+
+	// if a property is not found in layout, it will delegate to MeshUIComponent
 	const layout = Object.create( MeshUIComponent() );
 
-	layout.height = options.height ? options.height : undefined;
-	layout.width = options.width ? options.width : undefined;
-	layout.backgroundMaterial = options.backgroundMaterial ? options.backgroundMaterial : undefined;
+	layout.height = options.height;
+	layout.width = options.width;
+	layout.backgroundMaterial = options.backgroundMaterial;
 
 	if ( options.fontFamily ) layout.fontFamily = options.fontFamily;
 	if ( options.fontSize ) layout.fontSize = options.fontSize;
@@ -26,8 +29,8 @@ function LayoutModule( options ) {
 	layout.rotation = layout.threeOBJ.rotation;
 	layout.type = 'layout';
 
-	(function makeFrame() {
-
+	layout.update = function Update() {
+		
 		if ( !layout.height ) return
 		if ( !layout.width ) return
 
@@ -39,7 +42,8 @@ function LayoutModule( options ) {
 
 		layout.threeOBJ.add( frame );
 
-	})();
+	};
+	layout.update();
 
 	return layout;
 

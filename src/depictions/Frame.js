@@ -13,8 +13,6 @@ const DEFAULT_MATERIAL = new MeshBasicMaterial({
 
 function Frame( width, height, material ) {
 
-	console.log( material );
-
 	return new Mesh(
 		new PlaneBufferGeometry( width, height ),
 		material ? material : DEFAULT_MATERIAL

@@ -58,14 +58,21 @@
 
 		function makeTextPanel() {
 
-			const component = ThreeMeshUI.Layout({
+			const layout = ThreeMeshUI.Layout({
 				height: 1.8,
 				width: 0.9
 			});
+			layout.setFont( 'fonts/helvetiker_regular.typeface.json' )
 
-			component.threeOBJ.position.set( 0, 1.6, -1.8 );
+			layout.threeOBJ.position.set( 0, 1.6, -1.8 );
+			scene.add( layout.threeOBJ );
 
-			scene.add( component.threeOBJ )
+			const paragraph = ThreeMeshUI.Paragraph({
+				text: "blabla"
+			});
+			paragraph.setFont( 'fonts/helvetiker_regular.typeface.json' )
+
+			console.log( paragraph );
 
 		};
 
