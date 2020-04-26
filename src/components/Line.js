@@ -19,6 +19,18 @@ function LineModule( options /* height, width, chars, yPos */ ) {
 		const obj = new Object3D();
 		line.getContainer().threeOBJ.add( obj );
 
+		//
+
+		options.chars.reduce( ( offsetX, char )=> {
+
+			char.shapeGeom.translate( offsetX, 0, 0 );
+
+			return offsetX + char.width;
+
+		}, 0 );
+
+		//
+
 		// merge all the character geometries into the first character's geometry
 		for ( let i = 1 ; i < options.chars.length ; i++ ) {
 
