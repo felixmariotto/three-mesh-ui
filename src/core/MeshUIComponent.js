@@ -30,6 +30,25 @@ function generateSerial() {
 
 function MeshUIComponent() {
 
+	// return the first parent with a 'threeOBJ' property
+	function getContainer() {
+
+		if ( !this.threeOBJ && this.parent ) {
+
+			return this.parent.getContainer();
+
+		} else if ( this.threeOBJ ) {
+
+			return this
+
+		} else {
+
+			return null
+
+		};
+
+	};
+
 	// look for the fontFamily property, and if does not exist, find it in parent or above
 	function getFontFamily( component ) {
 
@@ -71,13 +90,17 @@ function MeshUIComponent() {
 	// look for the fontMaterial property, and if does not exist, find it in parent or above
 	function getFontMaterial() {
 
-		if ( this.fontMaterial ) {
+		if ( !this.fontMaterial && this.parent ) {
+
+			return this.parent.getFontMaterial();
+
+		} else if ( this.fontMaterial ) {
 
 			return this.fontMaterial
 
 		} else {
 
-			return 'no font material';
+			return MaterialLibrary.DEFAULTS.fontMaterial
 
 		};
 
@@ -134,6 +157,7 @@ function MeshUIComponent() {
 		parent: undefined,
 		type: 'MeshUIComponent',
 		id: generateSerial(),
+		getContainer,
 		getFontFamily,
 		getFontSize,
 		getFontMaterial,

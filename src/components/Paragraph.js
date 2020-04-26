@@ -111,12 +111,14 @@ function ParagraphModule( options ) {
 
 		linesContent.forEach( (content, i)=> {
 
-			const line = Line({
-				height: content.height,
-				width: content.width,
-				chars: content.chars,
-				yPos: yOffsets[ i ]
-			});
+			paragraph.appendChild(
+				Line({
+					height: content.height,
+					width: content.width,
+					chars: content.chars,
+					yPos: yOffsets[ i ]
+				})
+			);
 
 		});
 

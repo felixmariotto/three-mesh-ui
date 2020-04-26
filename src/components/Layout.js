@@ -25,6 +25,7 @@ function LayoutModule( options ) {
 	if ( options.fontMaterial ) layout.fontMaterial = options.fontMaterial;
 
 	layout.threeOBJ = new Object3D;
+	layout.threeOBJ.name = "MeshUI-Layout"
 	layout.position = layout.threeOBJ.position;
 	layout.rotation = layout.threeOBJ.rotation;
 	layout.type = 'layout';

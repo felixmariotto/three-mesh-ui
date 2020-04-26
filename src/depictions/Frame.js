@@ -8,15 +8,20 @@ import { Mesh, PlaneBufferGeometry, MeshBasicMaterial } from 'three';
 
 const DEFAULT_MATERIAL = new MeshBasicMaterial({
 	color: 0xededed,
-	side: 2
+	side: 2,
+	transparent: true,
+	opacity: 0.5
 });
 
 function Frame( width, height, material ) {
 
-	return new Mesh(
+	const mesh = new Mesh(
 		new PlaneBufferGeometry( width, height ),
 		material ? material : DEFAULT_MATERIAL
 	);
+	mesh.name = "MeshUI-Frame"
+
+	return mesh;
 
 };
 

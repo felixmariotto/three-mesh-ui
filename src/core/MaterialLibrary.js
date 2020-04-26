@@ -13,8 +13,6 @@ const DEFAULTS = {
 		side: 2
 	})
 
-
-
 };
 
 export default {
