@@ -1,7 +1,7 @@
 
 /*
 	Job: Parse user text into Lines objects, trim them according to container width, and position them in height
-	Knows: Container dimensions, user text, letters geometry and bounding boxes
+	Knows: Container dimensions, texts, letters geometry and bounding boxes
 */
 
 import { ShapeBufferGeometry } from 'three';
@@ -17,7 +17,7 @@ function ParagraphModule( options ) {
 	// if a property is not found in paragraph, it will delegate to MeshUIComponent
 	const paragraph = Object.create( MeshUIComponent() );
 
-	paragraph.text = options.text;
+	paragraph.texts = options.texts;
 	paragraph.interLine = options.interLine || 0.1 ;
 	paragraph.verticalCenter = true ;
 	paragraph.lines = [];
@@ -27,35 +27,42 @@ function ParagraphModule( options ) {
 
 		// Abort condition
 
-		if ( !options.text || options.text.length === 0 ) return
+		if ( !options.texts || options.texts.length === 0 ) return
 
 		// Get font style
 
 		const font = paragraph.getFontFamily();
 		if ( !font ) return
 
-		const fontSize = paragraph.getFontSize();
+		const FONT_SIZE = paragraph.getFontSize();
 
 		const WIDTH = this.parent.width;
 
 		// Make array of objects containing each character and its length, for later concatenation
 
-		const chars = Array.from ? Array.from( paragraph.text ) : String( paragraph.text ).split( '' );
-		
-		const expression = chars.map( (glyph)=> {
+		const expression = paragraph.texts.reduce( (accu, textOBJ)=> {
 
-			let shape = font.generateShapes( glyph, fontSize );
+			const chars = Array.from ? Array.from( textOBJ.text ) : String( textOBJ.text ).split( '' );
 
-			let width = font.data.glyphs[ glyph ] ? font.data.glyphs[ glyph ].ha * ( fontSize / font.data.resolution ) : 0 ;
+			// check if the user defined a font size for this text segment, otherwise keep the paragraph fontSize
+			const fontSize = textOBJ.fontSize || FONT_SIZE;
 
-			return {
-				shapeGeom: new ShapeBufferGeometry( shape ),
-				height: font.data.lineHeight * ( fontSize / font.data.resolution ),
-				width,
-				glyph
-			};
+			return accu.concat( chars.map( (glyph)=> {
 
-		});
+				let shape = font.generateShapes( glyph, fontSize );
+
+				let width = font.data.glyphs[ glyph ] ? font.data.glyphs[ glyph ].ha * ( fontSize / font.data.resolution ) : 0 ;
+
+				return {
+					shapeGeom: new ShapeBufferGeometry( shape ),
+					height: font.data.lineHeight * ( fontSize / font.data.resolution ),
+					width,
+					glyph
+				};
+
+			}));
+
+		}, [] );
 
 		// Make array of objects containing each line content and max height
 
