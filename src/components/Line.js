@@ -10,28 +10,27 @@ import MeshUIComponent from '../core/MeshUIComponent';
 
 function LineModule( options /* height, width, chars, yPos */ ) {
 
-	// if a property is not found in paragraph, it will delegate to MeshUIComponent
+	// If a property is not found in paragraph, it will delegate to MeshUIComponent
 	const line = Object.create( MeshUIComponent() );
 
 	setTimeout(()=> {
 
-		// create three.js Object3D to store the characters, and add this container to the parent
+		// Create three.js Object3D to store the characters, and add this container to the parent
 		const obj = new Object3D();
+		obj.position.y = options.yPos;
 		line.getContainer().threeOBJ.add( obj );
 
-		//
+		// Translate characters geometries in order to merge later
 
 		options.chars.reduce( ( offsetX, char )=> {
 
-			char.shapeGeom.translate( offsetX, 0, 0 );
+			char.shapeGeom.translate( offsetX, -options.height / 2, 0 );
 
 			return offsetX + char.width;
 
 		}, 0 );
 
-		//
-
-		// merge all the character geometries into the first character's geometry
+		// Merge all the character geometries into the first character's geometry
 		for ( let i = 1 ; i < options.chars.length ; i++ ) {
 
 			options.chars[0].shapeGeom = BufferGeometryUtils.mergeBufferGeometries([
@@ -41,7 +40,7 @@ function LineModule( options /* height, width, chars, yPos */ ) {
 
 		};
 
-		// create mesh from the geometry, and add it to the container
+		// Create mesh from the geometry, and add it to the container
 		const material = line.getFontMaterial();
 		const textMesh = new THREE.Mesh( options.chars[0].shapeGeom, material );
 		obj.add( textMesh )
