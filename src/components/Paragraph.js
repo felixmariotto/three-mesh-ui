@@ -22,6 +22,7 @@ function ParagraphModule( options ) {
 	paragraph.verticalCenter = true ;
 	paragraph.lines = [];
 	paragraph.type = "paragraph";
+	paragraph.wrapGlyphs = "- ";
 
 	paragraph.update = function() {
 
@@ -66,12 +67,31 @@ function ParagraphModule( options ) {
 
 		// Make array of objects containing each line content and max height
 
-		const linesContent = expression.reduce( (accu, value)=> {
+		const linesContent = expression.reduce( (accu, value, idx, arr)=> {
 
 			let lastLine = accu[ accu.length -1 ];
 
-			// create new line if necessary
-			if ( value.width + lastLine.width > WIDTH ) {
+			let previousChar = arr[ idx - 1 ];
+
+			// If previous character was a good fit for wrapping, we set the variable lengthToNextWrap
+			// with the length remaining before next good character for wrapping
+			if ( previousChar && paragraph.wrapGlyphs.indexOf( previousChar.glyph ) > -1 ) {
+
+				var lengthToNextWrap = 0;
+
+				for ( let i = idx ; i < arr.length - 1 ; i++ ) {
+
+					if ( arr[ i ].glyph === ' ' || arr[ i ].glyph === '-' ) break ;
+
+					lengthToNextWrap += arr[ i ].width;
+
+				};
+
+			};
+
+			// Create new line if necessary becase text will overflow OR previous character was
+			// a better fit for wrapping than remaining characters before overflow
+			if ( value.width + lastLine.width > WIDTH || lengthToNextWrap + lastLine.width > WIDTH ) {
 
 				// delete the previous line last character if white space + reduce line width
 				if ( lastLine.chars[ lastLine.chars.length -1 ].glyph === " " ) {

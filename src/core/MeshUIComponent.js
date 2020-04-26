@@ -119,7 +119,7 @@ function MeshUIComponent() {
 
 		} else {
 
-			return "right"
+			return "center"
 
 		};
 

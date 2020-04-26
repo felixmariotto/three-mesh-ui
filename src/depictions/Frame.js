@@ -10,7 +10,7 @@ const DEFAULT_MATERIAL = new MeshBasicMaterial({
 	color: 0xededed,
 	side: 2,
 	transparent: true,
-	opacity: 0.5
+	opacity: 0.2
 });
 
 function Frame( width, height, material ) {
