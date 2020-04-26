@@ -73,8 +73,17 @@ function ParagraphModule( options ) {
 			// create new line if necessary
 			if ( value.width + lastLine.width > WIDTH ) {
 
+				// delete the previous line last character if white space + reduce line width
+				if ( lastLine.chars[ lastLine.chars.length -1 ].glyph === " " ) {
+					lastLine.width -= lastLine.chars.pop().width;
+				};
+
+				// create new line
 				accu.push({ height: 0, width: 0, chars: [] });
 				lastLine = accu[ accu.length -1 ];
+
+				// skip starting the new line with a white space
+				if ( value.glyph === " " ) return accu;
 
 			};
 
