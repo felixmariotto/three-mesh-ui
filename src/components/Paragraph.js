@@ -18,7 +18,7 @@ function ParagraphModule( options ) {
 	const paragraph = Object.create( MeshUIComponent() );
 
 	paragraph.texts = options.texts;
-	paragraph.interLine = options.interLine || 0.02 ;
+	paragraph.interLine = options.interLine || 0.0 ;
 	paragraph.verticalCenter = true ;
 	paragraph.lines = [];
 	paragraph.type = "paragraph";
@@ -116,7 +116,8 @@ function ParagraphModule( options ) {
 					height: content.height,
 					width: content.width,
 					chars: content.chars,
-					yPos: yOffsets[ i ]
+					yPos: yOffsets[ i ],
+					containerWidth: WIDTH
 				})
 			);
 

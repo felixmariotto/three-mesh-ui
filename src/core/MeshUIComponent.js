@@ -106,6 +106,25 @@ function MeshUIComponent() {
 
 	};
 
+	// look for the textJustification property in this component or in parents
+	function getTextJustification() {
+
+		if ( !this.textJustification && this.parent ) {
+
+			return this.parent.getTextJustification();
+
+		} else if ( this.textJustification ) {
+
+			return this.textJustification
+
+		} else {
+
+			return "center"
+
+		};
+
+	};
+
 	// add a new child to this component
 	function appendChild( child ) {
 
@@ -161,6 +180,7 @@ function MeshUIComponent() {
 		getFontFamily,
 		getFontSize,
 		getFontMaterial,
+		getTextJustification,
 		appendChild,
 		removeChild,
 		_addParent,

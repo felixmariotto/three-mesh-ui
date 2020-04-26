@@ -1,5 +1,5 @@
 /*
-	Job: Position characters, group their geometries, make meshes and add them to the container
+	Job: Position characters horizontally, group their geometries, make meshes and add them to the container
 	Knows: Line position, characters and their style
 */
 
@@ -13,11 +13,24 @@ function LineModule( options /* height, width, chars, yPos */ ) {
 	// If a property is not found in paragraph, it will delegate to MeshUIComponent
 	const line = Object.create( MeshUIComponent() );
 
+	const TEXT_JUSTIFICATION = line.getTextJustification();
+
+	// compute offset to apply to justify the text to the container
+	const justificationOffset = (()=> {
+		switch ( TEXT_JUSTIFICATION ) {
+			case 'left': return - options.containerWidth / 2
+			case 'right': return - options.width + ( options.containerWidth / 2 )
+			case 'center': return - options.width / 2
+			default: throw new Error('no default textJustification was found')
+		};
+	})();
+
 	setTimeout(()=> {
 
 		// Create three.js Object3D to store the characters, and add this container to the parent
 		const obj = new Object3D();
 		obj.position.y = options.yPos;
+		obj.position.x = justificationOffset;
 		line.getContainer().threeOBJ.add( obj );
 
 		// Translate characters geometries in order to merge later
