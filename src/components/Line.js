@@ -19,7 +19,7 @@ function LineModule( options /* width, chars, yPos, containerWidth */, parent ) 
 	//  LINE BUILDING
 	////////////////////
 
-	const TEXT_JUSTIFICATION = line.getTextJustification();
+	const TEXT_JUSTIFICATION = line.getTextAlign();
 
 	// Get offset to apply to justify the text to the container
 	
