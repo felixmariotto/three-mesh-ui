@@ -104,18 +104,20 @@ function ParagraphModule( options ) {
 				 lengthToNextWrap + lastLine.width > WIDTH ||
 				 value.glyph === '\n' ) {
 
-				// delete the previous line last character if white space + reduce line width
-				if ( lastLine.chars[ lastLine.chars.length -1 ].glyph === " " ) {
-					lastLine.width -= lastLine.chars.pop().width;
-				};
+				// Delete the current line last character if white space before to add a neew line
+				trimWhiteSpace( lastLine );
 
-				// create new line
+				// Create new line
 				accu.push({ height: 0, ascender: 0, width: 0, chars: [] });
 				lastLine = accu[ accu.length -1 ];
 
-				// skip starting the new line with a white space
+				// Skip starting the new line with a white space
 				if ( value.glyph === " " ) return accu;
 
+			};
+
+			if ( value.glyph === '\n' ) {
+				return accu;
 			};
 
 			if ( value.glyph !== " " ) {
@@ -182,6 +184,19 @@ function ParagraphModule( options ) {
 			}, this );
 
 		});
+
+	};
+
+	// Delete the current line last character if white space
+	function trimWhiteSpace( line ) {
+
+		if ( line.chars[ line.chars.length -1 ].glyph === " " ) {
+
+			line.width -= line.chars.pop().width;
+
+			trimWhiteSpace( line );
+
+		};
 
 	};
 
