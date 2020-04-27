@@ -50,15 +50,13 @@ function MeshUIComponent() {
 	};
 
 	// look for the fontFamily property, and if does not exist, find it in parent or above
-	function getFontFamily( component ) {
+	function getFontFamily() {
 
-		component = component || this;
+		const font = FontLibrary.getFontOf( this );
 
-		let font = FontLibrary.getFontOf( component );
+		if ( !font && this.parent ) {
 
-		if ( !font && component.parent ) {
-
-			return getFontFamily( component.parent );
+			return this.parent.getFontFamily();
 
 		} else if ( font ) {
 
@@ -75,13 +73,17 @@ function MeshUIComponent() {
 	// look for the fontSize property, and if does not exist, find it in parent or above
 	function getFontSize() {
 
-		if ( this.fontSize ) {
+		if ( !this.fontSize && this.parent ) {
+
+			return this.parent.getFontSize();
+
+		} else if ( this.fontSize ) {
 
 			return this.fontSize
 
 		} else {
 
-			return 'no font size';
+			return 0.1
 
 		};
 
@@ -153,14 +155,6 @@ function MeshUIComponent() {
 
 	};
 
-	// Set the passed font as the font to use with this element and its children.
-	// If the font is not found, then load it first
-	function setFont( url ) {
-
-		FontLibrary.setFont( this, url );
-
-	};
-
 	// Called by FontLibrary when the font requested for the current component is ready.
 	// Trigger an update for the component whose font is now available.
 	function _updateFont( url ) {
@@ -170,8 +164,27 @@ function MeshUIComponent() {
 
 	};
 
+	// Set the passed font as the font to use with this element and its children.
+	// If the font is not found, then load it first
+	function set( options ) {
+
+		for ( let prop of Object.keys(options) ) {
+
+			switch ( prop ) {
+
+				case "font" :
+					FontLibrary.setFont( this, options.font );
+					break;
+
+			};
+
+		};
+
+	};
+
+	//
+
 	return {
-		fontSize: 0.1, // font size in world units
 		children: [],
 		parent: undefined,
 		type: 'MeshUIComponent',
@@ -185,8 +198,8 @@ function MeshUIComponent() {
 		removeChild,
 		_addParent,
 		_removeParent,
-		setFont,
-		_updateFont
+		_updateFont,
+		set
 	};
 
 };
