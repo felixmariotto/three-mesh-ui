@@ -1,30 +1,24 @@
 # Three-Mesh-UI
 Three-Mesh-UI helps in easily adding user interface in a Three.js scene, in order to make better VR experiences
 
-## overview
+## Demos
+It's over there : https://three-mesh-ui.herokuapp.com
 
-**MeshUIComponent:**
-This is the base class, containing what will be common to all the component of the library :
+# overview
 
-*Properties:*
-- fontFamily: font that is found for creating text shape AND positioning in height and so forth
-- fontSize: font size in world units
-- fontMaterial: material, one instance is shared between all the components that use it, since all these components will be merged. If a component uses this material but another one when hover or when click, then a different instance of the material is used
-- children
-- parent
-- type
-- id: automatically generated
+### MeshUIComponent:
+This is the base object to which all the other components delegate.  
+It store some generic information about any subcomponent: id, parent, children.
+It also store getters functions, whose job are to find a property in this component *or its parents.* When it does not find a property in this component or its parent, it returns the default value. MeshUIComponent also has a "set" method, which updates the component properties, take actions accordingly if necessary, then call the update function of the component whose parameters changed.
 
-*Methods:*
-- getFontFamily: look for the fontFamily property, and if does not exist, find it in parent(s)
-- getFontSize: idem
-- getFontMaterial: idem
-- appendChild
-- removeChild
-- setFont: for the user to give the url of the font they want for this component and its children
-- \_updateFont: called by FontLibrary to update the element whose font just loaded
+### Layout:
 
-**Layout:**
-This is a frame class, that can interlock on into another.
-Is is a very simple class, that does not know anything about what is inside.
+### Line:
 
+### Paragraph:
+
+### Frame:
+
+### FontLibrary:
+
+### MaterialLibrary
