@@ -164,8 +164,9 @@ function MeshUIComponent() {
 
 	};
 
-	// Set the passed font as the font to use with this element and its children.
-	// If the font is not found, then load it first
+	// Set this component's passed parameters.
+	// If necessary, take special actions.
+	// Update this component unless otherwise specified.
 	function set( options, skipChildrenUpdate ) {
 
 		if ( !options ) return
@@ -186,7 +187,9 @@ function MeshUIComponent() {
 
 		};
 
-		if ( this.update ) {
+		// Trigger component update, if not specified otherwise AND a font parameter was not passed :
+		// Because when the font will be loaded, an update will be triggered by this._updateFont
+		if ( this.update && !options.font ) {
 
 			this.update( skipChildrenUpdate );
 

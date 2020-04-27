@@ -13,17 +13,15 @@ import Line from './Line';
 function ParagraphModule( options ) {
 
 	// Defaults
-	if ( !options.interLine ) options.interLine = 0;
-	if ( !options.verticalCenter ) options.verticalCenter = true;
-	if ( !options.wrapGlyphs ) options.wrapGlyphs = " -";
-	if ( !options.setLayoutHeight ) options.setLayoutHeight = true;
+	if ( options.interLine === undefined ) options.interLine = 0;
+	if ( options.verticalCenter === undefined ) options.verticalCenter = true;
+	if ( options.wrapGlyphs === undefined ) options.wrapGlyphs = " -";
+	if ( options.setLayoutHeight === undefined ) options.setLayoutHeight = true;
 
 	// if a property is not found in paragraph, it will delegate to MeshUIComponent
 	const paragraph = Object.create( MeshUIComponent() );
 
 	paragraph.lines = [];
-
-	paragraph.set( options );
 
 	/////////////
 	//  UPDATE
@@ -37,8 +35,8 @@ function ParagraphModule( options ) {
 
 		// Get font style
 
-		const font = paragraph.getFontFamily();
-		if ( !font ) return
+		const FONT = paragraph.getFontFamily();
+		if ( !FONT ) return
 
 		const FONT_SIZE = paragraph.getFontSize();
 
@@ -55,13 +53,13 @@ function ParagraphModule( options ) {
 
 			return accu.concat( chars.map( (glyph)=> {
 
-				const shape = font.generateShapes( glyph, fontSize );
+				const shape = FONT.generateShapes( glyph, fontSize );
 
-				const width = font.data.glyphs[ glyph ] ? font.data.glyphs[ glyph ].ha * ( fontSize / font.data.resolution ) : 0 ;
+				const width = FONT.data.glyphs[ glyph ] ? FONT.data.glyphs[ glyph ].ha * ( fontSize / FONT.data.resolution ) : 0 ;
 
-				const height = font.data.glyphs[ glyph ] ? font.data.lineHeight * ( fontSize / font.data.resolution ) : 0 ;
+				const height = FONT.data.glyphs[ glyph ] ? FONT.data.lineHeight * ( fontSize / FONT.data.resolution ) : 0 ;
 
-				const ascender = font.data.glyphs[ glyph ] ? font.data.ascender * ( fontSize / font.data.resolution ) : 0 ;
+				const ascender = FONT.data.glyphs[ glyph ] ? FONT.data.ascender * ( fontSize / FONT.data.resolution ) : 0 ;
 
 				return {
 					shapeGeom: new ShapeBufferGeometry( shape ),
@@ -181,6 +179,9 @@ function ParagraphModule( options ) {
 		});
 
 	};
+
+	// Lastly set the options parameters to this object, which will trigger an update
+	paragraph.set( options );
 
 	return paragraph
 

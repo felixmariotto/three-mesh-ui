@@ -21,7 +21,8 @@ function LayoutModule( options ) {
 	layout.rotation = layout.threeOBJ.rotation;
 	layout.type = 'layout';
 
-	layout.set( options );
+	const depictionContainer = new THREE.Object3D();
+	layout.threeOBJ.add( depictionContainer );
 
 	/////////////
 	//  UPDATE
@@ -29,26 +30,27 @@ function LayoutModule( options ) {
 
 	layout.update = function Update( skipChildrenUpdate ) {
 
-		if ( !layout.height ) return
-		if ( !layout.width ) return
+		if ( layout.height && layout.width ) {
 
-		// cleanup previous depictions
+			// Cleanup previous depictions
 
-		layout.threeOBJ.traverse( (obj)=> {
-			if ( obj.material ) obj.material.dispose();
-			if ( obj.geometry ) obj.geometry.dispose();
-			layout.threeOBJ.remove( obj );
-		});
+			depictionContainer.traverse( (obj)=> {
+				if ( obj.material ) obj.material.dispose();
+				if ( obj.geometry ) obj.geometry.dispose();
+				depictionContainer.remove( obj );
+			});
 
-		// create new depictions
+			// Create new depictions
 
-		const frame = Frame(
-			layout.width,
-			layout.height,
-			layout.backgroundMaterial 
-		);
+			const frame = Frame(
+				layout.width,
+				layout.height,
+				layout.backgroundMaterial 
+			);
 
-		layout.threeOBJ.add( frame );
+			depictionContainer.add( frame );
+
+		};
 
 		if ( !skipChildrenUpdate ) {
 
@@ -59,6 +61,9 @@ function LayoutModule( options ) {
 		};
 		
 	};
+
+	// Lastly set the options parameters to this object, which will trigger an update
+	layout.set( options );
 
 	return layout;
 
