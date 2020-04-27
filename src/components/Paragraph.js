@@ -76,11 +76,13 @@ function ParagraphModule( options ) {
 
 		// Make array of objects containing each line content and max height
 
-		const linesContent = expression.reduce( (accu, value, idx, arr)=> {
+		const linesContent = expression.reduce( (accu, char, idx, arr)=> {
 
 			let lastLine = accu[ accu.length -1 ];
 
-			let previousChar = arr[ idx - 1 ];
+			const previousChar = arr[ idx - 1 ];
+
+			if ( char.glyph === " " && accu[ accu.length -1 ].chars.length === 0 ) return accu
 
 			// If previous character was a good fit for wrapping, we set the variable lengthToNextWrap
 			// with the length remaining before next good character for wrapping
@@ -100,43 +102,44 @@ function ParagraphModule( options ) {
 
 			// Create new line if necessary because text will overflow OR previous character was
 			// a better fit for wrapping than remaining characters before overflow
-			if ( value.width + lastLine.width > WIDTH ||
+			if ( char.width + lastLine.width > WIDTH ||
 				 lengthToNextWrap + lastLine.width > WIDTH ||
-				 value.glyph === '\n' ) {
+				 char.glyph === '\n' ) {
 
 				// Delete the current line last character if white space before to add a neew line
 				trimWhiteSpace( lastLine );
 
 				// Create new line
-				accu.push({ height: 0, ascender: 0, width: 0, chars: [] });
+				accu.push( newLine() );
 				lastLine = accu[ accu.length -1 ];
 
 				// Skip starting the new line with a white space
-				if ( value.glyph === " " ) return accu;
+				if ( char.glyph === " " ) return accu;
 
 			};
 
-			if ( value.glyph === '\n' ) {
+			if ( char.glyph === '\n' ) {
 				return accu;
 			};
 
-			if ( value.glyph !== " " ) {
+			// we ignore white space boxes, which have the font maximum height and ascender
+			if ( char.glyph !== " " ) {
 
 				// update highest point of the line
-				if ( value.height > lastLine.height ) lastLine.height = value.height;
+				if ( char.height > lastLine.height ) lastLine.height = char.height;
 
 				// update highest ascender of the line
-				if ( value.ascender > lastLine.ascender ) lastLine.ascender = value.ascender;
+				if ( char.ascender > lastLine.ascender ) lastLine.ascender = char.ascender;
 
 			};
 
-			lastLine.width = lastLine.width + value.width;
+			lastLine.width = lastLine.width + char.width;
 
-			lastLine.chars.push( value );
+			lastLine.chars.push( char );
 
 			return accu;
 
-		}, [{ height: 0, ascender: 0, width: 0, chars: [] }] );
+		}, [ newLine() ] );
 
 		// Get total height of this paragraph
 
@@ -185,6 +188,10 @@ function ParagraphModule( options ) {
 
 		});
 
+	};
+
+	function newLine() {
+		return { height: 0, ascender: 0, width: 0, chars: [] }
 	};
 
 	// Delete the current line last character if white space
