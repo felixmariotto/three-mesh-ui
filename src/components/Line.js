@@ -10,6 +10,8 @@ import MeshUIComponent from '../core/MeshUIComponent';
 
 function LineModule( options /* width, chars, yPos, containerWidth */, parent ) {
 
+	console.log( options.chars )
+
 	// If a property is not found in paragraph, it will delegate to MeshUIComponent
 	const line = Object.create( MeshUIComponent() );
 

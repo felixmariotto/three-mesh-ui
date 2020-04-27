@@ -98,8 +98,6 @@ function ParagraphModule( options ) {
 
 			};
 
-			console.log(  );
-
 			// Create new line if necessary because text will overflow OR previous character was
 			// a better fit for wrapping than remaining characters before overflow
 			if ( value.width + lastLine.width > WIDTH ||
@@ -180,7 +178,7 @@ function ParagraphModule( options ) {
 				width: content.width,
 				chars: content.chars,
 				yPos: yOffsets[ i ],
-				containerWidth: WIDTH
+				containerWidth: paragraphSize.width ? paragraphSize.width : WIDTH
 			}, this );
 
 		});
