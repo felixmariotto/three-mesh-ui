@@ -9,7 +9,7 @@ It's over there : https://three-mesh-ui.herokuapp.com
 ### MeshUIComponent:
 This is the base object to which all the other components delegate.  
 It store some generic information about any subcomponent: id, parent, children.
-It also store getters functions, whose job are to find a property in this component *or its parents.*
+It also store getters functions, whose job are to find a property in this component *or its parents.* When it does not find a property in this component or its parent, it returns the default value.
 
 ### Layout:
 
