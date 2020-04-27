@@ -2,6 +2,9 @@
   "name": "three-mesh-ui",
   "version": "0.0.3",
   "description": "a library on top of three.js to help in creating 3D user interfaces",
+  "engines": {
+    "node": "12.x"
+  },
   "main": "src/three-mesh-ui.js",
   "scripts": {
     "startdev": "webpack-dev-server --open",
