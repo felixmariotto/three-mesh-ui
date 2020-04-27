@@ -12,18 +12,22 @@ import Line from './Line';
 
 function ParagraphModule( options ) {
 
-	options = options || {};
+	// Defaults
+	if ( !options.interLine ) options.interLine = 0;
+	if ( !options.verticalCenter ) options.verticalCenter = true;
+	if ( !options.wrapGlyphs ) options.wrapGlyphs = " -";
+	if ( !options.setLayoutHeight ) options.setLayoutHeight = true;
 
 	// if a property is not found in paragraph, it will delegate to MeshUIComponent
 	const paragraph = Object.create( MeshUIComponent() );
 
-	paragraph.texts = options.texts;
-	paragraph.interLine = options.interLine || 0.0;
-	paragraph.verticalCenter = true;
 	paragraph.lines = [];
-	paragraph.type = "paragraph";
-	paragraph.wrapGlyphs = "- ";
-	paragraph.setLayoutHeight = true;
+
+	paragraph.set( options );
+
+	/////////////
+	//  UPDATE
+	/////////////
 
 	paragraph.update = function() {
 
@@ -179,8 +183,6 @@ function ParagraphModule( options ) {
 		});
 
 	};
-
-	paragraph.update();
 
 	return paragraph
 

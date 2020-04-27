@@ -14,15 +14,18 @@ function LayoutModule( options ) {
 	// if a property is not found in layout, it will delegate to MeshUIComponent
 	const layout = Object.create( MeshUIComponent() );
 
-	layout.set( options );
-
 	layout.threeOBJ = new Object3D;
 	layout.threeOBJ.name = "MeshUI-Layout"
+
 	layout.position = layout.threeOBJ.position;
 	layout.rotation = layout.threeOBJ.rotation;
 	layout.type = 'layout';
 
-	//
+	layout.set( options );
+
+	/////////////
+	//  UPDATE
+	/////////////
 
 	layout.update = function Update( skipChildrenUpdate ) {
 
@@ -56,7 +59,6 @@ function LayoutModule( options ) {
 		};
 		
 	};
-	layout.update();
 
 	return layout;
 
