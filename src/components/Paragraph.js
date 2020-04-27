@@ -16,8 +16,6 @@ function ParagraphModule( options ) {
 	if ( options.interLine === undefined ) options.interLine = 0;
 	if ( options.verticalCenter === undefined ) options.verticalCenter = true;
 	if ( options.wrapGlyphs === undefined ) options.wrapGlyphs = " -";
-	if ( options.setLayoutHeight === undefined ) options.setLayoutHeight = true;
-	if ( options.setLayoutWidth === undefined ) options.setLayoutWidth = true;
 
 	// if a property is not found in paragraph, it will delegate to MeshUIComponent
 	const paragraph = Object.create( MeshUIComponent() );
@@ -155,9 +153,9 @@ function ParagraphModule( options ) {
 
 		const paragraphSize = {};
 
-		if ( paragraph.setLayoutHeight ) paragraphSize.height = totalHeight;
+		if ( !paragraph.parent.height ) paragraphSize.height = totalHeight;
 
-		if ( paragraph.setLayoutWidth ) paragraphSize.width = linesContent.reduce((accu, line)=> {
+		if ( !paragraph.parent.width ) paragraphSize.width = linesContent.reduce((accu, line)=> {
 			return Math.max( accu, line.width );
 		}, 0 );
 
