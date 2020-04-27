@@ -11,34 +11,16 @@ import Frame from '../depictions/Frame';
 
 function LayoutModule( options ) {
 
-	options = options || {};
-
 	// if a property is not found in layout, it will delegate to MeshUIComponent
 	const layout = Object.create( MeshUIComponent() );
 
-	layout.height = options.height;
-	layout.width = options.width;
-	layout.backgroundMaterial = options.backgroundMaterial;
-
-	if ( options.fontFamily ) layout.fontFamily = options.fontFamily;
-	if ( options.fontSize ) layout.fontSize = options.fontSize;
-	if ( options.fontMaterial ) layout.fontMaterial = options.fontMaterial;
+	layout.set( options );
 
 	layout.threeOBJ = new Object3D;
 	layout.threeOBJ.name = "MeshUI-Layout"
 	layout.position = layout.threeOBJ.position;
 	layout.rotation = layout.threeOBJ.rotation;
 	layout.type = 'layout';
-
-	//
-
-	layout.setHeight = function setHeight( newHeight, skipChildrenUpdate ) {
-
-		layout.height = newHeight;
-
-		layout.update( skipChildrenUpdate );
-
-	};
 
 	//
 

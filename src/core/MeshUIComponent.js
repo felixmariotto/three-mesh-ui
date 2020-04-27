@@ -166,7 +166,9 @@ function MeshUIComponent() {
 
 	// Set the passed font as the font to use with this element and its children.
 	// If the font is not found, then load it first
-	function set( options ) {
+	function set( options, skipChildrenUpdate ) {
+
+		if ( !options ) return
 
 		for ( let prop of Object.keys(options) ) {
 
@@ -176,10 +178,20 @@ function MeshUIComponent() {
 					FontLibrary.setFont( this, options.font );
 					break;
 
+				default:
+					this[ prop ] = options[ prop ];
+					break;
+
 			};
 
 		};
 
+		if ( this.update ) {
+
+			this.update( skipChildrenUpdate );
+
+		};
+		
 	};
 
 	//

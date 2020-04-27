@@ -145,7 +145,9 @@ function ParagraphModule( options ) {
 
 		if ( paragraph.setLayoutHeight ) {
 
-			paragraph.parent.setHeight( totalHeight, true );
+			paragraph.parent.set({
+				height: totalHeight
+			}, true );
 
 		};
 
