@@ -18,11 +18,12 @@ function ParagraphModule( options ) {
 	const paragraph = Object.create( MeshUIComponent() );
 
 	paragraph.texts = options.texts;
-	paragraph.interLine = options.interLine || 0.0 ;
-	paragraph.verticalCenter = true ;
+	paragraph.interLine = options.interLine || 0.0;
+	paragraph.verticalCenter = true;
 	paragraph.lines = [];
 	paragraph.type = "paragraph";
 	paragraph.wrapGlyphs = "- ";
+	paragraph.setLayoutHeight = true;
 
 	paragraph.update = function() {
 
@@ -118,7 +119,7 @@ function ParagraphModule( options ) {
 
 		}, [{ height: 0, width: 0, chars: [] }] );
 
-		// Compute position of each line
+		// Get total height of this paragraph
 
 		const totalHeight = linesContent.reduce( (accu, value, idx, arr)=> {
 
@@ -127,6 +128,16 @@ function ParagraphModule( options ) {
 			return accu + value.height + interLine;
 
 		}, 0 );
+
+		// Update parent layout to the height of this paragraph
+
+		if ( paragraph.setLayoutHeight ) {
+
+			paragraph.parent.setHeight( totalHeight, true );
+			
+		};
+
+		// Compute position of each line
 
 		const yOffsets = [];
 
@@ -137,6 +148,8 @@ function ParagraphModule( options ) {
 			return accu - value.height - paragraph.interLine;
 
 		}, 0 );
+
+		// Create new Lines
 
 		linesContent.forEach( (content, i)=> {
 

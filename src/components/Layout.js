@@ -30,7 +30,19 @@ function LayoutModule( options ) {
 	layout.rotation = layout.threeOBJ.rotation;
 	layout.type = 'layout';
 
-	layout.update = function Update() {
+	//
+
+	layout.setHeight = function setHeight( newHeight, skipChildrenUpdate ) {
+
+		layout.height = newHeight;
+
+		layout.update( skipChildrenUpdate );
+
+	};
+
+	//
+
+	layout.update = function Update( skipChildrenUpdate ) {
 
 		if ( !layout.height ) return
 		if ( !layout.width ) return
@@ -53,10 +65,14 @@ function LayoutModule( options ) {
 
 		layout.threeOBJ.add( frame );
 
-		layout.children.forEach( (child)=> {
-			child.update();
-		});
+		if ( !skipChildrenUpdate ) {
 
+			layout.children.forEach( (child)=> {
+				child.update();
+			});
+
+		};
+		
 	};
 	layout.update();
 
