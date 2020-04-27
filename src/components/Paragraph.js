@@ -17,6 +17,7 @@ function ParagraphModule( options ) {
 	if ( options.verticalCenter === undefined ) options.verticalCenter = true;
 	if ( options.wrapGlyphs === undefined ) options.wrapGlyphs = " -";
 	if ( options.setLayoutHeight === undefined ) options.setLayoutHeight = true;
+	if ( options.setLayoutWidth === undefined ) options.setLayoutWidth = true;
 
 	// if a property is not found in paragraph, it will delegate to MeshUIComponent
 	const paragraph = Object.create( MeshUIComponent() );
@@ -97,9 +98,13 @@ function ParagraphModule( options ) {
 
 			};
 
-			// Create new line if necessary becase text will overflow OR previous character was
+			console.log(  );
+
+			// Create new line if necessary because text will overflow OR previous character was
 			// a better fit for wrapping than remaining characters before overflow
-			if ( value.width + lastLine.width > WIDTH || lengthToNextWrap + lastLine.width > WIDTH ) {
+			if ( value.width + lastLine.width > WIDTH ||
+				 lengthToNextWrap + lastLine.width > WIDTH ||
+				 value.glyph === '\n' ) {
 
 				// delete the previous line last character if white space + reduce line width
 				if ( lastLine.chars[ lastLine.chars.length -1 ].glyph === " " ) {
@@ -143,15 +148,17 @@ function ParagraphModule( options ) {
 
 		}, 0 );
 
-		// Update parent layout to the height of this paragraph (optional)
+		// Update parent layout size according to this paragraph size (optional)
 
-		if ( paragraph.setLayoutHeight ) {
+		const paragraphSize = {};
 
-			paragraph.parent.set({
-				height: totalHeight
-			}, true );
+		if ( paragraph.setLayoutHeight ) paragraphSize.height = totalHeight;
 
-		};
+		if ( paragraph.setLayoutWidth ) paragraphSize.width = linesContent.reduce((accu, line)=> {
+			return Math.max( accu, line.width );
+		}, 0 );
+
+		paragraph.parent.set( paragraphSize, true );
 
 		// Compute position of each line
 
