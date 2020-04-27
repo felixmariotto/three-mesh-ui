@@ -171,14 +171,12 @@ function ParagraphModule( options ) {
 
 		linesContent.forEach( (content, i)=> {
 
-			paragraph.appendChild(
-				Line({
-					width: content.width,
-					chars: content.chars,
-					yPos: yOffsets[ i ],
-					containerWidth: WIDTH
-				})
-			);
+			Line({
+				width: content.width,
+				chars: content.chars,
+				yPos: yOffsets[ i ],
+				containerWidth: WIDTH
+			}, this );
 
 		});
 
