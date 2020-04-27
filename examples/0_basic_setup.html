@@ -21,13 +21,14 @@
 <body>
 	<script src="three-mesh-ui.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/three@0.115.0/build/three.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/three@0.115.0/examples/js/controls/OrbitControls.js"></script>
 
 	<script>
 
 		const WIDTH = window.innerWidth;
 		const HEIGHT = window.innerHeight;
 
-		let scene, camera, renderer ;
+		let scene, camera, renderer, controls ;
 
 		window.addEventListener('load', ()=> {
 			init();
@@ -43,7 +44,6 @@
 			scene.background = new THREE.Color( 0x383838 );
 
 			camera = new THREE.PerspectiveCamera( 60, WIDTH / HEIGHT, 0.1, 100 );
-			camera.position.set( 0, 1.6, 0 );
 
 			renderer = new THREE.WebGLRenderer({
 				antialias: true
@@ -51,6 +51,11 @@
 			renderer.setPixelRatio( window.devicePixelRatio );
 			renderer.setSize( WIDTH, HEIGHT );
 			document.body.appendChild( renderer.domElement );
+
+			controls = new THREE.OrbitControls( camera, renderer.domElement );
+			camera.position.set( 0, 1.6, 0 );
+			controls.target = new THREE.Vector3( 0, 1.6, -1.8 );
+			controls.update();
 
 			makeTextPanel();
 
@@ -105,6 +110,7 @@
 		//
 
 		function loop() {
+			controls.update();
 			renderer.render( scene, camera );
 			requestAnimationFrame( loop );
 			// console.log( renderer.info.render.calls );
