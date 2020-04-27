@@ -20,6 +20,7 @@ function ParagraphModule( options ) {
 	// if a property is not found in paragraph, it will delegate to MeshUIComponent
 	const paragraph = Object.create( MeshUIComponent() );
 
+	paragraph.type = 'paragraph';
 	paragraph.lines = [];
 
 	/////////////
@@ -39,7 +40,7 @@ function ParagraphModule( options ) {
 
 		const FONT_SIZE = paragraph.getFontSize();
 
-		const WIDTH = this.parent.width;
+		const WIDTH = this.parent.innerWidth; // replace with width
 
 		// Make array of objects containing each character and its length, for later concatenation
 
@@ -194,6 +195,8 @@ function ParagraphModule( options ) {
 
 	// Delete the current line last character if white space
 	function trimWhiteSpace( line ) {
+
+		if ( line.chars.length === 0 ) return
 
 		if ( line.chars[ line.chars.length -1 ].glyph === " " ) {
 

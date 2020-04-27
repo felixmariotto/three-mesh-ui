@@ -171,12 +171,23 @@ function MeshUIComponent() {
 
 		if ( !options ) return
 
+		const padding = options.padding || this.padding;
+
 		for ( let prop of Object.keys(options) ) {
 
 			switch ( prop ) {
 
 				case "font" :
 					FontLibrary.setFont( this, options.font );
+					break;
+
+				case "width" :
+					if ( padding ) {
+						this.innerWidth = options.width - (padding * 2);
+					} else {
+						this.innerWidth = options.width;
+					};
+					this.width = options.width;
 					break;
 
 				default:

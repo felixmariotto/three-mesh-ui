@@ -61,7 +61,9 @@ function LineModule( options /* width, chars, yPos, containerWidth */, parent ) 
 	};
 
 	// Create mesh from the geometry, and add it to the container
-	
+
+	if ( !options.chars[0] ) return
+
 	const material = line.getFontMaterial();
 	const textMesh = new THREE.Mesh( options.chars[0].shapeGeom, material );
 	obj.add( textMesh );
