@@ -51,13 +51,18 @@ function ParagraphModule( options ) {
 
 			return accu.concat( chars.map( (glyph)=> {
 
-				let shape = font.generateShapes( glyph, fontSize );
+				const shape = font.generateShapes( glyph, fontSize );
 
-				let width = font.data.glyphs[ glyph ] ? font.data.glyphs[ glyph ].ha * ( fontSize / font.data.resolution ) : 0 ;
+				const width = font.data.glyphs[ glyph ] ? font.data.glyphs[ glyph ].ha * ( fontSize / font.data.resolution ) : 0 ;
+
+				const height = font.data.glyphs[ glyph ] ? font.data.lineHeight * ( fontSize / font.data.resolution ) : 0 ;
+
+				const ascender = font.data.glyphs[ glyph ] ? font.data.ascender * ( fontSize / font.data.resolution ) : 0 ;
 
 				return {
 					shapeGeom: new ShapeBufferGeometry( shape ),
-					height: font.data.lineHeight * ( fontSize / font.data.resolution ),
+					height,
+					ascender,
 					width,
 					glyph
 				};
@@ -100,7 +105,7 @@ function ParagraphModule( options ) {
 				};
 
 				// create new line
-				accu.push({ height: 0, width: 0, chars: [] });
+				accu.push({ height: 0, ascender: 0, width: 0, chars: [] });
 				lastLine = accu[ accu.length -1 ];
 
 				// skip starting the new line with a white space
@@ -108,8 +113,15 @@ function ParagraphModule( options ) {
 
 			};
 
-			// update highest point of the line
-			if ( value.height > lastLine.height ) lastLine.height = value.height;
+			if ( value.glyph !== " " ) {
+
+				// update highest point of the line
+				if ( value.height > lastLine.height ) lastLine.height = value.height;
+
+				// update highest ascender of the line
+				if ( value.ascender > lastLine.ascender ) lastLine.ascender = value.ascender;
+
+			};
 
 			lastLine.width = lastLine.width + value.width;
 
@@ -117,7 +129,7 @@ function ParagraphModule( options ) {
 
 			return accu;
 
-		}, [{ height: 0, width: 0, chars: [] }] );
+		}, [{ height: 0, ascender: 0, width: 0, chars: [] }] );
 
 		// Get total height of this paragraph
 
@@ -129,12 +141,12 @@ function ParagraphModule( options ) {
 
 		}, 0 );
 
-		// Update parent layout to the height of this paragraph
+		// Update parent layout to the height of this paragraph (optional)
 
 		if ( paragraph.setLayoutHeight ) {
 
 			paragraph.parent.setHeight( totalHeight, true );
-			
+
 		};
 
 		// Compute position of each line
@@ -143,11 +155,11 @@ function ParagraphModule( options ) {
 
 		linesContent.reduce( (accu, value)=> {
 
-			yOffsets.push( accu + ( paragraph.verticalCenter ? totalHeight / 2 : 0 ) );
+			yOffsets.push( accu - value.ascender );
 
 			return accu - value.height - paragraph.interLine;
 
-		}, 0 );
+		}, paragraph.verticalCenter ? totalHeight / 2 : 0 );
 
 		// Create new Lines
 
@@ -155,7 +167,6 @@ function ParagraphModule( options ) {
 
 			paragraph.appendChild(
 				Line({
-					height: content.height,
 					width: content.width,
 					chars: content.chars,
 					yPos: yOffsets[ i ],

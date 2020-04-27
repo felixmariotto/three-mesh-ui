@@ -3,12 +3,12 @@
 	Knows: Line position, characters and their style
 */
 
-import { Object3D, meshNormalMaterial } from 'three';
+import { Object3D, MeshNormalMaterial } from 'three';
 import { BufferGeometryUtils } from 'three/examples/jsm/utils/BufferGeometryUtils.js';
 
 import MeshUIComponent from '../core/MeshUIComponent';
 
-function LineModule( options /* height, width, chars, yPos */ ) {
+function LineModule( options /* width, chars, yPos, containerWidth */ ) {
 
 	// If a property is not found in paragraph, it will delegate to MeshUIComponent
 	const line = Object.create( MeshUIComponent() );
@@ -28,6 +28,7 @@ function LineModule( options /* height, width, chars, yPos */ ) {
 	setTimeout(()=> {
 
 		// Create three.js Object3D to store the characters, and add this container to the parent
+		
 		const obj = new Object3D();
 		obj.position.y = options.yPos;
 		obj.position.x = justificationOffset;
@@ -37,7 +38,7 @@ function LineModule( options /* height, width, chars, yPos */ ) {
 
 		options.chars.reduce( ( offsetX, char )=> {
 
-			char.shapeGeom.translate( offsetX, -options.height / 2, 0 );
+			char.shapeGeom.translate( offsetX, 0, 0 );
 
 			return offsetX + char.width;
 
