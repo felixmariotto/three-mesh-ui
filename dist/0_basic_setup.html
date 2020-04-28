@@ -68,9 +68,9 @@
 		function makeTextPanel() {
 
 			const layout = ThreeMeshUI.Layout({
-				height: 1.8,
 				width: 1.2,
-				textAlign: 'right'
+				textAlign: 'left',
+				padding: 0.25
 			});
 
 			layout.set({
@@ -86,14 +86,14 @@
 			const paragraph = ThreeMeshUI.Paragraph({
 				texts: [
 					{
-						text: "Three-Mesh-UI"
+						text: "Three-Mesh-UI\n"
 					},
 					{
-						text: " helps in easily\n adding user interface\n in a Three.js \nscene, in order to \nmake better VR experiences\n",
+						text: "With this lib you can easily create 3D user interfaces for you VR games based on Three.js\n",
 						fontSize: 0.05
 					},
 					{
-						text: " HeHeHeHeHeHe  Prout Pryut"
+						text: "Coded with love"
 					}
 				]
 			});
@@ -119,7 +119,7 @@
 			controls.update();
 			renderer.render( scene, camera );
 			requestAnimationFrame( loop );
-			// console.log( renderer.info.render.calls );
+			// console.log( renderer.info.render );
 		};
 
 	</script>
