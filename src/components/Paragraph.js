@@ -152,15 +152,15 @@ function ParagraphModule( options ) {
 
 		// Update parent layout size according to this paragraph size (optional)
 
-		const paragraphSize = {};
+		const container = {};
 
-		if ( !paragraph.parent.height ) paragraphSize.height = totalHeight;
+		if ( !paragraph.parent.height ) container.height = totalHeight;
 
-		if ( !paragraph.parent.width ) paragraphSize.width = linesContent.reduce((accu, line)=> {
+		if ( !paragraph.parent.innerWidth ) container.innerWidth = linesContent.reduce((accu, line)=> {
 			return Math.max( accu, line.width );
 		}, 0 );
 
-		paragraph.parent.set( paragraphSize, true );
+		paragraph.parent.set( container, true );
 
 		// Compute position of each line
 
@@ -182,7 +182,7 @@ function ParagraphModule( options ) {
 				width: content.width,
 				chars: content.chars,
 				yPos: yOffsets[ i ],
-				containerWidth: paragraphSize.width ? paragraphSize.width : WIDTH
+				containerWidth: container.width ? container.width : WIDTH
 			}, this );
 
 		});
