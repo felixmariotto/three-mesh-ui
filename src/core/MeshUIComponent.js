@@ -28,7 +28,73 @@ function generateSerial() {
 
 };
 
+const DEFAULT_VALUES = {
+	container: null,
+	fontFamily: null,
+	fontSize: 0.1,
+	fontMaterial: MaterialLibrary.DEFAULTS.fontMaterial,
+	offset: 0.03,
+	textAlign: "center",
+};
+
 function MeshUIComponent() {
+
+	/////////////
+	/// GETTERS
+	/////////////
+
+	// look for a property in this object, and if does not find it, find in parents or return default value
+	function _getProperty( propName ) {
+
+		if ( !this[ propName ] && this.parent ) {
+
+			return this.parent._getProperty( propName )
+
+		} else if ( this[ propName ] ) {
+
+			return this[ propName ]
+
+		} else {
+
+			return DEFAULT_VALUES[ propName ]
+
+		};
+
+	};
+
+	//
+	
+	function getFontSize() {
+
+		return this._getProperty( 'fontSize' );
+
+	};
+
+	//
+
+	function getFontMaterial() {
+
+		return this._getProperty( 'fontMaterial' );
+
+	};
+
+	//
+
+	function getOffset() {
+
+		return this._getProperty( 'offset' );
+
+	};
+
+	//
+	
+	function getTextAlign() {
+
+		return this._getProperty( 'textAlign' );
+
+	};
+
+	/// SPECIALS
 
 	// return the first parent with a 'threeOBJ' property
 	function getContainer() {
@@ -43,7 +109,7 @@ function MeshUIComponent() {
 
 		} else {
 
-			return null
+			return DEFAULT_VALUES.container
 
 		};
 
@@ -64,87 +130,15 @@ function MeshUIComponent() {
 
 		} else {
 
-			return null
+			return DEFAULT_VALUES.fontFamily
 
 		};
 
 	};
 
-	// look for the fontSize property, and if does not exist, find it in parent or above
-	function getFontSize() {
-
-		if ( !this.fontSize && this.parent ) {
-
-			return this.parent.getFontSize();
-
-		} else if ( this.fontSize ) {
-
-			return this.fontSize
-
-		} else {
-
-			return 0.1
-
-		};
-
-	};
-
-	// look for the fontMaterial property, and if does not exist, find it in parent or above
-	function getFontMaterial() {
-
-		if ( !this.fontMaterial && this.parent ) {
-
-			return this.parent.getFontMaterial();
-
-		} else if ( this.fontMaterial ) {
-
-			return this.fontMaterial
-
-		} else {
-
-			return MaterialLibrary.DEFAULTS.fontMaterial
-
-		};
-
-	};
-
-	// look for the fontMaterial property, and if does not exist, find it in parent or above
-	function getOffset() {
-
-		if ( !this.offset && this.parent ) {
-
-			return this.parent.getOffset();
-
-		} else if ( this.offset ) {
-
-			return this.offset
-
-		} else {
-
-			return 0.03
-
-		};
-
-	};
-
-	// look for the textJustification property in this component or in parents
-	function getTextAlign() {
-
-		if ( !this.textAlign && this.parent ) {
-
-			return this.parent.getTextAlign();
-
-		} else if ( this.textAlign ) {
-
-			return this.textAlign
-
-		} else {
-
-			return "center"
-
-		};
-
-	};
+	////////////
+	///  MISC
+	////////////
 
 	// add a new child to this component
 	function appendChild( child ) {
@@ -280,6 +274,7 @@ function MeshUIComponent() {
 		_addParent,
 		_removeParent,
 		_updateFont,
+		_getProperty,
 		set
 	};
 
