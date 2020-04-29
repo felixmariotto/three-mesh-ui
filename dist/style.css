@@ -1,0 +1,32 @@
+* {
+	margin: 0;
+	padding: 0;
+}
+
+body {
+	overflow: hidden;
+}
+
+a {
+	font-family: Arial, Helvetica, sans-serif;
+	position: fixed;
+	text-decoration: none;
+	color: white;
+	font-size: 1.05em;
+	font-weight: 700;
+	background-color: #24292d;
+	padding: 5px 20px;
+	right: 20px;
+	bottom: 20px;
+	border-radius: 5px;
+	box-shadow: 1px 1px 5px rgba(0,0,0,0.8);
+	transition: box-shadow 0.15s;
+}
+
+	a:hover {
+		box-shadow: 4px 4px 15px rgba(0,0,0,0.8);
+	}
+
+	a:active {
+		box-shadow: none;
+	}
