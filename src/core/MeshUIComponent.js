@@ -1,7 +1,10 @@
 
 /*
-	Job: holding and giving information about a component style, parent and children
-	Knows: what are the component parent and children, and its style
+	Job:
+		- Holding basic identity information of this component : type, id, parent, children
+		- Getting this component attribute, from itself or from its parents
+	Knows:
+		- This component type, id, parent and children
 */
 
 import FontLibrary from './FontLibrary';
@@ -87,7 +90,7 @@ function MeshUIComponent() {
 	};
 
 	//
-	
+
 	function getTextAlign() {
 
 		return this._getProperty( 'textAlign' );
@@ -136,9 +139,9 @@ function MeshUIComponent() {
 
 	};
 
-	////////////
-	///  MISC
-	////////////
+	////////////////////////
+	///  CHILDREN / PARENT
+	////////////////////////
 
 	// add a new child to this component
 	function appendChild( child ) {
@@ -167,6 +170,10 @@ function MeshUIComponent() {
 		this.parent = undefined;
 
 	};
+
+	////////////
+	///  MISC
+	////////////
 
 	// Called by FontLibrary when the font requested for the current component is ready.
 	// Trigger an update for the component whose font is now available.
