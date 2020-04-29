@@ -40,7 +40,7 @@ function ParagraphModule( options ) {
 
 		const FONT_SIZE = paragraph.getFontSize();
 
-		const WIDTH = this.parent.innerWidth; // replace with width
+		const WIDTH = this.parent.innerWidth;
 
 		// Make array of objects containing each character and its length, for later concatenation
 
