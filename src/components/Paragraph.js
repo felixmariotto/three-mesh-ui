@@ -154,7 +154,7 @@ function ParagraphModule( options ) {
 
 		const container = {};
 
-		if ( !paragraph.parent.height ) container.height = totalHeight;
+		if ( !paragraph.parent.innerHeight ) container.innerHeight = totalHeight;
 
 		if ( !paragraph.parent.innerWidth ) container.innerWidth = linesContent.reduce((accu, line)=> {
 			return Math.max( accu, line.width );

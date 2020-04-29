@@ -198,10 +198,31 @@ function MeshUIComponent() {
 					};
 					break;
 
+				case "height" :
+					if ( padding ) {
+						this.innerHeight = options.height - (padding * 2);
+					} else {
+						this.innerHeight = options.height;
+					};
+					this.height = options.height;
+					break;
+
+				case "innerHeight" :
+					if ( padding ) {
+						this.height = options.innerHeight + (padding * 2);
+					} else {
+						this.height = options.innerHeight;
+					};
+					break;
+
 				case "padding" :
 					if ( this.width ) {
 						this.innerWidth = this.width - (padding * 2);
 					};
+					if ( this.height ) {
+						this.innerHeight = this.height - (padding * 2);
+					};
+					this.padding = padding;
 					break;
 
 				default:
