@@ -7,7 +7,7 @@
 import { Mesh, PlaneBufferGeometry, MeshBasicMaterial } from 'three';
 
 const DEFAULT_MATERIAL = new MeshBasicMaterial({
-	color: 0xededed,
+	color: 0x000000,
 	side: 2,
 	transparent: true,
 	opacity: 0.2
