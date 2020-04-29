@@ -8,6 +8,7 @@ import { Object3D } from 'three'
 
 import MeshUIComponent from '../core/MeshUIComponent';
 import Frame from '../depictions/Frame';
+import DeepDelete from '../utils/DeepDelete';
 
 function LayoutModule( options ) {
 
@@ -21,24 +22,17 @@ function LayoutModule( options ) {
 	layout.rotation = layout.threeOBJ.rotation;
 	layout.type = 'layout';
 
-	const depictionContainer = new THREE.Object3D();
-	layout.threeOBJ.add( depictionContainer );
-
 	/////////////
 	//  UPDATE
 	/////////////
 
 	layout.update = function Update( skipChildrenUpdate ) {
 
-		if ( layout.height && layout.width ) {
+		if ( layout.height && layout.width && layout.threeOBJ ) {
 
 			// Cleanup previous depictions
 
-			depictionContainer.traverse( (obj)=> {
-				if ( obj.material ) obj.material.dispose();
-				if ( obj.geometry ) obj.geometry.dispose();
-				depictionContainer.remove( obj );
-			});
+			DeepDelete( layout.threeOBJ );
 
 			// Create new depictions
 
@@ -48,7 +42,7 @@ function LayoutModule( options ) {
 				layout.backgroundMaterial 
 			);
 
-			depictionContainer.add( frame );
+			layout.threeOBJ.add( frame );
 
 		};
 
