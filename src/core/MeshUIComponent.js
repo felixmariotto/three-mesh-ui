@@ -108,6 +108,25 @@ function MeshUIComponent() {
 
 	};
 
+	// look for the fontMaterial property, and if does not exist, find it in parent or above
+	function getOffset() {
+
+		if ( !this.offset && this.parent ) {
+
+			return this.parent.getOffset();
+
+		} else if ( this.offset ) {
+
+			return this.offset
+
+		} else {
+
+			return 0.03
+
+		};
+
+	};
+
 	// look for the textJustification property in this component or in parents
 	function getTextAlign() {
 
@@ -254,6 +273,7 @@ function MeshUIComponent() {
 		getFontFamily,
 		getFontSize,
 		getFontMaterial,
+		getOffset,
 		getTextAlign,
 		appendChild,
 		removeChild,

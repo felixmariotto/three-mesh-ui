@@ -21,6 +21,8 @@ function LineModule( options /* width, chars, yPos, containerWidth */, parent ) 
 
 	const TEXT_JUSTIFICATION = line.getTextAlign();
 
+	const OFFSET = line.getOffset();
+
 	// Get offset to apply to justify the text to the container
 	
 	const justificationOffset = (()=> {
@@ -37,6 +39,7 @@ function LineModule( options /* width, chars, yPos, containerWidth */, parent ) 
 	const obj = new Object3D();
 	obj.position.y = options.yPos;
 	obj.position.x = justificationOffset;
+	obj.position.z = OFFSET;
 	line.getContainer().threeOBJ.add( obj );
 
 	// Translate characters geometries in order to merge later
