@@ -8,8 +8,8 @@
   "main": "src/three-mesh-ui.js",
   "scripts": {
     "start": "node app.js",
-    "startdev": "webpack-dev-server --open",
-    "build": "npx webpack --config webpack.config.js",
+    "startdev": "webpack-dev-server --open --env.NODE_ENV=dev",
+    "build": "npx webpack --config webpack.config.js --env.NODE_ENV=prod",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {

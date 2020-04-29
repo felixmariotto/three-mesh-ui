@@ -1,31 +1,11 @@
-<!DOCTYPE html>
-<html>
-<head>
-	<title>Mesh-UI</title>
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
-	<style>
-
-		* {
+<!doctype html><html><head><title>Mesh-UI</title><meta charset="utf-8"><meta name="viewport" content="width=device-width,user-scalable=no,minimum-scale=1,maximum-scale=1"><style>* {
 			margin: 0;
 			padding: 0;
 		}
 
 		body {
 			overflow: hidden;
-		}
-
-	</style>
-</head>
-
-<body>
-	<script src="three-mesh-ui.js"></script>
-	<script src="https://cdn.jsdelivr.net/npm/three@0.115.0/build/three.min.js"></script>
-	<script src="https://cdn.jsdelivr.net/npm/three@0.115.0/examples/js/controls/OrbitControls.js"></script>
-
-	<script>
-
-		const WIDTH = window.innerWidth;
+		}</style></head><body><script src="three-mesh-ui.js"></script><script src="libs/three.min.js"></script><script src="libs/BoxLineGeometry.js"></script><script src="libs/OrbitControls.js"></script><script src="libs/VRButton.js"></script><script>const WIDTH = window.innerWidth;
 		const HEIGHT = window.innerHeight;
 
 		let scene, camera, renderer, controls ;
@@ -41,7 +21,7 @@
 		function init() {
 
 			scene = new THREE.Scene();
-			scene.background = new THREE.Color( 0x383838 );
+			scene.background = new THREE.Color( 0xf2f2f2 );
 
 			camera = new THREE.PerspectiveCamera( 60, WIDTH / HEIGHT, 0.1, 100 );
 
@@ -50,16 +30,33 @@
 			});
 			renderer.setPixelRatio( window.devicePixelRatio );
 			renderer.setSize( WIDTH, HEIGHT );
+			renderer.xr.enabled = true;
+			document.body.appendChild(VRButton.createButton(renderer));
 			document.body.appendChild( renderer.domElement );
+
+			console.log( VRButton )
 
 			controls = new THREE.OrbitControls( camera, renderer.domElement );
 			camera.position.set( 0, 1.6, 0 );
-			controls.target = new THREE.Vector3( 0, 1.6, -1.8 );
+			controls.target = new THREE.Vector3( 0, 1, -1.8 );
 			controls.update();
+
+			// ROOM
+
+			room = new THREE.LineSegments(
+				new THREE.BoxLineGeometry( 6, 6, 6, 10, 10, 10 ).translate( 0, 3, 0 ),
+				new THREE.LineBasicMaterial( { color: 0x808080 } )
+			);
+
+			scene.add( room );
+
+			// TEXT PANEL
 
 			makeTextPanel();
 
-			loop();
+			//
+
+			renderer.setAnimationLoop( loop );
 
 		};
 
@@ -69,15 +66,16 @@
 
 			const layout = ThreeMeshUI.Layout({
 				width: 1.2,
-				textAlign: 'left',
-				padding: 0.25
+				textAlign: 'left'
 			});
 
 			layout.set({
-				font: './fonts/helvetiker_regular.typeface.json'
+				font: './fonts/helvetiker_regular.typeface.json',
+				padding: 0.15
 			});
 
-			layout.threeOBJ.position.set( 0, 1.6, -1.8 );
+			layout.threeOBJ.position.set( 0, 1, -1.8 );
+			layout.threeOBJ.rotation.x = -0.7;
 
 			scene.add( layout.threeOBJ );
 
@@ -90,14 +88,15 @@
 					},
 					{
 						text: "With this lib you can easily create 3D user interfaces for you VR games based on Three.js\n",
-						fontSize: 0.05
+						fontSize: 0.04
 					},
 					{
-						text: "Coded with love"
+						text: "Coded with love",
+						fontSize: 0.07
 					}
 				]
 			});
-			
+
 			layout.appendChild( paragraph );
 
 		};
@@ -118,10 +117,5 @@
 		function loop() {
 			controls.update();
 			renderer.render( scene, camera );
-			requestAnimationFrame( loop );
 			// console.log( renderer.info.render );
-		};
-
-	</script>
-</body>
-</html>
+		};</script></body></html>

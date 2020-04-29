@@ -12,23 +12,37 @@ pagesConf = pages.map( (name)=> {
 	});
 });
 
-module.exports = {
+module.exports = env => {
 
-	mode: "development",
+	let mode = "development";
+	let devtool = 'eval-source-map';
 
-	entry: './src/three-mesh-ui.js',
+	// Prod environment
+	if (env.NODE_ENV === 'prod') {
+		devtool = 'hidden-source-map';
+		mode = 'production';
+		// outputPath = `${__dirname}/build/js`;
+	};
 
-	plugins: pagesConf,
+	return {
 
-	devtool: 'eval-source-map',
+		mode: mode,
 
-	devServer: {
-		contentBase: './dist'
-	},
+		entry: './src/three-mesh-ui.js',
 
-	output: {
-		filename: 'three-mesh-ui.js',
-		path: path.resolve(__dirname, 'dist')
+		plugins: pagesConf,
+
+		devtool: devtool,
+
+		devServer: {
+			contentBase: './dist'
+		},
+
+		output: {
+			filename: 'three-mesh-ui.js',
+			path: path.resolve(__dirname, 'dist')
+		}
+
 	}
 
 }

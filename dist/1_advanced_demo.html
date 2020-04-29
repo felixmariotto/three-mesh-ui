@@ -1,30 +1,11 @@
-<!DOCTYPE html>
-<html>
-<head>
-	<title>Mesh-UI</title>
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
-	<style>
-
-		* {
+<!doctype html><html><head><title>Mesh-UI</title><meta charset="utf-8"><meta name="viewport" content="width=device-width,user-scalable=no,minimum-scale=1,maximum-scale=1"><style>* {
 			margin: 0;
 			padding: 0;
 		}
 
 		body {
 			overflow: hidden;
-		}
-
-	</style>
-</head>
-
-<body>
-	<script src="three-mesh-ui.js"></script>
-	<script src="https://cdn.jsdelivr.net/npm/three@0.115.0/build/three.min.js"></script>
-
-	<script>
-
-		const WIDTH = window.innerWidth;
+		}</style></head><body><script src="three-mesh-ui.js"></script><script src="https://cdn.jsdelivr.net/npm/three@0.115.0/build/three.min.js"></script><script>const WIDTH = window.innerWidth;
 		const HEIGHT = window.innerHeight;
 
 		var scene, camera, renderer ;
@@ -55,8 +36,4 @@
 		function loop() {
 			renderer.render( scene, camera );
 			requestAnimationFrame( loop );
-		};
-
-	</script>
-</body>
-</html>
+		};</script></body></html>

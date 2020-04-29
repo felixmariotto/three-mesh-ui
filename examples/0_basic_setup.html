@@ -56,8 +56,6 @@
 			document.body.appendChild(VRButton.createButton(renderer));
 			document.body.appendChild( renderer.domElement );
 
-			console.log( VRButton )
-
 			controls = new THREE.OrbitControls( camera, renderer.domElement );
 			camera.position.set( 0, 1.6, 0 );
 			controls.target = new THREE.Vector3( 0, 1, -1.8 );
