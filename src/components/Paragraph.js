@@ -182,7 +182,7 @@ function ParagraphModule( options ) {
 				width: content.width,
 				chars: content.chars,
 				yPos: yOffsets[ i ],
-				containerWidth: container.width ? container.width : WIDTH
+				containerWidth: container.innerWidth ? container.innerWidth : WIDTH
 			}, this );
 
 		});
