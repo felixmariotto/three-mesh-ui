@@ -60,7 +60,7 @@
 
 			controls = new THREE.OrbitControls( camera, renderer.domElement );
 			camera.position.set( 0, 1.6, 0 );
-			controls.target = new THREE.Vector3( 0, 1.4, -1.8 );
+			controls.target = new THREE.Vector3( 0, 1, -1.8 );
 			controls.update();
 
 			// ROOM
@@ -96,7 +96,7 @@
 				padding: 0.15
 			});
 
-			layout.threeOBJ.position.set( 0, 1.4, -1.8 );
+			layout.threeOBJ.position.set( 0, 1, -1.8 );
 			layout.threeOBJ.rotation.x = -0.7;
 
 			scene.add( layout.threeOBJ );
@@ -110,10 +110,11 @@
 					},
 					{
 						text: "With this lib you can easily create 3D user interfaces for you VR games based on Three.js\n",
-						fontSize: 0.05
+						fontSize: 0.04
 					},
 					{
-						text: "Coded with love"
+						text: "Coded with love",
+						fontSize: 0.07
 					}
 				]
 			});
