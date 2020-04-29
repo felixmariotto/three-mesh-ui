@@ -20,9 +20,10 @@
 
 <body>
 	<script src="three-mesh-ui.js"></script>
-	<script src="https://cdn.jsdelivr.net/npm/three@0.115.0/build/three.min.js"></script>
-	<script src="https://cdn.jsdelivr.net/npm/three@0.115.0/examples/js/controls/OrbitControls.js"></script>
-	<script src="https://cdn.jsdelivr.net/npm/three@0.115.0/examples/js/geometries/BoxLineGeometry.js"></script>
+	<script src="libs/three.min.js"></script>
+	<script src="libs/BoxLineGeometry.js"></script>
+	<script src="libs/OrbitControls.js"></script>
+	<script src="libs/VRButton.js"></script>
 
 	<script>
 
@@ -51,7 +52,11 @@
 			});
 			renderer.setPixelRatio( window.devicePixelRatio );
 			renderer.setSize( WIDTH, HEIGHT );
+			renderer.xr.enabled = true;
+			document.body.appendChild(VRButton.createButton(renderer));
 			document.body.appendChild( renderer.domElement );
+
+			console.log( VRButton )
 
 			controls = new THREE.OrbitControls( camera, renderer.domElement );
 			camera.position.set( 0, 1.6, 0 );
@@ -73,7 +78,7 @@
 
 			//
 
-			loop();
+			renderer.setAnimationLoop( loop );
 
 		};
 
@@ -133,7 +138,6 @@
 		function loop() {
 			controls.update();
 			renderer.render( scene, camera );
-			requestAnimationFrame( loop );
 			// console.log( renderer.info.render );
 		};
 
