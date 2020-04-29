@@ -69,12 +69,12 @@
 
 			const layout = ThreeMeshUI.Layout({
 				width: 1.2,
-				textAlign: 'left',
-				padding: 0.25
+				textAlign: 'left'
 			});
 
 			layout.set({
-				font: './fonts/helvetiker_regular.typeface.json'
+				font: './fonts/helvetiker_regular.typeface.json',
+				padding: 0.15
 			});
 
 			layout.threeOBJ.position.set( 0, 1.6, -1.8 );
@@ -97,7 +97,7 @@
 					}
 				]
 			});
-			
+
 			layout.appendChild( paragraph );
 
 		};

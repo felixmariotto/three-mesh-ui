@@ -190,6 +190,12 @@ function MeshUIComponent() {
 					this.width = options.width;
 					break;
 
+				case "padding" :
+					if ( this.width ) {
+						this.innerWidth = this.width - (padding * 2);
+					};
+					break;
+
 				default:
 					this[ prop ] = options[ prop ];
 					break;
