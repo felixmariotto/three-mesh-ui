@@ -14,7 +14,26 @@ function BoxComponent() {
 
 	boxComponent.getInnerWidth = function GetInnerWidth() {
 
-		return getHighestChildWidth( boxComponent );
+		const DIRECTION = this.getContentDirection();
+		let width;
+
+		switch ( DIRECTION ) {
+
+			case 'row' :
+			case 'row-reverse' :
+				return getChildrenWidthSum();
+				break;
+
+			case 'column' :
+			case 'column-reverse' :
+				return getHighestChildWidth( boxComponent );
+				break;
+
+			default :
+				console.error(`Invalid contentDirection : ${ DIRECTION }`);
+				break;
+
+		};
 
 	};
 
@@ -24,7 +43,19 @@ function BoxComponent() {
 
 	};
 
-	// recursive functions that return the highest linear dimension among all the children of the passed component
+	// Return the sum of all the children of this component + their margin
+
+	function getChildrenWidthSum() {
+
+		return boxComponent.children.reduce((accu, child)=> {
+
+			return accu + (child.width || getHighestChildWidth( child )) + (child.margin * 2);
+
+		}, 0 );
+
+	};
+
+	// Recursive functions that return the highest linear dimension among all the children of the passed component
 
 	function getHighestChildWidth( component ) {
 
@@ -36,7 +67,8 @@ function BoxComponent() {
 
 			} else {
 
-				let maxWidth = child.width;
+				const margin = child.margin || 0;
+				let maxWidth = child.width + (margin * 2);
 
 				return Math.max(accu, maxWidth)
 

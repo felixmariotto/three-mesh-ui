@@ -38,6 +38,7 @@ const DEFAULT_VALUES = {
 	fontMaterial: MaterialLibrary.DEFAULTS.fontMaterial,
 	offset: 0.03,
 	textAlign: "center",
+	contentDirection: "row"
 };
 
 function MeshUIComponent() {
@@ -154,6 +155,7 @@ function MeshUIComponent() {
 
 	};
 
+	// Get the number of parents above this elements (0 if no parent)
 	function getParentsNumber( i ) {
 
 		i = i || 0;
@@ -167,6 +169,14 @@ function MeshUIComponent() {
 			return i
 
 		};
+
+	};
+
+	//
+
+	function getContentDirection() {
+
+		return this.contentDirection || DEFAULT_VALUES.contentDirection;
 
 	};
 
@@ -309,10 +319,12 @@ function MeshUIComponent() {
 	//
 
 	return {
+
 		children: [],
 		parent: undefined,
 		type: 'MeshUIComponent',
 		id: generateSerial(),
+
 		getHighestParent,
 		getContainer,
 		getFontFamily,
@@ -321,6 +333,8 @@ function MeshUIComponent() {
 		getOffset,
 		getTextAlign,
 		getParentsNumber,
+		getContentDirection,
+
 		appendChild,
 		removeChild,
 		update,
@@ -329,6 +343,7 @@ function MeshUIComponent() {
 		_updateFont,
 		_getProperty,
 		set
+		
 	};
 
 };

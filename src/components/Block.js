@@ -61,7 +61,7 @@ function LayoutModule( options ) {
 
 		if ( block.children.length > 0 ) {
 
-			const DIRECTION = block.contentDirection || 'row';
+			const DIRECTION = block.getContentDirection();
 			const JUSTIFICATION = block.justifyContent || 'center';
 
 			switch ( DIRECTION ) {
