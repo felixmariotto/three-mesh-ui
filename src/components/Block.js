@@ -43,6 +43,11 @@ function LayoutModule( options ) {
 
 		const HEIGHT = block.height || block.getInnerHeight() + (block.padding * 2 || 0);
 
+		if ( !WIDTH || !HEIGHT ) {
+			console.warn('Block got no dimension from its parameters or form children parameters');
+			return
+		};
+
 		// Cleanup previous depictions
 
 		DeepDelete( frameContainer );
