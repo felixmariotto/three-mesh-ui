@@ -37,23 +37,27 @@ function LayoutModule( options ) {
 
 	block.updateLayout = function UpdateLayout() {
 
-		if ( block.height && block.width ) {
+		// Get temporary dimension
 
-			// Cleanup previous depictions
+		const WIDTH = block.width || block.getInnerWidth() + (block.padding * 2 || 0);
 
-			DeepDelete( frameContainer );
+		const HEIGHT = block.height || block.getInnerHeight() + (block.padding * 2 || 0);
 
-			// Create new depictions
+		// Cleanup previous depictions
 
-			const frame = Frame(
-				block.width,
-				block.height,
-				block.backgroundMaterial 
-			);
+		DeepDelete( frameContainer );
 
-			frameContainer.add( frame );
+		// Create new depictions
 
-		};
+		const frame = Frame(
+			WIDTH,
+			HEIGHT,
+			block.backgroundMaterial 
+		);
+
+		frameContainer.add( frame );
+
+		// Propagate update among children
 
 		for ( let child of block.children ) {
 

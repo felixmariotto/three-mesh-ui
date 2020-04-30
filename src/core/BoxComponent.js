@@ -12,6 +12,18 @@ function BoxComponent() {
 
 	boxComponent.type = 'BoxComponent'
 
+	boxComponent.getInnerWidth = function GetInnerWidth() {
+
+		return 1.3
+
+	};
+
+	boxComponent.getInnerHeight = function GetInnerHeight() {
+
+		return 1.3
+
+	};
+
 	return boxComponent
 
 };
