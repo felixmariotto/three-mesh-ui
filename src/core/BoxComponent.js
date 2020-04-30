@@ -25,7 +25,7 @@ function BoxComponent() {
 
 			case 'column' :
 			case 'column-reverse' :
-				return this.getHighestChildDirection( 'height' );
+				return this.getHighestChildDirection( 'width' );
 				break;
 
 			default :
@@ -38,7 +38,25 @@ function BoxComponent() {
 
 	boxComponent.getInnerHeight = function GetInnerHeight() {
 
-		return this.getHighestChildDirection( 'height' );
+		const DIRECTION = this.getContentDirection();
+
+		switch ( DIRECTION ) {
+
+			case 'row' :
+			case 'row-reverse' :
+				return this.getHighestChildDirection( 'width' );
+				break;
+
+			case 'column' :
+			case 'column-reverse' :
+				return this.getChildrenDimensionSum( 'height' );
+				break;
+
+			default :
+				console.error(`Invalid contentDirection : ${ DIRECTION }`);
+				break;
+
+		};
 
 	};
 
