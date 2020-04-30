@@ -79,6 +79,7 @@ function BoxComponent() {
 		if ( this.parent && this.parent.childrenPos[ this.id ] ) {
 
 			this.threeOBJ.position.x = ( this.parent.childrenPos[ this.id ].x );
+			this.threeOBJ.position.y = ( this.parent.childrenPos[ this.id ].y );
 
 		};
 		
@@ -92,7 +93,7 @@ function BoxComponent() {
 		if ( this.children.length > 0 ) {
 
 			const DIRECTION = this.getContentDirection();
-			let X_START;
+			let X_START, Y_START;
 
 			switch ( DIRECTION ) {
 
@@ -101,7 +102,7 @@ function BoxComponent() {
 					// start position of the children positioning inside this component
 					X_START = this.getInnerWidth() / 2;
 
-					this.setChildrenPosition( -X_START, "width" );
+					this.setChildrenXPos( -X_START );
 
 					break;
 
@@ -110,16 +111,26 @@ function BoxComponent() {
 					// start position of the children positioning inside this component
 					X_START = this.getInnerWidth() / 2;
 
-					this.setChildrenPosition( X_START, "width" );
+					this.setChildrenXPos( X_START );
 
 					break;
 
 				case 'column' :
-					console.log('direction column');
+					
+					// start position of the children positioning inside this component
+					Y_START = this.getInnerHeight() / 2;
+
+					this.setChildrenYPos( Y_START );
+
 					break;
 
 				case 'column-reverse' :
-					console.log('direction column-reverse');
+					
+					// start position of the children positioning inside this component
+					Y_START = this.getInnerHeight() / 2;
+
+					this.setChildrenYPos( -Y_START );
+
 					break;
 
 			};
@@ -128,9 +139,9 @@ function BoxComponent() {
 
 	};
 
-	// Set children positions according to this 
+	// Set children positions according to this component dimension and attributes
 
-	boxComponent.setChildrenPosition = function setChildrenPosition( startPos, dimension ) {
+	boxComponent.setChildrenXPos = function setChildrenXPos( startPos ) {
 
 		const JUSTIFICATION = this.getJustifyContent();
 
@@ -141,13 +152,40 @@ function BoxComponent() {
 			const CHILD_MARGIN = child.margin || 0;
 
 			// Initial offset. For subsequent items, this is done in the return statement
-			if ( !i ) accu += CHILD_MARGIN;
+			if ( !i ) accu += CHILD_MARGIN * -Math.sign( startPos );
 
 			this.childrenPos[ CHILD_ID ] = {
-				x: accu + ((CHILD_WIDTH / 2) * -Math.sign( startPos ))
+				x: accu + ((CHILD_WIDTH / 2) * -Math.sign( startPos )),
+				y: 0
 			};
 
 			return accu + (-Math.sign( startPos ) * (CHILD_WIDTH + (CHILD_MARGIN * 2)))
+
+		}, startPos );
+
+	};
+
+	//
+
+	boxComponent.setChildrenYPos = function setChildrenYPos( startPos ) {
+
+		const JUSTIFICATION = this.getJustifyContent();
+
+		this.children.reduce( (accu, child, i)=> {
+
+			const CHILD_ID = child.id;
+			const CHILD_HEIGHT = child.height || child.getInnerHeight();
+			const CHILD_MARGIN = child.margin || 0;
+
+			// Initial offset. For subsequent items, this is done in the return statement
+			if ( !i ) accu += CHILD_MARGIN * -Math.sign( startPos );
+
+			this.childrenPos[ CHILD_ID ] = {
+				x: 0,
+				y: accu + ((CHILD_HEIGHT / 2) * -Math.sign( startPos ))
+			};
+
+			return accu + (-Math.sign( startPos ) * (CHILD_HEIGHT + (CHILD_MARGIN * 2)))
 
 		}, startPos );
 
