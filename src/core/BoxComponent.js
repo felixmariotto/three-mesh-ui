@@ -15,18 +15,17 @@ function BoxComponent() {
 	boxComponent.getInnerWidth = function GetInnerWidth() {
 
 		const DIRECTION = this.getContentDirection();
-		let width;
 
 		switch ( DIRECTION ) {
 
 			case 'row' :
 			case 'row-reverse' :
-				return this.getChildrenWidthSum();
+				return this.getChildrenDimensionSum( 'width' );
 				break;
 
 			case 'column' :
 			case 'column-reverse' :
-				return getHighestChildWidth( boxComponent );
+				return this.getHighestChildDirection( 'height' );
 				break;
 
 			default :
@@ -39,17 +38,17 @@ function BoxComponent() {
 
 	boxComponent.getInnerHeight = function GetInnerHeight() {
 
-		return getHighestChildHeight( boxComponent );
+		return this.getHighestChildDirection( 'height' );
 
 	};
 
-	// Return the sum of all the children of this component + their margin
+	// Return the sum of all this component's children sides + their margin
 
-	boxComponent.getChildrenWidthSum = function GetChildrenWidthSum() {
+	boxComponent.getChildrenDimensionSum = function GetChildrenDimensionSum( dimension ) {
 
 		return this.children.reduce((accu, child)=> {
 
-			return accu + (child.width || getHighestChildWidth( child )) + (child.margin * 2);
+			return accu + ((child[ dimension ] || this.getHighestChildDirection( dimension )) + (child.margin * 2));
 
 		}, 0 );
 
@@ -68,7 +67,7 @@ function BoxComponent() {
 
 	};
 
-	//
+	// Position inner elements according to dimensions and layout parameters.
 
 	boxComponent.computeChildrenPosition = function computeChildrenPosition() {
 
@@ -118,42 +117,20 @@ function BoxComponent() {
 
 	// Recursive functions that return the highest linear dimension among all the children of the passed component
 
-	function getHighestChildWidth( component ) {
+	boxComponent.getHighestChildDirection = function getHighestChildDirection( direction ) {
 
-		return component.children.reduce((accu, child)=> {
+		return this.children.reduce((accu, child)=> {
 
 			if ( child.children.length < 0 ) {
 
-				return Math.max(accu, getHighestChildWidth( child ));
+				return Math.max( accu, child.getHighestChildDirection( direction ) );
 
 			} else {
 
 				const margin = child.margin || 0;
-				let maxWidth = child.width + (margin * 2);
+				let maxWidth = child[ direction ] + (margin * 2);
 
 				return Math.max(accu, maxWidth)
-
-			};
-
-		}, 0 );
-
-	};
-
-	//
-
-	function getHighestChildHeight( component ) {
-
-		return component.children.reduce((accu, child)=> {
-
-			if ( child.children.length < 0 ) {
-
-				return Math.max(accu, getHighestChildHeight( child ));
-
-			} else {
-
-				let maxHeight = child.height;
-
-				return Math.max(accu, maxHeight)
 
 			};
 
