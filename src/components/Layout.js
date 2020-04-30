@@ -22,17 +22,23 @@ function LayoutModule( options ) {
 	layout.rotation = layout.threeOBJ.rotation;
 	layout.type = 'layout';
 
+	const frameContainer = new Object3D();
+	layout.threeOBJ.add( frameContainer );
+
 	/////////////
 	//  UPDATE
 	/////////////
 
-	layout.update = function Update( skipChildrenUpdate ) {
+	layout.specificUpdate = function update( mustBubble ) {
 
-		if ( layout.height && layout.width && layout.threeOBJ ) {
+		layout.height = 1;
+		layout.width = 1;
+
+		if ( layout.height && layout.width ) {
 
 			// Cleanup previous depictions
 
-			DeepDelete( layout.threeOBJ );
+			DeepDelete( frameContainer );
 
 			// Create new depictions
 
@@ -42,15 +48,7 @@ function LayoutModule( options ) {
 				layout.backgroundMaterial 
 			);
 
-			layout.threeOBJ.add( frame );
-
-		};
-
-		if ( !skipChildrenUpdate ) {
-
-			layout.children.forEach( (child)=> {
-				child.update();
-			});
+			frameContainer.add( frame );
 
 		};
 		

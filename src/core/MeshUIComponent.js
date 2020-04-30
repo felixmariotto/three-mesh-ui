@@ -149,6 +149,10 @@ function MeshUIComponent() {
 		this.children.push( child );
 		child._addParent( this );
 
+		if ( this.threeOBJ && child.threeOBJ ) {
+			this.threeOBJ.add( child.threeOBJ );
+		};
+
 	};
 
 	// remove a child from this component
@@ -175,6 +179,30 @@ function MeshUIComponent() {
 	///  MISC
 	////////////
 
+	// Called because a parent or a child updated.
+	// It call the specific update function of the component, and propagate the updates to parents or chidren.
+	function update( mustBubble ) {
+
+		if ( this.specificUpdate ) this.specificUpdate();
+
+		if ( !mustBubble ) {
+
+			// updates are propagated to the INNER components
+
+			this.children.forEach( (child)=> {
+				child.update();
+			});
+
+		} else if ( this.parent ) {
+
+			// updates are propagated to the OUTER components
+
+			this.parent.update( true );
+
+		};
+
+	};
+
 	// Called by FontLibrary when the font requested for the current component is ready.
 	// Trigger an update for the component whose font is now available.
 	function _updateFont( url ) {
@@ -191,58 +219,12 @@ function MeshUIComponent() {
 
 		if ( !options ) return
 
-		const padding = options.padding || this.padding;
-
 		for ( let prop of Object.keys(options) ) {
 
 			switch ( prop ) {
 
 				case "font" :
 					FontLibrary.setFont( this, options.font );
-					break;
-
-				case "width" :
-					if ( padding ) {
-						this.innerWidth = options.width - (padding * 2);
-					} else {
-						this.innerWidth = options.width;
-					};
-					this.width = options.width;
-					break;
-
-				case "innerWidth" :
-					if ( padding ) {
-						this.width = options.innerWidth + (padding * 2);
-					} else {
-						this.width = options.innerWidth;
-					};
-					break;
-
-				case "height" :
-					if ( padding ) {
-						this.innerHeight = options.height - (padding * 2);
-					} else {
-						this.innerHeight = options.height;
-					};
-					this.height = options.height;
-					break;
-
-				case "innerHeight" :
-					if ( padding ) {
-						this.height = options.innerHeight + (padding * 2);
-					} else {
-						this.height = options.innerHeight;
-					};
-					break;
-
-				case "padding" :
-					if ( this.width ) {
-						this.innerWidth = this.width - (padding * 2);
-					};
-					if ( this.height ) {
-						this.innerHeight = this.height - (padding * 2);
-					};
-					this.padding = padding;
 					break;
 
 				default:
@@ -278,6 +260,7 @@ function MeshUIComponent() {
 		getTextAlign,
 		appendChild,
 		removeChild,
+		update,
 		_addParent,
 		_removeParent,
 		_updateFont,

@@ -27,7 +27,7 @@ function ParagraphModule( options ) {
 	//  UPDATE
 	/////////////
 
-	paragraph.update = function() {
+	paragraph.specificUpdate = function() {
 
 		// Abort condition
 
@@ -40,7 +40,9 @@ function ParagraphModule( options ) {
 
 		const FONT_SIZE = paragraph.getFontSize();
 
-		const WIDTH = this.parent.innerWidth;
+		const PARENT_PADDING = this.parent.padding || 0;
+
+		const WIDTH = this.parent.width - PARENT_PADDING;
 
 		// Make array of objects containing each character and its length, for later concatenation
 
@@ -152,15 +154,13 @@ function ParagraphModule( options ) {
 
 		// Update parent layout size according to this paragraph size (optional)
 
-		const container = {};
+		paragraph.height = totalHeight;
 
-		if ( !paragraph.parent.innerHeight ) container.innerHeight = totalHeight;
-
-		if ( !paragraph.parent.innerWidth ) container.innerWidth = linesContent.reduce((accu, line)=> {
+		paragraph.width = linesContent.reduce((accu, line)=> {
 			return Math.max( accu, line.width );
 		}, 0 );
 
-		paragraph.parent.set( container, true );
+		paragraph.parent.update( true );
 
 		// Compute position of each line
 
@@ -182,7 +182,7 @@ function ParagraphModule( options ) {
 				width: content.width,
 				chars: content.chars,
 				yPos: yOffsets[ i ],
-				containerWidth: container.innerWidth ? container.innerWidth : WIDTH
+				containerWidth: paragraph.width
 			}, this );
 
 		});

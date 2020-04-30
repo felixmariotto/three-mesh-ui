@@ -1,0 +1,23 @@
+
+Roadmap
+-------
+
+1 - create BoxComponent and InlineComponent, that delegate to MeshUIComponent
+
+2 - change "Layout" for "Block", and make it delegate to BoxComponent
+
+3 - create "FlexBlock", and make it delegate to BoxComponent
+
+4 - When Div has been initialized, call ".set()" with two additional parameters set to true : "layoutNeedsUpdate", and "paintNeedsUpdate"
+
+5 - MeshUIComponent.set update the values of this, then decide of the update type(s) according to : if fontFamily or imageSrc were updated -- if parameters "layoutNeedsUpdate" and/or "paintNeedsUpdate" were set -- what types of update were called. Then it optionally calls '.update( layoutNeedsUpdate, paintNeedsUpdate )'.
+
+type of update "updateLayout" => 'fontSize', 'interLine', 'fontFamily', 'padding', 'margin', 'flexDirection', 'justifyContent'...
+
+type of update "updatePaint" => 'backgroundMaterial', 'fontMaterial', 'offset', 'thickness', 'cornerRadius'...
+
+6 - '.update()' calls '.parseParams()' specific to each subcomponent, in promise. When attributes are parsed, then calls '.updateLayout()' on higher parent, and/or calls '.updatePaint()' on this component.
+
+7 - component.parseParams() takes the existing component parameters, especially the layout-affecting one, and update the values like '.lines' or '.linesHeight', so that parent.updateLayout() can look for these values to decide of its own size
+
+8 - updateLayout() and updatePaint() call themselves on the components childrens once executed
