@@ -38,8 +38,8 @@ const DEFAULT_VALUES = {
 	fontMaterial: MaterialLibrary.DEFAULTS.fontMaterial,
 	offset: 0.03,
 	textAlign: "center",
-	contentDirection: "row-reverse",
-	justifyContent: "center"
+	contentDirection: "column-reverse",
+	justifyContent: "start"
 };
 
 function MeshUIComponent() {

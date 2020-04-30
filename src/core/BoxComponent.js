@@ -20,7 +20,7 @@ function BoxComponent() {
 
 			case 'row' :
 			case 'row-reverse' :
-				return this.getChildrenDimensionSum( 'width' );
+				return this.width - (this.padding * 2) || this.getChildrenDimensionSum( 'width' );
 				break;
 
 			case 'column' :
@@ -49,7 +49,7 @@ function BoxComponent() {
 
 			case 'column' :
 			case 'column-reverse' :
-				return this.getChildrenDimensionSum( 'height' );
+				return this.height - (this.padding * 2) || this.getChildrenDimensionSum( 'height' );
 				break;
 
 			default :
