@@ -49,55 +49,15 @@ function LayoutModule( options ) {
 			return
 		};
 
-		// Position this element according to parent instructions
+		// Position this element according to earlier parent computation.
+		// Delegate to BoxComponent.
 
-		if ( block.parent && block.parent.childrenPos[ block.id ] ) {
+		block.setPosFromParentRecords();
 
-			block.threeOBJ.position.x = ( block.parent.childrenPos[ block.id ].x );
+		// Position inner elements according to dimensions and layout parameters.
+		// Delegate to BoxComponent.
 
-		};
-
-		// Position inner elements according to dimensions and layout parameters
-
-		if ( block.children.length > 0 ) {
-
-			const DIRECTION = block.getContentDirection();
-			const JUSTIFICATION = block.justifyContent || 'center';
-
-			switch ( DIRECTION ) {
-
-				case 'row' :
-					block.children.reduce( (accu, child, i)=> {
-
-						const CHILD_WIDTH = child.width || child.getInnerWidth();
-						const CHILD_ID = child.id;
-						const CHILD_MARGIN = child.margin || 0;
-						const ADDI_OFFSET = i ? ((CHILD_WIDTH / 2) + CHILD_MARGIN) : 0;
-
-						block.childrenPos[ CHILD_ID ] = {
-							x: accu + ADDI_OFFSET
-						};
-
-						return accu + (CHILD_WIDTH / 2) + CHILD_MARGIN;
-
-					}, 0 );
-					break;
-
-				case 'row-reverse' :
-					console.log('direction row reverse');
-					break;
-
-				case 'column' :
-					console.log('direction column');
-					break;
-
-				case 'column-reverse' :
-					console.log('direction column-reverse');
-					break;
-
-			};
-
-		};
+		block.computeChildrenPosition();
 
 		// Cleanup previous depictions
 

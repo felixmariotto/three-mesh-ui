@@ -1,6 +1,6 @@
 /*
-	Job: set dimension of this component according to parent's dimension
-	Knows: parent dimensions
+	Job: Handle everything related to a BoxComponent element dimensioning and positioning
+	Knows: Parents and children dimensions and positions
 */
 
 import MeshUIComponent from '../core/MeshUIComponent';
@@ -21,7 +21,7 @@ function BoxComponent() {
 
 			case 'row' :
 			case 'row-reverse' :
-				return getChildrenWidthSum();
+				return this.getChildrenWidthSum();
 				break;
 
 			case 'column' :
@@ -45,13 +45,74 @@ function BoxComponent() {
 
 	// Return the sum of all the children of this component + their margin
 
-	function getChildrenWidthSum() {
+	boxComponent.getChildrenWidthSum = function GetChildrenWidthSum() {
 
-		return boxComponent.children.reduce((accu, child)=> {
+		return this.children.reduce((accu, child)=> {
 
 			return accu + (child.width || getHighestChildWidth( child )) + (child.margin * 2);
 
 		}, 0 );
+
+	};
+
+	// Look in parent record what is the instructed position for this component, then set its position
+
+	boxComponent.setPosFromParentRecords = function SetPosFromParentRecords() {
+		
+		if ( this.parent && this.parent.childrenPos[ this.id ] ) {
+
+			this.threeOBJ.position.x = ( this.parent.childrenPos[ this.id ].x );
+
+		};
+		
+
+	};
+
+	//
+
+	boxComponent.computeChildrenPosition = function computeChildrenPosition() {
+
+		if ( this.children.length > 0 ) {
+
+			const DIRECTION = this.getContentDirection();
+			const JUSTIFICATION = this.getJustifyContent();
+
+			switch ( DIRECTION ) {
+
+				case 'row' :
+
+					this.children.reduce( (accu, child, i)=> {
+
+						const CHILD_WIDTH = child.width || child.getInnerWidth();
+						const CHILD_ID = child.id;
+						const CHILD_MARGIN = child.margin || 0;
+						const ADDI_OFFSET = i ? ((CHILD_WIDTH / 2) + CHILD_MARGIN) : 0;
+
+						this.childrenPos[ CHILD_ID ] = {
+							x: accu + ADDI_OFFSET
+						};
+
+						return accu + (CHILD_WIDTH / 2) + CHILD_MARGIN;
+
+					}, 0 );
+
+					break;
+
+				case 'row-reverse' :
+					console.log('direction row reverse');
+					break;
+
+				case 'column' :
+					console.log('direction column');
+					break;
+
+				case 'column-reverse' :
+					console.log('direction column-reverse');
+					break;
+
+			};
+
+		};
 
 	};
 

@@ -38,10 +38,40 @@ const DEFAULT_VALUES = {
 	fontMaterial: MaterialLibrary.DEFAULTS.fontMaterial,
 	offset: 0.03,
 	textAlign: "center",
-	contentDirection: "row"
+	contentDirection: "row",
+	justifyContent: "center"
 };
 
 function MeshUIComponent() {
+
+	const component = {
+
+		children: [],
+		parent: undefined,
+		type: 'MeshUIComponent',
+		id: generateSerial(),
+
+		getHighestParent,
+		getContainer,
+		getFontFamily,
+		getFontSize,
+		getFontMaterial,
+		getOffset,
+		getTextAlign,
+		getParentsNumber,
+		getContentDirection,
+		getJustifyContent,
+
+		appendChild,
+		removeChild,
+		update,
+		_addParent,
+		_removeParent,
+		_updateFont,
+		_getProperty,
+		set
+
+	};
 
 	/////////////
 	/// GETTERS
@@ -172,12 +202,18 @@ function MeshUIComponent() {
 
 	};
 
-	//
+	////////////////////////////////////
+	/// GETTERS WITH NO PARENTS LOOKUP
+	////////////////////////////////////
 
 	function getContentDirection() {
-
 		return this.contentDirection || DEFAULT_VALUES.contentDirection;
+	};
 
+	//
+
+	function getJustifyContent() {
+		return this.justifyContent || DEFAULT_VALUES.justifyContent;
 	};
 
 	////////////////////////
@@ -318,33 +354,7 @@ function MeshUIComponent() {
 
 	//
 
-	return {
-
-		children: [],
-		parent: undefined,
-		type: 'MeshUIComponent',
-		id: generateSerial(),
-
-		getHighestParent,
-		getContainer,
-		getFontFamily,
-		getFontSize,
-		getFontMaterial,
-		getOffset,
-		getTextAlign,
-		getParentsNumber,
-		getContentDirection,
-
-		appendChild,
-		removeChild,
-		update,
-		_addParent,
-		_removeParent,
-		_updateFont,
-		_getProperty,
-		set
-		
-	};
+	return component
 
 };
 
