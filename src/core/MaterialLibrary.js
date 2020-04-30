@@ -11,6 +11,13 @@ const DEFAULTS = {
 	fontMaterial: new MeshBasicMaterial({
 		color: 0x006699,
 		side: 2
+	}),
+
+	frameMaterial: new MeshBasicMaterial({
+		color: 0x000000,
+		side: 2,
+		transparent: true,
+		opacity: 0.2
 	})
 
 };

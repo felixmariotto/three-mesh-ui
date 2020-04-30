@@ -5,18 +5,13 @@
 */
 
 import { Mesh, PlaneBufferGeometry, MeshLambertMaterial } from 'three';
-
-const DEFAULT_MATERIAL = new MeshLambertMaterial({
-	color: 0x000000,
-	transparent: true,
-	opacity: 0.2
-});
+import MaterialLibrary from '../core/MaterialLibrary'
 
 function Frame( width, height, material ) {
 
 	const mesh = new Mesh(
 		new PlaneBufferGeometry( width, height ),
-		material ? material : DEFAULT_MATERIAL
+		material ? material : MaterialLibrary.DEFAULTS.frameMaterial
 	);
 	mesh.name = "MeshUI-Frame"
 

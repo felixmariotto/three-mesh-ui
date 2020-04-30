@@ -71,13 +71,14 @@ function LayoutModule( options ) {
 
 						const CHILD_WIDTH = child.width || child.getInnerWidth();
 						const CHILD_ID = child.id;
-						const ADDI_OFFSET = i ? CHILD_WIDTH / 2 : 0;
+						const CHILD_MARGIN = child.margin || 0;
+						const ADDI_OFFSET = i ? ((CHILD_WIDTH / 2) + CHILD_MARGIN) : 0;
 
 						block.childrenPos[ CHILD_ID ] = {
 							x: accu + ADDI_OFFSET
 						};
 
-						return accu + (CHILD_WIDTH / 2);
+						return accu + (CHILD_WIDTH / 2) + CHILD_MARGIN;
 
 					}, 0 );
 					break;
