@@ -168,6 +168,8 @@ function MeshUIComponent() {
 			this.threeOBJ.add( child.threeOBJ );
 		};
 
+		this.update( true, null );
+
 	};
 
 	// remove a child from this component

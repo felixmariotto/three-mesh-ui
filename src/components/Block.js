@@ -20,6 +20,8 @@ function LayoutModule( options ) {
 
 	block.type = 'Block';
 
+	block.childrenPos = {};
+
 	const frameContainer = new Object3D();
 	frameContainer.name = "Block-FrameContainer"
 	block.threeOBJ.add( frameContainer );
@@ -47,27 +49,52 @@ function LayoutModule( options ) {
 			return
 		};
 
-		// Reposition this element according to parent dimension
+		// Position this element according to parent instructions
 
-		const DIRECTION = block.contentDirection || 'row';
+		if ( block.parent && block.parent.childrenPos[ block.id ] ) {
 
-		switch ( DIRECTION ) {
+			block.threeOBJ.position.x = ( block.parent.childrenPos[ block.id ].x )
 
-			case 'row' :
-				console.log('direction row');
-				break;
+		};
 
-			case 'row-reverse' :
-				console.log('direction row reverse');
-				break;
+		// Position inner elements according to dimensions and layout parameters
 
-			case 'column' :
-				console.log('direction column');
-				break;
+		if ( block.children.length > 0 ) {
 
-			case 'column-reverse' :
-				console.log('direction column-reverse');
-				break;
+			const DIRECTION = block.contentDirection || 'row';
+			const JUSTIFICATION = block.justifyContent || 'center';
+
+			switch ( DIRECTION ) {
+
+				case 'row' :
+					block.children.reduce( (accu, child, i)=> {
+
+						const CHILD_WIDTH = child.width || child.getInnerWidth();
+						const CHILD_ID = child.id;
+						const ADDI_OFFSET = i ? CHILD_WIDTH / 2 : 0;
+
+						block.childrenPos[ CHILD_ID ] = {
+							x: accu + ADDI_OFFSET
+						};
+
+						return accu + (CHILD_WIDTH / 2);
+
+					}, 0 );
+					break;
+
+				case 'row-reverse' :
+					console.log('direction row reverse');
+					break;
+
+				case 'column' :
+					console.log('direction column');
+					break;
+
+				case 'column-reverse' :
+					console.log('direction column-reverse');
+					break;
+
+			};
 
 		};
 
