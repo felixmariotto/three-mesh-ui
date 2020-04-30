@@ -63,38 +63,9 @@
 
 			// TEXT PANEL
 
-			// makeTextPanel();
+			makeTextPanel();
 
-			// TEMP
-
-			const DEFAULT_MATERIAL = new THREE.MeshLambertMaterial({
-				color: 0x000000,
-				side: 2,
-				transparent: true,
-				opacity: 0.2
-			});
-
-			const mesh1 = new THREE.Mesh(
-				new THREE.PlaneBufferGeometry( 1.2, 0.8 ),
-				DEFAULT_MATERIAL
-			);
-
-			mesh1.position.set( 0, 1, -1.8 );
-			mesh1.rotation.x = -0.7;
-
-			scene.add( mesh1 );
-
-			const mesh2 = new THREE.Mesh(
-				new THREE.PlaneBufferGeometry( 0.2, 0.5 ),
-				DEFAULT_MATERIAL
-			);
-
-			mesh2.position.z = 0.1;
-			mesh2.position.x = 0.5;
-
-			mesh1.add( mesh2 );
-
-			//
+			// 
 
 			renderer.setAnimationLoop( loop );
 

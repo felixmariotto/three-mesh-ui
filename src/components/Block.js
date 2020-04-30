@@ -52,7 +52,7 @@ function LayoutModule( options ) {
 		// Position this element according to parent instructions
 
 		if ( block.parent && block.parent.childrenPos[ block.id ] ) {
-			
+
 			block.threeOBJ.position.x = ( block.parent.childrenPos[ block.id ].x );
 
 		};
@@ -109,6 +109,8 @@ function LayoutModule( options ) {
 			HEIGHT,
 			block.backgroundMaterial 
 		);
+
+		frame.renderOrder = block.getParentsNumber();
 
 		frameContainer.add( frame );
 
