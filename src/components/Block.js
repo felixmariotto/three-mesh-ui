@@ -18,11 +18,10 @@ function LayoutModule( options ) {
 	block.threeOBJ = new Object3D;
 	block.threeOBJ.name = "MeshUI-Layout"
 
-	block.position = block.threeOBJ.position;
-	block.rotation = block.threeOBJ.rotation;
 	block.type = 'Block';
 
 	const frameContainer = new Object3D();
+	frameContainer.name = "Block-FrameContainer"
 	block.threeOBJ.add( frameContainer );
 
 	/////////////
@@ -46,6 +45,30 @@ function LayoutModule( options ) {
 		if ( !WIDTH || !HEIGHT ) {
 			console.warn('Block got no dimension from its parameters or form children parameters');
 			return
+		};
+
+		// Reposition this element according to parent dimension
+
+		const DIRECTION = block.contentDirection || 'row';
+
+		switch ( DIRECTION ) {
+
+			case 'row' :
+				console.log('direction row');
+				break;
+
+			case 'row-reverse' :
+				console.log('direction row reverse');
+				break;
+
+			case 'column' :
+				console.log('direction column');
+				break;
+
+			case 'column-reverse' :
+				console.log('direction column-reverse');
+				break;
+
 		};
 
 		// Cleanup previous depictions
@@ -73,6 +96,8 @@ function LayoutModule( options ) {
 	};
 
 	block.updateInner = function UpdateInner() {
+
+		block.threeOBJ.position.z = block.getOffset();
 
 		for ( let child of block.children ) {
 

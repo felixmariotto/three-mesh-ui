@@ -257,7 +257,7 @@ function MeshUIComponent() {
 				case "fontFamily" :
 				case "padding" :
 				case "margin" :
-				case "flexDirection" :
+				case "contentDirection" :
 				case "justifyContent" :
 					layoutNeedsUpdate = true;
 					this[ prop ] = options[ prop ];
