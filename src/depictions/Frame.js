@@ -4,9 +4,9 @@
 	Knows: Dimension and style of the plane to create
 */
 
-import { Mesh, PlaneBufferGeometry, MeshBasicMaterial } from 'three';
+import { Mesh, PlaneBufferGeometry, MeshLambertMaterial } from 'three';
 
-const DEFAULT_MATERIAL = new MeshBasicMaterial({
+const DEFAULT_MATERIAL = new MeshLambertMaterial({
 	color: 0x000000,
 	side: 2,
 	transparent: true,

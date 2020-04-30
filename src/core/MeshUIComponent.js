@@ -154,6 +154,22 @@ function MeshUIComponent() {
 
 	};
 
+	function getParentsNumber( i ) {
+
+		i = i || 0;
+
+		if ( this.parent ) {
+
+			return this.parent.getParentsNumber( i + 1 )
+
+		} else {
+
+			return i
+
+		};
+
+	};
+
 	////////////////////////
 	///  CHILDREN / PARENT
 	////////////////////////
@@ -192,9 +208,9 @@ function MeshUIComponent() {
 
 	};
 
-	////////////
-	///  MISC
-	////////////
+	///////////////
+	///  UPDATE
+	///////////////
 
 	// Called because a parent or a child updated.
 	// It call the specific update function of the component, and propagate the updates to parents or chidren.
@@ -304,6 +320,7 @@ function MeshUIComponent() {
 		getFontMaterial,
 		getOffset,
 		getTextAlign,
+		getParentsNumber,
 		appendChild,
 		removeChild,
 		update,
