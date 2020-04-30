@@ -74,31 +74,26 @@ function BoxComponent() {
 		if ( this.children.length > 0 ) {
 
 			const DIRECTION = this.getContentDirection();
-			const JUSTIFICATION = this.getJustifyContent();
+			let X_START;
 
 			switch ( DIRECTION ) {
 
 				case 'row' :
 
-					this.children.reduce( (accu, child, i)=> {
+					// start position of the children positioning inside this component
+					X_START = this.getInnerWidth() / 2;
 
-						const CHILD_WIDTH = child.width || child.getInnerWidth();
-						const CHILD_ID = child.id;
-						const CHILD_MARGIN = child.margin || 0;
-						const ADDI_OFFSET = i ? ((CHILD_WIDTH / 2) + CHILD_MARGIN) : 0;
-
-						this.childrenPos[ CHILD_ID ] = {
-							x: accu + ADDI_OFFSET
-						};
-
-						return accu + (CHILD_WIDTH / 2) + CHILD_MARGIN;
-
-					}, 0 );
+					this.setChildrenPosition( -X_START, "width" );
 
 					break;
 
 				case 'row-reverse' :
-					console.log('direction row reverse');
+					
+					// start position of the children positioning inside this component
+					X_START = this.getInnerWidth() / 2;
+
+					this.setChildrenPosition( X_START, "width" );
+
 					break;
 
 				case 'column' :
@@ -112,6 +107,31 @@ function BoxComponent() {
 			};
 
 		};
+
+	};
+
+	// Set children positions according to this 
+
+	boxComponent.setChildrenPosition = function setChildrenPosition( startPos, dimension ) {
+
+		const JUSTIFICATION = this.getJustifyContent();
+
+		this.children.reduce( (accu, child, i)=> {
+
+			const CHILD_ID = child.id;
+			const CHILD_WIDTH = child.width || child.getInnerWidth();
+			const CHILD_MARGIN = child.margin || 0;
+
+			// Initial offset. For subsequent items, this is done in the return statement
+			if ( !i ) accu += CHILD_MARGIN;
+
+			this.childrenPos[ CHILD_ID ] = {
+				x: accu + ((CHILD_WIDTH / 2) * -Math.sign( startPos ))
+			};
+
+			return accu + (-Math.sign( startPos ) * (CHILD_WIDTH + (CHILD_MARGIN * 2)))
+
+		}, startPos );
 
 	};
 
