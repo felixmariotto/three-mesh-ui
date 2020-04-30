@@ -46,6 +46,21 @@ function MeshUIComponent() {
 	/// GETTERS
 	/////////////
 
+	// Get the highest parent of this component (the parent that has no parent on top of it)
+	function getHighestParent() {
+
+		if ( !this.parent ) {
+
+			return this
+
+		} else {
+
+			return this.parent.getHighestParent();
+
+		};
+
+	};
+
 	// look for a property in this object, and if does not find it, find in parents or return default value
 	function _getProperty( propName ) {
 
@@ -181,25 +196,33 @@ function MeshUIComponent() {
 
 	// Called because a parent or a child updated.
 	// It call the specific update function of the component, and propagate the updates to parents or chidren.
-	function update( mustBubble ) {
+	function update( updateLayout, updateInner ) {
 
-		if ( this.specificUpdate ) this.specificUpdate();
+		const myPromise = (new Promise((resolve, reject)=> {
+		
+			this.parseParams( resolve, reject );
 
-		if ( !mustBubble ) {
+		}))
+		.then(()=> {
 
-			// updates are propagated to the INNER components
+			if ( updateLayout ) {
 
-			this.children.forEach( (child)=> {
-				child.update();
-			});
+				this.getHighestParent().updateLayout();
 
-		} else if ( this.parent ) {
+			};
 
-			// updates are propagated to the OUTER components
+			if ( updateInner ) {
 
-			this.parent.update( true );
+				this.getHighestParent().updateInner();
 
-		};
+			};
+
+		})
+		.catch((err)=> {
+
+			console.error( err );
+
+		});
 
 	};
 
@@ -215,19 +238,35 @@ function MeshUIComponent() {
 	// Set this component's passed parameters.
 	// If necessary, take special actions.
 	// Update this component unless otherwise specified.
-	function set( options, skipChildrenUpdate ) {
+	function set( options, layoutNeedsUpdate, innerNeedsUpdate ) {
 
-		if ( !options ) return
+		// Abort if no option passed
+
+		if ( !options || JSON.stringify(options) === JSON.stringify({}) ) return
+
+		// Set this component parameters according to options, and trigger updates accordingly
 
 		for ( let prop of Object.keys(options) ) {
 
 			switch ( prop ) {
 
-				case "font" :
-					FontLibrary.setFont( this, options.font );
+				case "width" :
+				case "height" :
+				case "fontSize" :
+				case "interLine" :
+				case "fontFamily" :
+				case "padding" :
+				case "margin" :
+				case "flexDirection" :
+				case "justifyContent" :
+					layoutNeedsUpdate = true;
+					this[ prop ] = options[ prop ];
 					break;
 
-				default:
+				case "backgroundMaterial" :
+				case "fontMaterial" :
+				case "offset" :
+					innerNeedsUpdate = true;
 					this[ prop ] = options[ prop ];
 					break;
 
@@ -235,13 +274,17 @@ function MeshUIComponent() {
 
 		};
 
-		// Trigger component update, if not specified otherwise AND a font parameter was not passed :
-		// Because when the font will be loaded, an update will be triggered by this._updateFont
-		if ( this.update && !options.font ) {
+		// special case, if the font is updated, then the this.update() must be called only when the font finished loading
 
-			this.update( skipChildrenUpdate );
-
+		if ( options.font ) {
+			FontLibrary.setFont( this, options.font );
+			layoutNeedsUpdate = false;
+			innerNeedsUpdate = false;
 		};
+
+		// Call component update
+
+		this.update( layoutNeedsUpdate, innerNeedsUpdate );
 		
 	};
 
@@ -252,6 +295,7 @@ function MeshUIComponent() {
 		parent: undefined,
 		type: 'MeshUIComponent',
 		id: generateSerial(),
+		getHighestParent,
 		getContainer,
 		getFontFamily,
 		getFontSize,

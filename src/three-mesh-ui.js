@@ -1,16 +1,16 @@
 import MeshUIComponent from './core/MeshUIComponent';
-import Layout from './components/Layout';
+import Block from './components/Block';
 import Paragraph from './components/Paragraph';
 
 const ThreeMeshUI = {
 	MeshUIComponent,
-	Layout,
+	Block,
 	Paragraph
 };
 
 global.ThreeMeshUI = ThreeMeshUI;
 
 export { MeshUIComponent }
-export { Layout }
+export { Block }
 export { Paragraph }
 export default ThreeMeshUI

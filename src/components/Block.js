@@ -6,35 +6,38 @@
 
 import { Object3D } from 'three'
 
-import MeshUIComponent from '../core/MeshUIComponent';
+import BoxComponent from '../core/BoxComponent';
 import Frame from '../depictions/Frame';
 import DeepDelete from '../utils/DeepDelete';
 
 function LayoutModule( options ) {
 
 	// if a property is not found in layout, it will delegate to MeshUIComponent
-	const layout = Object.create( MeshUIComponent() );
+	const block = Object.create( BoxComponent() );
 
-	layout.threeOBJ = new Object3D;
-	layout.threeOBJ.name = "MeshUI-Layout"
+	block.threeOBJ = new Object3D;
+	block.threeOBJ.name = "MeshUI-Layout"
 
-	layout.position = layout.threeOBJ.position;
-	layout.rotation = layout.threeOBJ.rotation;
-	layout.type = 'layout';
+	block.position = block.threeOBJ.position;
+	block.rotation = block.threeOBJ.rotation;
+	block.type = 'Block';
 
 	const frameContainer = new Object3D();
-	layout.threeOBJ.add( frameContainer );
+	block.threeOBJ.add( frameContainer );
 
 	/////////////
 	//  UPDATE
 	/////////////
 
-	layout.specificUpdate = function update( mustBubble ) {
+	block.parseParams = function ParseParams( resolve, reject ) {
 
-		layout.height = 1;
-		layout.width = 1;
+		resolve();
 
-		if ( layout.height && layout.width ) {
+	};
+
+	block.updateLayout = function UpdateLayout() {
+
+		if ( block.height && block.width ) {
 
 			// Cleanup previous depictions
 
@@ -43,21 +46,37 @@ function LayoutModule( options ) {
 			// Create new depictions
 
 			const frame = Frame(
-				layout.width,
-				layout.height,
-				layout.backgroundMaterial 
+				block.width,
+				block.height,
+				block.backgroundMaterial 
 			);
 
 			frameContainer.add( frame );
+
+		};
+
+		for ( let child of block.children ) {
+
+			child.updateLayout();
+
+		};
+
+	};
+
+	block.updateInner = function UpdateInner() {
+
+		for ( let child of block.children ) {
+
+			child.updateInner();
 
 		};
 		
 	};
 
 	// Lastly set the options parameters to this object, which will trigger an update
-	layout.set( options );
+	block.set( options, true, true );
 
-	return layout;
+	return block;
 
 };
 

@@ -75,16 +75,24 @@
 
 		function makeTextPanel() {
 
-			const layout = ThreeMeshUI.Layout({
+			const params = {
 				height: 1,
 				width: 1,
 				padding: 0.15
+			};
+
+			const block1 = ThreeMeshUI.Block( params );
+			const block2 = ThreeMeshUI.Block( params );
+
+			const container = ThreeMeshUI.Block({
+				height: 1.5
 			});
+			container.threeOBJ.position.set( 0, 1, -1.8 );
+			container.threeOBJ.rotation.x = -0.7;
+			container.appendChild( block1 );
+			container.appendChild( block2 );
 
-			layout.threeOBJ.position.set( 0, 1, -1.8 );
-			layout.threeOBJ.rotation.x = -0.7;
-
-			scene.add( layout.threeOBJ );
+			scene.add( container.threeOBJ );
 
 		};
 
