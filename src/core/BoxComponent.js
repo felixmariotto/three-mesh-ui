@@ -170,8 +170,7 @@ function BoxComponent() {
 			const CHILD_WIDTH = child.getWidth();
 			const CHILD_MARGIN = child.margin || 0;
 
-			// Initial offset. For subsequent items, this is done in the return statement
-			if ( !i ) accu += CHILD_MARGIN * -Math.sign( startPos );
+			accu += CHILD_MARGIN * -Math.sign( startPos );
 
 			this.childrenPos[ CHILD_ID ] = {
 				x: accu + ((CHILD_WIDTH / 2) * -Math.sign( startPos )),
