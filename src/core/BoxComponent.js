@@ -122,6 +122,8 @@ function BoxComponent() {
 
 					this.setChildrenYPos( Y_START );
 
+					this.alignChildrenOnX();
+
 					break;
 
 				case 'column-reverse' :
@@ -224,6 +226,36 @@ function BoxComponent() {
 			});
 
 		};
+
+	};
+
+	//
+
+	boxComponent.alignChildrenOnX = function alignChildrenOnX() {
+
+		const ALIGNMENT = this.getContentAlign();
+
+		if ( ALIGNMENT === "right" ) {
+
+			var offset = 1 ;
+
+		} else if ( ALIGNMENT === "left" ) {
+
+			var offset = -1 ;
+
+		} else if ( ALIGNMENT === "center" ) {
+
+			var offset = 0 ;
+
+		};
+
+		if ( offset === undefined ) console.warn(`contentAlign === '${ ALIGNMENT }' is not supported`)
+
+		this.children.forEach( (child)=> {
+
+			this.childrenPos[ child.id ].x = offset
+
+		});
 
 	};
 

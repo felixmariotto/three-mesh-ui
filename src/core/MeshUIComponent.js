@@ -37,8 +37,8 @@ const DEFAULT_VALUES = {
 	fontSize: 0.1,
 	fontMaterial: MaterialLibrary.DEFAULTS.fontMaterial,
 	offset: 0.03,
-	textAlign: "center",
-	contentDirection: "column-reverse",
+	contentAlign: "right",
+	contentDirection: "column",
 	justifyContent: "center"
 };
 
@@ -57,8 +57,8 @@ function MeshUIComponent() {
 		getFontSize,
 		getFontMaterial,
 		getOffset,
-		getTextAlign,
 		getParentsNumber,
+		getContentAlign,
 		getContentDirection,
 		getJustifyContent,
 
@@ -135,14 +135,6 @@ function MeshUIComponent() {
 
 	};
 
-	//
-
-	function getTextAlign() {
-
-		return this._getProperty( 'textAlign' );
-
-	};
-
 	/// SPECIALS
 
 	// return the first parent with a 'threeOBJ' property
@@ -205,6 +197,10 @@ function MeshUIComponent() {
 	////////////////////////////////////
 	/// GETTERS WITH NO PARENTS LOOKUP
 	////////////////////////////////////
+
+	function getContentAlign() {
+		return this.contentAlign || DEFAULT_VALUES.contentAlign;
+	};
 
 	function getContentDirection() {
 		return this.contentDirection || DEFAULT_VALUES.contentDirection;
