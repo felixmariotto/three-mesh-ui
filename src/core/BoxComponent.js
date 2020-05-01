@@ -163,6 +163,20 @@ function BoxComponent() {
 
 		}, startPos );
 
+		//
+
+		if ( JUSTIFICATION === "end" ) {
+
+			const offset = (startPos * 2) - (this.getChildrenDimensionSum('width') * Math.sign(startPos));
+			
+			this.children.forEach( (child)=> {
+
+				this.childrenPos[ child.id ].x -= offset
+
+			});
+
+		};
+
 	};
 
 	//
