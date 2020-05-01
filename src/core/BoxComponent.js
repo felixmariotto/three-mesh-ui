@@ -22,12 +22,12 @@ function BoxComponent() {
 
 			case 'row' :
 			case 'row-reverse' :
-				return this.width - (this.padding * 2) || this.getChildrenDimensionSum( 'width' );
+				return this.width - (this.padding * 2) || this.getChildrenSideSum( 'width' );
 				break;
 
 			case 'column' :
 			case 'column-reverse' :
-				return this.getHighestChildDirection( 'width' )
+				return this.getHighestChildSizeOn( 'width' )
 				break;
 
 			default :
@@ -46,12 +46,12 @@ function BoxComponent() {
 
 			case 'row' :
 			case 'row-reverse' :
-				return this.getHighestChildDirection( 'width' );
+				return this.getHighestChildSizeOn( 'width' );
 				break;
 
 			case 'column' :
 			case 'column-reverse' :
-				return this.height - (this.padding * 2) || this.getChildrenDimensionSum( 'height' );
+				return this.height - (this.padding * 2) || this.getChildrenSideSum( 'height' );
 				break;
 
 			default :
@@ -64,21 +64,18 @@ function BoxComponent() {
 
 	// Return the sum of all this component's children sides + their margin
 
-	boxComponent.getChildrenDimensionSum = function GetChildrenDimensionSum( dimension ) {
+	boxComponent.getChildrenSideSum = function GetChildrenSideSum( dimension ) {
 
-		const prout =  this.children.reduce((accu, child)=> {
+		return this.children.reduce((accu, child)=> {
 
+			const margin = (child.margin * 2) || 0;
 			let CHILD_SIZE = (dimension === "width") ?
-				(child.getWidth() + (child.margin * 2)) :
-				(child.getHeight() + (child.margin * 2));
+				(child.getWidth() + margin) :
+				(child.getHeight() + margin);
 
-			return accu + ((CHILD_SIZE || this.getHighestChildDirection( dimension )) || 0);
+			return accu + ((CHILD_SIZE || (child.getHighestChildSizeOn( dimension )) + (child.margin || 0)) || 0);
 
 		}, 0 );
-
-		console.log(prout)
-
-		return prout
 
 	};
 
@@ -92,7 +89,6 @@ function BoxComponent() {
 			this.threeOBJ.position.y = ( this.parent.childrenPos[ this.id ].y );
 
 		};
-		
 
 	};
 
@@ -189,7 +185,7 @@ function BoxComponent() {
 
 		if ( JUSTIFICATION === "end" || JUSTIFICATION === "center" ) {
 
-			let offset = (startPos * 2) - (this.getChildrenDimensionSum('width') * Math.sign(startPos));
+			let offset = (startPos * 2) - (this.getChildrenSideSum('width') * Math.sign(startPos));
 
 			if ( JUSTIFICATION === "center" ) offset /= 2;
 			
@@ -231,7 +227,7 @@ function BoxComponent() {
 
 		if ( JUSTIFICATION === "end" || JUSTIFICATION === "center" ) {
 
-			let offset = (startPos * 2) - (this.getChildrenDimensionSum('height') * Math.sign(startPos));
+			let offset = (startPos * 2) - (this.getChildrenSideSum('height') * Math.sign(startPos));
 			
 			if ( JUSTIFICATION === "center" ) offset /= 2;
 
@@ -306,13 +302,13 @@ function BoxComponent() {
 	// Recursive functions that returns the highest linear dimension among all the children of the passed component
 	// MARGIN INCLUDED
 
-	boxComponent.getHighestChildDirection = function getHighestChildDirection( direction ) {
+	boxComponent.getHighestChildSizeOn = function getHighestChildSizeOn( direction ) {
 
 		return this.children.reduce((accu, child)=> {
 
 			if ( child.children.length < 0 ) {
 
-				return Math.max( accu, child.getHighestChildDirection( direction ) );
+				return Math.max( accu, child.getHighestChildSizeOn( direction ) );
 
 			} else {
 

@@ -81,36 +81,41 @@
 			scene.add( uiContainer );
 
 			const container = ThreeMeshUI.Block({
-				padding: 0
+				padding: 0,
+				ref: 'container'
 			});
 
-				const block1 = ThreeMeshUI.Block({
+				const title = ThreeMeshUI.Block({
 					height: 0.2,
 					width: 0.4,
-					margin: 0.04
+					ref: 'title'
 				});
 
-				const block2 = ThreeMeshUI.Block({
-					margin: 0.04
+				const contentContainer = ThreeMeshUI.Block({
+					contentDirection: "row",
+					padding: 0.02,
+					ref: 'contentContainer'
 				});
 
 					const subBlock1 = ThreeMeshUI.Block({
 						height: 0.5,
 						width: 0.5,
-						margin: 0.04
+						margin: 0.025,
+						ref: 'subBlock1'
 					});
 
 					const subBlock2 = ThreeMeshUI.Block({
 						height: 0.5,
 						width: 0.5,
-						margin: 0.04
+						margin: 0.025,
+						ref: 'subBlock2'
 					});
 
-			block2.appendChild( subBlock1 );
-			block2.appendChild( subBlock2 )
+			contentContainer.appendChild( subBlock1 );
+			contentContainer.appendChild( subBlock2 );
 			
-			container.appendChild( block1 );
-			container.appendChild( block2 );
+			container.appendChild( title );
+			container.appendChild( contentContainer );
 
 			uiContainer.add( container.threeOBJ );
 

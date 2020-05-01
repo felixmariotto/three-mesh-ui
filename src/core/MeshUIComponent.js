@@ -36,7 +36,7 @@ const DEFAULT_VALUES = {
 	fontFamily: null,
 	fontSize: 0.1,
 	fontMaterial: MaterialLibrary.DEFAULTS.fontMaterial,
-	offset: 0.03,
+	offset: 0.02,
 	contentAlign: "center",
 	contentDirection: "column",
 	justifyContent: "start"
@@ -327,6 +327,10 @@ function MeshUIComponent() {
 				case "fontMaterial" :
 				case "offset" :
 					innerNeedsUpdate = true;
+					this[ prop ] = options[ prop ];
+					break;
+
+				default :
 					this[ prop ] = options[ prop ];
 					break;
 
