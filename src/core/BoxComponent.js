@@ -206,8 +206,6 @@ function BoxComponent() {
 
 		const JUSTIFICATION = this.getJustifyContent();
 
-		console.log('/////////////////:')
-
 		this.children.reduce( (accu, child, i)=> {
 
 			const CHILD_ID = child.id;

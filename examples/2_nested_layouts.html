@@ -98,22 +98,37 @@
 					ref: 'contentContainer'
 				});
 
-					const subBlock1 = ThreeMeshUI.Block({
-						height: 0.5,
-						width: 1,
+					const leftSubBlock = ThreeMeshUI.Block({
+						height: 0.95,
+						width: 1.0,
 						margin: 0.025,
 						ref: 'subBlock1'
 					});
 
-					const subBlock2 = ThreeMeshUI.Block({
-						height: 0.5,
-						width: 0.5,
+					const rightSubBlock = ThreeMeshUI.Block({
 						margin: 0.025,
 						ref: 'subBlock2'
 					});
 
-			contentContainer.appendChild( subBlock1 );
-			contentContainer.appendChild( subBlock2 );
+						const subSubBlock1 = ThreeMeshUI.Block({
+							height: 0.35,
+							width: 0.5,
+							margin: 0.025,
+							ref: 'subBlock2'
+						});
+
+						const subSubBlock2 = ThreeMeshUI.Block({
+							height: 0.5,
+							width: 0.5,
+							margin: 0.025,
+							ref: 'subBlock2'
+						});
+
+			rightSubBlock.appendChild( subSubBlock1 );
+			rightSubBlock.appendChild( subSubBlock2 );
+
+			contentContainer.appendChild( leftSubBlock );
+			contentContainer.appendChild( rightSubBlock );
 			
 			container.appendChild( title );
 			container.appendChild( contentContainer );
