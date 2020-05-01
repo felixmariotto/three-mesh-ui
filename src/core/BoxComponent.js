@@ -234,26 +234,25 @@ function BoxComponent() {
 	boxComponent.alignChildrenOnX = function alignChildrenOnX() {
 
 		const ALIGNMENT = this.getContentAlign();
+		const X_TARGET = this.getInnerWidth() / 2;
 
-		if ( ALIGNMENT === "right" ) {
-
-			var offset = 1 ;
-
-		} else if ( ALIGNMENT === "left" ) {
-
-			var offset = -1 ;
-
-		} else if ( ALIGNMENT === "center" ) {
-
-			var offset = 0 ;
-
+		if ( ALIGNMENT !== "center" && ALIGNMENT !== "right" && ALIGNMENT !== "left" ) {
+			console.warn(`contentAlign === '${ ALIGNMENT }' is not supported on this direction.`)
 		};
-
-		if ( offset === undefined ) console.warn(`contentAlign === '${ ALIGNMENT }' is not supported`)
 
 		this.children.forEach( (child)=> {
 
-			this.childrenPos[ child.id ].x = offset
+			if ( ALIGNMENT === "right" ) {
+
+				var offset = 1 ;
+
+			} else if ( ALIGNMENT === "left" ) {
+
+				var offset = -1 ;
+
+			};
+
+			this.childrenPos[ child.id ].x = offset || 0;
 
 		});
 
