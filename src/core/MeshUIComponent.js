@@ -37,9 +37,9 @@ const DEFAULT_VALUES = {
 	fontSize: 0.1,
 	fontMaterial: MaterialLibrary.DEFAULTS.fontMaterial,
 	offset: 0.03,
-	contentAlign: "right",
+	contentAlign: "left",
 	contentDirection: "column",
-	justifyContent: "center"
+	justifyContent: "end"
 };
 
 function MeshUIComponent() {

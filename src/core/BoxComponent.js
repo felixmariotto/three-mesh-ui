@@ -234,7 +234,7 @@ function BoxComponent() {
 	boxComponent.alignChildrenOnX = function alignChildrenOnX() {
 
 		const ALIGNMENT = this.getContentAlign();
-		const X_TARGET = this.getInnerWidth() / 2;
+		const X_TARGET = (this.getWidth() / 2) - (this.padding || 0);
 
 		if ( ALIGNMENT !== "center" && ALIGNMENT !== "right" && ALIGNMENT !== "left" ) {
 			console.warn(`contentAlign === '${ ALIGNMENT }' is not supported on this direction.`)
@@ -244,11 +244,11 @@ function BoxComponent() {
 
 			if ( ALIGNMENT === "right" ) {
 
-				var offset = 1 ;
+				var offset = X_TARGET - (child.getWidth() / 2) - (child.margin || 0) ;
 
 			} else if ( ALIGNMENT === "left" ) {
 
-				var offset = -1 ;
+				var offset = -X_TARGET + (child.getWidth() / 2) + (child.margin || 0) ;
 
 			};
 
@@ -279,6 +279,16 @@ function BoxComponent() {
 
 		}, 0 );
 
+	};
+
+	// Get dimensions of this element
+
+	boxComponent.getWidth = function getWidth() {
+		return this.width || this.getInnerWidth() + (this.padding * 2 || 0);
+	};
+
+	boxComponent.getHeight = function getHeight() {
+		return this.height || this.getInnerHeight() + (this.padding * 2 || 0);
 	};
 
 	//

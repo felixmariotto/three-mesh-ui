@@ -40,9 +40,9 @@ function LayoutModule( options ) {
 
 		// Get temporary dimension
 
-		const WIDTH = block.width || block.getInnerWidth() + (block.padding * 2 || 0);
+		const WIDTH = block.getWidth();
 
-		const HEIGHT = block.height || block.getInnerHeight() + (block.padding * 2 || 0);
+		const HEIGHT = block.getHeight();
 
 		if ( !WIDTH || !HEIGHT ) {
 			console.warn('Block got no dimension from its parameters or form children parameters');
