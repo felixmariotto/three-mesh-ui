@@ -145,6 +145,10 @@ function BoxComponent() {
 
 		const JUSTIFICATION = this.getJustifyContent();
 
+		if ( JUSTIFICATION !== 'center' && JUSTIFICATION !== 'start' && JUSTIFICATION !== 'end' ) {
+			console.warn(`justifiyContent === '${ JUSTIFICATION }' is not supported`);
+		};
+
 		this.children.reduce( (accu, child, i)=> {
 
 			const CHILD_ID = child.id;
@@ -165,9 +169,11 @@ function BoxComponent() {
 
 		//
 
-		if ( JUSTIFICATION === "end" ) {
+		if ( JUSTIFICATION === "end" || JUSTIFICATION === "center" ) {
 
-			const offset = (startPos * 2) - (this.getChildrenDimensionSum('width') * Math.sign(startPos));
+			let offset = (startPos * 2) - (this.getChildrenDimensionSum('width') * Math.sign(startPos));
+
+			if ( JUSTIFICATION === "center" ) offset /= 2;
 			
 			this.children.forEach( (child)=> {
 
@@ -205,10 +211,12 @@ function BoxComponent() {
 
 		//
 
-		if ( JUSTIFICATION === "end" ) {
+		if ( JUSTIFICATION === "end" || JUSTIFICATION === "center" ) {
 
-			const offset = (startPos * 2) - (this.getChildrenDimensionSum('height') * Math.sign(startPos));
+			let offset = (startPos * 2) - (this.getChildrenDimensionSum('height') * Math.sign(startPos));
 			
+			if ( JUSTIFICATION === "center" ) offset /= 2;
+
 			this.children.forEach( (child)=> {
 
 				this.childrenPos[ child.id ].y -= offset
