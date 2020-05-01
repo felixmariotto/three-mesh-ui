@@ -104,6 +104,8 @@ function BoxComponent() {
 
 					this.setChildrenXPos( -X_START );
 
+					this.alignChildrenOnY();
+
 					break;
 
 				case 'row-reverse' :
@@ -112,6 +114,8 @@ function BoxComponent() {
 					X_START = this.getInnerWidth() / 2;
 
 					this.setChildrenXPos( X_START );
+
+					this.alignChildrenOnY();
 
 					break;
 
@@ -132,6 +136,8 @@ function BoxComponent() {
 					Y_START = this.getInnerHeight() / 2;
 
 					this.setChildrenYPos( -Y_START );
+
+					this.alignChildrenOnX();
 
 					break;
 
@@ -253,6 +259,35 @@ function BoxComponent() {
 			};
 
 			this.childrenPos[ child.id ].x = offset || 0;
+
+		});
+
+	};
+
+	//
+
+	boxComponent.alignChildrenOnY = function alignChildrenOnY() {
+
+		const ALIGNMENT = this.getContentAlign();
+		const Y_TARGET = (this.getHeight() / 2) - (this.padding || 0);
+
+		if ( ALIGNMENT !== "center" && ALIGNMENT !== "top" && ALIGNMENT !== "bottom" ) {
+			console.warn(`contentAlign === '${ ALIGNMENT }' is not supported on this direction.`)
+		};
+
+		this.children.forEach( (child)=> {
+
+			if ( ALIGNMENT === "top" ) {
+
+				var offset = Y_TARGET - (child.getHeight() / 2) - (child.margin || 0) ;
+
+			} else if ( ALIGNMENT === "bottom" ) {
+
+				var offset = -Y_TARGET + (child.getHeight() / 2) + (child.margin || 0) ;
+
+			};
+
+			this.childrenPos[ child.id ].y = offset || 0;
 
 		});
 

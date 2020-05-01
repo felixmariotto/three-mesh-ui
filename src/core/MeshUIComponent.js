@@ -37,8 +37,8 @@ const DEFAULT_VALUES = {
 	fontSize: 0.1,
 	fontMaterial: MaterialLibrary.DEFAULTS.fontMaterial,
 	offset: 0.03,
-	contentAlign: "left",
-	contentDirection: "column",
+	contentAlign: "top",
+	contentDirection: "row",
 	justifyContent: "end"
 };
 
