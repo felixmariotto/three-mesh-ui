@@ -46,7 +46,7 @@ function BoxComponent() {
 
 			case 'row' :
 			case 'row-reverse' :
-				return this.getHighestChildSizeOn( 'width' );
+				return this.getHighestChildSizeOn( 'height' );
 				break;
 
 			case 'column' :
