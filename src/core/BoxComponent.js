@@ -3,12 +3,14 @@
 	Knows: Parents and children dimensions and positions
 */
 
-import MeshUIComponent from '../core/MeshUIComponent';
+import InlineManager from './InlineManager';
 
 function BoxComponent() {
 
 	// if a property is not found in layout, it will delegate to MeshUIComponent
-	const boxComponent = Object.create( MeshUIComponent() );
+	const boxComponent = Object.create( InlineManager() );
+
+	boxComponent.test();
 
 	boxComponent.type = 'BoxComponent'
 
