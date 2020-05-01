@@ -25,7 +25,7 @@ function BoxComponent() {
 
 			case 'column' :
 			case 'column-reverse' :
-				return this.getHighestChildDirection( 'width' );
+				return this.getHighestChildDirection( 'width' )
 				break;
 
 			default :
@@ -306,9 +306,11 @@ function BoxComponent() {
 			} else {
 
 				const margin = child.margin || 0;
-				let maxWidth = child[ direction ] + (margin * 2);
+				let maxSize = direction === "width" ?
+					child.getWidth() + (margin * 2) :
+					child.getHeight() + (margin * 2) ;
 
-				return Math.max(accu, maxWidth)
+				return Math.max(accu, maxSize)
 
 			};
 

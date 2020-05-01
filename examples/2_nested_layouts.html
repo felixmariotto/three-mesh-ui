@@ -81,8 +81,6 @@
 			scene.add( uiContainer );
 
 			const container = ThreeMeshUI.Block({
-				height: 1.3,
-				width: 1,
 				padding: 0.05
 			});
 
@@ -93,7 +91,6 @@
 				});
 
 				const block2 = ThreeMeshUI.Block({
-					
 					margin: 0.04
 				});
 
@@ -109,8 +106,8 @@
 						margin: 0.04
 					});
 
-			// block2.appendChild( subBlock1 );
-			// block2.appendChild( subBlock2 )
+			block2.appendChild( subBlock1 );
+			block2.appendChild( subBlock2 )
 			
 			container.appendChild( block1 );
 			container.appendChild( block2 );

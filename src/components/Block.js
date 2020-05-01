@@ -45,6 +45,7 @@ function LayoutModule( options ) {
 		const HEIGHT = block.getHeight();
 
 		if ( !WIDTH || !HEIGHT ) {
+			console.log( block )
 			console.warn('Block got no dimension from its parameters or form children parameters');
 			return
 		};
