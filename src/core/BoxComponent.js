@@ -12,6 +12,8 @@ function BoxComponent() {
 
 	boxComponent.type = 'BoxComponent'
 
+	// Get size of this component inside padding
+
 	boxComponent.getInnerWidth = function GetInnerWidth() {
 
 		const DIRECTION = this.getContentDirection();
@@ -64,11 +66,19 @@ function BoxComponent() {
 
 	boxComponent.getChildrenDimensionSum = function GetChildrenDimensionSum( dimension ) {
 
-		return this.children.reduce((accu, child)=> {
+		const prout =  this.children.reduce((accu, child)=> {
 
-			return accu + ((child[ dimension ] || this.getHighestChildDirection( dimension )) + (child.margin * 2) || 0);
+			let CHILD_SIZE = (dimension === "width") ?
+				(child.getWidth() + (child.margin * 2)) :
+				(child.getHeight() + (child.margin * 2));
+
+			return accu + ((CHILD_SIZE || this.getHighestChildDirection( dimension )) || 0);
 
 		}, 0 );
+
+		console.log(prout)
+
+		return prout
 
 	};
 
@@ -293,7 +303,8 @@ function BoxComponent() {
 
 	};
 
-	// Recursive functions that return the highest linear dimension among all the children of the passed component
+	// Recursive functions that returns the highest linear dimension among all the children of the passed component
+	// MARGIN INCLUDED
 
 	boxComponent.getHighestChildDirection = function getHighestChildDirection( direction ) {
 
