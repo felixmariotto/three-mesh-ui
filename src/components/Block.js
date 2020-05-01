@@ -55,10 +55,14 @@ function LayoutModule( options ) {
 
 		// Position inner elements according to dimensions and layout parameters.
 		// Delegate to BoxComponent.
-		
+
 		if ( block.inlineComponents.length === 0 ) {
 
 			block.computeChildrenPosition();
+
+		} else {
+
+			block.computeInlinesPosition();
 
 		};
 		

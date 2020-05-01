@@ -233,9 +233,17 @@ function MeshUIComponent() {
 
 			};
 
-			if ( child.isInline && this.inlineComponents ) {
+			if ( child.isInline ) {
 				
-				this.inlineComponents.push( child );
+				if ( this.inlineComponents ) {
+
+					this.inlineComponents.push( child );
+
+				} else {
+
+					console.warn('This inline component cannot be added as child of this parent component')
+
+				};
 			
 			};
 

@@ -9,7 +9,11 @@ function Text( options ) {
 
 	const text = Object.create( InlineComponent() );
 
+	text.type = "Text";
+
 	text.parseParams = function parseParams( resolve, reject ) {
+
+		console.log('build text geometries');
 
 		resolve();
 
@@ -19,11 +23,13 @@ function Text( options ) {
 
 		console.log('update text layout');
 
+		text.setPosFromParentRecords();
+
 	};
 
 	text.updateInner = function updateInner() {
 
-		console.log('update text inner content');
+		// console.log('update text inner content');
 
 	};
 

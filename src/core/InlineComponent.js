@@ -13,6 +13,12 @@ function InlineComponent() {
 
 	inlineComponent.isInline = true;
 
+	inlineComponent.setPosFromParentRecords = function setPosFromParentRecords() {
+
+		console.log('set from parent records : ', this.parent.inlinesInfo );
+
+	};
+
 	return inlineComponent
 
 };
