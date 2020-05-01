@@ -217,16 +217,22 @@ function MeshUIComponent() {
 	////////////////////////
 
 	// add a new child to this component
-	function appendChild( child ) {
+	function appendChild() {
 
-		this.children.push( child );
-		child._addParent( this );
+		const children = [...arguments];
 
-		if ( this.threeOBJ && child.threeOBJ ) {
-			this.threeOBJ.add( child.threeOBJ );
-		};
+		children.forEach( (child)=> {
 
-		this.update( true, null );
+			this.children.push( child );
+			child._addParent( this );
+
+			if ( this.threeOBJ && child.threeOBJ ) {
+				this.threeOBJ.add( child.threeOBJ );
+			};
+
+			this.update( true, null );
+
+		});
 
 	};
 

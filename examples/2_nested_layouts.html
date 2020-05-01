@@ -124,14 +124,9 @@
 							ref: 'subBlock2'
 						});
 
-			rightSubBlock.appendChild( subSubBlock1 );
-			rightSubBlock.appendChild( subSubBlock2 );
-
-			contentContainer.appendChild( leftSubBlock );
-			contentContainer.appendChild( rightSubBlock );
-			
-			container.appendChild( title );
-			container.appendChild( contentContainer );
+			rightSubBlock.appendChild( subSubBlock1, subSubBlock2 );
+			contentContainer.appendChild( leftSubBlock, rightSubBlock );
+			container.appendChild( title, contentContainer );
 
 			uiContainer.add( container.threeOBJ );
 
