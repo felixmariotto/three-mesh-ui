@@ -12,7 +12,6 @@ import DeepDelete from '../utils/DeepDelete';
 
 function LayoutModule( options ) {
 
-	// if a property is not found in layout, it will delegate to MeshUIComponent
 	const block = Object.create( BoxComponent() );
 
 	block.threeOBJ = new Object3D;
@@ -56,9 +55,13 @@ function LayoutModule( options ) {
 
 		// Position inner elements according to dimensions and layout parameters.
 		// Delegate to BoxComponent.
+		
+		if ( block.inlineComponents.length === 0 ) {
 
-		block.computeChildrenPosition();
+			block.computeChildrenPosition();
 
+		};
+		
 		// Cleanup previous depictions
 
 		DeepDelete( frameContainer );

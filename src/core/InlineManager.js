@@ -10,13 +10,9 @@ function InlineManager( boxComponent ) {
 	// if a property is not found in layout, it will delegate to MeshUIComponent
 	const inlineManager = Object.create( MeshUIComponent() );
 
-	inlineManager.ref = 'inlineManager'
+	inlineManager.type = 'inlineManager'
 
-	inlineManager.test = function test() {
-
-		console.log( this );
-
-	};
+	inlineManager.inlineComponents = [];
 
 	return inlineManager
 

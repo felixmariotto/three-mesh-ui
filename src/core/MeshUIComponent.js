@@ -224,10 +224,19 @@ function MeshUIComponent() {
 		children.forEach( (child)=> {
 
 			this.children.push( child );
+
 			child._addParent( this );
 
 			if ( this.threeOBJ && child.threeOBJ ) {
+
 				this.threeOBJ.add( child.threeOBJ );
+
+			};
+
+			if ( child.isInline && this.inlineComponents ) {
+				
+				this.inlineComponents.push( child );
+			
 			};
 
 			this.update( true, null );

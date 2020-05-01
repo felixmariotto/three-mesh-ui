@@ -125,6 +125,10 @@
 							ref: 'subBlock2'
 						});
 
+							const textTop = ThreeMeshUI.Text({
+								text:"blabla"
+							});
+
 						const subSubBlock2 = ThreeMeshUI.Block({
 							height: 0.5,
 							width: 0.5,
@@ -132,6 +136,7 @@
 							ref: 'subBlock2'
 						});
 
+			subSubBlock1.appendChild( textTop );
 			leftSubBlock.appendChild( caption );
 			rightSubBlock.appendChild( subSubBlock1, subSubBlock2 );
 			contentContainer.appendChild( leftSubBlock, rightSubBlock );

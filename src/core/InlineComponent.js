@@ -7,10 +7,11 @@ import MeshUIComponent from '../core/MeshUIComponent';
 
 function InlineComponent() {
 
-	// if a property is not found in layout, it will delegate to MeshUIComponent
 	const inlineComponent = Object.create( MeshUIComponent() );
 
 	inlineComponent.type = 'InlineComponent'
+
+	inlineComponent.isInline = true;
 
 	return inlineComponent
 
