@@ -15,7 +15,7 @@ function InlineComponent() {
 
 	inlineComponent.setPosFromParentRecords = function setPosFromParentRecords() {
 
-		console.log('set from parent records : ', this.parent.inlinesInfo );
+		// console.log('set from parent records : ', this.parent.inlinesInfo );
 
 	};
 

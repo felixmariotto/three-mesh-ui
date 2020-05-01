@@ -277,15 +277,14 @@ function MeshUIComponent() {
 	///  UPDATE
 	///////////////
 
-	// Called because a parent or a child updated.
-	// It call the specific update function of the component, and propagate the updates to parents or chidren.
+	// called by .set() because the user updated this component's params
 	function update( updateLayout, updateInner ) {
 
-		const myPromise = (new Promise((resolve, reject)=> {
+		new Promise((resolve, reject)=> {
 		
 			this.parseParams( resolve, reject );
 
-		}))
+		})
 		.then(()=> {
 
 			if ( updateLayout ) {
@@ -342,6 +341,7 @@ function MeshUIComponent() {
 				case "margin" :
 				case "contentDirection" :
 				case "justifyContent" :
+				case "content" :
 					layoutNeedsUpdate = true;
 					this[ prop ] = options[ prop ];
 					break;
@@ -361,10 +361,10 @@ function MeshUIComponent() {
 
 		};
 
-		// special case, if the font is updated, then the this.update() must be called only when the font finished loading
+		// special case, if the fontFamily is updated, then the this.update() must be called only when the font finished loading
 
-		if ( options.font ) {
-			FontLibrary.setFont( this, options.font );
+		if ( options.fontFamily ) {
+			FontLibrary.setFont( this, options.fontFamily );
 			layoutNeedsUpdate = false;
 			innerNeedsUpdate = false;
 		};
