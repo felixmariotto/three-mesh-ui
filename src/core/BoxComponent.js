@@ -69,11 +69,12 @@ function BoxComponent() {
 		return this.children.reduce((accu, child)=> {
 
 			const margin = (child.margin * 2) || 0;
+
 			let CHILD_SIZE = (dimension === "width") ?
 				(child.getWidth() + margin) :
 				(child.getHeight() + margin);
 
-			return accu + ((CHILD_SIZE || (child.getHighestChildSizeOn( dimension )) + (child.margin || 0)) || 0);
+			return accu + CHILD_SIZE;
 
 		}, 0 );
 
@@ -177,7 +178,7 @@ function BoxComponent() {
 				y: 0
 			};
 
-			return accu + (-Math.sign( startPos ) * (CHILD_WIDTH + (CHILD_MARGIN * 2)))
+			return accu + (-Math.sign( startPos ) * (CHILD_WIDTH + CHILD_MARGIN))
 
 		}, startPos );
 
@@ -205,21 +206,22 @@ function BoxComponent() {
 
 		const JUSTIFICATION = this.getJustifyContent();
 
+		console.log('/////////////////:')
+
 		this.children.reduce( (accu, child, i)=> {
 
 			const CHILD_ID = child.id;
 			const CHILD_HEIGHT = child.getHeight();
 			const CHILD_MARGIN = child.margin || 0;
 
-			// Initial offset. For subsequent items, this is done in the return statement
-			if ( !i ) accu += CHILD_MARGIN * -Math.sign( startPos );
+			accu += CHILD_MARGIN * -Math.sign( startPos );
 
 			this.childrenPos[ CHILD_ID ] = {
 				x: 0,
 				y: accu + ((CHILD_HEIGHT / 2) * -Math.sign( startPos ))
 			};
 
-			return accu + (-Math.sign( startPos ) * (CHILD_HEIGHT + (CHILD_MARGIN * 2)))
+			return accu + (-Math.sign( startPos ) * (CHILD_HEIGHT + CHILD_MARGIN))
 
 		}, startPos );
 
@@ -326,6 +328,7 @@ function BoxComponent() {
 	};
 
 	// Get dimensions of this element
+	// With padding, without margin
 
 	boxComponent.getWidth = function getWidth() {
 		return this.width || this.getInnerWidth() + (this.padding * 2 || 0);
