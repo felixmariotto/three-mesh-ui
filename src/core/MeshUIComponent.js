@@ -39,7 +39,7 @@ const DEFAULT_VALUES = {
 	offset: 0.03,
 	textAlign: "center",
 	contentDirection: "column-reverse",
-	justifyContent: "start"
+	justifyContent: "end"
 };
 
 function MeshUIComponent() {

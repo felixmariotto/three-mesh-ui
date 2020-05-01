@@ -189,6 +189,20 @@ function BoxComponent() {
 
 		}, startPos );
 
+		//
+
+		if ( JUSTIFICATION === "end" ) {
+
+			const offset = (startPos * 2) - (this.getChildrenDimensionSum('height') * Math.sign(startPos));
+			
+			this.children.forEach( (child)=> {
+
+				this.childrenPos[ child.id ].y -= offset
+
+			});
+
+		};
+
 	};
 
 	// Recursive functions that return the highest linear dimension among all the children of the passed component
