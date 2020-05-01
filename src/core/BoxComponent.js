@@ -66,7 +66,7 @@ function BoxComponent() {
 
 		return this.children.reduce((accu, child)=> {
 
-			return accu + ((child[ dimension ] || this.getHighestChildDirection( dimension )) + (child.margin * 2));
+			return accu + ((child[ dimension ] || this.getHighestChildDirection( dimension )) + (child.margin * 2) || 0);
 
 		}, 0 );
 
