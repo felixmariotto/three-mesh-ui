@@ -166,7 +166,7 @@ function BoxComponent() {
 		this.children.reduce( (accu, child, i)=> {
 
 			const CHILD_ID = child.id;
-			const CHILD_WIDTH = child.width || child.getInnerWidth();
+			const CHILD_WIDTH = child.getWidth();
 			const CHILD_MARGIN = child.margin || 0;
 
 			// Initial offset. For subsequent items, this is done in the return statement
@@ -208,7 +208,7 @@ function BoxComponent() {
 		this.children.reduce( (accu, child, i)=> {
 
 			const CHILD_ID = child.id;
-			const CHILD_HEIGHT = child.height || child.getInnerHeight();
+			const CHILD_HEIGHT = child.getHeight();
 			const CHILD_MARGIN = child.margin || 0;
 
 			// Initial offset. For subsequent items, this is done in the return statement
