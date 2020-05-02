@@ -10,7 +10,7 @@ export default {
 	container: null,
 	fontFamily: null,
 	fontSize: 0.05,
-	offset: 0.02,
+	offset: 0.01,
 	interline: 0,
 	contentDirection: "column",
 	alignContent: "center",

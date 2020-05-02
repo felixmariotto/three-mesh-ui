@@ -104,25 +104,11 @@ function MeshUIComponent() {
 	//
 	
 	function getFontSize() {
-
 		return this._getProperty( 'fontSize' );
-
 	};
-
-	//
 
 	function getFontMaterial() {
-
 		return this._getProperty( 'fontMaterial' );
-
-	};
-
-	//
-
-	function getOffset() {
-
-		return this._getProperty( 'offset' );
-
 	};
 
 	/// SPECIALS
@@ -202,6 +188,10 @@ function MeshUIComponent() {
 
 	function getInterline() {
 		return this.interline || DEFAULTS.interline;
+	};
+
+	function getOffset() {
+		return this.offset || DEFAULTS.offset;
 	};
 
 	////////////////////////
