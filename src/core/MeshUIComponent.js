@@ -37,6 +37,7 @@ const DEFAULT_VALUES = {
 	fontSize: 0.05,
 	fontMaterial: MaterialLibrary.DEFAULTS.fontMaterial,
 	offset: 0.02,
+	interline: 0,
 	contentAlign: "center",
 	contentDirection: "column",
 	justifyContent: "start"
@@ -61,6 +62,7 @@ function MeshUIComponent() {
 		getContentAlign,
 		getContentDirection,
 		getJustifyContent,
+		getInterline,
 
 		appendChild,
 		removeChild,
@@ -206,10 +208,12 @@ function MeshUIComponent() {
 		return this.contentDirection || DEFAULT_VALUES.contentDirection;
 	};
 
-	//
-
 	function getJustifyContent() {
 		return this.justifyContent || DEFAULT_VALUES.justifyContent;
+	};
+
+	function getInterline() {
+		return this.interline || DEFAULT_VALUES.interline;
 	};
 
 	////////////////////////

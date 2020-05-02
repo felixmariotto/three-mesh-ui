@@ -30,9 +30,12 @@ function InlineManager( boxComponent ) {
 		let line = [];
 
 		const INNER_WIDTH = this.getWidth() - (this.padding * 2 || 0);
-		const INNER_HEIGHT = this.getHeight() - (this.padding * 2 || 0);
 
-		this.children.reduce( (lastInlineInfo, inline, i)=> {
+		// Will stock the characters of each line, so that we can
+		// correct lines position before to merge
+		const lines = [[]];
+
+		this.children.reduce( (lastInlineOffset, inline, i)=> {
 
 			// Abort condition
 
@@ -42,30 +45,25 @@ function InlineManager( boxComponent ) {
 
 			if ( !inline.chars ) return
 
-			// Compute the position of each inline children according to its geometry
+			//////////////////////////////////////////////////////////////
+			// Compute offset of each children according to its geometry
+			//////////////////////////////////////////////////////////////
 
 			let translatedGeom = [];
 
-			const currentInlineInfo = inline.chars.reduce( (lastCharInfo, char, i)=> {
+			const currentInlineInfo = inline.chars.reduce( (lastCharOffset, char, i)=> {
 
 				// Line break
 
-				if ( lastCharInfo.offsetX + char.width > INNER_WIDTH ) {
+				if ( lastCharOffset + char.width > INNER_WIDTH ) {
 
-					const currentLineHeight = getLineHeight( line );
-					const currentLineAsc = getLineAscender( line );
+					lastCharOffset = 0;
 
-					//
-
-					lastCharInfo.offsetX = 0;
-
-					lastCharInfo.offsetY -= currentLineHeight ;
-
-					line = []
+					lines.push([ char ]);
 
 				} else {
 
-					line.push( char );
+					lines[ lines.length - 1 ].push( char );
 
 				};
 
@@ -73,27 +71,21 @@ function InlineManager( boxComponent ) {
 
 				translatedGeom[ i ] = new BufferGeometry().copy( char.geometry );
 
-				translatedGeom[ i ].translate( lastCharInfo.offsetX, lastCharInfo.offsetY, 0 );
+				translatedGeom[ i ].translate( lastCharOffset, 0, 0 );
 
 				//
 
-				return {
-					offsetX: lastCharInfo.offsetX + char.width,
-					offsetY: lastCharInfo.offsetY
-				};
+				return lastCharOffset + char.width;
 
-			}, lastInlineInfo );
+			}, lastInlineOffset );
 
-			// Merge the characters geometries
+			/////////////////////
+			// Merge and record
+			/////////////////////
 
 			const mergedGeom = BufferGeometryUtils.mergeBufferGeometries( translatedGeom );
 
-			// Update records
-
 			inlineManager.inlinesInfo[ inline.id ] = {
-				x: 0,
-				y: 0,
-				z: 0,
 				geometry: mergedGeom
 			};
 
@@ -101,27 +93,60 @@ function InlineManager( boxComponent ) {
 
 			return currentInlineInfo
 
-		}, { offsetX: 0, offsetY: INNER_HEIGHT / 2 } );
-
-	};
-
-	//
-
-	function getLineHeight( line ) {
-
-		return line.reduce( (highest, char)=> {
-			return highest < char.height ? char.height : highest
 		}, 0 );
 
-	};
+		/////////////////////////////////////////////////////////////////
+		// Position lines according to justifyContent and contentAlign
+		/////////////////////////////////////////////////////////////////
 
-	//
+		const INNER_HEIGHT = this.getHeight() - (this.padding * 2 || 0);
+		const JUSTIFICATION = this.getJustifyContent();
+		const ALIGN = this.getContentAlign();
+		const INTERLINE = this.getInterline();
 
-	function getLineAscender( line ) {
+		// Compute lines dimensions
 
-			return line.reduce( (highest, char)=> {
+		lines.forEach( (line)=> {
+
+			line.height = line.reduce( (highest, char)=> {
+				return highest < char.height ? char.height : highest
+			}, 0 );
+
+			line.ascender = line.reduce( (highest, char)=> {
 				return highest < char.ascender ? char.ascender : highest
 			}, 0 );
+
+			line.width = line.reduce( (width, char)=> {
+				return width + char.width
+			}, 0 );
+
+		});
+
+		// Vertical offset
+
+		lines.reduce( (offsetY, line)=> {
+
+			const newOffset = offsetY + line.height;
+
+			line.offsetY = newOffset;
+
+			return newOffset
+
+		}, 0 );
+
+		// Vertical positioning
+
+		switch ( JUSTIFICATION ) {
+
+			case 'center' :
+
+				break;
+
+		};
+
+		// Translation
+
+		
 
 	};
 
