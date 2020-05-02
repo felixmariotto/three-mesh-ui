@@ -53,6 +53,9 @@ function InlineManager( boxComponent ) {
 				if ( lastCharInfo.offsetX + char.width > INNER_WIDTH ) {
 
 					const currentLineHeight = getLineHeight( line );
+					const currentLineAsc = getLineAscender( line );
+
+					//
 
 					lastCharInfo.offsetX = 0;
 
@@ -102,6 +105,8 @@ function InlineManager( boxComponent ) {
 
 	};
 
+	//
+
 	function getLineHeight( line ) {
 
 		return line.reduce( (highest, char)=> {
@@ -109,6 +114,18 @@ function InlineManager( boxComponent ) {
 		}, 0 );
 
 	};
+
+	//
+
+	function getLineAscender( line ) {
+
+			return line.reduce( (highest, char)=> {
+				return highest < char.ascender ? char.ascender : highest
+			}, 0 );
+
+	};
+
+	//
 
 	return inlineManager
 
