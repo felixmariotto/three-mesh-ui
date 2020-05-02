@@ -147,6 +147,27 @@ function InlineManager( boxComponent ) {
 
 		});
 
+		// Horizontal positioning
+
+		lines.forEach( (line)=> {
+
+			const alignmentOffset = (()=> {
+				switch ( ALIGNMENT ) {
+					case 'left': return -INNER_WIDTH / 2
+					case 'right': return -line.width + (INNER_WIDTH / 2)
+					case 'center': return -line.width / 2
+					default: console.warn('"textJustification" is not valid')
+				};
+			})();
+
+			line.forEach( (char)=> {
+
+				char.offsetX += alignmentOffset
+
+			});
+
+		});
+
 		// Geometry translation and merging
 
 		this.children.forEach( (inlineComponent)=> {
