@@ -49,7 +49,7 @@ function InlineManager( boxComponent ) {
 
 				// Line break
 
-				if ( lastCharInfo.offsetX + (char.width / 2) > INNER_WIDTH ) {
+				if ( lastCharInfo.offsetX + char.width > INNER_WIDTH ) {
 
 					lastCharInfo.offsetX = 0;
 
@@ -70,7 +70,7 @@ function InlineManager( boxComponent ) {
 				//
 
 				return {
-					offsetX: lastCharInfo.offsetX + (char.width / 2),
+					offsetX: lastCharInfo.offsetX + char.width,
 					offsetY: lastCharInfo.offsetY
 				};
 
@@ -103,7 +103,7 @@ function InlineManager( boxComponent ) {
 	function getLineHeight( line ) {
 
 		return line.reduce( (highest, char)=> {
-			return highest < (char.height / 2) ? (char.height / 2) : highest
+			return highest < char.height ? char.height : highest
 		}, 0 );
 
 	};
