@@ -297,27 +297,19 @@ function BoxComponent() {
 
 	};
 
-	// Recursive functions that returns the highest linear dimension among all the children of the passed component
+	// Returns the highest linear dimension among all the children of the passed component
 	// MARGIN INCLUDED
 
 	boxComponent.getHighestChildSizeOn = function getHighestChildSizeOn( direction ) {
 
 		return this.children.reduce((accu, child)=> {
 
-			if ( child.children.length < 0 ) {
+			const margin = child.margin || 0;
+			let maxSize = direction === "width" ?
+				child.getWidth() + (margin * 2) :
+				child.getHeight() + (margin * 2) ;
 
-				return Math.max( accu, child.getHighestChildSizeOn( direction ) );
-
-			} else {
-
-				const margin = child.margin || 0;
-				let maxSize = direction === "width" ?
-					child.getWidth() + (margin * 2) :
-					child.getHeight() + (margin * 2) ;
-
-				return Math.max(accu, maxSize)
-
-			};
+			return Math.max(accu, maxSize)
 
 		}, 0 );
 
