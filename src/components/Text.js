@@ -70,7 +70,7 @@ function Text( options ) {
 
 	text.updateInner = function updateInner() {
 
-		// console.log('update text inner content');
+		text.threeOBJ.position.z = text.getOffset();
 
 	};
 
