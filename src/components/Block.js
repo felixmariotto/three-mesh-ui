@@ -29,9 +29,23 @@ function LayoutModule( options ) {
 	//  UPDATE
 	/////////////
 
-	block.parseParams = function ParseParams( resolve, reject ) {
+	block.parseParams = function ParseParams( resolveParent, rejectParent ) {
 
-		resolve();
+		const promises = block.children.map( (child)=> {
+
+			return new Promise((resolve, reject)=> {
+
+				child.parseParams( resolve, reject );
+
+			});
+
+		});
+
+		Promise.all( promises ).then( ()=> {
+
+			resolveParent();
+
+		});
 
 	};
 

@@ -3,3 +3,7 @@ Roadmap
 -------
 
 - improve vertical alignment of text. Currently it's done with the font ascender and descender, it should be done by checking individual characters ascenders and descender in one line, for a perfect interline consistancy
+
+- optimise to do less useless updates
+
+- look into reducing letters poly count

@@ -273,8 +273,8 @@ function MeshUIComponent() {
 	function update( updateLayout, updateInner ) {
 
 		new Promise((resolve, reject)=> {
-		
-			this.parseParams( resolve, reject );
+
+			this.getHighestParent().parseParams( resolve, reject );
 
 		})
 		.then(()=> {

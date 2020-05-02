@@ -81,75 +81,87 @@
 			scene.add( uiContainer );
 
 			const container = ThreeMeshUI.Block({
-				ref: 'container'
+				ref: 'container',
 			});
 
-				const title = ThreeMeshUI.Block({
-					height: 0.2,
-					width: 0.4,
-					margin: 0.05,
-					ref: 'title'
-				});
+			setTimeout(()=> {
+				container.set({
+					fontFamily: './fonts/helvetiker_regular.typeface.json'
+				})
+			}, 1000)
 
-				const contentContainer = ThreeMeshUI.Block({
-					contentDirection: "row",
-					padding: 0.02,
-					margin: 0.05,
-					ref: 'contentContainer'
-				});
+			const title = ThreeMeshUI.Block({
+				height: 0.2,
+				width: 0.4,
+				margin: 0.05,
+				ref: 'title'
+			});
 
-					const leftSubBlock = ThreeMeshUI.Block({
-						height: 0.95,
-						width: 1.0,
-						margin: 0.025,
-						padding: 0.025,
-						contentAlign: "left",
-						justifyContent: "end",
-						ref: 'subBlock1'
-					});
+				title.appendChild(
+					ThreeMeshUI.Text({
+						content: "spiny bush viper"
+					})
+				);
 
-						const caption = ThreeMeshUI.Block({
-							height: 0.09,
-							width: 0.35
-						});
+			const contentContainer = ThreeMeshUI.Block({
+				contentDirection: "row",
+				padding: 0.02,
+				margin: 0.05,
+				ref: 'contentContainer'
+			});
 
-					const rightSubBlock = ThreeMeshUI.Block({
-						margin: 0.025,
-						ref: 'subBlock2'
-					});
+			const leftSubBlock = ThreeMeshUI.Block({
+				height: 0.95,
+				width: 1.0,
+				margin: 0.025,
+				padding: 0.025,
+				alignContent: "left",
+				justifyContent: "end",
+				ref: 'subBlock1'
+			});
 
-						const subSubBlock1 = ThreeMeshUI.Block({
-							height: 0.35,
-							width: 0.5,
-							margin: 0.025,
-							padding: 0.03,
-							ref: 'subSubBlock1'
-						});
+			const caption = ThreeMeshUI.Block({
+				height: 0.09,
+				width: 0.35
+			});
 
-							const textTop1 = ThreeMeshUI.Text({
-								content: "iiiiiiiiiiii",
-								fontFamily: './fonts/helvetiker_regular.typeface.json'
-							});
+			const rightSubBlock = ThreeMeshUI.Block({
+				margin: 0.025,
+				ref: 'subBlock2'
+			});
 
-							const textTop2 = ThreeMeshUI.Text({
-								content: "mm",
-								fontSize: 0.072,
-								fontFamily: './fonts/helvetiker_regular.typeface.json'
-							});
+			const subSubBlock1 = ThreeMeshUI.Block({
+				height: 0.35,
+				width: 0.5,
+				margin: 0.025,
+				padding: 0.03,
+				ref: 'subSubBlock1'
+			});
 
-							const textTop3 = ThreeMeshUI.Text({
-								content: "aaaaaaaaaaaa",
-								fontFamily: './fonts/helvetiker_regular.typeface.json'
-							});
+			const subSubBlock2 = ThreeMeshUI.Block({
+				height: 0.5,
+				width: 0.5,
+				margin: 0.025,
+				ref: 'subSubBlock2'
+			});
 
-						const subSubBlock2 = ThreeMeshUI.Block({
-							height: 0.5,
-							width: 0.5,
-							margin: 0.025,
-							ref: 'subSubBlock2'
-						});
+			subSubBlock1.appendChild(
 
-			subSubBlock1.appendChild( textTop1, textTop2, textTop3 );
+				ThreeMeshUI.Text({
+					content: "iiiiiiiiiiii"
+				}),
+
+				ThreeMeshUI.Text({
+					content: "mmmm",
+					fontSize: 0.072
+				}),
+
+				ThreeMeshUI.Text({
+					content: "aaaaaaaaaaaa"
+				})
+
+			);
+
 			leftSubBlock.appendChild( caption );
 			rightSubBlock.appendChild( subSubBlock1, subSubBlock2 );
 			contentContainer.appendChild( leftSubBlock, rightSubBlock );
