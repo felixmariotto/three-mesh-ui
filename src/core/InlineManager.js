@@ -26,6 +26,11 @@ function InlineManager( boxComponent ) {
 
 		inlineManager.inlinesInfo = {};
 
+		// Dummy to compute total line height
+		let line = [];
+
+		const INNER_WIDTH = this.getWidth() - (this.padding * 2 || 0);
+
 		this.children.reduce( (lastInlineInfo, inline, i)=> {
 
 			// Abort condition
@@ -42,13 +47,34 @@ function InlineManager( boxComponent ) {
 
 			const thisInlineInfo = chars.reduce( (lastCharInfo, char)=> {
 
-				char.geometry.translate( lastCharInfo.offsetX, 0, 0 );
+				// Line break
 
-				lastCharInfo = {
-					offsetX: lastCharInfo.offsetX + (char.width / 2)
+				if ( lastCharInfo.offsetX + (char.width / 2) > INNER_WIDTH ) {
+
+					console.log('break line')
+
+					lastCharInfo.offsetX = 0;
+
+					lastCharInfo.offsetY -= 0.02;
+
+					line = []
+
+				} else {
+
+					line.push( char );
+
 				};
 
-				return lastCharInfo
+				// Geometry translation
+
+				char.geometry.translate( lastCharInfo.offsetX, lastCharInfo.offsetY, 0 );
+
+				//
+
+				return {
+					offsetX: lastCharInfo.offsetX + (char.width / 2),
+					offsetY: lastCharInfo.offsetY
+				};
 
 			}, lastInlineInfo );
 
