@@ -122,7 +122,6 @@
 							height: 0.35,
 							width: 0.5,
 							margin: 0.025,
-							padding: 0.02,
 							ref: 'subSubBlock1'
 						});
 
@@ -136,6 +135,11 @@
 								fontFamily: './fonts/helvetiker_regular.typeface.json'
 							});
 
+							const textTop3 = ThreeMeshUI.Text({
+								content: "aaaaaaaaaa",
+								fontFamily: './fonts/helvetiker_regular.typeface.json'
+							});
+
 						const subSubBlock2 = ThreeMeshUI.Block({
 							height: 0.5,
 							width: 0.5,
@@ -143,7 +147,7 @@
 							ref: 'subSubBlock2'
 						});
 
-			subSubBlock1.appendChild( textTop1, textTop2 );
+			subSubBlock1.appendChild( textTop1, textTop2, textTop3 );
 			leftSubBlock.appendChild( caption );
 			rightSubBlock.appendChild( subSubBlock1, subSubBlock2 );
 			contentContainer.appendChild( leftSubBlock, rightSubBlock );
