@@ -2,4 +2,4 @@
 Roadmap
 -------
 
-- Decide if component.parseParams() is still needed
+- improve vertical alignment of text. Currently it's done with the font ascender and descender, it should be done by checking individual characters ascenders and descender in one line, for a perfect interline consistancy

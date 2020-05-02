@@ -110,25 +110,42 @@ function InlineManager( boxComponent ) {
 
 		// Vertical offset
 
-		lines.reduce( (offsetY, line)=> {
+		let textHeight = lines.reduce( (offsetY, line)=> {
 
-			const newOffset = offsetY + line.height;
+			line.forEach( (char)=> {
 
-			line.offsetY = newOffset;
+				char.offsetY = offsetY;
 
-			return newOffset
+			});
 
-		}, 0 );
+			return offsetY - line.height - INTERLINE;
+
+		}, 0 ) + INTERLINE;
+
+		textHeight = Math.abs( textHeight );
 
 		// Vertical positioning
 
-		switch ( JUSTIFICATION ) {
+		const justificationOffset = (()=> {
+			switch ( JUSTIFICATION ) {
+				case 'start': return (INNER_HEIGHT / 2) - lines[0].ascender
+				case 'end': return textHeight - lines[0].ascender - ( INNER_HEIGHT / 2 ) + (lines[ lines.length -1 ].height - lines[ lines.length -1 ].ascender) ;
+				case 'center': return (textHeight / 2) - lines[0].ascender
+				default: console.warn('"textJustification" is not valid')
+			};
+		})();
 
-			case 'center' :
+		//
 
-				break;
+		lines.forEach( (line)=> {
 
-		};
+			line.forEach( (char)=> {
+
+				char.offsetY += justificationOffset
+
+			});
+
+		});
 
 		// Geometry translation and merging
 
@@ -142,7 +159,7 @@ function InlineManager( boxComponent ) {
 
 				translatedGeom[ i ] = new BufferGeometry().copy( char.geometry );
 
-				translatedGeom[ i ].translate( char.offsetX, 0, 0 );
+				translatedGeom[ i ].translate( char.offsetX, char.offsetY, 0 );
 
 			});
 
