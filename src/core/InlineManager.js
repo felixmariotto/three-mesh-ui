@@ -47,14 +47,15 @@ function InlineManager( boxComponent ) {
 			// Compute offset of each children according to its geometry
 			//////////////////////////////////////////////////////////////
 
-			const currentInlineInfo = inlineComponent.chars.reduce( (lastCharOffset, char)=> {
+			const currentInlineInfo = inlineComponent.chars.reduce( (lastCharOffset, char, i, chars)=> {
 
 				// Line break
 
-				console.log( BREAK_ON.indexOf( char.glyph ) > -1 )
+				const nextBreak = distanceToNextBreak( chars, i, BREAK_ON );
 
 				if ( lastCharOffset + char.width > INNER_WIDTH ||
-					 char.glyph === '\n' ) {
+					 char.glyph === '\n' ||
+					 lastCharOffset + nextBreak > INNER_WIDTH ) {
 
 					lastCharOffset = 0;
 
@@ -196,6 +197,31 @@ function InlineManager( boxComponent ) {
 			};
 
 		});
+
+	};
+
+	//
+
+	function distanceToNextBreak( chars, currentIdx, breakOn, accu ) {
+
+		accu = accu || 0 ;
+
+		if ( !chars[ currentIdx ] ) return accu
+
+		if ( breakOn.indexOf( chars[ currentIdx ].glyph ) > -1 ) {
+
+			return accu + chars[ currentIdx ].width
+
+		} else {
+
+			return distanceToNextBreak(
+				chars,
+				currentIdx + 1,
+				breakOn,
+				accu + chars[ currentIdx ].width
+			);
+
+		};
 
 	};
 
