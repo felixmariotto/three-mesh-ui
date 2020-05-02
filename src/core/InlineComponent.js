@@ -3,6 +3,8 @@
 	Knows: parent dimensions
 */
 
+import { Mesh } from 'three' ;
+
 import MeshUIComponent from '../core/MeshUIComponent';
 
 function InlineComponent() {
@@ -13,9 +15,19 @@ function InlineComponent() {
 
 	inlineComponent.isInline = true;
 
+	inlineComponent.threeOBJ = new THREE.Object3D();
+
 	inlineComponent.setPosFromParentRecords = function setPosFromParentRecords() {
 
-		// console.log('set from parent records : ', this.parent.inlinesInfo );
+		const INFO = this.parent.inlinesInfo[ this.id ];
+
+		if ( !INFO ) return
+
+		const MATERIAL = this.getFontMaterial();
+
+		const textMesh = new Mesh( INFO.geometry, MATERIAL );
+
+		inlineComponent.threeOBJ.add( textMesh );
 
 	};
 

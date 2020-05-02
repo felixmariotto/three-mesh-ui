@@ -45,7 +45,7 @@ function Text( options ) {
 			const ascender = FONT.data.glyphs[ glyph ] ? FONT.data.ascender * ( FONT_SIZE / FONT.data.resolution ) : 0 ;
 
 			return {
-				geom: new ShapeBufferGeometry( shape ),
+				geometry: new ShapeBufferGeometry( shape ),
 				height,
 				ascender,
 				width,
@@ -61,8 +61,6 @@ function Text( options ) {
 	};
 
 	text.updateLayout = function updateLayout() {
-
-		console.log( this.parent.inlinesInfo[ this.id ] );
 
 		// DELETE PREVIOUS MESH + CREATE NEW ONE
 

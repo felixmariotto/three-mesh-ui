@@ -44,9 +44,9 @@ function InlineManager( boxComponent ) {
 
 			for ( let i = 1 ; i < chars.length ; i++ ) {
 
-				chars[0].geom = BufferGeometryUtils.mergeBufferGeometries([
-					chars[0].geom,
-					chars[i].geom
+				chars[0].geometry = BufferGeometryUtils.mergeBufferGeometries([
+					chars[0].geometry,
+					chars[i].geometry
 				], false );
 
 			};
@@ -57,7 +57,7 @@ function InlineManager( boxComponent ) {
 				x: 0,
 				y: 0,
 				z: 0,
-				geometry: chars[0].geom
+				geometry: chars[0].geometry
 			};
 
 		});
