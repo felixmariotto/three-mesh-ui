@@ -26,10 +26,8 @@ function InlineManager( boxComponent ) {
 
 		inlineManager.inlinesInfo = {};
 
-		// Dummy to compute total line height
-		let line = [];
-
 		const INNER_WIDTH = this.getWidth() - (this.padding * 2 || 0);
+		const BREAK_ON = this.getBreakOn();
 
 		// Will stock the characters of each line, so that we can
 		// correct lines position before to merge
@@ -53,7 +51,10 @@ function InlineManager( boxComponent ) {
 
 				// Line break
 
-				if ( lastCharOffset + char.width > INNER_WIDTH ) {
+				console.log( BREAK_ON.indexOf( char.glyph ) > -1 )
+
+				if ( lastCharOffset + char.width > INNER_WIDTH ||
+					 char.glyph === '\n' ) {
 
 					lastCharOffset = 0;
 

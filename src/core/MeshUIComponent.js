@@ -45,6 +45,7 @@ function MeshUIComponent() {
 		getFontFamily,
 		getFontSize,
 		getFontMaterial,
+		getBreakOn,
 		getOffset,
 		getParentsNumber,
 		getAlignContent,
@@ -109,6 +110,10 @@ function MeshUIComponent() {
 
 	function getFontMaterial() {
 		return this._getProperty( 'fontMaterial' );
+	};
+
+	function getBreakOn() {
+		return this._getProperty( 'breakOn' );
 	};
 
 	/// SPECIALS

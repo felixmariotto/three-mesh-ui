@@ -12,6 +12,7 @@ export default {
 	fontSize: 0.05,
 	offset: 0.01,
 	interline: 0,
+	breakOn: '- ',
 	contentDirection: "column",
 	alignContent: "center",
 	justifyContent: "start",
