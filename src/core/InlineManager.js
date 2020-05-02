@@ -51,11 +51,9 @@ function InlineManager( boxComponent ) {
 
 				if ( lastCharInfo.offsetX + (char.width / 2) > INNER_WIDTH ) {
 
-					console.log('break line')
-
 					lastCharInfo.offsetX = 0;
 
-					lastCharInfo.offsetY -= 0.02;
+					lastCharInfo.offsetY -= getLineHeight( line );
 
 					line = []
 
@@ -99,6 +97,14 @@ function InlineManager( boxComponent ) {
 			return thisInlineInfo
 
 		}, { offsetX: 0, offsetY: 0 } );
+
+	};
+
+	function getLineHeight( line ) {
+
+		return line.reduce( (highest, char)=> {
+			return highest < (char.height / 2) ? (char.height / 2) : highest
+		}, 0 );
 
 	};
 
