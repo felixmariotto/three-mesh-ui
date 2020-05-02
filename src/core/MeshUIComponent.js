@@ -38,8 +38,8 @@ const DEFAULT_VALUES = {
 	fontMaterial: MaterialLibrary.DEFAULTS.fontMaterial,
 	offset: 0.02,
 	interline: 0,
-	contentAlign: "center",
 	contentDirection: "column",
+	alignContent: "center",
 	justifyContent: "start"
 };
 
@@ -59,7 +59,7 @@ function MeshUIComponent() {
 		getFontMaterial,
 		getOffset,
 		getParentsNumber,
-		getContentAlign,
+		getAlignContent,
 		getContentDirection,
 		getJustifyContent,
 		getInterline,
@@ -200,8 +200,8 @@ function MeshUIComponent() {
 	/// GETTERS WITH NO PARENTS LOOKUP
 	////////////////////////////////////
 
-	function getContentAlign() {
-		return this.contentAlign || DEFAULT_VALUES.contentAlign;
+	function getAlignContent() {
+		return this.alignContent || DEFAULT_VALUES.alignContent;
 	};
 
 	function getContentDirection() {

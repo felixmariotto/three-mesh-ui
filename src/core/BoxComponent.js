@@ -243,7 +243,7 @@ function BoxComponent() {
 
 	boxComponent.alignChildrenOnX = function alignChildrenOnX() {
 
-		const ALIGNMENT = this.getContentAlign();
+		const ALIGNMENT = this.getAlignContent();
 		const X_TARGET = (this.getWidth() / 2) - (this.padding || 0);
 
 		if ( ALIGNMENT !== "center" && ALIGNMENT !== "right" && ALIGNMENT !== "left" ) {
@@ -272,7 +272,7 @@ function BoxComponent() {
 
 	boxComponent.alignChildrenOnY = function alignChildrenOnY() {
 
-		const ALIGNMENT = this.getContentAlign();
+		const ALIGNMENT = this.getAlignContent();
 		const Y_TARGET = (this.getHeight() / 2) - (this.padding || 0);
 
 		if ( ALIGNMENT !== "center" && ALIGNMENT !== "top" && ALIGNMENT !== "bottom" ) {

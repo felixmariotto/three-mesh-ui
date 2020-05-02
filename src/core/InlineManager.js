@@ -87,7 +87,7 @@ function InlineManager( boxComponent ) {
 
 		const INNER_HEIGHT = this.getHeight() - (this.padding * 2 || 0);
 		const JUSTIFICATION = this.getJustifyContent();
-		const ALIGN = this.getContentAlign();
+		const ALIGNMENT = this.getAlignContent();
 		const INTERLINE = this.getInterline();
 
 		// Compute lines dimensions
