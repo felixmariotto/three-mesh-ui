@@ -9,7 +9,7 @@ import { MeshBasicMaterial } from 'three';
 const DEFAULTS = {
 
 	fontMaterial: new MeshBasicMaterial({
-		color: 0x006699,
+		color: 0x003047,
 		side: 2
 	}),
 

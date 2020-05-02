@@ -3,15 +3,19 @@
 	Knows: This text, its geometries and meshes
 */
 
-import { ShapeBufferGeometry } from 'three';
+import { ShapeBufferGeometry, Mesh } from 'three';
 import { BufferGeometryUtils } from 'three/examples/jsm/utils/BufferGeometryUtils.js';
+
 import InlineComponent from '../core/InlineComponent';
+import DeepDelete from '../utils/DeepDelete';
 
 function Text( options ) {
 
 	const text = Object.create( InlineComponent() );
 
 	text.type = "Text";
+
+	text.threeOBJ = new THREE.Object3D();
 
 	text.parseParams = function parseParams( resolve, reject ) {
 
@@ -64,7 +68,19 @@ function Text( options ) {
 
 		// DELETE PREVIOUS MESH + CREATE NEW ONE
 
-		text.setPosFromParentRecords();
+		const INFO = this.parent.inlinesInfo[ this.id ];
+
+		if ( !INFO ) return
+
+		const MATERIAL = this.getFontMaterial();
+
+		const textMesh = new Mesh( INFO.geometry, MATERIAL );
+
+		console.log( textMesh );
+
+		DeepDelete( text.threeOBJ );
+
+		text.threeOBJ.add( textMesh );
 
 	};
 

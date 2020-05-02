@@ -26,41 +26,49 @@ function InlineManager( boxComponent ) {
 
 		inlineManager.inlinesInfo = {};
 
-		this.children.forEach( (child)=> {
+		this.children.reduce( (lastInlineInfo, inline, i)=> {
 
 			// Abort condition
 
-			if ( !child.isInline ) {
+			if ( !inline.isInline ) {
 				console.warn("A component cannot have a box and an inline child component at the same time");
 			};
 
-			if ( !child.chars ) return
+			if ( !inline.chars ) return
 
 			// Compute the position of each inline children according to its geometry
 
-			let chars = child.chars.slice(0);
+			let chars = inline.chars.slice(0);
+
+			chars.reduce( (lastCharInfo, char)=> {
+
+				char.geometry.translate( lastCharInfo.offset, 0, 0 );
+
+				lastCharInfo = {
+					offset: lastCharInfo.offset + char.width
+				};
+
+				return lastCharInfo
+
+			}, { offset: 0 } );
 
 			// Merge the chars geometries
 
-			for ( let i = 1 ; i < chars.length ; i++ ) {
-
-				chars[0].geometry = BufferGeometryUtils.mergeBufferGeometries([
-					chars[0].geometry,
-					chars[i].geometry
-				], false );
-
-			};
+			const mergedGeom = BufferGeometryUtils.mergeBufferGeometries(
+				chars.map(char => char.geometry),
+				true
+			);
 
 			// Update records
 
-			inlineManager.inlinesInfo[ child.id ] = {
+			inlineManager.inlinesInfo[ inline.id ] = {
 				x: 0,
 				y: 0,
 				z: 0,
-				geometry: chars[0].geometry
+				geometry: mergedGeom
 			};
 
-		});
+		}, { line: 0, offset: 0 } );
 
 	};
 
