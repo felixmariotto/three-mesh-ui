@@ -3,8 +3,7 @@
 	Knows: This text, its geometries and meshes
 */
 
-import { ShapeBufferGeometry, Mesh /* temp */, MeshBasicMaterial, SphereBufferGeometry } from 'three';
-import { BufferGeometryUtils } from 'three/examples/jsm/utils/BufferGeometryUtils.js';
+import { ShapeBufferGeometry, Mesh } from 'three';
 
 import InlineComponent from '../core/InlineComponent';
 import DeepDelete from '../utils/DeepDelete';
@@ -76,17 +75,11 @@ function Text( options ) {
 
 		const MATERIAL = this.getFontMaterial();
 
-		const textMesh = new Mesh( INFO.geometry, new MeshBasicMaterial({color: Math.random() * 0xffffff}) );
+		const textMesh = new Mesh( INFO.geometry, MATERIAL );
 
 		DeepDelete( text.threeOBJ );
 
 		text.threeOBJ.add( textMesh );
-
-		/* temp */
-
-		text.threeOBJ.add(
-			new Mesh( new SphereBufferGeometry(0.01, 8, 8), new MeshBasicMaterial())
-		);
 
 	};
 

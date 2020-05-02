@@ -3,7 +3,7 @@
 	Knows: Component Dimension, and the list of children InlineComponent
 */
 
-import { ShapeBufferGeometry, BufferGeometry, SphereBufferGeometry } from 'three';
+import { ShapeBufferGeometry, BufferGeometry } from 'three';
 import { BufferGeometryUtils } from 'three/examples/jsm/utils/BufferGeometryUtils.js';
 
 import MeshUIComponent from './MeshUIComponent';
