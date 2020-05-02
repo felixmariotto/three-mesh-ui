@@ -8,7 +8,7 @@
 */
 
 import FontLibrary from './FontLibrary';
-import MaterialLibrary from './MaterialLibrary';
+import DEFAULTS from '../utils/Defaults';
 
 function generateSerial() {
 
@@ -29,18 +29,6 @@ function generateSerial() {
 
 	return randomSerial
 
-};
-
-const DEFAULT_VALUES = {
-	container: null,
-	fontFamily: null,
-	fontSize: 0.05,
-	fontMaterial: MaterialLibrary.DEFAULTS.fontMaterial,
-	offset: 0.02,
-	interline: 0,
-	contentDirection: "column",
-	alignContent: "center",
-	justifyContent: "start"
 };
 
 function MeshUIComponent() {
@@ -107,7 +95,7 @@ function MeshUIComponent() {
 
 		} else {
 
-			return DEFAULT_VALUES[ propName ]
+			return DEFAULTS[ propName ]
 
 		};
 
@@ -152,7 +140,7 @@ function MeshUIComponent() {
 
 		} else {
 
-			return DEFAULT_VALUES.container
+			return DEFAULTS.container
 
 		};
 
@@ -173,7 +161,7 @@ function MeshUIComponent() {
 
 		} else {
 
-			return DEFAULT_VALUES.fontFamily
+			return DEFAULTS.fontFamily
 
 		};
 
@@ -201,19 +189,19 @@ function MeshUIComponent() {
 	////////////////////////////////////
 
 	function getAlignContent() {
-		return this.alignContent || DEFAULT_VALUES.alignContent;
+		return this.alignContent || DEFAULTS.alignContent;
 	};
 
 	function getContentDirection() {
-		return this.contentDirection || DEFAULT_VALUES.contentDirection;
+		return this.contentDirection || DEFAULTS.contentDirection;
 	};
 
 	function getJustifyContent() {
-		return this.justifyContent || DEFAULT_VALUES.justifyContent;
+		return this.justifyContent || DEFAULTS.justifyContent;
 	};
 
 	function getInterline() {
-		return this.interline || DEFAULT_VALUES.interline;
+		return this.interline || DEFAULTS.interline;
 	};
 
 	////////////////////////

@@ -6,7 +6,15 @@
 
 import { MeshBasicMaterial } from 'three';
 
-const DEFAULTS = {
+export default {
+	container: null,
+	fontFamily: null,
+	fontSize: 0.05,
+	offset: 0.02,
+	interline: 0,
+	contentDirection: "column",
+	alignContent: "center",
+	justifyContent: "start",
 
 	fontMaterial: new MeshBasicMaterial({
 		color: 0x003047
@@ -19,8 +27,4 @@ const DEFAULTS = {
 		opacity: 0.2
 	})
 
-};
-
-export default {
-	DEFAULTS
 };
