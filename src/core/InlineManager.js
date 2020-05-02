@@ -28,8 +28,6 @@ function InlineManager( boxComponent ) {
 
 		this.children.reduce( (lastInlineInfo, inline, i)=> {
 
-			const thisLineInfo = {};
-
 			// Abort condition
 
 			if ( !inline.isInline ) {
@@ -42,17 +40,17 @@ function InlineManager( boxComponent ) {
 
 			let chars = inline.chars.slice(0);
 
-			thisLineInfo.offset = chars.reduce( (lastCharInfo, char)=> {
+			const thisInlineInfo = chars.reduce( (lastCharInfo, char)=> {
 
-				char.geometry.translate( lastCharInfo.offset, 0, 0 );
+				char.geometry.translate( lastCharInfo.offsetX, 0, 0 );
 
 				lastCharInfo = {
-					offset: lastCharInfo.offset + (char.width / 2)
+					offsetX: lastCharInfo.offsetX + (char.width / 2)
 				};
 
 				return lastCharInfo
 
-			}, { offset: lastInlineInfo.offset } ).offset;
+			}, lastInlineInfo );
 
 			// Merge the chars geometries
 
@@ -72,9 +70,9 @@ function InlineManager( boxComponent ) {
 
 			//
 
-			return thisLineInfo
+			return thisInlineInfo
 
-		}, { line: 0, offset: 0 } );
+		}, { offsetX: 0, offsetY: 0 } );
 
 	};
 
