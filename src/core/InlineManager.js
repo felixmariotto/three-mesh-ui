@@ -35,23 +35,21 @@ function InlineManager( boxComponent ) {
 		// correct lines position before to merge
 		const lines = [[]];
 
-		this.children.reduce( (lastInlineOffset, inline, i)=> {
+		this.children.reduce( (lastInlineOffset, inlineComponent)=> {
 
 			// Abort condition
 
-			if ( !inline.isInline ) {
+			if ( !inlineComponent.isInline ) {
 				console.warn("A component cannot have a box and an inline child component at the same time");
 			};
 
-			if ( !inline.chars ) return
+			if ( !inlineComponent.chars ) return
 
 			//////////////////////////////////////////////////////////////
 			// Compute offset of each children according to its geometry
 			//////////////////////////////////////////////////////////////
 
-			let translatedGeom = [];
-
-			const currentInlineInfo = inline.chars.reduce( (lastCharOffset, char, i)=> {
+			const currentInlineInfo = inlineComponent.chars.reduce( (lastCharOffset, char)=> {
 
 				// Line break
 
@@ -67,27 +65,15 @@ function InlineManager( boxComponent ) {
 
 				};
 
-				// Geometry translation
+				//
 
-				translatedGeom[ i ] = new BufferGeometry().copy( char.geometry );
-
-				translatedGeom[ i ].translate( lastCharOffset, 0, 0 );
+				char.offsetX = lastCharOffset;
 
 				//
 
 				return lastCharOffset + char.width;
 
 			}, lastInlineOffset );
-
-			/////////////////////
-			// Merge and record
-			/////////////////////
-
-			const mergedGeom = BufferGeometryUtils.mergeBufferGeometries( translatedGeom );
-
-			inlineManager.inlinesInfo[ inline.id ] = {
-				geometry: mergedGeom
-			};
 
 			//
 
@@ -144,9 +130,33 @@ function InlineManager( boxComponent ) {
 
 		};
 
-		// Translation
+		// Geometry translation and merging
 
-		
+		this.children.forEach( (inlineComponent)=> {
+
+			if ( !inlineComponent.chars ) return
+
+			let translatedGeom = [];
+
+			inlineComponent.chars.forEach( (char, i)=> {
+
+				translatedGeom[ i ] = new BufferGeometry().copy( char.geometry );
+
+				translatedGeom[ i ].translate( char.offsetX, 0, 0 );
+
+			});
+
+			///////////////////////
+			/// Merge and record
+			///////////////////////
+
+			const mergedGeom = BufferGeometryUtils.mergeBufferGeometries( translatedGeom );
+
+			inlineManager.inlinesInfo[ inlineComponent.id ] = {
+				geometry: mergedGeom
+			};
+
+		});
 
 	};
 
