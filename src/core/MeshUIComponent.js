@@ -295,7 +295,7 @@ function MeshUIComponent() {
 
 			if ( updateInner ) {
 
-				this.getHighestParent().updateInner();
+				this.updateInner();
 
 			};
 
@@ -313,7 +313,7 @@ function MeshUIComponent() {
 	function _updateFont( url ) {
 
 		this.fontFamily = url;
-		this.update();
+		this.update( true, true );
 
 	};
 
@@ -368,7 +368,7 @@ function MeshUIComponent() {
 			layoutNeedsUpdate = false;
 			innerNeedsUpdate = false;
 		};
-
+		
 		// Call component update
 
 		this.update( layoutNeedsUpdate, innerNeedsUpdate );

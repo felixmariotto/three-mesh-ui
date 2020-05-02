@@ -4,6 +4,7 @@
 */
 
 import { ShapeBufferGeometry } from 'three';
+import { BufferGeometryUtils } from 'three/examples/jsm/utils/BufferGeometryUtils.js';
 import InlineComponent from '../core/InlineComponent';
 
 function Text( options ) {
@@ -14,9 +15,9 @@ function Text( options ) {
 
 	text.parseParams = function parseParams( resolve, reject ) {
 
-		///////////////////////////
+		//////////////////////////
 		/// GET CHARS GEOMETRIES
-		///////////////////////////
+		//////////////////////////
 
 		// Abort condition
 
@@ -33,7 +34,7 @@ function Text( options ) {
 
 		let chars = Array.from ? Array.from( this.content ) : String( this.content ).split( '' );
 
-		chars = chars.map( (glyph)=> {
+		text.chars = chars.map( (glyph)=> {
 
 			const shape = FONT.generateShapes( glyph, FONT_SIZE );
 
@@ -44,7 +45,7 @@ function Text( options ) {
 			const ascender = FONT.data.glyphs[ glyph ] ? FONT.data.ascender * ( FONT_SIZE / FONT.data.resolution ) : 0 ;
 
 			return {
-				shapeGeom: new ShapeBufferGeometry( shape ),
+				geom: new ShapeBufferGeometry( shape ),
 				height,
 				ascender,
 				width,
@@ -52,8 +53,6 @@ function Text( options ) {
 			};
 
 		});
-
-		console.log( chars );
 
 		//
 
@@ -63,7 +62,9 @@ function Text( options ) {
 
 	text.updateLayout = function updateLayout() {
 
-		// console.log('update text layout');
+		console.log( this.parent.inlinesInfo[ this.id ] );
+
+		// DELETE PREVIOUS MESH + CREATE NEW ONE
 
 		text.setPosFromParentRecords();
 
