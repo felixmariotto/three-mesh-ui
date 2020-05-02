@@ -34,7 +34,7 @@ function generateSerial() {
 const DEFAULT_VALUES = {
 	container: null,
 	fontFamily: null,
-	fontSize: 0.1,
+	fontSize: 0.05,
 	fontMaterial: MaterialLibrary.DEFAULTS.fontMaterial,
 	offset: 0.02,
 	contentAlign: "center",

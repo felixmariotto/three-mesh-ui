@@ -76,8 +76,6 @@ function Text( options ) {
 
 		const textMesh = new Mesh( INFO.geometry, MATERIAL );
 
-		console.log( textMesh );
-
 		DeepDelete( text.threeOBJ );
 
 		text.threeOBJ.add( textMesh );

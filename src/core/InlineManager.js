@@ -45,7 +45,7 @@ function InlineManager( boxComponent ) {
 				char.geometry.translate( lastCharInfo.offset, 0, 0 );
 
 				lastCharInfo = {
-					offset: lastCharInfo.offset + char.width
+					offset: lastCharInfo.offset + (char.width / 2)
 				};
 
 				return lastCharInfo
