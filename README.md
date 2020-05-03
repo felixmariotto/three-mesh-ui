@@ -7,4 +7,6 @@ Three-Mesh-UI helps in easily adding user interface in a Three.js scene, in orde
 ## Demos
 It's over there : https://three-mesh-ui.herokuapp.com
 
+## [NPM](https://www.npmjs.com/package/three-mesh-ui)
+
 # Doc and tutos coming soon
