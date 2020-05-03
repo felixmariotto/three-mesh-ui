@@ -106,9 +106,21 @@ function LayoutModule( options ) {
 
 	};
 
+	//
+
 	block.updateInner = function UpdateInner() {
 
 		block.threeOBJ.position.z = block.getOffset();
+
+		frameContainer.traverse( (child)=> {
+
+			if ( child.material ) {
+
+				child.material = block.getBackgroundMaterial();
+
+			};
+
+		});
 
 		for ( let child of block.children ) {
 

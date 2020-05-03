@@ -87,7 +87,7 @@ function MeshUIComponent() {
 	// look for a property in this object, and if does not find it, find in parents or return default value
 	function _getProperty( propName ) {
 
-		if ( !this[ propName ] && this.parent ) {
+		if ( this[ propName ] === undefined && this.parent ) {
 
 			return this.parent._getProperty( propName )
 
