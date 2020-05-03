@@ -79,6 +79,10 @@
 				color: 0xffffff
 			});
 
+			const greenMaterial = new THREE.MeshBasicMaterial({
+				color: 0x92e66c
+			});
+
 			const uiContainer = new THREE.Group();
 			uiContainer.position.set( 0, 1, -1.8 );
 			uiContainer.rotation.x = -0.55;
@@ -160,6 +164,7 @@
 
 				ThreeMeshUI.Text({
 					content: "bristly",
+					fontMaterial: greenMaterial,
 					fontSize: 0.042
 				}),
 
@@ -174,7 +179,7 @@
 				height: 0.525,
 				width: 0.5,
 				margin: 0.01,
-				padding: 0.01,
+				padding: 0.02,
 				fontSize: 0.019,
 				alignContent: 'left'
 			}).appendChild(
