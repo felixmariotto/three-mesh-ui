@@ -86,6 +86,10 @@
 				fontFamily: './fonts/helvetiker_regular.typeface.json'
 			});
 
+			uiContainer.add( container.threeOBJ );
+
+			//
+
 			const title = ThreeMeshUI.Block({
 				height: 0.2,
 				width: 1.5,
@@ -94,17 +98,15 @@
 				fontSize: 0.08
 			});
 
-				title.appendChild(
-					ThreeMeshUI.Text({
-						content: "spiny bush viper"
-					})
-				);
+			title.appendChild(
+				ThreeMeshUI.Text({
+					content: "spiny bush viper"
+				})
+			);
 
-			const contentContainer = ThreeMeshUI.Block({
-				contentDirection: "row",
-				padding: 0.02,
-				margin: 0.025
-			});
+			container.appendChild( title );
+
+			//
 
 			const leftSubBlock = ThreeMeshUI.Block({
 				height: 0.95,
@@ -122,12 +124,16 @@
 				justifyContent: 'center'
 			});
 
-				caption.appendChild(
-					ThreeMeshUI.Text({
-						content: "Mind you fingers",
-						fontSize: 0.03
-					})
-				);
+			caption.appendChild(
+				ThreeMeshUI.Text({
+					content: "Mind you fingers",
+					fontSize: 0.03
+				})
+			);
+
+			leftSubBlock.appendChild( caption );
+
+			//
 
 			const rightSubBlock = ThreeMeshUI.Block({
 				margin: 0.025
@@ -139,26 +145,24 @@
 				margin: 0.025,
 				padding: 0.01,
 				justifyContent: 'center'
-			});
+			}).appendChild(
 
-				subSubBlock1.appendChild(
+				ThreeMeshUI.Text({
+					content: "Known for its extremely keeled dorsal scales that give it a ",
+					fontSize: 0.035
+				}),
 
-					ThreeMeshUI.Text({
-						content: "Known for its extremely keeled dorsal scales that give it a ",
-						fontSize: 0.035
-					}),
+				ThreeMeshUI.Text({
+					content: "bristly",
+					fontSize: 0.042
+				}),
 
-					ThreeMeshUI.Text({
-						content: "bristly",
-						fontSize: 0.042
-					}),
+				ThreeMeshUI.Text({
+					content: " appearance.",
+					fontSize: 0.035
+				})
 
-					ThreeMeshUI.Text({
-						content: " appearance.",
-						fontSize: 0.035
-					})
-
-				);
+			);
 
 			const subSubBlock2 = ThreeMeshUI.Block({
 				height: 0.525,
@@ -167,20 +171,26 @@
 				padding: 0.01,
 				fontSize: 0.019,
 				alignContent: 'left'
+			}).appendChild(
+
+				ThreeMeshUI.Text({
+					content: "The males of this species grow to maximum total length of 73 cm (29 in): body 58 cm (23 in), tail 15 cm (5.9 in). Females grow to a maximum total length of 58 cm (23 in). The males are surprisingly long and slender compared to the females.\nThe head has a short snout, more so in males than in females.\nThe eyes are large and surrounded by 9–16 circumorbital scales. The orbits (eyes) are separated by 7–9 scales.\nThe nostril is like a slit and separated from the eye by two scales.\nThe eye and the supralabials are separated by a single row of scales."
+				})
+
+			);
+
+			rightSubBlock.appendChild( subSubBlock1, subSubBlock2 );
+
+			//
+
+			const contentContainer = ThreeMeshUI.Block({
+				contentDirection: "row",
+				padding: 0.02,
+				margin: 0.025
 			});
 
-				subSubBlock2.appendChild(
-					ThreeMeshUI.Text({
-						content: "The males of this species grow to maximum total length of 73 cm (29 in): body 58 cm (23 in), tail 15 cm (5.9 in). Females grow to a maximum total length of 58 cm (23 in). The males are surprisingly long and slender compared to the females.\nThe head has a short snout, more so in males than in females.\nThe eyes are large and surrounded by 9–16 circumorbital scales. The orbits (eyes) are separated by 7–9 scales.\nThe nostril is like a slit and separated from the eye by two scales.\nThe eye and the supralabials are separated by a single row of scales."
-					})
-				);
-
-			leftSubBlock.appendChild( caption );
-			rightSubBlock.appendChild( subSubBlock1, subSubBlock2 );
 			contentContainer.appendChild( leftSubBlock, rightSubBlock );
-			container.appendChild( title, contentContainer );
-
-			uiContainer.add( container.threeOBJ );
+			container.appendChild( contentContainer );
 
 		};
 
@@ -200,7 +210,6 @@
 		function loop() {
 			controls.update();
 			renderer.render( scene, camera );
-			// console.log( renderer.info.render );
 		};
 
 	</script>

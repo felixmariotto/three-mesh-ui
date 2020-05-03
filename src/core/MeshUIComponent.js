@@ -243,6 +243,8 @@ function MeshUIComponent() {
 
 		});
 
+		return this
+
 	};
 
 	// remove a child from this component
