@@ -21,7 +21,7 @@ export default {
 		color: 0x003047
 	}),
 
-	frameMaterial: new MeshBasicMaterial({
+	backgroundMaterial: new MeshBasicMaterial({
 		color: 0x000000,
 		side: 2,
 		transparent: true,

@@ -89,7 +89,7 @@ function LayoutModule( options ) {
 		const frame = Frame(
 			WIDTH,
 			HEIGHT,
-			block.backgroundMaterial 
+			block.getBackgroundMaterial()
 		);
 
 		frame.renderOrder = block.getParentsNumber();

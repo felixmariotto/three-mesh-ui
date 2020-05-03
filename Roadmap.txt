@@ -7,3 +7,5 @@ Roadmap
 - optimise to do less useless updates
 
 - look into reducing letters poly count
+
+- add width/height: auto

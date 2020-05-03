@@ -45,6 +45,7 @@ function MeshUIComponent() {
 		getFontFamily,
 		getFontSize,
 		getFontMaterial,
+		getBackgroundMaterial,
 		getBreakOn,
 		getOffset,
 		getParentsNumber,
@@ -110,6 +111,10 @@ function MeshUIComponent() {
 
 	function getFontMaterial() {
 		return this._getProperty( 'fontMaterial' );
+	};
+
+	function getBackgroundMaterial() {
+		return this._getProperty( 'backgroundMaterial' );
 	};
 
 	function getBreakOn() {

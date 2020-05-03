@@ -5,13 +5,12 @@
 */
 
 import { Mesh, PlaneBufferGeometry, MeshLambertMaterial } from 'three';
-import DEFAULTS from '../utils/Defaults';
 
 function Frame( width, height, material ) {
 
 	const mesh = new Mesh(
 		new PlaneBufferGeometry( width, height ),
-		material ? material : DEFAULTS.frameMaterial
+		material
 	);
 	mesh.name = "MeshUI-Frame"
 
