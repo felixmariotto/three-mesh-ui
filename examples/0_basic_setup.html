@@ -75,40 +75,48 @@
 
 		function makeTextPanel() {
 
-			const layout = ThreeMeshUI.Layout({
-				width: 1.2,
-				textAlign: 'left'
-			});
-
-			layout.set({
-				fontFamily: './fonts/helvetiker_regular.typeface.json',
-				padding: 0.15
-			});
-
-			layout.threeOBJ.position.set( 0, 1, -1.8 );
-			layout.threeOBJ.rotation.x = -0.7;
-
-			scene.add( layout.threeOBJ );
+			const uiContainer = new THREE.Group();
+			uiContainer.position.set( 0, 1, -1.8 );
+			uiContainer.rotation.x = -0.55;
+			scene.add( uiContainer );
 
 			//
 
-			const paragraph = ThreeMeshUI.Paragraph({
-				texts: [
-					{
-						text: "Three-Mesh-UI\n"
-					},
-					{
-						text: "With this lib you can easily create 3D user interfaces for your VR experiences based on Three.js\n",
-						fontSize: 0.04
-					},
-					{
-						text: "Coded with love",
-						fontSize: 0.07
-					}
-				]
+			const container = ThreeMeshUI.Block({
+				width: 1.2,
+				height: 0.8,
+				padding: 0.2,
+				justifyContent: 'center',
+				alignContent: 'left',
+				textAlign: 'left'
 			});
 
-			layout.appendChild( paragraph );
+			container.set({
+				fontFamily: './fonts/helvetiker_regular.typeface.json',
+			});
+
+			uiContainer.add( container.threeOBJ );
+
+			//
+
+			container.appendChild(
+
+				ThreeMeshUI.Text({
+					content: "Three-Mesh-UI\n",
+					fontSize: 0.07
+				}),
+
+				ThreeMeshUI.Text({
+					content: "With this lib you can easily create 3D user interfaces for your VR experiences based on Three.js\n",
+					fontSize: 0.04
+				}),
+
+				ThreeMeshUI.Text({
+					content: "Coded with love",
+					fontSize: 0.03
+				}),
+
+			);
 
 		};
 

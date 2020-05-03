@@ -23,7 +23,7 @@ function Text( options ) {
 		//////////////////////////
 
 		// Abort condition
-
+		
 		if ( !this.content || this.content.length === 0 ) return
 
 		// Get font style
