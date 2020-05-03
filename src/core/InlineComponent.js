@@ -1,5 +1,5 @@
 /*
-	Job: set dimension of this component according to parent's dimension
+	Job: no job yet
 	Knows: parent dimensions
 */
 

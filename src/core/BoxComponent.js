@@ -11,6 +11,8 @@ function BoxComponent() {
 
 	boxComponent.type = 'BoxComponent'
 
+	boxComponent.childrenPos = {};
+
 	// Get size of this component inside padding
 
 	boxComponent.getInnerWidth = function GetInnerWidth() {

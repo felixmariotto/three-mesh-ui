@@ -1,6 +1,6 @@
 
 /*
-	Job: Frame content by holding the size limit, and hold a THREE.Object3D that contains the content
+	Job: Keep a THREE.Object3D that contains the 3D content
 	Knows: Its size and limits, and the THREE.Object3D containing the content and its transform.
 */
 
@@ -10,7 +10,7 @@ import BoxComponent from '../core/BoxComponent';
 import Frame from '../depictions/Frame';
 import DeepDelete from '../utils/DeepDelete';
 
-function LayoutModule( options ) {
+function Block( options ) {
 
 	const block = Object.create( BoxComponent() );
 
@@ -19,15 +19,13 @@ function LayoutModule( options ) {
 
 	block.type = 'Block';
 
-	block.childrenPos = {};
-
 	const frameContainer = new Object3D();
 	frameContainer.name = "Block-FrameContainer"
 	block.threeOBJ.add( frameContainer );
 
-	/////////////
+	////////////
 	//  UPDATE
-	/////////////
+	////////////
 
 	block.parseParams = function ParseParams( resolveParent, rejectParent ) {
 
@@ -137,4 +135,4 @@ function LayoutModule( options ) {
 
 };
 
-export default LayoutModule ;
+export default Block ;

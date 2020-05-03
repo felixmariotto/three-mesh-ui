@@ -1,5 +1,5 @@
 /*
-	Job: Hold this component text, and update it
+	Job: Keep a Three.Object3D to contain text mesh. Triggers updates
 	Knows: This text, its geometries and meshes
 */
 
