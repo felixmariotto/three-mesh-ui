@@ -146,7 +146,7 @@
 
 		</div>
 
-		<iframe src="./0_basic_setup.html" frameBorder="0"></iframe>
+		<iframe src="./basic_setup.html" frameBorder="0"></iframe>
 
 	</div>
 
@@ -154,6 +154,7 @@
 
 		const root = document.documentElement;
 		const btn = document.getElementById('toggle-btn');
+		const iframe = document.querySelector('iframe');
 		let navbarIsClosed = true;
 		
 		function toggleNavbar() {
@@ -173,6 +174,15 @@
 			navbarIsClosed = !navbarIsClosed
 
 		};
+
+		document.querySelectorAll('li').forEach( (node)=> {
+
+			node.onclick = function() {
+				iframe.src = node.title;
+				console.log( node.title )
+			};
+
+		});
 
 	</script>
 

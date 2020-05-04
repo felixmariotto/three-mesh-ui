@@ -18,7 +18,7 @@ pagesConfig = pages.map( (page)=> {
 pagesConfig.push(
 	new HtmlWebpackPlugin({
 		pages: pages.reduce( (accu, page)=> {
-			return accu + `<li>${ page[1] }</li>`
+			return accu + `<li title="${ page[0] }">${ page[1] }</li>`
 		}, '' ),
 		filename: 'index.html',
 		template: path.resolve(__dirname, `examples/index.html`),
