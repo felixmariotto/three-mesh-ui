@@ -178,7 +178,7 @@
 		document.querySelectorAll('li').forEach( (node)=> {
 
 			node.onclick = function() {
-				iframe.src = node.title;
+				iframe.src = `./${ node.title }.html`;
 				console.log( node.title )
 			};
 
