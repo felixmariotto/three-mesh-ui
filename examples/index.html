@@ -6,29 +6,186 @@
 	<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
 	<style>
 
+		:root {
+			--navbar-height: 60px;
+		}
+
 		* {
 			margin: 0;
 			padding: 0;
+			font-family: "Courier New", Courier, monospace;
+			color: #262626;
+			box-sizing: border-box;
 		}
 
 		body {
+			overflow: hidden;
+		}
+
+		h1 {
+			font-size: 1.75em;
+			font-weight: 600;
+		}
+
+		h2 {
+			font-size: 1.4em;
+			font-weight: 600;
+		}
+
+		#page {
+			display: flex;
+		}
+
+		#menu {
+			height: 100vh;
+			min-width: 270px;
+			border-right: solid 1px #262626;
+			transition: height 0.2s;
+		}
+
+		li {
+			font-size: 1.1em;
+			padding: 4px 10px;
+			margin: 10px 0;
+			transition: color 0.1s, background-color 0.1s;
+		}
+
+			li:hover {
+				cursor: pointer;
+				background-color: #262626;
+				color: #ffffff;
+			}
+
+		ul {
+			margin-top: 10px;
+			border-top: solid 1px #262626;
+			list-style-type: none;
+		}
+
+		iframe {
+			height: 100vh;
+			width: 100%;
+			background-color: grey;
+		}
+
+		#examples-container {
 			padding: 20px;
 		}
 
-		a {
-			font-size: 1.2em;
+		#navbar-container {
+			display: none;
+			top: 0;
+			left: 0;
+			height: 60px;
+			width: 100%;
+			border-bottom: solid 1px #262626;
+			justify-content: flex-end;
+			align-items: center;
+		}
+
+		button {
+			background-color: #e0e0e0;
+			border: none;
+			padding: 9px 15px;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			outline: none;
+			margin-right: 15px;
+			box-shadow: 1.5px 1.5px 4px rgba(0,0,0,0.75);
+			transition: box-shadow 0.12s;
+		}
+
+			button:active {
+				box-shadow: none;
+			}
+
+		@media screen and (max-width: 768px) {
+
+			#page {
+				flex-direction: column;
+			}
+
+			#menu {
+				height: var(--navbar-height);
+				width: 100%;
+				border-right: none;
+			}
+
+			#navbar-container {
+				display: flex;
+			}
+
+			iframe {
+				height: calc( 100vh - 60px );
+				width: 100vw;
+			}
+
 		}
 
 	</style>
 </head>
 
 <body>
-	<h1>three-mesh-ui</h1>
-	<h2>live examples</h2>
-	<br/>
-	<ul>
-		<li><a href="./0_basic_setup.html">Basic Setup</a></li>
-		<li><a href="./2_nested_layouts.html">Nested Layouts</a></li>
-	</ul>
+
+	<div id="page">
+
+		<div id="menu">
+
+			<div id="navbar-container">
+				<button id="toggle-btn" onclick="toggleNavbar()">
+					more examples ▼
+				</button>
+			</div>
+
+			<div id="examples-container">
+				<h1>three-mesh-ui</h1>
+				<h2>examples</h2>
+				<ul>
+					<%= htmlWebpackPlugin.options.pages %>
+				</ul>
+			</div>
+
+		</div>
+
+		<iframe src="./basic_setup.html" frameBorder="0"></iframe>
+
+	</div>
+
+	<script>
+
+		const root = document.documentElement;
+		const btn = document.getElementById('toggle-btn');
+		const iframe = document.querySelector('iframe');
+		let navbarIsClosed = true;
+		
+		function toggleNavbar() {
+
+			if ( navbarIsClosed ) {
+
+				root.style.setProperty('--navbar-height', '100vh');
+				btn.innerHTML = "hide examples ▲";
+
+			} else {
+
+				root.style.setProperty('--navbar-height', '60px');
+				btn.innerHTML = "more examples ▼";
+
+			};
+
+			navbarIsClosed = !navbarIsClosed
+
+		};
+
+		document.querySelectorAll('li').forEach( (node)=> {
+
+			node.onclick = function() {
+				iframe.src = `./${ node.title }.html`;
+			};
+
+		});
+
+	</script>
+
 </body>
 </html>
