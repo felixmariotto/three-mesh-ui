@@ -185,7 +185,11 @@
 		document.querySelectorAll('li').forEach( (node)=> {
 
 			node.onclick = function() {
-				iframe.src = `./${ node.title }.html`;
+				try {
+					iframe.src = `./${ node.title }.html`;
+				} catch(err) {
+					alert(err)
+				};
 			};
 
 		});
