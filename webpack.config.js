@@ -45,7 +45,8 @@ module.exports = env => {
 
 		entry: {
 			'three-mesh-ui': './src/three-mesh-ui.js',
-			basic_setup: './examples/basic_setup.js'
+			basic_setup: './examples/js/basic_setup.js',
+			nested_blocks: './examples/js/nested_blocks.js'
 		},
 
 		plugins: pagesConfig,
