@@ -66,6 +66,10 @@
 			background-color: grey;
 		}
 
+		#examples-container {
+			padding: 20px;
+		}
+
 		#navbar-container {
 			display: none;
 			top: 0;
@@ -73,11 +77,26 @@
 			height: 60px;
 			width: 100%;
 			border-bottom: solid 1px #262626;
+			justify-content: flex-end;
+			align-items: center;
 		}
 
-		#examples-container {
-			padding: 20px;
+		button {
+			background-color: #e0e0e0;
+			border: none;
+			padding: 9px 15px;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			outline: none;
+			margin-right: 15px;
+			box-shadow: 1.5px 1.5px 4px rgba(0,0,0,0.75);
+			transition: box-shadow 0.12s;
 		}
+
+			button:active {
+				box-shadow: none;
+			}
 
 		@media screen and (max-width: 768px) {
 
@@ -92,7 +111,7 @@
 			}
 
 			#navbar-container {
-				display: inherit;
+				display: flex;
 			}
 
 			iframe {
@@ -112,8 +131,8 @@
 		<div id="menu">
 
 			<div id="navbar-container">
-				<button onclick="toggleNavbar()">
-					more examples
+				<button id="toggle-btn" onclick="toggleNavbar()">
+					more examples ▼
 				</button>
 			</div>
 
@@ -134,6 +153,7 @@
 	<script>
 
 		const root = document.documentElement;
+		const btn = document.getElementById('toggle-btn');
 		let navbarIsClosed = true;
 		
 		function toggleNavbar() {
@@ -141,10 +161,12 @@
 			if ( navbarIsClosed ) {
 
 				root.style.setProperty('--navbar-height', '100vh');
+				btn.innerHTML = "hide examples ▲";
 
 			} else {
 
 				root.style.setProperty('--navbar-height', '60px');
+				btn.innerHTML = "more examples ▼";
 
 			};
 
