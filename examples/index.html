@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Mesh-UI</title>
+	<title>three-mesh-ui | examples</title>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
 	<style>
@@ -47,11 +47,14 @@
 			font-size: 1.1em;
 			padding: 4px 10px;
 			margin: 10px 0;
-			transition: color 0.1s, background-color 0.1s;
 		}
 
 			li:hover {
 				cursor: pointer;
+				background-color: #e6e6e6;
+			}
+
+			li.selected-view {
 				background-color: #262626;
 				color: #ffffff;
 			}
@@ -182,17 +185,39 @@
 
 		};
 
+		//
+
 		document.querySelectorAll('li').forEach( (node)=> {
 
-			node.onclick = function() {
-				try {
-					iframe.src = `./${ node.title }.html`;
-				} catch(err) {
-					alert(err)
-				};
+			if ( node.title === 'basic_setup' ) selectView( node );
+
+			node.onclick = ()=> {
+				selectView( node );
 			};
 
 		});
+
+		//
+
+		function selectView( listItem ) {
+
+			iframe.src = `./${ listItem.title }.html`;
+	
+			document.querySelectorAll('li').forEach( (node)=> {
+
+				if ( node === listItem ) {
+
+					node.classList.add('selected-view');
+
+				} else {
+
+					node.classList.remove('selected-view');
+
+				};
+
+			});
+
+		};
 
 	</script>
 
