@@ -1,12 +1,4 @@
-<!DOCTYPE html>
-<html>
-<head>
-	<title>Mesh-UI</title>
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
-	<style>
-
-		:root {
+<!doctype html><html><head><title>Mesh-UI</title><meta charset="utf-8"><meta name="viewport" content="width=device-width,user-scalable=no,minimum-scale=1,maximum-scale=1"><style>:root {
 			--navbar-height: 60px;
 		}
 
@@ -121,40 +113,7 @@
 				width: 100vw;
 			}
 
-		}
-
-	</style>
-</head>
-
-<body>
-
-	<div id="page">
-
-		<div id="menu">
-
-			<div id="navbar-container">
-				<button id="toggle-btn" onclick="toggleNavbar()">
-					more examples ▼
-				</button>
-			</div>
-
-			<div id="examples-container">
-				<h1>three-mesh-ui</h1>
-				<h2>examples</h2>
-				<ul>
-					<%= htmlWebpackPlugin.options.pages %>
-				</ul>
-			</div>
-
-		</div>
-
-		<iframe src="./basic_setup.html" frameBorder="0"></iframe>
-
-	</div>
-
-	<script>
-
-		const root = document.documentElement;
+		}</style></head><body><div id="page"><div id="menu"><div id="navbar-container"><button id="toggle-btn" onclick="toggleNavbar()">more examples ▼</button></div><div id="examples-container"><h1>three-mesh-ui</h1><h2>examples</h2><ul><li title="basic_setup">basic title</li><li title="nested_blocks">nested blocks</li></ul></div></div><iframe src="./basic_setup.html" frameborder="0"></iframe></div><script>const root = document.documentElement;
 		const btn = document.getElementById('toggle-btn');
 		const iframe = document.querySelector('iframe');
 		let navbarIsClosed = true;
@@ -184,9 +143,4 @@
 				console.log( node.title )
 			};
 
-		});
-
-	</script>
-
-</body>
-</html>
+		});</script></body></html>

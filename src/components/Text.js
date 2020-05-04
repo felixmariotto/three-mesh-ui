@@ -3,7 +3,7 @@
 	Knows: This text, its geometries and meshes
 */
 
-import { ShapeBufferGeometry, Mesh } from 'three';
+import { ShapeBufferGeometry, Mesh, Object3D } from 'three';
 
 import InlineComponent from '../core/InlineComponent';
 import DeepDelete from '../utils/DeepDelete';
@@ -14,7 +14,7 @@ function Text( options ) {
 
 	text.type = "Text";
 
-	text.threeOBJ = new THREE.Object3D();
+	text.threeOBJ = new Object3D();
 
 	text.parseParams = function parseParams( resolve, reject ) {
 

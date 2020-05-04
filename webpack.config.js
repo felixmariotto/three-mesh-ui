@@ -11,6 +11,7 @@ pagesConfig = pages.map( (page)=> {
 		title: page[0],
 		filename: page[0] + '.html',
 		template: path.resolve(__dirname, `examples/example_template.html`),
+		chunks: [page[0], 'three-mesh-ui'],
 		inject: true
 	});
 });
@@ -42,7 +43,10 @@ module.exports = env => {
 
 		mode: mode,
 
-		entry: './src/three-mesh-ui.js',
+		entry: {
+			'three-mesh-ui': './src/three-mesh-ui.js',
+			basic_setup: './examples/basic_setup.js'
+		},
 
 		plugins: pagesConfig,
 
@@ -53,7 +57,7 @@ module.exports = env => {
 		},
 
 		output: {
-			filename: 'three-mesh-ui.js',
+			filename: '[name].js',
 			path: path.resolve(__dirname, 'dist')
 		}
 
