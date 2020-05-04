@@ -34,7 +34,7 @@ module.exports = env => {
 
 	// Prod environment
 	if (env.NODE_ENV === 'prod') {
-		devtool = 'hidden-source-map';
+		devtool = false;
 		mode = 'production';
 		// outputPath = `${__dirname}/build/js`;
 	};
@@ -44,7 +44,7 @@ module.exports = env => {
 		mode: mode,
 
 		entry: {
-			'three-mesh-ui': './src/three-mesh-ui.js',
+			'../build/three-mesh-ui': './src/three-mesh-ui.js',
 			basic_setup: './examples/js/basic_setup.js',
 			nested_blocks: './examples/js/nested_blocks.js'
 		},

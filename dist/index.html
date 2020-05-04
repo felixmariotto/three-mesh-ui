@@ -1,4 +1,4 @@
-<!doctype html><html><head><title>Mesh-UI</title><meta charset="utf-8"><meta name="viewport" content="width=device-width,user-scalable=no,minimum-scale=1,maximum-scale=1"><style>:root {
+<!doctype html><html><head><title>three-mesh-ui | examples</title><meta charset="utf-8"><meta name="viewport" content="width=device-width,user-scalable=no,minimum-scale=1,maximum-scale=1"><style>:root {
 			--navbar-height: 60px;
 		}
 
@@ -39,11 +39,14 @@
 			font-size: 1.1em;
 			padding: 4px 10px;
 			margin: 10px 0;
-			transition: color 0.1s, background-color 0.1s;
 		}
 
 			li:hover {
 				cursor: pointer;
+				background-color: #e6e6e6;
+			}
+
+			li.selected-view {
 				background-color: #262626;
 				color: #ffffff;
 			}
@@ -113,7 +116,7 @@
 				width: 100vw;
 			}
 
-		}</style></head><body><div id="page"><div id="menu"><div id="navbar-container"><button id="toggle-btn" onclick="toggleNavbar()">more examples ▼</button></div><div id="examples-container"><h1>three-mesh-ui</h1><h2>examples</h2><ul><li title="basic_setup">basic title</li><li title="nested_blocks">nested blocks</li></ul></div></div><iframe src="./basic_setup.html" frameborder="0"></iframe></div><script>const root = document.documentElement;
+		}</style></head><body><div id="page"><div id="menu"><div id="navbar-container"><button id="toggle-btn" onclick="toggleNavbar()">more examples ▼</button></div><div id="examples-container"><h1>three-mesh-ui</h1><h2>examples</h2><ul><li title="basic_setup">basic title</li><li title="nested_blocks">nested blocks</li></ul></div></div><iframe src="./basic_setup.html" allowfullscreen allowvr frameborder="0"></iframe></div><script>const root = document.documentElement;
 		const btn = document.getElementById('toggle-btn');
 		const iframe = document.querySelector('iframe');
 		let navbarIsClosed = true;
@@ -136,11 +139,36 @@
 
 		};
 
+		//
+
 		document.querySelectorAll('li').forEach( (node)=> {
 
-			node.onclick = function() {
-				iframe.src = `./${ node.title }.html`;
-				console.log( node.title )
+			if ( node.title === 'basic_setup' ) selectView( node );
+
+			node.onclick = ()=> {
+				selectView( node );
 			};
 
-		});</script></body></html>
+		});
+
+		//
+
+		function selectView( listItem ) {
+
+			iframe.src = `./${ listItem.title }.html`;
+	
+			document.querySelectorAll('li').forEach( (node)=> {
+
+				if ( node === listItem ) {
+
+					node.classList.add('selected-view');
+
+				} else {
+
+					node.classList.remove('selected-view');
+
+				};
+
+			});
+
+		};</script></body></html>
