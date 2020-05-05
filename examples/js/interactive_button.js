@@ -46,13 +46,22 @@ function init() {
 
 	scene.add( room );
 
+	// Light
+
+	const light = new THREE.AmbientLight( 0x404040 );
+	scene.add( light );
+
 	// Controller
 
 	const controllerModelFactory = new XRControllerModelFactory();
 
-	const controllerGrip = renderer.xr.getControllerGrip( 0 );
-	controllerGrip.add( controllerModelFactory.createControllerModel( controllerGrip ) );
-	scene.add( controllerGrip );
+	const controllerGrip1 = renderer.xr.getControllerGrip( 0 );
+	controllerGrip1.add( controllerModelFactory.createControllerModel( controllerGrip1 ) );
+	scene.add( controllerGrip1 );
+
+	const controllerGrip2 = renderer.xr.getControllerGrip( 1 );
+	controllerGrip2.add( controllerModelFactory.createControllerModel( controllerGrip2 ) );
+	scene.add( controllerGrip2 );
 
 	//
 
