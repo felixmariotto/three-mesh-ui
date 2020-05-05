@@ -244,7 +244,13 @@
 			if ( node.title === 'basic_setup' ) selectView( node );
 
 			node.onclick = ()=> {
+
 				selectView( node );
+
+				if ( !navbarIsClosed ) {
+					toggleNavbar();
+				};
+				
 			};
 
 		});
