@@ -26,6 +26,7 @@ function init() {
 
 	renderer = new THREE.WebGLRenderer({ antialias: true });
 	renderer.setSize( window.innerWidth, window.innerHeight );
+	renderer.outputEncoding = THREE.sRGBEncoding;
 	renderer.xr.enabled = true;
 	document.body.appendChild(VRButton.createButton(renderer));
 	document.body.appendChild( renderer.domElement );
@@ -48,8 +49,28 @@ function init() {
 
 	// Light
 
-	const light = new THREE.AmbientLight( 0x404040 );
+	scene.add( new THREE.HemisphereLight( 0x808080, 0x606060 ) );
+
+	var light = new THREE.DirectionalLight( 0xffffff );
+	light.position.set( 0, 6, 0 );
+	light.castShadow = true;
+	light.shadow.camera.top = 2;
+	light.shadow.camera.bottom = - 2;
+	light.shadow.camera.right = 2;
+	light.shadow.camera.left = - 2;
+	light.shadow.mapSize.set( 4096, 4096 );
 	scene.add( light );
+
+	//
+
+	const sphere = new THREE.Mesh(
+		new THREE.SphereBufferGeometry( 0.1, 16, 16 ),
+		new THREE.MeshLambertMaterial()
+	)
+
+	sphere.position.set( 0, 1, -1 )
+
+	scene.add( sphere );
 
 	// Controller
 
