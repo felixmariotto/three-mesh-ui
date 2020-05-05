@@ -2,8 +2,9 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 let pages = [
-	['basic_setup', 'basic title'],
-	['nested_blocks', 'nested blocks']
+	['basic_setup', 'basic setup'],
+	['nested_blocks', 'nested blocks'],
+	['tutorial_result', 'tutorial result']
 ];
 
 pagesConfig = pages.map( (page)=> {
@@ -46,7 +47,8 @@ module.exports = env => {
 		entry: {
 			'../build/three-mesh-ui': './src/three-mesh-ui.js',
 			basic_setup: './examples/js/basic_setup.js',
-			nested_blocks: './examples/js/nested_blocks.js'
+			nested_blocks: './examples/js/nested_blocks.js',
+			tutorial_result: './examples/js/tutorial_result.js'
 		},
 
 		plugins: pagesConfig,

@@ -1,12 +1,13 @@
 <!doctype html><html><head><title>three-mesh-ui | examples</title><meta charset="utf-8"><meta name="viewport" content="width=device-width,user-scalable=no,minimum-scale=1,maximum-scale=1"><style>:root {
 			--navbar-height: 60px;
+			--dark-colour: #262626;
 		}
 
 		* {
 			margin: 0;
 			padding: 0;
 			font-family: "Courier New", Courier, monospace;
-			color: #262626;
+			color: var(--dark-colour);
 			box-sizing: border-box;
 		}
 
@@ -31,7 +32,7 @@
 		#menu {
 			height: 100vh;
 			min-width: 270px;
-			border-right: solid 1px #262626;
+			border-right: solid 1px var(--dark-colour);
 			transition: height 0.2s;
 		}
 
@@ -39,6 +40,7 @@
 			font-size: 1.1em;
 			padding: 4px 10px;
 			margin: 10px 0;
+			border-radius: 3px;
 		}
 
 			li:hover {
@@ -47,13 +49,13 @@
 			}
 
 			li.selected-view {
-				background-color: #262626;
+				background-color: var(--dark-colour);
 				color: #ffffff;
 			}
 
 		ul {
 			margin-top: 10px;
-			border-top: solid 1px #262626;
+			border-top: solid 1px var(--dark-colour);
 			list-style-type: none;
 		}
 
@@ -80,6 +82,24 @@
 				transform: translate(-50%, -50%);
 			}
 
+			#iframe-container>a {
+				position: absolute;
+				right: 15px;
+				bottom: 15px;
+				z-index: 2;
+				color: white;
+				background-color: var(--dark-colour);
+				text-decoration: none;
+				padding: 5px 10px;
+				font-size: 1.1em;
+				box-shadow: 1px 1px 3px rgba(0,0,0,0.8);
+				border-radius: 3px;
+			}
+
+				#iframe-container>a:hover {
+					background-color: #424242;
+				}
+
 		#examples-container {
 			padding: 20px;
 		}
@@ -90,7 +110,7 @@
 			left: 0;
 			height: 60px;
 			width: 100%;
-			border-bottom: solid 1px #262626;
+			border-bottom: solid 1px var(--dark-colour);
 			justify-content: flex-end;
 			align-items: center;
 		}
@@ -133,8 +153,9 @@
 				width: 100vw;
 			}
 
-		}</style></head><body><div id="page"><div id="menu"><div id="navbar-container"><button id="toggle-btn" onclick="toggleNavbar()">more examples ▼</button></div><div id="examples-container"><h1>three-mesh-ui</h1><h2>examples</h2><ul><li title="basic_setup">basic title</li><li title="nested_blocks">nested blocks</li></ul></div></div><div id="iframe-container"><iframe src="./basic_setup.html" allowfullscreen allowvr frameborder="0"></iframe><img src="./assets/loading.gif"></div></div><script>const root = document.documentElement;
+		}</style></head><body><div id="page"><div id="menu"><div id="navbar-container"><button id="toggle-btn" onclick="toggleNavbar()">more examples ▼</button></div><div id="examples-container"><h1>three-mesh-ui</h1><h2>examples</h2><ul><li title="basic_setup">basic setup</li><li title="nested_blocks">nested blocks</li><li title="tutorial_result">tutorial result</li></ul></div></div><div id="iframe-container"><iframe src="./basic_setup.html" allowfullscreen allowvr frameborder="0"></iframe><img src="./assets/loading.gif"> <a id="github-link" href="" target="_blank">code on Github</a></div></div><script>const root = document.documentElement;
 		const btn = document.getElementById('toggle-btn');
+		const link = document.getElementById('github-link');
 		const iframe = document.querySelector('iframe');
 		let navbarIsClosed = true;
 		
@@ -163,7 +184,13 @@
 			if ( node.title === 'basic_setup' ) selectView( node );
 
 			node.onclick = ()=> {
+
 				selectView( node );
+
+				if ( !navbarIsClosed ) {
+					toggleNavbar();
+				};
+
 			};
 
 		});
@@ -172,7 +199,10 @@
 
 		function selectView( listItem ) {
 
+			console.log(`./${ listItem.title }.html`)
+
 			iframe.src = `./${ listItem.title }.html`;
+			link.href = `https://github.com/felixmariotto/three-mesh-ui/blob/master/examples/js/${ listItem.title }.js`
 	
 			document.querySelectorAll('li').forEach( (node)=> {
 
