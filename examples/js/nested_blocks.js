@@ -79,7 +79,7 @@ function makeTextPanel() {
 	const container = ThreeMeshUI.Block({
 		ref: 'container',
 		padding: 0.025,
-		fontFamily: './fonts/helvetiker_regular.typeface.json',
+		fontFamily: './assets/helvetiker_regular.typeface.json',
 		fontMaterial: whiteMaterial
 	});
 
@@ -197,7 +197,6 @@ function makeTextPanel() {
 
 		leftSubBlock.set({
 			backgroundMaterial: new THREE.MeshBasicMaterial({
-				color: 0xffffff,
 				map: texture
 			})
 		});

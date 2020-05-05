@@ -80,7 +80,7 @@ function makeTextPanel() {
 	});
 
 	container.set({
-		fontFamily: './fonts/helvetiker_regular.typeface.json',
+		fontFamily: './assets/helvetiker_regular.typeface.json',
 	});
 
 	uiContainer.add( container.threeOBJ );
