@@ -1,2 +1,4 @@
 examples/
 dist/
+app.js
+webpack.config.js
