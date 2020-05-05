@@ -10,7 +10,7 @@
     "start": "node app.js",
     "dev": "webpack-dev-server --open --env.NODE_ENV=dev",
     "build": "npx webpack --config webpack.config.js --env.NODE_ENV=prod",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"No test specified\""
   },
   "repository": {
     "type": "git",
