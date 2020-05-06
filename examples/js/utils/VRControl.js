@@ -95,7 +95,7 @@ export default function VRControl( renderer ) {
 	const spriteMap = new THREE.CanvasTexture( generatePointerTexture() );
 	const spriteMaterial = new THREE.SpriteMaterial( { map: spriteMap, sizeAttenuation: false } );
 	const pointer = new THREE.Sprite( spriteMaterial );
-	pointer.scale.set(0.02, 0.02, 1)
+	pointer.scale.set(0.015, 0.015, 1)
 
 	//
 
