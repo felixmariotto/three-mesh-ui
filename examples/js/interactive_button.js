@@ -52,7 +52,7 @@ function init() {
 	var planeBack = new THREE.Plane( new THREE.Vector3( 0, 0, -1 ), 3 );
 	var planeLeft = new THREE.Plane( new THREE.Vector3( -1, 0, 0 ), 3 );
 	var planeRight = new THREE.Plane( new THREE.Vector3( 1, 0, 0 ), 3 );
-	var planeCeil = new THREE.Plane( new THREE.Vector3( 0, -1, 0 ), 3 );
+	var planeCeil = new THREE.Plane( new THREE.Vector3( 0, -1, 0 ), 6 );
 	var planeFloor = new  THREE.Plane( new THREE.Vector3( 0, 1, 0 ), 0 );
 
 	var helper = new THREE.PlaneHelper( planeCeil, 1, 0xffff00 );

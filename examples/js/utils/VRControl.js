@@ -122,6 +122,8 @@ export default function VRControl( renderer ) {
 
 			if ( intersection ) {
 
+				console.log( plane )
+
 				if ( target && target.distance > dummyVec.sub( raycaster.ray.origin ).length() ) {
 
 					target = {
