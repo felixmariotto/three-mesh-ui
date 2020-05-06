@@ -82,20 +82,9 @@ export default function VRControl( renderer ) {
 
 	//
 
-	/*
-	const pointer = new THREE.Mesh(
-		new THREE.SphereBufferGeometry( 0.015, 16, 16 ),
-		new THREE.MeshBasicMaterial()
-	);
-	pointer.visible = false;
-	*/
-
-	//
-
 	const spriteMap = new THREE.CanvasTexture( generatePointerTexture() );
 	const spriteMaterial = new THREE.SpriteMaterial( { map: spriteMap, sizeAttenuation: false } );
-	// spriteMaterial.depthTest = false;
-	spriteMaterial.depthFunc = THREE.NotEqualDepth;
+	spriteMaterial.depthFunc = THREE.AlwaysDepth;
 	const pointer = new THREE.Sprite( spriteMaterial );
 	pointer.scale.set(0.015, 0.015, 1)
 
