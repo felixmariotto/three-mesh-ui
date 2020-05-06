@@ -178,8 +178,8 @@ export default function VRControl( renderer ) {
 
 		if ( target ) {
 
-			controllers[0].userData.point.position.z = target.point.z ;
-			// controllers[0].userData.point.position.copy( target.point );
+			controllers[0].userData.point.worldToLocal( target.point );
+			controllers[0].userData.point.position.copy( target.point );
 			controllers[0].userData.point.visible = true;
 
 			return target
