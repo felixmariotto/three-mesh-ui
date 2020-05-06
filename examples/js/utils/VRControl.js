@@ -254,14 +254,16 @@ export default function VRControl( renderer, camera ) {
 
 					target = {
 						point: new THREE.Vector3().copy( intersection ),
-						distance: distance
+						distance: distance,
+						object: plane
 					};
 
 				} else if ( !target ) {
 
 					target = {
 						point: new THREE.Vector3().copy( intersection ),
-						distance: distance
+						distance: distance,
+						object: plane
 					};
 
 				};

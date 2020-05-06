@@ -89,17 +89,13 @@ function init() {
 
 	control.handleSelectStart = function( casterName ) {
 
-		console.log( casterName )
-
 		if ( hovereds.length > 0 ) {
-
-			console.log( hovereds )
 
 			hovereds.forEach( (hovered)=> {
 
-				if ( !hovered.object.material ) return
+				if ( !hovered.material ) return
 
-				hovered.object.material.emissive = new THREE.Color( 0xff00ff );
+				hovered.material.emissive = new THREE.Color( 0xff00ff );
 
 			});
 
@@ -109,17 +105,13 @@ function init() {
 
 	control.handleSelectEnd = function( casterName ) {
 
-		console.log( casterName )
-
 		if ( hovereds.length > 0 ) {
-
-			console.log( hovereds )
 
 			hovereds.forEach( (hovered)=> {
 
-				if ( !hovered.object.material ) return
+				if ( !hovered.material ) return
 
-				hovered.object.material.emissive = new THREE.Color( 0x000000 );
+				hovered.material.emissive = new THREE.Color( 0x000000 );
 
 			});
 
@@ -169,13 +161,17 @@ function onWindowResize() {
 
 //
 
-let target;
+let targets;
 
 function loop() {
 
 	controls.update();
 	renderer.render( scene, camera );
 
-	hovereds = control.intersect( objects );
+	targets = control.intersect( objects );
+
+	if ( targets ) {
+		hovereds = targets.map( target => target.object );
+	};
 
 };
