@@ -96,6 +96,7 @@ export default function VRControl( renderer ) {
 
 	controllers.forEach( (controller)=> {
 		controller.add( pointingRayHelper.clone() );
+		controller.add( pointer.clone() );
 	});
 
 	controllerGrips.forEach( (controllerGrip)=> {
@@ -191,7 +192,6 @@ export default function VRControl( renderer ) {
 	return {
 		controllers,
 		controllerGrips,
-		pointer,
 		intersect
 	};
 

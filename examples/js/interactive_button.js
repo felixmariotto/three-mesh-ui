@@ -86,8 +86,6 @@ function init() {
 	control.controllerGrips.forEach( (controllerGrip)=> {
 		scene.add( controllerGrip );
 	});
-
-	scene.add( control.pointer );
  	
  	//////////
 	// Panel
