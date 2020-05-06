@@ -121,6 +121,7 @@ export default function VRControl( renderer, camera ) {
 	window.addEventListener( 'mouseup', onSelectEnd );
 
 	function onSelectStart() {
+		console.log( "onSelectStart" )
 		module.handleSelectStart();
 	};
 
