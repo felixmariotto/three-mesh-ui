@@ -113,8 +113,8 @@ export default function VRControl( renderer ) {
 		raycaster.ray.origin.copy( controllers[0].position );
 		raycaster.ray.direction.copy( controllers[0].rotation ).normalize();
 
-		var arrowHelper = new THREE.ArrowHelper( raycaster.ray.direction, raycaster.ray.origin, 10, 0xffffff );
-		scene.add( arrowHelper );
+		// var arrowHelper = new THREE.ArrowHelper( raycaster.ray.direction, raycaster.ray.origin, 10, 0xffffff );
+		// scene.add( arrowHelper );
 
 		let target = raycaster.intersectObjects( meshes )[0];
 
@@ -123,10 +123,20 @@ export default function VRControl( renderer ) {
 			const intersection = raycaster.ray.intersectPlane( plane, planeIntersect );
 			if ( intersection ) dummyVec.copy( intersection );
 
-			if ( intersection && target.distance > dummyVec.sub( raycaster.ray.origin ).length() ) {
-				
-				target = {
-					point: new THREE.Vector3().copy( intersection )
+			if ( intersection ) {
+
+				if ( target && target.distance > dummyVec.sub( raycaster.ray.origin ).length() ) {
+
+					target = {
+						point: new THREE.Vector3().copy( intersection )
+					};
+
+				} else if ( !target ) {
+
+					target = {
+						point: new THREE.Vector3().copy( intersection )
+					};
+
 				};
 
 			};
