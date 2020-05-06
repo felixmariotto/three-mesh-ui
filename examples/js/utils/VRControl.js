@@ -173,7 +173,9 @@ export default function VRControl( renderer, camera ) {
 
 			const targets = [];
 			
-			controllers.forEach( (controller)=> {
+			controllers.forEach( (controller, i)=> {
+
+				console.log( controller )
 
 				// Position the intersection ray
 
