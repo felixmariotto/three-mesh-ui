@@ -7,7 +7,7 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 
 import ThreeMeshUI from '../../src/three-mesh-ui.js';
 
-var scene, camera, renderer, controls, raycaster;
+var scene, camera, renderer, controls, raycaster, control;
 
 window.addEventListener('load', ()=> {
 	init();
@@ -66,7 +66,7 @@ function init() {
 	const sphere = new THREE.Mesh(
 		new THREE.SphereBufferGeometry( 0.1, 16, 16 ),
 		new THREE.MeshLambertMaterial()
-	)
+	);
 
 	sphere.position.set( 0, 1, -1 )
 
@@ -74,25 +74,46 @@ function init() {
 
 	// Controller
 
-	const controller1 = renderer.xr.getController( 0 );
-	controller1.addEventListener( 'selectstart', onSelectStart );
-	controller1.addEventListener( 'selectend', onSelectEnd );
-	scene.add( controller1 );
+	control = VRControl( renderer );
 
+	control.controllers.forEach( (controller)=> {
+		scene.add( controller );
+	});
+
+	control.controllerGrips.forEach( (controllerGrip)=> {
+		scene.add( controllerGrip );
+	});
+
+	//
+
+	renderer.setAnimationLoop( loop );
+
+};
+
+//
+
+function VRControl( renderer ) {
+
+	const controllers = [];
+	const controllerGrips = [];
+
+	const controller1 = renderer.xr.getController( 0 );
 	const controller2 = renderer.xr.getController( 1 );
-	controller2.addEventListener( 'selectstart', onSelectStart );
-	controller2.addEventListener( 'selectend', onSelectEnd );
-	scene.add( controller2 );
+	const controllerGrip1 = renderer.xr.getControllerGrip( 0 );
+	const controllerGrip2 = renderer.xr.getControllerGrip( 1 );
+
+	if ( controller1 ) controllers.push( controller1 );
+	if ( controller2 ) controllers.push( controller2 );
+	if ( controllerGrip1 ) controllerGrips.push( controllerGrip1 );
+	if ( controllerGrip2 ) controllerGrips.push( controllerGrip2 );
+
+	// controller2.addEventListener( 'selectstart', onSelectStart );
+	// controller2.addEventListener( 'selectend', onSelectEnd );
 
 	const controllerModelFactory = new XRControllerModelFactory();
 
-	const controllerGrip1 = renderer.xr.getControllerGrip( 0 );
 	controllerGrip1.add( controllerModelFactory.createControllerModel( controllerGrip1 ) );
-	scene.add( controllerGrip1 );
-
-	const controllerGrip2 = renderer.xr.getControllerGrip( 1 );
 	controllerGrip2.add( controllerModelFactory.createControllerModel( controllerGrip2 ) );
-	scene.add( controllerGrip2 );
 
 	//
 
@@ -107,25 +128,10 @@ function init() {
 
 	raycaster = new THREE.Raycaster();
 
-	//
-
-	createPanel();
-
-	renderer.setAnimationLoop( loop );
-
-};
-
-//
-
-function onSelectStart() {};
-
-function onSelectEnd() {};
-
-//
-
-function createPanel() {
-
-
+	return {
+		controllers,
+		controllerGrips
+	};
 
 };
 
