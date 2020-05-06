@@ -107,8 +107,8 @@ function VRControl( renderer ) {
 	line.scale.z = 5;
 	*/
 
-	const geometry = new THREE.BoxBufferGeometry( 0.02, 0.02, 0.3 );
-	geometry.translate( 0, 0, 0.15 );
+	const geometry = new THREE.BoxBufferGeometry( 0.004, 0.004, 0.35 );
+	geometry.translate( 0, 0, -0.15 );
 	const line = new THREE.Mesh( geometry, new THREE.MeshBasicMaterial() );
 
 	//
