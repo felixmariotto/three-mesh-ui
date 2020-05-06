@@ -87,6 +87,9 @@ export default function VRControl( renderer, camera ) {
 	const controller1 = renderer.xr.getController( 0 );
 	const controller2 = renderer.xr.getController( 1 );
 
+	controller1.name = "controller-right";
+	controller2.name = "controller-left";
+
 	const controllerGrip1 = renderer.xr.getControllerGrip( 0 );
 	const controllerGrip2 = renderer.xr.getControllerGrip( 1 );
 
@@ -120,12 +123,19 @@ export default function VRControl( renderer, camera ) {
 	window.addEventListener( 'mousedown', onSelectStart );
 	window.addEventListener( 'mouseup', onSelectEnd );
 
-	function onSelectStart() {
-		module.handleSelectStart();
+	function onSelectStart( event ) {
+
+		var controller = event.target;
+
+		module.handleSelectStart( controller.name );
 	};
 
-	function onSelectEnd() {
-		module.handleSelectEnd();
+	function onSelectEnd( event ) {
+
+		var controller = event.target;
+
+		module.handleSelectEnd( controller.name );
+
 	};
 
 	//////////////
@@ -175,8 +185,6 @@ export default function VRControl( renderer, camera ) {
 			
 			controllers.forEach( (controller, i)=> {
 
-				console.log( controller )
-
 				// Position the intersection ray
 
 				dummyMatrix.identity().extractRotation( controller.matrixWorld );
@@ -187,6 +195,7 @@ export default function VRControl( renderer, camera ) {
 				// Intersect
 
 				const target = intersectObjects( meshes, planes );
+				target.caster = controller.name
 
 				// Position the helper and return the intersected object if any
 

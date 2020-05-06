@@ -87,22 +87,34 @@ function init() {
 		scene.add( controllerGrip );
 	});
 
-	control.handleSelectStart = function() {
+	control.handleSelectStart = function( casterName ) {
+
+		console.log( casterName )
+
 		if ( hovereds.length > 0 ) {
+
+			console.log( hovereds )
+
 			hovereds.forEach( (hovered)=> {
 				if ( !hovered.material ) return
 				hovered.material.emissive = new THREE.Color( 0xff00ff );
 			});
+
 		};
+
 	};
 
-	control.handleSelectEnd = function() {
+	control.handleSelectEnd = function( casterName ) {
+
 		if ( hovereds.length > 0 ) {
+
 			hovereds.forEach( (hovered)=> {
 				if ( !hovered.material ) return
 				hovered.material.emissive = new THREE.Color( 0x000000 );
 			});
+
 		};
+
 	};
  	
  	//////////
