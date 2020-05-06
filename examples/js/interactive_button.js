@@ -81,6 +81,9 @@ function init() {
 	light.shadow.mapSize.set( 2046, 2046 );
 	// scene.add( light );
 
+	var directionalLight = new THREE.DirectionalLight( 0xffffff, 0.5 );
+	scene.add( directionalLight );
+
 	////////////////
 	// Controllers
 	////////////////
