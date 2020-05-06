@@ -120,8 +120,11 @@ export default function VRControl( renderer ) {
 
 		planes.forEach( (plane)=> {
 
+			planeIntersect.set( 0, 0, 0 );
 			const intersection = raycaster.ray.intersectPlane( plane, planeIntersect );
 			if ( intersection ) dummyVec.copy( intersection );
+
+			console.log( intersection.x + ' / ' + intersection.y + ' / ' + intersection.z )
 
 			if ( intersection ) {
 
