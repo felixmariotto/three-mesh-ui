@@ -20,6 +20,10 @@ window.addEventListener('resize', ()=> {
 
 function init() {
 
+	////////////////////////
+	//  BASIC THREE SETUP
+	////////////////////////
+
 	scene = new THREE.Scene();
 	scene.background = new THREE.Color( 0x505050 );
 
@@ -39,7 +43,9 @@ function init() {
 	controls.target = new THREE.Vector3( 0, 1, -1.8 );
 	controls.update();
 
+	/////////
 	// Room
+	/////////
 
 	const room = new THREE.LineSegments(
 		new BoxLineGeometry( 6, 6, 6, 10, 10, 10 ).translate( 0, 3, 0 ),
@@ -47,6 +53,8 @@ function init() {
 	);
 
 	scene.add( room );
+
+	// Planes for intersections with the controller pointers
 
 	var planeFront = new THREE.Plane( new THREE.Vector3( 0, 0, 1 ), 3 );
 	var planeBack = new THREE.Plane( new THREE.Vector3( 0, 0, -1 ), 3 );
@@ -57,7 +65,9 @@ function init() {
 
 	objects.push( planeFront, planeBack, planeLeft, planeRight, planeCeil, planeFloor );
 
+	//////////
 	// Light
+	//////////
 
 	scene.add( new THREE.HemisphereLight( 0x808080, 0x606060 ) );
 
@@ -68,23 +78,12 @@ function init() {
 	light.shadow.camera.bottom = - 2;
 	light.shadow.camera.right = 2;
 	light.shadow.camera.left = - 2;
-	light.shadow.mapSize.set( 4096, 4096 );
-	scene.add( light );
+	light.shadow.mapSize.set( 2046, 2046 );
+	// scene.add( light );
 
-	//
-
-	const sphere = new THREE.Mesh(
-		new THREE.SphereBufferGeometry( 0.2, 16, 16 ),
-		new THREE.MeshNormalMaterial()
-	);
-
-	sphere.position.set( 0, 1, -1.5 )
-
-	scene.add( sphere );
-
-	objects.push( sphere );
-
-	// Controller
+	////////////////
+	// Controllers
+	////////////////
 
 	control = VRControl( renderer );
 
@@ -97,10 +96,33 @@ function init() {
 	});
 
 	scene.add( control.pointer );
+ 	
+ 	//////////
+	// Panel
+	//////////
+
+	makePanel();
 
 	//
 
 	renderer.setAnimationLoop( loop );
+
+};
+
+//
+
+function makePanel() {
+
+	const sphere = new THREE.Mesh(
+		new THREE.SphereBufferGeometry( 0.2, 16, 16 ),
+		new THREE.MeshNormalMaterial()
+	);
+
+	sphere.position.set( 0, 1, -1.5 )
+
+	scene.add( sphere );
+
+	objects.push( sphere );
 
 };
 
