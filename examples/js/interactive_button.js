@@ -111,6 +111,10 @@ function VRControl( renderer ) {
 	geometry.translate( 0, 0, -0.15 );
 	const line = new THREE.Mesh( geometry, new THREE.MeshBasicMaterial() );
 
+	new THREE.TextureLoader().load('./assets/alpha-map.png', (texture)=> {
+		line.material.alphaMap = texture;
+	});
+
 	//
 
 	const controller1 = renderer.xr.getController( 0 );
