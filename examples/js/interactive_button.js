@@ -71,18 +71,7 @@ function init() {
 
 	scene.add( new THREE.HemisphereLight( 0x808080, 0x606060 ) );
 
-	var light = new THREE.DirectionalLight( 0xffffff );
-	light.position.set( 0, 6, 0 );
-	light.castShadow = true;
-	light.shadow.camera.top = 2;
-	light.shadow.camera.bottom = - 2;
-	light.shadow.camera.right = 2;
-	light.shadow.camera.left = - 2;
-	light.shadow.mapSize.set( 2046, 2046 );
-	// scene.add( light );
-
-	var directionalLight = new THREE.DirectionalLight( 0xffffff, 0.5 );
-	scene.add( directionalLight );
+	scene.add( new THREE.DirectionalLight( 0xffffff, 0.5 ) );
 
 	////////////////
 	// Controllers
@@ -145,5 +134,5 @@ function onWindowResize() {
 function loop() {
 	controls.update();
 	renderer.render( scene, camera );
-	control.intersect( objects, scene );
+	control.intersect( objects );
 };

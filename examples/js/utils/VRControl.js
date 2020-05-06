@@ -1,4 +1,8 @@
 
+/*
+Component that construct VR controllers from a XR-enabled renderer
+*/
+
 import * as THREE from 'three';
 import { XRControllerModelFactory } from 'three/examples/jsm/webxr/XRControllerModelFactory.js';
 
@@ -9,20 +13,21 @@ export default function VRControl( renderer ) {
 
 	const controllerModelFactory = new XRControllerModelFactory();
 
-	// pointer
+	//////////////////////////
+	// Pointing rays helpers
+	//////////////////////////
 
-	var rayTexture = new THREE.CanvasTexture( generateRayTexture() );
-
-	var material = new THREE.MeshBasicMaterial( {
+	const material = new THREE.MeshBasicMaterial( {
 		color: 0xffffff,
-		alphaMap: rayTexture,
+		alphaMap: new THREE.CanvasTexture( generateRayTexture() ),
 		transparent: true
 	});
 
 	const geometry = new THREE.BoxBufferGeometry( 0.004, 0.004, 0.35 );
+
 	geometry.translate( 0, 0, -0.15 );
 
-	var uvAttribute = geometry.attributes.uv;
+	const uvAttribute = geometry.attributes.uv;
 		
 	for ( var i = 0; i < uvAttribute.count; i ++ ) {
 			
@@ -55,40 +60,51 @@ export default function VRControl( renderer ) {
 			
 	};
 
-	const line = new THREE.Mesh( geometry, material );
+	const pointingRayHelper = new THREE.Mesh( geometry, material );
 
-	//
+	/////////////////
+	// Point helper
+	/////////////////
+
+	const spriteMap = new THREE.CanvasTexture( generatePointerTexture() );
+
+	const spriteMaterial = new THREE.SpriteMaterial({
+		map: spriteMap,
+		sizeAttenuation: false,
+		depthFunc: THREE.AlwaysDepth
+	});
+
+	const pointer = new THREE.Sprite( spriteMaterial );
+
+	pointer.scale.set(0.015, 0.015, 1)
+
+	////////////////
+	// Controllers
+	////////////////
 
 	const controller1 = renderer.xr.getController( 0 );
 	const controller2 = renderer.xr.getController( 1 );
+
 	const controllerGrip1 = renderer.xr.getControllerGrip( 0 );
 	const controllerGrip2 = renderer.xr.getControllerGrip( 1 );
 
 	if ( controller1 ) controllers.push( controller1 );
 	if ( controller2 ) controllers.push( controller2 );
+
 	if ( controllerGrip1 ) controllerGrips.push( controllerGrip1 );
 	if ( controllerGrip2 ) controllerGrips.push( controllerGrip2 );
 
-	// controller2.addEventListener( 'selectstart', onSelectStart );
-	// controller2.addEventListener( 'selectend', onSelectEnd );
-
 	controllers.forEach( (controller)=> {
-		controller.add( line.clone() );
+		controller.add( pointingRayHelper.clone() );
 	});
 
 	controllerGrips.forEach( (controllerGrip)=> {
 		controllerGrip.add( controllerModelFactory.createControllerModel( controllerGrip ) );
 	});
 
-	//
-
-	const spriteMap = new THREE.CanvasTexture( generatePointerTexture() );
-	const spriteMaterial = new THREE.SpriteMaterial( { map: spriteMap, sizeAttenuation: false } );
-	spriteMaterial.depthFunc = THREE.AlwaysDepth;
-	const pointer = new THREE.Sprite( spriteMaterial );
-	pointer.scale.set(0.015, 0.015, 1)
-
-	//
+	//////////////
+	// Functions
+	//////////////
 
 	const raycaster = new THREE.Raycaster();
 
@@ -96,9 +112,10 @@ export default function VRControl( renderer ) {
 	const dummyVec = new THREE.Vector3();
 	const dummyMatrix = new THREE.Matrix4();
 
-	//
+	// Public function that get called from outside, with an array of objects to intersect.
+	// If intersects, returns the intersected object. Position the helper at the intersection poit
 
-	function intersect( objects, scene ) {
+	function intersect( objects ) {
 
 		const meshes = objects.filter((obj)=> {
 			return obj.type === 'Mesh';
@@ -108,12 +125,18 @@ export default function VRControl( renderer ) {
 			return obj.normal !== undefined && obj.constant !== undefined
 		});
 
+		// Position the intersection ray
+
 		dummyMatrix.identity().extractRotation( controllers[0].matrixWorld );
 
 		raycaster.ray.origin.setFromMatrixPosition( controllers[0].matrixWorld );
 		raycaster.ray.direction.set( 0, 0, - 1 ).applyMatrix4( dummyMatrix );
 
+		// Intersect
+
 		let target = raycaster.intersectObjects( meshes )[0];
+
+		// Rays must be intersected manually as its not supported by raycaster.intersectObjects
 
 		planes.forEach( (plane)=> {
 
@@ -144,6 +167,8 @@ export default function VRControl( renderer ) {
 
 		});
 
+		// Position the helper and return the intersected object if any
+
 		if ( target ) {
 
 			pointer.position.copy( target.point );
@@ -161,6 +186,8 @@ export default function VRControl( renderer ) {
 
 	};
 
+	//
+
 	return {
 		controllers,
 		controllerGrips,
@@ -170,7 +197,7 @@ export default function VRControl( renderer ) {
 
 };
 
-//
+// Generate the texture needed to make the intersection ray fade away
 
 function generateRayTexture() {
 
@@ -191,7 +218,7 @@ function generateRayTexture() {
 
 };
 
-//
+// Generate the texture of the point helper sprite
 
 function generatePointerTexture() {
 
