@@ -7,7 +7,7 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import ThreeMeshUI from '../../src/three-mesh-ui.js';
 import VRControl from './utils/VRControl.js';
 
-var scene, camera, renderer, controls, raycaster, control;
+var scene, camera, renderer, controls, raycaster, control, hovered;
 var objects = [];
 
 window.addEventListener('load', ()=> {
@@ -77,7 +77,7 @@ function init() {
 	// Controllers
 	////////////////
 
-	control = VRControl( renderer );
+	control = VRControl( renderer, camera );
 
 	control.controllers.forEach( (controller)=> {
 		scene.add( controller );
@@ -86,6 +86,14 @@ function init() {
 	control.controllerGrips.forEach( (controllerGrip)=> {
 		scene.add( controllerGrip );
 	});
+
+	control.handleSelectStart = function() {
+		if ( hovered ) hovered.material.emissive = new THREE.Color( 0xff00ff ) ;
+	};
+
+	control.handleSelectEnd = function() {
+		if ( hovered ) hovered.material.emissive = new THREE.Color( 0x000000 ) ;
+	};
  	
  	//////////
 	// Panel
@@ -105,7 +113,7 @@ function makePanel() {
 
 	const sphere = new THREE.Mesh(
 		new THREE.SphereBufferGeometry( 0.2, 16, 16 ),
-		new THREE.MeshNormalMaterial()
+		new THREE.MeshLambertMaterial()
 	);
 
 	sphere.position.set( 0, 1, -1.5 )
@@ -129,8 +137,19 @@ function onWindowResize() {
 
 //
 
+let target;
+
 function loop() {
+
 	controls.update();
 	renderer.render( scene, camera );
-	control.intersect( objects );
+
+	target = control.intersect( objects );
+
+	if ( target.object ) {
+		hovered = target.object;
+	} else {
+		hovered = undefined;
+	};
+
 };

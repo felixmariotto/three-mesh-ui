@@ -6,7 +6,9 @@ Component that construct VR controllers from a XR-enabled renderer
 import * as THREE from 'three';
 import { XRControllerModelFactory } from 'three/examples/jsm/webxr/XRControllerModelFactory.js';
 
-export default function VRControl( renderer ) {
+export default function VRControl( renderer, camera ) {
+
+	let module;
 
 	const controllers = [];
 	const controllerGrips = [];
@@ -109,20 +111,52 @@ export default function VRControl( renderer ) {
 		controllerGrip.add( controllerModelFactory.createControllerModel( controllerGrip ) );
 	});
 
+	controller1.addEventListener( 'selectstart', onSelectStart );
+	controller1.addEventListener( 'selectend', onSelectEnd );
+
+	controller2.addEventListener( 'selectstart', onSelectStart );
+	controller2.addEventListener( 'selectend', onSelectEnd );
+
+	window.addEventListener( 'mousedown', onSelectStart );
+	window.addEventListener( 'mouseup', onSelectEnd );
+
+	function onSelectStart() {
+		module.handleSelectStart();
+	};
+
+	function onSelectEnd() {
+		module.handleSelectEnd();
+	};
+
 	//////////////
 	// Functions
 	//////////////
 
 	const raycaster = new THREE.Raycaster();
+	const mouse = new THREE.Vector2();
 
 	const planeIntersect = new THREE.Vector3();
 	const dummyVec = new THREE.Vector3();
 	const dummyMatrix = new THREE.Matrix4();
 
+	// calculate mouse position in normalized device coordinates
+	// (-1 to +1) for both components
+
+	window.addEventListener( 'mousemove', onMouseMove, false );
+
+	function onMouseMove( event ) {
+
+		mouse.x = ( event.clientX / window.innerWidth ) * 2 - 1;
+		mouse.y = - ( event.clientY / window.innerHeight ) * 2 + 1;
+
+	};
+
 	// Public function that get called from outside, with an array of objects to intersect.
 	// If intersects, returns the intersected object. Position the helper at the intersection poit
 
 	function intersect( objects ) {
+
+		if ( !objects ) return null
 
 		const targets = [];
 
@@ -134,81 +168,111 @@ export default function VRControl( renderer ) {
 			return obj.normal !== undefined && obj.constant !== undefined
 		});
 
-		controllers.forEach( (controller)=> {
+		// If immersion is on, then we check intersection with the controllers.
+		// Otherwise, we emulate them with the mouse
 
-			// Position the intersection ray
+		if ( renderer.xr.isPresenting ) {
+			
+			controllers.forEach( (controller)=> {
 
-			dummyMatrix.identity().extractRotation( controller.matrixWorld );
+				// Position the intersection ray
 
-			raycaster.ray.origin.setFromMatrixPosition( controller.matrixWorld );
-			raycaster.ray.direction.set( 0, 0, - 1 ).applyMatrix4( dummyMatrix );
+				dummyMatrix.identity().extractRotation( controller.matrixWorld );
 
-			// Intersect
+				raycaster.ray.origin.setFromMatrixPosition( controller.matrixWorld );
+				raycaster.ray.direction.set( 0, 0, - 1 ).applyMatrix4( dummyMatrix );
 
-			let target = raycaster.intersectObjects( meshes )[0];
+				// Intersect
 
-			// Rays must be intersected manually as its not supported by raycaster.intersectObjects
+				const target = intersectObjects( meshes, planes );
 
-			planes.forEach( (plane)=> {
+				// Position the helper and return the intersected object if any
 
-				const intersection = raycaster.ray.intersectPlane( plane, planeIntersect );
-				if ( intersection ) dummyVec.copy( intersection );
+				if ( target ) {
 
-				if ( intersection ) {
+					const localVec = controller.worldToLocal( target.point );
+					controller.userData.point.position.copy( localVec );
+					controller.userData.point.visible = true;
 
-					const distance = dummyVec.sub( raycaster.ray.origin ).length();
+					targets.push( target );
 
-					if ( target && target.distance > distance ) {
+				} else {
 
-						target = {
-							point: new THREE.Vector3().copy( intersection ),
-							distance: distance
-						};
+					controller.userData.point.visible = false;
 
-					} else if ( !target ) {
-
-						target = {
-							point: new THREE.Vector3().copy( intersection ),
-							distance: distance
-						};
-
-					};
+					return null
 
 				};
 
-			});
+			})
 
-			// Position the helper and return the intersected object if any
+		} else {
 
-			if ( target ) {
+			raycaster.setFromCamera( mouse, camera );
 
-				const localVec = controller.worldToLocal( target.point );
-				controller.userData.point.position.copy( localVec );
-				controller.userData.point.visible = true;
+			const target = intersectObjects( meshes, planes );
 
-				targets.push( target );
+			return target || null
 
-			} else {
-
-				controller.userData.point.visible = false;
-
-				return null
-
-			};
-
-		})
+		};
 
 	};
 
 	//
 
-	return {
-		controllers,
-		controllerGrips,
-		intersect
+	function intersectObjects( meshes, planes ) {
+
+		let target = raycaster.intersectObjects( meshes )[0];
+
+		// Rays must be intersected manually as its not supported by raycaster.intersectObjects
+
+		planes.forEach( (plane)=> {
+
+			const intersection = raycaster.ray.intersectPlane( plane, planeIntersect );
+			if ( intersection ) dummyVec.copy( intersection );
+
+			if ( intersection ) {
+
+				const distance = dummyVec.sub( raycaster.ray.origin ).length();
+
+				if ( target && target.distance > distance ) {
+
+					target = {
+						point: new THREE.Vector3().copy( intersection ),
+						distance: distance
+					};
+
+				} else if ( !target ) {
+
+					target = {
+						point: new THREE.Vector3().copy( intersection ),
+						distance: distance
+					};
+
+				};
+
+			};
+
+		});
+
+		return target
+
 	};
 
+	//
+
+	module = {
+		controllers,
+		controllerGrips,
+		intersect,
+		handleSelectStart: ()=> {},
+		handleSelectEnd: ()=> {}
+	};
+
+	return module
+
 };
+
 
 // Generate the texture needed to make the intersection ray fade away
 
