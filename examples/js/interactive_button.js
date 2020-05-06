@@ -96,8 +96,11 @@ function init() {
 			console.log( hovereds )
 
 			hovereds.forEach( (hovered)=> {
-				if ( !hovered.material ) return
-				hovered.material.emissive = new THREE.Color( 0xff00ff );
+
+				if ( !hovered.object.material ) return
+
+				hovered.object.material.emissive = new THREE.Color( 0xff00ff );
+
 			});
 
 		};
@@ -106,11 +109,18 @@ function init() {
 
 	control.handleSelectEnd = function( casterName ) {
 
+		console.log( casterName )
+
 		if ( hovereds.length > 0 ) {
 
+			console.log( hovereds )
+
 			hovereds.forEach( (hovered)=> {
-				if ( !hovered.material ) return
-				hovered.material.emissive = new THREE.Color( 0x000000 );
+
+				if ( !hovered.object.material ) return
+
+				hovered.object.material.emissive = new THREE.Color( 0x000000 );
+
 			});
 
 		};
