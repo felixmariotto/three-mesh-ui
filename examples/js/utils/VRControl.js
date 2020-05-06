@@ -124,6 +124,8 @@ export default function VRControl( renderer ) {
 
 	function intersect( objects ) {
 
+		const targets = [];
+
 		const meshes = objects.filter((obj)=> {
 			return obj.type === 'Mesh';
 		});
@@ -132,65 +134,69 @@ export default function VRControl( renderer ) {
 			return obj.normal !== undefined && obj.constant !== undefined
 		});
 
-		// Position the intersection ray
+		controllers.forEach( (controller)=> {
 
-		dummyMatrix.identity().extractRotation( controllers[0].matrixWorld );
+			// Position the intersection ray
 
-		raycaster.ray.origin.setFromMatrixPosition( controllers[0].matrixWorld );
-		raycaster.ray.direction.set( 0, 0, - 1 ).applyMatrix4( dummyMatrix );
+			dummyMatrix.identity().extractRotation( controller.matrixWorld );
 
-		// Intersect
+			raycaster.ray.origin.setFromMatrixPosition( controller.matrixWorld );
+			raycaster.ray.direction.set( 0, 0, - 1 ).applyMatrix4( dummyMatrix );
 
-		let target = raycaster.intersectObjects( meshes )[0];
+			// Intersect
 
-		// Rays must be intersected manually as its not supported by raycaster.intersectObjects
+			let target = raycaster.intersectObjects( meshes )[0];
 
-		planes.forEach( (plane)=> {
+			// Rays must be intersected manually as its not supported by raycaster.intersectObjects
 
-			const intersection = raycaster.ray.intersectPlane( plane, planeIntersect );
-			if ( intersection ) dummyVec.copy( intersection );
+			planes.forEach( (plane)=> {
 
-			if ( intersection ) {
+				const intersection = raycaster.ray.intersectPlane( plane, planeIntersect );
+				if ( intersection ) dummyVec.copy( intersection );
 
-				const distance = dummyVec.sub( raycaster.ray.origin ).length();
+				if ( intersection ) {
 
-				if ( target && target.distance > distance ) {
+					const distance = dummyVec.sub( raycaster.ray.origin ).length();
 
-					target = {
-						point: new THREE.Vector3().copy( intersection ),
-						distance: distance
-					};
+					if ( target && target.distance > distance ) {
 
-				} else if ( !target ) {
+						target = {
+							point: new THREE.Vector3().copy( intersection ),
+							distance: distance
+						};
 
-					target = {
-						point: new THREE.Vector3().copy( intersection ),
-						distance: distance
+					} else if ( !target ) {
+
+						target = {
+							point: new THREE.Vector3().copy( intersection ),
+							distance: distance
+						};
+
 					};
 
 				};
 
+			});
+
+			// Position the helper and return the intersected object if any
+
+			if ( target ) {
+
+				const localVec = controller.worldToLocal( target.point );
+				controller.userData.point.position.copy( localVec );
+				controller.userData.point.visible = true;
+
+				targets.push( target );
+
+			} else {
+
+				controller.userData.point.visible = false;
+
+				return null
+
 			};
 
-		});
-
-		// Position the helper and return the intersected object if any
-
-		if ( target ) {
-
-			const localVec = controllers[0].worldToLocal( target.point );
-			controllers[0].userData.point.position.copy( localVec );
-			controllers[0].userData.point.visible = true;
-
-			return target
-
-		} else {
-
-			controllers[0].userData.point.visible = false;
-
-			return null
-
-		};
+		})
 
 	};
 
