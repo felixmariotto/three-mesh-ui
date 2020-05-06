@@ -122,18 +122,20 @@ export default function VRControl( renderer ) {
 
 			if ( intersection ) {
 
-				console.log( plane )
+				const distance = dummyVec.sub( raycaster.ray.origin ).length();
 
-				if ( target && target.distance > dummyVec.sub( raycaster.ray.origin ).length() ) {
+				if ( target && target.distance > distance ) {
 
 					target = {
-						point: new THREE.Vector3().copy( intersection )
+						point: new THREE.Vector3().copy( intersection ),
+						distance: distance
 					};
 
 				} else if ( !target ) {
 
 					target = {
-						point: new THREE.Vector3().copy( intersection )
+						point: new THREE.Vector3().copy( intersection ),
+						distance: distance
 					};
 
 				};

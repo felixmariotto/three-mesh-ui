@@ -55,9 +55,6 @@ function init() {
 	var planeCeil = new THREE.Plane( new THREE.Vector3( 0, -1, 0 ), 6 );
 	var planeFloor = new  THREE.Plane( new THREE.Vector3( 0, 1, 0 ), 0 );
 
-	var helper = new THREE.PlaneHelper( planeCeil, 1, 0xffff00 );
-	scene.add( helper );
-
 	objects.push( planeFront, planeBack, planeLeft, planeRight, planeCeil, planeFloor );
 
 	// Light
