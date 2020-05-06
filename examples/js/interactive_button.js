@@ -7,7 +7,7 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 
 import ThreeMeshUI from '../../src/three-mesh-ui.js';
 
-var scene, camera, renderer, controls;
+var scene, camera, renderer, controls, raycaster;
 
 window.addEventListener('load', ()=> {
 	init();
@@ -74,6 +74,16 @@ function init() {
 
 	// Controller
 
+	const controller1 = renderer.xr.getController( 0 );
+	controller1.addEventListener( 'selectstart', onSelectStart );
+	controller1.addEventListener( 'selectend', onSelectEnd );
+	scene.add( controller1 );
+
+	const controller2 = renderer.xr.getController( 1 );
+	controller2.addEventListener( 'selectstart', onSelectStart );
+	controller2.addEventListener( 'selectend', onSelectEnd );
+	scene.add( controller2 );
+
 	const controllerModelFactory = new XRControllerModelFactory();
 
 	const controllerGrip1 = renderer.xr.getControllerGrip( 0 );
@@ -86,11 +96,30 @@ function init() {
 
 	//
 
+	const geometry = new THREE.BufferGeometry().setFromPoints( [ new THREE.Vector3( 0, 0, 0 ), new THREE.Vector3( 0, 0, - 1 ) ] );
+
+	const line = new THREE.Line( geometry );
+	line.name = 'line';
+	line.scale.z = 5;
+
+	controller1.add( line.clone() );
+	controller2.add( line.clone() );
+
+	raycaster = new THREE.Raycaster();
+
+	//
+
 	createPanel();
 
 	renderer.setAnimationLoop( loop );
 
 };
+
+//
+
+function onSelectStart() {};
+
+function onSelectEnd() {};
 
 //
 
