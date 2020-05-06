@@ -11,11 +11,11 @@ export default function VRControl( renderer ) {
 
 	// pointer
 
-	var texture = new THREE.CanvasTexture( generateTexture() );
+	var rayTexture = new THREE.CanvasTexture( generateRayTexture() );
 
 	var material = new THREE.MeshBasicMaterial( {
 		color: 0xffffff,
-		alphaMap: texture,
+		alphaMap: rayTexture,
 		transparent: true
 	});
 
@@ -82,11 +82,20 @@ export default function VRControl( renderer ) {
 
 	//
 
+	/*
 	const pointer = new THREE.Mesh(
 		new THREE.SphereBufferGeometry( 0.015, 16, 16 ),
 		new THREE.MeshBasicMaterial()
 	);
 	pointer.visible = false;
+	*/
+
+	//
+
+	const spriteMap = new THREE.CanvasTexture( generatePointerTexture() );
+	const spriteMaterial = new THREE.SpriteMaterial( { map: spriteMap, sizeAttenuation: false } );
+	const pointer = new THREE.Sprite( spriteMaterial );
+	pointer.scale.set(0.02, 0.02, 1)
 
 	//
 
@@ -172,7 +181,7 @@ export default function VRControl( renderer ) {
 
 //
 
-function generateTexture() {
+function generateRayTexture() {
 
 	var canvas = document.createElement( 'canvas' );
 	canvas.width = 64;
@@ -186,6 +195,27 @@ function generateTexture() {
 
 	ctx.fillStyle = grd;
 	ctx.fillRect(0, 0, 64, 64);
+
+	return canvas;
+
+};
+
+//
+
+function generatePointerTexture() {
+
+	var canvas = document.createElement( 'canvas' );
+	canvas.width = 64;
+	canvas.height = 64;
+
+	var ctx = canvas.getContext("2d");
+
+	ctx.beginPath();
+	ctx.arc(32, 32, 29, 0, 2 * Math.PI);
+	ctx.lineWidth = 5;
+	ctx.stroke();
+	ctx.fillStyle = "white";
+	ctx.fill();
 
 	return canvas;
 
