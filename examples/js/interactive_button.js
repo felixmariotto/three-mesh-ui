@@ -8,6 +8,7 @@ import ThreeMeshUI from '../../src/three-mesh-ui.js';
 import VRControl from './utils/VRControl.js';
 
 var scene, camera, renderer, controls, raycaster, control;
+var objects = [];
 
 window.addEventListener('load', ()=> {
 	init();
@@ -72,6 +73,8 @@ function init() {
 
 	scene.add( sphere );
 
+	objects.push( sphere );
+
 	// Controller
 
 	control = VRControl( renderer );
@@ -83,6 +86,8 @@ function init() {
 	control.controllerGrips.forEach( (controllerGrip)=> {
 		scene.add( controllerGrip );
 	});
+
+	scene.add( control.pointer );
 
 	//
 
@@ -106,4 +111,5 @@ function onWindowResize() {
 function loop() {
 	controls.update();
 	renderer.render( scene, camera );
+	control.intersect( objects );
 };

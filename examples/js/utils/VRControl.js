@@ -82,11 +82,47 @@ export default function VRControl( renderer ) {
 
 	//
 
+	const pointer = new THREE.Mesh(
+		new THREE.SphereBufferGeometry( 0.015, 16, 16 ),
+		new THREE.MeshBasicMaterial()
+	);
+	pointer.visible = false;
+
+	//
+
 	const raycaster = new THREE.Raycaster();
+
+	//
+
+	function intersect( objects ) {
+
+		raycaster.ray.origin.copy( controllers[0].position );
+		raycaster.ray.direction.copy( controllers[0].rotation ).normalize();
+
+		const target = raycaster.intersectObjects( objects )[0];
+
+		if ( target ) {
+
+			pointer.position.copy( target.point );
+			pointer.visible = true;
+
+			return target
+
+		} else {
+
+			pointer.visible = false;
+
+			return null
+
+		};
+
+	};
 
 	return {
 		controllers,
-		controllerGrips
+		controllerGrips,
+		pointer,
+		intersect
 	};
 
 };
