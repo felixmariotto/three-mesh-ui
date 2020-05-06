@@ -7,7 +7,10 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import ThreeMeshUI from '../../src/three-mesh-ui.js';
 import VRControl from './utils/VRControl.js';
 
-var scene, camera, renderer, controls, raycaster, control, hovereds;
+var scene, camera, renderer, controls, raycaster, control;
+var targets = [];
+var hovereds = [];
+var selected = [];
 var objects = [];
 
 window.addEventListener('load', ()=> {
@@ -93,9 +96,9 @@ function init() {
 
 			hovereds.forEach( (hovered)=> {
 
-				if ( !hovered.material ) return
+				if ( !hovered.object.material ) return
 
-				hovered.material.emissive = new THREE.Color( 0xff00ff );
+				select( hovered );
 
 			});
 
@@ -109,9 +112,9 @@ function init() {
 
 			hovereds.forEach( (hovered)=> {
 
-				if ( !hovered.material ) return
+				if ( !hovered.object.material ) return
 
-				hovered.material.emissive = new THREE.Color( 0x000000 );
+				unselect( hovered );
 
 			});
 
@@ -161,7 +164,21 @@ function onWindowResize() {
 
 //
 
-let targets;
+function select( target ) {
+
+	target.object.material.emissive = new THREE.Color( 0xff00ff );
+	selected.push( target );
+
+};
+
+function unselect( target ) {
+
+	target.object.material.emissive = new THREE.Color( 0x000000 );
+	selected.slice( selected.indexOf(target), 1 );
+
+};
+
+//
 
 function loop() {
 
@@ -170,8 +187,22 @@ function loop() {
 
 	targets = control.intersect( objects );
 
+	// Unselect elements that are no longer hovered
+
+	selected.forEach( (selectedTarget)=> {
+
+		if ( !targets.find((target)=> { return target.object === selectedTarget.object }) ) {
+
+			unselect( selectedTarget );
+
+		};
+
+	});
+
+	// Create new hovereds array
+
 	if ( targets ) {
-		hovereds = targets.map( target => target.object );
+		hovereds = targets.slice(0);
 	};
 
 };
