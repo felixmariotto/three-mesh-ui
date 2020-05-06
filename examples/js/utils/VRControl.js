@@ -92,16 +92,50 @@ export default function VRControl( renderer ) {
 
 	const raycaster = new THREE.Raycaster();
 
+	const planeIntersect = new THREE.Vector3();
+	const dummyVec = new THREE.Vector3();
+
 	//
 
-	function intersect( objects ) {
+	function intersect( objects, scene ) {
+
+		const meshes = objects.filter((obj)=> {
+			return obj.type === 'Mesh';
+		});
+
+		const planes = objects.filter((obj)=> {
+			return obj.normal !== undefined && obj.constant !== undefined
+		});
+
+		// raycaster.ray.origin.set( 0, 1, 0 );
+		// raycaster.ray.direction.set( 0, 0, -1 );
 
 		raycaster.ray.origin.copy( controllers[0].position );
 		raycaster.ray.direction.copy( controllers[0].rotation ).normalize();
 
-		const target = raycaster.intersectObjects( objects )[0];
+		var arrowHelper = new THREE.ArrowHelper( raycaster.ray.direction, raycaster.ray.origin, 10, 0xffffff );
+		scene.add( arrowHelper );
+
+		let target = raycaster.intersectObjects( meshes )[0];
+
+		planes.forEach( (plane)=> {
+
+			const intersection = raycaster.ray.intersectPlane( plane, planeIntersect );
+			if ( intersection ) dummyVec.copy( intersection );
+
+			if ( intersection && target.distance > dummyVec.sub( raycaster.ray.origin ).length() ) {
+				
+				target = {
+					point: new THREE.Vector3().copy( intersection )
+				};
+
+			};
+
+		});
 
 		if ( target ) {
+
+			// console.log( target.point )
 
 			pointer.position.copy( target.point );
 			pointer.visible = true;

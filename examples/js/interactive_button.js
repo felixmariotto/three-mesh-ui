@@ -48,6 +48,12 @@ function init() {
 
 	scene.add( room );
 
+	var plane = new THREE.Plane( new THREE.Vector3( 0, 0, 1 ), 3 );
+	var helper = new THREE.PlaneHelper( plane, 1, 0xffff00 );
+	scene.add( helper );
+
+	objects.push( plane )
+
 	// Light
 
 	scene.add( new THREE.HemisphereLight( 0x808080, 0x606060 ) );
@@ -111,5 +117,5 @@ function onWindowResize() {
 function loop() {
 	controls.update();
 	renderer.render( scene, camera );
-	control.intersect( objects );
+	control.intersect( objects, scene );
 };
