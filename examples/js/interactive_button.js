@@ -146,7 +146,7 @@ function loop() {
 
 	target = control.intersect( objects );
 
-	if ( target.object ) {
+	if ( target && target.object ) {
 		hovered = target.object;
 	} else {
 		hovered = undefined;
