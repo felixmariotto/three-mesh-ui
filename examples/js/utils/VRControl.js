@@ -95,8 +95,14 @@ export default function VRControl( renderer ) {
 	if ( controllerGrip2 ) controllerGrips.push( controllerGrip2 );
 
 	controllers.forEach( (controller)=> {
-		controller.add( pointingRayHelper.clone() );
-		controller.add( pointer.clone() );
+
+		const ray = pointingRayHelper.clone();
+		const point = pointer.clone();
+
+		controller.add( ray, point );
+		controller.userData.ray = ray;
+		controller.userData.point = point;
+
 	});
 
 	controllerGrips.forEach( (controllerGrip)=> {
@@ -172,14 +178,14 @@ export default function VRControl( renderer ) {
 
 		if ( target ) {
 
-			pointer.position.copy( target.point );
-			pointer.visible = true;
+			controllers[0].userData.point.position.copy( target.point );
+			controllers[0].userData.point.visible = true;
 
 			return target
 
 		} else {
 
-			pointer.visible = false;
+			controllers[0].userData.point.visible = false;
 
 			return null
 
