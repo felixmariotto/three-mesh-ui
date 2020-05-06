@@ -94,6 +94,7 @@ export default function VRControl( renderer ) {
 
 	const planeIntersect = new THREE.Vector3();
 	const dummyVec = new THREE.Vector3();
+	const dummyMatrix = new THREE.Matrix4();
 
 	//
 
@@ -110,8 +111,10 @@ export default function VRControl( renderer ) {
 		// raycaster.ray.origin.set( 0, 1, 0 );
 		// raycaster.ray.direction.set( 0, 0, -1 );
 
-		raycaster.ray.origin.copy( controllers[0].position );
-		raycaster.ray.direction.copy( controllers[0].rotation ).normalize();
+		dummyMatrix.identity().extractRotation( controllers[0].matrixWorld );
+
+		raycaster.ray.origin.setFromMatrixPosition( controllers[0].matrixWorld );
+		raycaster.ray.direction.set( 0, 0, - 1 ).applyMatrix4( dummyMatrix );
 
 		// var arrowHelper = new THREE.ArrowHelper( raycaster.ray.direction, raycaster.ray.origin, 10, 0xffffff );
 		// scene.add( arrowHelper );
@@ -120,11 +123,8 @@ export default function VRControl( renderer ) {
 
 		planes.forEach( (plane)=> {
 
-			planeIntersect.set( 0, 0, 0 );
 			const intersection = raycaster.ray.intersectPlane( plane, planeIntersect );
 			if ( intersection ) dummyVec.copy( intersection );
-
-			console.log( intersection.x + ' / ' + intersection.y + ' / ' + intersection.z )
 
 			if ( intersection ) {
 
