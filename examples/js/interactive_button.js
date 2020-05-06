@@ -64,11 +64,11 @@ function init() {
 	//
 
 	const sphere = new THREE.Mesh(
-		new THREE.SphereBufferGeometry( 0.1, 16, 16 ),
-		new THREE.MeshLambertMaterial()
+		new THREE.SphereBufferGeometry( 0.2, 16, 16 ),
+		new THREE.MeshNormalMaterial()
 	);
 
-	sphere.position.set( 0, 1, -1 )
+	sphere.position.set( 0, 1, -1.5 )
 
 	scene.add( sphere );
 
@@ -99,21 +99,53 @@ function VRControl( renderer ) {
 
 	const controllerModelFactory = new XRControllerModelFactory();
 
-	/*
-	const geometry = new THREE.BufferGeometry().setFromPoints( [ new THREE.Vector3( 0, 0, 0 ), new THREE.Vector3( 0, 0, - 1 ) ] );
+	// pointer
 
-	const line = new THREE.Line( geometry );
-	line.name = 'line';
-	line.scale.z = 5;
-	*/
+	var texture = new THREE.CanvasTexture( generateTexture() );
+
+	var material = new THREE.MeshBasicMaterial( {
+		color: 0xffffff,
+		alphaMap: texture,
+		transparent: true
+	});
 
 	const geometry = new THREE.BoxBufferGeometry( 0.004, 0.004, 0.35 );
 	geometry.translate( 0, 0, -0.15 );
-	const line = new THREE.Mesh( geometry, new THREE.MeshBasicMaterial() );
 
-	new THREE.TextureLoader().load('./assets/alpha-map.png', (texture)=> {
-		line.material.alphaMap = texture;
-	});
+	var uvAttribute = geometry.attributes.uv;
+		
+	for ( var i = 0; i < uvAttribute.count; i ++ ) {
+			
+	    var u = uvAttribute.getX( i );
+	    var v = uvAttribute.getY( i );
+				
+	    [ u, v ] = (()=> {
+	    	switch ( i ) {
+	    		case 0 : return [ 1, 1 ]
+	    		case 1 : return [ 0, 0 ]
+	    		case 2 : return [ 1, 1 ]
+	    		case 3 : return [ 0, 0 ]
+	    		case 4 : return [ 0, 0 ]
+	    		case 5 : return [ 1, 1 ]
+	    		case 6 : return [ 0, 0 ]
+	    		case 7 : return [ 1, 1 ]
+	    		case 8 : return [ 0, 0 ]
+	    		case 9 : return [ 0, 0 ]
+	    		case 10 : return [ 1, 1 ]
+	    		case 11 : return [ 1, 1 ]
+	    		case 12 : return [ 1, 1 ]
+	    		case 13 : return [ 1, 1 ]
+	    		case 14 : return [ 0, 0 ]
+	    		case 15 : return [ 0, 0 ]
+	    		default : return [ 0, 0 ]
+	    	};
+	    })();
+				
+	    uvAttribute.setXY( i, u, v );
+			
+	};
+
+	const line = new THREE.Mesh( geometry, material );
 
 	//
 
@@ -148,6 +180,27 @@ function VRControl( renderer ) {
 	};
 
 };
+
+//
+
+function generateTexture() {
+
+	var canvas = document.createElement( 'canvas' );
+	canvas.width = 64;
+	canvas.height = 64;
+
+	var ctx = canvas.getContext("2d");
+
+	var grd = ctx.createLinearGradient(0, 0, 64, 0);
+	grd.addColorStop(0, "black");
+	grd.addColorStop(1, "white");
+
+	ctx.fillStyle = grd;
+	ctx.fillRect(0, 0, 64, 64);
+
+	return canvas;
+
+}
 
 //
 
