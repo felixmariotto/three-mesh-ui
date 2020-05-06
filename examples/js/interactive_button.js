@@ -97,6 +97,21 @@ function VRControl( renderer ) {
 	const controllers = [];
 	const controllerGrips = [];
 
+	const controllerModelFactory = new XRControllerModelFactory();
+
+	/*
+	const geometry = new THREE.BufferGeometry().setFromPoints( [ new THREE.Vector3( 0, 0, 0 ), new THREE.Vector3( 0, 0, - 1 ) ] );
+
+	const line = new THREE.Line( geometry );
+	line.name = 'line';
+	line.scale.z = 5;
+	*/
+
+	const geometry = new THREE.BoxBufferGeometry( 0.1, 0.1, 5 );
+	const line = new THREE.Mesh( geometry, new THREE.MeshNormalMaterial() );
+
+	//
+
 	const controller1 = renderer.xr.getController( 0 );
 	const controller2 = renderer.xr.getController( 1 );
 	const controllerGrip1 = renderer.xr.getControllerGrip( 0 );
@@ -110,21 +125,15 @@ function VRControl( renderer ) {
 	// controller2.addEventListener( 'selectstart', onSelectStart );
 	// controller2.addEventListener( 'selectend', onSelectEnd );
 
-	const controllerModelFactory = new XRControllerModelFactory();
+	controllers.forEach( (controller)=> {
+		controller.add( line.clone() );
+	});
 
-	controllerGrip1.add( controllerModelFactory.createControllerModel( controllerGrip1 ) );
-	controllerGrip2.add( controllerModelFactory.createControllerModel( controllerGrip2 ) );
+	controllerGrips.forEach( (controllerGrip)=> {
+		controllerGrip.add( controllerModelFactory.createControllerModel( controllerGrip ) );
+	});
 
 	//
-
-	const geometry = new THREE.BufferGeometry().setFromPoints( [ new THREE.Vector3( 0, 0, 0 ), new THREE.Vector3( 0, 0, - 1 ) ] );
-
-	const line = new THREE.Line( geometry );
-	line.name = 'line';
-	line.scale.z = 5;
-
-	controller1.add( line.clone() );
-	controller2.add( line.clone() );
 
 	raycaster = new THREE.Raycaster();
 
