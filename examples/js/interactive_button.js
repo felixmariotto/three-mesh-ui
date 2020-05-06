@@ -48,11 +48,17 @@ function init() {
 
 	scene.add( room );
 
-	var plane = new THREE.Plane( new THREE.Vector3( 0, 0, 1 ), 3 );
-	var helper = new THREE.PlaneHelper( plane, 1, 0xffff00 );
+	var planeFront = new THREE.Plane( new THREE.Vector3( 0, 0, 1 ), 3 );
+	var planeBack = new THREE.Plane( new THREE.Vector3( 0, 0, -1 ), 3 );
+	var planeLeft = new THREE.Plane( new THREE.Vector3( -1, 0, 0 ), 3 );
+	var planeRight = new THREE.Plane( new THREE.Vector3( 1, 0, 0 ), 3 );
+	var planeCeil = new THREE.Plane( new THREE.Vector3( 0, -1, 0 ), 3 );
+	var planeFloor = new  THREE.Plane( new THREE.Vector3( 0, 1, 0 ), 0 );
+
+	var helper = new THREE.PlaneHelper( planeCeil, 1, 0xffff00 );
 	scene.add( helper );
 
-	objects.push( plane )
+	objects.push( planeFront, planeBack, planeLeft, planeRight, planeCeil, planeFloor );
 
 	// Light
 

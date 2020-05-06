@@ -108,16 +108,10 @@ export default function VRControl( renderer ) {
 			return obj.normal !== undefined && obj.constant !== undefined
 		});
 
-		// raycaster.ray.origin.set( 0, 1, 0 );
-		// raycaster.ray.direction.set( 0, 0, -1 );
-
 		dummyMatrix.identity().extractRotation( controllers[0].matrixWorld );
 
 		raycaster.ray.origin.setFromMatrixPosition( controllers[0].matrixWorld );
 		raycaster.ray.direction.set( 0, 0, - 1 ).applyMatrix4( dummyMatrix );
-
-		// var arrowHelper = new THREE.ArrowHelper( raycaster.ray.direction, raycaster.ray.origin, 10, 0xffffff );
-		// scene.add( arrowHelper );
 
 		let target = raycaster.intersectObjects( meshes )[0];
 
@@ -147,8 +141,6 @@ export default function VRControl( renderer ) {
 		});
 
 		if ( target ) {
-
-			// console.log( target.point )
 
 			pointer.position.copy( target.point );
 			pointer.visible = true;
