@@ -7,7 +7,7 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import ThreeMeshUI from '../../src/three-mesh-ui.js';
 import VRControl from './utils/VRControl.js';
 
-var scene, camera, renderer, controls, raycaster, control, hovered;
+var scene, camera, renderer, controls, raycaster, control, hovereds;
 var objects = [];
 
 window.addEventListener('load', ()=> {
@@ -88,11 +88,21 @@ function init() {
 	});
 
 	control.handleSelectStart = function() {
-		if ( hovered ) hovered.material.emissive = new THREE.Color( 0xff00ff ) ;
+		if ( hovereds.length > 0 ) {
+			hovereds.forEach( (hovered)=> {
+				if ( !hovered.material ) return
+				hovered.material.emissive = new THREE.Color( 0xff00ff );
+			});
+		};
 	};
 
 	control.handleSelectEnd = function() {
-		if ( hovered ) hovered.material.emissive = new THREE.Color( 0x000000 ) ;
+		if ( hovereds.length > 0 ) {
+			hovereds.forEach( (hovered)=> {
+				if ( !hovered.material ) return
+				hovered.material.emissive = new THREE.Color( 0x000000 );
+			});
+		};
 	};
  	
  	//////////
@@ -144,12 +154,6 @@ function loop() {
 	controls.update();
 	renderer.render( scene, camera );
 
-	target = control.intersect( objects );
-
-	if ( target && target.object ) {
-		hovered = target.object;
-	} else {
-		hovered = undefined;
-	};
+	hovereds = control.intersect( objects );
 
 };

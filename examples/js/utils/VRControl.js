@@ -121,7 +121,6 @@ export default function VRControl( renderer, camera ) {
 	window.addEventListener( 'mouseup', onSelectEnd );
 
 	function onSelectStart() {
-		console.log( "onSelectStart" )
 		module.handleSelectStart();
 	};
 
@@ -157,9 +156,7 @@ export default function VRControl( renderer, camera ) {
 
 	function intersect( objects ) {
 
-		if ( !objects ) return null
-
-		const targets = [];
+		if ( !objects ) return []
 
 		const meshes = objects.filter((obj)=> {
 			return obj.type === 'Mesh';
@@ -173,6 +170,8 @@ export default function VRControl( renderer, camera ) {
 		// Otherwise, we emulate them with the mouse
 
 		if ( renderer.xr.isPresenting ) {
+
+			const targets = [];
 			
 			controllers.forEach( (controller)=> {
 
@@ -197,15 +196,19 @@ export default function VRControl( renderer, camera ) {
 
 					targets.push( target );
 
+					return
+
 				} else {
 
 					controller.userData.point.visible = false;
 
-					return null
+					return
 
 				};
 
-			})
+			});
+
+			return targets
 
 		} else {
 
@@ -213,7 +216,7 @@ export default function VRControl( renderer, camera ) {
 
 			const target = intersectObjects( meshes, planes );
 
-			return target || null
+			return target ? [target] : [];
 
 		};
 
