@@ -14,7 +14,7 @@ export default function ShadowedLight( options ) {
 	const near = options.near || 0.1;
 	const far = options.far || 30;
 	const bias = options.bias || -0;
-	const resolution = options.resolution || 1024;
+	const resolution = options.resolution || 2048;
 	const color = options.color || 0xffffff;
 	const intensity = options.intensity || 1;
 	const useHelpers = options.useHelpers || false;

@@ -72,13 +72,15 @@ function init() {
 	// Light
 	//////////
 
-	scene.add( new THREE.HemisphereLight( 0x808080, 0x606060 ) );
-
-	var light = ShadowedLight({
-		z: 10
+	const light = ShadowedLight({
+		z: 10,
+		width: 6,
+		bias: -0.0001
 	});
 
-	scene.add( light, light.helpers );
+	const hemLight = new THREE.HemisphereLight( 0x808080, 0x606060 );
+
+	scene.add( light, hemLight );
 
 	////////////////
 	// Controllers
@@ -112,7 +114,7 @@ function init() {
 
 function makePanel() {
 
-
+	/*
 	const sphere = new THREE.Mesh(
 		new THREE.SphereBufferGeometry( 0.2, 16, 16 ),
 		new THREE.MeshLambertMaterial()
@@ -127,19 +129,23 @@ function makePanel() {
 	objsToTest.push( sphere );
 
 	buttonsState.add( sphere );
-
+	*/
 
 	const uiContainer = new THREE.Group();
 	uiContainer.position.set( 0, 1, -1.8 );
 	uiContainer.rotation.x = -0.55;
 	scene.add( uiContainer );
 
-	const material = new THREE.MeshLambertMaterial();
+	const material = new THREE.MeshLambertMaterial({
+		side: THREE.DoubleSide,
+		transparent: true,
+		opacity: 0.5
+	});
 
 	// CONTAINER
 
 	const container = ThreeMeshUI.Block({
-		padding: 0.1,
+		padding: 0.2,
 		justifyContent: 'center',
 		alignContent: 'center',
 		fontFamily: './assets/helvetiker_regular.typeface.json',
@@ -149,8 +155,8 @@ function makePanel() {
 	// BUTTON
 
 	const button = ThreeMeshUI.Block({
-		width: 0.8,
-		height: 0.3,
+		width: 0.5,
+		height: 0.2,
 		padding: 0.05,
 		justifyContent: 'center',
 		alignContent: 'center',
@@ -159,7 +165,7 @@ function makePanel() {
 
 	button.appendChild(
 		ThreeMeshUI.Text({
-			content: "Three-Mesh-UI\n",
+			content: "click me",
 			fontSize: 0.07
 		})
 	);
