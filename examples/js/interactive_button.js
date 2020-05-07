@@ -174,36 +174,6 @@ function ButtonsState() {
 				default: console.warn('ButtonsState.updateState : something is wrong')
 			};
 
-			/*
-
-			if ( newState.hovered.indexOf( uuid ) > -1 ) {
-
-				if ( this.buttons[uuid].state === 'hovered' ) continue
-
-				this.buttons[uuid].state = "hovered";
-
-				setHoveredStyle( this.buttons[uuid].obj );
-
-			} else if ( newState.selected.indexOf( uuid ) > -1 ) {
-
-				if ( this.buttons[uuid].state === 'selected' ) continue
-
-				this.buttons[uuid].state = "selected";
-
-				setSelectedStyle( this.buttons[uuid].obj );
-
-			} else {
-
-				if ( !this.buttons[uuid].state ) continue
-
-				this.buttons[uuid].state = null;
-
-				setIdleStyle( this.buttons[uuid].obj );
-
-			};
-
-			*/
-
 		};
 
 	};
