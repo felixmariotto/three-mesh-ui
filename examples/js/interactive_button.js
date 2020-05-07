@@ -87,14 +87,6 @@ function init() {
 	control.controllerGrips.forEach( (controllerGrip)=> {
 		scene.add( controllerGrip );
 	});
-
-	control.handleSelectStart = function( caster ) {
-
-	};
-
-	control.handleSelectEnd = function( caster ) {
-
-	};
  	
  	//////////
 	// Panel
@@ -155,33 +147,33 @@ function ButtonsState() {
 		return this.buttons[ threeOBJ.uuid ] !== undefined
 	};
 
-	function updateTargeted( uuidArray ) {
+	function updateState( newState ) {
 
 		for ( let uuid of Object.keys(this.buttons) ) {
 
-			// Find new targets and update their style
+			if ( newState.hovered.indexOf( uuid ) > -1 ) {
 
-			if ( !this.buttons[uuid].state ) {
+				if ( this.buttons[uuid].state === 'hovered' ) continue
 
-				if ( uuidArray.indexOf( uuid ) > -1 ) {
+				this.buttons[uuid].state = "hovered";
 
-					this.buttons[uuid].state = "hovered";
+				setHoveredStyle( this.buttons[uuid].obj );
 
-					setHoveredStyle( this.buttons[uuid].obj );
+			} else if ( newState.selected.indexOf( uuid ) > -1 ) {
 
-				};
+				if ( this.buttons[uuid].state === 'selected' ) continue
 
-			// Find old targets that are not longer targeted, and update their style
+				this.buttons[uuid].state = "selected";
+
+				setSelectedStyle( this.buttons[uuid].obj );
 
 			} else {
 
-				if ( uuidArray.indexOf( uuid ) === -1 ) {
+				if ( !this.buttons[uuid].state ) continue
 
-					this.buttons[uuid].state = null;
+				this.buttons[uuid].state = null;
 
-					setIdleStyle( this.buttons[uuid].obj );
-
-				};
+				setIdleStyle( this.buttons[uuid].obj );
 
 			};
 
@@ -198,14 +190,14 @@ function ButtonsState() {
 	};
 
 	function setSelectedStyle( object ) {
-		object.material.emissive = new THREE.Color( 0xff00ff );
+		object.material.emissive = new THREE.Color( 0x0000ff );
 	};
 
 	return {
 		buttons: {},
 		add,
 		isButton,
-		updateTargeted
+		updateState
 	};
 
 };
@@ -227,18 +219,28 @@ function raycast() {
 
 	targets = control.intersect( objsToTest );
 
-	// Compare targeted objects with hovered buttons
+	// Compare targeted objects with HOVERED buttons
 
-	buttonsState.updateTargeted( targets.reduce( (targetedButtons, target)=> {
+	buttonsState.updateState( targets.reduce( (newState, target)=> {
 
 		if ( buttonsState.isButton(target.object) ) {
 
-			targetedButtons.push( target.object.uuid );
+			if ( (target.caster === undefined && control.mouseControlSelected) ||
+				 (target.caster === 'controller-right' && control.rightControlSelected) ||
+				 (target.caster === 'controller-left' && control.leftControlSelected) ) {
+
+				newState.selected.push( target.object.uuid );
+
+			} else {
+
+				newState.hovered.push( target.object.uuid );
+
+			};
 
 		};
 
-		return targetedButtons
+		return newState
 
-	}, [] ));
+	}, { hovered: [], selected: [] } ));
 
 };

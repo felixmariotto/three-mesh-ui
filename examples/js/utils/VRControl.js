@@ -128,6 +128,13 @@ export default function VRControl( renderer, camera ) {
 		var controller = event.target;
 
 		module.handleSelectStart( controller.name );
+
+		switch ( controller.name ) {
+			case 'controller-right': module.rightControlSelected = true; break;
+			case 'controller-left': module.leftControlSelected = true; break;
+			default : module.mouseControlSelected = true; break;
+		};
+
 	};
 
 	function onSelectEnd( event ) {
@@ -135,6 +142,13 @@ export default function VRControl( renderer, camera ) {
 		var controller = event.target;
 
 		module.handleSelectEnd( controller.name );
+
+		switch ( controller.name ) {
+			case 'controller-right': module.rightControlSelected = false; break;
+			case 'controller-left': module.leftControlSelected = false; break;
+			default : module.mouseControlSelected = false; break;
+		};
+
 
 	};
 
