@@ -144,6 +144,8 @@ export default function VRControl( renderer, camera ) {
 
 	const raycaster = new THREE.Raycaster();
 	const mouse = new THREE.Vector2();
+	mouse.x = null;
+	mouse.y = null;
 
 	const planeIntersect = new THREE.Vector3();
 	const dummyVec = new THREE.Vector3();
@@ -222,6 +224,8 @@ export default function VRControl( renderer, camera ) {
 			return targets
 
 		} else {
+
+			if ( mouse.x === null && mouse.y === null ) return []
 
 			raycaster.setFromCamera( mouse, camera );
 

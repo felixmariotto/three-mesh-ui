@@ -7,11 +7,9 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import ThreeMeshUI from '../../src/three-mesh-ui.js';
 import VRControl from './utils/VRControl.js';
 
-var scene, camera, renderer, controls, raycaster, control;
+var scene, camera, renderer, controls, raycaster, control, buttonsState;
 var targets = [];
-var hovereds = [];
-var selected = [];
-var objects = [];
+var objsToTest = [];
 
 window.addEventListener('load', ()=> {
 	init();
@@ -66,7 +64,7 @@ function init() {
 	var planeCeil = new THREE.Plane( new THREE.Vector3( 0, -1, 0 ), 6 );
 	var planeFloor = new  THREE.Plane( new THREE.Vector3( 0, 1, 0 ), 0 );
 
-	objects.push( planeFront, planeBack, planeLeft, planeRight, planeCeil, planeFloor );
+	objsToTest.push( planeFront, planeBack, planeLeft, planeRight, planeCeil, planeFloor );
 
 	//////////
 	// Light
@@ -92,43 +90,17 @@ function init() {
 
 	control.handleSelectStart = function( caster ) {
 
-		if ( hovereds.length > 0 ) {
-
-			hovereds.forEach( (hovered)=> {
-
-				if ( !hovered.caster === caster ) return
-
-				if ( !hovered.object.material ) return
-
-				select( hovered );
-
-			});
-
-		};
-
 	};
 
 	control.handleSelectEnd = function( caster ) {
-
-		if ( hovereds.length > 0 ) {
-
-			hovereds.forEach( (hovered)=> {
-
-				if ( !hovered.caster === caster ) return
-
-				if ( !hovered.object.material ) return
-
-				unselect( hovered );
-
-			});
-
-		};
 
 	};
  	
  	//////////
 	// Panel
 	//////////
+
+	buttonsState = ButtonsState();
 
 	makePanel();
 
@@ -151,7 +123,9 @@ function makePanel() {
 
 	scene.add( sphere );
 
-	objects.push( sphere );
+	objsToTest.push( sphere );
+
+	buttonsState.add( sphere );
 
 };
 
@@ -168,17 +142,71 @@ function onWindowResize() {
 
 //
 
-function select( target ) {
+function ButtonsState() {
 
-	target.object.material.emissive = new THREE.Color( 0xff00ff );
-	selected.push( target );
+	function add( threeOBJ ) {
+		this.buttons[ threeOBJ.uuid ] = {
+			obj: threeOBJ,
+			state: null
+		};
+	};
 
-};
+	function isButton( threeOBJ ) {
+		return this.buttons[ threeOBJ.uuid ] !== undefined
+	};
 
-function unselect( target ) {
+	function updateTargeted( uuidArray ) {
 
-	target.object.material.emissive = new THREE.Color( 0x000000 );
-	selected.slice( selected.indexOf(target), 1 );
+		for ( let uuid of Object.keys(this.buttons) ) {
+
+			// Find new targets and update their style
+
+			if ( !this.buttons[uuid].state ) {
+
+				if ( uuidArray.indexOf( uuid ) > -1 ) {
+
+					this.buttons[uuid].state = "hovered";
+
+					setHoveredStyle( this.buttons[uuid].obj );
+
+				};
+
+			// Find old targets that are not longer targeted, and update their style
+
+			} else {
+
+				if ( uuidArray.indexOf( uuid ) === -1 ) {
+
+					this.buttons[uuid].state = null;
+
+					setIdleStyle( this.buttons[uuid].obj );
+
+				};
+
+			};
+
+		};
+
+	};
+
+	function setIdleStyle( object ) {
+		object.material.emissive = new THREE.Color( 0x000000 );
+	};
+
+	function setHoveredStyle( object ) {
+		object.material.emissive = new THREE.Color( 0x9c009c );
+	};
+
+	function setSelectedStyle( object ) {
+		object.material.emissive = new THREE.Color( 0xff00ff );
+	};
+
+	return {
+		buttons: {},
+		add,
+		isButton,
+		updateTargeted
+	};
 
 };
 
@@ -189,29 +217,28 @@ function loop() {
 	controls.update();
 	renderer.render( scene, camera );
 
-	targets = control.intersect( objects );
+	raycast();
 
-	// Unselect elements that are no longer hovered
+};
 
-	selected.forEach( (selectedTarget)=> {
+//
 
-		if ( !targets.find((target)=> {
-				return (
-					target.object === selectedTarget.object &&
-					target.caster === selectedTarget.caster
-				);
-			}) ) {
+function raycast() {
 
-			unselect( selectedTarget );
+	targets = control.intersect( objsToTest );
+
+	// Compare targeted objects with hovered buttons
+
+	buttonsState.updateTargeted( targets.reduce( (targetedButtons, target)=> {
+
+		if ( buttonsState.isButton(target.object) ) {
+
+			targetedButtons.push( target.object.uuid );
 
 		};
 
-	});
+		return targetedButtons
 
-	// Create new hovereds array
-
-	if ( targets ) {
-		hovereds = targets.slice(0);
-	};
+	}, [] ));
 
 };
