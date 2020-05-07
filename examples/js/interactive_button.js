@@ -6,6 +6,7 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 
 import ThreeMeshUI from '../../src/three-mesh-ui.js';
 import VRControl from './utils/VRControl.js';
+import ShadowedLight from './utils/ShadowedLight.js';
 
 var scene, camera, renderer, controls, raycaster, control, buttonsState;
 var targets = [];
@@ -36,6 +37,7 @@ function init() {
 	renderer.xr.enabled = true;
 	document.body.appendChild(VRButton.createButton(renderer));
 	document.body.appendChild( renderer.domElement );
+	renderer.shadowMap.enabled = true ;
 
 	// Orbit controls for no-vr
 
@@ -72,7 +74,11 @@ function init() {
 
 	scene.add( new THREE.HemisphereLight( 0x808080, 0x606060 ) );
 
-	scene.add( new THREE.DirectionalLight( 0xffffff, 0.5 ) );
+	var light = ShadowedLight({
+		z: 10
+	});
+
+	scene.add( light, light.helpers );
 
 	////////////////
 	// Controllers
@@ -106,10 +112,13 @@ function init() {
 
 function makePanel() {
 
+
 	const sphere = new THREE.Mesh(
 		new THREE.SphereBufferGeometry( 0.2, 16, 16 ),
 		new THREE.MeshLambertMaterial()
 	);
+	sphere.castShadow = true;
+	sphere.receiveShadow = true;
 
 	sphere.position.set( 0, 1, -1.5 )
 
@@ -118,6 +127,48 @@ function makePanel() {
 	objsToTest.push( sphere );
 
 	buttonsState.add( sphere );
+
+
+	const uiContainer = new THREE.Group();
+	uiContainer.position.set( 0, 1, -1.8 );
+	uiContainer.rotation.x = -0.55;
+	scene.add( uiContainer );
+
+	const material = new THREE.MeshLambertMaterial();
+
+	// CONTAINER
+
+	const container = ThreeMeshUI.Block({
+		padding: 0.1,
+		justifyContent: 'center',
+		alignContent: 'center',
+		fontFamily: './assets/helvetiker_regular.typeface.json',
+		backgroundMaterial: material
+	});
+
+	// BUTTON
+
+	const button = ThreeMeshUI.Block({
+		width: 0.8,
+		height: 0.3,
+		padding: 0.05,
+		justifyContent: 'center',
+		alignContent: 'center',
+		offset: 0.05
+	});
+
+	button.appendChild(
+		ThreeMeshUI.Text({
+			content: "Three-Mesh-UI\n",
+			fontSize: 0.07
+		})
+	);
+
+	container.appendChild( button );
+
+	//
+
+	uiContainer.add( container.threeOBJ );
 
 };
 

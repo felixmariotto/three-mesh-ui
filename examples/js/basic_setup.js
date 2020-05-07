@@ -76,16 +76,8 @@ function makeTextPanel() {
 		padding: 0.2,
 		justifyContent: 'center',
 		alignContent: 'left',
-		textAlign: 'left'
+		fontFamily: './assets/helvetiker_regular.typeface.json'
 	});
-
-	container.set({
-		fontFamily: './assets/helvetiker_regular.typeface.json',
-	});
-
-	uiContainer.add( container.threeOBJ );
-
-	//
 
 	container.appendChild(
 
@@ -105,6 +97,10 @@ function makeTextPanel() {
 		}),
 
 	);
+
+	//
+
+	uiContainer.add( container.threeOBJ );
 
 };
 

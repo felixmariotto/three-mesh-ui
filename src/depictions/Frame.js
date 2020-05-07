@@ -12,6 +12,8 @@ function Frame( width, height, material ) {
 		new PlaneBufferGeometry( width, height ),
 		material
 	);
+	mesh.castShadow = true;
+	mesh.receiveShadow = true;
 	mesh.name = "MeshUI-Frame"
 
 	return mesh;
