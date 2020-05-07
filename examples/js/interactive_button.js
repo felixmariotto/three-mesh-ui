@@ -151,6 +151,31 @@ function ButtonsState() {
 
 		for ( let uuid of Object.keys(this.buttons) ) {
 
+			// Get new state of this button
+
+			let n = null;
+
+			if ( newState.hovered.indexOf( uuid ) > -1 ) n = 'hovered';
+
+			if ( newState.selected.indexOf( uuid ) > -1 ) n = 'selected';
+
+			// Find if necessary to update
+
+			if (this.buttons[uuid].state === n) continue
+
+			// Update button
+
+			this.buttons[uuid].state = n;
+
+			switch (n) {
+				case 'selected' : setSelectedStyle( this.buttons[uuid].obj ); break;
+				case 'hovered' : setHoveredStyle( this.buttons[uuid].obj ); break;
+				case null : setIdleStyle( this.buttons[uuid].obj ); break;
+				default: console.warn('ButtonsState.updateState : something is wrong')
+			};
+
+			/*
+
 			if ( newState.hovered.indexOf( uuid ) > -1 ) {
 
 				if ( this.buttons[uuid].state === 'hovered' ) continue
@@ -176,6 +201,8 @@ function ButtonsState() {
 				setIdleStyle( this.buttons[uuid].obj );
 
 			};
+
+			*/
 
 		};
 
