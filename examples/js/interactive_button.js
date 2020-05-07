@@ -90,11 +90,13 @@ function init() {
 		scene.add( controllerGrip );
 	});
 
-	control.handleSelectStart = function( casterName ) {
+	control.handleSelectStart = function( caster ) {
 
 		if ( hovereds.length > 0 ) {
 
 			hovereds.forEach( (hovered)=> {
+
+				if ( !hovered.caster === caster ) return
 
 				if ( !hovered.object.material ) return
 
@@ -106,11 +108,13 @@ function init() {
 
 	};
 
-	control.handleSelectEnd = function( casterName ) {
+	control.handleSelectEnd = function( caster ) {
 
 		if ( hovereds.length > 0 ) {
 
 			hovereds.forEach( (hovered)=> {
+
+				if ( !hovered.caster === caster ) return
 
 				if ( !hovered.object.material ) return
 
@@ -191,7 +195,12 @@ function loop() {
 
 	selected.forEach( (selectedTarget)=> {
 
-		if ( !targets.find((target)=> { return target.object === selectedTarget.object }) ) {
+		if ( !targets.find((target)=> {
+				return (
+					target.object === selectedTarget.object &&
+					target.caster === selectedTarget.caster
+				);
+			}) ) {
 
 			unselect( selectedTarget );
 
