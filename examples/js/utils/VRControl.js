@@ -368,11 +368,11 @@ function generateRayTexture() {
 
 	var ctx = canvas.getContext("2d");
 
-	var grd = ctx.createLinearGradient(0, 0, 64, 0);
-	grd.addColorStop(0, "black");
-	grd.addColorStop(1, "white");
+	var gradient = ctx.createLinearGradient(0, 0, 64, 0);
+	gradient.addColorStop(0, "black");
+	gradient.addColorStop(1, "white");
 
-	ctx.fillStyle = grd;
+	ctx.fillStyle = gradient;
 	ctx.fillRect(0, 0, 64, 64);
 
 	return canvas;
@@ -388,6 +388,9 @@ function generatePointerTexture() {
 	canvas.height = 64;
 
 	var ctx = canvas.getContext("2d");
+
+	ctx.fillStyle = "rgba(0,0,0,0)";
+    ctx.fillRect(0, 0, 64, 64);
 
 	ctx.beginPath();
 	ctx.arc(32, 32, 29, 0, 2 * Math.PI);

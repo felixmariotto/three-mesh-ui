@@ -153,9 +153,17 @@ function makePanel() {
 	);
 
 	button.setupState({
-		state: "hovered",
+		state: "selected",
 		attributes: {
 			offset: 0.02
+		},
+		onSet: ()=> { console.log('I get called when button is set selected') }
+	});
+
+	button.setupState({
+		state: "hovered",
+		attributes: {
+			offset: 0.04
 		},
 		onSet: ()=> { console.log('I get called when button is set hovered') }
 	});
