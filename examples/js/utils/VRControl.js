@@ -64,7 +64,7 @@ export default function VRControl( renderer, camera, scene ) {
 	};
 
 	const linesHelper = new THREE.Mesh( geometry, material );
-	linesHelper.renderOrder = 1;
+	linesHelper.renderOrder = Infinity;
 
 	/////////////////
 	// Point helper
