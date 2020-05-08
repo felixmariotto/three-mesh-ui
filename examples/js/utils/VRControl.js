@@ -111,9 +111,7 @@ export default function VRControl( renderer, camera, scene ) {
 	});
 
 	controllerGrips.forEach( (controllerGrip)=> {
-		const controllerModel = controllerModelFactory.createControllerModel( controllerGrip );
-		// controllerModel.renderOrder = 1001;
-		controllerGrip.add( controllerModel );
+		controllerGrip.add( controllerModelFactory.createControllerModel( controllerGrip ) );
 	});
 
 	controller1.addEventListener( 'selectstart', onSelectStart );
