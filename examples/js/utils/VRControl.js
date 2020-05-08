@@ -113,13 +113,9 @@ export default function VRControl( renderer, camera, scene ) {
 
 	controllerGrips.forEach( (controllerGrip)=> {
 
-		const controllerModel = controllerModelFactory.createControllerModel( controllerGrip )
-		
-		controllerModel.traverse( (obj)=> {
-			if (obj.material) obj.material.depthTest = false;
-		});
+		controllerGrip.renderOrder = Infinity;
 
-		controllerModel.renderOrder = 1001;
+		const controllerModel = controllerModelFactory.createControllerModel( controllerGrip )
 
 		controllerGrip.add( controllerModel );
 
