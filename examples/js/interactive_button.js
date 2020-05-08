@@ -124,61 +124,85 @@ function makePanel() {
 		opacity: 0.5
 	});
 
+	const hoveredMaterial = new THREE.MeshLambertMaterial({
+		side: THREE.DoubleSide
+	});
+
 	// CONTAINER
 
 	const container = ThreeMeshUI.Block({
-		padding: 0.2,
 		justifyContent: 'center',
 		alignContent: 'center',
+		contentDirection: "row-reverse",
 		fontFamily: './assets/helvetiker_regular.typeface.json',
 		backgroundMaterial: material
 	});
 
 	// BUTTON
 
-	const button = ThreeMeshUI.Block({
+	const buttonOptions = {
 		width: 0.5,
 		height: 0.2,
 		padding: 0.05,
 		justifyContent: 'center',
 		alignContent: 'center',
-		offset: 0.05
-	});
+		offset: 0.05,
+		fontSize: 0.07,
+		margin: 0.05
+	};
 
-	button.appendChild(
+	const selectedStateOptions = {
+		state: "selected",
+		attributes: {
+			offset: 0.02,
+			backgroundMaterial: hoveredMaterial
+		},
+		onSet: ()=> { /* console.log('I get called when button is set selected') */ }
+	};
+
+	const hoveredStateOptions = {
+		state: "hovered",
+		attributes: {
+			offset: 0.05,
+			backgroundMaterial: hoveredMaterial
+		},
+		onSet: ()=> { /* console.log('I get called when button is set hovered') */ }
+	};
+
+	const idleStateOptions = {
+		state: "idle",
+		attributes: {
+			offset: 0.05,
+			backgroundMaterial: material
+		},
+		onSet: ()=> { /* console.log('I get called when button is set idle') */ }
+	};
+
+	const buttonNext = ThreeMeshUI.Block( buttonOptions );
+	const buttonPrevious = ThreeMeshUI.Block( buttonOptions );
+
+	buttonNext.appendChild(
 		ThreeMeshUI.Text({
-			content: "click me",
-			fontSize: 0.07
+			content: "next",
 		})
 	);
 
-	button.setupState({
-		state: "selected",
-		attributes: {
-			offset: 0.02
-		},
-		onSet: ()=> { console.log('I get called when button is set selected') }
-	});
+	buttonPrevious.appendChild(
+		ThreeMeshUI.Text({
+			content: "previous"
+		})
+	);
 
-	button.setupState({
-		state: "hovered",
-		attributes: {
-			offset: 0.04
-		},
-		onSet: ()=> { console.log('I get called when button is set hovered') }
-	});
+	buttonNext.setupState( selectedStateOptions );
+	buttonNext.setupState( hoveredStateOptions );
+	buttonNext.setupState( idleStateOptions );
 
-	button.setupState({
-		state: "idle",
-		attributes: {
-			offset: 0.05
-		},
-		onSet: ()=> { console.log('I get called when button is set idle') }
-	});
+	buttonPrevious.setupState( selectedStateOptions );
+	buttonPrevious.setupState( hoveredStateOptions );
+	buttonPrevious.setupState( idleStateOptions );
 
-	container.appendChild( button );
-
-	componentsToTest.push( button );
+	container.appendChild( buttonNext, buttonPrevious );
+	componentsToTest.push( buttonNext, buttonPrevious );
 
 	//
 
