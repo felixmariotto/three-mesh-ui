@@ -113,13 +113,13 @@ function init() {
 	sphere.visible = false;
 
 	const box = new THREE.Mesh(
-		new THREE.BoxBufferGeometry( 0.6, 0.6, 0.6 ),
+		new THREE.BoxBufferGeometry( 0.45, 0.45, 0.45 ),
 		new THREE.MeshStandardMaterial({ color: 0x643de3, flatShading: true })
 	);
 	box.visible = false;
 
 	const cone = new THREE.Mesh(
-		new THREE.ConeBufferGeometry( 0.3, 0.6, 10 ),
+		new THREE.ConeBufferGeometry( 0.28, 0.5, 10 ),
 		new THREE.MeshStandardMaterial({ color: 0xe33d4e, flatShading: true })
 	);
 	cone.visible = false;
@@ -181,6 +181,8 @@ function makePanel() {
 		fontFamily: './assets/helvetiker_regular.typeface.json',
 		backgroundMaterial: material
 	});
+
+	componentsToTest.push( container );
 
 	// BUTTON
 
