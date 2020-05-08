@@ -1,6 +1,6 @@
 
 /*
-Component that construct VR controllers from a XR-enabled renderer
+	Job: creating the VR controllers, and do the ray casting with objects
 */
 
 import * as THREE from 'three';
@@ -177,15 +177,54 @@ export default function VRControl( renderer, camera ) {
 
 	};
 
+	// Public function that call intersectObjects after sorting the passed UI components so that
+	// Raycaster can work on the component's meshes.
+
+	let threeOBJs;
+	let intersectedComponents;
+
+	function intersectUI( uiComponents ) {
+
+		for ( let component of uiComponents ) {
+
+			if ( !component.type || !component.type === "Block" ) {
+				console.error("VRControl.intersectUI : passed component is not a Block instance");
+				return
+			};
+
+		};
+
+		threeOBJs = uiComponents.map( (component)=> {
+			component.frameContainer.owner = component;
+			return component.frameContainer
+		});
+
+		intersectedComponents = intersectObjects( threeOBJs, true );
+
+		intersectedComponents = intersectedComponents.map( (target)=> {
+			target.object = findOwner( target.object );
+			return target
+		});
+
+		return intersectedComponents;
+
+	};
+
+	// Resursive function that look for a "owner" prop in this obj or its parents
+
+	function findOwner( obj ) {
+		return obj.owner || findOwner( obj.parent );
+	};
+
 	// Public function that get called from outside, with an array of objects to intersect.
-	// If intersects, returns the intersected object. Position the helper at the intersection poit
+	// If intersects, returns the intersected object. Position the helper at the intersection point.
 
-	function intersect( objects ) {
+	function intersectObjects( objects, recursive ) {
 
-		if ( !objects ) return []
+		if ( !objects || objects.length === 0 ) return []
 
-		const meshes = objects.filter((obj)=> {
-			return obj.type === 'Mesh';
+		const obj3Ds = objects.filter((obj)=> {
+			return obj.type === 'Mesh' || obj.type === "Object3D";
 		});
 
 		const planes = objects.filter((obj)=> {
@@ -210,7 +249,7 @@ export default function VRControl( renderer, camera ) {
 
 				// Intersect
 
-				const target = intersectObjects( meshes, planes );
+				const target = testIntersections( obj3Ds, planes, recursive );
 				target.caster = controller.name
 
 				// Position the helper and return the intersected object if any
@@ -243,7 +282,7 @@ export default function VRControl( renderer, camera ) {
 
 			raycaster.setFromCamera( mouse, camera );
 
-			const target = intersectObjects( meshes, planes );
+			const target = testIntersections( obj3Ds, planes, recursive );
 
 			return target ? [target] : [];
 
@@ -253,9 +292,9 @@ export default function VRControl( renderer, camera ) {
 
 	//
 
-	function intersectObjects( meshes, planes ) {
+	function testIntersections( obj3Ds, planes, recursive ) {
 
-		let target = raycaster.intersectObjects( meshes )[0];
+		let target = raycaster.intersectObjects( obj3Ds, recursive )[0];
 
 		// Rays must be intersected manually as its not supported by raycaster.intersectObjects
 
@@ -299,7 +338,8 @@ export default function VRControl( renderer, camera ) {
 	module = {
 		controllers,
 		controllerGrips,
-		intersect,
+		intersectObjects,
+		intersectUI,
 		handleSelectStart: ()=> {},
 		handleSelectEnd: ()=> {}
 	};

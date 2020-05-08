@@ -61,7 +61,8 @@ function MeshUIComponent() {
 		_removeParent,
 		_updateFont,
 		_getProperty,
-		set
+		set,
+		setupHover
 
 	};
 
@@ -367,6 +368,12 @@ function MeshUIComponent() {
 
 		this.update( layoutNeedsUpdate, innerNeedsUpdate );
 		
+	};
+
+	//
+
+	function setupHover() {
+		console.log('setup hover');
 	};
 
 	//

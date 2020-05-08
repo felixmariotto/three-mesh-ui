@@ -11,6 +11,7 @@ import ShadowedLight from './utils/ShadowedLight.js';
 var scene, camera, renderer, controls, raycaster, control, buttonsState;
 var targets = [];
 var objsToTest = [];
+var componentsToTest = [];
 
 window.addEventListener('load', ()=> {
 	init();
@@ -170,7 +171,16 @@ function makePanel() {
 		})
 	);
 
+	button.setupHover({
+		offset: 1,
+		duration: 200
+	}, function() {
+		console.log("I'm hovering");
+	});
+
 	container.appendChild( button );
+
+	componentsToTest.push( button );
 
 	//
 
@@ -271,7 +281,11 @@ function loop() {
 
 function raycast() {
 
-	targets = control.intersect( objsToTest );
+	control.intersectObjects( objsToTest );
+
+	targets = control.intersectUI( componentsToTest );
+
+	if (targets[0]) console.log( targets[0].uv.y )
 
 	// Compare targeted objects with HOVERED buttons
 

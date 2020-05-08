@@ -15,13 +15,15 @@ function Block( options ) {
 	const block = Object.create( BoxComponent() );
 
 	block.threeOBJ = new Object3D;
-	block.threeOBJ.name = "MeshUI-Layout"
+	block.threeOBJ.name = "MeshUI-Block"
 
 	block.type = 'Block';
 
 	const frameContainer = new Object3D();
-	frameContainer.name = "Block-FrameContainer"
+	frameContainer.name = "MeshUI-FrameContainer"
 	block.threeOBJ.add( frameContainer );
+
+	block.frameContainer = frameContainer;
 
 	////////////
 	//  UPDATE
