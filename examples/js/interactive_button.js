@@ -9,6 +9,7 @@ import VRControl from './utils/VRControl.js';
 import ShadowedLight from './utils/ShadowedLight.js';
 
 var scene, camera, renderer, controls, raycaster, control;
+var meshContainer, meshes, currentMesh;
 var targets = [];
 var objsToTest = [];
 var componentsToTest = [];
@@ -96,6 +97,39 @@ function init() {
 	control.controllerGrips.forEach( (controllerGrip)=> {
 		scene.add( controllerGrip );
 	});
+
+	//////////
+	// Meshes
+	//////////
+
+	meshContainer = new THREE.Group();
+	meshContainer.position.set( 0, 1, -1.9 );
+	scene.add( meshContainer );
+
+	const sphere = new THREE.Mesh(
+		new THREE.IcosahedronBufferGeometry( 0.3, 1 ),
+		new THREE.MeshStandardMaterial({ color: 0x3de364, flatShading: true })
+	);
+	sphere.visible = false;
+
+	const box = new THREE.Mesh(
+		new THREE.BoxBufferGeometry( 0.6, 0.6, 0.6 ),
+		new THREE.MeshStandardMaterial({ color: 0x643de3, flatShading: true })
+	);
+	box.visible = false;
+
+	const cone = new THREE.Mesh(
+		new THREE.ConeBufferGeometry( 0.3, 0.6, 10 ),
+		new THREE.MeshStandardMaterial({ color: 0xe33d4e, flatShading: true })
+	);
+	cone.visible = false;
+
+	meshContainer.add( sphere, box, cone );
+
+	meshes = [ sphere, box, cone ];
+	currentMesh = 0;
+
+	showMesh( currentMesh );
  	
  	//////////
 	// Panel
@@ -111,10 +145,20 @@ function init() {
 
 //
 
+function showMesh( id ) {
+
+	meshes.forEach( (mesh, i)=> {
+		mesh.visible = i === id ? true : false;
+	});
+
+};
+
+//
+
 function makePanel() {
 
 	const uiContainer = new THREE.Group();
-	uiContainer.position.set( 0, 1, -1.8 );
+	uiContainer.position.set( 0, 0.6, -1.2 );
 	uiContainer.rotation.x = -0.55;
 	scene.add( uiContainer );
 
@@ -151,15 +195,6 @@ function makePanel() {
 		margin: 0.05
 	};
 
-	const selectedStateOptions = {
-		state: "selected",
-		attributes: {
-			offset: 0.02,
-			backgroundMaterial: hoveredMaterial
-		},
-		onSet: ()=> { /* console.log('I get called when button is set selected') */ }
-	};
-
 	const hoveredStateOptions = {
 		state: "hovered",
 		attributes: {
@@ -193,11 +228,32 @@ function makePanel() {
 		})
 	);
 
-	buttonNext.setupState( selectedStateOptions );
+	buttonNext.setupState({
+		state: "selected",
+		attributes: {
+			offset: 0.02,
+			backgroundMaterial: hoveredMaterial
+		},
+		onSet: ()=> {
+			currentMesh = (currentMesh + 1) % 3 ;
+			showMesh( currentMesh );
+		}
+	});
 	buttonNext.setupState( hoveredStateOptions );
 	buttonNext.setupState( idleStateOptions );
 
-	buttonPrevious.setupState( selectedStateOptions );
+	buttonPrevious.setupState({
+		state: "selected",
+		attributes: {
+			offset: 0.02,
+			backgroundMaterial: hoveredMaterial
+		},
+		onSet: ()=> {
+			currentMesh -= 1;
+			if ( currentMesh < 0 ) currentMesh = 2;
+			showMesh( currentMesh );
+		}
+	});
 	buttonPrevious.setupState( hoveredStateOptions );
 	buttonPrevious.setupState( idleStateOptions );
 
@@ -226,6 +282,9 @@ function onWindowResize() {
 function loop() {
 
 	controls.update();
+
+	meshContainer.rotation.x += 0.01;
+	meshContainer.rotation.y += 0.01;
 
 	renderer.render( scene, camera );
 
