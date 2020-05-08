@@ -64,7 +64,7 @@ export default function VRControl( renderer, camera, scene ) {
 	};
 
 	const linesHelper = new THREE.Mesh( geometry, material );
-	linesHelper.renderOrder = Infinity;
+	linesHelper.renderOrder = 1000;
 
 	/////////////////
 	// Point helper
@@ -79,7 +79,7 @@ export default function VRControl( renderer, camera, scene ) {
 	const pointer = new THREE.Sprite( spriteMaterial );
 
 	pointer.scale.set(0.015, 0.015, 1)
-	pointer.renderOrder = Infinity;
+	pointer.renderOrder = 1000;
 
 	////////////////
 	// Controllers
@@ -101,6 +101,8 @@ export default function VRControl( renderer, camera, scene ) {
 	if ( controllerGrip2 ) controllerGrips.push( controllerGrip2 );
 
 	controllers.forEach( (controller)=> {
+
+		controller.renderOrder = 1001;
 
 		const ray = linesHelper.clone();
 		const point = pointer.clone();
