@@ -263,7 +263,7 @@ export default function VRControl( renderer, camera ) {
 
 				if ( result ) {
 
-					controller.worldToLocal( result.point );
+					const localVec = controller.worldToLocal( result.point );
 					controller.userData.point.position.copy( localVec );
 					controller.userData.point.visible = true;
 
