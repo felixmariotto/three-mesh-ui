@@ -3,6 +3,7 @@
 	Job:
 		- Holding basic identity information of this component : type, id, parent, children
 		- Getting this component attribute, from itself or from its parents
+		- Hold states information, and update state
 	Knows:
 		- This component type, id, parent and children
 */
@@ -39,6 +40,7 @@ function MeshUIComponent() {
 		parent: undefined,
 		type: 'MeshUIComponent',
 		id: generateSerial(),
+		states: {},
 
 		getHighestParent,
 		getContainer,
@@ -62,7 +64,8 @@ function MeshUIComponent() {
 		_updateFont,
 		_getProperty,
 		set,
-		setupHover
+		setupState,
+		setState
 
 	};
 
@@ -372,8 +375,27 @@ function MeshUIComponent() {
 
 	//
 
-	function setupHover() {
-		console.log('setup hover');
+	function setupState( options ) {
+
+		this.states[ options.state ] = {
+			attributes: options.attributes,
+			onSet: options.onSet
+		};
+
+	};
+
+	//
+
+	function setState( state ) {
+
+		const savedState = this.states[ state ];
+		
+		if ( !savedState ) return
+
+		if ( savedState.onSet ) savedState.onSet();
+
+		if ( savedState.attributes ) this.set( savedState.attributes );
+
 	};
 
 	//

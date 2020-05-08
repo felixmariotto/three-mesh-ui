@@ -171,11 +171,21 @@ function makePanel() {
 		})
 	);
 
+	/*
 	button.setupHover({
 		offset: 1,
 		duration: 200
 	}, function() {
 		console.log("I'm hovering");
+	});
+	*/
+
+	button.setupState({
+		state: "hovered",
+		attributes: {
+			offset: 1
+		},
+		onSet: ()=> { console.log('I get called when button is set hovered') }
 	});
 
 	container.appendChild( button );
@@ -285,10 +295,9 @@ function raycast() {
 
 	targets = control.intersectUI( componentsToTest );
 
-	if (targets[0]) console.log( targets[0].uv.y )
-
 	// Compare targeted objects with HOVERED buttons
 
+	/*
 	buttonsState.updateState( targets.reduce( (newState, target)=> {
 
 		if ( buttonsState.isButton(target.object) ) {
@@ -310,5 +319,24 @@ function raycast() {
 		return newState
 
 	}, { hovered: [], selected: [] } ));
+	*/
+
+	targets.forEach( (target)=> {
+
+		if ( (target.caster === undefined && control.mouseControlSelected) ||
+			 (target.caster === 'controller-right' && control.rightControlSelected) ||
+			 (target.caster === 'controller-left' && control.leftControlSelected) ) {
+
+			target.object.setState( 'selected' );
+			// newState.selected.push( target.object.uuid );
+
+		} else {
+
+			target.object.setState( 'hovered' );
+			// newState.hovered.push( target.object.uuid );
+
+		};
+
+	});
 
 };
