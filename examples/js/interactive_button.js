@@ -25,7 +25,7 @@ window.addEventListener('resize', ()=> {
 function init() {
 
 	////////////////////////
-	//  BASIC THREE SETUP
+	//  Basic Three Setup
 	////////////////////////
 
 	scene = new THREE.Scene();
@@ -59,7 +59,7 @@ function init() {
 
 	scene.add( room );
 
-	// Planes for intersections with the controller pointers
+	// Planes for intersections between the room and the controller pointers
 
 	var planeFront = new THREE.Plane( new THREE.Vector3( 0, 0, 1 ), 3 );
 	var planeBack = new THREE.Plane( new THREE.Vector3( 0, 0, -1 ), 3 );
@@ -125,6 +125,8 @@ function init() {
 	cone.visible = false;
 
 	meshContainer.add( sphere, box, cone );
+
+	objsToTest.push( sphere, box, cone );
 
 	meshes = [ sphere, box, cone ];
 	currentMesh = 0;
