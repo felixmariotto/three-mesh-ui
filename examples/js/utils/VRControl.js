@@ -250,12 +250,11 @@ export default function VRControl( renderer, camera ) {
 				raycaster.ray.direction.set( 0, 0, - 1 ).applyMatrix4( dummyMatrix );
 
 				// Intersect
-				console.log('/////////////////////')
-				console.log( 'obj3Ds : ', obj3Ds );
-				console.log( 'planes : ', planes );
-				console.log('recursive : ', recursive)
+
 				const target = testIntersections( obj3Ds, planes, recursive );
+
 				if ( !target ) return
+					
 				target.caster = controller.name
 
 				// Position the helper and return the intersected object if any

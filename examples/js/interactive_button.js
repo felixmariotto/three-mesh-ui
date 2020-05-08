@@ -115,23 +115,6 @@ function init() {
 
 function makePanel() {
 
-	/*
-	const sphere = new THREE.Mesh(
-		new THREE.SphereBufferGeometry( 0.2, 16, 16 ),
-		new THREE.MeshLambertMaterial()
-	);
-	sphere.castShadow = true;
-	sphere.receiveShadow = true;
-
-	sphere.position.set( 0, 1, -1.5 )
-
-	scene.add( sphere );
-
-	objsToTest.push( sphere );
-
-	buttonsState.add( sphere );
-	*/
-
 	const uiContainer = new THREE.Group();
 	uiContainer.position.set( 0, 1, -1.8 );
 	uiContainer.rotation.x = -0.55;
@@ -170,15 +153,6 @@ function makePanel() {
 			fontSize: 0.07
 		})
 	);
-
-	/*
-	button.setupHover({
-		offset: 1,
-		duration: 200
-	}, function() {
-		console.log("I'm hovering");
-	});
-	*/
 
 	button.setupState({
 		state: "hovered",
@@ -219,76 +193,10 @@ function onWindowResize() {
 
 //
 
-function ButtonsState() {
-
-	function add( threeOBJ ) {
-		this.buttons[ threeOBJ.uuid ] = {
-			obj: threeOBJ,
-			state: null
-		};
-	};
-
-	function isButton( threeOBJ ) {
-		return this.buttons[ threeOBJ.uuid ] !== undefined
-	};
-
-	function updateState( newState ) {
-
-		for ( let uuid of Object.keys(this.buttons) ) {
-
-			// Get new state of this button
-
-			let n = null;
-
-			if ( newState.hovered.indexOf( uuid ) > -1 ) n = 'hovered';
-
-			if ( newState.selected.indexOf( uuid ) > -1 ) n = 'selected';
-
-			// Find if necessary to update
-
-			if (this.buttons[uuid].state === n) continue
-
-			// Update button
-
-			this.buttons[uuid].state = n;
-
-			switch (n) {
-				case 'selected' : setSelectedStyle( this.buttons[uuid].obj ); break;
-				case 'hovered' : setHoveredStyle( this.buttons[uuid].obj ); break;
-				case null : setIdleStyle( this.buttons[uuid].obj ); break;
-				default: console.warn('ButtonsState.updateState : something is wrong')
-			};
-
-		};
-
-	};
-
-	function setIdleStyle( object ) {
-		object.material.emissive = new THREE.Color( 0x000000 );
-	};
-
-	function setHoveredStyle( object ) {
-		object.material.emissive = new THREE.Color( 0x9c009c );
-	};
-
-	function setSelectedStyle( object ) {
-		object.material.emissive = new THREE.Color( 0x0000ff );
-	};
-
-	return {
-		buttons: {},
-		add,
-		isButton,
-		updateState
-	};
-
-};
-
-//
-
 function loop() {
 
 	controls.update();
+
 	renderer.render( scene, camera );
 
 	raycast();
@@ -303,32 +211,6 @@ function raycast() {
 
 	targets = control.intersectUI( componentsToTest );
 
-	// Compare targeted objects with HOVERED buttons
-
-	/*
-	buttonsState.updateState( targets.reduce( (newState, target)=> {
-
-		if ( buttonsState.isButton(target.object) ) {
-
-			if ( (target.caster === undefined && control.mouseControlSelected) ||
-				 (target.caster === 'controller-right' && control.rightControlSelected) ||
-				 (target.caster === 'controller-left' && control.leftControlSelected) ) {
-
-				newState.selected.push( target.object.uuid );
-
-			} else {
-
-				newState.hovered.push( target.object.uuid );
-
-			};
-
-		};
-
-		return newState
-
-	}, { hovered: [], selected: [] } ));
-	*/
-
 	targets.forEach( (target)=> {
 
 		if ( (target.caster === undefined && control.mouseControlSelected) ||
@@ -336,20 +218,16 @@ function raycast() {
 			 (target.caster === 'controller-left' && control.leftControlSelected) ) {
 
 			target.object.setState( 'selected' );
-			// newState.selected.push( target.object.uuid );
 
 		} else {
 
 			target.object.setState( 'hovered' );
-			// newState.hovered.push( target.object.uuid );
 
 		};
 
 	});
 
 	componentsToTest.forEach( (component)=> {
-
-		// console.log( component )
 
 		const found = targets.find( (target)=> {
 			return target.object === component
