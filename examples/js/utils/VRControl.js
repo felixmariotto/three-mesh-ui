@@ -15,14 +15,15 @@ export default function VRControl( renderer, camera, scene ) {
 
 	const controllerModelFactory = new XRControllerModelFactory();
 
-	//////////////////////////
-	// Pointing rays helpers
-	//////////////////////////
+	//////////////////
+	// Lines helpers
+	//////////////////
 
 	const material = new THREE.MeshBasicMaterial( {
 		color: 0xffffff,
 		alphaMap: new THREE.CanvasTexture( generateRayTexture() ),
-		transparent: true
+		transparent: true,
+		depthTest: false
 	});
 
 	const geometry = new THREE.BoxBufferGeometry( 0.004, 0.004, 0.35 );
@@ -62,7 +63,8 @@ export default function VRControl( renderer, camera, scene ) {
 			
 	};
 
-	const pointingRayHelper = new THREE.Mesh( geometry, material );
+	const linesHelper = new THREE.Mesh( geometry, material );
+	linesHelper.renderOrder = 1;
 
 	/////////////////
 	// Point helper
@@ -71,12 +73,13 @@ export default function VRControl( renderer, camera, scene ) {
 	const spriteMaterial = new THREE.SpriteMaterial({
 		map: new THREE.CanvasTexture( generatePointerTexture() ),
 		sizeAttenuation: false,
-		depthFunc: THREE.AlwaysDepth
+		depthTest: false
 	});
 
 	const pointer = new THREE.Sprite( spriteMaterial );
 
 	pointer.scale.set(0.015, 0.015, 1)
+	pointer.renderOrder = 1;
 
 	////////////////
 	// Controllers
@@ -99,7 +102,7 @@ export default function VRControl( renderer, camera, scene ) {
 
 	controllers.forEach( (controller)=> {
 
-		const ray = pointingRayHelper.clone();
+		const ray = linesHelper.clone();
 		const point = pointer.clone();
 
 		controller.add( ray, point );
