@@ -68,6 +68,8 @@ function init() {
 	var planeCeil = new THREE.Plane( new THREE.Vector3( 0, -1, 0 ), 6 );
 	var planeFloor = new  THREE.Plane( new THREE.Vector3( 0, 1, 0 ), 0 );
 
+	// We push the planes in an array for raycasting in the loop
+
 	objsToTest.push( planeFront, planeBack, planeLeft, planeRight, planeCeil, planeFloor );
 
 	//////////
@@ -98,9 +100,9 @@ function init() {
 		scene.add( controllerGrip );
 	});
 
-	//////////
-	// Meshes
-	//////////
+	////////////////////
+	// Primitive Meshes
+	////////////////////
 
 	meshContainer = new THREE.Group();
 	meshContainer.position.set( 0, 1, -1.9 );
@@ -126,8 +128,6 @@ function init() {
 
 	meshContainer.add( sphere, box, cone );
 
-	objsToTest.push( sphere, box, cone );
-
 	meshes = [ sphere, box, cone ];
 	currentMesh = 0;
 
@@ -145,7 +145,7 @@ function init() {
 
 };
 
-//
+// Shows the primitive mesh with the passed ID and hide the others
 
 function showMesh( id ) {
 
@@ -155,38 +155,49 @@ function showMesh( id ) {
 
 };
 
-//
+///////////////////
+// UI contruction
+///////////////////
 
 function makePanel() {
+
+	// Group object in which we put everything
 
 	const uiContainer = new THREE.Group();
 	uiContainer.position.set( 0, 0.6, -1.2 );
 	uiContainer.rotation.x = -0.55;
 	scene.add( uiContainer );
 
-	const material = new THREE.MeshLambertMaterial({
+	// Materials used by the buttons on idle and hover
+
+	const opaqueMaterial = new THREE.MeshLambertMaterial({
 		side: THREE.DoubleSide,
 		transparent: true,
 		opacity: 0.5
 	});
 
-	const hoveredMaterial = new THREE.MeshLambertMaterial({
+	const clearMaterial = new THREE.MeshLambertMaterial({
 		side: THREE.DoubleSide
 	});
 
-	// CONTAINER
+	// Container block, in which we put the two buttons.
+	// We don't define width and height, it will be set automatically from the children's dimensions
+	// Note that we set contentDirection: "row-reverse", in order to orient the buttons horizontally
 
 	const container = ThreeMeshUI.Block({
 		justifyContent: 'center',
 		alignContent: 'center',
 		contentDirection: "row-reverse",
 		fontFamily: './assets/helvetiker_regular.typeface.json',
-		backgroundMaterial: material
+		backgroundMaterial: opaqueMaterial
 	});
 
-	componentsToTest.push( container );
+	componentsToTest.push( container ); // Array for raycasting in the loop
 
-	// BUTTON
+	// BUTTONS
+
+	// We start by creating objects containing options that we will use with the two buttons,
+	// in order to write less code.
 
 	const buttonOptions = {
 		width: 0.5,
@@ -199,11 +210,14 @@ function makePanel() {
 		margin: 0.05
 	};
 
+	// Options for component.setupState().
+	// It must contain a 'state' parameter, which you will refer to with component.setState( 'name-of-the-state' ).
+
 	const hoveredStateOptions = {
 		state: "hovered",
 		attributes: {
 			offset: 0.05,
-			backgroundMaterial: hoveredMaterial
+			backgroundMaterial: clearMaterial
 		},
 		onSet: ()=> { /* console.log('I get called when button is set hovered') */ }
 	};
@@ -212,10 +226,12 @@ function makePanel() {
 		state: "idle",
 		attributes: {
 			offset: 0.05,
-			backgroundMaterial: material
+			backgroundMaterial: opaqueMaterial
 		},
 		onSet: ()=> { /* console.log('I get called when button is set idle') */ }
 	};
+
+	// Buttons creation, with the options objects passed in parameters.
 
 	const buttonNext = ThreeMeshUI.Block( buttonOptions );
 	const buttonPrevious = ThreeMeshUI.Block( buttonOptions );
@@ -236,7 +252,7 @@ function makePanel() {
 		state: "selected",
 		attributes: {
 			offset: 0.02,
-			backgroundMaterial: hoveredMaterial
+			backgroundMaterial: clearMaterial
 		},
 		onSet: ()=> {
 			currentMesh = (currentMesh + 1) % 3 ;
@@ -250,7 +266,7 @@ function makePanel() {
 		state: "selected",
 		attributes: {
 			offset: 0.02,
-			backgroundMaterial: hoveredMaterial
+			backgroundMaterial: clearMaterial
 		},
 		onSet: ()=> {
 			currentMesh -= 1;
@@ -270,7 +286,7 @@ function makePanel() {
 
 };
 
-//
+// Handle resizing the viewport
 
 function onWindowResize() {
 
@@ -296,23 +312,38 @@ function loop() {
 
 };
 
-//
+// Called in the loop, get intersection with either the mouse or the VR controllers,
+// then update the buttons states according to result
 
 function raycast() {
 
+	// First call with array of non-UI objects. Can be Object3D, Mesh, Plane...
+	// Here we do that only to have the controllers pointers intersecting to the walls of the room.
+
 	control.intersectObjects( objsToTest );
+
+	// Second call with the UI elements, and we keep the result to update the buttons states.
 
 	targets = control.intersectUI( componentsToTest );
 
 	targets.forEach( (target)=> {
 
+		// The objects in the array returned by VRControl.intersectUI and VRControl.intersectObjects
+		// are identical to the objects returned by THREE.Raycaster.intersectObjects, with in addition
+		// a 'caster' parameter, which holds the name of the VR controller, if any. (caster is undefined
+		// if raycaster used the mouse for raycasting)
+
 		if ( (target.caster === undefined && control.mouseControlSelected) ||
 			 (target.caster === 'controller-right' && control.rightControlSelected) ||
 			 (target.caster === 'controller-left' && control.leftControlSelected) ) {
 
+			// Component.setState internally call component.set with the options you defined in component.setupState
+
 			target.object.setState( 'selected' );
 
 		} else {
+
+			// Component.setState internally call component.set with the options you defined in component.setupState
 
 			target.object.setState( 'hovered' );
 
@@ -325,6 +356,8 @@ function raycast() {
 		const found = targets.find( (target)=> {
 			return target.object === component
 		});
+
+		// Component.setState internally call component.set with the options you defined in component.setupState
 
 		if ( !found ) component.setState( 'idle' );
 
