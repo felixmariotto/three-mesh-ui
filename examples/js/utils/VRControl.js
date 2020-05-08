@@ -79,7 +79,7 @@ export default function VRControl( renderer, camera, scene ) {
 	const pointer = new THREE.Sprite( spriteMaterial );
 
 	pointer.scale.set(0.015, 0.015, 1)
-	pointer.renderOrder = 1;
+	pointer.renderOrder = Infinity;
 
 	////////////////
 	// Controllers
