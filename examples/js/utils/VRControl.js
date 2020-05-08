@@ -22,8 +22,7 @@ export default function VRControl( renderer, camera, scene ) {
 	const material = new THREE.MeshBasicMaterial( {
 		color: 0xffffff,
 		alphaMap: new THREE.CanvasTexture( generateRayTexture() ),
-		transparent: true,
-		depthTest: false
+		transparent: true
 	});
 
 	const geometry = new THREE.BoxBufferGeometry( 0.004, 0.004, 0.35 );
