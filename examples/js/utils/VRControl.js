@@ -221,7 +221,7 @@ export default function VRControl( renderer, camera ) {
 
 	function intersectObjects( objects, recursive ) {
 
-		if ( !objects || objects.length === 0 ) return []
+		if ( !objects ) return []
 
 		const obj3Ds = objects.filter((obj)=> {
 			return obj.type === 'Mesh' || obj.type === "Object3D";
@@ -230,6 +230,8 @@ export default function VRControl( renderer, camera ) {
 		const planes = objects.filter((obj)=> {
 			return obj.normal !== undefined && obj.constant !== undefined
 		});
+
+		if ( obj3Ds.length === 0 && planes.length === 0 );
 
 		// If immersion is on, then we check intersection with the controllers.
 		// Otherwise, we emulate them with the mouse
@@ -250,6 +252,7 @@ export default function VRControl( renderer, camera ) {
 				// Intersect
 
 				const target = testIntersections( obj3Ds, planes, recursive );
+				console.log( target )
 				target.caster = controller.name
 
 				// Position the helper and return the intersected object if any
