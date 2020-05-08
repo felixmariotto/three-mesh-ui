@@ -3,7 +3,7 @@
 three-mesh-ui helps in easily adding user interface in a Three.js scene, in order to make better VR experiences
 
 <a href="https://github.com/felixmariotto/three-mesh-ui/wiki/Getting-started">
-  <img alt="tuto example" target="_blank" src="https://felixmariotto.s3.eu-west-3.amazonaws.com/three-mesh-ui-teasers/teaser_tuto_optimised.gif" width="48%">
+  <img alt="tuto example" target="_blank" src="https://felixmariotto.s3.eu-west-3.amazonaws.com/three-mesh-ui-teasers/teaser_basic_optimised.gif" width="48%">
 </a>
 <a href="https://three-mesh-ui.herokuapp.com/#interactive_button">
   <img alt="buttons example" target="_blank" src="https://felixmariotto.s3.eu-west-3.amazonaws.com/three-mesh-ui-teasers/teaser_button_optimised.gif" width="48%">
