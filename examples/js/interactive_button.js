@@ -87,7 +87,7 @@ function init() {
 	// Controllers
 	////////////////
 
-	control = VRControl( renderer, camera );
+	control = VRControl( renderer, camera, scene );
 
 	control.controllers.forEach( (controller)=> {
 		scene.add( controller );

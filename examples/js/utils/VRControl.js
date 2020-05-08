@@ -6,7 +6,7 @@
 import * as THREE from 'three';
 import { XRControllerModelFactory } from 'three/examples/jsm/webxr/XRControllerModelFactory.js';
 
-export default function VRControl( renderer, camera ) {
+export default function VRControl( renderer, camera, scene ) {
 
 	let module;
 
@@ -70,7 +70,6 @@ export default function VRControl( renderer, camera ) {
 
 	const spriteMaterial = new THREE.SpriteMaterial({
 		map: new THREE.CanvasTexture( generatePointerTexture() ),
-		alphaMap: new THREE.CanvasTexture( generatePointerAlphaMap() ),
 		sizeAttenuation: false,
 		depthFunc: THREE.AlwaysDepth
 	});
@@ -404,6 +403,7 @@ function generatePointerTexture() {
 
 };
 
+/*
 function generatePointerAlphaMap() {
 
 	var canvas = document.createElement( 'canvas' );
@@ -420,3 +420,4 @@ function generatePointerAlphaMap() {
 	return canvas;
 
 };
+*/
