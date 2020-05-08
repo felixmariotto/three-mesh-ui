@@ -183,9 +183,17 @@ function makePanel() {
 	button.setupState({
 		state: "hovered",
 		attributes: {
-			offset: 1
+			offset: 0.02
 		},
 		onSet: ()=> { console.log('I get called when button is set hovered') }
+	});
+
+	button.setupState({
+		state: "idle",
+		attributes: {
+			offset: 0.05
+		},
+		onSet: ()=> { console.log('I get called when button is set idle') }
 	});
 
 	container.appendChild( button );
@@ -336,6 +344,18 @@ function raycast() {
 			// newState.hovered.push( target.object.uuid );
 
 		};
+
+	});
+
+	componentsToTest.forEach( (component)=> {
+
+		// console.log( component )
+
+		const found = targets.find( (target)=> {
+			return target.object === component
+		});
+
+		if ( !found ) component.setState( 'idle' );
 
 	});
 

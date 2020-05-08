@@ -41,6 +41,7 @@ function MeshUIComponent() {
 		type: 'MeshUIComponent',
 		id: generateSerial(),
 		states: {},
+		currentState: undefined,
 
 		getHighestParent,
 		getContainer,
@@ -390,7 +391,9 @@ function MeshUIComponent() {
 
 		const savedState = this.states[ state ];
 		
-		if ( !savedState ) return
+		if ( !savedState || state === this.currentState ) return
+
+		this.currentState = state;
 
 		if ( savedState.onSet ) savedState.onSet();
 
