@@ -68,10 +68,9 @@ export default function VRControl( renderer, camera ) {
 	// Point helper
 	/////////////////
 
-	const spriteMap = new THREE.CanvasTexture( generatePointerTexture() );
-
 	const spriteMaterial = new THREE.SpriteMaterial({
-		map: spriteMap,
+		map: new THREE.CanvasTexture( generatePointerTexture() ),
+		alphaMap: new THREE.CanvasTexture( generatePointerAlphaMap() ),
 		sizeAttenuation: false,
 		depthFunc: THREE.AlwaysDepth
 	});
@@ -389,14 +388,33 @@ function generatePointerTexture() {
 
 	var ctx = canvas.getContext("2d");
 
+	/*
 	ctx.fillStyle = "rgba(0,0,0,0)";
     ctx.fillRect(0, 0, 64, 64);
+    */
 
 	ctx.beginPath();
 	ctx.arc(32, 32, 29, 0, 2 * Math.PI);
 	ctx.lineWidth = 5;
 	ctx.stroke();
 	ctx.fillStyle = "white";
+	ctx.fill();
+
+	return canvas;
+
+};
+
+function generatePointerAlphaMap() {
+
+	var canvas = document.createElement( 'canvas' );
+	canvas.width = 64;
+	canvas.height = 64;
+
+	var ctx = canvas.getContext("2d");
+
+	ctx.beginPath();
+	ctx.arc(32, 32, 32, 0, 2 * Math.PI);
+	ctx.fillStyle = "black";
 	ctx.fill();
 
 	return canvas;
