@@ -8,7 +8,7 @@ import ThreeMeshUI from '../../src/three-mesh-ui.js';
 import VRControl from './utils/VRControl.js';
 import ShadowedLight from './utils/ShadowedLight.js';
 
-var scene, camera, renderer, controls, raycaster, control, buttonsState;
+var scene, camera, renderer, controls, raycaster, control;
 var targets = [];
 var objsToTest = [];
 var componentsToTest = [];
@@ -100,8 +100,6 @@ function init() {
  	//////////
 	// Panel
 	//////////
-
-	buttonsState = ButtonsState();
 
 	makePanel();
 

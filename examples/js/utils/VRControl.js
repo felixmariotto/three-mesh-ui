@@ -219,15 +219,17 @@ export default function VRControl( renderer, camera ) {
 	// Public function that get called from outside, with an array of objects to intersect.
 	// If intersects, returns the intersected object. Position the helper at the intersection point.
 
+	let result, obj3Ds, planes, targets;
+
 	function intersectObjects( objects, recursive ) {
 
 		if ( !objects ) return []
 
-		const obj3Ds = objects.filter((obj)=> {
+		obj3Ds = objects.filter((obj)=> {
 			return obj.type === 'Mesh' || obj.type === "Object3D";
 		});
 
-		const planes = objects.filter((obj)=> {
+		planes = objects.filter((obj)=> {
 			return obj.normal !== undefined && obj.constant !== undefined
 		});
 
@@ -238,7 +240,7 @@ export default function VRControl( renderer, camera ) {
 
 		if ( renderer.xr.isPresenting ) {
 
-			const targets = [];
+			targets = [];
 			
 			controllers.forEach( (controller, i)=> {
 
@@ -251,21 +253,21 @@ export default function VRControl( renderer, camera ) {
 
 				// Intersect
 
-				const target = testIntersections( obj3Ds, planes, recursive );
+				result = testIntersections( obj3Ds, planes, recursive );
 
-				if ( !target ) return
-					
-				target.caster = controller.name
+				if ( !result ) return
+
+				result.caster = controller.name
 
 				// Position the helper and return the intersected object if any
 
-				if ( target ) {
+				if ( result ) {
 
-					const localVec = controller.worldToLocal( target.point );
+					controller.worldToLocal( result.point );
 					controller.userData.point.position.copy( localVec );
 					controller.userData.point.visible = true;
 
-					targets.push( target );
+					targets.push( result );
 
 					return
 
@@ -287,9 +289,9 @@ export default function VRControl( renderer, camera ) {
 
 			raycaster.setFromCamera( mouse, camera );
 
-			const target = testIntersections( obj3Ds, planes, recursive );
+			const result = testIntersections( obj3Ds, planes, recursive );
 
-			return target ? [target] : [];
+			return result ? [result] : [];
 
 		};
 
@@ -297,20 +299,22 @@ export default function VRControl( renderer, camera ) {
 
 	//
 
+	let target, intersection, distance;
+
 	function testIntersections( obj3Ds, planes, recursive ) {
 
-		let target = raycaster.intersectObjects( obj3Ds, recursive )[0];
+		target = raycaster.intersectObjects( obj3Ds, recursive )[0];
 
 		// Rays must be intersected manually as its not supported by raycaster.intersectObjects
 
 		planes.forEach( (plane)=> {
 
-			const intersection = raycaster.ray.intersectPlane( plane, planeIntersect );
+			intersection = raycaster.ray.intersectPlane( plane, planeIntersect );
 			if ( intersection ) dummyVec.copy( intersection );
 
 			if ( intersection ) {
 
-				const distance = dummyVec.sub( raycaster.ray.origin ).length();
+				distance = dummyVec.sub( raycaster.ray.origin ).length();
 
 				if ( target && target.distance > distance ) {
 
