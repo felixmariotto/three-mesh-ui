@@ -217,7 +217,15 @@
 		const btn = document.getElementById('toggle-btn');
 		const link = document.getElementById('github-link');
 		const iframe = document.querySelector('iframe');
+
 		let navbarIsClosed = true;
+
+		const hash = window.location.hash.substr(1);
+
+		if ( hash === "" ) window.location.hash = "basic_setup";
+
+		// let hash = window.location.hash.substring(1);
+		//console.log( hash )
 		
 		function toggleNavbar() {
 
@@ -241,7 +249,7 @@
 
 		document.querySelectorAll('li').forEach( (node)=> {
 
-			if ( node.title === 'basic_setup' ) selectView( node );
+			if ( node.title === hash ) selectView( node );
 
 			node.onclick = ()=> {
 
@@ -261,6 +269,8 @@
 
 			iframe.src = `./${ listItem.title }.html`;
 			link.href = `https://github.com/felixmariotto/three-mesh-ui/blob/master/examples/js/${ listItem.title }.js`
+
+			window.location.hash = listItem.title;
 	
 			document.querySelectorAll('li').forEach( (node)=> {
 
