@@ -285,7 +285,7 @@ function loop() {
 
 	controls.update();
 
-	meshContainer.rotation.x += 0.01;
+	meshContainer.rotation.z += 0.01;
 	meshContainer.rotation.y += 0.01;
 
 	renderer.render( scene, camera );
