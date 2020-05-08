@@ -102,8 +102,6 @@ export default function VRControl( renderer, camera, scene ) {
 
 	controllers.forEach( (controller)=> {
 
-		controller.renderOrder = 1001;
-
 		const ray = linesHelper.clone();
 		const point = pointer.clone();
 
@@ -114,7 +112,13 @@ export default function VRControl( renderer, camera, scene ) {
 	});
 
 	controllerGrips.forEach( (controllerGrip)=> {
-		controllerGrip.add( controllerModelFactory.createControllerModel( controllerGrip ) );
+
+		const controllerModel = controllerModelFactory.createControllerModel( controllerGrip )
+
+		controllerModel.renderOrder = 1001;
+
+		controllerGrip.add( controllerModel );
+		
 	});
 
 	controller1.addEventListener( 'selectstart', onSelectStart );
