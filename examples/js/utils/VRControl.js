@@ -117,15 +117,6 @@ export default function VRControl( renderer, camera, scene ) {
 		controllerGrip.add( group );
 
 		const controllerModel = controllerModelFactory.createControllerModel( controllerGrip );
-		
-		controllerModel.traverse( (obj)=> {
-			if (obj.material) {
-				obj.material.transparent = true;
-				obj.material.opacity = 0.5;
-				obj.material.depthTest = false;
-			};
-		});
-
 		group.add( controllerModel );
 
 	});
