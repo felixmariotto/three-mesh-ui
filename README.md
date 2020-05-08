@@ -2,8 +2,12 @@
 
 three-mesh-ui helps in easily adding user interface in a Three.js scene, in order to make better VR experiences
 
-![preview three-mesh-ui](https://felixmariotto.s3.eu-west-3.amazonaws.com/github_preview.jpg)
-![preview three-mesh-ui](https://felixmariotto.s3.eu-west-3.amazonaws.com/github_preview.gif)
+<a href="https://github.com/felixmariotto/three-mesh-ui/wiki/Getting-started">
+  <img alt="tuto example" target="_blank" src="https://felixmariotto.s3.eu-west-3.amazonaws.com/three-mesh-ui-teasers/teaser_basic_optimised.gif" width="48%">
+</a>
+<a href="https://three-mesh-ui.herokuapp.com/#interactive_button">
+  <img alt="buttons example" target="_blank" src="https://felixmariotto.s3.eu-west-3.amazonaws.com/three-mesh-ui-teasers/teaser_button_optimised.gif" width="48%">
+</a>
 
 ## What is it for ?
 
@@ -15,4 +19,4 @@ In a normal three.js workflow, most people build the user interfaces with HTML/C
 
 In immersive VR, none of these two options is available. The goal of **three-mesh-ui** is to offer a tool similar to HTML/CSS to build genuine meshes that can be used the normal way inside a three.js scene rendered with WebGLRenderer.
 
-### [Demos](https://three-mesh-ui.herokuapp.com/) | [Getting Started](https://github.com/felixmariotto/three-mesh-ui/wiki/Getting-started) | [NPM](https://www.npmjs.com/package/three-mesh-ui) |  [API](https://github.com/felixmariotto/three-mesh-ui/wiki/API-documentation) | [Roadmap](https://github.com/felixmariotto/three-mesh-ui/wiki/Roadmap) | [Contributing](https://github.com/felixmariotto/three-mesh-ui/wiki/Contributing)
+### [Examples](https://three-mesh-ui.herokuapp.com/) &nbsp;|	&nbsp;[Getting Started](https://github.com/felixmariotto/three-mesh-ui/wiki/Getting-started)	&nbsp;|	&nbsp;[NPM](https://www.npmjs.com/package/three-mesh-ui)	&nbsp;|	&nbsp;[API](https://github.com/felixmariotto/three-mesh-ui/wiki/API-documentation)	&nbsp;|	&nbsp;[Roadmap](https://github.com/felixmariotto/three-mesh-ui/wiki/Roadmap)	&nbsp;|	&nbsp;[Contributing](https://github.com/felixmariotto/three-mesh-ui/wiki/Contributing)
