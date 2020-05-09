@@ -35,6 +35,7 @@
     "webpack-dev-server": "^3.10.3"
   },
   "dependencies": {
-    "three": "^0.115.0"
+    "three": "^0.115.0",
+    "three-bmfont-text": "^2.3.0"
   }
 }
