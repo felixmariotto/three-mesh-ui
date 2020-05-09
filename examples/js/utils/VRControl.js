@@ -80,8 +80,6 @@ export default function VRControl( renderer, camera, scene ) {
 	pointer.scale.set(0.015, 0.015, 1)
 	pointer.renderOrder = 1000;
 
-	fre = ger
-
 	////////////////
 	// Controllers
 	////////////////
