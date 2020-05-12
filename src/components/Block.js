@@ -16,11 +16,13 @@ function Block( options ) {
 
 	block.threeOBJ = new Object3D;
 	block.threeOBJ.name = "MeshUI-Block"
+    block.threeOBJ.uiComponent = block;
 
 	block.type = 'Block';
 
 	const frameContainer = new Object3D();
 	frameContainer.name = "MeshUI-FrameContainer"
+    frameContainer.uiComponent = block;
 	block.threeOBJ.add( frameContainer );
 
 	block.frameContainer = frameContainer;
@@ -93,6 +95,7 @@ function Block( options ) {
 		);
 
 		frame.renderOrder = block.getParentsNumber();
+        frame.uiComponent = block;
 
 		frameContainer.add( frame );
 

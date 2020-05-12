@@ -12,7 +12,7 @@ var scene, camera, renderer, controls, raycaster, control;
 var meshContainer, meshes, currentMesh;
 var targets = [];
 var objsToTest = [];
-var componentsToTest = [];
+var statefulComponents = new Set();
 
 window.addEventListener('load', ()=> {
 	init();
@@ -53,24 +53,16 @@ function init() {
 	/////////
 
 	const room = new THREE.LineSegments(
-		new BoxLineGeometry( 6, 6, 6, 10, 10, 10 ).translate( 0, 3, 0 ),
+        new BoxLineGeometry( 6, 6, 6, 10, 10, 10 ).translate( 0, 3, 0 ),
 		new THREE.LineBasicMaterial( { color: 0x808080 } )
+	);
+	const roomMesh = new THREE.Mesh(
+		new THREE.BoxGeometry( 6, 6, 6, 10, 10, 10 ).translate( 0, 3, 0 ),
+		new THREE.MeshBasicMaterial({ side: THREE.BackSide }),
 	);
 
 	scene.add( room );
-
-	// Planes for intersections between the room and the controller pointers
-
-	var planeFront = new THREE.Plane( new THREE.Vector3( 0, 0, 1 ), 3 );
-	var planeBack = new THREE.Plane( new THREE.Vector3( 0, 0, -1 ), 3 );
-	var planeLeft = new THREE.Plane( new THREE.Vector3( -1, 0, 0 ), 3 );
-	var planeRight = new THREE.Plane( new THREE.Vector3( 1, 0, 0 ), 3 );
-	var planeCeil = new THREE.Plane( new THREE.Vector3( 0, -1, 0 ), 6 );
-	var planeFloor = new  THREE.Plane( new THREE.Vector3( 0, 1, 0 ), 0 );
-
-	// We push the planes in an array for raycasting in the loop
-
-	objsToTest.push( planeFront, planeBack, planeLeft, planeRight, planeCeil, planeFloor );
+    objsToTest.push(roomMesh);
 
 	//////////
 	// Light
@@ -192,7 +184,7 @@ function makePanel() {
 		backgroundMaterial: opaqueMaterial
 	});
 
-	componentsToTest.push( container ); // Array for raycasting in the loop
+	objsToTest.push( container.threeOBJ ); // Array for raycasting in the loop
 
 	// BUTTONS
 
@@ -278,7 +270,14 @@ function makePanel() {
 	buttonPrevious.setupState( idleStateOptions );
 
 	container.appendChild( buttonNext, buttonPrevious );
-	componentsToTest.push( buttonNext, buttonPrevious );
+	objsToTest.push( buttonNext.threeOBJ, buttonPrevious.threeOBJ );
+	statefulComponents.add( buttonNext );
+    statefulComponents.add( buttonPrevious );
+    //We need to keep track of if the trigger/mouse is still pressed after
+    //moving off of the component
+    statefulComponents.forEach((component) => {
+        component.selectedOwners = new Set();
+    });
 
 	//
 
@@ -312,55 +311,88 @@ function loop() {
 
 };
 
-// Called in the loop, get intersection with either the mouse or the VR controllers,
-// then update the buttons states according to result
+function updateControllerPoint(hand, selector) {
+    if(selector['raycaster'] != null && selector['closestPointDistance'] != Number.MAX_SAFE_INTEGER) {
+        control.setPoint('controller-' + hand, selector['closestPoint']);
+    } else {
+        control.clearPoint('controller-' + hand);
+    }
+};
+
+// Called in the loop. Get intersections with the mouse and/or the VR
+// controllers, updating the buttons states accordingly
 
 function raycast() {
+    const selectors = {};
+    const selectorOptions = ['left', 'right', 'mouse'];
+    for(let i = 0; i < selectorOptions.length; i++) {
+        const option = selectorOptions[i];
+        selectors[option] = {
+            raycaster: control.getRaycaster(option),
+            selectedField: option + "ControlSelected",
+            closestPoint: null,
+            closestPointDistance: Number.MAX_SAFE_INTEGER,
+        };
+    }
 
-	// First call with array of non-UI objects. Can be Object3D, Mesh, Plane...
-	// Here we do that only to have the controllers pointers intersecting to the walls of the room.
+    //Due to the nature of having 2 controllers, it's easier to determine if a
+    //component is idle by going through each ui element 1 by 1 using all
+    //raycasters. This way of adjusting state does not take the UI being behind
+    //another mesh into account, but does allow stacked component state changes
+    for(let i = 0; i < objsToTest.length; i++) {
+        const obj = objsToTest[i];
+        const component = obj.uiComponent; //Null for non-stateful components
+        const isStateful = statefulComponents.has(obj.uiComponent);
+        let raycasted = false;
+        for(let option in selectors) {
+            const selector = selectors[option];
+            const raycaster = selector['raycaster'];
+            const selected = control[selector['selectedField']];
+            let intersections;
+            if(raycaster == null) {
+                intersections = [];
+            } else {
+                intersections = raycaster.intersectObject(obj, true);
+            }
+            if(intersections.length != 0) {
+                const distance = intersections[0].distance;
+                if(distance < selector['closestPointDistance']) {
+                    selector['closestPointDistance'] = distance;
+                    selector['closestPoint'] = intersections[0].point;
+                }
+                raycasted = true;
+                if(isStateful) {
+                    if(selected) {
+                        if(!component.selectedOwners.has(option)) {
+                            component.selectedOwners.add(option);
+                        }
+                        if(component.currentState != "selected") {
+                            component.setState("selected");
+                        }
+                    } else {
+                        if(component.selectedOwners.has(option)) {
+                            component.selectedOwners.delete(option);
+                        }
+                        if(component.currentState != "hovered"
+                            && component.selectedOwners.size == 0)
+                        {
+                            component.setState("hovered");
+                        }
+                    }
+                }
+            } else if(isStateful && component.selectedOwners.has(option)) {
+                if(!selected) {
+                    component.selectedOwners.delete(option);
+                }
+            }
+        }
+        if(isStateful && !raycasted && component.selectedOwners.size == 0) {
+            component.setState("idle");
+        }
+    }
 
-	control.intersectObjects( objsToTest );
-
-	// Second call with the UI elements, and we keep the result to update the buttons states.
-
-	targets = control.intersectUI( componentsToTest );
-
-	targets.forEach( (target)=> {
-
-		// The objects in the array returned by VRControl.intersectUI and VRControl.intersectObjects
-		// are identical to the objects returned by THREE.Raycaster.intersectObjects, with in addition
-		// a 'caster' parameter, which holds the name of the VR controller, if any. (caster is undefined
-		// if raycaster used the mouse for raycasting)
-
-		if ( (target.caster === undefined && control.mouseControlSelected) ||
-			 (target.caster === 'controller-right' && control.rightControlSelected) ||
-			 (target.caster === 'controller-left' && control.leftControlSelected) ) {
-
-			// Component.setState internally call component.set with the options you defined in component.setupState
-
-			target.object.setState( 'selected' );
-
-		} else {
-
-			// Component.setState internally call component.set with the options you defined in component.setupState
-
-			target.object.setState( 'hovered' );
-
-		};
-
-	});
-
-	componentsToTest.forEach( (component)=> {
-
-		const found = targets.find( (target)=> {
-			return target.object === component
-		});
-
-		// Component.setState internally call component.set with the options you defined in component.setupState
-
-		if ( !found ) component.setState( 'idle' );
-
-	});
+    //Now we need to set the point for right and left controllers
+    updateControllerPoint('left', selectors['left']);
+    updateControllerPoint('right', selectors['right']);
 
 };

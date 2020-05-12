@@ -15,6 +15,7 @@ function Text( options ) {
 	text.type = "Text";
 
 	text.threeOBJ = new Object3D();
+    text.threeOBJ.uiComponent = text;
 
 	text.parseParams = function parseParams( resolve, reject ) {
 

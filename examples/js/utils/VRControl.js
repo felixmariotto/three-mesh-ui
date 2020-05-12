@@ -177,6 +177,58 @@ export default function VRControl( renderer, camera, scene ) {
 
 	};
 
+    function clearPoint(name) {
+        let controller = getController(name);
+        if(controller != null) {
+            controller.userData.point.visible = false;
+        }
+    }
+
+    //Assumes point is in world coordinates
+    function setPoint(name, point) {
+        let controller = getController(name);
+        if(controller != null) {
+            const localVec = controller.worldToLocal( point );
+            controller.userData.point.position.copy( localVec );
+            controller.userData.point.visible = true;
+        }
+    }
+
+    function getController(name) {
+        let controller = null;
+        controllers.forEach((c) => {
+            if(c.name == name) {
+                controller = c;
+            }
+        });
+        return controller;
+    }
+
+    // Public function that returns the raycaster associated with the type of
+    // controller passed in. Returns null if controller is invalid
+    function getRaycaster(type) {
+        const raycaster = new THREE.Raycaster();
+        if(type == "mouse") {
+            if ( renderer.xr.isPresenting || mouse.x == null || mouse.y == null ) return null;
+            raycaster.setFromCamera( mouse, camera );
+        } else if(type == "left") {
+            const controller = getController("controller-left");
+            if ( !renderer.xr.isPresenting || controller == null ) return null;
+            dummyMatrix.identity().extractRotation( controller.matrixWorld );
+            raycaster.ray.origin.setFromMatrixPosition( controller.matrixWorld );
+            raycaster.ray.direction.set( 0, 0, - 1 ).applyMatrix4( dummyMatrix );
+        } else if(type == "right") {
+            let controller = getController("controller-right");
+            if ( !renderer.xr.isPresenting || controller == null ) return null;
+            dummyMatrix.identity().extractRotation( controller.matrixWorld );
+            raycaster.ray.origin.setFromMatrixPosition( controller.matrixWorld );
+            raycaster.ray.direction.set( 0, 0, - 1 ).applyMatrix4( dummyMatrix );
+        } else {
+            return null;
+        }
+        return raycaster;
+    }
+
 	// Public function that call intersectObjects after sorting the passed UI components so that
 	// Raycaster can work on the component's meshes.
 
@@ -349,6 +401,9 @@ export default function VRControl( renderer, camera, scene ) {
 		controllerGrips,
 		intersectObjects,
 		intersectUI,
+        getRaycaster,
+        clearPoint,
+        setPoint,
 		handleSelectStart: ()=> {},
 		handleSelectEnd: ()=> {}
 	};
