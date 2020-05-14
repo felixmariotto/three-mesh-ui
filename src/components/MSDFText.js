@@ -43,7 +43,7 @@ function MSDFText( options ) {
 			vec3 sample = texture2D( u_texture, vUv ).rgb;
 			float sigDist = median( sample.r, sample.g, sample.b ) - 0.5;
 			float alpha = clamp( sigDist / fwidth( sigDist ) + 0.5, 0.0, 1.0 );
-			gl_FragColor = vec4( vec3(1.0), alpha + 0.2 );
+			gl_FragColor = vec4( vec3(1.0), alpha );
 		}
 	`;
 
@@ -235,6 +235,7 @@ function MSDFText( options ) {
     });
 
 		const TEXT_MESH = new Mesh( INFO.geometry, MATERIAL );
+		TEXT_MESH.renderOrder = Infinity;
 
 		DeepDelete( text.threeOBJ );
 

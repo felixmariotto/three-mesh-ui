@@ -11,6 +11,12 @@ const HEIGHT = window.innerHeight;
 
 let scene, camera, renderer, controls ;
 
+let bigText = '';
+
+for (let i = 0 ; i < 20 ; i++) {
+	bigText += 'MSDFText is very performant when rendering big text because the glyphs are textures on simple planes geometries, all merged together. ';
+};
+
 window.addEventListener('load', ()=> {
 	init();
 });
@@ -24,7 +30,7 @@ function init() {
 	scene = new THREE.Scene();
 	scene.background = new THREE.Color( 0x505050 );
 
-	camera = new THREE.PerspectiveCamera( 60, WIDTH / HEIGHT, 0.1, 100 );
+	camera = new THREE.PerspectiveCamera( 60, WIDTH / HEIGHT, 0.02, 100 );
 
 	renderer = new THREE.WebGLRenderer({
 		antialias: true
@@ -69,23 +75,55 @@ function makeTextPanel() {
 	scene.add( uiContainer );
 
 	const fontMaterial = new THREE.MeshBasicMaterial();
+	const transparentMaterial = new THREE.MeshBasicMaterial({
+		transparent: true,
+		opacity: 0
+	});
 
 	//
 
 	const container = ThreeMeshUI.Block({
-		width: 0.2,
-		height: 0.2,
-		justifyContent: 'center',
-		alignContent: 'center',
+		padding: 0.05,
 		fontFamily: './assets/roboto-msdf.json',
 		fontTexture: './assets/Roboto-msdf.png',
 		fontMaterial: fontMaterial
 	});
 
-	container.appendChild(
+	uiContainer.add( container.threeOBJ );
+
+	//
+
+	const bigTextContainer = ThreeMeshUI.Block({
+		padding: 0.03,
+		margin: 0.03,
+		width: 1.5,
+		height: 1.2,
+		justifyContent: 'center',
+		alignContent: 'left',
+		backgroundMaterial: transparentMaterial
+	});
+
+	bigTextContainer.appendChild(
 
 		ThreeMeshUI.MSDFText({
-			content: "m\nm\nm\nm\nm",
+			content: bigText,
+			fontSize: 0.034
+		})
+
+	);
+
+	//
+
+	const titleContainer = ThreeMeshUI.Block({
+		width: 0.9,
+		height: 0.25,
+		padding: 0.04,
+		margin: 0.03,
+		backgroundMaterial: transparentMaterial
+	}).appendChild(
+
+		ThreeMeshUI.MSDFText({
+			content: "Do you need to render a big text ?",
 			fontSize: 0.07
 		})
 
@@ -93,7 +131,7 @@ function makeTextPanel() {
 
 	//
 
-	uiContainer.add( container.threeOBJ );
+	container.appendChild( titleContainer, bigTextContainer );
 
 };
 

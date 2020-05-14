@@ -7,7 +7,6 @@ let pages = [
 	['nested_blocks', 'nested blocks'],
 	['tutorial_result', 'tutorial result'],
 	['interactive_button', 'interactive button'],
-	['performance', 'performance'],
 	['msdf_text', 'MSDF text']
 ];
 
@@ -54,7 +53,6 @@ module.exports = env => {
 			nested_blocks: './examples/js/nested_blocks.js',
 			tutorial_result: './examples/js/tutorial_result.js',
 			interactive_button: './examples/js/interactive_button.js',
-			performance: './examples/js/performance.js',
 			msdf_text: './examples/js/msdf_text.js'
 		},
 
