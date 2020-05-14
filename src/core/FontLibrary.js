@@ -29,6 +29,8 @@ function setFontFamily( component, url ) {
 			// FileLoader import as a JSON string
 			let font = JSON.parse( text );
 
+			console.log( font )
+
 			// We test the type of font
 			if (
 				font.chars !== undefined,

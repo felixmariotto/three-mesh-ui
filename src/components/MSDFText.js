@@ -82,7 +82,7 @@ function MSDFText( options ) {
 			return {
 				geometry,
 				height: 0.3,
-				ascender: 0.2,
+				ascender: 0,
 				width: box.max.x * 2,
 				glyph
 			};
@@ -114,12 +114,7 @@ function MSDFText( options ) {
 
 		function mapUVs( geometry, font, char ) {
 
-			const charOBJ = font.chars.find( (charOBJ, i)=> {
-				return (
-					charOBJ.char === char ||
-					font.info.charset[i] === char
-				);
-			});
+			const charOBJ = font.chars.find( charOBJ => charOBJ.char === char );
 
 			const common = font.common;
 
@@ -159,12 +154,7 @@ function MSDFText( options ) {
 
 		function transformGeometry( geometry, font, char ) {
 
-			const charOBJ = font.chars.find( (charOBJ, i)=> {
-				return (
-					charOBJ.char === char ||
-					font.info.charset[i] === char
-				);
-			});
+			const charOBJ = font.chars.find( charOBJ => charOBJ.char === char );
 
 			const common = font.common;
 
