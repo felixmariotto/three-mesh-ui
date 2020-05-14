@@ -35,6 +35,8 @@ function setFont( component, url ) {
 
 				font.fontType = "MSDF";
 
+				console.log( font )
+
 			} else {
 
 				// If the font is a typeface font, we want to create a THREE.Font

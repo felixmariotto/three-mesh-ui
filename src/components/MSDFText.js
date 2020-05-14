@@ -41,7 +41,7 @@ function MSDFText( options ) {
 
 		text.chars = chars.map( (glyph)=> {
 
-			console.log( createTextMesh( FONT, glyph ) );
+			createTextMesh( FONT, glyph );
 
 		});
 
@@ -49,11 +49,18 @@ function MSDFText( options ) {
 
 		function createTextMesh( font, char ) {
 
-			var geometry = new THREE.PlaneBufferGeometry( FONT_SIZE, FONT_SIZE );
+			const geometry = new THREE.PlaneBufferGeometry( FONT_SIZE, FONT_SIZE );
 
-			mapUVs( geometry, font, char );
+			// We test for line break, tabs, and white space
+			if ( char.match(/\s/g) === null ) {
 
-			transformGeometry( geometry, font, char );
+				if ( font.info.charset.indexOf( char ) === -1 ) console.error(`The character '${ char }' is not included in the font characters set.`)
+
+				mapUVs( geometry, font, char );
+
+				transformGeometry( geometry, font, char );
+
+			};
 
 			return geometry
 
@@ -63,7 +70,13 @@ function MSDFText( options ) {
 
 		function mapUVs( geometry, font, char ) {
 
-			const charOBJ = font.chars.find( charOBJ => charOBJ.char === char );
+			const charOBJ = font.chars.find( (charOBJ, i)=> {
+				return (
+					charOBJ.char === char ||
+					font.info.charset[i] === char
+				);
+			});
+
 			const common = font.common;
 
 			const xMin = charOBJ.x / common.scaleW;
@@ -102,7 +115,13 @@ function MSDFText( options ) {
 
 		function transformGeometry( geometry, font, char ) {
 
-			const charOBJ = font.chars.find( charOBJ => charOBJ.char === char );
+			const charOBJ = font.chars.find( (charOBJ, i)=> {
+				return (
+					charOBJ.char === char ||
+					font.info.charset[i] === char
+				);
+			});
+
 			const common = font.common;
 
 			const newHeight = charOBJ.height / common.lineHeight;
