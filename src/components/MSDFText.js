@@ -3,7 +3,8 @@
 	Knows: This text, its geometries and resulting mesh
 */
 
-import { Mesh, Object3D } from 'three';
+import { Mesh, Object3D, SphereBufferGeometry } from 'three';
+import { BufferGeometryUtils } from 'three/examples/jsm/utils/BufferGeometryUtils.js';
 
 import InlineComponent from '../core/InlineComponent';
 import DeepDelete from '../utils/DeepDelete';
@@ -43,7 +44,7 @@ function MSDFText( options ) {
 			vec3 sample = texture2D( u_texture, vUv ).rgb;
 			float sigDist = median( sample.r, sample.g, sample.b ) - 0.5;
 			float alpha = clamp( sigDist / fwidth( sigDist ) + 0.5, 0.0, 1.0 );
-			gl_FragColor = vec4( vec3(1.0), alpha );
+			gl_FragColor = vec4( vec3(1.0), alpha + 0.2 );
 		}
 	`;
 
@@ -87,10 +88,16 @@ function MSDFText( options ) {
 
 			geometry.translate( charWidth / 2, 0, 0 );
 
+			//
+
+			const geomTest = new SphereBufferGeometry( 0.01, 8, 8 );
+
+
+
 			return {
 				geometry,
 				height: charHeight,
-				ascender: 0,
+				ascender: charHeight,
 				width: charWidth,
 				glyph
 			};
