@@ -27,7 +27,7 @@ function InlineManager( boxComponent ) {
 		inlineManager.inlinesInfo = {};
 
 		const INNER_WIDTH = this.getWidth() - (this.padding * 2 || 0);
-		const BREAK_ON = this.getBreakOn();
+		const BREAK_ON = this.getBreakOn(); // characters to prioritize breaking line (eg: white space)
 
 		// Will stock the characters of each line, so that we can
 		// correct lines position before to merge
@@ -189,6 +189,8 @@ function InlineManager( boxComponent ) {
 			///////////////////////
 			/// Merge and record
 			///////////////////////
+
+			const testGeom = new THREE.Sphere
 
 			const mergedGeom = BufferGeometryUtils.mergeBufferGeometries( translatedGeom );
 

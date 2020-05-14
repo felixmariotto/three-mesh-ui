@@ -29,7 +29,13 @@ function Text( options ) {
 		// Get font style (MeshUIComponent's job)
 
 		const FONT = this.getFontFamily();
+
 		if ( !FONT ) return
+
+		if ( FONT.fontType !== 'Typeface' ) {
+			console.error('Text components only support Typeface fonts. See https://gero3.github.io/facetype.js/')
+			return
+		};
 
 		const FONT_SIZE = this.getFontSize();
 
@@ -38,6 +44,8 @@ function Text( options ) {
 		let chars = Array.from ? Array.from( this.content ) : String( this.content ).split( '' );
 
 		text.chars = chars.map( (glyph)=> {
+
+			const geometry = new ShapeBufferGeometry( shape );
 
 			const shape = FONT.generateShapes( glyph, FONT_SIZE );
 
@@ -48,7 +56,7 @@ function Text( options ) {
 			const ascender = FONT.data.glyphs[ glyph ] ? FONT.data.ascender * ( FONT_SIZE / FONT.data.resolution ) : 0 ;
 
 			return {
-				geometry: new ShapeBufferGeometry( shape ),
+				geometry,
 				height,
 				ascender,
 				width,

@@ -73,9 +73,8 @@ function makeTextPanel() {
 	//
 
 	const container = ThreeMeshUI.Block({
-		width: 1.2,
+		width: 1.1,
 		height: 0.8,
-		padding: 0.2,
 		justifyContent: 'center',
 		alignContent: 'left',
 		fontFamily: './assets/Roboto-msdf.json',
@@ -86,7 +85,7 @@ function makeTextPanel() {
 	container.appendChild(
 
 		ThreeMeshUI.MSDFText({
-			content: "MSDF text\nnext line",
+			content: "My super engine can do\nAMAZING layouts",
 			fontSize: 0.07
 		})
 

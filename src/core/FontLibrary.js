@@ -29,8 +29,6 @@ function setFontFamily( component, url ) {
 			// FileLoader import as a JSON string
 			let font = JSON.parse( text );
 
-			console.log( font )
-
 			// We test the type of font
 			if (
 				font.chars !== undefined,
@@ -46,8 +44,8 @@ function setFontFamily( component, url ) {
 
 				// If the font is a typeface font, we want to create a THREE.Font
 				// instance to access methods like Font.generateShapes
-				font.fontType = "Typeface";
 				font = new Font( font );
+				font.fontType = "Typeface";
 
 			};
 

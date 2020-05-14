@@ -65,7 +65,10 @@ function MSDFText( options ) {
 
 		const FONT_SIZE = this.getFontSize();
 
-		if ( FONT.fontType !== 'MSDF' ) return
+		if ( FONT.fontType !== 'MSDF' ) {
+			console.error('Text components only support MSDF fonts. See https://msdf-bmfont.donmccurdy.com')
+			return
+		};
 
 		//
 
@@ -79,11 +82,15 @@ function MSDFText( options ) {
 
 			const box = geometry.boundingBox;
 
+			const charWidth = box.max.x * 2;
+
+			geometry.translate( charWidth / 2, 0, 0 );
+
 			return {
 				geometry,
 				height: 0.3,
 				ascender: 0,
-				width: box.max.x * 2,
+				width: charWidth,
 				glyph
 			};
 
@@ -103,6 +110,13 @@ function MSDFText( options ) {
 				mapUVs( geometry, font, char );
 
 				transformGeometry( geometry, font, char );
+
+			} else {
+
+				nullifyUVs( geometry );
+
+				geometry.scale( 0.5, 0.5, 0.5 );
+				geometry.translate( 0, FONT_SIZE / 2, 0 );
 
 			};
 
@@ -145,6 +159,20 @@ function MSDFText( options ) {
 				})();
 
 				uvAttribute.setXY( i, u, v );
+
+			};
+
+		};
+
+		//
+
+		function nullifyUVs( geometry ) {
+
+			const uvAttribute = geometry.attributes.uv;
+
+			for ( var i = 0; i < uvAttribute.count; i ++ ) {
+
+				uvAttribute.setXY( i, 0, 0 );
 
 			};
 
