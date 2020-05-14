@@ -73,8 +73,8 @@ function makeTextPanel() {
 	//
 
 	const container = ThreeMeshUI.Block({
-		width: 1.1,
-		height: 0.8,
+		width: 0.2,
+		height: 0.2,
 		justifyContent: 'center',
 		alignContent: 'left',
 		fontFamily: './assets/roboto-msdf.json',
@@ -85,7 +85,7 @@ function makeTextPanel() {
 	container.appendChild(
 
 		ThreeMeshUI.MSDFText({
-			content: "blablabla blablabla blabla blablabla bla",
+			content: "m",
 			fontSize: 0.07
 		})
 
