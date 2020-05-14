@@ -29,13 +29,14 @@
   "homepage": "https://github.com/felixmariotto/Three-Mesh-UI#readme",
   "devDependencies": {
     "express": "^4.17.1",
-    "html-webpack-plugin": "^4.2.0",
+    "html-webpack-plugin": "^4.3.0",
     "webpack": "^4.43.0",
     "webpack-cli": "^3.3.11",
-    "webpack-dev-server": "^3.10.3"
+    "webpack-dev-server": "^3.11.0"
   },
   "dependencies": {
+    "load-bmfont": "^1.4.0",
     "three": "^0.115.0",
-    "three-bmfont-text": "^2.3.0"
+    "three-bmfont-text": "dmarcos/three-bmfont-text#1babdf8507"
   }
 }

@@ -17,7 +17,7 @@ function InlineManager( boxComponent ) {
 
 	inlineManager.inlineComponents = [];
 
-	// Updated by computeInlinesPosition, and read by InlineComponent.setPosFromParentRecords()
+	// Updated by computeInlinesPosition.
 	inlineManager.inlinesInfo = {};
 
 	inlineManager.computeInlinesPosition = function computeInlinesPosition() {

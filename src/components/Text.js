@@ -1,6 +1,6 @@
 /*
-	Job: Keep a Three.Object3D to contain text mesh. Triggers updates
-	Knows: This text, its geometries and meshes
+	Job: Creating gylphs geometries, and merging them. ( it does not lay them out, it's InlineManager's job )
+	Knows: This text, its geometries and resulting mesh
 */
 
 import { ShapeBufferGeometry, Mesh, Object3D } from 'three';
@@ -26,7 +26,7 @@ function Text( options ) {
 		
 		if ( !this.content || this.content.length === 0 ) return
 
-		// Get font style
+		// Get font style (MeshUIComponent's job)
 
 		const FONT = this.getFontFamily();
 		if ( !FONT ) return

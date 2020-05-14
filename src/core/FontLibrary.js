@@ -4,9 +4,10 @@
 	Knows: Which component use which font, loaded fonts
 */
 
-import { FontLoader } from 'three';
+import { Font } from 'three/src/extras/core/Font.js';
+import { FileLoader } from 'three';
 
-const loader = new FontLoader();
+const loader = new FileLoader();
 const requiredFonts = [];
 const fonts = {};
 const records = {};
@@ -18,7 +19,30 @@ function setFont( component, url ) {
 
 		requiredFonts.push( url );
 
-		loader.load( url, ( font )=> {
+		loader.load( url, ( text )=> {
+
+			// FileLoader import as a JSON string
+			let font = JSON.parse( text );
+
+			// We test the type of font
+			if (
+				font.chars !== undefined,
+				font.common !== undefined,
+				font.info !== undefined,
+				font.kernings !== undefined,
+				font.pages !== undefined
+			) {
+
+				font.fontType = "MSDF";
+
+			} else {
+
+				// If the font is a typeface font, we want to create a THREE.Font
+				// instance to access methods like Font.generateShapes
+				font.fontType = "Typeface";
+				font = new Font( font );
+
+			};
 
 			fonts[ url ] = font;
 

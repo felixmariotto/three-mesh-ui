@@ -1,11 +1,14 @@
 const path = require('path');
+const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 let pages = [
 	['basic_setup', 'basic setup'],
 	['nested_blocks', 'nested blocks'],
 	['tutorial_result', 'tutorial result'],
-	['interactive_button', 'interactive button']
+	['interactive_button', 'interactive button'],
+	['performance', 'performance'],
+	['msdf_text', 'MSDF text']
 ];
 
 pagesConfig = pages.map( (page)=> {
@@ -50,10 +53,18 @@ module.exports = env => {
 			basic_setup: './examples/js/basic_setup.js',
 			nested_blocks: './examples/js/nested_blocks.js',
 			tutorial_result: './examples/js/tutorial_result.js',
-			interactive_button: './examples/js/interactive_button.js'
+			interactive_button: './examples/js/interactive_button.js',
+			performance: './examples/js/performance.js',
+			msdf_text: './examples/js/msdf_text.js'
 		},
 
-		plugins: pagesConfig,
+		plugins: [
+
+			new webpack.ProvidePlugin({
+				THREE: 'three'
+			})
+
+		].concat( pagesConfig ),
 
 		devtool: devtool,
 
