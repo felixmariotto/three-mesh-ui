@@ -112,18 +112,11 @@ function MSDFText( options ) {
 
 				transformGeometry( geometry, font, char );
 
-			} else if ( char.match(/\n/g) === null ) {
-
-				nullifyUVs( geometry );
-
-				geometry.scale( 0.5, 0.5, 0.5 );
-				geometry.translate( 0, FONT_SIZE / 2, 0 );
-
 			} else {
 
 				nullifyUVs( geometry );
 
-				geometry.scale( 0, 0.5, 0.5 );
+				geometry.scale( 0.5, 0.5, 0.5 );
 				geometry.translate( 0, FONT_SIZE / 2, 0 );
 
 			};

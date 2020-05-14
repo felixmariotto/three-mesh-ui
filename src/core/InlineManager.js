@@ -51,15 +51,22 @@ function InlineManager( boxComponent ) {
 
 				// Line break
 
-				const nextBreak = distanceToNextBreak( chars, i, BREAK_ON );
+				const nextBreak = distanceToNextBreak( chars, i + 1, BREAK_ON );
 
 				if ( lastCharOffset + char.width > INNER_WIDTH ||
 					 char.glyph === '\n' ||
-					 lastCharOffset + nextBreak > INNER_WIDTH ) {
+					 /* test if current glyph is break-friendly and next break-friendly glyph is beyond limit */
+					 (lastCharOffset + nextBreak > INNER_WIDTH && BREAK_ON.indexOf( chars[ i ].glyph ) > -1) ) {
 
 					lastCharOffset = 0;
 
 					lines.push([ char ]);
+
+					char.offsetX = lastCharOffset;
+
+					//
+
+					return lastCharOffset;
 
 				} else {
 
@@ -72,8 +79,6 @@ function InlineManager( boxComponent ) {
 				char.offsetX = lastCharOffset;
 
 				//
-
-				if ( char.glyph === '\n' ) console.log( char.width )
 
 				return lastCharOffset + char.width;
 
