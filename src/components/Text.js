@@ -45,8 +45,6 @@ function Text( options ) {
 
 		text.chars = chars.map( (glyph)=> {
 
-			const geometry = new ShapeBufferGeometry( shape );
-
 			const shape = FONT.generateShapes( glyph, FONT_SIZE );
 
 			const width = FONT.data.glyphs[ glyph ] ? FONT.data.glyphs[ glyph ].ha * ( FONT_SIZE / FONT.data.resolution ) : 0 ;
@@ -54,6 +52,8 @@ function Text( options ) {
 			const height = FONT.data.glyphs[ glyph ] ? FONT.data.lineHeight * ( FONT_SIZE / FONT.data.resolution ) : 0 ;
 
 			const ascender = FONT.data.glyphs[ glyph ] ? FONT.data.ascender * ( FONT_SIZE / FONT.data.resolution ) : 0 ;
+
+			const geometry = new ShapeBufferGeometry( shape );
 
 			return {
 				geometry,

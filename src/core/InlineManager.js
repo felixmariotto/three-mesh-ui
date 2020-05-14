@@ -73,6 +73,8 @@ function InlineManager( boxComponent ) {
 
 				//
 
+				if ( char.glyph === '\n' ) console.log( char.width )
+
 				return lastCharOffset + char.width;
 
 			}, lastInlineOffset );

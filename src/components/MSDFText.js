@@ -83,12 +83,13 @@ function MSDFText( options ) {
 			const box = geometry.boundingBox;
 
 			const charWidth = box.max.x * 2;
+			const charHeight = box.max.y + Math.abs( box.min.y );
 
 			geometry.translate( charWidth / 2, 0, 0 );
 
 			return {
 				geometry,
-				height: 0.3,
+				height: charHeight,
 				ascender: 0,
 				width: charWidth,
 				glyph
@@ -111,11 +112,18 @@ function MSDFText( options ) {
 
 				transformGeometry( geometry, font, char );
 
-			} else {
+			} else if ( char.match(/\n/g) === null ) {
 
 				nullifyUVs( geometry );
 
 				geometry.scale( 0.5, 0.5, 0.5 );
+				geometry.translate( 0, FONT_SIZE / 2, 0 );
+
+			} else {
+
+				nullifyUVs( geometry );
+
+				geometry.scale( 0, 0.5, 0.5 );
 				geometry.translate( 0, FONT_SIZE / 2, 0 );
 
 			};

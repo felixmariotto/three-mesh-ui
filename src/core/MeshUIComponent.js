@@ -335,6 +335,7 @@ function MeshUIComponent() {
 				case "margin" :
 				case "contentDirection" :
 				case "justifyContent" :
+				case "alignContent" :
 				case "content" :
 					layoutNeedsUpdate = true;
 					this[ prop ] = options[ prop ];
