@@ -3,8 +3,7 @@
 	Knows: This text, its geometries and resulting mesh
 */
 
-import { Mesh, Object3D, SphereBufferGeometry } from 'three';
-import { BufferGeometryUtils } from 'three/examples/jsm/utils/BufferGeometryUtils.js';
+import { Mesh, Object3D } from 'three';
 
 import InlineComponent from '../core/InlineComponent';
 import DeepDelete from '../utils/DeepDelete';
@@ -88,12 +87,6 @@ function MSDFText( options ) {
 
 			geometry.translate( charWidth / 2, 0, 0 );
 
-			//
-
-			const geomTest = new SphereBufferGeometry( 0.01, 8, 8 );
-
-
-
 			return {
 				geometry,
 				height: charHeight,
@@ -119,11 +112,18 @@ function MSDFText( options ) {
 
 				transformGeometry( geometry, font, char );
 
+			} else if ( char.match(/\n/g) === null ) {
+
+				nullifyUVs( geometry );
+
+				geometry.scale( 0.5, 0, 1 );
+				geometry.translate( 0, FONT_SIZE / 2, 0 );
+
 			} else {
 
 				nullifyUVs( geometry );
 
-				geometry.scale( 0.5, 0, 0.5 );
+				geometry.scale( 0, 0, 1 );
 				geometry.translate( 0, FONT_SIZE / 2, 0 );
 
 			};
