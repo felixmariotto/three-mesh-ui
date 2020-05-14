@@ -12,7 +12,7 @@ const requiredFonts = [];
 const fonts = {};
 const records = {};
 
-function setFont( component, url ) {
+function setFontFamily( component, url ) {
 	
 	// if this font was never asked for, we load it
 	if ( requiredFonts.indexOf( url ) === -1 ) {
@@ -35,8 +35,6 @@ function setFont( component, url ) {
 
 				font.fontType = "MSDF";
 
-				console.log( font )
-
 			} else {
 
 				// If the font is a typeface font, we want to create a THREE.Font
@@ -53,7 +51,7 @@ function setFont( component, url ) {
 				if ( url === records[ recordID ].url ) {
 
 					// update all the components that were waiting for this font for an update
-					records[ recordID ].component._updateFont( url );
+					records[ recordID ].component._updateFontFamily( font );
 
 				};
 
@@ -71,27 +69,15 @@ function setFont( component, url ) {
 
 	// update the component, only if the font is already requested and loaded
 	if ( fonts[ url ] ) {
-		component._updateFont( url );
+		component._updateFontFamily( url );
 	};
 
 };
 
 //
 
-function getFontOf( component ) {
-
-	// return the record associated with this component, or undefined
-	const record = records[ component.id ];
-
-	return record ? fonts[ record.url ] : null ;
-
-};
-
-//
-
 const FontLibrary = {
-	setFont,
-	getFontOf
+	setFontFamily
 };
 
 export default FontLibrary

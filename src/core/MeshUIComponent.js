@@ -56,13 +56,14 @@ function MeshUIComponent() {
 		getContentDirection,
 		getJustifyContent,
 		getInterline,
+		getFontTexture,
 
 		appendChild,
 		removeChild,
 		update,
 		_addParent,
 		_removeParent,
-		_updateFont,
+		_updateFontFamily,
 		_getProperty,
 		set,
 		setupState,
@@ -118,6 +119,14 @@ function MeshUIComponent() {
 		return this._getProperty( 'fontMaterial' );
 	};
 
+	function getFontTexture() {
+		return this._getProperty( 'fontTexture' );
+	};
+
+	function getFontFamily() {
+		return this._getProperty( 'fontFamily' );
+	};
+
 	function getBackgroundMaterial() {
 		return this._getProperty( 'backgroundMaterial' );
 	};
@@ -142,27 +151,6 @@ function MeshUIComponent() {
 		} else {
 
 			return DEFAULTS.container
-
-		};
-
-	};
-
-	// look for the fontFamily property, and if does not exist, find it in parent or above
-	function getFontFamily() {
-
-		const font = FontLibrary.getFontOf( this );
-
-		if ( !font && this.parent ) {
-
-			return this.parent.getFontFamily();
-
-		} else if ( font ) {
-
-			return font
-
-		} else {
-
-			return DEFAULTS.fontFamily
 
 		};
 
@@ -309,9 +297,9 @@ function MeshUIComponent() {
 
 	// Called by FontLibrary when the font requested for the current component is ready.
 	// Trigger an update for the component whose font is now available.
-	function _updateFont( url ) {
+	function _updateFontFamily( font ) {
 
-		this.fontFamily = url;
+		this.fontFamily = font;
 		this.update( true, true );
 
 	};
@@ -335,7 +323,6 @@ function MeshUIComponent() {
 				case "height" :
 				case "fontSize" :
 				case "interLine" :
-				case "fontFamily" :
 				case "padding" :
 				case "margin" :
 				case "contentDirection" :
@@ -348,11 +335,8 @@ function MeshUIComponent() {
 				case "backgroundMaterial" :
 				case "fontMaterial" :
 				case "offset" :
+				case "fontTexture" :
 					innerNeedsUpdate = true;
-					this[ prop ] = options[ prop ];
-					break;
-
-				default :
 					this[ prop ] = options[ prop ];
 					break;
 
@@ -363,7 +347,7 @@ function MeshUIComponent() {
 		// special case, if the fontFamily is updated, then the this.update() must be called only when the font finished loading
 
 		if ( options.fontFamily ) {
-			FontLibrary.setFont( this, options.fontFamily );
+			FontLibrary.setFontFamily( this, options.fontFamily );
 			layoutNeedsUpdate = false;
 			innerNeedsUpdate = false;
 		};

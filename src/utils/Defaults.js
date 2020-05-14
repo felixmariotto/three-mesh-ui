@@ -16,6 +16,7 @@ export default {
 	contentDirection: "column",
 	alignContent: "center",
 	justifyContent: "start",
+	fontTexture: null,
 
 	fontMaterial: new MeshBasicMaterial({
 		color: 0x003047

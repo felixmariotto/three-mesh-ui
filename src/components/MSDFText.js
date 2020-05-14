@@ -3,7 +3,7 @@
 	Knows: This text, its geometries and resulting mesh
 */
 
-import { ShapeBufferGeometry, Mesh, Object3D } from 'three';
+import { Mesh, Object3D } from 'three';
 
 import InlineComponent from '../core/InlineComponent';
 import DeepDelete from '../utils/DeepDelete';
@@ -15,6 +15,37 @@ function MSDFText( options ) {
 	text.type = "MSDFText";
 
 	text.threeOBJ = new Object3D();
+
+	const vertexShader = `
+		varying vec2 vUv;
+
+		void main() {
+			vUv = uv;
+			vec4 mvPosition = modelViewMatrix * vec4( position, 1.0 );
+			gl_Position = projectionMatrix * mvPosition;
+		}
+	`;
+
+  const fragmentShader = `
+		#ifdef GL_OES_standard_derivatives
+		#extension GL_OES_standard_derivatives : enable
+		#endif
+
+		uniform sampler2D u_texture;
+
+		varying vec2 vUv;
+
+		float median(float r, float g, float b) {
+			return max(min(r, g), min(max(r, g), b));
+		}
+
+		void main() {
+			vec3 sample = texture2D( u_texture, vUv ).rgb;
+			float sigDist = median( sample.r, sample.g, sample.b ) - 0.5;
+			float alpha = clamp( sigDist / fwidth( sigDist ) + 0.5, 0.0, 1.0 );
+			gl_FragColor = vec4( vec3(1.0), alpha + 0.25 );
+		}
+	`;
 
 	text.parseParams = function parseParams( resolve, reject ) {
 
@@ -29,6 +60,7 @@ function MSDFText( options ) {
 		// Get font style (MeshUIComponent's job)
 
 		const FONT = this.getFontFamily();
+
 		if ( !FONT ) return
 
 		const FONT_SIZE = this.getFontSize();
@@ -41,7 +73,19 @@ function MSDFText( options ) {
 
 		text.chars = chars.map( (glyph)=> {
 
-			createTextMesh( FONT, glyph );
+			const geometry = createTextMesh( FONT, glyph );
+
+			geometry.computeBoundingBox();
+
+			const box = geometry.boundingBox;
+
+			return {
+				geometry,
+				height: 0.3,
+				ascender: 0.2,
+				width: box.max.x * 2,
+				glyph
+			};
 
 		});
 
@@ -141,35 +185,6 @@ function MSDFText( options ) {
 
 		};
 
-		/*
-
-		// Make array of objects containing each character and its length, for later concatenation
-
-		let chars = Array.from ? Array.from( this.content ) : String( this.content ).split( '' );
-
-		text.chars = chars.map( (glyph)=> {
-
-			const shape = FONT.generateShapes( glyph, FONT_SIZE );
-
-			const width = FONT.data.glyphs[ glyph ] ? FONT.data.glyphs[ glyph ].ha * ( FONT_SIZE / FONT.data.resolution ) : 0 ;
-
-			const height = FONT.data.glyphs[ glyph ] ? FONT.data.lineHeight * ( FONT_SIZE / FONT.data.resolution ) : 0 ;
-
-			const ascender = FONT.data.glyphs[ glyph ] ? FONT.data.ascender * ( FONT_SIZE / FONT.data.resolution ) : 0 ;
-
-			return {
-				geometry: new ShapeBufferGeometry( shape ),
-				height,
-				ascender,
-				width,
-				glyph
-			};
-
-		});
-
-		//
-		*/
-
 		resolve();
 
 	};
@@ -184,13 +199,24 @@ function MSDFText( options ) {
 
 		if ( !INFO ) return
 
-		const MATERIAL = this.getFontMaterial();
+		const TEXTURE = this.getFontTexture();
 
-		const textMesh = new Mesh( INFO.geometry, MATERIAL );
+		console.log(TEXTURE)
+
+		// const MATERIAL = this.getFontMaterial();
+
+		const MATERIAL = new THREE.ShaderMaterial( {
+        uniforms: { u_texture: { value: new THREE.TextureLoader().load( './assets/Roboto-msdf.png' ) } },
+        transparent: true,
+        vertexShader,
+        fragmentShader
+    });
+
+		const TEXT_MESH = new Mesh( INFO.geometry, MATERIAL );
 
 		DeepDelete( text.threeOBJ );
 
-		text.threeOBJ.add( textMesh );
+		text.threeOBJ.add( TEXT_MESH );
 
 	};
 
