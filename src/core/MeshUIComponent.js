@@ -64,6 +64,7 @@ function MeshUIComponent() {
 		_addParent,
 		_removeParent,
 		_updateFontFamily,
+		_updateFontTexture,
 		_getProperty,
 		set,
 		setupState,
@@ -304,6 +305,13 @@ function MeshUIComponent() {
 
 	};
 
+	function _updateFontTexture( texture ) {
+
+		this.fontTexture = texture;
+		this.update( false, true );
+
+	};
+
 	// Set this component's passed parameters.
 	// If necessary, take special actions.
 	// Update this component unless otherwise specified.
@@ -335,7 +343,6 @@ function MeshUIComponent() {
 				case "backgroundMaterial" :
 				case "fontMaterial" :
 				case "offset" :
-				case "fontTexture" :
 					innerNeedsUpdate = true;
 					this[ prop ] = options[ prop ];
 					break;
@@ -344,10 +351,16 @@ function MeshUIComponent() {
 
 		};
 
-		// special case, if the fontFamily is updated, then the this.update() must be called only when the font finished loading
+		// special cases, this.update() must be called only when some files finished loading
 
 		if ( options.fontFamily ) {
 			FontLibrary.setFontFamily( this, options.fontFamily );
+			layoutNeedsUpdate = false;
+			innerNeedsUpdate = false;
+		};
+
+		if ( options.fontTexture ) {
+			FontLibrary.setFontTexture( this, options.fontTexture );
 			layoutNeedsUpdate = false;
 			innerNeedsUpdate = false;
 		};

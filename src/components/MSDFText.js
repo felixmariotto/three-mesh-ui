@@ -201,12 +201,8 @@ function MSDFText( options ) {
 
 		const TEXTURE = this.getFontTexture();
 
-		console.log(TEXTURE)
-
-		// const MATERIAL = this.getFontMaterial();
-
 		const MATERIAL = new THREE.ShaderMaterial( {
-        uniforms: { u_texture: { value: new THREE.TextureLoader().load( './assets/Roboto-msdf.png' ) } },
+        uniforms: { u_texture: { value: TEXTURE }},
         transparent: true,
         vertexShader,
         fragmentShader
@@ -223,6 +219,23 @@ function MSDFText( options ) {
 	text.updateInner = function updateInner() {
 
 		text.threeOBJ.position.z = text.getOffset();
+
+		//
+
+		const TEXTURE = this.getFontTexture();
+
+		const MATERIAL = new THREE.ShaderMaterial( {
+        uniforms: { u_texture: { value: TEXTURE }},
+        transparent: true,
+        vertexShader,
+        fragmentShader
+    });
+
+		text.threeOBJ.traverse( (obj)=> {
+
+			if ( obj.material ) obj.material = MATERIAL;
+
+		});
 
 	};
 

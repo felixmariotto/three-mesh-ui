@@ -5,21 +5,26 @@
 */
 
 import { Font } from 'three/src/extras/core/Font.js';
-import { FileLoader } from 'three';
+import { FileLoader, TextureLoader } from 'three';
 
-const loader = new FileLoader();
-const requiredFonts = [];
-const fonts = {};
+const fileLoader = new FileLoader();
+const requiredFontFamilies = [];
+const fontFamilies = {};
+
+const textureLoader = new TextureLoader();
+const requiredFontTextures = [];
+const fontTextures = {};
+
 const records = {};
 
 function setFontFamily( component, url ) {
 	
 	// if this font was never asked for, we load it
-	if ( requiredFonts.indexOf( url ) === -1 ) {
+	if ( requiredFontFamilies.indexOf( url ) === -1 ) {
 
-		requiredFonts.push( url );
+		requiredFontFamilies.push( url );
 
-		loader.load( url, ( text )=> {
+		fileLoader.load( url, ( text )=> {
 
 			// FileLoader import as a JSON string
 			let font = JSON.parse( text );
@@ -44,11 +49,11 @@ function setFontFamily( component, url ) {
 
 			};
 
-			fonts[ url ] = font;
+			fontFamilies[ url ] = font;
 
 			for ( let recordID of Object.keys(records) ) {
 
-				if ( url === records[ recordID ].url ) {
+				if ( url === records[ recordID ].jsonURL ) {
 
 					// update all the components that were waiting for this font for an update
 					records[ recordID ].component._updateFontFamily( font );
@@ -62,13 +67,11 @@ function setFontFamily( component, url ) {
 	};
 
 	// keep record of the font that this component use
-	records[ component.id ] = {
-		component,
-		url
-	};
+	if ( !records[ component.id ] ) records[ component.id ] = {component};
+	records[ component.id ].jsonURL = url;
 
 	// update the component, only if the font is already requested and loaded
-	if ( fonts[ url ] ) {
+	if ( fontFamilies[ url ] ) {
 		component._updateFontFamily( url );
 	};
 
@@ -76,8 +79,48 @@ function setFontFamily( component, url ) {
 
 //
 
+function setFontTexture( component, url ) {
+
+	// if this font was never asked for, we load it
+	if ( requiredFontTextures.indexOf( url ) === -1 ) {
+
+		requiredFontTextures.push( url );
+
+		textureLoader.load( url, ( texture )=> {
+
+			fontTextures[ url ] = texture;
+
+			for ( let recordID of Object.keys(records) ) {
+
+				if ( url === records[ recordID ].textureURL ) {
+
+					// update all the components that were waiting for this font for an update
+					records[ recordID ].component._updateFontTexture( texture );
+
+				};
+
+			};
+
+		});
+
+	};
+
+	// keep record of the font that this component use
+	if ( !records[ component.id ] ) records[ component.id ] = {component};
+	records[ component.id ].textureURL = url;
+
+	// update the component, only if the font is already requested and loaded
+	if ( fontTextures[ url ] ) {
+		component._updateFontTexture( texture );
+	};
+
+};
+
+//
+
 const FontLibrary = {
-	setFontFamily
+	setFontFamily,
+	setFontTexture
 };
 
 export default FontLibrary
