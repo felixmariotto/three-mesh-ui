@@ -1,7 +1,5 @@
 # three-mesh-ui
 
-three-mesh-ui helps in easily adding user interface in a Three.js scene, in order to make better VR experiences
-
 <a href="https://github.com/felixmariotto/three-mesh-ui/wiki/Getting-started">
   <img alt="tuto example" target="_blank" src="https://felixmariotto.s3.eu-west-3.amazonaws.com/three-mesh-ui-teasers/teaser_basic_optimised.gif" width="45%">
 </a>
@@ -12,9 +10,11 @@ three-mesh-ui helps in easily adding user interface in a Three.js scene, in orde
   <img alt="big text example" target="_blank" src="https://felixmariotto.s3.eu-west-3.amazonaws.com/three-mesh-ui-teasers/big-text-github.gif" width="45%">
 </a>
 
-## What is it for ?
+## What is it ?
 
-**three-mesh-ui** is a small library for building VR user interfaces. The objects it creates are [Three.Mesh](https://github.com/mrdoob/three.js/blob/dev/src/objects/Mesh.js), usable directly in a [three.js](https://threejs.org) scene like any other mesh.
+**three-mesh-ui** is a small library for building VR user interfaces. The objects it creates are [Three.Mesh](https://github.com/mrdoob/three.js/blob/dev/src/objects/Mesh.js), usable directly in a [three.js](https://threejs.org) scene like any other mesh.    
+        
+**It is not a framework**, but a light-weight library to be plugged in the last version of three.js. It had no dependency other than three.js.
 
 ## Why ?
 
