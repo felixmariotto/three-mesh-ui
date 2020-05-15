@@ -47,4 +47,4 @@ container.appendChild(
 );
 ```
 
-### [Examples](https://three-mesh-ui.herokuapp.com/) &nbsp;|	&nbsp;[Getting Started](https://github.com/felixmariotto/three-mesh-ui/wiki/Getting-started)	&nbsp;|	&nbsp;[NPM](https://www.npmjs.com/package/three-mesh-ui)	&nbsp;|	&nbsp;[Documentation](https://github.com/felixmariotto/three-mesh-ui/wiki)	&nbsp;|	&nbsp;[Roadmap](https://github.com/felixmariotto/three-mesh-ui/wiki/Roadmap)	&nbsp;|	&nbsp;[Contributing](https://github.com/felixmariotto/three-mesh-ui/wiki/Contributing)
+### [Examples](https://three-mesh-ui.herokuapp.com/) &nbsp;|	&nbsp;[NPM](https://www.npmjs.com/package/three-mesh-ui)	&nbsp;|	&nbsp;[Documentation](https://github.com/felixmariotto/three-mesh-ui/wiki)	&nbsp;|	&nbsp;[Contributing](https://github.com/felixmariotto/three-mesh-ui/wiki/Contributing)
