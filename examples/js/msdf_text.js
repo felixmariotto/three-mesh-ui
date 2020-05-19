@@ -84,8 +84,8 @@ function makeTextPanel() {
 
 	const container = ThreeMeshUI.Block({
 		padding: 0.05,
-		fontFamily: './assets/roboto-msdf.json',
-		fontTexture: './assets/roboto-msdf.png',
+		fontFamily: './assets/Roboto-msdf.json',
+		fontTexture: './assets/Roboto-msdf.png',
 		fontMaterial: fontMaterial
 	});
 
