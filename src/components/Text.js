@@ -15,6 +15,7 @@ import { ShapeBufferGeometry, Mesh, Object3D } from 'three';
 
 import InlineComponent from './core/InlineComponent';
 import DeepDelete from '../utils/DeepDelete';
+import UniqueID from '../utils/UniqueID';
 import TextContent from '../content/TextContent';
 
 function Text( options ) {
@@ -54,7 +55,7 @@ function Text( options ) {
 
 		let chars = Array.from ? Array.from( content ) : String( content ).split( '' );
 
-		const glyphDimensions = chars.map( (glyph)=> {
+		const glyphInfos = chars.map( (glyph)=> {
 
 			const width = font.data.glyphs[ glyph ] ? font.data.glyphs[ glyph ].ha * ( fontSize / font.data.resolution ) : 0 ;
 
@@ -70,22 +71,23 @@ function Text( options ) {
 
 			if ( breakChars.includes( glyph ) || glyph.match(/\s/g) ) lineBreak = "possible" ;
 
-			if ( glyph.match(/\n/g) ) lineBreak = "mendatory" ;
+			if ( glyph.match(/\n/g) ) lineBreak = "mandatory" ;
 
 			//
 
 			return {
 				height,
-				anchor,
 				width,
-				lineBreak
+				anchor,
+				lineBreak,
+				id: UniqueID()
 			};
 
 		});
 
 		// Update 'inlines' property, so that the parent can compute each glyph position
 
-		text.inlines = glyphDimensions;
+		text.inlines = glyphInfos;
 
 		//
 
