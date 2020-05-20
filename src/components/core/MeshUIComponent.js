@@ -58,6 +58,8 @@ function MeshUIComponent() {
 		getInterline,
 		getFontTexture,
 		getTextType,
+		getFontColor,
+		getFontOpacity,
 
 		appendChild,
 		removeChild,
@@ -139,6 +141,14 @@ function MeshUIComponent() {
 
 	function getTextType() {
 		return this._getProperty( 'textType' );
+	};
+
+	function getFontColor() {
+		return this._getProperty( 'fontColor' );
+	};
+
+	function getFontOpacity() {
+		return this._getProperty( 'fontOpacity' );
 	};
 
 	/// SPECIALS
@@ -343,6 +353,8 @@ function MeshUIComponent() {
 				case "alignContent" :
 				case "content" :
 				case "textType" :
+				case "fontColor" :
+				case "fontOpacity" :
 					layoutNeedsUpdate = true;
 					this[ prop ] = options[ prop ];
 					break;

@@ -126,7 +126,9 @@ function Text( options ) {
 			fontFamily: this.getFontFamily(),
 			fontMaterial: this.getFontMaterial(),
 			textType: this.getTextType(),
-			fontTexture: this.getFontTexture()
+			fontTexture: this.getFontTexture(),
+			fontColor: this.getFontColor(),
+			fontOpacity: this.getFontOpacity()
 		});
 
 		textComponent.threeOBJ.add( textContent );

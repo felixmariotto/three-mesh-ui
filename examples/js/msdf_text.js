@@ -74,7 +74,6 @@ function makeTextPanel() {
 	uiContainer.rotation.x = -0.55;
 	scene.add( uiContainer );
 
-	const fontMaterial = new THREE.MeshBasicMaterial();
 	const transparentMaterial = new THREE.MeshBasicMaterial({
 		transparent: true,
 		opacity: 0
@@ -87,7 +86,8 @@ function makeTextPanel() {
 		textType: 'MSDF',
 		fontFamily: './assets/Roboto-msdf.json',
 		fontTexture: './assets/Roboto-msdf.png',
-		fontMaterial: fontMaterial
+		fontColor: new THREE.Color( 0xabf7bf ),
+		fontOpacity: 0.9 // 0 is invisible, 1 is opaque
 	});
 
 	uiContainer.add( container.threeOBJ );

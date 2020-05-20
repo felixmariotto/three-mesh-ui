@@ -4,7 +4,7 @@
 	Knows: Nothing
 */
 
-import { MeshBasicMaterial } from 'three';
+import { MeshBasicMaterial, Color } from 'three';
 
 export default {
 	container: null,
@@ -18,6 +18,8 @@ export default {
 	justifyContent: "start",
 	fontTexture: null,
 	textType: "MSDF",
+	fontColor: new Color( 0xffffff ),
+	fontOpacity: 1,
 
 	fontMaterial: new MeshBasicMaterial({
 		color: 0x003047
