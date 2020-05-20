@@ -2,7 +2,7 @@
 
 Job:
 	- computing its own size according to user measurements or content measurement
-	- computing glyphs size and position, acccording to passed attributes 'font' and 'fontSize'
+	- creating 'inlines' objects with info, so that the parent component can organise them in lines
 
 Knows:
 	- Its text content (string)
@@ -14,17 +14,20 @@ Knows:
 import { Object3D } from 'three';
 
 import InlineComponent from './core/InlineComponent';
-import TextContent from '../content/TextContent';
+import TextManager from '../content/TextManager';
+import DeepDelete from '../utils/DeepDelete';
 
 function Text( options ) {
 
-	const text = Object.create( InlineComponent() );
+	const textComponent = Object.create( InlineComponent() );
 
-	text.type = "Text";
+	textComponent.type = "Text";
 
-	text.threeOBJ = new Object3D();
+	textComponent.threeOBJ = new Object3D();
 
-	text.parseParams = function parseParams( resolve, reject ) {
+	textComponent.textManager = TextManager();
+
+	textComponent.parseParams = function parseParams( resolve, reject ) {
 
 		//////////////////////////
 		/// GET CHARS GEOMETRIES
@@ -55,13 +58,12 @@ function Text( options ) {
 
 		const glyphInfos = chars.map( (glyph)=> {
 
-			const width = font.data.glyphs[ glyph ] ? font.data.glyphs[ glyph ].ha * ( fontSize / font.data.resolution ) : 0 ;
-
-			const height = font.data.glyphs[ glyph ] ? font.data.lineHeight * ( fontSize / font.data.resolution ) : 0 ;
-
-			const ascender = font.data.glyphs[ glyph ] ? font.data.ascender * ( fontSize / font.data.resolution ) : 0 ;
-
-			const anchor = height - ascender;
+			// Get height, width, and anchor point of this glyph
+			const dimensions = textComponent.textManager.getGlyphDimensions({
+				glyph,
+				font,
+				fontSize
+			});
 
 			//
 
@@ -74,9 +76,9 @@ function Text( options ) {
 			//
 
 			return {
-				height,
-				width,
-				anchor,
+				height: dimensions.height,
+				width: dimensions.width,
+				anchor: dimensions.anchor,
 				lineBreak,
 				glyph,
 				fontSize
@@ -86,7 +88,7 @@ function Text( options ) {
 
 		// Update 'inlines' property, so that the parent can compute each glyph position
 
-		text.inlines = glyphInfos;
+		textComponent.inlines = glyphInfos;
 
 		//
 
@@ -94,7 +96,7 @@ function Text( options ) {
 
 	};
 
-	text.updateLayout = function updateLayout() {
+	textComponent.updateLayout = function updateLayout() {
 
 		/*
 		Create text content
@@ -105,26 +107,28 @@ function Text( options ) {
 
 		*/
 
-		const textContent = TextContent({
-			inlines: text.inlines,
+		DeepDelete( textComponent.threeOBJ );
+
+		const textContent = textComponent.textManager.create({
+			inlines: textComponent.inlines,
 			fontFamily: this.getFontFamily(),
 			fontMaterial: this.getFontMaterial(),
 			textType: 'geometry' // temp
 		});
 
-		text.threeOBJ.add( textContent );
+		textComponent.threeOBJ.add( textContent );
 
 	};
 
-	text.updateInner = function updateInner() {
+	textComponent.updateInner = function updateInner() {
 
-		text.threeOBJ.position.z = text.getOffset();
+		textComponent.threeOBJ.position.z = textComponent.getOffset();
 
 	};
 
-	text.set( options );
+	textComponent.set( options );
 
-	return text
+	return textComponent
 
 };
 
