@@ -57,6 +57,22 @@ export default function MeshUIComponent() {
 
 	};
 
+	// Inherit from THREE.Object3D
+
+	const propsObj = {};
+
+	for ( let propName of Object.keys(component) ) {
+
+		propsObj[ propName ] = {
+			writable: true,
+			configurable: true,
+			value: component[ propName ]
+		};
+
+	};
+
+	return Object.create( new Object3D, propsObj )
+
 	/////////////
 	/// GETTERS
 	/////////////
@@ -398,9 +414,5 @@ export default function MeshUIComponent() {
 		if ( savedState.attributes ) this.set( savedState.attributes );
 
 	};
-
-	//
-
-	return component
 
 };
