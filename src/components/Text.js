@@ -107,6 +107,8 @@ function Text( options ) {
 
 		*/
 
+		if ( !textComponent.inlines ) return
+
 		DeepDelete( textComponent.threeOBJ );
 
 		const textContent = textComponent.textManager.create({
