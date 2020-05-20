@@ -79,7 +79,7 @@ function makeTextPanel() {
 		opacity: 0
 	});
 
-	//
+	// 
 
 	const container = ThreeMeshUI.Block({
 		padding: 0.05,
