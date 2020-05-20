@@ -29,14 +29,15 @@ function Text( options ) {
 
 	textComponent.parseParams = function parseParams( resolve, reject ) {
 
-		//////////////////////////
-		/// GET CHARS GEOMETRIES
-		//////////////////////////
+		////////////////////////
+		// GET CHARS GEOMETRIES
+		////////////////////////
 
 		const content = this.content ;
 		const font = this.getFontFamily();
 		const fontSize = this.getFontSize();
 		const breakChars = this.getBreakOn(); // characters to prioritize breaking line (eg: white space)
+		const textType = this.getTextType();
 
 		// Abort condition
 		
@@ -47,8 +48,13 @@ function Text( options ) {
 			return
 		};
 
-		if ( font.fontType !== 'Typeface' ) {
-			reject( 'Text components only support Typeface fonts. See https://gero3.github.io/facetype.js/' )
+		if ( textType === 'geometry' && font.fontType !== 'Typeface' ) {
+			reject( `${ textType } text is not compatible with this type of font.\n See https://github.com/felixmariotto/three-mesh-ui/wiki/Choosing-a-Text-type` )
+			return
+		};
+
+		if ( textType === 'MSDF' && font.fontType !== 'MSDF' ) {
+			reject( `${ textType } text is not compatible with this type of font.\n See https://github.com/felixmariotto/three-mesh-ui/wiki/Choosing-a-Text-type` )
 			return
 		};
 
@@ -60,6 +66,7 @@ function Text( options ) {
 
 			// Get height, width, and anchor point of this glyph
 			const dimensions = textComponent.textManager.getGlyphDimensions({
+				textType,
 				glyph,
 				font,
 				fontSize
@@ -115,7 +122,7 @@ function Text( options ) {
 			inlines: textComponent.inlines,
 			fontFamily: this.getFontFamily(),
 			fontMaterial: this.getFontMaterial(),
-			textType: 'geometry' // temp
+			textType: this.getTextType()
 		});
 
 		textComponent.threeOBJ.add( textContent );

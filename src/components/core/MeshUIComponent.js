@@ -57,6 +57,7 @@ function MeshUIComponent() {
 		getJustifyContent,
 		getInterline,
 		getFontTexture,
+		getTextType,
 
 		appendChild,
 		removeChild,
@@ -134,6 +135,10 @@ function MeshUIComponent() {
 
 	function getBreakOn() {
 		return this._getProperty( 'breakOn' );
+	};
+
+	function getTextType() {
+		return this._getProperty( 'textType' );
 	};
 
 	/// SPECIALS
@@ -337,6 +342,7 @@ function MeshUIComponent() {
 				case "justifyContent" :
 				case "alignContent" :
 				case "content" :
+				case "textType" :
 					layoutNeedsUpdate = true;
 					this[ prop ] = options[ prop ];
 					break;

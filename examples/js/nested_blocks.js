@@ -80,6 +80,7 @@ function makeTextPanel() {
 		ref: 'container',
 		padding: 0.025,
 		fontFamily: './assets/helvetiker_regular.typeface.json',
+		textType: 'geometry',
 		fontMaterial: whiteMaterial
 	});
 

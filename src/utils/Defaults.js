@@ -17,6 +17,7 @@ export default {
 	alignContent: "center",
 	justifyContent: "start",
 	fontTexture: null,
+	textType: "MSDF",
 
 	fontMaterial: new MeshBasicMaterial({
 		color: 0x003047

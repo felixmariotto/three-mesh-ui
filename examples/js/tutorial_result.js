@@ -82,6 +82,7 @@ loader.load('./assets/spiny_bush_viper.jpg', (texture)=> {
 });
 
 container.set({
+	textType: 'geometry',
 	fontFamily: './assets/helvetiker_regular.typeface.json'
 });
 

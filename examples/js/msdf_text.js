@@ -84,6 +84,7 @@ function makeTextPanel() {
 
 	const container = ThreeMeshUI.Block({
 		padding: 0.05,
+		textType: 'MSDF',
 		fontFamily: './assets/Roboto-msdf.json',
 		fontTexture: './assets/Roboto-msdf.png',
 		fontMaterial: fontMaterial
@@ -105,7 +106,7 @@ function makeTextPanel() {
 
 	bigTextContainer.appendChild(
 
-		ThreeMeshUI.MSDFText({
+		ThreeMeshUI.Text({
 			content: bigText,
 			fontSize: 0.034
 		})
@@ -122,7 +123,7 @@ function makeTextPanel() {
 		backgroundMaterial: transparentMaterial
 	}).appendChild(
 
-		ThreeMeshUI.MSDFText({
+		ThreeMeshUI.Text({
 			content: "Do you need to render a big text ?",
 			fontSize: 0.07
 		})

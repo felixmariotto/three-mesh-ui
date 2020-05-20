@@ -24,21 +24,49 @@ export default function TextContent() {
 	function getGlyphDimensions( options ) {
 
 		const FONT = options.font;
+
 		const FONT_SIZE = options.fontSize; 
+
 		const GLYPH = options.glyph;
 
-		const width = FONT.data.glyphs[ GLYPH ] ? FONT.data.glyphs[ GLYPH ].ha * ( FONT_SIZE / FONT.data.resolution ) : 0 ;
+		let width, height, ascender, anchor;
 
-		const height = FONT.data.glyphs[ GLYPH ] ? FONT.data.lineHeight * ( FONT_SIZE / FONT.data.resolution ) : 0 ;
+		switch ( options.textType ) {
 
-		const ascender = FONT.data.glyphs[ GLYPH ] ? FONT.data.ascender * ( FONT_SIZE / FONT.data.resolution ) : 0 ;
+			case 'geometry' :
 
-		const anchor = height - ascender;
+				width = FONT.data.glyphs[ GLYPH ] ? FONT.data.glyphs[ GLYPH ].ha * ( FONT_SIZE / FONT.data.resolution ) : 0 ;
 
-		return {
-			width,
-			height,
-			anchor
+				height = FONT.data.glyphs[ GLYPH ] ? FONT.data.lineHeight * ( FONT_SIZE / FONT.data.resolution ) : 0 ;
+
+				ascender = FONT.data.glyphs[ GLYPH ] ? FONT.data.ascender * ( FONT_SIZE / FONT.data.resolution ) : 0 ;
+
+				anchor = height - ascender;
+
+				return {
+					width,
+					height,
+					anchor
+				};
+
+			//
+
+			case 'MSDF' :
+
+				const charOBJ = FONT.chars.find( charOBJ => charOBJ.char === GLYPH );
+
+				width = charOBJ ? (charOBJ.width * FONT_SIZE) / FONT.common.lineHeight : 0 ;
+
+				height = charOBJ ? (charOBJ.height * FONT_SIZE) / FONT.common.lineHeight : 0 ;
+
+				anchor = charOBJ ? ((charOBJ.yoffset + charOBJ.height - FONT.common.base) * FONT_SIZE) / FONT.common.lineHeight : 0 ;
+
+				return {
+					width,
+					height,
+					anchor
+				};
+
 		};
 
 	};

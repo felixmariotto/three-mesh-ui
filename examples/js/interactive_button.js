@@ -189,6 +189,7 @@ function makePanel() {
 		alignContent: 'center',
 		contentDirection: "row-reverse",
 		fontFamily: './assets/helvetiker_regular.typeface.json',
+		textType: 'geometry',
 		backgroundMaterial: opaqueMaterial
 	});
 

@@ -76,7 +76,8 @@ function makeTextPanel() {
 		padding: 0.2,
 		justifyContent: 'center',
 		alignContent: 'left',
-		fontFamily: './assets/helvetiker_regular.typeface.json'
+		fontFamily: './assets/helvetiker_regular.typeface.json',
+		textType: "geometry"
 	});
 
 	container.appendChild(
