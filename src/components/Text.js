@@ -1,12 +1,21 @@
 /*
-	Job: Creating gylphs geometries, and merging them. ( it does not lay them out, it's InlineManager's job )
-	Knows: This text, its geometries and resulting mesh
+
+Job:
+	- computing its own size according to user measurements or content measurement
+	- computing glyphs size and position, acccording to passed attributes 'font' and 'fontSize'
+
+Knows:
+	- Its text content (string)
+	- Font attributes ('font', 'fontType', 'fontSize')
+	- Parent block
+
 */
 
 import { ShapeBufferGeometry, Mesh, Object3D } from 'three';
 
 import InlineComponent from './core/InlineComponent';
 import DeepDelete from '../utils/DeepDelete';
+import TextContent from '../content/TextContent';
 
 function Text( options ) {
 
@@ -22,36 +31,75 @@ function Text( options ) {
 		/// GET CHARS GEOMETRIES
 		//////////////////////////
 
+		const content = this.content ;
+		const font = this.getFontFamily();
+		const fontSize = this.getFontSize();
+
 		// Abort condition
 		
-		if ( !this.content || this.content.length === 0 ) return
+		if ( !font ) return
 
-		// Get font style (MeshUIComponent's job)
-
-		const FONT = this.getFontFamily();
-
-		if ( !FONT ) return
-
-		if ( FONT.fontType !== 'Typeface' ) {
-			console.error('Text components only support Typeface fonts. See https://gero3.github.io/facetype.js/')
+		if ( !this.content || this.content.length === 0 ) {
+			reject( 'Text component has no text content' );
 			return
 		};
 
-		const FONT_SIZE = this.getFontSize();
+		if ( font.fontType !== 'Typeface' ) {
+			reject( 'Text components only support Typeface fonts. See https://gero3.github.io/facetype.js/' )
+			return
+		};
 
-		// Make array of objects containing each character and its length, for later concatenation
+		// Compute glyphs sizes
 
-		let chars = Array.from ? Array.from( this.content ) : String( this.content ).split( '' );
+		let chars = Array.from ? Array.from( content ) : String( content ).split( '' );
 
-		text.chars = chars.map( (glyph)=> {
+		const glyphDimensions = chars.map( (glyph)=> {
 
-			const shape = FONT.generateShapes( glyph, FONT_SIZE );
+			const width = font.data.glyphs[ glyph ] ? font.data.glyphs[ glyph ].ha * ( fontSize / font.data.resolution ) : 0 ;
 
-			const width = FONT.data.glyphs[ glyph ] ? FONT.data.glyphs[ glyph ].ha * ( FONT_SIZE / FONT.data.resolution ) : 0 ;
+			const height = font.data.glyphs[ glyph ] ? font.data.lineHeight * ( fontSize / font.data.resolution ) : 0 ;
 
-			const height = FONT.data.glyphs[ glyph ] ? FONT.data.lineHeight * ( FONT_SIZE / FONT.data.resolution ) : 0 ;
+			const ascender = font.data.glyphs[ glyph ] ? font.data.ascender * ( fontSize / font.data.resolution ) : 0 ;
 
-			const ascender = FONT.data.glyphs[ glyph ] ? FONT.data.ascender * ( FONT_SIZE / FONT.data.resolution ) : 0 ;
+			const anchor = height - ascender;
+
+			return {
+				height,
+				anchor,
+				width
+			};
+
+		});
+
+		// Update 'inlines' property, so that the parent can compute each glyph position
+
+		console.log( glyphDimensions );
+
+		text.inlines = glyphDimensions;
+
+		//
+
+		text.chars = createGlyphGeometry( this.content, font, fontSize );
+
+		//
+
+		resolve();
+
+	};
+
+	function createGlyphGeometry( content, font, fontSize ) {
+
+		let chars = Array.from ? Array.from( content ) : String( content ).split( '' );
+
+		return chars.map( (glyph)=> {
+
+			const shape = font.generateShapes( glyph, fontSize );
+
+			const width = font.data.glyphs[ glyph ] ? font.data.glyphs[ glyph ].ha * ( fontSize / font.data.resolution ) : 0 ;
+
+			const height = font.data.glyphs[ glyph ] ? font.data.lineHeight * ( fontSize / font.data.resolution ) : 0 ;
+
+			const ascender = font.data.glyphs[ glyph ] ? font.data.ascender * ( fontSize / font.data.resolution ) : 0 ;
 
 			const geometry = new ShapeBufferGeometry( shape );
 
@@ -65,15 +113,15 @@ function Text( options ) {
 
 		});
 
-		//
-
-		resolve();
-
 	};
 
 	text.updateLayout = function updateLayout() {
 
-		// DELETE PREVIOUS MESH + CREATE NEW ONE
+		// Create text geometry
+
+		TextContent();
+
+		// Delete previous mesh + create new one
 
 		if ( !this.parent ) return
 

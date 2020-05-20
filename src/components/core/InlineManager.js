@@ -1,12 +1,12 @@
 /*
 	Job: Keeping track and deciding of a component's InlineComponents position, split, etc..
-	Knows: Component Dimension, and the list of children InlineComponent
+	Knows: Component dimension, and the list of children InlineComponent
 */
 
 import { ShapeBufferGeometry, BufferGeometry } from 'three';
 import { BufferGeometryUtils } from 'three/examples/jsm/utils/BufferGeometryUtils.js';
 
-import MeshUIComponent from '../components/core/MeshUIComponent';
+import MeshUIComponent from './MeshUIComponent';
 
 function InlineManager( boxComponent ) {
 
