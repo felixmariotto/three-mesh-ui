@@ -26,6 +26,7 @@ function createTextMesh( char, fontSize, font ) {
 
 		transformGeometry( geometry, font, fontSize, char );
 
+	// We test for line break
 	} else if ( char.match(/\n/g) === null ) {
 
 		nullifyUVs( geometry );
@@ -118,7 +119,7 @@ function transformGeometry( geometry, font, fontSize, char ) {
 	);
 
 	geometry.translate(
-		0,
+		-( ( ( - charOBJ.width / common.lineHeight ) / 2 ) * fontSize ) + fontSize,
 		( ( ( ( - charOBJ.height - (charOBJ.yoffset * 2) ) / common.lineHeight ) / 2 ) * fontSize ) + fontSize,
 		0
 	);

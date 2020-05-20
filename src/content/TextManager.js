@@ -87,7 +87,7 @@ export default function TextContent() {
 
 				const charOBJ = FONT.chars.find( charOBJ => charOBJ.char === GLYPH );
 
-				width = charOBJ ? (charOBJ.width * FONT_SIZE) / FONT.common.lineHeight : 0 ;
+				width = charOBJ ? (charOBJ.width * FONT_SIZE) / FONT.common.lineHeight : FONT_SIZE / 3 ;
 
 				height = charOBJ ? (charOBJ.height * FONT_SIZE) / FONT.common.lineHeight : 0 ;
 
