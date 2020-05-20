@@ -8,6 +8,8 @@
 		- This component type, id, parent and children
 */
 
+import { Object3D } from 'three';
+
 import FontLibrary from './FontLibrary';
 import DEFAULTS from '../../utils/Defaults';
 
