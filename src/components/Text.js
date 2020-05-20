@@ -11,11 +11,9 @@ Knows:
 
 */
 
-import { /* ShapeBufferGeometry, Mesh,*/ Object3D } from 'three';
+import { Object3D } from 'three';
 
 import InlineComponent from './core/InlineComponent';
-// import DeepDelete from '../utils/DeepDelete';
-// import UniqueID from '../utils/UniqueID';
 import TextContent from '../content/TextContent';
 
 function Text( options ) {
@@ -82,7 +80,6 @@ function Text( options ) {
 				lineBreak,
 				glyph,
 				fontSize
-				// id: UniqueID()
 			};
 
 		});
@@ -99,6 +96,15 @@ function Text( options ) {
 
 	text.updateLayout = function updateLayout() {
 
+		/*
+		Create text content
+
+		At this point, text.inlines should have been modified by the parent
+		component, to add xOffset and yOffset properties to each inlines.
+		This way, TextContent knows were to position each character.
+
+		*/
+
 		const textContent = TextContent({
 			inlines: text.inlines,
 			fontFamily: this.getFontFamily(),
@@ -107,26 +113,6 @@ function Text( options ) {
 		});
 
 		text.threeOBJ.add( textContent );
-
-		/*
-
-		// Delete previous mesh + create new one
-
-		if ( !this.parent ) return
-
-		const INFO = this.parent.inlinesInfo[ this.id ];
-
-		if ( !INFO ) return
-
-		const MATERIAL = this.getFontMaterial();
-
-		const textMesh = new Mesh( INFO.geometry, MATERIAL );
-
-		DeepDelete( text.threeOBJ );
-
-		text.threeOBJ.add( textMesh );
-
-		*/
 
 	};
 

@@ -111,22 +111,6 @@ function InlineManager( boxComponent ) {
 
 		lines.forEach( (line)=> {
 
-			/*
-
-			line.height = line.reduce( (highest, char)=> {
-				return highest < char.height ? char.height : highest
-			}, 0 );
-
-			line.ascender = line.reduce( (highest, char)=> {
-				return highest < char.ascender ? char.ascender : highest
-			}, 0 );
-
-			line.width = line.reduce( (width, char)=> {
-				return width + char.width
-			}, 0 );
-
-			*/
-
 			line.lowestPoint = line.reduce( (lowest, inline)=> {
 
 				return lowest < inline.anchor ? inline.anchor : lowest
@@ -208,40 +192,6 @@ function InlineManager( boxComponent ) {
 			});
 
 		});
-		
-		/*
-
-		// Geometry translation and merging
-
-		this.children.forEach( (inlineComponent)=> {
-
-			if ( !inlineComponent.chars ) return
-
-			let translatedGeom = [];
-
-			inlineComponent.chars.forEach( (char, i)=> {
-
-				translatedGeom[ i ] = new BufferGeometry().copy( char.geometry );
-
-				translatedGeom[ i ].translate( char.offsetX, char.offsetY, 0 );
-
-			});
-
-			///////////////////////
-			/// Merge and record
-			///////////////////////
-
-			const testGeom = new THREE.Sphere
-
-			const mergedGeom = BufferGeometryUtils.mergeBufferGeometries( translatedGeom );
-
-			inlineManager.inlinesInfo[ inlineComponent.id ] = {
-				geometry: mergedGeom
-			};
-
-		});
-
-		*/
 
 	};
 
