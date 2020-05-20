@@ -9,6 +9,9 @@ Knows:
 	- Font attributes ('font', 'fontType', 'fontSize')
 	- Parent block
 
+To learn more about the differences between Text types :
+https://github.com/felixmariotto/three-mesh-ui/wiki/Choosing-a-Text-type
+
 */
 
 import { Object3D } from 'three';

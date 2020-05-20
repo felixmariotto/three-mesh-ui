@@ -1,7 +1,7 @@
 /*
 
 Job: create a plane geometry with the right UVs to map the MSDF texture on the wanted glyph.
-Knows: dimension of the plane to create
+Knows: dimension of the plane to create, specs of the font used, glyph requireed
 
 */
 
@@ -17,7 +17,7 @@ function createTextMesh( char, fontSize, font ) {
 
 	const geometry = new THREE.PlaneBufferGeometry( fontSize, fontSize );
 
-	// We test for line break, tabs, and white space
+	// Misc glyphs
 	if ( char.match(/\s/g) === null ) {
 
 		if ( font.info.charset.indexOf( char ) === -1 ) console.error(`The character '${ char }' is not included in the font characters set.`)
@@ -26,14 +26,7 @@ function createTextMesh( char, fontSize, font ) {
 
 		transformGeometry( geometry, font, fontSize, char );
 
-	// We test for line break
-	} else if ( char.match(/\n/g) === null ) {
-
-		nullifyUVs( geometry );
-
-		geometry.scale( 0.5, 0, 1 );
-		geometry.translate( 0, fontSize / 2, 0 );
-
+	// White spaces (we don't want our plane geometry to have a visual width nor a height)
 	} else {
 
 		nullifyUVs( geometry );
@@ -47,7 +40,8 @@ function createTextMesh( char, fontSize, font ) {
 
 };
 
-//
+// Compute the right UVs that will map the MSDF texture so that the passed character
+// will appear centered in full size
 
 function mapUVs( geometry, font, char ) {
 
@@ -87,7 +81,7 @@ function mapUVs( geometry, font, char ) {
 
 };
 
-//
+// Set all UVs to 0, so that none of the glyphs on the texture will appear
 
 function nullifyUVs( geometry ) {
 
@@ -101,7 +95,7 @@ function nullifyUVs( geometry ) {
 
 };
 
-//
+// Gives the previously computed scale and offset to the geometry
 
 function transformGeometry( geometry, font, fontSize, char ) {
 

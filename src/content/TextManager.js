@@ -1,17 +1,26 @@
 
 /*
 
-Job:
- - From a given container, create glyphs
- - Call the right glyph creation/update functions from the './core' directory 
+Job: Takes glyphs (strings), positions, and text types, returns meshes to Text
+
+Knows:
+	- The Text component for which it creates Meshes
+	- The parameters of the text mesh it must return
+
+To learn more about the differences between Text types :
+https://github.com/felixmariotto/three-mesh-ui/wiki/Choosing-a-Text-type
 
 */
 
-import { Mesh, MeshNormalMaterial } from 'three';
+import { Mesh } from 'three';
 import { BufferGeometryUtils } from 'three/examples/jsm/utils/BufferGeometryUtils.js';
 
 import GeometryGlyph from './glyphs/GeometryGlyph';
 import MSDFGlyph from './glyphs/MSDFGlyph';
+
+////////////////
+// MSDF shaders
+////////////////
 
 const vertexShader = `
 	varying vec2 vUv;
@@ -55,6 +64,8 @@ export default function TextContent() {
 
 	function getGlyphDimensions( options ) {
 
+		// Constants common to all types of font
+
 		const FONT = options.font;
 
 		const FONT_SIZE = options.fontSize; 
@@ -62,6 +73,8 @@ export default function TextContent() {
 		const GLYPH = options.glyph;
 
 		let width, height, ascender, anchor;
+
+		// Depending on the type of font, the way to compute a glyph dimensions vary
 
 		switch ( options.textType ) {
 
@@ -119,7 +132,9 @@ export default function TextContent() {
 
 	};
 
-	//
+	// Create a THREE.BufferGeometry with the shape of the required glyph,
+	// then returns a mesh made of this geometry and the passed fontMaterial.
+	// Called only when the Text is created with 'textType: "geometry"'
 
 	function buildGeometryText( options ) {
 
@@ -139,7 +154,10 @@ export default function TextContent() {
 
 	};
 
-	//
+	// Creates a THREE.Plane geometry, with UVs carefully positioned to map a particular
+	// glyph on the MSDF texture. Then creates a shaderMaterial with the MSDF shaders,
+	// creates a THREE.Mesh, returns it.
+	// Called only when the Text is created with 'textType: "MSDF"' (the default)
 
 	function buildMSDFText( options ) {
 
@@ -156,10 +174,6 @@ export default function TextContent() {
 		const mergedGeom = BufferGeometryUtils.mergeBufferGeometries( translatedGeom );
 
 		//
-
-		if ( !options.fontTexture ) {
-			console.warn('MSDF text needs a fontTexture. See https://github.com/felixmariotto/three-mesh-ui/wiki/Choosing-a-Text-type');
-		};
 
 		const passedMaterial = options.fontMaterial;
 
