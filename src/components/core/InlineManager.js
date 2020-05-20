@@ -131,6 +131,14 @@ function InlineManager( boxComponent ) {
 
 			line.totalHeight = line.lowestPoint + line.heighestPoint;
 
+			//
+
+			line.width = line.reduce( (width, inline)=> {
+
+				return width + inline.width
+
+			}, 0 );
+
 		});
 
 		// Vertical offset
