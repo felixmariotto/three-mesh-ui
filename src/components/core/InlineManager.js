@@ -1,6 +1,6 @@
 /*
 	Job: Keeping track and deciding of a component's InlineComponents position, split, etc..
-	Knows: Component dimension, and the list of children InlineComponent
+	Knows: Component dimensions, and the list of children InlineComponent
 */
 
 import { ShapeBufferGeometry, BufferGeometry } from 'three';
@@ -23,6 +23,12 @@ function InlineManager( boxComponent ) {
 	inlineManager.computeInlinesPosition = function computeInlinesPosition() {
 
 		if ( this.children.length === 0 ) return
+
+		// temp
+
+		console.log( this.children[0].inlines )
+
+		//
 
 		inlineManager.inlinesInfo = {};
 

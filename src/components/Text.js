@@ -34,6 +34,7 @@ function Text( options ) {
 		const content = this.content ;
 		const font = this.getFontFamily();
 		const fontSize = this.getFontSize();
+		const breakChars = this.getBreakOn(); // characters to prioritize breaking line (eg: white space)
 
 		// Abort condition
 		
@@ -63,17 +64,26 @@ function Text( options ) {
 
 			const anchor = height - ascender;
 
+			//
+
+			let lineBreak = null ;
+
+			if ( breakChars.includes( glyph ) || glyph.match(/\s/g) ) lineBreak = "possible" ;
+
+			if ( glyph.match(/\n/g) ) lineBreak = "mendatory" ;
+
+			//
+
 			return {
 				height,
 				anchor,
-				width
+				width,
+				lineBreak
 			};
 
 		});
 
 		// Update 'inlines' property, so that the parent can compute each glyph position
-
-		console.log( glyphDimensions );
 
 		text.inlines = glyphDimensions;
 

@@ -9,6 +9,4 @@ Job:
 
 export default function TextContent() {
 
-	console.log('hello')
-
 };
