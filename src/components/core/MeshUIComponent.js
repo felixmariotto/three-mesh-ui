@@ -9,7 +9,7 @@
 */
 
 import FontLibrary from './FontLibrary';
-import DEFAULTS from '../utils/Defaults';
+import DEFAULTS from '../../utils/Defaults';
 
 function generateSerial() {
 

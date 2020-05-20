@@ -3,7 +3,7 @@
 	Knows: Parents and children dimensions and positions
 */
 
-import InlineManager from './InlineManager';
+import InlineManager from '../../content/InlineManager';
 
 function BoxComponent() {
 
