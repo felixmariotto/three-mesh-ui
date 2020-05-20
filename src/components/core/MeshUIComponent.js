@@ -313,7 +313,7 @@ function MeshUIComponent() {
 	function _updateFontTexture( texture ) {
 
 		this.fontTexture = texture;
-		this.update( false, true );
+		this.update( true, true );
 
 	};
 

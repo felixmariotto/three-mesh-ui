@@ -122,7 +122,8 @@ function Text( options ) {
 			inlines: textComponent.inlines,
 			fontFamily: this.getFontFamily(),
 			fontMaterial: this.getFontMaterial(),
-			textType: this.getTextType()
+			textType: this.getTextType(),
+			fontTexture: this.getFontTexture()
 		});
 
 		textComponent.threeOBJ.add( textContent );

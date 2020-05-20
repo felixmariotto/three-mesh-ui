@@ -228,11 +228,11 @@ function MSDFText( options ) {
 		const TEXTURE = this.getFontTexture();
 
 		const MATERIAL = new THREE.ShaderMaterial( {
-        uniforms: { u_texture: { value: TEXTURE }},
-        transparent: true,
-        vertexShader,
-        fragmentShader
-    });
+			uniforms: { u_texture: { value: TEXTURE }},
+			transparent: true,
+			vertexShader,
+			fragmentShader
+		});
 
 		const TEXT_MESH = new Mesh( INFO.geometry, MATERIAL );
 		TEXT_MESH.renderOrder = Infinity;
