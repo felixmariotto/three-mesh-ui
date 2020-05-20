@@ -5,8 +5,14 @@ Knows: dimension of the rectangle containing the glyph
 
 */
 
-export default function GeometryGlyph() {
+import { ShapeBufferGeometry } from 'three';
 
-	console.log('hello from GeometryGlyph');
+export default function GeometryGlyph( glyph, fontSize, font ) {
+
+	const shape = font.generateShapes( glyph, fontSize );
+
+	const geometry = new ShapeBufferGeometry( shape );
+
+	return geometry
 
 };

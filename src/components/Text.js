@@ -11,11 +11,11 @@ Knows:
 
 */
 
-import { ShapeBufferGeometry, Mesh, Object3D } from 'three';
+import { /* ShapeBufferGeometry, Mesh,*/ Object3D } from 'three';
 
 import InlineComponent from './core/InlineComponent';
-import DeepDelete from '../utils/DeepDelete';
-import UniqueID from '../utils/UniqueID';
+// import DeepDelete from '../utils/DeepDelete';
+// import UniqueID from '../utils/UniqueID';
 import TextContent from '../content/TextContent';
 
 function Text( options ) {
@@ -80,7 +80,9 @@ function Text( options ) {
 				width,
 				anchor,
 				lineBreak,
-				id: UniqueID()
+				glyph,
+				fontSize
+				// id: UniqueID()
 			};
 
 		});
@@ -91,47 +93,22 @@ function Text( options ) {
 
 		//
 
-		text.chars = createGlyphGeometry( this.content, font, fontSize );
-
-		//
-
 		resolve();
-
-	};
-
-	function createGlyphGeometry( content, font, fontSize ) {
-
-		let chars = Array.from ? Array.from( content ) : String( content ).split( '' );
-
-		return chars.map( (glyph)=> {
-
-			const shape = font.generateShapes( glyph, fontSize );
-
-			const width = font.data.glyphs[ glyph ] ? font.data.glyphs[ glyph ].ha * ( fontSize / font.data.resolution ) : 0 ;
-
-			const height = font.data.glyphs[ glyph ] ? font.data.lineHeight * ( fontSize / font.data.resolution ) : 0 ;
-
-			const ascender = font.data.glyphs[ glyph ] ? font.data.ascender * ( fontSize / font.data.resolution ) : 0 ;
-
-			const geometry = new ShapeBufferGeometry( shape );
-
-			return {
-				geometry,
-				height,
-				ascender,
-				width,
-				glyph
-			};
-
-		});
 
 	};
 
 	text.updateLayout = function updateLayout() {
 
-		// Create text geometry
+		const textContent = TextContent({
+			inlines: text.inlines,
+			fontFamily: this.getFontFamily(),
+			fontMaterial: this.getFontMaterial(),
+			textType: 'geometry' // temp
+		});
 
-		TextContent();
+		text.threeOBJ.add( textContent );
+
+		/*
 
 		// Delete previous mesh + create new one
 
@@ -148,6 +125,8 @@ function Text( options ) {
 		DeepDelete( text.threeOBJ );
 
 		text.threeOBJ.add( textMesh );
+
+		*/
 
 	};
 

@@ -15,25 +15,24 @@ function InlineManager( boxComponent ) {
 
 	inlineManager.type = 'inlineManager'
 
+	// New elements are pushed by MeshUIComponent in this array when adding a child
 	inlineManager.inlineComponents = [];
 
 	// Updated by computeInlinesPosition.
-	inlineManager.inlinesInfo = {};
+	// inlineManager.inlinesInfo = {};
 
 	inlineManager.computeInlinesPosition = function computeInlinesPosition() {
 
-		if ( this.children.length === 0 ) return
+		if ( !this.children.length || !this.children[0].inlines ) return
 
-		// temp
+		// reset the records
+		// inlineManager.inlinesInfo = {};
 
-		console.log( this.children[0].inlines )
-
-		//
-
-		inlineManager.inlinesInfo = {};
-
+		// computed by BoxComponent
 		const INNER_WIDTH = this.getWidth() - (this.padding * 2 || 0);
-		const BREAK_ON = this.getBreakOn(); // characters to prioritize breaking line (eg: white space)
+
+		// characters to prioritize breaking line (eg: white space)
+		const BREAK_ON = this.getBreakOn();
 
 		// Will stock the characters of each line, so that we can
 		// correct lines position before to merge
@@ -47,46 +46,46 @@ function InlineManager( boxComponent ) {
 				console.warn("A component cannot have a box and an inline child component at the same time");
 			};
 
-			if ( !inlineComponent.chars ) return
+			if ( !inlineComponent.inlines ) return
 
 			//////////////////////////////////////////////////////////////
 			// Compute offset of each children according to its geometry
 			//////////////////////////////////////////////////////////////
 
-			const currentInlineInfo = inlineComponent.chars.reduce( (lastCharOffset, char, i, chars)=> {
+			const currentInlineInfo = inlineComponent.inlines.reduce( (lastInlineOffset, inline, i, inlines)=> {
 
 				// Line break
 
-				const nextBreak = distanceToNextBreak( chars, i + 1, BREAK_ON );
+				const nextBreak = distanceToNextBreak( inlines, i + 1 );
 
-				if ( lastCharOffset + char.width > INNER_WIDTH ||
-					 char.glyph === '\n' ||
+				if ( lastInlineOffset + inline.width > INNER_WIDTH ||
+					 inline.lineBreak === "mandatory" ||
 					 /* test if current glyph is break-friendly and next break-friendly glyph is beyond limit */
-					 (lastCharOffset + nextBreak > INNER_WIDTH && BREAK_ON.indexOf( chars[ i ].glyph ) > -1) ) {
+					 (lastInlineOffset + nextBreak > INNER_WIDTH && BREAK_ON.indexOf( inlines[ i ].glyph ) > -1) ) {
 
-					lastCharOffset = 0;
+					lastInlineOffset = 0;
 
-					lines.push([ char ]);
+					lines.push([ inline ]);
 
-					char.offsetX = lastCharOffset;
+					inline.offsetX = lastInlineOffset;
 
 					//
 
-					return lastCharOffset;
+					return lastInlineOffset;
 
 				} else {
 
-					lines[ lines.length - 1 ].push( char );
+					lines[ lines.length - 1 ].push( inline );
 
 				};
 
 				//
 
-				char.offsetX = lastCharOffset;
+				inline.offsetX = lastInlineOffset;
 
 				//
 
-				return lastCharOffset + char.width;
+				return lastInlineOffset + inline.width;
 
 			}, lastInlineOffset );
 
@@ -100,7 +99,10 @@ function InlineManager( boxComponent ) {
 		// Position lines according to justifyContent and contentAlign
 		/////////////////////////////////////////////////////////////////
 
+		// got by BoxComponent
 		const INNER_HEIGHT = this.getHeight() - (this.padding * 2 || 0);
+
+		// got by MeshUIComponent
 		const JUSTIFICATION = this.getJustifyContent();
 		const ALIGNMENT = this.getAlignContent();
 		const INTERLINE = this.getInterline();
@@ -108,6 +110,8 @@ function InlineManager( boxComponent ) {
 		// Compute lines dimensions
 
 		lines.forEach( (line)=> {
+
+			/*
 
 			line.height = line.reduce( (highest, char)=> {
 				return highest < char.height ? char.height : highest
@@ -121,6 +125,28 @@ function InlineManager( boxComponent ) {
 				return width + char.width
 			}, 0 );
 
+			*/
+
+			line.lowestPoint = line.reduce( (lowest, inline)=> {
+
+				return lowest < inline.anchor ? inline.anchor : lowest
+
+			}, 0 );
+
+			//
+
+			line.heighestPoint = line.reduce( (highest, inline)=> {
+
+				const topPart = inline.height - inline.anchor;
+
+				return highest < topPart ? topPart : highest 
+
+			}, 0 );
+
+			//
+
+			line.totalHeight = line.lowestPoint + line.heighestPoint;
+
 		});
 
 		// Vertical offset
@@ -133,7 +159,7 @@ function InlineManager( boxComponent ) {
 
 			});
 
-			return offsetY - line.height - INTERLINE;
+			return offsetY - line.totalHeight - INTERLINE;
 
 		}, 0 ) + INTERLINE;
 
@@ -143,9 +169,9 @@ function InlineManager( boxComponent ) {
 
 		const justificationOffset = (()=> {
 			switch ( JUSTIFICATION ) {
-				case 'start': return (INNER_HEIGHT / 2) - lines[0].ascender
-				case 'end': return textHeight - lines[0].ascender - ( INNER_HEIGHT / 2 ) + (lines[ lines.length -1 ].height - lines[ lines.length -1 ].ascender) ;
-				case 'center': return (textHeight / 2) - lines[0].ascender
+				case 'start': return (INNER_HEIGHT / 2) - lines[0].heighestPoint
+				case 'end': return textHeight - lines[0].heighestPoint - ( INNER_HEIGHT / 2 ) + (lines[ lines.length -1 ].totalHeight - lines[ lines.length -1 ].heighestPoint) ;
+				case 'center': return (textHeight / 2) - lines[0].heighestPoint
 				default: console.warn('"textJustification" is not valid')
 			};
 		})();
@@ -154,9 +180,9 @@ function InlineManager( boxComponent ) {
 
 		lines.forEach( (line)=> {
 
-			line.forEach( (char)=> {
+			line.forEach( (inline)=> {
 
-				char.offsetY += justificationOffset
+				inline.offsetY += justificationOffset
 
 			});
 
@@ -182,6 +208,8 @@ function InlineManager( boxComponent ) {
 			});
 
 		});
+		
+		/*
 
 		// Geometry translation and merging
 
@@ -213,27 +241,31 @@ function InlineManager( boxComponent ) {
 
 		});
 
+		*/
+
 	};
 
 	//
 
-	function distanceToNextBreak( chars, currentIdx, breakOn, accu ) {
+	function distanceToNextBreak( inlines, currentIdx, accu ) {
 
 		accu = accu || 0 ;
 
-		if ( !chars[ currentIdx ] ) return accu
+		// end of the text
+		if ( !inlines[ currentIdx ] ) return accu
 
-		if ( breakOn.indexOf( chars[ currentIdx ].glyph ) > -1 ) {
+		// if inline.lineBreak is set, it is 'mandatory' or 'possible'
+		if ( inlines[ currentIdx ].lineBreak ) {
 
-			return accu + chars[ currentIdx ].width
+			return accu + inlines[ currentIdx ].width
 
+		// no line break is possible on this character
 		} else {
 
 			return distanceToNextBreak(
-				chars,
+				inlines,
 				currentIdx + 1,
-				breakOn,
-				accu + chars[ currentIdx ].width
+				accu + inlines[ currentIdx ].width
 			);
 
 		};
