@@ -12,36 +12,16 @@ import { Object3D } from 'three';
 
 import FontLibrary from './FontLibrary';
 import DEFAULTS from '../../utils/Defaults';
+import UniqueID from '../../utils/UniqueID';
 
-function generateSerial() {
-
-	const CHARS = '1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
-	const serialLength = 10;
-
-	let randomSerial = "";
-	let i;
-	let randomNumber;
-
-	for (i = 0; i < serialLength; i = i + 1) {
-
-		randomNumber = Math.floor(Math.random() * CHARS.length);
-
-		randomSerial += CHARS.substring(randomNumber, randomNumber + 1);
-
-	};
-
-	return randomSerial
-
-};
-
-function MeshUIComponent() {
+export default function MeshUIComponent() {
 
 	const component = {
 
 		children: [],
 		parent: undefined,
 		type: 'MeshUIComponent',
-		id: generateSerial(),
+		id: UniqueID(),
 		states: {},
 		currentState: undefined,
 
@@ -424,5 +404,3 @@ function MeshUIComponent() {
 	return component
 
 };
-
-export default MeshUIComponent ;
