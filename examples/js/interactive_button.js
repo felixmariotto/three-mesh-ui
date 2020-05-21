@@ -237,13 +237,13 @@ function makePanel() {
 	const buttonNext = ThreeMeshUI.Block( buttonOptions );
 	const buttonPrevious = ThreeMeshUI.Block( buttonOptions );
 
-	buttonNext.appendChild(
+	buttonNext.add(
 		ThreeMeshUI.Text({
 			content: "next",
 		})
 	);
 
-	buttonPrevious.appendChild(
+	buttonPrevious.add(
 		ThreeMeshUI.Text({
 			content: "previous"
 		})
@@ -278,12 +278,12 @@ function makePanel() {
 	buttonPrevious.setupState( hoveredStateOptions );
 	buttonPrevious.setupState( idleStateOptions );
 
-	container.appendChild( buttonNext, buttonPrevious );
+	container.add( buttonNext, buttonPrevious );
 	componentsToTest.push( buttonNext, buttonPrevious );
 
 	//
 
-	uiContainer.add( container.threeOBJ );
+	uiContainer.add( container );
 
 };
 
