@@ -177,39 +177,6 @@ export default function VRControl( renderer, camera, scene ) {
 
 	};
 
-	// Public function that call intersectObjects after sorting the passed UI components so that
-	// Raycaster can work on the component's meshes.
-
-	let threeOBJs;
-	let intersectedComponents;
-
-	function intersectUI( uiComponents ) {
-
-		for ( let component of uiComponents ) {
-
-			if ( !component.type || !component.type === "Block" ) {
-				console.error("VRControl.intersectUI : passed component is not a Block instance");
-				return
-			};
-
-		};
-
-		threeOBJs = uiComponents.map( (component)=> {
-			component.frameContainer.owner = component;
-			return component.frameContainer
-		});
-
-		intersectedComponents = intersectObjects( threeOBJs, true );
-
-		intersectedComponents = intersectedComponents.map( (target)=> {
-			target.object = findOwner( target.object );
-			return target
-		});
-
-		return intersectedComponents;
-
-	};
-
 	// Resursive function that look for a "owner" prop in this obj or its parents
 
 	function findOwner( obj ) {
@@ -219,21 +186,13 @@ export default function VRControl( renderer, camera, scene ) {
 	// Public function that get called from outside, with an array of objects to intersect.
 	// If intersects, returns the intersected object. Position the helper at the intersection point.
 
-	let result, obj3Ds, planes, targets;
+	let result, targets;
 
 	function intersectObjects( objects, recursive ) {
 
+		if ( recursive === undefined ) recursive = true;
+
 		if ( !objects ) return []
-
-		obj3Ds = objects.filter((obj)=> {
-			return obj.type === 'Mesh' || obj.type === "Object3D";
-		});
-
-		planes = objects.filter((obj)=> {
-			return obj.normal !== undefined && obj.constant !== undefined
-		});
-
-		if ( obj3Ds.length === 0 && planes.length === 0 );
 
 		// If immersion is on, then we check intersection with the controllers.
 		// Otherwise, we emulate them with the mouse
@@ -253,7 +212,7 @@ export default function VRControl( renderer, camera, scene ) {
 
 				// Intersect
 
-				result = testIntersections( obj3Ds, planes, recursive );
+				result = raycaster.intersectObjects( objects, recursive )[0];
 
 				if ( !result ) return
 
@@ -289,7 +248,7 @@ export default function VRControl( renderer, camera, scene ) {
 
 			raycaster.setFromCamera( mouse, camera );
 
-			const result = testIntersections( obj3Ds, planes, recursive );
+			result = intersect( objects, recursive );
 
 			return result ? [result] : [];
 
@@ -299,44 +258,73 @@ export default function VRControl( renderer, camera, scene ) {
 
 	//
 
-	let target, intersection, distance;
+	let intersection, target;
 
-	function testIntersections( obj3Ds, planes, recursive ) {
+	function intersect( objects, recursive ) {
 
-		target = raycaster.intersectObjects( obj3Ds, recursive )[0];
+		intersection = undefined;
 
-		// Rays must be intersected manually as its not supported by raycaster.intersectObjects
+		target = objects.reduce( (closestObj, object)=> {
 
-		planes.forEach( (plane)=> {
+			// If the object is a UI object, we want to manually check intersections with the childrens,
+			// because in case of intersection, we return the object, not the child.
+			if ( object.isUI && recursive ) {
 
-			intersection = raycaster.ray.intersectPlane( plane, planeIntersect );
-			if ( intersection ) dummyVec.copy( intersection );
+				let distance;
+				let tempIntersection;
 
-			if ( intersection ) {
+				object.traverse( (child)=> {
 
-				distance = dummyVec.sub( raycaster.ray.origin ).length();
+					tempIntersection = raycaster.intersectObject( object, true );
 
-				if ( target && target.distance > distance ) {
+					tempIntersection = tempIntersection[0] || null
 
-					target = {
-						point: new THREE.Vector3().copy( intersection ),
-						distance: distance,
-						object: plane
+					if ( !tempIntersection ) return
+
+					if ( !intersection ||
+						 intersection.distance > tempIntersection.distance ) {
+
+						intersection = tempIntersection;
+
 					};
 
-				} else if ( !target ) {
+				});
 
-					target = {
-						point: new THREE.Vector3().copy( intersection ),
-						distance: distance,
-						object: plane
-					};
+				if ( intersection ) intersection.object = object;
 
-				};
+			} else {
+
+				intersection = raycaster.intersectObject( object, object.isUI ? false : recursive );
+
+				intersection = intersection[0] || null
 
 			};
 
-		});
+			//
+
+			if ( !intersection ) {
+
+				return closestObj
+
+			} else if ( !closestObj ) {
+
+				return intersection
+
+			} else {
+
+				return closestObj.distance > intersection.distance ? intersection : closestObj;
+
+			};
+
+		}, null );
+
+		//
+
+		if ( target ) {
+
+			target.object = target.object.uiComponent ? target.object.uiComponent : target.object
+
+		};
 
 		return target
 
@@ -348,7 +336,6 @@ export default function VRControl( renderer, camera, scene ) {
 		controllers,
 		controllerGrips,
 		intersectObjects,
-		intersectUI,
 		handleSelectStart: ()=> {},
 		handleSelectEnd: ()=> {}
 	};

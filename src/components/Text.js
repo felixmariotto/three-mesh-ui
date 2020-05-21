@@ -129,6 +129,8 @@ function Text( options ) {
 			fontOpacity: this.getFontOpacity()
 		});
 
+		textContent.uiComponent = textComponent;
+
 		textComponent.add( textContent );
 
 	};

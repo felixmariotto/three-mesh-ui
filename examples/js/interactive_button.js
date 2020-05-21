@@ -8,11 +8,10 @@ import ThreeMeshUI from '../../src/three-mesh-ui.js';
 import VRControl from './utils/VRControl.js';
 import ShadowedLight from './utils/ShadowedLight.js';
 
-var scene, camera, renderer, controls, raycaster, control;
-var meshContainer, meshes, currentMesh;
-var targets = [];
-var objsToTest = [];
-var componentsToTest = [];
+let scene, camera, renderer, controls, control;
+let meshContainer, meshes, currentMesh;
+let objsToTest = [];
+let componentsToTest = [];
 
 window.addEventListener('load', ()=> {
 	init();
@@ -21,6 +20,27 @@ window.addEventListener('load', ()=> {
 window.addEventListener('resize', ()=> {
 	onWindowResize();
 });
+
+// calculate mouse position in normalized device coordinates
+// (-1 to +1) for both components.
+// Used to raycasting against the interactive elements
+
+const raycaster = new THREE.Raycaster();
+
+const mouse = new THREE.Vector2();
+mouse.x = null;
+mouse.y = null;
+
+window.addEventListener( 'mousemove', onMouseMove, false );
+
+function onMouseMove( event ) {
+
+	mouse.x = ( event.clientX / window.innerWidth ) * 2 - 1;
+	mouse.y = - ( event.clientY / window.innerHeight ) * 2 + 1;
+
+};
+
+//
 
 function init() {
 
@@ -272,7 +292,7 @@ function makePanel() {
 	buttonPrevious.setupState( idleStateOptions );
 
 	container.add( buttonNext, buttonPrevious );
-	componentsToTest.push( buttonNext, buttonPrevious );
+	objsToTest.push( buttonNext, buttonPrevious );
 
 	//
 
@@ -311,18 +331,54 @@ function loop() {
 
 function raycast() {
 
-	// First call with array of non-UI objects. Can be Object3D, Mesh, Plane...
-	// Here we do that only to have the controllers pointers intersecting to the walls of the room.
+	if ( !mouse.x || !mouse.y ) return
 
-	control.intersectObjects( objsToTest );
+	raycaster.setFromCamera( mouse, camera );
 
-	// Second call with the UI elements, and we keep the result to update the buttons states.
+	const target = objsToTest.reduce( (closestIntersection, obj)=> {
 
-	targets = control.intersectUI( componentsToTest );
+		const intersection = raycaster.intersectObject( obj, true );
+
+		if ( !intersection[0] ) return closestIntersection
+
+		if ( !closestIntersection || intersection[0].distance < closestIntersection.distance ) {
+
+			intersection[0].object = obj;
+
+			return intersection[0]
+
+		} else {
+
+			return closestIntersection
+
+		};
+
+	}, null );
+
+	if (target) console.log( target.object )
+
+	/*
+
+	let targets = raycaster.intersectObjects( objsToTest, true );
+
+	if ( mouse.x === null || mouse.y === null ) targets = [];
+
+	if ( targets[0] && targets[0].object.uiComponent ) {
+
+		console.log( 'coucou' );
+
+	};
+
+	*/
+
+	
+
+	/*
+	targets = control.intersectObjects( objsToTest );
 
 	targets.forEach( (target)=> {
 
-		// The objects in the array returned by VRControl.intersectUI and VRControl.intersectObjects
+		// The objects in the array returned by VRControl.intersectObjects
 		// are identical to the objects returned by THREE.Raycaster.intersectObjects, with in addition
 		// a 'caster' parameter, which holds the name of the VR controller, if any. (caster is undefined
 		// if raycaster used the mouse for raycasting)
@@ -333,13 +389,13 @@ function raycast() {
 
 			// Component.setState internally call component.set with the options you defined in component.setupState
 
-			target.object.setState( 'selected' );
+			if ( target.object.isUI ) target.object.setState( 'selected' );
 
 		} else {
 
 			// Component.setState internally call component.set with the options you defined in component.setupState
 
-			target.object.setState( 'hovered' );
+			if ( target.object.isUI ) target.object.setState( 'hovered' );
 
 		};
 
@@ -356,5 +412,7 @@ function raycast() {
 		if ( !found ) component.setState( 'idle' );
 
 	});
+
+	*/
 
 };
