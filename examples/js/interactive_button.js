@@ -53,24 +53,17 @@ function init() {
 	/////////
 
 	const room = new THREE.LineSegments(
-		new BoxLineGeometry( 6, 6, 6, 10, 10, 10 ).translate( 0, 3, 0 ),
+        new BoxLineGeometry( 6, 6, 6, 10, 10, 10 ).translate( 0, 3, 0 ),
 		new THREE.LineBasicMaterial( { color: 0x808080 } )
+	);
+	
+	const roomMesh = new THREE.Mesh(
+		new THREE.BoxGeometry( 6, 6, 6, 10, 10, 10 ).translate( 0, 3, 0 ),
+		new THREE.MeshBasicMaterial({ side: THREE.BackSide }),
 	);
 
 	scene.add( room );
-
-	// Planes for intersections between the room and the controller pointers
-
-	var planeFront = new THREE.Plane( new THREE.Vector3( 0, 0, 1 ), 3 );
-	var planeBack = new THREE.Plane( new THREE.Vector3( 0, 0, -1 ), 3 );
-	var planeLeft = new THREE.Plane( new THREE.Vector3( -1, 0, 0 ), 3 );
-	var planeRight = new THREE.Plane( new THREE.Vector3( 1, 0, 0 ), 3 );
-	var planeCeil = new THREE.Plane( new THREE.Vector3( 0, -1, 0 ), 6 );
-	var planeFloor = new  THREE.Plane( new THREE.Vector3( 0, 1, 0 ), 0 );
-
-	// We push the planes in an array for raycasting in the loop
-
-	objsToTest.push( planeFront, planeBack, planeLeft, planeRight, planeCeil, planeFloor );
+    objsToTest.push(roomMesh);
 
 	//////////
 	// Light
