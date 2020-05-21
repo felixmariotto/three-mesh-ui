@@ -348,7 +348,7 @@ function updateButtons() {
 		intersect = raycast();
 
 		// Position the little white dot at the end of the controller pointing ray
-		control.setPointerAt( 0, intersect.point );
+		// control.setPointerAt( 0, intersect.point );
 
 	} if ( mouse.x !== null && mouse.y !== null ) {
 
