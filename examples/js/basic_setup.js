@@ -101,7 +101,7 @@ function makeTextPanel() {
 
 	//
 
-	uiContainer.add( container.threeOBJ );
+	uiContainer.add( container );
 
 };
 

@@ -18,8 +18,6 @@ export default function MeshUIComponent() {
 
 	const component = {
 
-		children: [],
-		parent: undefined,
 		type: 'MeshUIComponent',
 		id: UniqueID(),
 		states: {},
@@ -42,12 +40,10 @@ export default function MeshUIComponent() {
 		getTextType,
 		getFontColor,
 		getFontOpacity,
+		getUIParent,
 
 		appendChild,
-		removeChild,
 		update,
-		_addParent,
-		_removeParent,
 		_updateFontFamily,
 		_updateFontTexture,
 		_getProperty,
@@ -77,10 +73,24 @@ export default function MeshUIComponent() {
 	/// GETTERS
 	/////////////
 
+	function getUIParent() {
+
+		if ( this.parent && this.parent.getUIParent ) {
+
+			return this.parent
+
+		} else {
+
+			return null
+
+		};
+
+	};
+
 	// Get the highest parent of this component (the parent that has no parent on top of it)
 	function getHighestParent() {
 
-		if ( !this.parent ) {
+		if ( !this.getUIParent() ) {
 
 			return this
 
@@ -95,7 +105,7 @@ export default function MeshUIComponent() {
 	// look for a property in this object, and if does not find it, find in parents or return default value
 	function _getProperty( propName ) {
 
-		if ( this[ propName ] === undefined && this.parent ) {
+		if ( this[ propName ] === undefined && this.getUIParent() ) {
 
 			return this.parent._getProperty( propName )
 
@@ -170,12 +180,12 @@ export default function MeshUIComponent() {
 
 	};
 
-	// Get the number of parents above this elements (0 if no parent)
+	// Get the number of UI parents above this elements (0 if no parent)
 	function getParentsNumber( i ) {
 
 		i = i || 0;
 
-		if ( this.parent ) {
+		if ( this.getUIParent() ) {
 
 			return this.parent.getParentsNumber( i + 1 )
 
@@ -222,10 +232,6 @@ export default function MeshUIComponent() {
 
 		children.forEach( (child)=> {
 
-			this.children.push( child );
-
-			child._addParent( this );
-
 			if ( this.threeOBJ && child.threeOBJ ) {
 
 				this.threeOBJ.add( child.threeOBJ );
@@ -251,26 +257,6 @@ export default function MeshUIComponent() {
 		});
 
 		return this
-
-	};
-
-	// remove a child from this component
-	function removeChild( child ) {
-
-		this.children.splice( this.children.indexOf( child ), 1 );
-		child._removeParent();
-
-	};
-
-	function _addParent( parent ) {
-
-		this.parent = parent ;
-
-	};
-
-	function _removeParent() {
-
-		this.parent = undefined;
 
 	};
 

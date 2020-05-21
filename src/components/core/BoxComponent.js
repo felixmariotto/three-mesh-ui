@@ -85,10 +85,10 @@ function BoxComponent() {
 
 	boxComponent.setPosFromParentRecords = function SetPosFromParentRecords() {
 		
-		if ( this.parent && this.parent.childrenPos[ this.id ] ) {
+		if ( this.getUIParent() && this.getUIParent().childrenPos[ this.id ] ) {
 
-			this.threeOBJ.position.x = ( this.parent.childrenPos[ this.id ].x );
-			this.threeOBJ.position.y = ( this.parent.childrenPos[ this.id ].y );
+			this.threeOBJ.position.x = ( this.getUIParent().childrenPos[ this.id ].x );
+			this.threeOBJ.position.y = ( this.getUIParent().childrenPos[ this.id ].y );
 
 		};
 
