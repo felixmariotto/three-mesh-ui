@@ -8,8 +8,6 @@ import { XRControllerModelFactory } from 'three/examples/jsm/webxr/XRControllerM
 
 export default function VRControl( renderer, camera, scene ) {
 
-	let module;
-
 	const controllers = [];
 	const controllerGrips = [];
 
@@ -118,85 +116,9 @@ export default function VRControl( renderer, camera, scene ) {
 	// Functions
 	//////////////
 
-
-	/*
-
-	// Public function that get called from outside, with an array of objects to intersect.
-	// If intersects, returns the intersected object. Position the helper at the intersection point.
-
-	let result, targets;
-
-	function intersectObjects( objects, recursive ) {
-
-		if ( recursive === undefined ) recursive = true;
-
-		if ( !objects ) return []
-
-		// If immersion is on, then we check intersection with the controllers.
-		// Otherwise, we emulate them with the mouse
-
-		if ( renderer.xr.isPresenting ) {
-
-			targets = [];
-			
-			controllers.forEach( (controller, i)=> {
-
-				// Position the intersection ray
-
-				dummyMatrix.identity().extractRotation( controller.matrixWorld );
-
-				raycaster.ray.origin.setFromMatrixPosition( controller.matrixWorld );
-				raycaster.ray.direction.set( 0, 0, - 1 ).applyMatrix4( dummyMatrix );
-
-				// Intersect
-
-				result = raycaster.intersectObjects( objects, recursive )[0];
-
-				if ( !result ) return
-
-				result.caster = controller.name
-
-				// Position the helper and return the intersected object if any
-
-				if ( result ) {
-
-					const localVec = controller.worldToLocal( result.point );
-					controller.userData.point.position.copy( localVec );
-					controller.userData.point.visible = true;
-
-					targets.push( result );
-
-					return
-
-				} else {
-
-					controller.userData.point.visible = false;
-
-					return
-
-				};
-
-			});
-
-			return targets
-
-		} else {
-
-			if ( mouse.x === null && mouse.y === null ) return []
-
-			raycaster.setFromCamera( mouse, camera );
-
-			result = intersect( objects, recursive );
-
-			return result ? [result] : [];
-
-		};
-
-	};
-
-	*/
-
 	const dummyMatrix = new THREE.Matrix4();
+
+	// Set the passed ray to match the given controller pointing direction
 
 	function setFromController( controllerID, ray ) {
 
@@ -211,7 +133,8 @@ export default function VRControl( renderer, camera, scene ) {
 
 	};
 
-	//
+	// Position the chosen controller's pointer at the given point in space.
+	// Should be called after raycaster.intersectObject() found an intersection point.
 
 	function setPointerAt( controllerID, vec ) {
 
