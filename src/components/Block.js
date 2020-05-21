@@ -91,8 +91,6 @@ function Block( options ) {
 			block.getBackgroundMaterial()
 		);
 
-		frame.uiComponent = block;
-
 		frame.renderOrder = block.getParentsNumber();
 
 		frameContainer.add( frame );

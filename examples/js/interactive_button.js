@@ -31,14 +31,20 @@ const mouse = new THREE.Vector2();
 mouse.x = null;
 mouse.y = null;
 
-window.addEventListener( 'mousemove', onMouseMove, false );
+let mouseState = 'up';
 
-function onMouseMove( event ) {
-
+window.addEventListener( 'mousemove', ( event )=>{
 	mouse.x = ( event.clientX / window.innerWidth ) * 2 - 1;
 	mouse.y = - ( event.clientY / window.innerHeight ) * 2 + 1;
+}, false );
 
-};
+window.addEventListener( 'mousedown', ()=> {
+	mouseState = 'down';
+});
+
+window.addEventListener( 'mouseup', ()=> {
+	mouseState = 'up';
+});
 
 //
 
@@ -331,6 +337,8 @@ function loop() {
 
 function raycast() {
 
+	// Find closest intersecting object
+
 	if ( !mouse.x || !mouse.y ) return
 
 	raycaster.setFromCamera( mouse, camera );
@@ -355,64 +363,35 @@ function raycast() {
 
 	}, null );
 
-	if (target) console.log( target.object )
+	// Update targeted button state (if any)
 
-	/*
+	if ( target && target.object.isUI ) {
 
-	let targets = raycaster.intersectObjects( objsToTest, true );
-
-	if ( mouse.x === null || mouse.y === null ) targets = [];
-
-	if ( targets[0] && targets[0].object.uiComponent ) {
-
-		console.log( 'coucou' );
-
-	};
-
-	*/
-
-	
-
-	/*
-	targets = control.intersectObjects( objsToTest );
-
-	targets.forEach( (target)=> {
-
-		// The objects in the array returned by VRControl.intersectObjects
-		// are identical to the objects returned by THREE.Raycaster.intersectObjects, with in addition
-		// a 'caster' parameter, which holds the name of the VR controller, if any. (caster is undefined
-		// if raycaster used the mouse for raycasting)
-
-		if ( (target.caster === undefined && control.mouseControlSelected) ||
-			 (target.caster === 'controller-right' && control.rightControlSelected) ||
-			 (target.caster === 'controller-left' && control.leftControlSelected) ) {
+		if ( mouseState === 'down' ) {
 
 			// Component.setState internally call component.set with the options you defined in component.setupState
-
-			if ( target.object.isUI ) target.object.setState( 'selected' );
+			target.object.setState( 'selected' );
 
 		} else {
 
 			// Component.setState internally call component.set with the options you defined in component.setupState
+			target.object.setState( 'hovered' );
 
-			if ( target.object.isUI ) target.object.setState( 'hovered' );
+		};
+
+	};
+
+	// Update non-targeted buttons state
+
+	objsToTest.forEach( (obj)=> {
+
+		if ( obj !== target.object && obj.isUI ) {
+
+			// Component.setState internally call component.set with the options you defined in component.setupState
+			obj.setState( 'idle' );
 
 		};
 
 	});
-
-	componentsToTest.forEach( (component)=> {
-
-		const found = targets.find( (target)=> {
-			return target.object === component
-		});
-
-		// Component.setState internally call component.set with the options you defined in component.setupState
-
-		if ( !found ) component.setState( 'idle' );
-
-	});
-
-	*/
 
 };
