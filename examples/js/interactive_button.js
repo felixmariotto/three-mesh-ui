@@ -36,7 +36,7 @@ let mouseState = 'up';
 window.addEventListener( 'mousemove', ( event )=>{
 	mouse.x = ( event.clientX / window.innerWidth ) * 2 - 1;
 	mouse.y = - ( event.clientY / window.innerHeight ) * 2 + 1;
-}, false );
+});
 
 window.addEventListener( 'mousedown', ()=> {
 	mouseState = 'down';
@@ -44,6 +44,18 @@ window.addEventListener( 'mousedown', ()=> {
 
 window.addEventListener( 'mouseup', ()=> {
 	mouseState = 'up';
+});
+
+window.addEventListener( 'touchstart', ( event )=> {
+	mouseState = 'down';
+	mouse.x = ( event.touches[0].clientX / window.innerWidth ) * 2 - 1;
+	mouse.y = - ( event.touches[0].clientY / window.innerHeight ) * 2 + 1;
+});
+
+window.addEventListener( 'touchend', ()=> {
+	mouseState = 'up';
+	mouse.x = null;
+	mouse.y = null;
 });
 
 //
@@ -339,29 +351,33 @@ function raycast() {
 
 	// Find closest intersecting object
 
-	if ( !mouse.x || !mouse.y ) return
+	let target;
 
-	raycaster.setFromCamera( mouse, camera );
+	if ( mouse.x !== null && mouse.y !== null ) {
 
-	const target = objsToTest.reduce( (closestIntersection, obj)=> {
+		raycaster.setFromCamera( mouse, camera );
 
-		const intersection = raycaster.intersectObject( obj, true );
+		target = objsToTest.reduce( (closestIntersection, obj)=> {
 
-		if ( !intersection[0] ) return closestIntersection
+			const intersection = raycaster.intersectObject( obj, true );
 
-		if ( !closestIntersection || intersection[0].distance < closestIntersection.distance ) {
+			if ( !intersection[0] ) return closestIntersection
 
-			intersection[0].object = obj;
+			if ( !closestIntersection || intersection[0].distance < closestIntersection.distance ) {
 
-			return intersection[0]
+				intersection[0].object = obj;
 
-		} else {
+				return intersection[0]
 
-			return closestIntersection
+			} else {
 
-		};
+				return closestIntersection
 
-	}, null );
+			};
+
+		}, null );
+
+	};
 
 	// Update targeted button state (if any)
 
@@ -385,7 +401,7 @@ function raycast() {
 
 	objsToTest.forEach( (obj)=> {
 
-		if ( obj !== target.object && obj.isUI ) {
+		if ( (!target || obj !== target.object) && obj.isUI ) {
 
 			// Component.setState internally call component.set with the options you defined in component.setupState
 			obj.setState( 'idle' );
