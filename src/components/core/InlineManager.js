@@ -27,13 +27,14 @@ function InlineManager( boxComponent ) {
 		// correct lines position before to merge
 		const lines = [[]];
 
-		this.children.reduce( (lastInlineOffset, inlineComponent)=> {
+		this.children.filter( (child)=> {
+
+			return child.isInline ? true : false
+
+		})
+		.reduce( (lastInlineOffset, inlineComponent)=> {
 
 			// Abort condition
-
-			if ( !inlineComponent.isInline ) {
-				console.warn("A component cannot have a box and an inline child component at the same time");
-			};
 
 			if ( !inlineComponent.inlines ) return
 
