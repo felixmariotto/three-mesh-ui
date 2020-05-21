@@ -111,16 +111,10 @@ function init() {
 
 	control = VRControl( renderer, camera, scene );
 
-	scene.add( ...control.controllerGrips );
+	scene.add( control.controllerGrips[ 0 ], control.controllers[ 0 ] );
 
-	control.controllers.forEach( (controller)=> {
-
-		scene.add( controller );
-
-		controller.addEventListener( 'selectstart', ()=> { selectState = true } );
-		controller.addEventListener( 'selectend', ()=> { selectState = false } );
-
-	});
+	control.controllers[ 0 ].addEventListener( 'selectstart', ()=> { selectState = true } );
+	control.controllers[ 0 ].addEventListener( 'selectend', ()=> { selectState = false } );
 
 	////////////////////
 	// Primitive Meshes
