@@ -84,7 +84,7 @@ function makeTextPanel() {
 		fontMaterial: whiteMaterial
 	});
 
-	uiContainer.add( container.threeOBJ );
+	uiContainer.add( container );
 
 	//
 
@@ -96,13 +96,13 @@ function makeTextPanel() {
 		fontSize: 0.08
 	});
 
-	title.appendChild(
+	title.add(
 		ThreeMeshUI.Text({
 			content: "spiny bush viper"
 		})
 	);
 
-	container.appendChild( title );
+	container.add( title );
 
 	//
 
@@ -123,14 +123,14 @@ function makeTextPanel() {
 		backgroundMaterial: null
 	});
 
-	caption.appendChild(
+	caption.add(
 		ThreeMeshUI.Text({
 			content: "Mind you fingers",
 			fontSize: 0.03
 		})
 	);
 
-	leftSubBlock.appendChild( caption );
+	leftSubBlock.add( caption );
 
 	//
 
@@ -144,7 +144,7 @@ function makeTextPanel() {
 		margin: 0.025,
 		padding: 0.01,
 		justifyContent: 'center'
-	}).appendChild(
+	}).add(
 
 		ThreeMeshUI.Text({
 			content: "Known for its extremely keeled dorsal scales that give it a ",
@@ -171,7 +171,7 @@ function makeTextPanel() {
 		padding: 0.02,
 		fontSize: 0.019,
 		alignContent: 'left'
-	}).appendChild(
+	}).add(
 
 		ThreeMeshUI.Text({
 			content: "The males of this species grow to maximum total length of 73 cm (29 in): body 58 cm (23 in), tail 15 cm (5.9 in). Females grow to a maximum total length of 58 cm (23 in). The males are surprisingly long and slender compared to the females.\nThe head has a short snout, more so in males than in females.\nThe eyes are large and surrounded by 9–16 circumorbital scales. The orbits (eyes) are separated by 7–9 scales.\nThe nostril is like a slit and separated from the eye by two scales.\nThe eye and the supralabials are separated by a single row of scales."
@@ -179,7 +179,7 @@ function makeTextPanel() {
 
 	);
 
-	rightSubBlock.appendChild( subSubBlock1, subSubBlock2 );
+	rightSubBlock.add( subSubBlock1, subSubBlock2 );
 
 	//
 
@@ -189,8 +189,8 @@ function makeTextPanel() {
 		margin: 0.025
 	});
 
-	contentContainer.appendChild( leftSubBlock, rightSubBlock );
-	container.appendChild( contentContainer );
+	contentContainer.add( leftSubBlock, rightSubBlock );
+	container.add( contentContainer );
 
 	//
 

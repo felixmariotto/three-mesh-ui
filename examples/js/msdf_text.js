@@ -90,7 +90,7 @@ function makeTextPanel() {
 		fontOpacity: 0.9 // 0 is invisible, 1 is opaque
 	});
 
-	uiContainer.add( container.threeOBJ );
+	uiContainer.add( container );
 
 	//
 
@@ -104,7 +104,7 @@ function makeTextPanel() {
 		backgroundMaterial: transparentMaterial
 	});
 
-	bigTextContainer.appendChild(
+	bigTextContainer.add(
 
 		ThreeMeshUI.Text({
 			content: bigText,
@@ -121,7 +121,7 @@ function makeTextPanel() {
 		padding: 0.04,
 		margin: 0.03,
 		backgroundMaterial: transparentMaterial
-	}).appendChild(
+	}).add(
 
 		ThreeMeshUI.Text({
 			content: "Do you need to render a big text ?",
@@ -132,7 +132,7 @@ function makeTextPanel() {
 
 	//
 
-	container.appendChild( titleContainer, bigTextContainer );
+	container.add( titleContainer, bigTextContainer );
 
 };
 

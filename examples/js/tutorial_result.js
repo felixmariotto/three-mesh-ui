@@ -50,7 +50,7 @@ const container = ThreeMeshUI.Block({
 	height: 1.5,
 	width: 1
 });
-uiContainer.add( container.threeOBJ );
+uiContainer.add( container );
 
 const imageBlock = ThreeMeshUI.Block({
 	height: 1,
@@ -65,7 +65,7 @@ const textBlock = ThreeMeshUI.Block({
 	offset: 0.1
 });
 
-container.appendChild( imageBlock, textBlock );
+container.add( imageBlock, textBlock );
 
 const loader = new THREE.TextureLoader();
 
@@ -90,7 +90,7 @@ const text = new ThreeMeshUI.Text({
 	content: 'The spiny bush viper is known for its extremely keeled dorsal scales.'
 });
 
-textBlock.appendChild( text );
+textBlock.add( text );
 
 text.set({
 	fontMaterial: new THREE.MeshBasicMaterial({ color: 0xd2ffbd }),
@@ -103,7 +103,7 @@ textBlock.set({
 	padding: 0.03
 });
 
-textBlock.appendChild(
+textBlock.add(
 	new ThreeMeshUI.Text({
 		content: ' Mind your fingers.',
 		fontMaterial: new THREE.MeshBasicMaterial({ color: 0xefffe8 })

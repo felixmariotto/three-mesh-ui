@@ -71,7 +71,7 @@ function BoxComponent() {
 
 		return this.children.reduce((accu, child)=> {
 
-			if ( !child.isUI || !child.isBoxComponent ) return accu
+			if ( !child.isBoxComponent ) return accu
 
 			const margin = (child.margin * 2) || 0;
 
@@ -91,8 +91,8 @@ function BoxComponent() {
 		
 		if ( this.getUIParent() && this.getUIParent().childrenPos[ this.id ] ) {
 
-			this.threeOBJ.position.x = ( this.getUIParent().childrenPos[ this.id ].x );
-			this.threeOBJ.position.y = ( this.getUIParent().childrenPos[ this.id ].y );
+			this.position.x = ( this.getUIParent().childrenPos[ this.id ].x );
+			this.position.y = ( this.getUIParent().childrenPos[ this.id ].y );
 
 		};
 
@@ -171,6 +171,8 @@ function BoxComponent() {
 
 		this.children.reduce( (accu, child, i)=> {
 
+			if ( !child.isBoxComponent ) return accu
+
 			const CHILD_ID = child.id;
 			const CHILD_WIDTH = child.getWidth();
 			const CHILD_MARGIN = child.margin || 0;
@@ -196,6 +198,8 @@ function BoxComponent() {
 			
 			this.children.forEach( (child)=> {
 
+				if ( !child.isBoxComponent ) return
+
 				this.childrenPos[ child.id ].x -= offset
 
 			});
@@ -212,7 +216,7 @@ function BoxComponent() {
 
 		this.children.reduce( (accu, child, i)=> {
 
-			if ( !child.isUI || !child.isBoxComponent ) return accu
+			if ( !child.isBoxComponent ) return accu
 
 			const CHILD_ID = child.id;
 			const CHILD_HEIGHT = child.getHeight();
@@ -239,7 +243,7 @@ function BoxComponent() {
 
 			this.children.forEach( (child)=> {
 
-				if ( !child.isUI || !child.isBoxComponent ) return
+				if ( !child.isBoxComponent ) return
 
 				this.childrenPos[ child.id ].y -= offset
 
@@ -262,7 +266,7 @@ function BoxComponent() {
 
 		this.children.forEach( (child)=> {
 
-			if ( !child.isUI || !child.isBoxComponent ) return
+			if ( !child.isBoxComponent ) return
 
 			if ( ALIGNMENT === "right" ) {
 
@@ -293,6 +297,8 @@ function BoxComponent() {
 
 		this.children.forEach( (child)=> {
 
+			if ( !child.isBoxComponent ) return
+
 			if ( ALIGNMENT === "top" ) {
 
 				var offset = Y_TARGET - (child.getHeight() / 2) - (child.margin || 0) ;
@@ -315,6 +321,8 @@ function BoxComponent() {
 	boxComponent.getHighestChildSizeOn = function getHighestChildSizeOn( direction ) {
 
 		return this.children.reduce((accu, child)=> {
+
+			if ( !child.isBoxComponent ) return accu
 
 			const margin = child.margin || 0;
 			let maxSize = direction === "width" ?
