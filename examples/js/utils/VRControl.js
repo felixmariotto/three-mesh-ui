@@ -105,8 +105,8 @@ export default function VRControl( renderer, camera, scene ) {
 		const point = pointer.clone();
 
 		controller.add( ray, point );
-		controller.userData.ray = ray;
-		controller.userData.point = point;
+		controller.ray = ray;
+		controller.point = point;
 
 	});
 
@@ -213,10 +213,23 @@ export default function VRControl( renderer, camera, scene ) {
 
 	//
 
+	function setPointerAt( controllerID, vec ) {
+
+		const controller = controllers[ controller ];
+		const localVec = controller.worldToLocal( vec );
+
+		controller.point.position.copy( localVec );
+		controller.point.visible = true;
+
+	};
+
+	//
+
 	return {
 		controllers,
 		controllerGrips,
-		setFromController
+		setFromController,
+		setPointerAt
 	};
 
 };
