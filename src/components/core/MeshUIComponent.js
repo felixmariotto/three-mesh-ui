@@ -22,6 +22,7 @@ export default function MeshUIComponent() {
 		id: UniqueID(),
 		states: {},
 		currentState: undefined,
+		isUI: true,
 
 		getHighestParent,
 		getContainer,
@@ -42,7 +43,6 @@ export default function MeshUIComponent() {
 		getFontOpacity,
 		getUIParent,
 
-		appendChild,
 		update,
 		_updateFontFamily,
 		_updateFontTexture,
@@ -219,45 +219,6 @@ export default function MeshUIComponent() {
 
 	function getOffset() {
 		return this.offset || DEFAULTS.offset;
-	};
-
-	////////////////////////
-	///  CHILDREN / PARENT
-	////////////////////////
-
-	// add a new child to this component
-	function appendChild() {
-
-		const children = [...arguments];
-
-		children.forEach( (child)=> {
-
-			if ( this.threeOBJ && child.threeOBJ ) {
-
-				this.threeOBJ.add( child.threeOBJ );
-
-			};
-
-			if ( child.isInline ) {
-				
-				if ( this.inlineComponents ) {
-
-					this.inlineComponents.push( child );
-
-				} else {
-
-					console.warn('This inline component cannot be added as child of this parent component')
-
-				};
-			
-			};
-
-			this.update( true, null );
-
-		});
-
-		return this
-
 	};
 
 	///////////////

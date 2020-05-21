@@ -80,7 +80,7 @@ function makeTextPanel() {
 		textType: "geometry"
 	});
 
-	container.appendChild(
+	container.add(
 
 		ThreeMeshUI.Text({
 			content: "Three-Mesh-UI\n",

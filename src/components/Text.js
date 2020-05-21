@@ -26,8 +26,6 @@ function Text( options ) {
 
 	textComponent.type = "Text";
 
-	textComponent.threeOBJ = new Object3D();
-
 	textComponent.textManager = TextManager();
 
 	textComponent.parseParams = function parseParams( resolve, reject ) {
@@ -119,7 +117,7 @@ function Text( options ) {
 
 		if ( !textComponent.inlines ) return
 
-		DeepDelete( textComponent.threeOBJ );
+		DeepDelete( textComponent );
 
 		const textContent = textComponent.textManager.create({
 			inlines: textComponent.inlines,
@@ -131,13 +129,13 @@ function Text( options ) {
 			fontOpacity: this.getFontOpacity()
 		});
 
-		textComponent.threeOBJ.add( textContent );
+		textComponent.add( textContent );
 
 	};
 
 	textComponent.updateInner = function updateInner() {
 
-		textComponent.threeOBJ.position.z = textComponent.getOffset();
+		textComponent.position.z = textComponent.getOffset();
 
 	};
 

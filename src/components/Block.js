@@ -69,7 +69,7 @@ function Block( options ) {
 		// Position inner elements according to dimensions and layout parameters.
 		// Delegate to BoxComponent.
 
-		if ( block.inlineComponents.length === 0 ) {
+		if ( !block.children.find( child => child.isInline ) ) {
 
 			block.computeChildrenPosition();
 
@@ -97,13 +97,13 @@ function Block( options ) {
 
 		// Propagate update among children
 
-		for ( let child of block.children ) {
+		block.children.forEach( (child)=> {
 
 			if ( !child.updateLayout ) return
 
 			child.updateLayout();
 
-		};
+		});
 
 	};
 
@@ -123,13 +123,13 @@ function Block( options ) {
 
 		});
 
-		for ( let child of block.children ) {
+		block.children.forEach( (child)=> {
 
 			if ( !child.updateInner ) return
 
 			child.updateInner();
 
-		};
+		});
 		
 	};
 

@@ -11,6 +11,8 @@ function BoxComponent() {
 
 	boxComponent.type = 'BoxComponent'
 
+	boxComponent.isBoxComponent = true;
+
 	boxComponent.childrenPos = {};
 
 	// Get size of this component inside padding
@@ -68,6 +70,8 @@ function BoxComponent() {
 	boxComponent.getChildrenSideSum = function GetChildrenSideSum( dimension ) {
 
 		return this.children.reduce((accu, child)=> {
+
+			if ( !child.isUI || !child.isBoxComponent ) return accu
 
 			const margin = (child.margin * 2) || 0;
 
@@ -208,6 +212,8 @@ function BoxComponent() {
 
 		this.children.reduce( (accu, child, i)=> {
 
+			if ( !child.isUI || !child.isBoxComponent ) return accu
+
 			const CHILD_ID = child.id;
 			const CHILD_HEIGHT = child.getHeight();
 			const CHILD_MARGIN = child.margin || 0;
@@ -233,6 +239,8 @@ function BoxComponent() {
 
 			this.children.forEach( (child)=> {
 
+				if ( !child.isUI || !child.isBoxComponent ) return
+
 				this.childrenPos[ child.id ].y -= offset
 
 			});
@@ -253,6 +261,8 @@ function BoxComponent() {
 		};
 
 		this.children.forEach( (child)=> {
+
+			if ( !child.isUI || !child.isBoxComponent ) return
 
 			if ( ALIGNMENT === "right" ) {
 

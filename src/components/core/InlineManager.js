@@ -1,6 +1,6 @@
 /*
-	Job: Keeping track and deciding of a component's InlineComponents position, split, etc..
-	Knows: Component dimensions, and the list of children InlineComponent
+	Job: Positioning inline elements according to their dimensions inside this component's dimensions
+	Knows: This component dimensions, and its children dimensions
 */
 
 import { ShapeBufferGeometry, BufferGeometry } from 'three';
@@ -15,18 +15,7 @@ function InlineManager( boxComponent ) {
 
 	inlineManager.type = 'inlineManager'
 
-	// New elements are pushed by MeshUIComponent in this array when adding a child
-	inlineManager.inlineComponents = [];
-
-	// Updated by computeInlinesPosition.
-	// inlineManager.inlinesInfo = {};
-
 	inlineManager.computeInlinesPosition = function computeInlinesPosition() {
-
-		if ( !this.children.length || !this.children[0].inlines ) return
-
-		// reset the records
-		// inlineManager.inlinesInfo = {};
 
 		// computed by BoxComponent
 		const INNER_WIDTH = this.getWidth() - (this.padding * 2 || 0);
