@@ -24,29 +24,25 @@ const raycaster = new THREE.Raycaster();
 const mouse = new THREE.Vector2();
 mouse.x = mouse.y = null;
 
-let mouseState = 'up';
+let selectState = false;
 
 window.addEventListener( 'mousemove', ( event )=>{
 	mouse.x = ( event.clientX / window.innerWidth ) * 2 - 1;
 	mouse.y = - ( event.clientY / window.innerHeight ) * 2 + 1;
 });
 
-window.addEventListener( 'mousedown', ()=> {
-	mouseState = 'down';
-});
+window.addEventListener( 'mousedown', ()=> { selectState = true });
 
-window.addEventListener( 'mouseup', ()=> {
-	mouseState = 'up';
-});
+window.addEventListener( 'mouseup', ()=> { selectState = false });
 
 window.addEventListener( 'touchstart', ( event )=> {
-	mouseState = 'down';
+	selectState = true;
 	mouse.x = ( event.touches[0].clientX / window.innerWidth ) * 2 - 1;
 	mouse.y = - ( event.touches[0].clientY / window.innerHeight ) * 2 + 1;
 });
 
 window.addEventListener( 'touchend', ()=> {
-	mouseState = 'up';
+	selectState = false;
 	mouse.x = null;
 	mouse.y = null;
 });
@@ -115,12 +111,15 @@ function init() {
 
 	control = VRControl( renderer, camera, scene );
 
-	control.controllers.forEach( (controller)=> {
-		scene.add( controller );
-	});
+	scene.add( ...control.controllerGrips );
 
-	control.controllerGrips.forEach( (controllerGrip)=> {
-		scene.add( controllerGrip );
+	control.controllers.forEach( (controller)=> {
+
+		scene.add( controller );
+
+		controller.addEventListener( 'selectstart', ()=> { selectState = true } );
+		controller.addEventListener( 'selectend', ()=> { selectState = false } );
+
 	});
 
 	////////////////////
@@ -344,7 +343,9 @@ function raycast() {
 
 	if ( mouse.x !== null && mouse.y !== null ) {
 
-		raycaster.setFromCamera( mouse, camera );
+		// raycaster.setFromCamera( mouse, camera );
+
+		control.setFromController( 0, raycaster.ray )
 
 		target = objsToTest.reduce( (closestIntersection, obj)=> {
 
@@ -372,7 +373,7 @@ function raycast() {
 
 	if ( target && target.object.isUI ) {
 
-		if ( mouseState === 'down' ) {
+		if ( selectState ) {
 
 			// Component.setState internally call component.set with the options you defined in component.setupState
 			target.object.setState( 'selected' );

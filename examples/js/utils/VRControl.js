@@ -1,6 +1,6 @@
 
 /*
-	Job: creating the VR controllers, and do the ray casting with objects
+	Job: creating the VR controllers and their pointers
 */
 
 import * as THREE from 'three';
@@ -114,74 +114,12 @@ export default function VRControl( renderer, camera, scene ) {
 		controllerGrip.add( controllerModelFactory.createControllerModel( controllerGrip ) );
 	});
 
-	controller1.addEventListener( 'selectstart', onSelectStart );
-	controller1.addEventListener( 'selectend', onSelectEnd );
-
-	controller2.addEventListener( 'selectstart', onSelectStart );
-	controller2.addEventListener( 'selectend', onSelectEnd );
-
-	window.addEventListener( 'mousedown', onSelectStart );
-	window.addEventListener( 'mouseup', onSelectEnd );
-
-	function onSelectStart( event ) {
-
-		var controller = event.target;
-
-		module.handleSelectStart( controller.name );
-
-		switch ( controller.name ) {
-			case 'controller-right': module.rightControlSelected = true; break;
-			case 'controller-left': module.leftControlSelected = true; break;
-			default : module.mouseControlSelected = true; break;
-		};
-
-	};
-
-	function onSelectEnd( event ) {
-
-		var controller = event.target;
-
-		module.handleSelectEnd( controller.name );
-
-		switch ( controller.name ) {
-			case 'controller-right': module.rightControlSelected = false; break;
-			case 'controller-left': module.leftControlSelected = false; break;
-			default : module.mouseControlSelected = false; break;
-		};
-
-
-	};
-
 	//////////////
 	// Functions
 	//////////////
 
-	const raycaster = new THREE.Raycaster();
-	const mouse = new THREE.Vector2();
-	mouse.x = null;
-	mouse.y = null;
 
-	const planeIntersect = new THREE.Vector3();
-	const dummyVec = new THREE.Vector3();
-	const dummyMatrix = new THREE.Matrix4();
-
-	// calculate mouse position in normalized device coordinates
-	// (-1 to +1) for both components
-
-	window.addEventListener( 'mousemove', onMouseMove, false );
-
-	function onMouseMove( event ) {
-
-		mouse.x = ( event.clientX / window.innerWidth ) * 2 - 1;
-		mouse.y = - ( event.clientY / window.innerHeight ) * 2 + 1;
-
-	};
-
-	// Resursive function that look for a "owner" prop in this obj or its parents
-
-	function findOwner( obj ) {
-		return obj.owner || findOwner( obj.parent );
-	};
+	/*
 
 	// Public function that get called from outside, with an array of objects to intersect.
 	// If intersects, returns the intersected object. Position the helper at the intersection point.
@@ -256,94 +194,36 @@ export default function VRControl( renderer, camera, scene ) {
 
 	};
 
-	//
+	*/
 
-	let intersection, target;
+	const dummyMatrix = new THREE.Matrix4();
 
-	function intersect( objects, recursive ) {
+	function setFromController( controllerID, ray ) {
 
-		intersection = undefined;
+		const controller = controllers[ controllerID ];
 
-		target = objects.reduce( (closestObj, object)=> {
+		// Position the intersection ray
 
-			// If the object is a UI object, we want to manually check intersections with the childrens,
-			// because in case of intersection, we return the object, not the child.
-			if ( object.isUI && recursive ) {
+		dummyMatrix.identity().extractRotation( controller.matrixWorld );
 
-				let distance;
-				let tempIntersection;
-
-				object.traverse( (child)=> {
-
-					tempIntersection = raycaster.intersectObject( object, true );
-
-					tempIntersection = tempIntersection[0] || null
-
-					if ( !tempIntersection ) return
-
-					if ( !intersection ||
-						 intersection.distance > tempIntersection.distance ) {
-
-						intersection = tempIntersection;
-
-					};
-
-				});
-
-				if ( intersection ) intersection.object = object;
-
-			} else {
-
-				intersection = raycaster.intersectObject( object, object.isUI ? false : recursive );
-
-				intersection = intersection[0] || null
-
-			};
-
-			//
-
-			if ( !intersection ) {
-
-				return closestObj
-
-			} else if ( !closestObj ) {
-
-				return intersection
-
-			} else {
-
-				return closestObj.distance > intersection.distance ? intersection : closestObj;
-
-			};
-
-		}, null );
-
-		//
-
-		if ( target ) {
-
-			target.object = target.object.uiComponent ? target.object.uiComponent : target.object
-
-		};
-
-		return target
+		ray.origin.setFromMatrixPosition( controller.matrixWorld );
+		ray.direction.set( 0, 0, - 1 ).applyMatrix4( dummyMatrix );
 
 	};
 
 	//
 
-	module = {
+	return {
 		controllers,
 		controllerGrips,
-		intersectObjects,
-		handleSelectStart: ()=> {},
-		handleSelectEnd: ()=> {}
+		setFromController
 	};
-
-	return module
 
 };
 
+//////////////////////////////
+// CANVAS TEXTURE GENERATION
+//////////////////////////////
 
 // Generate the texture needed to make the intersection ray fade away
 
@@ -376,11 +256,6 @@ function generatePointerTexture() {
 
 	var ctx = canvas.getContext("2d");
 
-	/*
-	ctx.fillStyle = "rgba(0,0,0,0)";
-    ctx.fillRect(0, 0, 64, 64);
-    */
-
 	ctx.beginPath();
 	ctx.arc(32, 32, 29, 0, 2 * Math.PI);
 	ctx.lineWidth = 5;
@@ -391,22 +266,3 @@ function generatePointerTexture() {
 	return canvas;
 
 };
-
-/*
-function generatePointerAlphaMap() {
-
-	var canvas = document.createElement( 'canvas' );
-	canvas.width = 64;
-	canvas.height = 64;
-
-	var ctx = canvas.getContext("2d");
-
-	ctx.beginPath();
-	ctx.arc(32, 32, 32, 0, 2 * Math.PI);
-	ctx.fillStyle = "black";
-	ctx.fill();
-
-	return canvas;
-
-};
-*/
