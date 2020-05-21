@@ -215,7 +215,7 @@ export default function VRControl( renderer, camera, scene ) {
 
 	function setPointerAt( controllerID, vec ) {
 
-		const controller = controllers[ controller ];
+		const controller = controllers[ controllerID ];
 		const localVec = controller.worldToLocal( vec );
 
 		controller.point.position.copy( localVec );
