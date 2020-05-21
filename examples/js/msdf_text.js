@@ -69,11 +69,6 @@ function init() {
 
 function makeTextPanel() {
 
-	const uiContainer = new THREE.Group();
-	uiContainer.position.set( 0, 1, -1.8 );
-	uiContainer.rotation.x = -0.55;
-	scene.add( uiContainer );
-
 	const transparentMaterial = new THREE.MeshBasicMaterial({
 		transparent: true,
 		opacity: 0
@@ -90,7 +85,9 @@ function makeTextPanel() {
 		fontOpacity: 0.9 // 0 is invisible, 1 is opaque
 	});
 
-	uiContainer.add( container );
+	container.position.set( 0, 1, -1.8 );
+	container.rotation.x = -0.55;
+	scene.add( container );
 
 	//
 

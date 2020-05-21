@@ -71,10 +71,7 @@ function makeTextPanel() {
 		color: 0x92e66c
 	});
 
-	const uiContainer = new THREE.Group();
-	uiContainer.position.set( 0, 1, -1.8 );
-	uiContainer.rotation.x = -0.55;
-	scene.add( uiContainer );
+	//
 
 	const container = ThreeMeshUI.Block({
 		ref: 'container',
@@ -84,7 +81,9 @@ function makeTextPanel() {
 		fontMaterial: whiteMaterial
 	});
 
-	uiContainer.add( container );
+	container.position.set( 0, 1, -1.8 );
+	container.rotation.x = -0.55;
+	scene.add( container );
 
 	//
 

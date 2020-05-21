@@ -187,13 +187,6 @@ function showMesh( id ) {
 
 function makePanel() {
 
-	// Group object in which we put everything
-
-	const uiContainer = new THREE.Group();
-	uiContainer.position.set( 0, 0.6, -1.2 );
-	uiContainer.rotation.x = -0.55;
-	scene.add( uiContainer );
-
 	// Materials used by the buttons on idle and hover
 
 	const opaqueMaterial = new THREE.MeshLambertMaterial({
@@ -218,6 +211,10 @@ function makePanel() {
 		textType: 'geometry',
 		backgroundMaterial: opaqueMaterial
 	});
+
+	container.position.set( 0, 0.6, -1.2 );
+	container.rotation.x = -0.55;
+	scene.add( container );
 
 	// BUTTONS
 
@@ -307,10 +304,6 @@ function makePanel() {
 
 	container.add( buttonNext, buttonPrevious );
 	objsToTest.push( buttonNext, buttonPrevious );
-
-	//
-
-	uiContainer.add( container );
 
 };
 

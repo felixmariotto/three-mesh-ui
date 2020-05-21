@@ -63,13 +63,6 @@ function init() {
 
 function makeTextPanel() {
 
-	const uiContainer = new THREE.Group();
-	uiContainer.position.set( 0, 1, -1.8 );
-	uiContainer.rotation.x = -0.55;
-	scene.add( uiContainer );
-
-	//
-
 	const container = ThreeMeshUI.Block({
 		width: 1.2,
 		height: 0.8,
@@ -79,6 +72,12 @@ function makeTextPanel() {
 		fontFamily: './assets/helvetiker_regular.typeface.json',
 		textType: "geometry"
 	});
+
+	container.position.set( 0, 1, -1.8 );
+	container.rotation.x = -0.55;
+	scene.add( container );
+
+	//
 
 	container.add(
 
@@ -98,10 +97,6 @@ function makeTextPanel() {
 		}),
 
 	);
-
-	//
-
-	uiContainer.add( container );
 
 };
 

@@ -32,7 +32,7 @@ camera.position.set( 0, 1.6, 0 );
 controls.target = new THREE.Vector3( 0, 1, -1.8 );
 controls.update();
 
-/* Create basic room mesh, and add it to the scene */
+// Create basic room mesh, and add it to the scene
 
 const room = new THREE.LineSegments(
 	new BoxLineGeometry( 6, 6, 6, 10, 10, 10 ).translate( 0, 3, 0 ),
@@ -41,16 +41,18 @@ const room = new THREE.LineSegments(
 
 scene.add( room );
 
-const uiContainer = new THREE.Group();
-uiContainer.position.set( 0, 1, -1.8 );
-uiContainer.rotation.x = -0.55;
-scene.add( uiContainer );
+// UI panel creation
 
 const container = ThreeMeshUI.Block({
 	height: 1.5,
 	width: 1
 });
-uiContainer.add( container );
+
+container.position.set( 0, 1, -1.8 );
+container.rotation.x = -0.55;
+scene.add( container );
+
+//
 
 const imageBlock = ThreeMeshUI.Block({
 	height: 1,
@@ -67,6 +69,8 @@ const textBlock = ThreeMeshUI.Block({
 
 container.add( imageBlock, textBlock );
 
+//
+
 const loader = new THREE.TextureLoader();
 
 loader.load('./assets/spiny_bush_viper.jpg', (texture)=> {
@@ -80,6 +84,8 @@ loader.load('./assets/spiny_bush_viper.jpg', (texture)=> {
 	});
 
 });
+
+//
 
 container.set({
 	textType: 'geometry',
