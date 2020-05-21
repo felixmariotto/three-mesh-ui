@@ -11,15 +11,9 @@ import ShadowedLight from './utils/ShadowedLight.js';
 let scene, camera, renderer, controls, control;
 let meshContainer, meshes, currentMesh;
 let objsToTest = [];
-let componentsToTest = [];
 
-window.addEventListener('load', ()=> {
-	init();
-});
-
-window.addEventListener('resize', ()=> {
-	onWindowResize();
-});
+window.addEventListener( 'load', init );
+window.addEventListener('resize', onWindowResize );
 
 // calculate mouse position in normalized device coordinates
 // (-1 to +1) for both components.
@@ -28,8 +22,7 @@ window.addEventListener('resize', ()=> {
 const raycaster = new THREE.Raycaster();
 
 const mouse = new THREE.Vector2();
-mouse.x = null;
-mouse.y = null;
+mouse.x = mouse.y = null;
 
 let mouseState = 'up';
 
@@ -75,7 +68,7 @@ function init() {
 	renderer.setSize( window.innerWidth, window.innerHeight );
 	renderer.outputEncoding = THREE.sRGBEncoding;
 	renderer.xr.enabled = true;
-	document.body.appendChild(VRButton.createButton(renderer));
+	document.body.appendChild( VRButton.createButton(renderer) );
 	document.body.appendChild( renderer.domElement );
 	renderer.shadowMap.enabled = true ;
 
@@ -84,7 +77,6 @@ function init() {
 	controls = new OrbitControls( camera, renderer.domElement );
 	camera.position.set( 0, 1.6, 0 );
 	controls.target = new THREE.Vector3( 0, 1, -1.8 );
-	controls.update();
 
 	/////////
 	// Room
@@ -139,23 +131,26 @@ function init() {
 	meshContainer.position.set( 0, 1, -1.9 );
 	scene.add( meshContainer );
 
+	//
+
 	const sphere = new THREE.Mesh(
 		new THREE.IcosahedronBufferGeometry( 0.3, 1 ),
 		new THREE.MeshStandardMaterial({ color: 0x3de364, flatShading: true })
 	);
-	sphere.visible = false;
-
+	
 	const box = new THREE.Mesh(
 		new THREE.BoxBufferGeometry( 0.45, 0.45, 0.45 ),
 		new THREE.MeshStandardMaterial({ color: 0x643de3, flatShading: true })
 	);
-	box.visible = false;
-
+	
 	const cone = new THREE.Mesh(
 		new THREE.ConeBufferGeometry( 0.28, 0.5, 10 ),
 		new THREE.MeshStandardMaterial({ color: 0xe33d4e, flatShading: true })
 	);
-	cone.visible = false;
+
+	//
+
+	sphere.visible = box.visible = cone.visible = false;
 
 	meshContainer.add( sphere, box, cone );
 
@@ -218,13 +213,11 @@ function makePanel() {
 	const container = ThreeMeshUI.Block({
 		justifyContent: 'center',
 		alignContent: 'center',
-		contentDirection: "row-reverse",
+		contentDirection: 'row-reverse',
 		fontFamily: './assets/helvetiker_regular.typeface.json',
 		textType: 'geometry',
 		backgroundMaterial: opaqueMaterial
 	});
-
-	componentsToTest.push( container ); // Array for raycasting in the loop
 
 	// BUTTONS
 
@@ -234,11 +227,9 @@ function makePanel() {
 	const buttonOptions = {
 		width: 0.5,
 		height: 0.2,
-		padding: 0.05,
 		justifyContent: 'center',
 		alignContent: 'center',
 		offset: 0.05,
-		fontSize: 0.07,
 		margin: 0.05
 	};
 
@@ -268,6 +259,8 @@ function makePanel() {
 	const buttonNext = ThreeMeshUI.Block( buttonOptions );
 	const buttonPrevious = ThreeMeshUI.Block( buttonOptions );
 
+	// Add text to buttons
+
 	buttonNext.add(
 		ThreeMeshUI.Text({
 			content: "next",
@@ -279,6 +272,9 @@ function makePanel() {
 			content: "previous"
 		})
 	);
+
+	// Create states for the buttons.
+	// In the loop, we will call component.setState( 'state-name' ) when mouse hover or click
 
 	buttonNext.setupState({
 		state: "selected",
