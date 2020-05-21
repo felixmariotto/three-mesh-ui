@@ -14,14 +14,11 @@ function Block( options ) {
 
 	const block = Object.create( BoxComponent() );
 
-	block.threeOBJ = new Object3D;
-	block.threeOBJ.name = "MeshUI-Block"
-
 	block.type = 'Block';
 
 	const frameContainer = new Object3D();
 	frameContainer.name = "MeshUI-FrameContainer"
-	block.threeOBJ.add( frameContainer );
+	block.add( frameContainer );
 
 	block.frameContainer = frameContainer;
 
@@ -32,6 +29,8 @@ function Block( options ) {
 	block.parseParams = function ParseParams( resolveParent, rejectParent ) {
 
 		const promises = block.children.map( (child)=> {
+
+			if ( !child.parseParams ) return
 
 			return new Promise((resolve, reject)=> {
 
@@ -100,6 +99,8 @@ function Block( options ) {
 
 		for ( let child of block.children ) {
 
+			if ( !child.updateLayout ) return
+
 			child.updateLayout();
 
 		};
@@ -110,7 +111,7 @@ function Block( options ) {
 
 	block.updateInner = function UpdateInner() {
 
-		block.threeOBJ.position.z = block.getOffset();
+		block.position.z = block.getOffset();
 
 		frameContainer.traverse( (child)=> {
 
@@ -123,6 +124,8 @@ function Block( options ) {
 		});
 
 		for ( let child of block.children ) {
+
+			if ( !child.updateInner ) return
 
 			child.updateInner();
 
