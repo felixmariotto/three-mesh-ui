@@ -4,7 +4,7 @@
 	Knows: Dimension and style of the plane to create
 */
 
-import { Mesh, ShapeBufferGeometry, MeshLambertMaterial } from 'three';
+import { Mesh, ShapeBufferGeometry } from 'three';
 
 //
 
@@ -15,6 +15,8 @@ export default function Frame( width, height, borderRadius, material ) {
 	roundedRect( shape, width, height, borderRadius );
 
 	const geometry = new ShapeBufferGeometry( shape );
+
+	remapUVs( width, height, geometry );
 
 	//
 
@@ -46,5 +48,31 @@ function roundedRect( ctx, width, height, radius ) {
 	ctx.quadraticCurveTo( x + width, y, x + width - radius, y );
 	ctx.lineTo( x + radius, y );
 	ctx.quadraticCurveTo( x, y, x, y + radius );
+
+};
+
+//
+
+function remapUVs( width, height, geometry ) {
+
+	const uvAttribute = geometry.attributes.uv;
+	const posAttribute = geometry.attributes.position;
+
+	const dummyVec = new THREE.Vector2();
+	const offset = new THREE.Vector2( width / 2, height / 2 );
+		
+	for ( var i = 0; i < posAttribute.count; i ++ ) {
+			
+	    dummyVec.x = posAttribute.getX( i );
+	    dummyVec.y = posAttribute.getY( i );
+
+	    dummyVec.add( offset );
+
+	    dummyVec.x /= width;
+	    dummyVec.y /= height;
+
+	    uvAttribute.setXY( i, dummyVec.x, dummyVec.y );
+
+	};
 
 };
