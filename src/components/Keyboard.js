@@ -7,8 +7,9 @@ Job: high-level component that returns a keyboard
 import BoxComponent from './core/BoxComponent';
 import Block from './Block';
 import Text from './Text';
+import keymaps from '../utils/Keymaps';
 
-export default function Keyboard( options ) {
+export default function KeyboardModule( options ) {
 
 	// DEFAULTS
 
@@ -25,6 +26,21 @@ export default function Keyboard( options ) {
 	////////////
 	// CONTENT
 	////////////
+
+	console.log( keymaps )
+
+	if ( navigator ) {
+
+		switch ( navigator.language ) {
+
+			case 'fr' :
+				break
+
+		};
+
+	};
+
+	//
 
 	keyboard.background = Block({
 		width: options.width,
