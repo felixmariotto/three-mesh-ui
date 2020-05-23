@@ -11,7 +11,7 @@ import ThreeMeshUI from '../../src/three-mesh-ui.js';
 const WIDTH = window.innerWidth;
 const HEIGHT = window.innerHeight;
 
-let scene, camera, renderer, controls ;
+let scene, camera, renderer, controls, transparentMaterial, opaqueMaterial ;
 
 window.addEventListener('load', ()=> {
 	init();
@@ -54,6 +54,17 @@ function init() {
 
 	// TEXT PANEL
 
+	transparentMaterial = new THREE.MeshBasicMaterial({
+		transparent: true,
+		opacity: 0
+	});
+
+	opaqueMaterial = new THREE.MeshBasicMaterial({
+		color: 0x000000,
+		transparent: true,
+		opacity: 0.5
+	});
+
 	makePanels();
 
 	//
@@ -70,7 +81,8 @@ function makePanels() {
 		height: 1.6,
 		width: 2,
 		contentDirection: 'row',
-		justifyContent: 'center'
+		justifyContent: 'center',
+		backgroundMaterial: transparentMaterial
 	});
 
 	container.position.set( 0, 1, -1.8 );
@@ -124,7 +136,8 @@ function makeSection( textureMaterial, backgroundSize, text1, text2 ) {
 	const block = ThreeMeshUI.Block({
 		height: 1.6,
 		width: 0.6,
-		margin: 0.05
+		margin: 0.05,
+		backgroundMaterial: transparentMaterial
 	});
 
 	const imageBlock = ThreeMeshUI.Block({
@@ -143,6 +156,7 @@ function makeSection( textureMaterial, backgroundSize, text1, text2 ) {
 		justifyContent: 'center',
 		fontFamily: './assets/Roboto-msdf.json',
 		fontTexture: './assets/Roboto-msdf.png',
+		backgroundMaterial: opaqueMaterial,
 		fontSize: 0.04
 	});
 
