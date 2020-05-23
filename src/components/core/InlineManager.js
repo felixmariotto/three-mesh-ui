@@ -129,8 +129,6 @@ function InlineManager( boxComponent ) {
 
 			}, 0 );
 
-			console.log( "line.width = " + line.width )
-
 		});
 
 		// Vertical offset
@@ -184,8 +182,6 @@ function InlineManager( boxComponent ) {
 					default: console.warn('"textJustification" is not valid')
 				};
 			})();
-
-			console.log( "alignmentOffset = " + alignmentOffset )
 
 			line.forEach( (char)=> {
 

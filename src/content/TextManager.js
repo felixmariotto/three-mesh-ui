@@ -51,6 +51,7 @@ export default function TextContent() {
 
 				ascender = FONT.data.glyphs[ GLYPH ] ? FONT.data.ascender * ( FONT_SIZE / FONT.data.resolution ) : 0 ;
 
+				// world-space length between lowest point and the text cursor position
 				anchor = height - ascender;
 
 				return {
@@ -69,6 +70,7 @@ export default function TextContent() {
 
 				height = charOBJ ? (charOBJ.height * FONT_SIZE) / FONT.common.lineHeight : 0 ;
 
+				// world-space length between lowest point and the text cursor position
 				anchor = charOBJ ? ((charOBJ.yoffset + charOBJ.height - FONT.common.base) * FONT_SIZE) / FONT.common.lineHeight : 0 ;
 
 				return {
@@ -130,7 +132,7 @@ export default function TextContent() {
 
 		options.inlines.forEach( (inline, i)=> {
 
-			translatedGeom[ i ] = MSDFGlyph( inline.glyph, inline.fontSize, options.fontFamily );
+			translatedGeom[ i ] = MSDFGlyph( inline, options.fontFamily );
 
 			translatedGeom[ i ].translate( inline.offsetX, inline.offsetY, 0 );
 

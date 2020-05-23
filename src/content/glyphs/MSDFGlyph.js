@@ -5,15 +5,10 @@ Knows: dimension of the plane to create, specs of the font used, glyph requireed
 
 */
 
-export default function MSDFGlyph( char, fontSize, font ) {
+export default function MSDFGlyph( inline, font ) {
 
-	return createTextMesh( char, fontSize, font );
-
-};
-
-//
-
-function createTextMesh( char, fontSize, font ) {
+	const char = inline.glyph;
+	const fontSize = inline.fontSize;
 
 	const geometry = new THREE.PlaneBufferGeometry( fontSize, fontSize );
 
@@ -24,7 +19,7 @@ function createTextMesh( char, fontSize, font ) {
 
 		mapUVs( geometry, font, char );
 
-		transformGeometry( geometry, font, fontSize, char );
+		transformGeometry( geometry, font, fontSize, char, inline );
 
 	// White spaces (we don't want our plane geometry to have a visual width nor a height)
 	} else {
@@ -97,7 +92,7 @@ function nullifyUVs( geometry ) {
 
 // Gives the previously computed scale and offset to the geometry
 
-function transformGeometry( geometry, font, fontSize, char ) {
+function transformGeometry( geometry, font, fontSize, char, inline ) {
 
 	const charOBJ = font.chars.find( charOBJ => charOBJ.char === char );
 
@@ -115,9 +110,8 @@ function transformGeometry( geometry, font, fontSize, char ) {
 	//
 
 	geometry.translate(
-		(( charOBJ.width * fontSize ) / common.lineHeight) / 2,
-		// 0,
-		0,
+		inline.width / 2,
+		( inline.height / 2 ) - inline.anchor,
 		0
 	);
 
