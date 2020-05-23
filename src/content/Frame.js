@@ -8,7 +8,7 @@ import { Mesh, ShapeBufferGeometry } from 'three';
 
 //
 
-export default function Frame( width, height, borderRadius, material ) {
+export default function Frame( width, height, borderRadius, backgroundSize, material ) {
 
 	var shape = new THREE.Shape();
 
@@ -16,7 +16,16 @@ export default function Frame( width, height, borderRadius, material ) {
 
 	const geometry = new ShapeBufferGeometry( shape );
 
-	remapUVs( width, height, geometry );
+	switch( backgroundSize ) {
+
+		case 'stretch' :
+			remapUVs( width, height, geometry );
+			break
+
+		default :
+			console.warn(`'${ backgroundSize }' is an unknown value for the backgroundSize attribute`)
+
+	};
 
 	//
 

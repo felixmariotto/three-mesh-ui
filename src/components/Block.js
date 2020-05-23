@@ -89,6 +89,7 @@ function Block( options ) {
 			WIDTH,
 			HEIGHT,
 			block.getBorderRadius(),
+			block.getBackgroundSize(),
 			block.getBackgroundMaterial()
 		);
 
