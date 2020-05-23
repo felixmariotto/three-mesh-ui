@@ -4,12 +4,22 @@
 	Knows: Dimension and style of the plane to create
 */
 
-import { Mesh, PlaneBufferGeometry, MeshLambertMaterial } from 'three';
+import { Mesh, ShapeBufferGeometry, MeshLambertMaterial } from 'three';
 
-function Frame( width, height, material ) {
+//
+
+export default function Frame( width, height, material ) {
+
+	var shape = new THREE.Shape();
+
+	roundedRect( shape, width, height, 0.05 );
+
+	const geometry = new ShapeBufferGeometry( shape );
+
+	//
 
 	const mesh = new Mesh(
-		new PlaneBufferGeometry( width, height ),
+		geometry,
 		material
 	);
 	mesh.castShadow = true;
@@ -20,4 +30,21 @@ function Frame( width, height, material ) {
 
 };
 
-export default Frame
+//
+
+function roundedRect( ctx, width, height, radius ) {
+
+	const x = - width / 2 ;
+	const y = - height / 2 ;
+
+	ctx.moveTo( x, y + radius );
+	ctx.lineTo( x, y + height - radius );
+	ctx.quadraticCurveTo( x, y + height, x + radius, y + height );
+	ctx.lineTo( x + width - radius, y + height );
+	ctx.quadraticCurveTo( x + width, y + height, x + width, y + height - radius );
+	ctx.lineTo( x + width, y + radius );
+	ctx.quadraticCurveTo( x + width, y, x + width - radius, y );
+	ctx.lineTo( x + radius, y );
+	ctx.quadraticCurveTo( x, y, x, y + radius );
+
+};
