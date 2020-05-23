@@ -6,7 +6,7 @@ import { VRButton } from 'three/examples/jsm/webxr/VRButton.js';
 import { BoxLineGeometry } from 'three/examples/jsm/geometries/BoxLineGeometry.js';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 
-import ThreeMeshUI from '../../src/three-mesh-ui.js';
+import ThreeMeshUI from '../src/three-mesh-ui.js';
 
 const WIDTH = window.innerWidth;
 const HEIGHT = window.innerHeight;

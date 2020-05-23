@@ -4,18 +4,12 @@ import { VRButton } from 'three/examples/jsm/webxr/VRButton.js';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import { BoxLineGeometry } from 'three/examples/jsm/geometries/BoxLineGeometry.js';
 
-import ThreeMeshUI from '../../src/three-mesh-ui.js';
+import ThreeMeshUI from '../src/three-mesh-ui.js';
 
 const WIDTH = window.innerWidth;
 const HEIGHT = window.innerHeight;
 
 let scene, camera, renderer, controls ;
-
-let bigText = '';
-
-for (let i = 0 ; i < 18 ; i++) {
-	bigText += 'MSDFText is very performant when rendering big text because the glyphs are textures on simple planes geometries, all merged together. ';
-};
 
 window.addEventListener('load', ()=> {
 	init();
@@ -28,9 +22,9 @@ window.addEventListener('resize', ()=> {
 function init() {
 
 	scene = new THREE.Scene();
-	scene.background = new THREE.Color( 0x505050 );
+	scene.background = new THREE.Color( 0xf2f2f2 );
 
-	camera = new THREE.PerspectiveCamera( 60, WIDTH / HEIGHT, 0.02, 100 );
+	camera = new THREE.PerspectiveCamera( 60, WIDTH / HEIGHT, 0.1, 100 );
 
 	renderer = new THREE.WebGLRenderer({
 		antialias: true
@@ -69,20 +63,14 @@ function init() {
 
 function makeTextPanel() {
 
-	const transparentMaterial = new THREE.MeshBasicMaterial({
-		transparent: true,
-		opacity: 0
-	});
-
-	// 
-
 	const container = ThreeMeshUI.Block({
-		padding: 0.05,
-		textType: 'MSDF',
-		fontFamily: './assets/Roboto-msdf.json',
-		fontTexture: './assets/Roboto-msdf.png',
-		fontColor: new THREE.Color( 0xabf7bf ),
-		fontOpacity: 0.9 // 0 is invisible, 1 is opaque
+		width: 1.2,
+		height: 0.8,
+		padding: 0.2,
+		justifyContent: 'center',
+		alignContent: 'left',
+		fontFamily: './assets/helvetiker_regular.typeface.json',
+		textType: "geometry"
 	});
 
 	container.position.set( 0, 1, -1.8 );
@@ -91,45 +79,24 @@ function makeTextPanel() {
 
 	//
 
-	const bigTextContainer = ThreeMeshUI.Block({
-		padding: 0.03,
-		margin: 0.03,
-		width: 1.5,
-		height: 1.2,
-		justifyContent: 'center',
-		alignContent: 'left',
-		backgroundMaterial: transparentMaterial
-	});
-
-	bigTextContainer.add(
+	container.add(
 
 		ThreeMeshUI.Text({
-			content: bigText,
-			fontSize: 0.034
-		})
-
-	);
-
-	//
-
-	const titleContainer = ThreeMeshUI.Block({
-		width: 0.9,
-		height: 0.25,
-		padding: 0.04,
-		margin: 0.03,
-		backgroundMaterial: transparentMaterial
-	}).add(
-
-		ThreeMeshUI.Text({
-			content: "Do you need to render a big text ?",
+			content: "Three-Mesh-UI\n",
 			fontSize: 0.07
-		})
+		}),
+
+		ThreeMeshUI.Text({
+			content: "With this lib you can easily create 3D user interfaces for your VR experiences based on Three.js\n",
+			fontSize: 0.04
+		}),
+
+		ThreeMeshUI.Text({
+			content: "Coded with love",
+			fontSize: 0.03
+		}),
 
 	);
-
-	//
-
-	container.add( titleContainer, bigTextContainer );
 
 };
 

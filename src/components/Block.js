@@ -48,6 +48,8 @@ function Block( options ) {
 
 	};
 
+	//
+
 	block.updateLayout = function UpdateLayout() {
 
 		// Get temporary dimension

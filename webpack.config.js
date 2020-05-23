@@ -8,14 +8,15 @@ let pages = [
 	['tutorial_result', 'tutorial result'],
 	['interactive_button', 'interactive button'],
 	['msdf_text', 'MSDF text'],
-	['background_size', 'background size']
+	['background_size', 'background size'],
+	['keyboard', 'keyboard']
 ];
 
 pagesConfig = pages.map( (page)=> {
 	return new HtmlWebpackPlugin({
 		title: page[0],
 		filename: page[0] + '.html',
-		template: path.resolve(__dirname, `examples/example_template.html`),
+		template: path.resolve(__dirname, `examples/html/example_template.html`),
 		chunks: [page[0], 'three-mesh-ui'],
 		inject: true
 	});
@@ -27,7 +28,7 @@ pagesConfig.push(
 			return accu + `<li title="${ page[0] }">${ page[1] }</li>`
 		}, '' ),
 		filename: 'index.html',
-		template: path.resolve(__dirname, `examples/index.html`),
+		template: path.resolve(__dirname, `examples/html/index.html`),
 		inject: false
 	})
 );
@@ -50,12 +51,13 @@ module.exports = env => {
 
 		entry: {
 			'../build/three-mesh-ui': './src/three-mesh-ui.js',
-			basic_setup: './examples/js/basic_setup.js',
-			nested_blocks: './examples/js/nested_blocks.js',
-			tutorial_result: './examples/js/tutorial_result.js',
-			interactive_button: './examples/js/interactive_button.js',
-			msdf_text: './examples/js/msdf_text.js',
-			background_size: './examples/js/background_size.js'
+			basic_setup: './examples/basic_setup.js',
+			nested_blocks: './examples/nested_blocks.js',
+			tutorial_result: './examples/tutorial_result.js',
+			interactive_button: './examples/interactive_button.js',
+			msdf_text: './examples/msdf_text.js',
+			background_size: './examples/background_size.js',
+			keyboard: './examples/keyboard.js'
 		},
 
 		plugins: [
