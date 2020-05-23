@@ -216,7 +216,7 @@ function FragmentShader( color, opacity ) {
 			vec3 sample = texture2D( u_texture, vUv ).rgb;
 			float sigDist = median( sample.r, sample.g, sample.b ) - 0.5;
 			float alpha = clamp( sigDist / fwidth( sigDist ) + 0.5, 0.0, 1.0 );
-			gl_FragColor = vec4( vec3(${ color.r + ',' + color.g + ',' + color.b }), min( alpha, ${ opacity } ) + 0.5 );
+			gl_FragColor = vec4( vec3(${ color.r + ',' + color.g + ',' + color.b }), min( alpha, ${ opacity } ) );
 		}
 	`
 

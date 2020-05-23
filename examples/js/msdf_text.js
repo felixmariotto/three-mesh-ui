@@ -57,72 +57,11 @@ function init() {
 
 	// TEXT PANEL
 
-	// makeTextPanel();
-
-	test();
+	makeTextPanel();
 
 	//
 
 	renderer.setAnimationLoop( loop );
-
-};
-
-//
-
-function test() {
-
-	const text = "M";
-	const squareSide = 0.1;
-
-	//
-
-	const square = new ThreeMeshUI.Block({
-		height: squareSide,
-		width: squareSide,
-		alignContent: 'center',
-		justifyContent: 'center'
-	});
-
-	square.position.set( 0, 1.2, -1.5 );
-
-	scene.add( square );
-
-	//
-
-	square.add(
-
-		new ThreeMeshUI.Text({
-			fontFamily: './assets/Roboto-msdf.json',
-			fontTexture: './assets/Roboto-msdf.png',
-			content: text
-		})
-
-	);
-
-	//
-
-	const square2 = new ThreeMeshUI.Block({
-		height: squareSide,
-		width: squareSide,
-		alignContent: 'center',
-		justifyContent: 'center'
-	});
-
-	square2.position.set( 0, 1, -1.5 );
-
-	scene.add( square2 );
-
-	//
-/*
-	square2.add(
-
-		new ThreeMeshUI.Text({
-			fontFamily: './assets/helvetiker_regular.typeface.json',
-			textType: "geometry",
-			content: text
-		})
-
-	);*/
 
 };
 
