@@ -88,6 +88,7 @@ function Block( options ) {
 		const frame = Frame(
 			WIDTH,
 			HEIGHT,
+			block.getBorderRadius(),
 			block.getBackgroundMaterial()
 		);
 

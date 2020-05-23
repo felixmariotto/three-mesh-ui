@@ -20,6 +20,7 @@ export default {
 	textType: "MSDF",
 	fontColor: new Color( 0xffffff ),
 	fontOpacity: 1,
+	borderRadius: 0.015,
 
 	fontMaterial: new MeshBasicMaterial({
 		color: 0x003047

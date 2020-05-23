@@ -41,6 +41,7 @@ export default function MeshUIComponent() {
 		getTextType,
 		getFontColor,
 		getFontOpacity,
+		getBorderRadius,
 		getUIParent,
 
 		update,
@@ -157,6 +158,10 @@ export default function MeshUIComponent() {
 
 	function getFontOpacity() {
 		return this._getProperty( 'fontOpacity' );
+	};
+
+	function getBorderRadius() {
+		return this._getProperty( 'borderRadius' );
 	};
 
 	/// SPECIALS
@@ -300,6 +305,7 @@ export default function MeshUIComponent() {
 				case "textType" :
 				case "fontColor" :
 				case "fontOpacity" :
+				case "borderRadius" :
 					layoutNeedsUpdate = true;
 					this[ prop ] = options[ prop ];
 					break;

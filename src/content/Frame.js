@@ -8,11 +8,11 @@ import { Mesh, ShapeBufferGeometry, MeshLambertMaterial } from 'three';
 
 //
 
-export default function Frame( width, height, material ) {
+export default function Frame( width, height, borderRadius, material ) {
 
 	var shape = new THREE.Shape();
 
-	roundedRect( shape, width, height, 0.05 );
+	roundedRect( shape, width, height, borderRadius );
 
 	const geometry = new ShapeBufferGeometry( shape );
 
