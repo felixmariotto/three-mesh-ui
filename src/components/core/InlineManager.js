@@ -39,7 +39,7 @@ function InlineManager( boxComponent ) {
 			if ( !inlineComponent.inlines ) return
 
 			//////////////////////////////////////////////////////////////
-			// Compute offset of each children according to its geometry
+			// Compute offset of each children according to its dimensions
 			//////////////////////////////////////////////////////////////
 
 			const currentInlineInfo = inlineComponent.inlines.reduce( (lastInlineOffset, inline, i, inlines)=> {
@@ -129,6 +129,8 @@ function InlineManager( boxComponent ) {
 
 			}, 0 );
 
+			console.log( "line.width = " + line.width )
+
 		});
 
 		// Vertical offset
@@ -182,6 +184,8 @@ function InlineManager( boxComponent ) {
 					default: console.warn('"textJustification" is not valid')
 				};
 			})();
+
+			console.log( "alignmentOffset = " + alignmentOffset )
 
 			line.forEach( (char)=> {
 

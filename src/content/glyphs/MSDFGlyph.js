@@ -112,9 +112,12 @@ function transformGeometry( geometry, font, fontSize, char ) {
 		1
 	);
 
+	//
+
 	geometry.translate(
-		-( ( ( - charOBJ.width / common.lineHeight ) / 2 ) * fontSize ) + fontSize,
-		( ( ( ( - charOBJ.height - (charOBJ.yoffset * 2) ) / common.lineHeight ) / 2 ) * fontSize ) + fontSize,
+		(( charOBJ.width * fontSize ) / common.lineHeight) / 2,
+		// 0,
+		0,
 		0
 	);
 
