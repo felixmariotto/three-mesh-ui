@@ -7,7 +7,8 @@ let pages = [
 	['nested_blocks', 'nested blocks'],
 	['tutorial_result', 'tutorial result'],
 	['interactive_button', 'interactive button'],
-	['msdf_text', 'MSDF text']
+	['msdf_text', 'MSDF text'],
+	['background_size', 'background size']
 ];
 
 pagesConfig = pages.map( (page)=> {
@@ -53,7 +54,8 @@ module.exports = env => {
 			nested_blocks: './examples/js/nested_blocks.js',
 			tutorial_result: './examples/js/tutorial_result.js',
 			interactive_button: './examples/js/interactive_button.js',
-			msdf_text: './examples/js/msdf_text.js'
+			msdf_text: './examples/js/msdf_text.js',
+			background_size: './examples/js/background_size.js'
 		},
 
 		plugins: [

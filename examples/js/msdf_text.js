@@ -13,7 +13,7 @@ let scene, camera, renderer, controls ;
 
 let bigText = '';
 
-for (let i = 0 ; i < 20 ; i++) {
+for (let i = 0 ; i < 18 ; i++) {
 	bigText += 'MSDFText is very performant when rendering big text because the glyphs are textures on simple planes geometries, all merged together. ';
 };
 

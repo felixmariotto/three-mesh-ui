@@ -141,24 +141,22 @@ function makeTextPanel() {
 		height: 0.35,
 		width: 0.5,
 		margin: 0.025,
-		padding: 0.01,
+		padding: 0.02,
+		fontSize: 0.03,
 		justifyContent: 'center'
 	}).add(
 
 		ThreeMeshUI.Text({
-			content: "Known for its extremely keeled dorsal scales that give it a ",
-			fontSize: 0.035
+			content: "Known for its extremely keeled dorsal scales that give it a "
 		}),
 
 		ThreeMeshUI.Text({
 			content: "bristly",
-			fontMaterial: greenMaterial,
-			fontSize: 0.042
+			fontMaterial: greenMaterial
 		}),
 
 		ThreeMeshUI.Text({
-			content: " appearance.",
-			fontSize: 0.035
+			content: " appearance."
 		})
 
 	);
@@ -173,7 +171,7 @@ function makeTextPanel() {
 	}).add(
 
 		ThreeMeshUI.Text({
-			content: "The males of this species grow to maximum total length of 73 cm (29 in): body 58 cm (23 in), tail 15 cm (5.9 in). Females grow to a maximum total length of 58 cm (23 in). The males are surprisingly long and slender compared to the females.\nThe head has a short snout, more so in males than in females.\nThe eyes are large and surrounded by 9–16 circumorbital scales. The orbits (eyes) are separated by 7–9 scales.\nThe nostril is like a slit and separated from the eye by two scales.\nThe eye and the supralabials are separated by a single row of scales."
+			content: "The males of this species grow to maximum total length of 73 cm (29 in): body 58 cm (23 in), tail 15 cm (5.9 in). Females grow to a maximum total length of 58 cm (23 in). The males are surprisingly long and slender compared to the females.\nThe head has a short snout, more so in males than in females.\nThe eyes are large and surrounded by 9–16 circumorbital scales. The orbits (eyes) are separated by 7–9 scales."
 		})
 
 	);
