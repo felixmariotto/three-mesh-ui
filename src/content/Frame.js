@@ -23,7 +23,12 @@ export default function Frame( width, height, borderRadius, backgroundSize, mate
 			break
 
 		case 'contain' :
-			if ( material.map ) mapContainUVs( width, height, geometry, material.map );
+			if ( material.map ) mapFitUVs( backgroundSize, width, height, geometry, material.map );
+			else mapStretchUVs( width, height, geometry );
+			break
+
+		case 'cover' :
+			if ( material.map ) mapFitUVs( backgroundSize, width, height, geometry, material.map );
 			else mapStretchUVs( width, height, geometry );
 			break
 
@@ -94,7 +99,7 @@ function mapStretchUVs( width, height, geometry ) {
 
 //
 
-function mapContainUVs( width, height, geometry, texture ) {
+function mapFitUVs( backgroundSize, width, height, geometry, texture ) {
 
 	const imageHeight = texture.image.height;
 	const imageWidth = texture.image.width;
@@ -109,7 +114,17 @@ function mapContainUVs( width, height, geometry, texture ) {
 		(width * imageHeight) / imageWidth
 	);
 
-	const fitDimensions = xFitDimensions.length() < yFitDimensions.length() ? xFitDimensions : yFitDimensions;
+	let fitDimensions;
+
+	if ( backgroundSize === "contain" ) {
+
+		fitDimensions = xFitDimensions.length() < yFitDimensions.length() ? xFitDimensions : yFitDimensions;
+	
+	} else {
+
+		fitDimensions = xFitDimensions.length() > yFitDimensions.length() ? xFitDimensions : yFitDimensions;
+
+	};
 
 	const uvAttribute = geometry.attributes.uv;
 	const posAttribute = geometry.attributes.position;
