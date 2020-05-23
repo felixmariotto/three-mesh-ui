@@ -163,7 +163,7 @@ function makeSection( textureMaterial, backgroundSize, text1, text2 ) {
 	textBlock.add(
 
 		ThreeMeshUI.Text({
-			content: text1,
+			content: text1 + '\n',
 			fontColor: new THREE.Color(0x96ffba)
 		}),
 
