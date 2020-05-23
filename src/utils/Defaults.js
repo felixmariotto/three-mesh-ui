@@ -21,7 +21,7 @@ export default {
 	fontColor: new Color( 0xffffff ),
 	fontOpacity: 1,
 	borderRadius: 0.015,
-	backgroundSize: "stretch",
+	backgroundSize: "contain",
 
 	fontMaterial: new MeshBasicMaterial({
 		color: 0x003047

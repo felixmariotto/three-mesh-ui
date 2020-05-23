@@ -312,11 +312,11 @@ export default function MeshUIComponent() {
 				case "fontOpacity" :
 				case "borderRadius" :
 				case "backgroundSize" :
+				case "backgroundMaterial" :
 					layoutNeedsUpdate = true;
 					this[ prop ] = options[ prop ];
 					break;
 
-				case "backgroundMaterial" :
 				case "fontMaterial" :
 				case "offset" :
 					innerNeedsUpdate = true;

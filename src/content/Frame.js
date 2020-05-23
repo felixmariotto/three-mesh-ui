@@ -4,13 +4,13 @@
 	Knows: Dimension and style of the plane to create
 */
 
-import { Mesh, ShapeBufferGeometry } from 'three';
+import { Mesh, ShapeBufferGeometry, Vector2, Shape } from 'three';
 
 //
 
 export default function Frame( width, height, borderRadius, backgroundSize, material ) {
 
-	var shape = new THREE.Shape();
+	var shape = new Shape();
 
 	roundedRect( shape, width, height, borderRadius );
 
@@ -19,7 +19,12 @@ export default function Frame( width, height, borderRadius, backgroundSize, mate
 	switch( backgroundSize ) {
 
 		case 'stretch' :
-			remapUVs( width, height, geometry );
+			mapStretchUVs( width, height, geometry );
+			break
+
+		case 'contain' :
+			if ( material.map ) mapContainUVs( width, height, geometry, material.map );
+			else mapStretchUVs( width, height, geometry );
 			break
 
 		default :
@@ -62,13 +67,13 @@ function roundedRect( ctx, width, height, radius ) {
 
 //
 
-function remapUVs( width, height, geometry ) {
+function mapStretchUVs( width, height, geometry ) {
 
 	const uvAttribute = geometry.attributes.uv;
 	const posAttribute = geometry.attributes.position;
 
-	const dummyVec = new THREE.Vector2();
-	const offset = new THREE.Vector2( width / 2, height / 2 );
+	const dummyVec = new Vector2();
+	const offset = new Vector2( width / 2, height / 2 );
 		
 	for ( var i = 0; i < posAttribute.count; i ++ ) {
 			
@@ -77,8 +82,55 @@ function remapUVs( width, height, geometry ) {
 
 	    dummyVec.add( offset );
 
+	    // Stretch the texture to make it size like the geometry
 	    dummyVec.x /= width;
 	    dummyVec.y /= height;
+
+	    uvAttribute.setXY( i, dummyVec.x, dummyVec.y );
+
+	};
+
+};
+
+//
+
+function mapContainUVs( width, height, geometry, texture ) {
+
+	const imageHeight = texture.image.height;
+	const imageWidth = texture.image.width;
+
+	const yFitDimensions = new Vector2(
+		(height * imageWidth) / imageHeight,
+		height
+	);
+
+	const xFitDimensions = new Vector2(
+		width,
+		(width * imageHeight) / imageWidth
+	);
+
+	const fitDimensions = xFitDimensions.length() < yFitDimensions.length() ? xFitDimensions : yFitDimensions;
+
+	const uvAttribute = geometry.attributes.uv;
+	const posAttribute = geometry.attributes.position;
+
+	const dummyVec = new Vector2();
+	const offset = new Vector2( width / 2, height / 2 );
+		
+	for ( var i = 0; i < posAttribute.count; i ++ ) {
+			
+	    dummyVec.x = posAttribute.getX( i );
+	    dummyVec.y = posAttribute.getY( i );
+
+	    dummyVec.add( offset );
+
+	    // resize the texture so it does not stretch
+	    dummyVec.x /= fitDimensions.x;
+	    dummyVec.y /= fitDimensions.y;
+
+	    // center the texture
+	    dummyVec.x -= (( width / fitDimensions.x ) / 2) - 0.5;
+	    dummyVec.y -= (( height / fitDimensions.y ) / 2) - 0.5;
 
 	    uvAttribute.setXY( i, dummyVec.x, dummyVec.y );
 

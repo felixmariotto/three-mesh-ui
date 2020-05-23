@@ -56,7 +56,7 @@ scene.add( container );
 
 const imageBlock = ThreeMeshUI.Block({
 	height: 1.3,
-	width: 1.6,
+	width: 1.9,
 	offset: 0.1
 });
 
@@ -73,7 +73,7 @@ container.add( imageBlock, textBlock );
 
 const loader = new THREE.TextureLoader();
 
-loader.load( './assets/uv_grid.jpg' /* './assets/spiny_bush_viper.jpg' */, (texture)=> {
+loader.load( './assets/uv_grid_horizontal.jpg' /* './assets/spiny_bush_viper.jpg' */, (texture)=> {
 
 	const material = new THREE.MeshBasicMaterial({
 		map: texture
