@@ -29,7 +29,7 @@ function requestUpdate( component, updateParsing, updateLayout, updateInner ) {
 
 	} else {
 
-		if (updateLayout) requestedUpdates[ component.id ].updateParsing = true;
+		if (updateParsing) requestedUpdates[ component.id ].updateParsing = true;
 		if (updateLayout) requestedUpdates[ component.id ].updateLayout = true;
 		if (updateInner) requestedUpdates[ component.id ].updateInner = true;
 
@@ -79,11 +79,15 @@ function update() {
 
 		//
 
-		roots.forEach( (component)=> {
+		setTimeout( ()=> {
 
-			callUpdatesOf( component );
+			roots.forEach( (component)=> {
 
-		});
+				callUpdatesOf( component );
+
+			});
+
+		}, 100 )
 
 	};
 

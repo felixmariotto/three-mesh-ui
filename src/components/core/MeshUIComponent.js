@@ -255,7 +255,11 @@ export default function MeshUIComponent() {
 
 		this.fontFamily = font;
 		
-		UpdateManager.requestUpdate( this, true );
+		this.traverse( (child)=> {
+
+			if ( child.isUI ) UpdateManager.requestUpdate( child, true );
+
+		});
 
 		UpdateManager.requestUpdate( this.getHighestParent(), false, true, false );
 
@@ -264,8 +268,6 @@ export default function MeshUIComponent() {
 	function _updateFontTexture( texture ) {
 
 		this.fontTexture = texture;
-		
-		UpdateManager.requestUpdate( this, true );
 
 		UpdateManager.requestUpdate( this.getHighestParent(), false, true, false );
 
