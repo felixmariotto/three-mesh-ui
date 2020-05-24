@@ -307,13 +307,13 @@ export default function MeshUIComponent() {
 				case "fontOpacity" :
 				case "borderRadius" :
 				case "backgroundSize" :
-				case "backgroundMaterial" :
 					layoutNeedsUpdate = true;
 					this[ prop ] = options[ prop ];
 					break;
 
 				case "fontMaterial" :
 				case "offset" :
+				case "backgroundMaterial" :
 					innerNeedsUpdate = true;
 					this[ prop ] = options[ prop ];
 					break;
@@ -338,9 +338,9 @@ export default function MeshUIComponent() {
 		
 		// Call component update
 
-		UpdateManager.requestUpdate( this, false, false, true );
+		if ( layoutNeedsUpdate ) UpdateManager.requestUpdate( this, false, true, false );
 
-		UpdateManager.requestUpdate( this.getHighestParent(), false, true );
+		if ( innerNeedsUpdate ) UpdateManager.requestUpdate( this.getHighestParent(), false, false, true );
 		
 	};
 

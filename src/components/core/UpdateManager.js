@@ -16,24 +16,32 @@ const UpdateManager = {
 const components = [];
 let requestedUpdates = {};
 
+const timestamp = Date.now()
+
 function requestUpdate( component, updateParsing, updateLayout, updateInner ) {
 
-	if ( !requestedUpdates[ component.id ] ) {
+	component.traverse( (child)=> {
 
-		requestedUpdates[ component.id ] = {
-			component,
-			updateParsing,
-			updateLayout,
-			updateInner
+		if ( !child.isUI ) return
+
+		if ( !requestedUpdates[ child.id ] ) {
+
+			requestedUpdates[ child.id ] = {
+				child,
+				updateParsing,
+				updateLayout,
+				updateInner
+			};
+
+		} else {
+
+			if (updateParsing) requestedUpdates[ child.id ].updateParsing = true;
+			if (updateLayout) requestedUpdates[ child.id ].updateLayout = true;
+			if (updateInner) requestedUpdates[ child.id ].updateInner = true;
+
 		};
 
-	} else {
-
-		if (updateParsing) requestedUpdates[ component.id ].updateParsing = true;
-		if (updateLayout) requestedUpdates[ component.id ].updateLayout = true;
-		if (updateInner) requestedUpdates[ component.id ].updateInner = true;
-
-	};
+	})
 
 };
 
