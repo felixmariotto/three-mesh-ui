@@ -71,6 +71,7 @@ function init() {
 	renderer.xr.enabled = true;
 	document.body.appendChild(VRButton.createButton(renderer));
 	document.body.appendChild( renderer.domElement );
+	renderer.shadowMap.enabled = true ;
 
 	// LIGHT
 
