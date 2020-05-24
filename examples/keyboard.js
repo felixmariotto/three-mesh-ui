@@ -63,13 +63,11 @@ function init() {
 
 	camera = new THREE.PerspectiveCamera( 60, WIDTH / HEIGHT, 0.1, 100 );
 
-	renderer = new THREE.WebGLRenderer({
-		antialias: true
-	});
-	renderer.setPixelRatio( window.devicePixelRatio );
-	renderer.setSize( WIDTH, HEIGHT );
+	renderer = new THREE.WebGLRenderer({ antialias: true });
+	renderer.setSize( window.innerWidth, window.innerHeight );
+	renderer.outputEncoding = THREE.sRGBEncoding;
 	renderer.xr.enabled = true;
-	document.body.appendChild(VRButton.createButton(renderer));
+	document.body.appendChild( VRButton.createButton(renderer) );
 	document.body.appendChild( renderer.domElement );
 	renderer.shadowMap.enabled = true ;
 
