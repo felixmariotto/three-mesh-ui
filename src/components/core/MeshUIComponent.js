@@ -278,6 +278,8 @@ export default function MeshUIComponent() {
 	// Update this component unless otherwise specified.
 	function set( options, layoutNeedsUpdate, innerNeedsUpdate ) {
 
+		let parsingNeedsUpdate;
+
 		// Register to the update manager, so that it knows when to update
 
 		UpdateManager.register( this );
@@ -287,10 +289,16 @@ export default function MeshUIComponent() {
 		if ( !options || JSON.stringify(options) === JSON.stringify({}) ) return
 
 		// Set this component parameters according to options, and trigger updates accordingly
+		// The benefit of having two types of updates, is to put everthing that takes time
+		// in one batch, and the rest in the other. This way, efficient animation is possible with
+		// attribute from the light batch.
 
 		for ( let prop of Object.keys(options) ) {
 
 			switch ( prop ) {
+
+				case "content" :
+					parsingNeedsUpdate = true;
 
 				case "width" :
 				case "height" :
@@ -338,9 +346,9 @@ export default function MeshUIComponent() {
 		
 		// Call component update
 
-		if ( layoutNeedsUpdate ) UpdateManager.requestUpdate( this, false, true, false );
+		UpdateManager.requestUpdate( this, parsingNeedsUpdate, layoutNeedsUpdate, innerNeedsUpdate );
 
-		if ( innerNeedsUpdate ) UpdateManager.requestUpdate( this.getHighestParent(), false, false, true );
+		if ( layoutNeedsUpdate ) UpdateManager.requestUpdate( this.getHighestParent(), false, true, false );
 		
 	};
 
