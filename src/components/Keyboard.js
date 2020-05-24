@@ -59,6 +59,8 @@ export default function KeyboardModule( options ) {
 
 	// PANELS
 
+	keyboard.keys = [];
+
 	keyboard.panels = keymap.map( (panel)=> {
 
 		// console.log( panel );
@@ -106,7 +108,11 @@ export default function KeyboardModule( options ) {
 					})
 				);
 
+				// line's keys
 				keys.push( key );
+
+				// keyboard's keys
+				keyboard.keys.push( key );
 
 			};
 

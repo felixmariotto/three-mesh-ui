@@ -8,7 +8,7 @@ import ThreeMeshUI from '../src/three-mesh-ui.js';
 import VRControl from './utils/VRControl.js';
 import ShadowedLight from './utils/ShadowedLight.js';
 
-let scene, camera, renderer, controls, control;
+let scene, camera, renderer, controls, vrControl;
 let meshContainer, meshes, currentMesh;
 let objsToTest = [];
 
@@ -16,7 +16,7 @@ window.addEventListener( 'load', init );
 window.addEventListener('resize', onWindowResize );
 
 // calculate mouse position in normalized device coordinates
-// (-1 to +1) for both components.
+// (-1 to +1) for both directions.
 // Used to raycasting against the interactive elements
 
 const raycaster = new THREE.Raycaster();
@@ -109,12 +109,12 @@ function init() {
 	// Controllers
 	////////////////
 
-	control = VRControl( renderer, camera, scene );
+	vrControl = VRControl( renderer, camera, scene );
 
-	scene.add( control.controllerGrips[ 0 ], control.controllers[ 0 ] );
+	scene.add( vrControl.controllerGrips[ 0 ], vrControl.controllers[ 0 ] );
 
-	control.controllers[ 0 ].addEventListener( 'selectstart', ()=> { selectState = true } );
-	control.controllers[ 0 ].addEventListener( 'selectend', ()=> { selectState = false } );
+	vrControl.controllers[ 0 ].addEventListener( 'selectstart', ()=> { selectState = true } );
+	vrControl.controllers[ 0 ].addEventListener( 'selectend', ()=> { selectState = false } );
 
 	////////////////////
 	// Primitive Meshes
@@ -337,12 +337,12 @@ function updateButtons() {
 
 	if ( renderer.xr.isPresenting ) {
 
-		control.setFromController( 0, raycaster.ray );
+		vrControl.setFromController( 0, raycaster.ray );
 
 		intersect = raycast();
 
 		// Position the little white dot at the end of the controller pointing ray
-		control.setPointerAt( 0, intersect.point );
+		vrControl.setPointerAt( 0, intersect.point );
 
 	} else if ( mouse.x !== null && mouse.y !== null ) {
 
