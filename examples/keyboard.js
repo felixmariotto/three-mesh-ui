@@ -142,18 +142,16 @@ function makeUI() {
 
     );
 
+    const userText = ThreeMeshUI.Text({
+		content: ''
+	});
+
     const textField = ThreeMeshUI.Block({
     	width: 1,
     	height: 0.4,
     	fontSize: 0.033,
     	padding: 0.02
-    }).add(
-
-    	ThreeMeshUI.Text({
-    		content: ''
-    	})
-
-    );
+    }).add( userText );
 
     title.frameContainer.visible = textField.frameContainer.visible = false;
 
@@ -211,7 +209,9 @@ function makeUI() {
 				backgroundMaterial: selectedMaterial
 			},
 			onSet: ()=> {
-				console.log( key.char );
+				userText.set({
+					content: userText.content += key.char
+				});
 			}
 		});
 
