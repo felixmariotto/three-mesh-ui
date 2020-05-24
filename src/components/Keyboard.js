@@ -16,6 +16,7 @@ export default function KeyboardModule( options ) {
 	if ( !options ) options = {};
 	if ( !options.width ) options.width = 1;
 	if ( !options.height ) options.height = 0.4;
+	if ( !options.margin ) options.margin = 0.003;
 
 	//
 
@@ -62,6 +63,8 @@ export default function KeyboardModule( options ) {
 
 		// console.log( panel );
 
+		const lineHeight = (options.height / panel.length) - (options.margin * 2);
+
 		const panelBlock = Block({
 			width: options.width,
 			height: options.height,
@@ -74,7 +77,8 @@ export default function KeyboardModule( options ) {
 
 			const lineBlock = Block({
 				width: options.width,
-				height: options.height / lines.length,
+				height: lineHeight,
+				margin: options.margin,
 				contentDirection: 'row'
 			});
 
@@ -82,13 +86,14 @@ export default function KeyboardModule( options ) {
 
 			for ( let char of Object.keys(line) ) {
 
-				console.log( line[char] );
+				// console.log( line[char] );
 
 				const key = Block({
-					width: options.width * line[char].width,
-					height: options.height / lines.length,
+					width: (options.width * line[char].width) - (options.margin * 2),
+					height: lineHeight,
+					margin: options.margin,
 					justifyContent: 'center',
-					fontSize: 0.04
+					fontSize: 0.035
 				});
 
 				key.add(
