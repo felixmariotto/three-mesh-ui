@@ -37,7 +37,7 @@ function init() {
 
 	controls = new OrbitControls( camera, renderer.domElement );
 	camera.position.set( 0, 1.6, 0 );
-	controls.target = new THREE.Vector3( 0, 1, -1.8 );
+	controls.target = new THREE.Vector3( 0, 1.2, -1 );
 	controls.update();
 
 	// ROOM
@@ -56,7 +56,7 @@ function init() {
 		fontTexture: './assets/Roboto-msdf.png'
 	});
 
-	keyboard.position.set( 0, 1, -1.8 );
+	keyboard.position.set( 0, 0.85, -1 );
 	keyboard.rotation.x = -0.55;
 	scene.add( keyboard );
 

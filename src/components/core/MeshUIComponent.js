@@ -224,11 +224,11 @@ export default function MeshUIComponent() {
 	};
 
 	function getInterline() {
-		return this.interline || DEFAULTS.interline;
+		return (this.interline === undefined) ? DEFAULTS.interline : this.interline;
 	};
 
 	function getOffset() {
-		return this.offset || DEFAULTS.offset;
+		return (this.offset === undefined) ? DEFAULTS.offset : this.offset;
 	};
 
 	///////////////

@@ -82,6 +82,8 @@ export default function KeyboardModule( options ) {
 				contentDirection: 'row'
 			});
 
+			lineBlock.frameContainer.visible = false;
+
 			let keys = [];
 
 			for ( let char of Object.keys(line) ) {
@@ -93,12 +95,14 @@ export default function KeyboardModule( options ) {
 					height: lineHeight,
 					margin: options.margin,
 					justifyContent: 'center',
-					fontSize: 0.035
+					fontSize: 0.035,
+					offset: 0
 				});
 
 				key.add(
 					Text({
-						content: char
+						content: char,
+						offset: 0
 					})
 				);
 

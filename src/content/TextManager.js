@@ -146,7 +146,9 @@ export default function TextContent() {
 			uniforms: { u_texture: { value: options.fontTexture }},
 			transparent: true,
 			vertexShader: VertexShader(),
-			fragmentShader: FragmentShader( options.fontColor, options.fontOpacity )
+			fragmentShader: FragmentShader( options.fontColor, options.fontOpacity ),
+			polygonOffset: true,
+			polygonOffsetFactor: -0.01
 		});
 
 		//
