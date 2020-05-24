@@ -100,9 +100,68 @@ function init() {
 	scene.add( room );
     objsToTest.push(roomMesh);
 
+    // USER INTERFACE
+
+    makeUI();
+
+	// LOOP
+
+	renderer.setAnimationLoop( loop );
+
+};
+
+//
+
+function makeUI() {
+
 	// TEXT PANEL
 
-	const keyboard = new ThreeMeshUI.Keyboard({
+    const textPanel = ThreeMeshUI.Block({
+    	fontFamily: './assets/Roboto-msdf.json',
+		fontTexture: './assets/Roboto-msdf.png',
+    	width: 1,
+    	height: 0.5
+    });
+
+    textPanel.position.set( 0, 1.4, -1.2 );
+	textPanel.rotation.x = -0.15;
+    scene.add( textPanel );
+
+    //
+
+    const title = ThreeMeshUI.Block({
+    	width: 1,
+    	height: 0.1,
+    	justifyContent: 'center',
+    	fontSize: 0.045
+    }).add(
+
+    	ThreeMeshUI.Text({
+    		content: 'Type some text on the keyboard'
+    	})
+
+    );
+
+    const textField = ThreeMeshUI.Block({
+    	width: 1,
+    	height: 0.4,
+    	fontSize: 0.033,
+    	padding: 0.02
+    }).add(
+
+    	ThreeMeshUI.Text({
+    		content: ''
+    	})
+
+    );
+
+    title.frameContainer.visible = textField.frameContainer.visible = false;
+
+    textPanel.add( title, textField );
+
+	// KEYBOARD
+
+	const keyboard = ThreeMeshUI.Keyboard({
 		fontFamily: './assets/Roboto-msdf.json',
 		fontTexture: './assets/Roboto-msdf.png'
 	});
@@ -150,14 +209,13 @@ function init() {
 			attributes: {
 				offset: -0.005,
 				backgroundMaterial: selectedMaterial
+			},
+			onSet: ()=> {
+				console.log( key.char );
 			}
 		});
 
 	});
-
-	// LOOP
-
-	renderer.setAnimationLoop( loop );
 
 };
 

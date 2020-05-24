@@ -108,6 +108,8 @@ export default function KeyboardModule( options ) {
 					})
 				);
 
+				key.char = char;
+
 				// line's keys
 				keys.push( key );
 
