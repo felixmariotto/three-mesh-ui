@@ -59,8 +59,6 @@ function Text( options ) {
 			return
 		};
 
-		console.log('coucou')
-
 		// Compute glyphs sizes
 
 		let chars = Array.from ? Array.from( content ) : String( content ).split( '' );

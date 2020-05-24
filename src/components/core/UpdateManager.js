@@ -55,25 +55,17 @@ function update() {
 
 	if ( Object.keys(requestedUpdates).length > 0 ) {
 
-		const tips = components.filter( (component)=> {
-
-			return component.getUIChildren().length === 0
-
-		});
-
-		//
-
-		tips.forEach( (component)=> {
-
-			callParsingUpdateOf( component );
-
-		});
-
-		//
-
 		const roots = components.filter( (component)=> {
 
 			return !component.getUIParent()
+
+		});
+
+		//
+
+		roots.forEach( (component)=> {
+
+			callParsingUpdateOf( component );
 
 		});
 
@@ -98,7 +90,6 @@ function update() {
 function callParsingUpdateOf( component ) {
 
 	const request = requestedUpdates[ component.id ];
-	const parent = component.getUIParent();
 
 	if ( request && request.updateParsing ) {
 
@@ -108,7 +99,11 @@ function callParsingUpdateOf( component ) {
 
 	};
 
-	if ( parent ) callParsingUpdateOf( parent );
+	component.getUIChildren().forEach( (childUI)=> {
+
+		callParsingUpdateOf( childUI );
+
+	});
 
 };
 
