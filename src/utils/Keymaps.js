@@ -9,9 +9,10 @@ and if not passed tries to detect the language. If not found, it uses the basic 
 
 export default {
 
-	fr: {
+	fr:
+	[
 
-		letters: [
+		[
 
 			{
 				a: { width: 0.1 },
@@ -60,7 +61,7 @@ export default {
 
 		],
 
-		symbols: [
+		[
 
 			{
 				'1': { width: 0.1 },
@@ -110,6 +111,6 @@ export default {
 
 		]
 
-	}
+	]
 
 }

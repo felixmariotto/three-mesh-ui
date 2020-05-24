@@ -42,7 +42,10 @@ function Text( options ) {
 
 		// Abort condition
 		
-		if ( !font ) return
+		if ( !font ) {
+			console.warn('no font was found');
+			return
+		};
 
 		if ( !this.content || this.content.length === 0 ) {
 			reject( 'Text component has no text content' );

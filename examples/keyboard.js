@@ -51,7 +51,10 @@ function init() {
 
 	// TEXT PANEL
 
-	const keyboard = new ThreeMeshUI.Keyboard();
+	const keyboard = new ThreeMeshUI.Keyboard({
+		fontFamily: './assets/Roboto-msdf.json',
+		fontTexture: './assets/Roboto-msdf.png'
+	});
 
 	keyboard.position.set( 0, 1, -1.8 );
 	keyboard.rotation.x = -0.55;

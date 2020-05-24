@@ -14,7 +14,7 @@ export default function KeyboardModule( options ) {
 	// DEFAULTS
 
 	if ( !options ) options = {};
-	if ( !options.width ) options.width = 1.5;
+	if ( !options.width ) options.width = 1;
 	if ( !options.height ) options.height = 0.4;
 
 	//
@@ -23,31 +23,95 @@ export default function KeyboardModule( options ) {
 
 	keyboard.type = 'Keyboard';
 
-	////////////
-	// CONTENT
-	////////////
+	//////////
+	// KEYMAP
+	//////////
 
-	console.log( keymaps )
+	// ../utils/Keymaps contains information about various keyboard layouts
+	// We select one depending on the user's browser language
+
+	let keymap;
 
 	if ( navigator ) {
 
 		switch ( navigator.language ) {
 
 			case 'fr' :
+				keymap = keymaps.fr
+				break
+
+			default :
+				keymap = keymaps.fr
 				break
 
 		};
 
+	} else {
+
+		keymap = keymaps.fr
+
 	};
 
-	//
+	////////////////////
+	// BLOCKS CREATION
+	////////////////////
 
-	keyboard.background = Block({
-		width: options.width,
-		height: options.height
+	// PANELS
+
+	keyboard.panels = keymap.map( (panel)=> {
+
+		// console.log( panel );
+
+		const panelBlock = Block({
+			width: options.width,
+			height: options.height,
+			offset: 0
+		});
+
+		panelBlock.add( ...panel.map( (line, i, lines)=> {
+
+			// console.log( line )
+
+			const lineBlock = Block({
+				width: options.width,
+				height: options.height / lines.length,
+				contentDirection: 'row'
+			});
+
+			let keys = [];
+
+			for ( let char of Object.keys(line) ) {
+
+				console.log( line[char] );
+
+				const key = Block({
+					width: options.width * line[char].width,
+					height: options.height / lines.length,
+					justifyContent: 'center',
+					fontSize: 0.04
+				});
+
+				key.add(
+					Text({
+						content: char
+					})
+				);
+
+				keys.push( key );
+
+			};
+
+			lineBlock.add( ...keys )
+
+			return lineBlock
+
+		}))
+
+		return panelBlock
+
 	});
 
-	keyboard.add( keyboard.background );
+	keyboard.add( keyboard.panels[0] )
 
 	////////////
 	//  UPDATE
