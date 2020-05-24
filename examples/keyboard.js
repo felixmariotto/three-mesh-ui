@@ -128,13 +128,34 @@ function init() {
 
 function makeUI() {
 
+	// PANEL MATERIALS
+
+	const idleMaterial = new THREE.MeshBasicMaterial({
+		color: 0x000000,
+		transparent: true,
+		opacity: 0.6
+	});
+
+	const hoveredMaterial = new THREE.MeshBasicMaterial({
+		color: 0x2e2e2e,
+		transparent: true,
+		opacity: 0.6
+	});
+
+	const selectedMaterial = new THREE.MeshBasicMaterial({
+		color: 0x109c5d,
+		transparent: true,
+		opacity: 0.95
+	});
+
 	// TEXT PANEL
 
     const textPanel = ThreeMeshUI.Block({
     	fontFamily: './assets/Roboto-msdf.json',
 		fontTexture: './assets/Roboto-msdf.png',
     	width: 1,
-    	height: 0.5
+    	height: 0.5,
+    	backgroundMaterial: idleMaterial
     });
 
     textPanel.position.set( 0, 1.4, -1.2 );
@@ -184,18 +205,6 @@ function makeUI() {
 
 	//
 
-	const hoveredMaterial = new THREE.MeshBasicMaterial({
-		color: 0x7d7d7d,
-		transparent: true,
-		opacity: 0.2
-	});
-
-	const selectedMaterial = new THREE.MeshBasicMaterial({
-		color: 0xffffff,
-		transparent: true,
-		opacity: 0.2
-	});
-
 	keyboard.keys.forEach( (key)=> {
 
 		objsToTest.push( key );
@@ -204,7 +213,7 @@ function makeUI() {
 			state: 'idle',
 			attributes: {
 				offset: 0,
-				backgroundMaterial: null
+				backgroundMaterial: idleMaterial
 			}
 		});
 
@@ -219,7 +228,7 @@ function makeUI() {
 		key.setupState({
 			state: 'selected',
 			attributes: {
-				offset: -0.005,
+				offset: -0.009,
 				backgroundMaterial: selectedMaterial
 			},
 			onSet: ()=> {
