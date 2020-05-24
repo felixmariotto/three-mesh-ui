@@ -63,15 +63,12 @@ function update() {
 
 		//
 
-		roots.forEach( (component)=> {
+		Promise.all( roots.map( (component)=> {
 
-			callParsingUpdateOf( component );
+			return callParsingUpdateOf( component );
 
-		});
-
-		//
-
-		setTimeout( ()=> {
+		}))
+		.then( ()=> {
 
 			roots.forEach( (component)=> {
 
@@ -79,7 +76,12 @@ function update() {
 
 			});
 
-		}, 100 )
+		})
+		.catch( (err)=> {
+
+			console.error(err)
+
+		});
 
 	};
 
@@ -89,19 +91,51 @@ function update() {
 
 function callParsingUpdateOf( component ) {
 
-	const request = requestedUpdates[ component.id ];
+	return new Promise( (resolve)=> {
 
-	if ( request && request.updateParsing ) {
+		new Promise( (resolveThisComponent, reject)=> {
 
-		component.parseParams();
+			const request = requestedUpdates[ component.id ];
 
-		request.updateParsing = false
+			if ( request && request.updateParsing ) {
 
-	};
+				component.parseParams( resolveThisComponent, reject );
 
-	component.getUIChildren().forEach( (childUI)=> {
+				request.updateParsing = false;
 
-		callParsingUpdateOf( childUI );
+			} else {
+
+				resolveThisComponent();
+
+			};
+
+		})
+		.then( (data)=> {
+
+		
+
+			Promise.all( component.getUIChildren().map( (childUI)=> {
+
+				return callParsingUpdateOf( childUI );
+
+			}))
+			.then( ()=> {
+
+				resolve();
+
+			})
+			.catch( (err)=> {
+
+				console.error( err );
+
+			});
+
+		})
+		.catch( (err)=> {
+
+			console.error( err );
+
+		});
 
 	});
 

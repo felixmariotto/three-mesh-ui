@@ -28,7 +28,7 @@ function Text( options ) {
 
 	textComponent.textManager = TextManager();
 
-	textComponent.parseParams = function parseParams() {
+	textComponent.parseParams = function parseParams( resolve, reject ) {
 
 		////////////////////////
 		// GET CHARS GEOMETRIES
@@ -97,6 +97,8 @@ function Text( options ) {
 		// Update 'inlines' property, so that the parent can compute each glyph position
 
 		textComponent.inlines = glyphInfos;
+
+		resolve();
 
 	};
 

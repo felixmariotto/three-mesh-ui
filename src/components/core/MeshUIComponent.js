@@ -257,7 +257,7 @@ export default function MeshUIComponent() {
 		
 		this.traverse( (child)=> {
 
-			if ( child.isUI ) UpdateManager.requestUpdate( child, true );
+			if ( child.isUI ) UpdateManager.requestUpdate( child, true, true );
 
 		});
 
