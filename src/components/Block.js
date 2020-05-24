@@ -26,27 +26,7 @@ function Block( options ) {
 	//  UPDATE
 	////////////
 
-	block.parseParams = function ParseParams( resolveParent, rejectParent ) {
-
-		const promises = block.children.map( (child)=> {
-
-			if ( !child.parseParams ) return
-
-			return new Promise((resolve, reject)=> {
-
-				child.parseParams( resolve, reject );
-
-			});
-
-		});
-
-		Promise.all( promises ).then( ()=> {
-
-			resolveParent();
-
-		});
-
-	};
+	block.parseParams = function ParseParams() {};
 
 	//
 
@@ -99,16 +79,6 @@ function Block( options ) {
 
 		frameContainer.add( frame );
 
-		// Propagate update among children
-
-		block.children.forEach( (child)=> {
-
-			if ( !child.updateLayout ) return
-
-			child.updateLayout();
-
-		});
-
 	};
 
 	//
@@ -131,14 +101,6 @@ function Block( options ) {
 				child.material = block.getBackgroundMaterial();
 
 			};
-
-		});
-
-		block.children.forEach( (child)=> {
-
-			if ( !child.updateInner ) return
-
-			child.updateInner();
 
 		});
 		

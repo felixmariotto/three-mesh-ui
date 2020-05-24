@@ -249,7 +249,8 @@ function onWindowResize() {
 function loop() {
 	controls.update();
 	renderer.render( scene, camera );
-	updateButtons()
+	ThreeMeshUI.update();
+	updateButtons();
 };
 
 // Called in the loop, get intersection with either the mouse or the VR controllers,

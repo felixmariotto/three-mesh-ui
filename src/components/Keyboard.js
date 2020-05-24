@@ -134,55 +134,15 @@ export default function KeyboardModule( options ) {
 	//  UPDATE
 	////////////
 
-	keyboard.parseParams = function ParseParams( resolveParent, rejectParent ) {
-
-		const promises = keyboard.children.map( (child)=> {
-
-			if ( !child.parseParams ) return
-
-			return new Promise((resolve, reject)=> {
-
-				child.parseParams( resolve, reject );
-
-			});
-
-		});
-
-		Promise.all( promises ).then( ()=> {
-
-			resolveParent();
-
-		});
-
-	};
+	keyboard.parseParams = function ParseParams() {};
 
 	//
 
-	keyboard.updateLayout = function UpdateLayout() {
-
-		keyboard.children.forEach( (child)=> {
-
-			if ( !child.updateLayout ) return
-
-			child.updateLayout();
-
-		});
-
-	};
+	keyboard.updateLayout = function UpdateLayout() {};
 
 	//
 
-	keyboard.updateInner = function UpdateInner() {
-
-		keyboard.children.forEach( (child)=> {
-
-			if ( !child.updateInner ) return
-
-			child.updateInner();
-
-		});
-		
-	};
+	keyboard.updateInner = function UpdateInner() {};
 
 	// Lastly set the options parameters to this object, which will trigger an update
 	keyboard.set( options, true, true );

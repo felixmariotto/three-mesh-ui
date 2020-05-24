@@ -28,7 +28,7 @@ function Text( options ) {
 
 	textComponent.textManager = TextManager();
 
-	textComponent.parseParams = function parseParams( resolve, reject ) {
+	textComponent.parseParams = function parseParams() {
 
 		////////////////////////
 		// GET CHARS GEOMETRIES
@@ -44,22 +44,18 @@ function Text( options ) {
 		
 		if ( !font ) {
 			console.warn('no font was found');
-			resolve();
 			return
 		};
 
-		if ( !this.content || this.content.length === 0 ) {
-			resolve();
-			return
-		};
+		if ( !this.content || this.content.length === 0 ) return
 
 		if ( textType === 'geometry' && font.fontType !== 'Typeface' ) {
-			reject( `${ textType } text is not compatible with this type of font.\n See https://github.com/felixmariotto/three-mesh-ui/wiki/Choosing-a-Text-type` )
+			console.error( `${ textType } text is not compatible with this type of font.\n See https://github.com/felixmariotto/three-mesh-ui/wiki/Choosing-a-Text-type` )
 			return
 		};
 
 		if ( textType === 'MSDF' && font.fontType !== 'MSDF' ) {
-			reject( `${ textType } text is not compatible with this type of font.\n See https://github.com/felixmariotto/three-mesh-ui/wiki/Choosing-a-Text-type` )
+			console.error( `${ textType } text is not compatible with this type of font.\n See https://github.com/felixmariotto/three-mesh-ui/wiki/Choosing-a-Text-type` )
 			return
 		};
 
@@ -101,10 +97,6 @@ function Text( options ) {
 		// Update 'inlines' property, so that the parent can compute each glyph position
 
 		textComponent.inlines = glyphInfos;
-
-		//
-
-		resolve();
 
 	};
 

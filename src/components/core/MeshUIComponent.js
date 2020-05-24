@@ -11,6 +11,8 @@
 import { Object3D } from 'three';
 
 import FontLibrary from './FontLibrary';
+import UpdateManager from './UpdateManager';
+
 import DEFAULTS from '../../utils/Defaults';
 import UniqueID from '../../utils/UniqueID';
 
@@ -43,6 +45,7 @@ export default function MeshUIComponent() {
 		getFontOpacity,
 		getBorderRadius,
 		getBackgroundSize,
+		getUIChildren,
 		getUIParent,
 
 		update,
@@ -75,9 +78,21 @@ export default function MeshUIComponent() {
 	/// GETTERS
 	/////////////
 
+	function getUIChildren() {
+
+		return this.children.filter( (child)=> {
+
+			return child.isUI
+
+		});
+
+	};
+
+	//
+
 	function getUIParent() {
 
-		if ( this.parent && this.parent.getUIParent ) {
+		if ( this.parent && this.parent.isUI ) {
 
 			return this.parent
 
@@ -238,6 +253,9 @@ export default function MeshUIComponent() {
 	// called by .set() because the user updated this component's params
 	function update( updateLayout, updateInner ) {
 
+		
+
+		/*
 		new Promise((resolve, reject)=> {
 
 			this.getHighestParent().parseParams( resolve, reject );
@@ -263,6 +281,7 @@ export default function MeshUIComponent() {
 			console.error( err );
 
 		});
+		*/
 
 	};
 
@@ -286,6 +305,10 @@ export default function MeshUIComponent() {
 	// If necessary, take special actions.
 	// Update this component unless otherwise specified.
 	function set( options, layoutNeedsUpdate, innerNeedsUpdate ) {
+
+		// Register to the update manager, so that it knows when to update
+
+		UpdateManager.register( this );
 
 		// Abort if no option passed
 
@@ -343,7 +366,9 @@ export default function MeshUIComponent() {
 		
 		// Call component update
 
-		this.update( layoutNeedsUpdate, innerNeedsUpdate );
+		// this.update( layoutNeedsUpdate, innerNeedsUpdate );
+
+		UpdateManager.requestUpdate( this.getHighestParent(), true, layoutNeedsUpdate, innerNeedsUpdate );
 		
 	};
 
