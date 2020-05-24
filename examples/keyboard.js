@@ -6,6 +6,7 @@ import { BoxLineGeometry } from 'three/examples/jsm/geometries/BoxLineGeometry.j
 
 import ThreeMeshUI from '../src/three-mesh-ui.js';
 import VRControl from './utils/VRControl.js';
+import ShadowedLight from './utils/ShadowedLight.js';
 
 const WIDTH = window.innerWidth;
 const HEIGHT = window.innerHeight;
@@ -71,12 +72,26 @@ function init() {
 	document.body.appendChild(VRButton.createButton(renderer));
 	document.body.appendChild( renderer.domElement );
 
+	// LIGHT
+
+	const light = ShadowedLight({
+		z: 10,
+		width: 6,
+		bias: -0.0001
+	});
+
+	const hemLight = new THREE.HemisphereLight( 0x808080, 0x606060 );
+
+	scene.add( light, hemLight );
+
+	// CONTROLLERS
+
 	controls = new OrbitControls( camera, renderer.domElement );
 	camera.position.set( 0, 1.6, 0 );
 	controls.target = new THREE.Vector3( 0, 1.2, -1 );
 	controls.update();
 
-	// CONTROLLERS
+	//
 
 	vrControl = VRControl( renderer, camera, scene );
 
