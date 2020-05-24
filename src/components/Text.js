@@ -17,6 +17,8 @@ https://github.com/felixmariotto/three-mesh-ui/wiki/Choosing-a-Text-type
 import { Object3D } from 'three';
 
 import InlineComponent from './core/InlineComponent';
+import FontLibrary from './core/FontLibrary';
+
 import TextManager from '../content/TextManager';
 import DeepDelete from '../utils/DeepDelete';
 
@@ -43,7 +45,7 @@ function Text( options ) {
 		// Abort condition
 		
 		if ( !font ) {
-			console.warn('no font was found');
+			if ( !FontLibrary.getFontOf( this ) ) console.warn('no font was found');
 			return
 		};
 

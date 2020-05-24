@@ -116,11 +116,30 @@ function setFontTexture( component, url ) {
 
 };
 
+// used by Text to know if a warning must be thrown
+
+function getFontOf( component ) {
+
+	const record = records[ component.id ];
+
+	if ( !record && component.getUIParent() ) {
+
+		return getFontOf( component.getUIParent() );
+
+	} else {
+
+		return record
+
+	};
+
+};
+
 //
 
 const FontLibrary = {
 	setFontFamily,
-	setFontTexture
+	setFontTexture,
+	getFontOf
 };
 
 export default FontLibrary

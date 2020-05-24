@@ -107,9 +107,9 @@ function callParsingUpdateOf( component ) {
 
 			if ( request && request.updateParsing ) {
 
-				component.parseParams( resolveThisComponent, reject );
-
 				request.updateParsing = false;
+
+				component.parseParams( resolveThisComponent, reject );
 
 			} else {
 
@@ -119,8 +119,6 @@ function callParsingUpdateOf( component ) {
 
 		})
 		.then( (data)=> {
-
-		
 
 			Promise.all( component.getUIChildren().map( (childUI)=> {
 
@@ -159,9 +157,9 @@ function callUpdatesOf( component ) {
 
 	if ( request && request.updateLayout ) {
 
-		component.updateLayout();
+		request.updateLayout = false;
 
-		request.updateLayout = false
+		component.updateLayout();
 
 	};
 
@@ -169,9 +167,9 @@ function callUpdatesOf( component ) {
 
 	if ( request && request.updateInner ) {
 
-		component.updateInner();
+		request.updateInner = false;
 
-		request.updateInner = false
+		component.updateInner();
 
 	};
 
