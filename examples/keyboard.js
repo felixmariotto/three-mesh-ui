@@ -130,22 +130,20 @@ function makeUI() {
 
 	// PANEL MATERIALS
 
-	const idleMaterial = new THREE.MeshBasicMaterial({
-		color: 0x000000,
-		transparent: true,
-		opacity: 0.6
+	const foregroundMaterial = new THREE.MeshBasicMaterial({
+		color: 0x0b0b0b
+	});
+
+	const backgroundMaterial = new THREE.MeshBasicMaterial({
+		color: 0x5c5c5c
 	});
 
 	const hoveredMaterial = new THREE.MeshBasicMaterial({
-		color: 0x2e2e2e,
-		transparent: true,
-		opacity: 0.6
+		color: 0x1c1c1c
 	});
 
 	const selectedMaterial = new THREE.MeshBasicMaterial({
-		color: 0x109c5d,
-		transparent: true,
-		opacity: 0.95
+		color: 0x109c5d
 	});
 
 	// TEXT PANEL
@@ -155,7 +153,7 @@ function makeUI() {
 		fontTexture: './assets/Roboto-msdf.png',
     	width: 1,
     	height: 0.5,
-    	backgroundMaterial: idleMaterial
+    	backgroundMaterial: foregroundMaterial
     });
 
     textPanel.position.set( 0, 1.4, -1.2 );
@@ -196,7 +194,8 @@ function makeUI() {
 
 	const keyboard = ThreeMeshUI.Keyboard({
 		fontFamily: './assets/Roboto-msdf.json',
-		fontTexture: './assets/Roboto-msdf.png'
+		fontTexture: './assets/Roboto-msdf.png',
+		backgroundMaterial: backgroundMaterial
 	});
 
 	keyboard.position.set( 0, 0.88, -1 );
@@ -213,7 +212,7 @@ function makeUI() {
 			state: 'idle',
 			attributes: {
 				offset: 0,
-				backgroundMaterial: idleMaterial
+				backgroundMaterial: foregroundMaterial
 			}
 		});
 

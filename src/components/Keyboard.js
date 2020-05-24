@@ -17,6 +17,7 @@ export default function KeyboardModule( options ) {
 	if ( !options.width ) options.width = 1;
 	if ( !options.height ) options.height = 0.4;
 	if ( !options.margin ) options.margin = 0.003;
+	if ( !options.padding ) options.padding = 0.01;
 
 	//
 
@@ -68,9 +69,10 @@ export default function KeyboardModule( options ) {
 		const lineHeight = (options.height / panel.length) - (options.margin * 2);
 
 		const panelBlock = Block({
-			width: options.width,
-			height: options.height,
-			offset: 0
+			width: options.width + (options.padding * 2),
+			height: options.height + (options.padding * 2),
+			offset: 0,
+			padding: options.padding
 		});
 
 		panelBlock.add( ...panel.map( (line, i, lines)=> {
