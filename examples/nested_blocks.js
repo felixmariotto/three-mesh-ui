@@ -9,26 +9,21 @@ import ThreeMeshUI from '../src/three-mesh-ui.js';
 const WIDTH = window.innerWidth;
 const HEIGHT = window.innerHeight;
 
-let scene, camera, renderer, controls ;
+let scene, camera, renderer, controls;
 
-window.addEventListener('load', ()=> {
-	init();
-});
+window.addEventListener('load', init );
+window.addEventListener('resize', onWindowResize );
 
-window.addEventListener('resize', ()=> {
-	onWindowResize();
-});
+//
 
 function init() {
 
 	scene = new THREE.Scene();
-	scene.background = new THREE.Color( 0xf2f2f2 );
+	scene.background = new THREE.Color( 0x505050 );
 
 	camera = new THREE.PerspectiveCamera( 60, WIDTH / HEIGHT, 0.1, 100 );
 
-	renderer = new THREE.WebGLRenderer({
-		antialias: true
-	});
+	renderer = new THREE.WebGLRenderer({antialias: true});
 	renderer.setPixelRatio( window.devicePixelRatio );
 	renderer.setSize( WIDTH, HEIGHT );
 	renderer.xr.enabled = true;
@@ -63,12 +58,11 @@ function init() {
 
 function makeTextPanel() {
 
-	const whiteMaterial = new THREE.MeshBasicMaterial({
-		color: 0xffffff
-	});
-
-	const greenMaterial = new THREE.MeshBasicMaterial({
-		color: 0x92e66c
+	const whiteMaterial = new THREE.MeshBasicMaterial({ color: 0xffffff });
+	const greenMaterial = new THREE.MeshBasicMaterial({ color: 0x92e66c});
+	const transparentMaterial = new THREE.MeshBasicMaterial({
+		transparent: true,
+		opacity: 0
 	});
 
 	//
@@ -78,7 +72,8 @@ function makeTextPanel() {
 		padding: 0.025,
 		fontFamily: './assets/helvetiker_regular.typeface.json',
 		textType: 'geometry',
-		fontMaterial: whiteMaterial
+		fontMaterial: whiteMaterial,
+		backgroundMaterial: transparentMaterial
 	});
 
 	container.position.set( 0, 1, -1.8 );
@@ -92,7 +87,8 @@ function makeTextPanel() {
 		width: 1.5,
 		margin: 0.025,
 		justifyContent: 'center',
-		fontSize: 0.08
+		fontSize: 0.07,
+		backgroundMaterial: null
 	});
 
 	title.add(
@@ -134,7 +130,8 @@ function makeTextPanel() {
 	//
 
 	const rightSubBlock = ThreeMeshUI.Block({
-		margin: 0.025
+		margin: 0.025,
+		backgroundMaterial: null
 	});
 
 	const subSubBlock1 = ThreeMeshUI.Block({
@@ -143,7 +140,8 @@ function makeTextPanel() {
 		margin: 0.025,
 		padding: 0.02,
 		fontSize: 0.03,
-		justifyContent: 'center'
+		justifyContent: 'center',
+		backgroundMaterial: transparentMaterial
 	}).add(
 
 		ThreeMeshUI.Text({
@@ -162,12 +160,13 @@ function makeTextPanel() {
 	);
 
 	const subSubBlock2 = ThreeMeshUI.Block({
-		height: 0.525,
+		height: 0.53,
 		width: 0.5,
 		margin: 0.01,
 		padding: 0.02,
 		fontSize: 0.019,
-		alignContent: 'left'
+		alignContent: 'left',
+		backgroundMaterial: transparentMaterial
 	}).add(
 
 		ThreeMeshUI.Text({
@@ -206,18 +205,20 @@ function makeTextPanel() {
 //
 
 function onWindowResize() {
-
 	camera.aspect = window.innerWidth / window.innerHeight;
 	camera.updateProjectionMatrix();
-
 	renderer.setSize( window.innerWidth, window.innerHeight );
-
 };
 
 //
 
 function loop() {
-	controls.update();
+
+	// Don't forget, ThreeMeshUI must be updated manually.
+	// This has been introduced in version 3.0.0 in order
+	// to improve performance
 	ThreeMeshUI.update();
+
+	controls.update();
 	renderer.render( scene, camera );
 };

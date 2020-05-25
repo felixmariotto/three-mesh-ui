@@ -15,7 +15,7 @@ let objsToTest = [];
 window.addEventListener( 'load', init );
 window.addEventListener('resize', onWindowResize );
 
-// calculate mouse position in normalized device coordinates
+// compute mouse position in normalized device coordinates
 // (-1 to +1) for both directions.
 // Used to raycasting against the interactive elements
 
@@ -182,15 +182,7 @@ function makePanel() {
 
 	// Materials used by the buttons on idle and hover
 
-	const opaqueMaterial = new THREE.MeshLambertMaterial({
-		side: THREE.DoubleSide,
-		transparent: true,
-		opacity: 0.5
-	});
-
-	const clearMaterial = new THREE.MeshLambertMaterial({
-		side: THREE.DoubleSide
-	});
+	const hoverMaterial = new THREE.MeshLambertMaterial({ color: 0x222222 });
 
 	// Container block, in which we put the two buttons.
 	// We don't define width and height, it will be set automatically from the children's dimensions
@@ -202,7 +194,7 @@ function makePanel() {
 		contentDirection: 'row-reverse',
 		fontFamily: './assets/helvetiker_regular.typeface.json',
 		textType: 'geometry',
-		backgroundMaterial: opaqueMaterial
+		backgroundMaterial: null
 	});
 
 	container.position.set( 0, 0.6, -1.2 );
@@ -230,18 +222,16 @@ function makePanel() {
 		state: "hovered",
 		attributes: {
 			offset: 0.05,
-			backgroundMaterial: clearMaterial
+			backgroundMaterial: hoverMaterial
 		},
-		onSet: ()=> { /* console.log('I get called when button is set hovered') */ }
 	};
 
 	const idleStateOptions = {
 		state: "idle",
 		attributes: {
 			offset: 0.05,
-			backgroundMaterial: opaqueMaterial
+			backgroundMaterial: null
 		},
-		onSet: ()=> { /* console.log('I get called when button is set idle') */ }
 	};
 
 	// Buttons creation, with the options objects passed in parameters.
@@ -252,15 +242,11 @@ function makePanel() {
 	// Add text to buttons
 
 	buttonNext.add(
-		ThreeMeshUI.Text({
-			content: "next",
-		})
+		ThreeMeshUI.Text({ content: "next" })
 	);
 
 	buttonPrevious.add(
-		ThreeMeshUI.Text({
-			content: "previous"
-		})
+		ThreeMeshUI.Text({ content: "previous" })
 	);
 
 	// Create states for the buttons.
@@ -270,7 +256,7 @@ function makePanel() {
 		state: "selected",
 		attributes: {
 			offset: 0.02,
-			backgroundMaterial: clearMaterial
+			backgroundMaterial: hoverMaterial
 		},
 		onSet: ()=> {
 			currentMesh = (currentMesh + 1) % 3 ;
@@ -280,11 +266,13 @@ function makePanel() {
 	buttonNext.setupState( hoveredStateOptions );
 	buttonNext.setupState( idleStateOptions );
 
+	//
+
 	buttonPrevious.setupState({
 		state: "selected",
 		attributes: {
 			offset: 0.02,
-			backgroundMaterial: clearMaterial
+			backgroundMaterial: hoverMaterial
 		},
 		onSet: ()=> {
 			currentMesh -= 1;
@@ -295,6 +283,8 @@ function makePanel() {
 	buttonPrevious.setupState( hoveredStateOptions );
 	buttonPrevious.setupState( idleStateOptions );
 
+	//
+
 	container.add( buttonNext, buttonPrevious );
 	objsToTest.push( buttonNext, buttonPrevious );
 
@@ -303,18 +293,18 @@ function makePanel() {
 // Handle resizing the viewport
 
 function onWindowResize() {
-
 	camera.aspect = window.innerWidth / window.innerHeight;
 	camera.updateProjectionMatrix();
-
 	renderer.setSize( window.innerWidth, window.innerHeight );
-
 };
 
 //
 
 function loop() {
 
+	// Don't forget, ThreeMeshUI must be updated manually.
+	// This has been introduced in version 3.0.0 in order
+	// to improve performance
 	ThreeMeshUI.update();
 
 	controls.update();

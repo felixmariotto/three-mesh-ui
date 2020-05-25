@@ -24,14 +24,14 @@ export default {
 	backgroundSize: "contain",
 
 	fontMaterial: new MeshBasicMaterial({
-		color: 0x003047
+		color: 0xffffff
 	}),
 
 	backgroundMaterial: new MeshBasicMaterial({
 		color: 0x000000,
 		side: 2,
 		transparent: true,
-		opacity: 0.2
+		opacity: 0.4
 	})
 
 };

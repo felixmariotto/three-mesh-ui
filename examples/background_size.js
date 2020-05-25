@@ -11,16 +11,12 @@ import ThreeMeshUI from '../src/three-mesh-ui.js';
 const WIDTH = window.innerWidth;
 const HEIGHT = window.innerHeight;
 
-let scene, camera, renderer, controls, transparentMaterial, opaqueMaterial ;
+let scene, camera, renderer, controls, transparentMaterial;
 
-window.addEventListener('load', ()=> {
-	init();
-});
+window.addEventListener('load', init );
+window.addEventListener('resize', onWindowResize );
 
-window.addEventListener('resize', ()=> {
-	onWindowResize();
-});
-
+//
 
 function init() {
 
@@ -57,12 +53,6 @@ function init() {
 	transparentMaterial = new THREE.MeshBasicMaterial({
 		transparent: true,
 		opacity: 0
-	});
-
-	opaqueMaterial = new THREE.MeshBasicMaterial({
-		color: 0x000000,
-		transparent: true,
-		opacity: 0.5
 	});
 
 	makePanels();
@@ -156,7 +146,7 @@ function makeSection( textureMaterial, backgroundSize, text1, text2 ) {
 		justifyContent: 'center',
 		fontFamily: './assets/Roboto-msdf.json',
 		fontTexture: './assets/Roboto-msdf.png',
-		backgroundMaterial: opaqueMaterial,
+		backgroundMaterial: null,
 		fontSize: 0.04
 	});
 
@@ -179,10 +169,23 @@ function makeSection( textureMaterial, backgroundSize, text1, text2 ) {
 
 };
 
-/* Render loop (called ~60 times/second, or more in VR) */
+// handles resizing the viewport
+
+function onWindowResize() {
+	camera.aspect = window.innerWidth / window.innerHeight;
+	camera.updateProjectionMatrix();
+	renderer.setSize( window.innerWidth, window.innerHeight );
+};
+
+//
 
 function loop() {
-	controls.update();
+
+	// Don't forget, ThreeMeshUI must be updated manually.
+	// This has been introduced in version 3.0.0 in order
+	// to improve performance
 	ThreeMeshUI.update();
+
+	controls.update();
 	renderer.render( scene, camera );
 };

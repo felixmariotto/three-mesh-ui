@@ -11,18 +11,15 @@ const HEIGHT = window.innerHeight;
 
 let scene, camera, renderer, controls ;
 
-window.addEventListener('load', ()=> {
-	init();
-});
+window.addEventListener('load', init );
+window.addEventListener('resize', onWindowResize );
 
-window.addEventListener('resize', ()=> {
-	onWindowResize();
-});
+//
 
 function init() {
 
 	scene = new THREE.Scene();
-	scene.background = new THREE.Color( 0xf2f2f2 );
+	scene.background = new THREE.Color( 0x505050 );
 
 	camera = new THREE.PerspectiveCamera( 60, WIDTH / HEIGHT, 0.1, 100 );
 
@@ -100,21 +97,23 @@ function makeTextPanel() {
 
 };
 
-//
+// handles resizing the renderer when the viewport is resized
 
 function onWindowResize() {
-
 	camera.aspect = window.innerWidth / window.innerHeight;
 	camera.updateProjectionMatrix();
-
 	renderer.setSize( window.innerWidth, window.innerHeight );
-
 };
 
 //
 
 function loop() {
-	controls.update();
+
+	// Don't forget, ThreeMeshUI must be updated manually.
+	// This has been introduced in version 3.0.0 in order
+	// to improve performance
 	ThreeMeshUI.update();
+
+	controls.update();
 	renderer.render( scene, camera );
 };

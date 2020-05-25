@@ -16,7 +16,7 @@ let objsToTest = [];
 
 const raycaster = new THREE.Raycaster();
 
-// calculate mouse position in normalized device coordinates
+// compute mouse position in normalized device coordinates
 // (-1 to +1) for both directions.
 // Used to raycasting against the interactive elements
 
@@ -48,13 +48,10 @@ window.addEventListener( 'touchend', ()=> {
 
 //
 
-window.addEventListener('load', ()=> {
-	init();
-});
+window.addEventListener('load', init );
+window.addEventListener('resize', onWindowResize );
 
-window.addEventListener('resize', ()=> {
-	onWindowResize();
-});
+//
 
 function init() {
 
@@ -283,8 +280,13 @@ function onWindowResize() {
 //
 
 function loop() {
-	controls.update();
+
+	// Don't forget, ThreeMeshUI must be updated manually.
+	// This has been introduced in version 3.0.0 in order
+	// to improve performance
 	ThreeMeshUI.update();
+
+	controls.update();
 	renderer.render( scene, camera );
 	updateButtons();
 };

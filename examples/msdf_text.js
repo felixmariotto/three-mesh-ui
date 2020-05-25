@@ -11,19 +11,20 @@ const HEIGHT = window.innerHeight;
 
 let scene, camera, renderer, controls ;
 
+//
+
 let bigText = '';
 
 for (let i = 0 ; i < 18 ; i++) {
-	bigText += 'MSDFText is very performant when rendering big text because the glyphs are textures on simple planes geometries, all merged together. ';
+	bigText += 'MSDFText is very efficient when rendering big text because the glyphs are textures on simple planes geometries, all merged together. ';
 };
 
-window.addEventListener('load', ()=> {
-	init();
-});
+//
 
-window.addEventListener('resize', ()=> {
-	onWindowResize();
-});
+window.addEventListener('load', init );
+window.addEventListener('resize', onWindowResize );
+
+//
 
 function init() {
 
@@ -32,9 +33,7 @@ function init() {
 
 	camera = new THREE.PerspectiveCamera( 60, WIDTH / HEIGHT, 0.02, 100 );
 
-	renderer = new THREE.WebGLRenderer({
-		antialias: true
-	});
+	renderer = new THREE.WebGLRenderer({ antialias: true });
 	renderer.setPixelRatio( window.devicePixelRatio );
 	renderer.setSize( WIDTH, HEIGHT );
 	renderer.xr.enabled = true;
@@ -136,18 +135,20 @@ function makeTextPanel() {
 //
 
 function onWindowResize() {
-
 	camera.aspect = window.innerWidth / window.innerHeight;
 	camera.updateProjectionMatrix();
-
 	renderer.setSize( window.innerWidth, window.innerHeight );
-
 };
 
 //
 
 function loop() {
-	controls.update();
+
+	// Don't forget, ThreeMeshUI must be updated manually.
+	// This has been introduced in version 3.0.0 in order
+	// to improve performance
 	ThreeMeshUI.update();
+
+	controls.update();
 	renderer.render( scene, camera );
 };
