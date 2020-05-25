@@ -120,7 +120,7 @@ function makeTextPanel() {
 
 	caption.add(
 		ThreeMeshUI.Text({
-			content: "Mind you fingers",
+			content: "Mind your fingers",
 			fontSize: 0.03
 		})
 	);
