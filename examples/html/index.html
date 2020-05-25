@@ -67,6 +67,34 @@
 			list-style-type: none;
 		}
 
+		#github-link {
+			display: flex;
+			align-items: center;
+		}
+
+			#example-code-icon {
+				width: 25px;
+				margin-right: 10px;
+			}
+
+		#github-link-menu {
+			display: flex;
+			align-items: center;
+			color: white;
+			background-color: var(--dark-colour);
+			text-decoration: none;
+			margin: 20px 0;
+			padding: 5px 10px;
+			font-size: 1.1em;
+			box-shadow: 1px 1px 3px rgba(0,0,0,0.8);
+			border-radius: 3px;
+		}
+
+			#menu-icon {
+				width: 28px;
+				margin-right: 10px;
+			}
+
 		#iframe-container {
 			position: relative;
 			height: 100vh;
@@ -181,6 +209,14 @@
 			<div id="examples-container">
 				<h1>three-mesh-ui</h1>
 				<h2>examples</h2>
+				<a
+				id="github-link-menu"
+				href="https://github.com/felixmariotto/three-mesh-ui"
+				target="_blank"
+				>
+					<img id="menu-icon" src="https://felixmariotto.s3.eu-west-3.amazonaws.com/github-white-icon.png">
+					more on Github
+				</a>
 				<ul>
 					<%= htmlWebpackPlugin.options.pages %>
 				</ul>
@@ -204,6 +240,7 @@
 			href=""
 			target="_blank"
 			>
+				<img id="example-code-icon" src="https://felixmariotto.s3.eu-west-3.amazonaws.com/github-white-icon.png">
 				code on Github
 			</a>
 
