@@ -108,10 +108,14 @@ function init() {
 	
 	const roomMesh = new THREE.Mesh(
 		new THREE.BoxGeometry( 6, 6, 6, 10, 10, 10 ).translate( 0, 3, 0 ),
-		new THREE.MeshBasicMaterial({ side: THREE.BackSide }),
+		new THREE.MeshBasicMaterial({
+			side: THREE.BackSide,
+			transparent: true,
+			opacity: 0
+		}),
 	);
 
-	scene.add( room );
+	scene.add( room, roomMesh );
     objsToTest.push(roomMesh);
 
     // USER INTERFACE
