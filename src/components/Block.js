@@ -79,6 +79,15 @@ function Block( options ) {
 
 		frameContainer.add( frame );
 
+		// We check if this block is the root component,
+		// because most of the time the user wants to set the
+		// root component's z position themselves
+		if ( block.getUIParent() ) {
+
+			block.position.z = block.getOffset();
+
+		};
+
 	};
 
 	//

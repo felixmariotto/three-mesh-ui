@@ -284,8 +284,8 @@ function onWindowResize() {
 
 function loop() {
 	controls.update();
-	renderer.render( scene, camera );
 	ThreeMeshUI.update();
+	renderer.render( scene, camera );
 	updateButtons();
 };
 

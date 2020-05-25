@@ -136,6 +136,8 @@ function Text( options ) {
 
 		};
 
+		textComponent.position.z = textComponent.getOffset();
+
 	};
 
 	textComponent.updateInner = function updateInner() {

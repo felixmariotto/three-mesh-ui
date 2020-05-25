@@ -183,5 +183,6 @@ function makeSection( textureMaterial, backgroundSize, text1, text2 ) {
 
 function loop() {
 	controls.update();
+	ThreeMeshUI.update();
 	renderer.render( scene, camera );
 };

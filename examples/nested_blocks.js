@@ -218,5 +218,6 @@ function onWindowResize() {
 
 function loop() {
 	controls.update();
+	ThreeMeshUI.update();
 	renderer.render( scene, camera );
 };

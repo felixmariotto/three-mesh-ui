@@ -315,6 +315,8 @@ function onWindowResize() {
 
 function loop() {
 
+	ThreeMeshUI.update();
+
 	controls.update();
 
 	meshContainer.rotation.z += 0.01;
