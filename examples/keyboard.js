@@ -328,7 +328,7 @@ function raycast() {
 	return objsToTest.reduce( (closestIntersection, obj)=> {
 
 		// Everything that is not a child of scene is pruned out
-		if ( !scene.getObjectById( obj.id ) ) return closestIntersection
+		if ( !obj || !scene.getObjectById( obj.id ) ) return closestIntersection
 
 		const intersection = raycaster.intersectObject( obj, true );
 
