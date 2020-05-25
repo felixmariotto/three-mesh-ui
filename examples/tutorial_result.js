@@ -101,8 +101,8 @@ function makeUI() {
 	//
 
 	container.set({
-		textType: 'geometry',
-		fontFamily: './assets/helvetiker_regular.typeface.json'
+		fontFamily: './assets/Roboto-msdf.json',
+		fontTexture: './assets/Roboto-msdf.png',
 	});
 
 	const text = new ThreeMeshUI.Text({
@@ -112,8 +112,8 @@ function makeUI() {
 	textBlock.add( text );
 
 	text.set({
-		fontMaterial: new THREE.MeshBasicMaterial({ color: 0xd2ffbd }),
-		fontSize: 0.04
+		fontColor: new THREE.Color( 0xd2ffbd ),
+		fontSize: 0.06
 	});
 
 	textBlock.set({
@@ -125,7 +125,8 @@ function makeUI() {
 	textBlock.add(
 		new ThreeMeshUI.Text({
 			content: ' Mind your fingers.',
-			fontMaterial: new THREE.MeshBasicMaterial({ color: 0xefffe8 })
+			fontSize: 0.07,
+			fontColor: new THREE.Color( 0xefffe8 )
 		})
 	);
 

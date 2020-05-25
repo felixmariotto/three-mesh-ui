@@ -5,12 +5,14 @@ Knows: dimension of the plane to create, specs of the font used, glyph requireed
 
 */
 
+import { PlaneBufferGeometry } from 'three'
+
 export default function MSDFGlyph( inline, font ) {
 
 	const char = inline.glyph;
 	const fontSize = inline.fontSize;
 
-	const geometry = new THREE.PlaneBufferGeometry( fontSize, fontSize );
+	const geometry = new PlaneBufferGeometry( fontSize, fontSize );
 
 	// Misc glyphs
 	if ( char.match(/\s/g) === null ) {
