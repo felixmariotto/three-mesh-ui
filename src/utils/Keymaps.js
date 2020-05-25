@@ -48,7 +48,7 @@ export default {
 				v: { width: 0.1, upperCase: "V" },
 				b: { width: 0.1, upperCase: "B" },
 				n: { width: 0.1, upperCase: "N" },
-				cancel: { width: 0.2, command: 'cancel' }
+				cancel: { width: 0.2, command: 'backspace' }
 			},
 
 			{
@@ -152,7 +152,7 @@ export default {
 				b: { width: 0.1, upperCase: "B" },
 				n: { width: 0.1, upperCase: "N" },
 				m: { width: 0.1, upperCase: "M" },
-				cancel: { width: 0.15, command: 'cancel' }
+				cancel: { width: 0.15, command: 'backspace' }
 			},
 
 			{
