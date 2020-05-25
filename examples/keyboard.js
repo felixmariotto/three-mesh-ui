@@ -278,7 +278,7 @@ function updateButtons() {
 		intersect = raycast();
 
 		// Position the little white dot at the end of the controller pointing ray
-		vrControl.setPointerAt( 0, intersect.point );
+		if ( intersect ) vrControl.setPointerAt( 0, intersect.point );
 
 	} else if ( mouse.x !== null && mouse.y !== null ) {
 
