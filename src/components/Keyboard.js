@@ -72,7 +72,9 @@ export default function KeyboardModule( options ) {
 			width: options.width + (options.padding * 2),
 			height: options.height + (options.padding * 2),
 			offset: 0,
-			padding: options.padding
+			padding: options.padding,
+			fontFamily: options.fontFamily,
+			fontTexture: options.fontTexture
 		});
 
 		panelBlock.add( ...panel.map( (line, i, lines)=> {
