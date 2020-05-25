@@ -11,7 +11,7 @@ import ShadowedLight from './utils/ShadowedLight.js';
 const WIDTH = window.innerWidth;
 const HEIGHT = window.innerHeight;
 
-let scene, camera, renderer, controls, vrControl;
+let scene, camera, renderer, controls, vrControl, keyboard;
 let objsToTest = [];
 
 const raycaster = new THREE.Raycaster();
@@ -175,7 +175,7 @@ function makeUI() {
 
 	// KEYBOARD
 
-	const keyboard = ThreeMeshUI.Keyboard({
+	keyboard = ThreeMeshUI.Keyboard({
 		fontFamily: './assets/Roboto-msdf.json',
 		fontTexture: './assets/Roboto-msdf.png',
 		backgroundMaterial: backgroundMaterial
@@ -213,13 +213,30 @@ function makeUI() {
 				offset: -0.009,
 				backgroundMaterial: selectedMaterial
 			},
+			// triggered when the user clicked on a keyboard's key
 			onSet: ()=> {
 
-				keyboard.setNextPanel();
+				// if the key have a command (eg: 'backspace', 'switch', 'enter'...)
+				// special actions are taken
+				if ( key.info.command ) {
 
-				userText.set({
-					content: userText.content += key.char
-				});
+					switch( key.info.command ) {
+
+						// switch between letters and symbols panels
+						case 'switch' :
+							keyboard.setNextPanel();
+							break;
+
+					};
+
+				// print a glyph, if any
+				} else if ( key.info.char ) {
+
+					userText.set({
+						content: userText.content += key.info.char
+					});
+
+				};
 
 			}
 		});
@@ -275,12 +292,12 @@ function updateButtons() {
 
 	if ( intersect && intersect.object.isUI ) {
 
-		if ( selectState ) {
+		if ( selectState && intersect.object.currentState === 'hovered' ) {
 
 			// Component.setState internally call component.set with the options you defined in component.setupState
 			intersect.object.setState( 'selected' );
 
-		} else {
+		} else if ( !selectState ) {
 
 			// Component.setState internally call component.set with the options you defined in component.setupState
 			intersect.object.setState( 'hovered' );
@@ -310,12 +327,18 @@ function raycast() {
 
 	return objsToTest.reduce( (closestIntersection, obj)=> {
 
+		// Everything that is not a child of scene is pruned out
+		if ( !scene.getObjectById( obj.id ) ) return closestIntersection
+
 		const intersection = raycaster.intersectObject( obj, true );
 
+		// if intersection is an empty array, we skip
 		if ( !intersection[0] ) return closestIntersection
 
+		// if this intersection is closer than any previous intersection, we keep it
 		if ( !closestIntersection || intersection[0].distance < closestIntersection.distance ) {
 
+			// Make sure to return the UI object, and not one of its children (text, frame...)
 			intersection[0].object = obj;
 
 			return intersection[0]

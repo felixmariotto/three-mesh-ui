@@ -52,7 +52,7 @@ export default {
 			},
 
 			{
-				'.?12': { width: 0.2 },
+				'.?12': { width: 0.2, command: 'switch' },
 				',': { width: 0.1 },
 				space: { width: 0.4 },
 				'.': { width: 0.1 },
@@ -102,7 +102,7 @@ export default {
 			},
 
 			{
-				'.?12': { width: 0.2 },
+				'.?12': { width: 0.2, command: 'switch' },
 				',': { width: 0.1 },
 				space: { width: 0.4 },
 				'.': { width: 0.1 },

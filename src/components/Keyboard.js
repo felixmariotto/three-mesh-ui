@@ -64,9 +64,7 @@ export default function KeyboardModule( options ) {
 
 	keyboard.keys = [];
 
-	keyboard.panels = keymap.map( (panel)=> {
-
-		// console.log( panel );
+	keyboard.panels = keymap.map( (panel, i)=> {
 
 		const lineHeight = (options.height / panel.length) - (options.margin * 2);
 
@@ -78,8 +76,6 @@ export default function KeyboardModule( options ) {
 		});
 
 		panelBlock.add( ...panel.map( (line, i, lines)=> {
-
-			// console.log( line )
 
 			const lineBlock = Block({
 				width: options.width,
@@ -93,8 +89,6 @@ export default function KeyboardModule( options ) {
 			let keys = [];
 
 			for ( let char of Object.keys(line) ) {
-
-				// console.log( line[char] );
 
 				const key = Block({
 					width: (options.width * line[char].width) - (options.margin * 2),
@@ -112,7 +106,10 @@ export default function KeyboardModule( options ) {
 					})
 				);
 
-				key.char = char;
+				key.type = "Key"
+
+				key.info = line[char];
+				key.info.char = char;
 
 				// line's keys
 				keys.push( key );
@@ -132,7 +129,7 @@ export default function KeyboardModule( options ) {
 
 	});
 
-	keyboard.add( keyboard.panels[ 1 ] );
+	keyboard.add( keyboard.panels[ 0 ] );
 
 	keyboard.setNextPanel = function setNextPanel() {
 

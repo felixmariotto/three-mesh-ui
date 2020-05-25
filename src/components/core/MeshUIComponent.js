@@ -361,7 +361,9 @@ export default function MeshUIComponent() {
 		
 	};
 
-	//
+	/////////////////////
+	// STATE MANAGEMENT
+	/////////////////////
 
 	function setupState( options ) {
 
