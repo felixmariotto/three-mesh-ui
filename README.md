@@ -9,6 +9,9 @@
 <a href="https://three-mesh-ui.herokuapp.com/#msdf_text">
   <img alt="big text example" target="_blank" src="https://felixmariotto.s3.eu-west-3.amazonaws.com/three-mesh-ui-teasers/big-text-github.gif" width="45%">
 </a>
+<a href="https://three-mesh-ui.herokuapp.com/#keyboard">
+  <img alt="big text example" target="_blank" src="https://felixmariotto.s3.eu-west-3.amazonaws.com/three-mesh-ui-teasers/keyboard_github.gif" width="45%">
+</a>
 
 ## What is it ?
 
