@@ -84,7 +84,7 @@ function makeTextPanel() {
 		}),
 
 		ThreeMeshUI.Text({
-			content: "With this lib you can easily create 3D user interfaces for your VR experiences based on Three.js\n",
+			content: "With this lib you can easily create 3D user interfaces for your VR experiences based on Three.js.\n",
 			fontSize: 0.04
 		}),
 
