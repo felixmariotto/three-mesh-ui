@@ -27,6 +27,8 @@ export default function KeyboardModule( options ) {
 
 	keyboard.currentPanel = 0;
 
+	keyboard.isLowerCase = true;
+
 	//////////
 	// KEYMAP
 	//////////
@@ -112,6 +114,7 @@ export default function KeyboardModule( options ) {
 
 				key.info = line[char];
 				key.info.char = char;
+				key.info.input = char;
 
 				// line's keys
 				keys.push( key );
@@ -133,6 +136,8 @@ export default function KeyboardModule( options ) {
 
 	keyboard.add( keyboard.panels[ 0 ] );
 
+	//
+
 	keyboard.setNextPanel = function setNextPanel() {
 
 		keyboard.panels.forEach( (panel)=> {
@@ -146,6 +151,30 @@ export default function KeyboardModule( options ) {
 		keyboard.add( keyboard.panels[ keyboard.currentPanel ] );
 
 		keyboard.update( true, true, true );
+
+	};
+
+	//
+
+	keyboard.toggleCase = function toggleCase() {
+
+		keyboard.isLowerCase = !keyboard.isLowerCase;
+
+		keyboard.keys.forEach( (key)=> {
+
+			const newContent = keyboard.isLowerCase || !key.info.upperCase ? key.info.char : key.info.upperCase;
+
+			const textComponent = key.children.find( child => child.type === 'Text' );
+
+			key.info.input = newContent;
+
+			textComponent.set({
+				content: newContent
+			});
+
+			textComponent.update( true, true, true );
+
+		});
 
 	};
 

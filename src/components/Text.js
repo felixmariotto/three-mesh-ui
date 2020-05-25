@@ -49,7 +49,10 @@ function Text( options ) {
 			return
 		};
 
-		if ( !this.content || this.content.length === 0 ) return
+		if ( !this.content ) {
+			textComponent.inlines = null
+			return
+		};
 
 		if ( textType === 'geometry' && font.fontType !== 'Typeface' ) {
 			console.error( `${ textType } text is not compatible with this type of font.\n See https://github.com/felixmariotto/three-mesh-ui/wiki/Choosing-a-Text-type` )
@@ -115,21 +118,23 @@ function Text( options ) {
 
 		*/
 
-		if ( !textComponent.inlines ) return
-
 		DeepDelete( textComponent );
 
-		const textContent = textComponent.textManager.create({
-			inlines: textComponent.inlines,
-			fontFamily: this.getFontFamily(),
-			fontMaterial: this.getFontMaterial(),
-			textType: this.getTextType(),
-			fontTexture: this.getFontTexture(),
-			fontColor: this.getFontColor(),
-			fontOpacity: this.getFontOpacity()
-		});
+		if ( textComponent.inlines ) {
 
-		textComponent.add( textContent );
+			const textContent = textComponent.textManager.create({
+				inlines: textComponent.inlines,
+				fontFamily: this.getFontFamily(),
+				fontMaterial: this.getFontMaterial(),
+				textType: this.getTextType(),
+				fontTexture: this.getFontTexture(),
+				fontColor: this.getFontColor(),
+				fontOpacity: this.getFontOpacity()
+			});
+
+			textComponent.add( textContent );
+
+		};
 
 	};
 

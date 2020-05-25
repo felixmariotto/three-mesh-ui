@@ -15,48 +15,48 @@ export default {
 		[
 
 			{
-				a: { width: 0.1 },
-				z: { width: 0.1 },
-				e: { width: 0.1 },
-				r: { width: 0.1 },
-				t: { width: 0.1 },
-				y: { width: 0.1 },
-				u: { width: 0.1 },
-				i: { width: 0.1 },
-				o: { width: 0.1 },
-				p: { width: 0.1 }
+				a: { width: 0.1, upperCase: "A" },
+				z: { width: 0.1, upperCase: "Z" },
+				e: { width: 0.1, upperCase: "E" },
+				r: { width: 0.1, upperCase: "R" },
+				t: { width: 0.1, upperCase: "T" },
+				y: { width: 0.1, upperCase: "Y" },
+				u: { width: 0.1, upperCase: "U" },
+				i: { width: 0.1, upperCase: "I" },
+				o: { width: 0.1, upperCase: "O" },
+				p: { width: 0.1, upperCase: "P" }
 			},
 
 			{
-				q: { width: 0.1 },
-				s: { width: 0.1 },
-				d: { width: 0.1 },
-				f: { width: 0.1 },
-				g: { width: 0.1 },
-				h: { width: 0.1 },
-				j: { width: 0.1 },
-				k: { width: 0.1 },
-				l: { width: 0.1 },
-				m: { width: 0.1 }
+				q: { width: 0.1, upperCase: "Q" },
+				s: { width: 0.1, upperCase: "S" },
+				d: { width: 0.1, upperCase: "D" },
+				f: { width: 0.1, upperCase: "F" },
+				g: { width: 0.1, upperCase: "G" },
+				h: { width: 0.1, upperCase: "H" },
+				j: { width: 0.1, upperCase: "J" },
+				k: { width: 0.1, upperCase: "K" },
+				l: { width: 0.1, upperCase: "L" },
+				m: { width: 0.1, upperCase: "M" }
 			},
 
 			{
-				shift: { width: 0.2 },
-				w: { width: 0.1 },
-				x: { width: 0.1 },
-				c: { width: 0.1 },
-				v: { width: 0.1 },
-				b: { width: 0.1 },
-				n: { width: 0.1 },
-				backspace: { width: 0.2 }
+				shift: { width: 0.2, command: 'shift' },
+				w: { width: 0.1, upperCase: "W" },
+				x: { width: 0.1, upperCase: "X" },
+				c: { width: 0.1, upperCase: "C" },
+				v: { width: 0.1, upperCase: "V" },
+				b: { width: 0.1, upperCase: "B" },
+				n: { width: 0.1, upperCase: "N" },
+				backspace: { width: 0.2, command: 'backspace' }
 			},
 
 			{
 				'.?12': { width: 0.2, command: 'switch' },
 				',': { width: 0.1 },
-				space: { width: 0.4 },
+				space: { width: 0.4, command: 'space' },
 				'.': { width: 0.1 },
-				enter: { width: 0.2 }
+				enter: { width: 0.2, command: 'enter' }
 			}
 
 		],
@@ -98,15 +98,15 @@ export default {
 				';': { width: 0.1 },
 				'!': { width: 0.1 },
 				'?': { width: 0.1 },
-				backspace: { width: 0.2 }
+				backspace: { width: 0.2, command: 'backspace' }
 			},
 
 			{
 				'.?12': { width: 0.2, command: 'switch' },
 				',': { width: 0.1 },
-				space: { width: 0.4 },
+				space: { width: 0.4, command: 'space' },
 				'.': { width: 0.1 },
-				enter: { width: 0.2 }
+				enter: { width: 0.2, command: 'enter' }
 			}
 
 		]

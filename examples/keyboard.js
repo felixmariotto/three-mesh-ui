@@ -231,13 +231,36 @@ function makeUI() {
 							keyboard.setNextPanel();
 							break;
 
+						case 'enter' :
+							userText.set({
+								content: userText.content += '\n'
+							});
+							break;
+
+						case 'space' :
+							userText.set({
+								content: userText.content += ' '
+							});
+							break;
+
+						case 'backspace' :
+							if ( !userText.content.length ) break
+							userText.set({
+								content: userText.content.substring(0, userText.content.length - 1) || ""
+							});
+							break;
+
+						case 'shift' :
+							keyboard.toggleCase();
+							break;
+
 					};
 
 				// print a glyph, if any
-				} else if ( key.info.char ) {
+				} else if ( key.info.input ) {
 
 					userText.set({
-						content: userText.content += key.info.char
+						content: userText.content += key.info.input
 					});
 
 				};
