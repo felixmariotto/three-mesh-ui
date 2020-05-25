@@ -12,7 +12,7 @@ https://github.com/felixmariotto/three-mesh-ui/wiki/Choosing-a-Text-type
 
 */
 
-import { Mesh } from 'three';
+import { Mesh, ShaderMaterial } from 'three';
 import { BufferGeometryUtils } from 'three/examples/jsm/utils/BufferGeometryUtils.js';
 
 import GeometryGlyph from './glyphs/GeometryGlyph';
@@ -142,7 +142,7 @@ export default function TextContent() {
 
 		//
 
-		const MATERIAL = new THREE.ShaderMaterial( {
+		const MATERIAL = new ShaderMaterial( {
 			uniforms: { u_texture: { value: options.fontTexture }},
 			transparent: true,
 			vertexShader: VertexShader(),
