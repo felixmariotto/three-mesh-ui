@@ -24,6 +24,7 @@ const mouse = new THREE.Vector2();
 mouse.x = mouse.y = null;
 
 let selectState = false;
+let touchState = false;
 
 window.addEventListener( 'mousemove', ( event )=>{
 	mouse.x = ( event.clientX / window.innerWidth ) * 2 - 1;
@@ -35,13 +36,13 @@ window.addEventListener( 'mousedown', ()=> { selectState = true });
 window.addEventListener( 'mouseup', ()=> { selectState = false });
 
 window.addEventListener( 'touchstart', ( event )=> {
-	selectState = true;
+	touchState = true;
 	mouse.x = ( event.touches[0].clientX / window.innerWidth ) * 2 - 1;
 	mouse.y = - ( event.touches[0].clientY / window.innerHeight ) * 2 + 1;
 });
 
 window.addEventListener( 'touchend', ()=> {
-	selectState = false;
+	touchState = false;
 	mouse.x = null;
 	mouse.y = null;
 });
@@ -321,12 +322,12 @@ function updateButtons() {
 
 	if ( intersect && intersect.object.isUI ) {
 
-		if ( selectState && intersect.object.currentState === 'hovered' ) {
+		if ( (selectState && intersect.object.currentState === 'hovered') || touchState ) {
 
 			// Component.setState internally call component.set with the options you defined in component.setupState
 			intersect.object.setState( 'selected' );
 
-		} else if ( !selectState ) {
+		} else if ( !selectState && !touchState ) {
 
 			// Component.setState internally call component.set with the options you defined in component.setupState
 			intersect.object.setState( 'hovered' );

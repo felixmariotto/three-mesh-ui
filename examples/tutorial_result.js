@@ -111,6 +111,8 @@ function makeUI() {
 
 	textBlock.add( text );
 
+	//
+
 	text.set({
 		fontColor: new THREE.Color( 0xd2ffbd ),
 		fontSize: 0.06
@@ -121,6 +123,8 @@ function makeUI() {
 		justifyContent: 'end',
 		padding: 0.03
 	});
+
+	//
 
 	textBlock.add(
 		new ThreeMeshUI.Text({
