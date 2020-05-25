@@ -48,6 +48,7 @@ export default function MeshUIComponent() {
 		getUIChildren,
 		getUIParent,
 
+		update,
 		_updateFontFamily,
 		_updateFontTexture,
 		_getProperty,
@@ -249,6 +250,14 @@ export default function MeshUIComponent() {
 	///  UPDATE
 	///////////////
 
+	function update( updateParsing, updateLayout, updateInner, component ) {
+
+		component = component || this;
+
+		UpdateManager.requestUpdate( component, updateParsing, updateLayout, updateInner );
+
+	};
+
 	// Called by FontLibrary when the font requested for the current component is ready.
 	// Trigger an update for the component whose font is now available.
 	function _updateFontFamily( font ) {
@@ -257,11 +266,11 @@ export default function MeshUIComponent() {
 		
 		this.traverse( (child)=> {
 
-			if ( child.isUI ) UpdateManager.requestUpdate( child, true, true );
+			if ( child.isUI ) update( true, true, false, child );
 
 		});
 
-		UpdateManager.requestUpdate( this.getHighestParent(), false, true, false );
+		update( false, true, false, this.getHighestParent() );
 
 	};
 
@@ -269,7 +278,7 @@ export default function MeshUIComponent() {
 
 		this.fontTexture = texture;
 
-		UpdateManager.requestUpdate( this.getHighestParent(), false, true, false );
+		update( false, true, false, this.getHighestParent() );
 
 	};
 
@@ -346,9 +355,9 @@ export default function MeshUIComponent() {
 		
 		// Call component update
 
-		UpdateManager.requestUpdate( this, parsingNeedsUpdate, layoutNeedsUpdate, innerNeedsUpdate );
+		update( parsingNeedsUpdate, layoutNeedsUpdate, innerNeedsUpdate, this );
 
-		if ( layoutNeedsUpdate ) UpdateManager.requestUpdate( this.getHighestParent(), false, true, false );
+		if ( layoutNeedsUpdate ) update( false, true, false, this.getHighestParent() );
 		
 	};
 

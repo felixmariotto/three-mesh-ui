@@ -130,21 +130,10 @@ function makeUI() {
 
 	// PANEL MATERIALS
 
-	const foregroundMaterial = new THREE.MeshBasicMaterial({
-		color: 0x0b0b0b
-	});
-
-	const backgroundMaterial = new THREE.MeshBasicMaterial({
-		color: 0x5c5c5c
-	});
-
-	const hoveredMaterial = new THREE.MeshBasicMaterial({
-		color: 0x1c1c1c
-	});
-
-	const selectedMaterial = new THREE.MeshBasicMaterial({
-		color: 0x109c5d
-	});
+	const foregroundMaterial = new THREE.MeshBasicMaterial({ color: 0x0b0b0b });
+	const backgroundMaterial = new THREE.MeshBasicMaterial({ color: 0x5c5c5c });
+	const hoveredMaterial = new THREE.MeshBasicMaterial({ color: 0x1c1c1c });
+	const selectedMaterial = new THREE.MeshBasicMaterial({ color: 0x109c5d });
 
 	// TEXT PANEL
 
@@ -168,16 +157,10 @@ function makeUI() {
     	justifyContent: 'center',
     	fontSize: 0.045
     }).add(
-
-    	ThreeMeshUI.Text({
-    		content: 'Type some text on the keyboard'
-    	})
-
+    	ThreeMeshUI.Text({ content: 'Type some text on the keyboard' })
     );
 
-    const userText = ThreeMeshUI.Text({
-		content: ''
-	});
+    const userText = ThreeMeshUI.Text({ content: '' });
 
     const textField = ThreeMeshUI.Block({
     	width: 1,
@@ -231,9 +214,13 @@ function makeUI() {
 				backgroundMaterial: selectedMaterial
 			},
 			onSet: ()=> {
+
+				keyboard.setNextPanel();
+
 				userText.set({
 					content: userText.content += key.char
 				});
+
 			}
 		});
 
@@ -244,12 +231,9 @@ function makeUI() {
 //
 
 function onWindowResize() {
-
 	camera.aspect = window.innerWidth / window.innerHeight;
 	camera.updateProjectionMatrix();
-
 	renderer.setSize( window.innerWidth, window.innerHeight );
-
 };
 
 //

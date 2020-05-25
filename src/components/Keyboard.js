@@ -25,6 +25,8 @@ export default function KeyboardModule( options ) {
 
 	keyboard.type = 'Keyboard';
 
+	keyboard.currentPanel = 0;
+
 	//////////
 	// KEYMAP
 	//////////
@@ -130,7 +132,23 @@ export default function KeyboardModule( options ) {
 
 	});
 
-	keyboard.add( keyboard.panels[0] )
+	keyboard.add( keyboard.panels[ 1 ] );
+
+	keyboard.setNextPanel = function setNextPanel() {
+
+		keyboard.panels.forEach( (panel)=> {
+
+			keyboard.remove( panel );
+
+		});
+
+		keyboard.currentPanel = (keyboard.currentPanel + 1) % (keyboard.panels.length);
+
+		keyboard.add( keyboard.panels[ keyboard.currentPanel ] );
+
+		keyboard.update( true, true, true );
+
+	};
 
 	////////////
 	//  UPDATE
