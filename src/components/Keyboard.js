@@ -47,7 +47,7 @@ export default function KeyboardModule( options ) {
 				break
 
 			default :
-				keymap = keymaps.fr
+				keymap = keymaps.eng
 				break
 
 		};
@@ -85,7 +85,8 @@ export default function KeyboardModule( options ) {
 				width: options.width,
 				height: lineHeight,
 				margin: options.margin,
-				contentDirection: 'row'
+				contentDirection: 'row',
+				justifyContent: 'center'
 			});
 
 			lineBlock.frameContainer.visible = false;
