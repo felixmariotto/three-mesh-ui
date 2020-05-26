@@ -26,11 +26,14 @@
 		}
 
 		#page {
+			position: fixed;
+			height: 100%;
+			width: 100%;
 			display: flex;
 		}
 
 		#menu {
-			height: 100vh;
+			height: 100%;
 			min-width: 270px;
 			border-right: solid 1px var(--dark-colour);
 			transition: height 0.2s;
@@ -59,9 +62,37 @@
 			list-style-type: none;
 		}
 
+		#github-link {
+			display: flex;
+			align-items: center;
+		}
+
+			#example-code-icon {
+				width: 25px;
+				margin-right: 10px;
+			}
+
+		#github-link-menu {
+			display: flex;
+			align-items: center;
+			color: white;
+			background-color: var(--dark-colour);
+			text-decoration: none;
+			margin: 8px 0 30px 0;
+			padding: 5px 10px;
+			font-size: 1.1em;
+			box-shadow: 1px 1px 3px rgba(0,0,0,0.8);
+			border-radius: 3px;
+		}
+
+			#menu-icon {
+				width: 28px;
+				margin-right: 10px;
+			}
+
 		#iframe-container {
 			position: relative;
-			height: 100vh;
+			height: 100%;
 			width: 100%;
 			background-color: grey;
 		}
@@ -84,8 +115,8 @@
 
 			#iframe-container>a {
 				position: absolute;
-				right: 15px;
-				bottom: 15px;
+				right: 20px;
+				bottom: 20px;
 				z-index: 2;
 				color: white;
 				background-color: var(--dark-colour);
@@ -149,11 +180,11 @@
 			}
 
 			#iframe-container {
-				height: calc( 100vh - 60px );
+				height: calc( 100% - 60px );
 				width: 100vw;
 			}
 
-		}</style></head><body><div id="page"><div id="menu"><div id="navbar-container"><button id="toggle-btn" onclick="toggleNavbar()">more examples ▼</button></div><div id="examples-container"><h1>three-mesh-ui</h1><h2>examples</h2><ul><li title="basic_setup">basic setup</li><li title="nested_blocks">nested blocks</li><li title="tutorial_result">tutorial result</li><li title="interactive_button">interactive button</li><li title="msdf_text">MSDF text</li><li title="background_size">background size</li><li title="keyboard">keyboard</li></ul></div></div><div id="iframe-container"><iframe src="./basic_setup.html" allowfullscreen allowvr frameborder="0"></iframe><img src="./assets/loading.gif"> <a id="github-link" href="" target="_blank">code on Github</a></div></div><script>const root = document.documentElement;
+		}</style></head><body><div id="page"><div id="menu"><div id="navbar-container"><button id="toggle-btn" onclick="toggleNavbar()">more examples ▼</button></div><div id="examples-container"><h1>three-mesh-ui</h1><a id="github-link-menu" href="https://github.com/felixmariotto/three-mesh-ui" target="_blank"><img id="menu-icon" src="https://felixmariotto.s3.eu-west-3.amazonaws.com/github-white-icon.png"> Github page</a><h2>examples</h2><ul><li title="basic_setup">basic setup</li><li title="nested_blocks">nested blocks</li><li title="tutorial_result">tutorial result</li><li title="interactive_button">interactive button</li><li title="msdf_text">MSDF text</li><li title="background_size">background size</li><li title="keyboard">keyboard</li></ul></div></div><div id="iframe-container"><iframe src="./basic_setup.html" allowfullscreen allowvr frameborder="0"></iframe><img src="./assets/loading.gif"> <a id="github-link" href="" target="_blank"><img id="example-code-icon" src="https://felixmariotto.s3.eu-west-3.amazonaws.com/github-white-icon.png"> code on Github</a></div></div><script>const root = document.documentElement;
 		const btn = document.getElementById('toggle-btn');
 		const link = document.getElementById('github-link');
 		const iframe = document.querySelector('iframe');
