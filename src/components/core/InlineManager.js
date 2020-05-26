@@ -133,17 +133,19 @@ function InlineManager( boxComponent ) {
 
 		// Vertical offset
 
-		let textHeight = lines.reduce( (offsetY, line)=> {
+		let textHeight = lines.reduce( (offsetY, line, i, arr)=> {
 
 			line.forEach( (char)=> {
 
-				char.offsetY = offsetY;
+				char.offsetY = offsetY - line.totalHeight + arr[0].totalHeight;
 
 			});
 
 			return offsetY - line.totalHeight - INTERLINE;
 
 		}, 0 ) + INTERLINE;
+
+		//
 
 		textHeight = Math.abs( textHeight );
 

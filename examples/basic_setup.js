@@ -80,17 +80,18 @@ function makeTextPanel() {
 
 		ThreeMeshUI.Text({
 			content: "Three-Mesh-UI\n",
-			fontSize: 0.07
+			fontSize: 0.12
 		}),
 
 		ThreeMeshUI.Text({
-			content: "With this lib you can easily create 3D user interfaces for your VR experiences based on Three.js.\n",
+			content: "azertyuiopqsdfghjklmazertyuiopqsdfghjklm",
+			// content: "With this lib you can easily create 3D user interfaces for your VR experiences based on Three.js.\n",
 			fontSize: 0.04
 		}),
 
 		ThreeMeshUI.Text({
 			content: "Coded with love",
-			fontSize: 0.03
+			fontSize: 0.08
 		}),
 
 	);
