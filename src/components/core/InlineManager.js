@@ -46,22 +46,20 @@ function InlineManager( boxComponent ) {
 
 				// Line break
 
-				const nextBreak = distanceToNextBreak( inlines, i + 1 );
+				const nextBreak = distanceToNextBreak( inlines, i );
 
 				if ( lastInlineOffset + inline.width > INNER_WIDTH ||
 					 inline.lineBreak === "mandatory" ||
 					 /* test if current glyph is break-friendly and next break-friendly glyph is beyond limit */
-					 (lastInlineOffset + nextBreak > INNER_WIDTH && BREAK_ON.indexOf( inlines[ i ].glyph ) > -1) ) {
-
-					lastInlineOffset = 0;
+					 (inlines[ i - 1 ] && lastInlineOffset + nextBreak > INNER_WIDTH && BREAK_ON.indexOf( inlines[ i - 1 ].glyph ) > -1) ) {
 
 					lines.push([ inline ]);
 
-					inline.offsetX = lastInlineOffset;
+					inline.offsetX = 0;
 
 					//
 
-					return lastInlineOffset;
+					return inline.width;
 
 				} else {
 

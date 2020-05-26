@@ -61,7 +61,7 @@ function init() {
 function makeTextPanel() {
 
 	const container = ThreeMeshUI.Block({
-		width: 1.2,
+		width: 1.4,
 		height: 0.8,
 		padding: 0.2,
 		justifyContent: 'center',
@@ -84,14 +84,13 @@ function makeTextPanel() {
 		}),
 
 		ThreeMeshUI.Text({
-			content: "azertyuiopqsdfghjklmazertyuiopqsdfghjklm",
-			// content: "With this lib you can easily create 3D user interfaces for your VR experiences based on Three.js.\n",
+			content: "With this lib you can easily create 3D user interfaces for your VR experiences based on Three.js.",
 			fontSize: 0.04
 		}),
 
 		ThreeMeshUI.Text({
-			content: "Coded with love",
-			fontSize: 0.08
+			content: " Coded with love",
+			fontSize: 0.06
 		}),
 
 	);
