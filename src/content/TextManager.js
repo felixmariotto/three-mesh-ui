@@ -151,8 +151,6 @@ export default function TextContent() {
 			transparent: true,
 			vertexShader: VertexShader(),
 			fragmentShader: FragmentShader( options.fontColor, options.fontOpacity ),
-			polygonOffset: true,
-			polygonOffsetFactor: -0.01
 		});
 
 		//
@@ -180,6 +178,7 @@ function VertexShader() {
 			vUv = uv;
 			vec4 mvPosition = modelViewMatrix * vec4( position, 1.0 );
 			gl_Position = projectionMatrix * mvPosition;
+			gl_Position.z-= 0.005;
 		}
 	`
 
