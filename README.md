@@ -23,7 +23,7 @@
 
 In a normal three.js workflow, the common practice is to build the user interfaces with HTML/CSS, either the normal way on top of the Canvas element in which the scene is drawn, or with Three.CSS3DRenderer, which visually transforms normal DOM elements so they look like they are in a 3D scene.   
 
-In immersive VR, none of these two options is available. The goal of **three-mesh-ui** is to offer a tool similar to HTML/CSS to build genuine meshes that can be used the normal way inside a three.js scene rendered with WebGLRenderer.
+In immersive VR, none of these two options is available. **The goal of three-mesh-ui is to offer a tool similar to HTML/CSS** to build genuine meshes that can be used the normal way inside a three.js scene rendered with WebGLRenderer.
 
 ## API
 
