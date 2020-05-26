@@ -15,15 +15,15 @@
 
 ## What is it ?
 
-**three-mesh-ui** is a small library for building VR user interfaces. The objects it creates are [Three.Mesh](https://github.com/mrdoob/three.js/blob/dev/src/objects/Mesh.js), usable directly in a [three.js](https://threejs.org) scene like any other mesh.    
+**three-mesh-ui** is a small library for building VR user interfaces. The objects it creates are [Three.Object3Ds](https://github.com/mrdoob/three.js/blob/dev/src/core/Object3D.js), usable directly in a [three.js](https://threejs.org) scene like any other Object3D.    
         
-**It is not a framework**, but a light-weight library to be plugged in the last version of three.js. It has no dependency other than three.js.
+**It is not a framework**, but a minimalist library to be plugged in the last version of three.js. It has no dependency other than three.js.
 
 ## Why ?
 
 In a normal three.js workflow, the common practice is to build the user interfaces with HTML/CSS, either the normal way on top of the Canvas element in which the scene is drawn, or with Three.CSS3DRenderer, which visually transforms normal DOM elements so they look like they are in a 3D scene.   
 
-In immersive VR, none of these two options is available. The goal of **three-mesh-ui** is to offer a tool similar to HTML/CSS to build genuine meshes that can be used the normal way inside a three.js scene rendered with WebGLRenderer.
+In immersive VR, none of these two options is available. **The purpose of _three-mesh-ui_ is to offer a tool similar to HTML/CSS** to build genuine meshes that can be used the normal way inside a three.js scene rendered with WebGLRenderer.
 
 ## API
 
