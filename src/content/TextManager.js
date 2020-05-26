@@ -68,6 +68,8 @@ export default function TextContent() {
 
 				width = charOBJ ? (charOBJ.width * FONT_SIZE) / FONT.common.lineHeight : FONT_SIZE / 3 ;
 
+				if ( GLYPH === '\n' ) width = 0;
+
 				height = charOBJ ? (charOBJ.height * FONT_SIZE) / FONT.common.lineHeight : 0 ;
 
 				// world-space length between lowest point and the text cursor position
