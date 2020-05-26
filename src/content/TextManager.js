@@ -54,6 +54,8 @@ export default function TextContent() {
 				// world-space length between lowest point and the text cursor position
 				anchor = height - ascender;
 
+				if ( GLYPH.match(/\s/) ) height = 0;
+
 				return {
 					width,
 					height,
