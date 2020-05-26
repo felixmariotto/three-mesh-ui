@@ -15,9 +15,9 @@
 
 ## What is it ?
 
-**three-mesh-ui** is a small library for building VR user interfaces. The objects it creates are [Three.Mesh](https://github.com/mrdoob/three.js/blob/dev/src/objects/Mesh.js), usable directly in a [three.js](https://threejs.org) scene like any other mesh.    
+**three-mesh-ui** is a small library for building VR user interfaces. The objects it creates are [Three.Object3Ds](https://github.com/mrdoob/three.js/blob/dev/src/core/Object3D.js), usable directly in a [three.js](https://threejs.org) scene like any other Object3D.    
         
-**It is not a framework**, but a light-weight library to be plugged in the last version of three.js. It has no dependency other than three.js.
+**It is not a framework**, but a minimalist library to be plugged in the last version of three.js. It has no dependency other than three.js.
 
 ## Why ?
 
