@@ -18,7 +18,7 @@ import UniqueID from '../../utils/UniqueID';
 
 export default function MeshUIComponent() {
 
-	const component = {
+	let component = {
 
 		type: 'MeshUIComponent',
 		id: UniqueID(),
@@ -72,7 +72,9 @@ export default function MeshUIComponent() {
 
 	};
 
-	return Object.create( new Object3D, propsObj )
+	component = Object.create( new Object3D, propsObj )
+
+	return component
 
 	/////////////
 	/// GETTERS
@@ -250,11 +252,9 @@ export default function MeshUIComponent() {
 	///  UPDATE
 	///////////////
 
-	function update( updateParsing, updateLayout, updateInner, component ) {
+	function update( updateParsing, updateLayout, updateInner ) {
 
-		component = component || this;
-
-		UpdateManager.requestUpdate( component, updateParsing, updateLayout, updateInner );
+		UpdateManager.requestUpdate( this || component, updateParsing, updateLayout, updateInner );
 
 	};
 
@@ -266,11 +266,11 @@ export default function MeshUIComponent() {
 		
 		this.traverse( (child)=> {
 
-			if ( child.isUI ) update( true, true, false, child );
+			if ( child.isUI ) child.update( true, true, false );
 
 		});
 
-		update( false, true, false, this.getHighestParent() );
+		this.getHighestParent().update( false, true, false );
 
 	};
 
@@ -278,7 +278,7 @@ export default function MeshUIComponent() {
 
 		this.fontTexture = texture;
 
-		update( false, true, false, this.getHighestParent() );
+		this.getHighestParent().update( false, true, false );
 
 	};
 
@@ -355,9 +355,9 @@ export default function MeshUIComponent() {
 		
 		// Call component update
 
-		update( parsingNeedsUpdate, layoutNeedsUpdate, innerNeedsUpdate, this );
+		update( parsingNeedsUpdate, layoutNeedsUpdate, innerNeedsUpdate );
 
-		if ( layoutNeedsUpdate ) update( false, true, false, this.getHighestParent() );
+		if ( layoutNeedsUpdate ) this.getHighestParent().update( false, true, false );
 		
 	};
 
