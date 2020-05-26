@@ -113,6 +113,8 @@ export default {
 
 	],
 
+	///////////////////////////////////////////////////////////
+
 	eng:
 	[
 
@@ -145,7 +147,7 @@ export default {
 
 			{
 				shift: { width: 0.15, command: 'shift' },
-				w: { width: 0.1, upperCase: "Z" },
+				z: { width: 0.1, upperCase: "Z" },
 				x: { width: 0.1, upperCase: "X" },
 				c: { width: 0.1, upperCase: "C" },
 				v: { width: 0.1, upperCase: "V" },

@@ -43,7 +43,7 @@ export default function KeyboardModule( options ) {
 		switch ( navigator.language ) {
 
 			case 'fr' :
-				keymap = keymaps.fr
+				keymap = keymaps.eng
 				break
 
 			default :
