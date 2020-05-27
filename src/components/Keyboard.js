@@ -4,10 +4,10 @@ Job: high-level component that returns a keyboard
 
 */
 
-import BoxComponent from './core/BoxComponent';
-import Block from './Block';
-import Text from './Text';
-import keymaps from '../utils/Keymaps';
+import BoxComponent from './core/BoxComponent.js';
+import Block from './Block.js';
+import Text from './Text.js';
+import keymaps from '../utils/Keymaps.js';
 
 export default function KeyboardModule( options ) {
 

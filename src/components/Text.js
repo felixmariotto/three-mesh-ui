@@ -16,11 +16,11 @@ https://github.com/felixmariotto/three-mesh-ui/wiki/Choosing-a-Text-type
 
 import { Object3D } from 'three';
 
-import InlineComponent from './core/InlineComponent';
-import FontLibrary from './core/FontLibrary';
+import InlineComponent from './core/InlineComponent.js';
+import FontLibrary from './core/FontLibrary.js';
 
-import TextManager from '../content/TextManager';
-import DeepDelete from '../utils/DeepDelete';
+import TextManager from '../content/TextManager.js';
+import DeepDelete from '../utils/DeepDelete.js';
 
 function Text( options ) {
 

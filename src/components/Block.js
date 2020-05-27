@@ -6,9 +6,9 @@
 
 import { Object3D } from 'three'
 
-import BoxComponent from './core/BoxComponent';
-import Frame from '../content/Frame';
-import DeepDelete from '../utils/DeepDelete';
+import BoxComponent from './core/BoxComponent.js';
+import Frame from '../content/Frame.js';
+import DeepDelete from '../utils/DeepDelete.js';
 
 function Block( options ) {
 

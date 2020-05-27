@@ -1,7 +1,7 @@
-import Block from './components/Block';
-import Text from './components/Text';
-import Keyboard from './components/Keyboard';
-import {UpdateManager, update} from './components/core/UpdateManager';
+import Block from './components/Block.js';
+import Text from './components/Text.js';
+import Keyboard from './components/Keyboard.js';
+import {UpdateManager, update} from './components/core/UpdateManager.js';
 
 const ThreeMeshUI = {
 	Block,

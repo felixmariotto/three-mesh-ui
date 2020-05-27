@@ -6,7 +6,7 @@
 import { ShapeBufferGeometry, BufferGeometry } from 'three';
 import { BufferGeometryUtils } from 'three/examples/jsm/utils/BufferGeometryUtils.js';
 
-import MeshUIComponent from './MeshUIComponent';
+import MeshUIComponent from './MeshUIComponent.js';
 
 function InlineManager( boxComponent ) {
 

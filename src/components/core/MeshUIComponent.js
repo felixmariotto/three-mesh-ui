@@ -10,11 +10,11 @@
 
 import { Object3D } from 'three';
 
-import FontLibrary from './FontLibrary';
-import UpdateManager from './UpdateManager';
+import FontLibrary from './FontLibrary.js';
+import UpdateManager from './UpdateManager.js';
 
-import DEFAULTS from '../../utils/Defaults';
-import UniqueID from '../../utils/UniqueID';
+import DEFAULTS from '../../utils/Defaults.js';
+import UniqueID from '../../utils/UniqueID.js';
 
 export default function MeshUIComponent() {
 
@@ -380,7 +380,12 @@ export default function MeshUIComponent() {
 
 		const savedState = this.states[ state ];
 		
-		if ( !savedState || state === this.currentState ) return
+		if ( !savedState ) {
+			console.warn(`state "${ state }" does not exist within this component`);
+			return
+		};
+
+		if ( state === this.currentState ) return
 
 		this.currentState = state;
 

@@ -3,7 +3,7 @@
 	Knows: parent dimensions
 */
 
-import MeshUIComponent from './MeshUIComponent';
+import MeshUIComponent from './MeshUIComponent.js';
 
 function InlineComponent() {
 
