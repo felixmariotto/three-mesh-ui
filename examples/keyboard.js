@@ -480,16 +480,20 @@ function onWindowResize() {
 
 function loop() {
 
+	console.log( objsToTest.length )
+
 	// Don't forget, ThreeMeshUI must be updated manually.
 	// This has been introduced in version 3.0.0 in order
 	// to improve performance
 	ThreeMeshUI.update();
-
+	
 	controls.update();
 
 	stats.update();
 
+	// console.time('update manager');
 	renderer.render( scene, camera );
+	// console.timeEnd('update manager');
 	
 	updateButtons();
 
@@ -605,6 +609,8 @@ function clear( uiComponent ) {
 	ThreeMeshUI.disposeOf( uiComponent );
 	
 	uiComponent.traverse( (child)=> {
+
+		if ( objsToTest.includes( child ) ) objsToTest.splice( objsToTest.indexOf( child ), 1 );
 
 		if ( child.material ) child.material.dispose();
 
