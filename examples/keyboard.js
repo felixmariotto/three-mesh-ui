@@ -11,7 +11,7 @@ import ShadowedLight from './utils/ShadowedLight.js';
 const WIDTH = window.innerWidth;
 const HEIGHT = window.innerHeight;
 
-let scene, camera, renderer, controls, vrControl, keyboard;
+let scene, camera, renderer, controls, vrControl, keyboard, userText;
 let objsToTest = [];
 
 // PANEL MATERIALS
@@ -20,6 +20,7 @@ const foregroundMaterial = new THREE.MeshBasicMaterial({ color: 0x0b0b0b });
 const backgroundMaterial = new THREE.MeshBasicMaterial({ color: 0x5c5c5c });
 const hoveredMaterial = new THREE.MeshBasicMaterial({ color: 0x1c1c1c });
 const selectedMaterial = new THREE.MeshBasicMaterial({ color: 0x109c5d });
+const buttonMaterial = new THREE.MeshBasicMaterial({ color: 0xffffff });
 
 //
 
@@ -139,19 +140,25 @@ function init() {
 
 function makeUI() {
 
+	const container = new THREE.Group();
+	container.position.set( 0, 1.4, -1.2 );
+	container.rotation.x = -0.15;
+    scene.add( container );
+
+	//////////////
 	// TEXT PANEL
+	//////////////
 
     const textPanel = ThreeMeshUI.Block({
     	fontFamily: './assets/Roboto-msdf.json',
 		fontTexture: './assets/Roboto-msdf.png',
     	width: 1,
-    	height: 0.5,
+    	height: 0.35,
     	backgroundMaterial: foregroundMaterial
     });
 
-    textPanel.position.set( 0, 1.4, -1.2 );
-	textPanel.rotation.x = -0.15;
-    scene.add( textPanel );
+    textPanel.position.set( 0, -0.15, 0 );
+    container.add( textPanel );
 
     //
 
@@ -164,7 +171,7 @@ function makeUI() {
     	ThreeMeshUI.Text({ content: 'Type some text on the keyboard' })
     );
 
-    const userText = ThreeMeshUI.Text({ content: '' });
+    userText = ThreeMeshUI.Text({ content: '' });
 
     const textField = ThreeMeshUI.Block({
     	width: 1,
@@ -177,7 +184,72 @@ function makeUI() {
 
     textPanel.add( title, textField );
 
+    ////////////////////////
+    // LAYOUT OPTIONS PANEL
+    ////////////////////////
+
+    let layoutButtons = [
+    	[ 'English', 'eng' ],
+    	[ 'French', 'fr' ],
+    	[ 'Russian', 'ru' ]
+    ];
+
+    layoutButtons = layoutButtons.map( (options)=> {
+
+    	return ThreeMeshUI.Block({
+    		height: 0.085,
+    		width: 0.25,
+    		margin: 0.012,
+	  		backgroundMaterial: buttonMaterial
+    	})
+
+    })
+
+    //
+
+    const layoutOptions = ThreeMeshUI.Block({
+    	fontFamily: './assets/Roboto-msdf.json',
+		fontTexture: './assets/Roboto-msdf.png',
+    	height: 0.25,
+    	width: 1,
+    	offset: 0,
+    	backgroundMaterial: foregroundMaterial
+    }).add(
+
+    	ThreeMeshUI.Block({
+    		height: 0.1,
+    		width: 0.6,
+    		offset: 0,
+    		justifyContent: 'center'
+	  	}).add(
+
+	  		ThreeMeshUI.Text({
+	  			fontSize: 0.04,
+	  			content: 'Select a keyboard layout :'
+	  		})
+
+	  	),
+
+	  	ThreeMeshUI.Block({
+	  		height: 0.15,
+	  		width: 1,
+	  		offset: 0,
+	  		contentDirection: 'row',
+	  		justifyContent: 'center'
+	  	}).add(
+
+	  		...layoutButtons
+
+	  	)
+
+    );
+
+    layoutOptions.position.set( 0, 0.2, 0 );
+    container.add( layoutOptions );
+
+    /////////////
 	// KEYBOARD
+	/////////////
 
 	makeKeyboard();
 
@@ -322,8 +394,18 @@ function loop() {
 	updateButtons();
 };
 
-// Called in the loop, get intersection with either the mouse or the VR controllers,
-// then update the buttons states according to result
+/*
+
+Called in the loop, get intersection with either the mouse or the VR controllers,
+then update the buttons states according to result.
+
+As written above, three-mesh-ui provides only and strictly user interfaces, with tools to manage
+UI state (component.setupState and component.setState).
+
+Interacting with this UI must be done manually by the user, given the wide range of
+possibilities in this regard.
+
+*/
 
 function updateButtons() {
 
