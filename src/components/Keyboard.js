@@ -29,6 +29,8 @@ export default function KeyboardModule( options ) {
 
 	keyboard.isLowerCase = true;
 
+	keyboard.charsetCount = 1;
+
 	//////////
 	// KEYMAP
 	//////////
@@ -37,14 +39,17 @@ export default function KeyboardModule( options ) {
 	// We select one depending on the user's browser language
 
 	let keymap;
-	let charsetCount = 1;
 
-	if ( navigator ) {
+	if ( !options.language && navigator ) {
 
 		switch ( navigator.language ) {
 
 			case 'fr' :
-				charsetCount = 2;
+				keymap = keymaps.fr
+				break
+
+			case 'ru' :
+				keyboard.charsetCount = 2;
 				keymap = keymaps.ru
 				break
 
@@ -54,9 +59,13 @@ export default function KeyboardModule( options ) {
 
 		};
 
+	} else if ( options.language ) {
+
+		keymap = keymaps[ options.language ];
+
 	} else {
 
-		keymap = keymaps.fr
+		keymap = keymaps.eng
 
 	};
 
@@ -165,7 +174,7 @@ export default function KeyboardModule( options ) {
 
 	keyboard.setNextCharset = function setNextCharset() {
 
-		keyboard.panels[ keyboard.currentPanel ].charset = ( keyboard.panels[ keyboard.currentPanel ].charset + 1) % charsetCount;
+		keyboard.panels[ keyboard.currentPanel ].charset = ( keyboard.panels[ keyboard.currentPanel ].charset + 1) % keyboard.charsetCount;
 
 		keyboard.keys.forEach( (key)=> {
 

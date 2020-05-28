@@ -14,6 +14,15 @@ const HEIGHT = window.innerHeight;
 let scene, camera, renderer, controls, vrControl, keyboard;
 let objsToTest = [];
 
+// PANEL MATERIALS
+
+const foregroundMaterial = new THREE.MeshBasicMaterial({ color: 0x0b0b0b });
+const backgroundMaterial = new THREE.MeshBasicMaterial({ color: 0x5c5c5c });
+const hoveredMaterial = new THREE.MeshBasicMaterial({ color: 0x1c1c1c });
+const selectedMaterial = new THREE.MeshBasicMaterial({ color: 0x109c5d });
+
+//
+
 const raycaster = new THREE.Raycaster();
 
 // compute mouse position in normalized device coordinates
@@ -130,13 +139,6 @@ function init() {
 
 function makeUI() {
 
-	// PANEL MATERIALS
-
-	const foregroundMaterial = new THREE.MeshBasicMaterial({ color: 0x0b0b0b });
-	const backgroundMaterial = new THREE.MeshBasicMaterial({ color: 0x5c5c5c });
-	const hoveredMaterial = new THREE.MeshBasicMaterial({ color: 0x1c1c1c });
-	const selectedMaterial = new THREE.MeshBasicMaterial({ color: 0x109c5d });
-
 	// TEXT PANEL
 
     const textPanel = ThreeMeshUI.Block({
@@ -177,7 +179,30 @@ function makeUI() {
 
 	// KEYBOARD
 
+	makeKeyboard();
+
+};
+
+/*
+
+Create a keyboard UI with three-mesh-ui, and assign states to each keys.
+Three-mesh-ui strictly provides user interfaces, with tools to manage
+UI state (component.setupState and component.setState).
+
+It does not handle interacting with the UI. The reason for that is simple :
+with webXR, the number of way a mesh can be interacted had no limit. Therefore,
+this is left to the user. three-mesh-ui components are THREE.Object3Ds, so
+you might want to refer to three.js documentation to know how to interact with objects.
+
+If you want to get started quickly, just copy and paste this example, it manages
+mouse and touch interaction, and VR controllers pointing rays.
+
+*/
+
+function makeKeyboard( language ) {
+
 	keyboard = ThreeMeshUI.Keyboard({
+		language: language,
 		fontFamily: './assets/Roboto-msdf.json',
 		fontTexture: './assets/Roboto-msdf.png',
 		backgroundMaterial: backgroundMaterial
