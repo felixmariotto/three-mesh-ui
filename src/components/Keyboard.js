@@ -68,6 +68,8 @@ export default function KeyboardModule( options ) {
 
 	keyboard.panels = keymap.map( (panel, i)=> {
 
+		panel.charset = 0;
+
 		const lineHeight = (options.height / panel.length) - (options.margin * 2);
 
 		const panelBlock = Block({
@@ -93,16 +95,18 @@ export default function KeyboardModule( options ) {
 
 			let keys = [];
 
-			for ( let char of Object.keys(line) ) {
+			line.forEach( (keyItem)=> {
 
 				const key = Block({
-					width: (options.width * line[char].width) - (options.margin * 2),
+					width: (options.width * keyItem.width) - (options.margin * 2),
 					height: lineHeight,
 					margin: options.margin,
 					justifyContent: 'center',
 					fontSize: 0.035,
 					offset: 0
 				});
+
+				const char = keyItem.chars[ panel.charset ].lowerCase || keyItem.chars[ panel.charset ].icon || "undif";
 
 				key.add(
 					Text({
@@ -113,9 +117,9 @@ export default function KeyboardModule( options ) {
 
 				key.type = "Key"
 
-				key.info = line[char];
-				key.info.char = char;
+				key.info = keyItem;
 				key.info.input = char;
+				key.panel = panel;
 
 				// line's keys
 				keys.push( key );
@@ -123,7 +127,7 @@ export default function KeyboardModule( options ) {
 				// keyboard's keys
 				keyboard.keys.push( key );
 
-			};
+			});
 
 			lineBlock.add( ...keys )
 
@@ -163,7 +167,9 @@ export default function KeyboardModule( options ) {
 
 		keyboard.keys.forEach( (key)=> {
 
-			const newContent = keyboard.isLowerCase || !key.info.upperCase ? key.info.char : key.info.upperCase;
+			const char = key.info.chars[ key.panel.charset ];
+
+			const newContent = keyboard.isLowerCase || !char.upperCase ? char.lowerCase : char.upperCase;
 
 			const textComponent = key.children.find( child => child.type === 'Text' );
 
