@@ -44,7 +44,7 @@ function Text( options ) {
 
 		// Abort condition
 		
-		if ( !font ) {
+		if ( !font || typeof font === 'string' ) {
 			if ( !FontLibrary.getFontOf( this ) ) console.warn('no font was found');
 			return
 		};
@@ -55,12 +55,12 @@ function Text( options ) {
 		};
 
 		if ( textType === 'geometry' && font.fontType !== 'Typeface' ) {
-			console.error( `${ textType } text is not compatible with this type of font.\n See https://github.com/felixmariotto/three-mesh-ui/wiki/Choosing-a-Text-type` )
+			console.error( `${ textType } text is not compatible with the type of font '${ font.fontType }'.\n See https://github.com/felixmariotto/three-mesh-ui/wiki/Choosing-a-Text-type` )
 			return
 		};
 
 		if ( textType === 'MSDF' && font.fontType !== 'MSDF' ) {
-			console.error( `${ textType } text is not compatible with this type of font.\n See https://github.com/felixmariotto/three-mesh-ui/wiki/Choosing-a-Text-type` )
+			console.error( `${ textType } text is not compatible with the type of font '${ font.fontType }'.\n See https://github.com/felixmariotto/three-mesh-ui/wiki/Choosing-a-Text-type` )
 			return
 		};
 

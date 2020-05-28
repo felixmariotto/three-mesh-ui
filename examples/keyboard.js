@@ -9,6 +9,7 @@ For a better first step into this library, you should :
 
 */
 
+import Stats from 'three/examples/jsm/libs/stats.module.js';
 import * as THREE from 'three';
 import { VRButton } from 'three/examples/jsm/webxr/VRButton.js';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
@@ -21,7 +22,16 @@ import ShadowedLight from './utils/ShadowedLight.js';
 const WIDTH = window.innerWidth;
 const HEIGHT = window.innerHeight;
 
-let scene, camera, renderer, controls, vrControl, keyboard, userText, currentLayoutButton;
+let scene,
+	camera,
+	renderer,
+	controls,
+	vrControl,
+	keyboard,
+	userText,
+	currentLayoutButton,
+	stats;
+
 let objsToTest = [];
 
 // PANEL MATERIALS
@@ -90,6 +100,13 @@ function init() {
 	document.body.appendChild( VRButton.createButton(renderer) );
 	document.body.appendChild( renderer.domElement );
 	renderer.shadowMap.enabled = true ;
+
+	// STATS
+
+	stats = new Stats();
+	stats.dom.style.left = 'auto';
+	stats.dom.style.right = '0px';
+	document.body.appendChild( stats.dom );
 
 	// LIGHT
 
@@ -253,17 +270,19 @@ function makeUI() {
 				// enable intersection checking for the previous layout button,
 				// then disable it for the current button
 
-				if ( currentLayoutButton ) {
+				if ( currentLayoutButton ) objsToTest.push( currentLayoutButton );
 
-					objsToTest.push( currentLayoutButton );
+				if ( keyboard ) {
+
+					clear( keyboard );
+
+					keyboard.panels.forEach( panel => clear( panel ) );
 
 				};
 
 				objsToTest.splice( objsToTest.indexOf(button), 1 );
 
 				currentLayoutButton = button;
-
-				scene.remove( keyboard );
 
 				makeKeyboard( options[ 1 ] );
 
@@ -467,8 +486,13 @@ function loop() {
 	ThreeMeshUI.update();
 
 	controls.update();
+
+	stats.update();
+
 	renderer.render( scene, camera );
+	
 	updateButtons();
+	
 };
 
 /*
@@ -569,5 +593,23 @@ function raycast() {
 		};
 
 	}, null );
+
+};
+
+//
+
+function clear( uiComponent ) {
+
+	scene.remove( uiComponent );
+
+	ThreeMeshUI.disposeOf( uiComponent );
+	
+	uiComponent.traverse( (child)=> {
+
+		if ( child.material ) child.material.dispose();
+
+		if ( child.geometry ) child.geometry.dispose();
+
+	});
 
 };

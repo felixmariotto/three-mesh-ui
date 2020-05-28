@@ -59,6 +59,14 @@ function register( component ) {
 
 //
 
+function disposeOf( component ) {
+
+	components.splice( components.indexOf( component ), 1 );
+
+};
+
+//
+
 function update() {
 
 	if ( Object.keys(requestedUpdates).length > 0 ) {
@@ -185,5 +193,6 @@ function callUpdatesOf( component ) {
 
 export { UpdateManager }
 export { update }
+export { disposeOf }
 
 export default UpdateManager;

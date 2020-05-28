@@ -72,7 +72,7 @@ function setFontFamily( component, url ) {
 
 	// update the component, only if the font is already requested and loaded
 	if ( fontFamilies[ url ] ) {
-		component._updateFontFamily( url );
+		component._updateFontFamily( fontFamilies[ url ] );
 	};
 
 };
@@ -111,7 +111,7 @@ function setFontTexture( component, url ) {
 
 	// update the component, only if the font is already requested and loaded
 	if ( fontTextures[ url ] ) {
-		component._updateFontTexture( texture );
+		component._updateFontTexture( fontTextures[ url ] );
 	};
 
 };
