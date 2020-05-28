@@ -1,4 +1,14 @@
 
+/*
+
+This example is an advanced demo.
+
+For a better first step into this library, you should :
+- check the tutorial at https://github.com/felixmariotto/three-mesh-ui/wiki/Getting-started
+- consult more simple examples at https://three-mesh-ui.herokuapp.com/#basic_setup
+
+*/
+
 import * as THREE from 'three';
 import { VRButton } from 'three/examples/jsm/webxr/VRButton.js';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
@@ -11,7 +21,7 @@ import ShadowedLight from './utils/ShadowedLight.js';
 const WIDTH = window.innerWidth;
 const HEIGHT = window.innerHeight;
 
-let scene, camera, renderer, controls, vrControl, keyboard, userText;
+let scene, camera, renderer, controls, vrControl, keyboard, userText, currentLayoutButton;
 let objsToTest = [];
 
 // PANEL MATERIALS
@@ -20,7 +30,7 @@ const foregroundMaterial = new THREE.MeshBasicMaterial({ color: 0x0b0b0b });
 const backgroundMaterial = new THREE.MeshBasicMaterial({ color: 0x5c5c5c });
 const hoveredMaterial = new THREE.MeshBasicMaterial({ color: 0x1c1c1c });
 const selectedMaterial = new THREE.MeshBasicMaterial({ color: 0x109c5d });
-const buttonMaterial = new THREE.MeshBasicMaterial({ color: 0xffffff });
+const buttonMaterial = new THREE.MeshBasicMaterial({ color: 0x363636 });
 
 //
 
@@ -62,7 +72,9 @@ window.addEventListener( 'touchend', ()=> {
 window.addEventListener('load', init );
 window.addEventListener('resize', onWindowResize );
 
-//
+//////////////////
+// THREE.JS INIT
+//////////////////
 
 function init() {
 
@@ -188,6 +200,8 @@ function makeUI() {
     // LAYOUT OPTIONS PANEL
     ////////////////////////
 
+    // BUTTONS
+
     let layoutButtons = [
     	[ 'English', 'eng' ],
     	[ 'French', 'fr' ],
@@ -196,16 +210,85 @@ function makeUI() {
 
     layoutButtons = layoutButtons.map( (options)=> {
 
-    	return ThreeMeshUI.Block({
+    	const button = ThreeMeshUI.Block({
     		height: 0.085,
     		width: 0.25,
     		margin: 0.012,
+    		justifyContent: 'center',
 	  		backgroundMaterial: buttonMaterial
-    	})
+    	}).add(
 
-    })
+    		ThreeMeshUI.Text({
+    			offset: 0,
+    			fontSize: 0.035,
+    			content: options[ 0 ]
+    		})
 
-    //
+    	);
+
+    	button.setupState({
+			state: "idle",
+			attributes: {
+				offset: 0.02,
+				backgroundMaterial: buttonMaterial
+			}
+		});
+
+		button.setupState({
+			state: "hovered",
+			attributes: {
+				offset: 0.02,
+				backgroundMaterial: hoveredMaterial
+			}
+		});
+
+		button.setupState({
+			state: "selected",
+			attributes: {
+				offset: 0.01,
+				backgroundMaterial: selectedMaterial
+			},
+			onSet: ()=> {
+				
+				// enable intersection checking for the previous layout button,
+				// then disable it for the current button
+
+				if ( currentLayoutButton ) {
+
+					objsToTest.push( currentLayoutButton );
+
+				};
+
+				objsToTest.splice( objsToTest.indexOf(button), 1 );
+
+				currentLayoutButton = button;
+
+				scene.remove( keyboard );
+
+				makeKeyboard( options[ 1 ] );
+
+			}
+		});
+
+		// Set English button as selected from the start
+		
+		if ( options[ 1 ] === 'eng' ) {
+
+			button.setState('selected');
+
+			currentLayoutButton = button;
+
+		} else {
+
+			objsToTest.push( button );
+
+		};
+
+    	return button
+
+    });
+
+    // CONTAINER
 
     const layoutOptions = ThreeMeshUI.Block({
     	fontFamily: './assets/Roboto-msdf.json',
@@ -246,12 +329,6 @@ function makeUI() {
 
     layoutOptions.position.set( 0, 0.2, 0 );
     container.add( layoutOptions );
-
-    /////////////
-	// KEYBOARD
-	/////////////
-
-	makeKeyboard();
 
 };
 
