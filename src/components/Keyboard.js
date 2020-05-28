@@ -37,13 +37,15 @@ export default function KeyboardModule( options ) {
 	// We select one depending on the user's browser language
 
 	let keymap;
+	let charsetCount = 1;
 
 	if ( navigator ) {
 
 		switch ( navigator.language ) {
 
 			case 'fr' :
-				keymap = keymaps.eng
+				charsetCount = 2;
+				keymap = keymaps.ru
 				break
 
 			default :
@@ -68,8 +70,6 @@ export default function KeyboardModule( options ) {
 
 	keyboard.panels = keymap.map( (panel, i)=> {
 
-		panel.charset = 0;
-
 		const lineHeight = (options.height / panel.length) - (options.margin * 2);
 
 		const panelBlock = Block({
@@ -80,6 +80,8 @@ export default function KeyboardModule( options ) {
 			fontFamily: options.fontFamily,
 			fontTexture: options.fontTexture
 		});
+
+		panelBlock.charset = 0;
 
 		panelBlock.add( ...panel.map( (line, i, lines)=> {
 
@@ -106,7 +108,7 @@ export default function KeyboardModule( options ) {
 					offset: 0
 				});
 
-				const char = keyItem.chars[ panel.charset ].lowerCase || keyItem.chars[ panel.charset ].icon || "undif";
+				const char = keyItem.chars[ panelBlock.charset ].lowerCase || keyItem.chars[ panelBlock.charset ].icon || "undif";
 
 				key.add(
 					Text({
@@ -119,7 +121,7 @@ export default function KeyboardModule( options ) {
 
 				key.info = keyItem;
 				key.info.input = char;
-				key.panel = panel;
+				key.panel = panelBlock;
 
 				// line's keys
 				keys.push( key );
@@ -161,13 +163,47 @@ export default function KeyboardModule( options ) {
 
 	//
 
+	keyboard.setNextCharset = function setNextCharset() {
+
+		keyboard.panels[ keyboard.currentPanel ].charset = ( keyboard.panels[ keyboard.currentPanel ].charset + 1) % charsetCount;
+
+		keyboard.keys.forEach( (key)=> {
+
+			// Here we sort the keys, we only keep the ones that are part of the current panel.
+
+			const isInCurrentPanel = keyboard.panels[ keyboard.currentPanel ].getObjectById( key.id );
+
+			if ( !isInCurrentPanel ) return
+
+			//
+
+			const char = key.info.chars[ key.panel.charset ] || key.info.chars[ 0 ];
+
+			const newContent = keyboard.isLowerCase || !char.upperCase ? char.lowerCase : char.upperCase;
+
+			const textComponent = key.children.find( child => child.type === 'Text' );
+
+			key.info.input = newContent;
+
+			textComponent.set({
+				content: newContent
+			});
+
+			textComponent.update( true, true, true );
+
+		});
+
+	};
+
+	//
+
 	keyboard.toggleCase = function toggleCase() {
 
 		keyboard.isLowerCase = !keyboard.isLowerCase;
 
 		keyboard.keys.forEach( (key)=> {
 
-			const char = key.info.chars[ key.panel.charset ];
+			const char = key.info.chars[ key.panel.charset ] || key.info.chars[ 0 ];
 
 			const newContent = keyboard.isLowerCase || !char.upperCase ? char.lowerCase : char.upperCase;
 

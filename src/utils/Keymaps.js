@@ -121,39 +121,39 @@ export default {
 		[
 
 			[
-				{ width: 0.1, chars: [{ lowerCase: 'q',upperCase: 'Q' }] },
-				{ width: 0.1, chars: [{ lowerCase: 'w',upperCase: 'W' }] },
-				{ width: 0.1, chars: [{ lowerCase: 'e',upperCase: 'E' }] },
-				{ width: 0.1, chars: [{ lowerCase: 'r',upperCase: 'R' }] },
-				{ width: 0.1, chars: [{ lowerCase: 't',upperCase: 'T' }] },
-				{ width: 0.1, chars: [{ lowerCase: 'y',upperCase: 'Y' }] },
-				{ width: 0.1, chars: [{ lowerCase: 'u',upperCase: 'U' }] },
-				{ width: 0.1, chars: [{ lowerCase: 'i',upperCase: 'I' }] },
-				{ width: 0.1, chars: [{ lowerCase: 'o',upperCase: 'O' }] },
-				{ width: 0.1, chars: [{ lowerCase: 'p',upperCase: 'P' }] }
+				{ width: 0.1, chars: [{ lowerCase: 'q', upperCase: 'Q' }] },
+				{ width: 0.1, chars: [{ lowerCase: 'w', upperCase: 'W' }] },
+				{ width: 0.1, chars: [{ lowerCase: 'e', upperCase: 'E' }] },
+				{ width: 0.1, chars: [{ lowerCase: 'r', upperCase: 'R' }] },
+				{ width: 0.1, chars: [{ lowerCase: 't', upperCase: 'T' }] },
+				{ width: 0.1, chars: [{ lowerCase: 'y', upperCase: 'Y' }] },
+				{ width: 0.1, chars: [{ lowerCase: 'u', upperCase: 'U' }] },
+				{ width: 0.1, chars: [{ lowerCase: 'i', upperCase: 'I' }] },
+				{ width: 0.1, chars: [{ lowerCase: 'o', upperCase: 'O' }] },
+				{ width: 0.1, chars: [{ lowerCase: 'p', upperCase: 'P' }] }
 			],
 
 			[
-				{ width: 0.1, chars: [{ lowerCase: 'a',upperCase: 'A' }] },
-				{ width: 0.1, chars: [{ lowerCase: 's',upperCase: 'S' }] },
-				{ width: 0.1, chars: [{ lowerCase: 'd',upperCase: 'D' }] },
-				{ width: 0.1, chars: [{ lowerCase: 'f',upperCase: 'F' }] },
-				{ width: 0.1, chars: [{ lowerCase: 'g',upperCase: 'G' }] },
-				{ width: 0.1, chars: [{ lowerCase: 'h',upperCase: 'H' }] },
-				{ width: 0.1, chars: [{ lowerCase: 'j',upperCase: 'J' }] },
-				{ width: 0.1, chars: [{ lowerCase: 'k',upperCase: 'K' }] },
-				{ width: 0.1, chars: [{ lowerCase: 'l',upperCase: 'L' }] }
+				{ width: 0.1, chars: [{ lowerCase: 'a', upperCase: 'A' }] },
+				{ width: 0.1, chars: [{ lowerCase: 's', upperCase: 'S' }] },
+				{ width: 0.1, chars: [{ lowerCase: 'd', upperCase: 'D' }] },
+				{ width: 0.1, chars: [{ lowerCase: 'f', upperCase: 'F' }] },
+				{ width: 0.1, chars: [{ lowerCase: 'g', upperCase: 'G' }] },
+				{ width: 0.1, chars: [{ lowerCase: 'h', upperCase: 'H' }] },
+				{ width: 0.1, chars: [{ lowerCase: 'j', upperCase: 'J' }] },
+				{ width: 0.1, chars: [{ lowerCase: 'k', upperCase: 'K' }] },
+				{ width: 0.1, chars: [{ lowerCase: 'l', upperCase: 'L' }] }
 			],
 
 			[
 				{ width: 0.15, command: 'shift', chars: [{ icon: 'shift' }] },
-				{ width: 0.1, chars: [{ lowerCase: 'z',upperCase: 'Z' }] },
-				{ width: 0.1, chars: [{ lowerCase: 'x',upperCase: 'X' }] },
-				{ width: 0.1, chars: [{ lowerCase: 'c',upperCase: 'C' }] },
-				{ width: 0.1, chars: [{ lowerCase: 'v',upperCase: 'V' }] },
-				{ width: 0.1, chars: [{ lowerCase: 'b',upperCase: 'B' }] },
-				{ width: 0.1, chars: [{ lowerCase: 'n',upperCase: 'N' }] },
-				{ width: 0.1, chars: [{ lowerCase: 'm',upperCase: 'M' }] },
+				{ width: 0.1, chars: [{ lowerCase: 'z', upperCase: 'Z' }] },
+				{ width: 0.1, chars: [{ lowerCase: 'x', upperCase: 'X' }] },
+				{ width: 0.1, chars: [{ lowerCase: 'c', upperCase: 'C' }] },
+				{ width: 0.1, chars: [{ lowerCase: 'v', upperCase: 'V' }] },
+				{ width: 0.1, chars: [{ lowerCase: 'b', upperCase: 'B' }] },
+				{ width: 0.1, chars: [{ lowerCase: 'n', upperCase: 'N' }] },
+				{ width: 0.1, chars: [{ lowerCase: 'm', upperCase: 'M' }] },
 				{ width: 0.15, command: 'backspace', chars: [{ icon: 'cancel' }] }
 			],
 
@@ -218,62 +218,62 @@ export default {
 		]
 
 	],
-	/*
+	
 	ru:
 	[
 
 		[
 
 			[
-				й: { width: 1/12, upperCase: "Й" },
-				ц: { width: 1/12, upperCase: "Ц" },
-				у: { width: 1/12, upperCase: "У" },
-				к: { width: 1/12, upperCase: "К" },
-				е: { width: 1/12, upperCase: "Е" },
-				н: { width: 1/12, upperCase: "Н" },
-				г: { width: 1/12, upperCase: "Г" },
-				ш: { width: 1/12, upperCase: "Ш" },
-				щ: { width: 1/12, upperCase: "Щ" },
-				э: { width: 1/12, upperCase: "Э" },
-				х: { width: 1/12, upperCase: "Х" },
-				ъ: { width: 1/12, upperCase: "Ъ" }
+				{ width: 1/12, chars: [{ lowerCase: "й", upperCase: "Й" }, { lowerCase: "q", upperCase: "Q" }] },
+				{ width: 1/12, chars: [{ lowerCase: "ц", upperCase: "Ц" }, { lowerCase: "w", upperCase: "W" }] },
+				{ width: 1/12, chars: [{ lowerCase: "у", upperCase: "У" }, { lowerCase: "e", upperCase: "E" }] },
+				{ width: 1/12, chars: [{ lowerCase: "к", upperCase: "К" }, { lowerCase: "r", upperCase: "R" }] },
+				{ width: 1/12, chars: [{ lowerCase: "е", upperCase: "Е" }, { lowerCase: "t", upperCase: "T" }] },
+				{ width: 1/12, chars: [{ lowerCase: "н", upperCase: "Н" }, { lowerCase: "y", upperCase: "Y" }] },
+				{ width: 1/12, chars: [{ lowerCase: "г", upperCase: "Г" }, { lowerCase: "u", upperCase: "U" }] },
+				{ width: 1/12, chars: [{ lowerCase: "ш", upperCase: "Ш" }, { lowerCase: "i", upperCase: "I" }] },
+				{ width: 1/12, chars: [{ lowerCase: "щ", upperCase: "Щ" }, { lowerCase: "o", upperCase: "O" }] },
+				{ width: 1/12, chars: [{ lowerCase: "з", upperCase: "З" }, { lowerCase: "p", upperCase: "P" }] },
+				{ width: 1/12, chars: [{ lowerCase: "х", upperCase: "Х" }, { lowerCase: "{", upperCase: "[" }] },
+				{ width: 1/12, chars: [{ lowerCase: "ъ", upperCase: "Ъ" }, { lowerCase: "}", upperCase: "]" }] }
 			],
 
 			[
-				ф: { width: 1/12, upperCase: "Ф" },
-				ы: { width: 1/12, upperCase: "Ы" },
-				в: { width: 1/12, upperCase: "В" },
-				а: { width: 1/12, upperCase: "А" },
-				п: { width: 1/12, upperCase: "П" },
-				р: { width: 1/12, upperCase: "Р" },
-				о: { width: 1/12, upperCase: "О" },
-				л: { width: 1/12, upperCase: "Л" },
-				д: { width: 1/12, upperCase: "Д" },
-				ж: { width: 1/12, upperCase: "Ж" },
-				з: { width: 1/12, upperCase: "З" },
-				ё: { width: 1/12, upperCase: "Ё" }
+				{ width: 1/12, chars: [{ lowerCase: "ф", upperCase: "Ф" }, { lowerCase: "a", upperCase: "A" }] },
+				{ width: 1/12, chars: [{ lowerCase: "ы", upperCase: "Ы" }, { lowerCase: "s", upperCase: "S" }] },
+				{ width: 1/12, chars: [{ lowerCase: "в", upperCase: "В" }, { lowerCase: "d", upperCase: "D" }] },
+				{ width: 1/12, chars: [{ lowerCase: "а", upperCase: "А" }, { lowerCase: "f", upperCase: "F" }] },
+				{ width: 1/12, chars: [{ lowerCase: "п", upperCase: "П" }, { lowerCase: "g", upperCase: "G" }] },
+				{ width: 1/12, chars: [{ lowerCase: "р", upperCase: "Р" }, { lowerCase: "h", upperCase: "H" }] },
+				{ width: 1/12, chars: [{ lowerCase: "о", upperCase: "О" }, { lowerCase: "j", upperCase: "J" }] },
+				{ width: 1/12, chars: [{ lowerCase: "л", upperCase: "Л" }, { lowerCase: "k", upperCase: "K" }] },
+				{ width: 1/12, chars: [{ lowerCase: "д", upperCase: "Д" }, { lowerCase: "l", upperCase: "L" }] },
+				{ width: 1/12, chars: [{ lowerCase: "ж", upperCase: "Ж" }, { lowerCase: ":", upperCase: ";" }] },
+				{ width: 1/12, chars: [{ lowerCase: "э", upperCase: "Э" }, { lowerCase: '"', upperCase: "'" }] },
+				{ width: 1/12, chars: [{ lowerCase: "ё", upperCase: "Ё" }, { lowerCase: "|", upperCase: "\\" }] }
 			],
 
 			[
-				shift: { width: 1.5/12, command: 'shift' },
-				я: { width: 1/12, upperCase: "Я" },
-				ч: { width: 1/12, upperCase: "Ч" },
-				с: { width: 1/12, upperCase: "С" },
-				м: { width: 1/12, upperCase: "М" },
-				и: { width: 1/12, upperCase: "И" },
-				т: { width: 1/12, upperCase: "Т" },
-				ь: { width: 1/12, upperCase: "Ь" },
-				б: { width: 1/12, upperCase: "Б" },
-				ю: { width: 1/12, upperCase: "Ю" },
-				cancel: { width: 1.5/12, command: 'backspace' }
+				{ width: 1.5/12, command: 'shift', chars: [{ icon: "shift" }] },
+				{ width: 1/12, chars: [{ lowerCase: "я", upperCase: "Я" }, { lowerCase: "z", upperCase: "Z" }] },
+				{ width: 1/12, chars: [{ lowerCase: "ч", upperCase: "Ч" }, { lowerCase: "x", upperCase: "X" }] },
+				{ width: 1/12, chars: [{ lowerCase: "с", upperCase: "С" }, { lowerCase: "c", upperCase: "C" }] },
+				{ width: 1/12, chars: [{ lowerCase: "м", upperCase: "М" }, { lowerCase: "v", upperCase: "V" }] },
+				{ width: 1/12, chars: [{ lowerCase: "и", upperCase: "И" }, { lowerCase: "b", upperCase: "B" }] },
+				{ width: 1/12, chars: [{ lowerCase: "т", upperCase: "Т" }, { lowerCase: "n", upperCase: "N" }] },
+				{ width: 1/12, chars: [{ lowerCase: "ь", upperCase: "Ь" }, { lowerCase: "m", upperCase: "M" }] },
+				{ width: 1/12, chars: [{ lowerCase: "б", upperCase: "Б" }, { lowerCase: ",", upperCase: "" }] },
+				{ width: 1/12, chars: [{ lowerCase: "ю", upperCase: "Ю" }, { lowerCase: ".", upperCase: "" }] },
+				{ width: 1.5/12, command: 'backspace', chars: [{ icon: "cancel" }] }
 			],
 
 			[
-				'eng': { width: 0.15, command: 'switch-set' },
-				'.?12': { width: 0.15, command: 'switch' },
-				space: { width: 0.4, command: 'space' },
-				'.': { width: 0.1 },
-				enter: { width: 0.2, command: 'enter' }
+				{ width: 0.15, command: 'switch-set', chars: [{ lowerCase: "eng" }] },
+				{ width: 0.15, command: 'switch', chars: [{ lowerCase: ".?12" }] },
+				{ width: 0.4, command: 'space', chars: [{ icon: "space" }] },
+				{ width: 0.1, chars: [{ lowerCase: "?" }] },
+				{ width: 0.2, command: 'enter', chars: [{ icon: "enter" }] }
 			]
 
 		],
@@ -281,53 +281,52 @@ export default {
 		[
 
 			[
-				'1': { width: 0.1 },
-				'2': { width: 0.1 },
-				'3': { width: 0.1 },
-				'4': { width: 0.1 },
-				'5': { width: 0.1 },
-				'6': { width: 0.1 },
-				'7': { width: 0.1 },
-				'8': { width: 0.1 },
-				'9': { width: 0.1 },
-				'0': { width: 0.1 }
+				{ width: 0.1, chars: [{ lowerCase: "1" }] },
+				{ width: 0.1, chars: [{ lowerCase: "2" }] },
+				{ width: 0.1, chars: [{ lowerCase: "3" }] },
+				{ width: 0.1, chars: [{ lowerCase: "4" }] },
+				{ width: 0.1, chars: [{ lowerCase: "5" }] },
+				{ width: 0.1, chars: [{ lowerCase: "6" }] },
+				{ width: 0.1, chars: [{ lowerCase: "7" }] },
+				{ width: 0.1, chars: [{ lowerCase: "8" }] },
+				{ width: 0.1, chars: [{ lowerCase: "9" }] },
+				{ width: 0.1, chars: [{ lowerCase: "0" }] }
 			],
 
 			[
-				'@': { width: 0.1 },
-				'#': { width: 0.1 },
-				'|': { width: 0.1 },
-				'_': { width: 0.1 },
-				'&': { width: 0.1 },
-				'-': { width: 0.1 },
-				'+': { width: 0.1 },
-				'(': { width: 0.1 },
-				')': { width: 0.1 },
-				'/': { width: 0.1 },
+				{ width: 0.1, chars: [{ lowerCase: "@" }] },
+				{ width: 0.1, chars: [{ lowerCase: "#" }] },
+				{ width: 0.1, chars: [{ lowerCase: "|" }] },
+				{ width: 0.1, chars: [{ lowerCase: "_" }] },
+				{ width: 0.1, chars: [{ lowerCase: "&" }] },
+				{ width: 0.1, chars: [{ lowerCase: "-" }] },
+				{ width: 0.1, chars: [{ lowerCase: "+" }] },
+				{ width: 0.1, chars: [{ lowerCase: "(" }] },
+				{ width: 0.1, chars: [{ lowerCase: ")" }] },
+				{ width: 0.1, chars: [{ lowerCase: "/" }] }
 			],
 
 			[
-				'=': { width: 0.1 },
-				'*': { width: 0.1 },
-				'"': { width: 0.1 },
-				"'": { width: 0.1 },
-				':': { width: 0.1 },
-				';': { width: 0.1 },
-				'!': { width: 0.1 },
-				'?': { width: 0.1 },
-				backspace: { width: 0.2, command: 'backspace' }
+				{ width: 0.1, chars: [{ lowerCase: "=" }] },
+				{ width: 0.1, chars: [{ lowerCase: "*" }] },
+				{ width: 0.1, chars: [{ lowerCase: '"' }] },
+				{ width: 0.1, chars: [{ lowerCase: "'" }] },
+				{ width: 0.1, chars: [{ lowerCase: ":" }] },
+				{ width: 0.1, chars: [{ lowerCase: ";" }] },
+				{ width: 0.1, chars: [{ lowerCase: "!" }] },
+				{ width: 0.1, chars: [{ lowerCase: "?" }] },
+				{ width: 0.2, command: 'backspace', chars: [{ icon: "cancel" }] }
 			],
 
 			[
-				'АБВ': { width: 0.3, command: 'switch' },
-				space: { width: 0.4, command: 'space' },
-				'.': { width: 0.1 },
-				enter: { width: 0.2, command: 'enter' }
+				{ width: 0.3, command: 'switch', chars: [{ lowerCase: "АБВ" }] },
+				{ width: 0.4, command: 'space', chars: [{ icon: "space" }] },
+				{ width: 0.1, chars: [{ lowerCase: "." }] },
+				{ width: 0.2, command: 'enter', chars: [{ icon: "enter" }] }
 			]
 
 		]
 
 	]
-	*/
 
 }

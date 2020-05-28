@@ -224,9 +224,14 @@ function makeUI() {
 
 					switch( key.info.command ) {
 
-						// switch between letters and symbols panels
+						// switch between panels
 						case 'switch' :
 							keyboard.setNextPanel();
+							break;
+
+						// switch between panel charsets (eg: russian/english)
+						case 'switch-set' :
+							keyboard.setNextCharset();
 							break;
 
 						case 'enter' :
