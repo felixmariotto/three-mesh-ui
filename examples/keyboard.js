@@ -492,7 +492,7 @@ function loop() {
 	renderer.render( scene, camera );
 	
 	updateButtons();
-	
+
 };
 
 /*

@@ -183,6 +183,10 @@ function callUpdatesOf( component ) {
 
 	//
 
+	delete requestedUpdates[ component.id ];
+
+	//
+
 	component.getUIChildren().forEach( (childUI)=> {
 
 		callUpdatesOf( childUI );
