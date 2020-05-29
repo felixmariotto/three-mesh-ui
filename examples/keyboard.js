@@ -597,6 +597,8 @@ function clear( uiComponent ) {
 
 		if ( objsToTest.includes( child ) ) objsToTest.splice( objsToTest.indexOf( child ), 1 );
 
+		ThreeMeshUI.disposeOf( child );
+
 		if ( child.material ) child.material.dispose();
 
 		if ( child.geometry ) child.geometry.dispose();

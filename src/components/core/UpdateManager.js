@@ -61,7 +61,13 @@ function register( component ) {
 
 function disposeOf( component ) {
 
-	components.splice( components.indexOf( component ), 1 );
+	const idx = components.indexOf( component );
+
+	if ( idx > -1 ) {
+
+		components.splice( idx, 1 );
+
+	};
 
 };
 
