@@ -219,14 +219,15 @@ function makeUI() {
     let layoutButtons = [
     	[ 'English', 'eng' ],
     	[ 'French', 'fr' ],
-    	[ 'Russian', 'ru' ]
+    	[ 'Russian', 'ru' ],
+    	[ 'Chinese', 'zh' ]
     ];
 
     layoutButtons = layoutButtons.map( (options)=> {
 
     	const button = ThreeMeshUI.Block({
-    		height: 0.085,
-    		width: 0.25,
+    		height: 0.07,
+    		width: 0.2,
     		margin: 0.012,
     		justifyContent: 'center',
 	  		backgroundMaterial: buttonMaterial

@@ -40,21 +40,28 @@ export default function KeyboardModule( options ) {
 
 	let keymap;
 
-	if ( options.language || options.language ) {
+	if ( options.language || navigator.language ) {
 
-		switch ( options.language || options.language  ) {
+		switch ( options.language || navigator.language  ) {
 
 			case 'fr' :
-				keymap = keymaps.fr
+				keymap = keymaps.fr;
 				break
 
 			case 'ru' :
 				keyboard.charsetCount = 2;
-				keymap = keymaps.ru
+				keymap = keymaps.ru;
+				break
+
+			case "zh" :
+			case "zh-CN" :
+			case "zh-TW" :
+			case "zh-HK" :
+				keymap = keymaps.zh;
 				break
 
 			default :
-				keymap = keymaps.eng
+				keymap = keymaps.eng;
 				break
 
 		};
