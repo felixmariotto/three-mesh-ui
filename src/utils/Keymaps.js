@@ -333,46 +333,49 @@ export default {
 
 	/////////////////////////////////////////////////////////
 
-	zh:
+	de:
 	[
 
 		[
 
 			[
-				{ width: 0.1, chars: [{ lowerCase: 'q', upperCase: 'Q' }] },
-				{ width: 0.1, chars: [{ lowerCase: 'w', upperCase: 'W' }] },
-				{ width: 0.1, chars: [{ lowerCase: 'e', upperCase: 'E' }] },
-				{ width: 0.1, chars: [{ lowerCase: 'r', upperCase: 'R' }] },
-				{ width: 0.1, chars: [{ lowerCase: 't', upperCase: 'T' }] },
-				{ width: 0.1, chars: [{ lowerCase: 'y', upperCase: 'Y' }] },
-				{ width: 0.1, chars: [{ lowerCase: 'u', upperCase: 'U' }] },
-				{ width: 0.1, chars: [{ lowerCase: 'i', upperCase: 'I' }] },
-				{ width: 0.1, chars: [{ lowerCase: 'o', upperCase: 'O' }] },
-				{ width: 0.1, chars: [{ lowerCase: 'p', upperCase: 'P' }] }
+				{ width: 1/11, chars: [{ lowerCase: 'q', upperCase: 'Q' }] },
+				{ width: 1/11, chars: [{ lowerCase: 'w', upperCase: 'W' }] },
+				{ width: 1/11, chars: [{ lowerCase: 'e', upperCase: 'E' }] },
+				{ width: 1/11, chars: [{ lowerCase: 'r', upperCase: 'R' }] },
+				{ width: 1/11, chars: [{ lowerCase: 't', upperCase: 'T' }] },
+				{ width: 1/11, chars: [{ lowerCase: 'z', upperCase: 'Z' }] },
+				{ width: 1/11, chars: [{ lowerCase: 'u', upperCase: 'U' }] },
+				{ width: 1/11, chars: [{ lowerCase: 'i', upperCase: 'I' }] },
+				{ width: 1/11, chars: [{ lowerCase: 'o', upperCase: 'O' }] },
+				{ width: 1/11, chars: [{ lowerCase: 'p', upperCase: 'P' }] },
+				{ width: 1/11, chars: [{ lowerCase: 'ü', upperCase: 'Ü' }] }
 			],
 
 			[
-				{ width: 0.1, chars: [{ lowerCase: 'a', upperCase: 'A' }] },
-				{ width: 0.1, chars: [{ lowerCase: 's', upperCase: 'S' }] },
-				{ width: 0.1, chars: [{ lowerCase: 'd', upperCase: 'D' }] },
-				{ width: 0.1, chars: [{ lowerCase: 'f', upperCase: 'F' }] },
-				{ width: 0.1, chars: [{ lowerCase: 'g', upperCase: 'G' }] },
-				{ width: 0.1, chars: [{ lowerCase: 'h', upperCase: 'H' }] },
-				{ width: 0.1, chars: [{ lowerCase: 'j', upperCase: 'J' }] },
-				{ width: 0.1, chars: [{ lowerCase: 'k', upperCase: 'K' }] },
-				{ width: 0.1, chars: [{ lowerCase: 'l', upperCase: 'L' }] }
+				{ width: 1/11, chars: [{ lowerCase: 'a', upperCase: 'A' }] },
+				{ width: 1/11, chars: [{ lowerCase: 's', upperCase: 'S' }] },
+				{ width: 1/11, chars: [{ lowerCase: 'd', upperCase: 'D' }] },
+				{ width: 1/11, chars: [{ lowerCase: 'f', upperCase: 'F' }] },
+				{ width: 1/11, chars: [{ lowerCase: 'g', upperCase: 'G' }] },
+				{ width: 1/11, chars: [{ lowerCase: 'h', upperCase: 'H' }] },
+				{ width: 1/11, chars: [{ lowerCase: 'j', upperCase: 'J' }] },
+				{ width: 1/11, chars: [{ lowerCase: 'k', upperCase: 'K' }] },
+				{ width: 1/11, chars: [{ lowerCase: 'l', upperCase: 'L' }] },
+				{ width: 1/11, chars: [{ lowerCase: 'ö', upperCase: 'Ö' }] },
+				{ width: 1/11, chars: [{ lowerCase: 'ä', upperCase: 'Ä' }] }
 			],
 
 			[
-				{ width: 0.15, command: 'shift', chars: [{ icon: 'shift' }] },
-				{ width: 0.1, chars: [{ lowerCase: 'z', upperCase: 'Z' }] },
-				{ width: 0.1, chars: [{ lowerCase: 'x', upperCase: 'X' }] },
-				{ width: 0.1, chars: [{ lowerCase: 'c', upperCase: 'C' }] },
-				{ width: 0.1, chars: [{ lowerCase: 'v', upperCase: 'V' }] },
-				{ width: 0.1, chars: [{ lowerCase: 'b', upperCase: 'B' }] },
-				{ width: 0.1, chars: [{ lowerCase: 'n', upperCase: 'N' }] },
-				{ width: 0.1, chars: [{ lowerCase: 'm', upperCase: 'M' }] },
-				{ width: 0.15, command: 'backspace', chars: [{ icon: 'cancel' }] }
+				{ width: 2/11, command: 'shift', chars: [{ icon: 'shift' }] },
+				{ width: 1/11, chars: [{ lowerCase: 'y', upperCase: 'Y' }] },
+				{ width: 1/11, chars: [{ lowerCase: 'x', upperCase: 'X' }] },
+				{ width: 1/11, chars: [{ lowerCase: 'c', upperCase: 'C' }] },
+				{ width: 1/11, chars: [{ lowerCase: 'v', upperCase: 'V' }] },
+				{ width: 1/11, chars: [{ lowerCase: 'b', upperCase: 'B' }] },
+				{ width: 1/11, chars: [{ lowerCase: 'n', upperCase: 'N' }] },
+				{ width: 1/11, chars: [{ lowerCase: 'm', upperCase: 'M' }] },
+				{ width: 2/11, command: 'backspace', chars: [{ icon: 'cancel' }] }
 			],
 
 			[

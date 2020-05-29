@@ -220,7 +220,7 @@ function makeUI() {
     	[ 'English', 'eng' ],
     	[ 'French', 'fr' ],
     	[ 'Russian', 'ru' ],
-    	[ 'Chinese', 'zh' ]
+    	[ 'German', 'de' ]
     ];
 
     layoutButtons = layoutButtons.map( (options)=> {

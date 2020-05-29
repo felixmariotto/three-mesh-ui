@@ -45,6 +45,8 @@ export default function KeyboardModule( options ) {
 		switch ( options.language || navigator.language  ) {
 
 			case 'fr' :
+			case "fr-CH" :
+			case "fr-CA" :
 				keymap = keymaps.fr;
 				break
 
@@ -53,11 +55,12 @@ export default function KeyboardModule( options ) {
 				keymap = keymaps.ru;
 				break
 
-			case "zh" :
-			case "zh-CN" :
-			case "zh-TW" :
-			case "zh-HK" :
-				keymap = keymaps.zh;
+			case "de" :
+			case "de-DE" :
+			case "de-AT" :
+			case "de-LI" :
+			case "de-CH" :
+				keymap = keymaps.de;
 				break
 
 			default :
