@@ -19,9 +19,6 @@ import ThreeMeshUI from '../src/three-mesh-ui.js';
 import VRControl from './utils/VRControl.js';
 import ShadowedLight from './utils/ShadowedLight.js';
 
-const WIDTH = window.innerWidth;
-const HEIGHT = window.innerHeight;
-
 let scene,
 	camera,
 	renderer,
@@ -91,7 +88,7 @@ function init() {
 	scene = new THREE.Scene();
 	scene.background = new THREE.Color( 0x505050 );
 
-	camera = new THREE.PerspectiveCamera( 60, WIDTH / HEIGHT, 0.1, 100 );
+	camera = new THREE.PerspectiveCamera( 60, window.innerWidth / window.innerHeight, 0.1, 100 );
 
 	renderer = new THREE.WebGLRenderer({ antialias: true });
 	renderer.setSize( window.innerWidth, window.innerHeight );
@@ -428,15 +425,11 @@ function makeKeyboard( language ) {
 							break;
 
 						case 'enter' :
-							userText.set({
-								content: userText.content += '\n'
-							});
+							userText.set({ content: userText.content += '\n' });
 							break;
 
 						case 'space' :
-							userText.set({
-								content: userText.content += ' '
-							});
+							userText.set({ content: userText.content += ' ' });
 							break;
 
 						case 'backspace' :
@@ -455,9 +448,7 @@ function makeKeyboard( language ) {
 				// print a glyph, if any
 				} else if ( key.info.input ) {
 
-					userText.set({
-						content: userText.content += key.info.input
-					});
+					userText.set({ content: userText.content += key.info.input });
 
 				};
 
@@ -480,7 +471,7 @@ function onWindowResize() {
 
 function loop() {
 
-	console.log( objsToTest.length )
+	updateButtons();
 
 	// Don't forget, ThreeMeshUI must be updated manually.
 	// This has been introduced in version 3.0.0 in order
@@ -488,15 +479,9 @@ function loop() {
 	ThreeMeshUI.update();
 	
 	controls.update();
-
 	stats.update();
-
-	// console.time('update manager');
 	renderer.render( scene, camera );
-	// console.timeEnd('update manager');
 	
-	updateButtons();
-
 };
 
 /*

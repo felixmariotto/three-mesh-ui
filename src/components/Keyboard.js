@@ -90,8 +90,6 @@ export default function KeyboardModule( options ) {
 			fontTexture: options.fontTexture
 		});
 
-		panelBlock.name = "panel"
-
 		panelBlock.charset = 0;
 
 		panelBlock.add( ...panel.map( (line, i, lines)=> {
