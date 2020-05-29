@@ -228,7 +228,7 @@ function makeUI() {
     layoutButtons = layoutButtons.map( (options)=> {
 
     	const button = ThreeMeshUI.Block({
-    		height: 0.07,
+    		height: 0.06,
     		width: 0.2,
     		margin: 0.012,
     		justifyContent: 'center',
@@ -333,14 +333,30 @@ function makeUI() {
 	  	),
 
 	  	ThreeMeshUI.Block({
-	  		height: 0.15,
+	  		height: 0.075,
 	  		width: 1,
 	  		offset: 0,
 	  		contentDirection: 'row',
 	  		justifyContent: 'center'
 	  	}).add(
 
-	  		...layoutButtons
+	  		layoutButtons[ 0 ],
+	  		layoutButtons[ 1 ],
+	  		layoutButtons[ 2 ],
+	  		layoutButtons[ 3 ],
+
+	  	),
+
+	  	ThreeMeshUI.Block({
+	  		height: 0.075,
+	  		width: 1,
+	  		offset: 0,
+	  		contentDirection: 'row',
+	  		justifyContent: 'center'
+	  	}).add(
+
+	  		layoutButtons[ 4 ],
+	  		layoutButtons[ 5 ],
 
 	  	)
 
