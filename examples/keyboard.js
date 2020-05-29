@@ -585,23 +585,19 @@ function raycast() {
 
 };
 
-//
+// Remove this ui component cleanly
 
 function clear( uiComponent ) {
 
 	scene.remove( uiComponent );
 
-	ThreeMeshUI.disposeOf( uiComponent );
-	
+	// We must call this method when removing a component,
+	// to make sure it's removed from the update registry.
+	uiComponent.clear();
+
 	uiComponent.traverse( (child)=> {
 
 		if ( objsToTest.includes( child ) ) objsToTest.splice( objsToTest.indexOf( child ), 1 );
-
-		ThreeMeshUI.disposeOf( child );
-
-		if ( child.material ) child.material.dispose();
-
-		if ( child.geometry ) child.geometry.dispose();
 
 	});
 

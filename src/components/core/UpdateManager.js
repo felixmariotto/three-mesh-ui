@@ -10,13 +10,14 @@ Job:
 
 const UpdateManager = {
 	requestUpdate,
-	register
+	register,
+	disposeOf
 };
 
 const components = [];
 let requestedUpdates = {};
 
-const timestamp = Date.now()
+const timestamp = Date.now();
 
 function requestUpdate( component, updateParsing, updateLayout, updateInner ) {
 

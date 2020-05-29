@@ -15,6 +15,7 @@ import UpdateManager from './UpdateManager.js';
 
 import DEFAULTS from '../../utils/Defaults.js';
 import UniqueID from '../../utils/UniqueID.js';
+import DeepDelete from '../../utils/DeepDelete.js';
 
 export default function MeshUIComponent() {
 
@@ -54,7 +55,8 @@ export default function MeshUIComponent() {
 		_getProperty,
 		set,
 		setupState,
-		setState
+		setState,
+		clear
 
 	};
 
@@ -392,6 +394,22 @@ export default function MeshUIComponent() {
 		if ( savedState.onSet ) savedState.onSet();
 
 		if ( savedState.attributes ) this.set( savedState.attributes );
+
+	};
+
+	//
+
+	function clear() {
+
+		this.traverse( (obj)=> {
+
+			UpdateManager.disposeOf( obj );
+
+			if ( obj.material ) obj.material.dispose();
+
+			if ( obj.geometry ) obj.geometry.dispose();
+
+		});
 
 	};
 
