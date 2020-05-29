@@ -15,7 +15,6 @@ import UpdateManager from './UpdateManager.js';
 
 import DEFAULTS from '../../utils/Defaults.js';
 import UniqueID from '../../utils/UniqueID.js';
-import DeepDelete from '../../utils/DeepDelete.js';
 
 export default function MeshUIComponent() {
 
