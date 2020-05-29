@@ -76,7 +76,12 @@ export default function KeyboardModule( options ) {
 			case "es-PE" :
 			case "es-UY" :
 			case "es-VE" :
-				keymap = keymaps.es
+				keymap = keymaps.es;
+				break
+
+			case "el" :
+				keyboard.charsetCount = 2;
+				keymap = keymaps.el;
 				break
 
 			default :

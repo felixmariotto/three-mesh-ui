@@ -219,9 +219,10 @@ function makeUI() {
     let layoutButtons = [
     	[ 'English', 'eng' ],
     	[ 'French', 'fr' ],
-    	[ 'Russian', 'ru' ],
     	[ 'German', 'de' ],
-    	[ 'Spanish', 'es' ]
+    	[ 'Spanish', 'es' ],
+    	[ 'Russian', 'ru' ],
+    	[ 'Greek', 'el' ]
     ];
 
     layoutButtons = layoutButtons.map( (options)=> {
