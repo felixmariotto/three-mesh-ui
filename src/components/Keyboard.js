@@ -40,9 +40,9 @@ export default function KeyboardModule( options ) {
 
 	let keymap;
 
-	if ( !options.language && navigator ) {
+	if ( options.language || options.language ) {
 
-		switch ( navigator.language ) {
+		switch ( options.language || options.language  ) {
 
 			case 'fr' :
 				keymap = keymaps.fr
@@ -58,10 +58,6 @@ export default function KeyboardModule( options ) {
 				break
 
 		};
-
-	} else if ( options.language ) {
-
-		keymap = keymaps[ options.language ];
 
 	} else {
 
