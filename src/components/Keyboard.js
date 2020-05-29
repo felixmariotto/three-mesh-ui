@@ -63,6 +63,22 @@ export default function KeyboardModule( options ) {
 				keymap = keymaps.de;
 				break
 
+			case "es" :
+			case "es-419" :
+			case "es-AR" :
+			case "es-CL" :
+			case "es-CO" :
+			case "es-ES" :
+			case "es-CR" :
+			case "es-US" :
+			case "es-HN" :
+			case "es-MX" :
+			case "es-PE" :
+			case "es-UY" :
+			case "es-VE" :
+				keymap = keymaps.es
+				break
+
 			default :
 				keymap = keymaps.eng;
 				break
