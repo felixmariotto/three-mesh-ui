@@ -12,7 +12,8 @@ https://github.com/felixmariotto/three-mesh-ui/wiki/Choosing-a-Text-type
 
 */
 
-import { Mesh, ShaderMaterial } from 'three';
+import { Mesh } from 'three/src/objects/Mesh.js';
+import { ShaderMaterial } from 'three/src/materials/ShaderMaterial.js';
 import { BufferGeometryUtils } from 'three/examples/jsm/utils/BufferGeometryUtils.js';
 
 import GeometryGlyph from './glyphs/GeometryGlyph.js';

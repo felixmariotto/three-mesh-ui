@@ -4,7 +4,10 @@
 	Knows: Dimension and style of the plane to create
 */
 
-import { Mesh, ShapeBufferGeometry, Vector2, Shape } from 'three';
+import { ShapeBufferGeometry } from 'three/src/geometries/ShapeGeometry.js';
+import { Mesh } from 'three/src/objects/Mesh.js';
+import { Vector2 } from 'three/src/math/Vector2.js';
+import { Shape } from 'three/src/extras/core/Shape.js';
 
 //
 

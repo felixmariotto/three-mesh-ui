@@ -5,7 +5,7 @@ Knows: dimension of the plane to create, specs of the font used, glyph requireed
 
 */
 
-import { PlaneBufferGeometry } from 'three'
+import { PlaneBufferGeometry } from 'three/src/geometries/PlaneGeometry.js';
 
 export default function MSDFGlyph( inline, font ) {
 

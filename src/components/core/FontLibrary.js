@@ -5,7 +5,8 @@
 */
 
 import { Font } from 'three/src/extras/core/Font.js';
-import { FileLoader, TextureLoader } from 'three';
+import { FileLoader } from 'three/src/loaders/FileLoader.js' ;
+import { TextureLoader } from 'three/src/loaders/TextureLoader.js' ;
 
 const fileLoader = new FileLoader();
 const requiredFontFamilies = [];

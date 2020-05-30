@@ -3,7 +3,8 @@
 	Knows: This component dimensions, and its children dimensions
 */
 
-import { ShapeBufferGeometry, BufferGeometry } from 'three';
+import { BufferGeometry } from 'three/src/core/BufferGeometry.js';
+import { ShapeBufferGeometry } from 'three/src/geometries/ShapeGeometry.js';
 import { BufferGeometryUtils } from 'three/examples/jsm/utils/BufferGeometryUtils.js';
 
 import MeshUIComponent from './MeshUIComponent.js';

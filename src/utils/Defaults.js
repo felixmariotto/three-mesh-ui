@@ -4,7 +4,8 @@
 	Knows: Nothing
 */
 
-import { MeshBasicMaterial, Color } from 'three';
+import { MeshBasicMaterial } from 'three/src/materials/MeshBasicMaterial.js';
+import { Color } from 'three/src/math/Color.js';
 
 export default {
 	container: null,

@@ -4,7 +4,7 @@
 	Knows: Its size and limits, and the THREE.Object3D containing the content and its transform.
 */
 
-import { Object3D } from 'three'
+import { Object3D } from 'three/src/core/Object3D.js';
 
 import BoxComponent from './core/BoxComponent.js';
 import Frame from '../content/Frame.js';

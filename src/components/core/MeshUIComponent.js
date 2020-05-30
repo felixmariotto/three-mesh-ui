@@ -8,7 +8,7 @@
 		- This component type, id, parent and children
 */
 
-import { Object3D } from 'three';
+import { Object3D } from 'three/src/core/Object3D.js';
 
 import FontLibrary from './FontLibrary.js';
 import UpdateManager from './UpdateManager.js';

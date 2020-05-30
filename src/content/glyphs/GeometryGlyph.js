@@ -5,7 +5,7 @@ Knows: dimension of the rectangle containing the glyph
 
 */
 
-import { ShapeBufferGeometry } from 'three';
+import { ShapeBufferGeometry } from 'three/src/geometries/ShapeGeometry.js';
 
 export default function GeometryGlyph( glyph, fontSize, font ) {
 
