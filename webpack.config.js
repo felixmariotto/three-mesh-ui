@@ -9,6 +9,7 @@ let pages = [
 	['interactive_button', 'interactive button'],
 	['msdf_text', 'MSDF text'],
 	['background_size', 'background size'],
+	['icon', 'icon'],
 	['keyboard', 'keyboard']
 ];
 
@@ -57,6 +58,7 @@ module.exports = env => {
 			interactive_button: './examples/interactive_button.js',
 			msdf_text: './examples/msdf_text.js',
 			background_size: './examples/background_size.js',
+			icon: './examples/icon.js',
 			keyboard: './examples/keyboard.js'
 		},
 
