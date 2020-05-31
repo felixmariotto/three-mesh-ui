@@ -61,8 +61,8 @@ function init() {
 function makeTextPanel() {
 
 	const container = ThreeMeshUI.Block({
-		width: 1.3,
-		height: 0.75,
+		width: 1.4,
+		height: 0.93,
 		padding: 0.05,
 		justifyContent: 'center',
 		alignContent: 'left',
@@ -89,16 +89,16 @@ function makeTextPanel() {
 
 		ThreeMeshUI.InlineImage({
 			src: "./assets/threejs.png",
-			height: 0.1,
-			width: 0.21
+			height: 0.2,
+			width: 0.42
 		}),
 
 		ThreeMeshUI.Text({ content: "\nThis is a JPG : " }),
 
 		ThreeMeshUI.InlineImage({
 			src: "./assets/threejs.jpg",
-			height: 0.1,
-			width: 0.21
+			height: 0.2,
+			width: 0.42
 		}),
 
 		ThreeMeshUI.Text({ content: "\nThis is an SVG : " }),
