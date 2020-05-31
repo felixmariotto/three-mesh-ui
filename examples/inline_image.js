@@ -87,7 +87,7 @@ function makeTextPanel() {
 		ThreeMeshUI.Text({ content: "This is a PNG : " }),
 
 		ThreeMeshUI.InlineImage({
-			src: "./assets/threejs.png",
+			// src: "./assets/threejs.png",
 			height: 0.1,
 			width: 0.1
 		}),

@@ -19,27 +19,6 @@ export default function Frame( width, height, borderRadius, backgroundSize, mate
 
 	const geometry = new ShapeBufferGeometry( shape );
 
-	switch( backgroundSize ) {
-
-		case 'stretch' :
-			mapStretchUVs( width, height, geometry );
-			break
-
-		case 'contain' :
-			if ( material.map ) mapFitUVs( backgroundSize, width, height, geometry, material.map );
-			else mapStretchUVs( width, height, geometry );
-			break
-
-		case 'cover' :
-			if ( material.map ) mapFitUVs( backgroundSize, width, height, geometry, material.map );
-			else mapStretchUVs( width, height, geometry );
-			break
-
-		default :
-			console.warn(`'${ backgroundSize }' is an unknown value for the backgroundSize attribute`)
-
-	};
-
 	//
 
 	const mesh = new Mesh(
@@ -48,7 +27,34 @@ export default function Frame( width, height, borderRadius, backgroundSize, mate
 	);
 	mesh.castShadow = true;
 	mesh.receiveShadow = true;
-	mesh.name = "MeshUI-Frame"
+	mesh.name = "MeshUI-Frame";
+
+	mesh.updateUVs = function updateUVs( backgroundSize ) {
+
+		switch( backgroundSize ) {
+
+			case 'stretch' :
+				mapStretchUVs( width, height, geometry );
+				break
+
+			case 'contain' :
+				if ( mesh.material.map ) mapFitUVs( backgroundSize, width, height, geometry, mesh.material.map );
+				else mapStretchUVs( width, height, geometry );
+				break
+
+			case 'cover' :
+				if ( mesh.material.map ) mapFitUVs( backgroundSize, width, height, geometry, mesh.material.map );
+				else mapStretchUVs( width, height, geometry );
+				break
+
+			default :
+				console.warn(`'${ backgroundSize }' is an unknown value for the backgroundSize attribute`)
+
+		};
+
+	};
+
+	mesh.updateUVs( backgroundSize );
 
 	return mesh;
 

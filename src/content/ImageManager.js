@@ -68,26 +68,6 @@ function create( options ) {
 //
 
 function makeTexturedPlane( options, fileExtension ) {
-	/*
-	console.log( options )
-
-	
-	const geometry = new PlaneBufferGeometry( options.width, options.height );
-
-	// basic translation to put the plane's left bottom corner at the center of its space
-	geometry.translate( options.width / 2, options.height / 2, 0 );
-
-	// translation required by inlineManager to position this component inline
-	geometry.translate( options.offsetX, options.offsetY, 0 );
-
-	// create mesh with a transparent blank material, which will be updated
-	// as soon as the texture loaded
-	
-	const mesh = new Mesh(
-		geometry,
-		loadingMaterial
-	);
-	*/
 
 	const mesh = Frame(
 		options.width,
@@ -105,10 +85,16 @@ function makeTexturedPlane( options, fileExtension ) {
 
 	// load the image, then create a new material with the right texture
 	textureLoader.load( options.src, (texture)=> {
+
 		mesh.material = new MeshBasicMaterial({
 			transparent: fileExtension === "png",
 			map: texture
 		});
+
+		setTimeout( ()=> {
+			mesh.updateUVs( options.backgroundSize );
+		}, 0 );
+
 	});
 
 	return mesh
