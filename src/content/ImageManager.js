@@ -15,6 +15,8 @@ import { PlaneBufferGeometry } from 'three/src/geometries/PlaneGeometry.js';
 import { SVGLoader } from 'three/examples/jsm/loaders/SVGLoader.js';
 import { TextureLoader } from 'three/src/loaders/TextureLoader.js' ;
 
+import Frame from './Frame.js';
+
 // TEMP
 
 import { MeshBasicMaterial } from 'three';
@@ -66,7 +68,10 @@ function create( options ) {
 //
 
 function makeTexturedPlane( options, fileExtension ) {
+	/*
+	console.log( options )
 
+	
 	const geometry = new PlaneBufferGeometry( options.width, options.height );
 
 	// basic translation to put the plane's left bottom corner at the center of its space
@@ -77,10 +82,26 @@ function makeTexturedPlane( options, fileExtension ) {
 
 	// create mesh with a transparent blank material, which will be updated
 	// as soon as the texture loaded
+	
 	const mesh = new Mesh(
 		geometry,
 		loadingMaterial
 	);
+	*/
+
+	const mesh = Frame(
+		options.width,
+		options.height,
+		options.borderRadius,
+		options.backgroundSize,
+		loadingMaterial
+	);
+
+	// basic translation to put the plane's left bottom corner at the center of its space
+	mesh.geometry.translate( options.width / 2, options.height / 2, 0 );
+
+	// translation required by inlineManager to position this component inline
+	mesh.geometry.translate( options.offsetX, options.offsetY, 0 );
 
 	// load the image, then create a new material with the right texture
 	textureLoader.load( options.src, (texture)=> {

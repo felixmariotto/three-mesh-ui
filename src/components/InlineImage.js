@@ -60,6 +60,8 @@ function InlineImage( options ) {
 
 			const options = inlineImage.inlines[0];
 			options.src = this.src;
+			options.borderRadius = this.getBorderRadius();
+			options.backgroundSize = this.getBackgroundSize();
 
 			// create image mesh
 			const mesh = inlineImage.imageManager.create( options );
