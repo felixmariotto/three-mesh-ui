@@ -61,15 +61,15 @@ function init() {
 function makeTextPanel() {
 
 	const container = ThreeMeshUI.Block({
-		width: 1.4,
-		height: 0.93,
+		width: 1.7,
+		height: 1.3,
 		padding: 0.05,
 		justifyContent: 'center',
 		alignContent: 'left',
-		fontFamily: './assets/helvetiker_regular.typeface.json',
-		textType: "geometry",
-		fontSize: 0.035,
-		interLine: 0.08
+		fontFamily: './assets/Roboto-msdf.json',
+		fontTexture: './assets/Roboto-msdf.png',
+		fontSize: 0.055,
+		interLine: 0.05
 	});
 
 	container.position.set( 0, 1, -1.8 );
@@ -81,11 +81,14 @@ function makeTextPanel() {
 	container.add(
 
 		ThreeMeshUI.Text({
-			fontSize: 0.05,
+			fontSize: 0.09,
 			content: "three-mesh-ui supports inline images :\n"
 		}),
 
-		ThreeMeshUI.Text({ content: "This is a PNG : " }),
+		ThreeMeshUI.Text({
+			content: "This is a PNG : ",
+			fontColor: new THREE.Color(0xffc654)
+		}),
 
 		ThreeMeshUI.InlineImage({
 			src: "./assets/threejs.png",
@@ -93,14 +96,21 @@ function makeTextPanel() {
 			width: 0.42
 		}),
 
-		ThreeMeshUI.Text({ content: "\nThis is a JPG : " }),
+		ThreeMeshUI.Text({
+			content: "\nThis is a JPG : ",
+			fontColor: new THREE.Color(0x5999ff)
+		}),
 
 		ThreeMeshUI.InlineImage({
 			src: "./assets/threejs.jpg",
 			height: 0.2,
-			width: 0.42
-		})
-		
+			width: 0.42,
+			borderRadius: 0.04
+		}),
+
+		ThreeMeshUI.Text({
+			content: `\nYou can use the 'borderRadius' and 'backgroundSize' attributes on this component. Note the rounded corners of the JPG image. Here the images are 512x512 pixels, but our components are manually sized and not square. What keeps the texture from stretching is the 'backgroundSize' attribute, which by default is set to 'cover'.` })
+
 	);
 
 };
