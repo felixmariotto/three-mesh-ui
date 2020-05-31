@@ -94,7 +94,7 @@ function InlineManager( boxComponent ) {
 		// got by MeshUIComponent
 		const JUSTIFICATION = this.getJustifyContent();
 		const ALIGNMENT = this.getAlignContent();
-		const INTERLINE = this.getInterline();
+		const INTERLINE = this.getInterLine();
 
 		// Compute lines dimensions
 

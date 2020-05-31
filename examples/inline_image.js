@@ -62,13 +62,14 @@ function makeTextPanel() {
 
 	const container = ThreeMeshUI.Block({
 		width: 1.3,
-		height: 0.5,
+		height: 0.75,
 		padding: 0.05,
 		justifyContent: 'center',
 		alignContent: 'left',
 		fontFamily: './assets/helvetiker_regular.typeface.json',
 		textType: "geometry",
-		fontSize: 0.035
+		fontSize: 0.035,
+		interLine: 0.08
 	});
 
 	container.position.set( 0, 1, -1.8 );

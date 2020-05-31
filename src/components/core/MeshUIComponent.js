@@ -38,7 +38,7 @@ export default function MeshUIComponent() {
 		getAlignContent,
 		getContentDirection,
 		getJustifyContent,
-		getInterline,
+		getInterLine,
 		getFontTexture,
 		getTextType,
 		getFontColor,
@@ -237,8 +237,8 @@ export default function MeshUIComponent() {
 		return this.justifyContent || DEFAULTS.justifyContent;
 	};
 
-	function getInterline() {
-		return (this.interline === undefined) ? DEFAULTS.interline : this.interline;
+	function getInterLine() {
+		return (this.interLine === undefined) ? DEFAULTS.interLine : this.interLine;
 	};
 
 	function getOffset() {
