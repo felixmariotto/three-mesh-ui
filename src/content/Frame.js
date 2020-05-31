@@ -115,15 +115,19 @@ function mapFitUVs( backgroundSize, width, height, geometry, texture ) {
 	const imageHeight = texture.image.height;
 	const imageWidth = texture.image.width;
 
+	// get the dimension of the texture that fit the Y direction of the geometry
 	const yFitDimensions = new Vector2(
 		(height * imageWidth) / imageHeight,
 		height
 	);
 
+	// get the dimension of the texture that fit the X direction of the geometry
 	const xFitDimensions = new Vector2(
 		width,
 		(width * imageHeight) / imageWidth
 	);
+
+	// Depending on the backgroundSize attribute, we keep either yFitDimensions or xFitDimensions
 
 	let fitDimensions;
 
@@ -136,6 +140,8 @@ function mapFitUVs( backgroundSize, width, height, geometry, texture ) {
 		fitDimensions = xFitDimensions.length() > yFitDimensions.length() ? xFitDimensions : yFitDimensions;
 
 	};
+
+	// Update UVs
 
 	const uvAttribute = geometry.attributes.uv;
 	const posAttribute = geometry.attributes.position;
