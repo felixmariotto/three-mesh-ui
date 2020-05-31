@@ -183,10 +183,6 @@ export default function MeshUIComponent() {
 		return this._getProperty( 'borderRadius' );
 	};
 
-	function getBackgroundSize() {
-		return this._getProperty( 'backgroundSize' );
-	};
-
 	/// SPECIALS
 
 	// return the first parent with a 'threeOBJ' property
@@ -247,6 +243,10 @@ export default function MeshUIComponent() {
 
 	function getOffset() {
 		return (this.offset === undefined) ? DEFAULTS.offset : this.offset;
+	};
+
+	function getBackgroundSize() {
+		return (this.backgroundSize === undefined) ? DEFAULTS.backgroundSize : this.backgroundSize;
 	};
 
 	///////////////
