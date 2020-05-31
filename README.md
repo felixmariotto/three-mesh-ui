@@ -49,6 +49,7 @@ container.appendChild(
 
 );
 
+// This is typically done in the loop :
 ThreeMeshUI.update();
 ```
 
