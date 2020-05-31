@@ -14,8 +14,6 @@ https://github.com/felixmariotto/three-mesh-ui/wiki/Choosing-a-Text-type
 
 */
 
-import { Object3D } from 'three/src/core/Object3D.js';
-
 import InlineComponent from './core/InlineComponent.js';
 import FontLibrary from './core/FontLibrary.js';
 
