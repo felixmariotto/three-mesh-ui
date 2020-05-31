@@ -48,6 +48,9 @@ container.appendChild(
  })
 
 );
+
+// This is typically done in the loop :
+ThreeMeshUI.update();
 ```
 
 ### [Examples](https://three-mesh-ui.herokuapp.com/) &nbsp;|	&nbsp;[NPM](https://www.npmjs.com/package/three-mesh-ui)	&nbsp;|	&nbsp;[Documentation](https://github.com/felixmariotto/three-mesh-ui/wiki)	&nbsp;|	&nbsp;[Contributing](https://github.com/felixmariotto/three-mesh-ui/wiki/Contributing)
