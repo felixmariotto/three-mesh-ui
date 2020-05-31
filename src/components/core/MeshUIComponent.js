@@ -325,6 +325,7 @@ export default function MeshUIComponent() {
 				case "fontOpacity" :
 				case "borderRadius" :
 				case "backgroundSize" :
+				case "src" :
 					layoutNeedsUpdate = true;
 					this[ prop ] = options[ prop ];
 					break;

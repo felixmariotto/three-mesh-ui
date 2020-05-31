@@ -81,25 +81,31 @@ function makeTextPanel() {
 
 		ThreeMeshUI.Text({
 			fontSize: 0.05,
-			content: "three-mesh-ui supports inline images:\n"
+			content: "three-mesh-ui supports inline images :\n"
 		}),
 
-		ThreeMeshUI.Text({ content: "This is a PNG: " }),
+		ThreeMeshUI.Text({ content: "This is a PNG : " }),
 
 		ThreeMeshUI.InlineImage({
-
+			src: "./assets/threejs.png",
+			height: 0.1,
+			width: 0.1
 		}),
 
-		ThreeMeshUI.Text({ content: "\nThis is a JPG: " }),
+		ThreeMeshUI.Text({ content: "\nThis is a JPG : " }),
 
 		ThreeMeshUI.InlineImage({
-
+			src: "./assets/threejs.jpg",
+			height: 0.1,
+			width: 0.1
 		}),
 
-		ThreeMeshUI.Text({ content: "\nThis is an SVG: " }),
+		ThreeMeshUI.Text({ content: "\nThis is an SVG : " }),
 
 		ThreeMeshUI.InlineImage({
-
+			src: "./assets/threejs.svg",
+			height: 0.1,
+			width: 0.1
 		})
 
 	);

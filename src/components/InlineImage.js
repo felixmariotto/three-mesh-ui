@@ -28,9 +28,15 @@ function InlineImage( options ) {
 		// GET IMAGE DIMENSION
 		///////////////////////
 
+		if ( !this.width ) console.warn('inlineImage has no width. Set to 0.3 by default');
+		if ( !this.height ) console.warn('inlineImage has no height. Set to 0.3 by default');
+
+		const WIDTH = this.width || 0.3;
+		const HEIGHT = this.height || 0.3;
+
 		inlineImage.inlines = [{
-			height: 0.1,
-			width: 0.1,
+			height: HEIGHT,
+			width: WIDTH,
 			anchor: 0,
 			lineBreak: "possible"
 		}];
@@ -45,10 +51,18 @@ function InlineImage( options ) {
 
 		DeepDelete( inlineImage );
 
+		if ( !this.src ) {
+			console.warn('inlineImage has no src, it cannot be rendered');
+			return
+		};
+
 		if ( inlineImage.inlines ) {
 
+			const options = inlineImage.inlines[0];
+			options.src = this.src;
+
 			// create image mesh
-			const mesh = inlineImage.imageManager.create( inlineImage.inlines[0] );
+			const mesh = inlineImage.imageManager.create( options );
 
 			inlineImage.add( mesh );
 

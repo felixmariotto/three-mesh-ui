@@ -17,7 +17,17 @@ import { TextureLoader } from 'three/src/loaders/TextureLoader.js' ;
 
 // TEMP
 
+import { MeshBasicMaterial } from 'three';
 import { SphereBufferGeometry, MeshNormalMaterial } from 'three';
+
+//
+
+const textureLoader = new TextureLoader();
+
+const loadingMaterial = new MeshBasicMaterial({
+	transparent: true,
+	opacity: 0
+});
 
 //
 
@@ -33,7 +43,29 @@ export default function ImageManager() {
 
 function create( options ) {
 
-	console.log( options )
+	const fileExtension = options.src.substring( options.src.lastIndexOf('.') + 1 );
+
+	switch( fileExtension ) {
+
+		case 'png' :
+		case 'jpg' :
+			return makeTexturedPlane( options, fileExtension );
+
+		case 'svg' :
+			console.log('create svg');
+			break
+
+		default :
+			console.warn(`extension of file ${options.src} is not supported`);
+			return
+
+	};
+
+};
+
+//
+
+function makeTexturedPlane( options, fileExtension ) {
 
 	const geometry = new PlaneBufferGeometry( options.width, options.height );
 
@@ -43,9 +75,21 @@ function create( options ) {
 	// translation required by inlineManager to position this component inline
 	geometry.translate( options.offsetX, options.offsetY, 0 );
 
-	return new Mesh(
+	// create mesh with a transparent blank material, which will be updated
+	// as soon as the texture loaded
+	const mesh = new Mesh(
 		geometry,
-		new MeshNormalMaterial()
+		loadingMaterial
 	);
+
+	// load the image, then create a new material with the right texture
+	textureLoader.load( options.src, (texture)=> {
+		mesh.material = new MeshBasicMaterial({
+			transparent: fileExtension === "png",
+			map: texture
+		});
+	});
+
+	return mesh
 
 };
