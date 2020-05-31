@@ -96,8 +96,8 @@ function makeTextPanel() {
 
 		ThreeMeshUI.InlineImage({
 			src: "./assets/threejs.jpg",
-			height: 0.05,
-			width: 0.1
+			height: 0.1,
+			width: 0.05
 		}),
 
 		ThreeMeshUI.Text({ content: "\nThis is an SVG : " }),
