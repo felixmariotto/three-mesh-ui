@@ -61,13 +61,14 @@ function init() {
 function makeTextPanel() {
 
 	const container = ThreeMeshUI.Block({
-		width: 1.1,
+		width: 1.3,
 		height: 0.5,
 		padding: 0.05,
 		justifyContent: 'center',
 		alignContent: 'left',
 		fontFamily: './assets/helvetiker_regular.typeface.json',
-		textType: "geometry"
+		textType: "geometry",
+		fontSize: 0.035
 	});
 
 	container.position.set( 0, 1, -1.8 );
@@ -79,12 +80,26 @@ function makeTextPanel() {
 	container.add(
 
 		ThreeMeshUI.Text({
-			content: "This library supports line-break-friendly-characters,",
-			fontSize: 0.04
+			fontSize: 0.05,
+			content: "three-mesh-ui supports inline images:\n"
 		}),
 
+		ThreeMeshUI.Text({ content: "This is a PNG: " }),
+
 		ThreeMeshUI.InlineImage({
-			
+
+		}),
+
+		ThreeMeshUI.Text({ content: "\nThis is a JPG: " }),
+
+		ThreeMeshUI.InlineImage({
+
+		}),
+
+		ThreeMeshUI.Text({ content: "\nThis is an SVG: " }),
+
+		ThreeMeshUI.InlineImage({
+
 		})
 
 	);

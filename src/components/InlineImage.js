@@ -29,8 +29,8 @@ function InlineImage( options ) {
 		///////////////////////
 
 		inlineImage.inlines = [{
-			height: 0.3,
-			width: 0.3,
+			height: 0.1,
+			width: 0.1,
 			anchor: 0,
 			lineBreak: "possible"
 		}];
