@@ -99,16 +99,8 @@ function makeTextPanel() {
 			src: "./assets/threejs.jpg",
 			height: 0.2,
 			width: 0.42
-		}),
-
-		ThreeMeshUI.Text({ content: "\nThis is an SVG : " }),
-
-		ThreeMeshUI.InlineImage({
-			src: "./assets/threejs.svg",
-			height: 0.1,
-			width: 0.1
 		})
-
+		
 	);
 
 };

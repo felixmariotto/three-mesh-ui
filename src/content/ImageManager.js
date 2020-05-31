@@ -53,10 +53,6 @@ function create( options ) {
 		case 'jpg' :
 			return makeTexturedPlane( options, fileExtension );
 
-		case 'svg' :
-			console.log('create svg');
-			break
-
 		default :
 			console.warn(`extension of file ${options.src} is not supported`);
 			return
