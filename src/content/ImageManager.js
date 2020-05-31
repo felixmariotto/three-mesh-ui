@@ -77,14 +77,19 @@ function makeTexturedPlane( options, fileExtension ) {
 		loadingMaterial
 	);
 
-	// temp
-	mesh.geometry.translate( 0.01, 0, 0 );
-
 	// basic translation to put the plane's left bottom corner at the center of its space
 	// mesh.geometry.translate( options.width / 2, options.height / 2, 0 );
 
 	// translation required by inlineManager to position this component inline
 	// mesh.geometry.translate( options.offsetX, options.offsetY, 0 );
+
+	// basic translation to put the plane's left bottom corner at the center of its space
+	mesh.position.set( options.width / 2, options.height / 2, 0 );
+
+	// translation required by inlineManager to position this component inline
+	mesh.position.x += options.offsetX;
+	mesh.position.y += options.offsetY;
+
 
 	// load the image, then create a new material with the right texture
 	textureLoader.load( options.src, (texture)=> {

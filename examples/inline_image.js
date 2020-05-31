@@ -87,9 +87,9 @@ function makeTextPanel() {
 		ThreeMeshUI.Text({ content: "This is a PNG : " }),
 
 		ThreeMeshUI.InlineImage({
-			// src: "./assets/threejs.png",
+			src: "./assets/threejs.png",
 			height: 0.1,
-			width: 0.1
+			width: 0.21
 		}),
 
 		ThreeMeshUI.Text({ content: "\nThis is a JPG : " }),
@@ -97,7 +97,7 @@ function makeTextPanel() {
 		ThreeMeshUI.InlineImage({
 			src: "./assets/threejs.jpg",
 			height: 0.1,
-			width: 0.05
+			width: 0.21
 		}),
 
 		ThreeMeshUI.Text({ content: "\nThis is an SVG : " }),

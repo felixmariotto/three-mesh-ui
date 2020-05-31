@@ -164,8 +164,6 @@ function mapFitUVs( backgroundSize, width, height, geometry, texture ) {
 	    dummyVec.x -= (( width / fitDimensions.x ) / 2) - 0.5;
 	    dummyVec.y -= (( height / fitDimensions.y ) / 2) - 0.5;
 
-	    console.log( dummyVec.x )
-
 	    uvAttribute.setXY( i, dummyVec.x, dummyVec.y );
 
 	};
