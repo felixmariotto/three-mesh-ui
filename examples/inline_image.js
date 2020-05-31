@@ -108,8 +108,7 @@ function makeTextPanel() {
 			borderRadius: 0.04
 		}),
 
-		ThreeMeshUI.Text({
-			content: `\nYou can use the 'borderRadius' and 'backgroundSize' attributes on this component. Note the rounded corners of the JPG image. Here the images are 512x512 pixels, but our components are manually sized and not square. What keeps the texture from stretching is the 'backgroundSize' attribute, which by default is set to 'cover'.` })
+		ThreeMeshUI.Text({ content: `\nYou can use the 'borderRadius' and 'backgroundSize' attributes on this component. Note the rounded corners of the JPG image. Here the images are 512x512 pixels, but our components are manually sized and not square. What keeps the texture from stretching is the 'backgroundSize' attribute, which by default is set to 'cover'.` })
 
 	);
 
