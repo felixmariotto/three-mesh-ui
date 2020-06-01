@@ -163,8 +163,8 @@ export default function KeyboardModule( options ) {
 					key.add(
 						InlineImage({
 							src: `./assets/${ char }.png`,
-							width: key.width,
-							height: key.height,
+							width: key.width * 0.65,
+							height: key.height * 0.65,
 							backgroundSize: 'contain'
 						})
 					);
