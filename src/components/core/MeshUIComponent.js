@@ -399,13 +399,11 @@ export default function MeshUIComponent() {
 		if ( options.fontFamily ) {
 			FontLibrary.setFontFamily( this, options.fontFamily );
 			layoutNeedsUpdate = false;
-			innerNeedsUpdate = false;
 		};
 
 		if ( options.fontTexture ) {
 			FontLibrary.setFontTexture( this, options.fontTexture );
 			layoutNeedsUpdate = false;
-			innerNeedsUpdate = false;
 		};
 		
 		// Call component update
@@ -417,7 +415,7 @@ export default function MeshUIComponent() {
 	};
 
 	/////////////////////
-	// STATE MANAGEMENT
+	// STATES MANAGEMENT
 	/////////////////////
 
 	function setupState( options ) {

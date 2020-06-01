@@ -65,13 +65,19 @@ function init() {
 
 function makeTextPanel() {
 
+	const backgroundMaterial = new THREE.MeshBasicMaterial({
+		transparent: true,
+		opacity: 0.5
+	});
+
 	const scrollableContainer = ThreeMeshUI.Block({
 		height: 0.7,
 		padding: 0.05,
 		justifyContent: 'start',
 		alignContent: 'center',
 		fontFamily: './assets/Roboto-msdf.json',
-		fontTexture: './assets/Roboto-msdf.png'
+		fontTexture: './assets/Roboto-msdf.png',
+		backgroundMaterial
 	});
 
 	scrollableContainer.position.set( 0, 1, -1.8 );
