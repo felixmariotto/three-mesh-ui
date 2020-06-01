@@ -13,14 +13,6 @@ let scene, camera, renderer, controls ;
 
 //
 
-let bigText = '';
-
-for (let i = 0 ; i < 18 ; i++) {
-	bigText += 'MSDFText is very efficient when rendering big text because the glyphs are textures on simple planes geometries, all merged together. ';
-};
-
-//
-
 window.addEventListener('load', init );
 window.addEventListener('resize', onWindowResize );
 
@@ -103,7 +95,7 @@ function makeTextPanel() {
 	bigTextContainer.add(
 
 		ThreeMeshUI.Text({
-			content: bigText,
+			content: 'MSDFText is very efficient when rendering big text because the glyphs are textures on simple planes geometries, all merged together. '.repeat( 18 ),
 			fontSize: 0.034
 		})
 
