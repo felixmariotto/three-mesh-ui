@@ -66,10 +66,9 @@ function init() {
 function makeTextPanel() {
 
 	const scrollableContainer = ThreeMeshUI.Block({
-		width: 0.7,
 		height: 0.7,
 		padding: 0.05,
-		justifyContent: 'center',
+		justifyContent: 'start',
 		alignContent: 'center',
 		fontFamily: './assets/Roboto-msdf.json',
 		fontTexture: './assets/Roboto-msdf.png'
@@ -82,7 +81,7 @@ function makeTextPanel() {
 	//
 
 	const textContainer = ThreeMeshUI.Block({
-		width: 1.2,
+		width: 0.6,
 		height: 1.2,
 		padding: 0.03
 	});
