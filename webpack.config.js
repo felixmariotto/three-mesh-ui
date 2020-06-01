@@ -10,6 +10,7 @@ let pages = [
 	['msdf_text', 'MSDF text'],
 	['background_size', 'background size'],
 	['inline_image', 'inline image'],
+	['scrollable', 'scrollable'],
 	['keyboard', 'keyboard']
 ];
 
@@ -59,6 +60,7 @@ module.exports = env => {
 			msdf_text: './examples/msdf_text.js',
 			background_size: './examples/background_size.js',
 			inline_image: './examples/inline_image.js',
+			scrollable: './examples/scrollable.js',
 			keyboard: './examples/keyboard.js'
 		},
 
