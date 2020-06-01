@@ -118,8 +118,8 @@ export default function MeshUIComponent() {
 				planes.push(
 					new Plane( new Vector3( 0, 1, 0 ), yLimit ),
 					new Plane( new Vector3( 0, -1, 0 ), yLimit ),
-					new Plane( new Vector3( 0, 1, 0 ), xLimit ),
-					new Plane( new Vector3( 0, -1, 0 ), xLimit )
+					new Plane( new Vector3( 1, 0, 0 ), xLimit ),
+					new Plane( new Vector3( -1, 0, 0 ), xLimit )
 				);
 
 			};
