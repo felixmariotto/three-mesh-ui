@@ -263,6 +263,8 @@ export default function KeyboardModule( options ) {
 
 			const textComponent = key.children.find( child => child.type === 'Text' );
 
+			if ( !textComponent ) return
+
 			key.info.input = newContent;
 
 			textComponent.set({
