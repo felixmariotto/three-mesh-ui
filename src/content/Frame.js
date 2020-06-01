@@ -11,13 +11,17 @@ import { Shape } from 'three/src/extras/core/Shape.js';
 
 //
 
-export default function Frame( width, height, borderRadius, backgroundSize, material ) {
+export default function Frame( width, height, borderRadius, backgroundSize, material, clippingPlanes ) {
 
 	var shape = new Shape();
 
 	roundedRect( shape, width, height, borderRadius );
 
 	const geometry = new ShapeBufferGeometry( shape );
+
+	material = material.clone();
+	
+	material.clippingPlanes = clippingPlanes;
 
 	//
 

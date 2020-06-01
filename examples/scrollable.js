@@ -28,6 +28,7 @@ function init() {
 	renderer = new THREE.WebGLRenderer({
 		antialias: true
 	});
+	renderer.localClippingEnabled = true;
 	renderer.setPixelRatio( window.devicePixelRatio );
 	renderer.setSize( WIDTH, HEIGHT );
 	renderer.xr.enabled = true;
@@ -68,8 +69,8 @@ function makeTextPanel() {
 		width: 0.7,
 		height: 0.7,
 		padding: 0.05,
-		justifyContent: 'start',
-		alignContent: 'left',
+		justifyContent: 'center',
+		alignContent: 'center',
 		fontFamily: './assets/Roboto-msdf.json',
 		fontTexture: './assets/Roboto-msdf.png'
 	});
@@ -81,7 +82,7 @@ function makeTextPanel() {
 	//
 
 	const textContainer = ThreeMeshUI.Block({
-		width: 0.6,
+		width: 1.2,
 		height: 1.2,
 		padding: 0.03
 	});

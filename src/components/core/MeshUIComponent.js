@@ -9,6 +9,8 @@
 */
 
 import { Object3D } from 'three/src/core/Object3D.js';
+import { Plane } from 'three/src/math/Plane.js';
+import { Vector3 } from 'three/src/math/Vector3.js';
 
 import FontLibrary from './FontLibrary.js';
 import UpdateManager from './UpdateManager.js';
@@ -47,6 +49,7 @@ export default function MeshUIComponent() {
 		getBackgroundSize,
 		getUIChildren,
 		getUIParent,
+		getPlanes,
 
 		update,
 		_updateFontFamily,
@@ -80,6 +83,40 @@ export default function MeshUIComponent() {
 	/////////////
 	/// GETTERS
 	/////////////
+
+	function getPlanes() {
+
+		const planes = [];
+
+		if ( this.parent && this.parent.isUI ) {
+
+			if ( this.type === "Block" ) {
+
+				const yLimit = (this.parent.getHeight() / 2) - (this.parent.padding || 0);
+				const xLimit = (this.parent.getWidth() / 2) - (this.parent.padding || 0);
+
+				planes.push(
+					new Plane( new Vector3( 0, 1, 0 ), yLimit ),
+					new Plane( new Vector3( 0, -1, 0 ), yLimit ),
+					new Plane( new Vector3( 0, 1, 0 ), xLimit ),
+					new Plane( new Vector3( 0, -1, 0 ), xLimit )
+				)
+
+			};
+
+			if ( this.parent.parent && this.parent.parent.isUI ) {
+
+				planes.push( ...this.parent.getPlanes() );
+
+			};
+
+		};
+
+		return planes;
+
+	};
+
+	//
 
 	function getUIChildren() {
 

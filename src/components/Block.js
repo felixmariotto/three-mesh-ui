@@ -65,14 +65,23 @@ function Block( options ) {
 
 		DeepDelete( frameContainer );
 
-		// Create new depictions
+		// Create new visible frame
+
+		const planes = this.getPlanes();
+
+		planes.forEach( (plane)=> {
+
+			plane.applyMatrix4( this.matrixWorld );
+
+		});
 
 		const frame = Frame(
 			WIDTH,
 			HEIGHT,
 			block.getBorderRadius(),
 			block.getBackgroundSize(),
-			block.getBackgroundMaterial()
+			block.getBackgroundMaterial(),
+			planes
 		);
 
 		frame.renderOrder = block.getParentsNumber();
