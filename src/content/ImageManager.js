@@ -4,23 +4,18 @@
 Job: Takes information about images to output, then output meshes
 
 Knows:
-	- The Text component for which it creates Meshes
+	- The InlineImage component for which it creates Meshes
 	- The parameters of the image to create (SVG, PNG...)
 
 */
 
 import { Mesh } from 'three/src/objects/Mesh.js';
 import { PlaneBufferGeometry } from 'three/src/geometries/PlaneGeometry.js';
-
+import { MeshBasicMaterial } from 'three/src/materials/MeshBasicMaterial.js';
 import { SVGLoader } from 'three/examples/jsm/loaders/SVGLoader.js';
 import { TextureLoader } from 'three/src/loaders/TextureLoader.js' ;
 
 import Frame from './Frame.js';
-
-// TEMP
-
-import { MeshBasicMaterial } from 'three';
-import { SphereBufferGeometry, MeshNormalMaterial } from 'three';
 
 //
 
@@ -90,9 +85,7 @@ function makeTexturedPlane( options, fileExtension ) {
 			map: texture
 		});
 
-		setTimeout( ()=> {
-			mesh.updateUVs( options.backgroundSize );
-		}, 0 );
+		mesh.updateUVs( options.backgroundSize );
 
 	});
 
