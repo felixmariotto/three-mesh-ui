@@ -85,6 +85,10 @@ export default function KeyboardModule( options ) {
 				keymap = keymaps.el;
 				break
 
+			case "nord" :
+				keymap = keymaps.nord;
+				break
+
 			default :
 				keymap = keymaps.eng;
 				break

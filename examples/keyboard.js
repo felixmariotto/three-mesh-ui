@@ -218,9 +218,10 @@ function makeUI() {
 
     let layoutButtons = [
     	[ 'English', 'eng' ],
-    	[ 'French', 'fr' ],
+    	[ 'Nordic', 'nord' ],
     	[ 'German', 'de' ],
     	[ 'Spanish', 'es' ],
+    	[ 'French', 'fr' ],
     	[ 'Russian', 'ru' ],
     	[ 'Greek', 'el' ]
     ];
@@ -357,6 +358,7 @@ function makeUI() {
 
 	  		layoutButtons[ 4 ],
 	  		layoutButtons[ 5 ],
+	  		layoutButtons[ 6 ],
 
 	  	)
 
