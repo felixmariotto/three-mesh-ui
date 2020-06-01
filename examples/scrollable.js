@@ -89,6 +89,17 @@ function makeTextPanel() {
 
 	scrollableContainer.add( textContainer );
 
+	let counter = 0;
+
+	/*
+	setTimeout( ()=> {
+		setInterval( ()=> {
+			counter = (counter + 0.2) % 1;
+			textContainer.set({ width: 0.5 + counter })
+		}, 500 )
+	}, 2000 );
+	*/
+
 	//
 
 	textContainer.add(
@@ -124,4 +135,5 @@ function loop() {
 
 	// controls.update();
 	renderer.render( scene, camera );
+
 };

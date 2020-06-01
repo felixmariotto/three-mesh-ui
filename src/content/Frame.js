@@ -11,7 +11,7 @@ import { Shape } from 'three/src/extras/core/Shape.js';
 
 //
 
-export default function Frame( width, height, borderRadius, backgroundSize, material, clippingPlanes ) {
+export default function Frame( width, height, borderRadius, backgroundSize, material ) {
 
 	var shape = new Shape();
 
@@ -19,16 +19,13 @@ export default function Frame( width, height, borderRadius, backgroundSize, mate
 
 	const geometry = new ShapeBufferGeometry( shape );
 
-	material = material.clone();
-	
-	material.clippingPlanes = clippingPlanes;
-
 	//
 
 	const mesh = new Mesh(
 		geometry,
 		material
 	);
+
 	mesh.castShadow = true;
 	mesh.receiveShadow = true;
 	mesh.name = "MeshUI-Frame";

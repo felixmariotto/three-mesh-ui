@@ -10,7 +10,9 @@ import BoxComponent from './core/BoxComponent.js';
 import Frame from '../content/Frame.js';
 import DeepDelete from '../utils/DeepDelete.js';
 
-function Block( options ) {
+import { MeshBasicMaterial } from 'three';
+
+export default function Block( options ) {
 
 	const block = Object.create( BoxComponent() );
 
@@ -21,6 +23,20 @@ function Block( options ) {
 	block.add( frameContainer );
 
 	block.frameContainer = frameContainer;
+
+	block.addClipToFrameMaterial = function addClipToFrameMaterial( frame ) {
+
+		const planes = this.getPlanes();
+
+		planes.forEach( (plane)=> {
+
+			plane.applyMatrix4( this.matrixWorld );
+
+		});
+
+		frame.material.clippingPlanes = planes;
+
+	};
 
 	////////////
 	//  UPDATE
@@ -67,22 +83,15 @@ function Block( options ) {
 
 		// Create new visible frame
 
-		const planes = this.getPlanes();
-
-		planes.forEach( (plane)=> {
-
-			plane.applyMatrix4( this.matrixWorld );
-
-		});
-
 		const frame = Frame(
 			WIDTH,
 			HEIGHT,
 			block.getBorderRadius(),
 			block.getBackgroundSize(),
-			block.getBackgroundMaterial(),
-			planes
+			block.getBackgroundMaterial()
 		);
+
+		block.addClipToFrameMaterial( frame );
 
 		frame.renderOrder = block.getParentsNumber();
 
@@ -118,6 +127,8 @@ function Block( options ) {
 
 				child.material = block.getBackgroundMaterial();
 
+				block.addClipToFrameMaterial( child );
+
 			};
 
 		});
@@ -130,5 +141,3 @@ function Block( options ) {
 	return block;
 
 };
-
-export default Block ;

@@ -84,6 +84,26 @@ export default function MeshUIComponent() {
 	/// GETTERS
 	/////////////
 
+	function getBackgroundMaterial() {
+
+		if ( this.backgroundMaterial === undefined && this.getUIParent() ) {
+
+			return this.parent.getBackgroundMaterial()
+
+		} else if ( this.backgroundMaterial ) {
+
+			return this.backgroundMaterial
+
+		} else {
+
+			return DEFAULTS.backgroundMaterial.clone()
+
+		};
+
+	};
+
+	//
+
 	function getPlanes() {
 
 		const planes = [];
@@ -100,7 +120,7 @@ export default function MeshUIComponent() {
 					new Plane( new Vector3( 0, -1, 0 ), yLimit ),
 					new Plane( new Vector3( 0, 1, 0 ), xLimit ),
 					new Plane( new Vector3( 0, -1, 0 ), xLimit )
-				)
+				);
 
 			};
 
@@ -194,10 +214,6 @@ export default function MeshUIComponent() {
 
 	function getFontFamily() {
 		return this._getProperty( 'fontFamily' );
-	};
-
-	function getBackgroundMaterial() {
-		return this._getProperty( 'backgroundMaterial' );
 	};
 
 	function getBreakOn() {
