@@ -48,7 +48,7 @@ export default {
 				{ width: 0.1, chars: [{ lowerCase: "v", upperCase: "V" }] },
 				{ width: 0.1, chars: [{ lowerCase: "b", upperCase: "B" }] },
 				{ width: 0.1, chars: [{ lowerCase: "n", upperCase: "N" }] },
-				{ width: 0.2, command: 'backspace', chars: [{ icon: "cancel" }] }
+				{ width: 0.2, command: 'backspace', chars: [{ icon: "backspace" }] }
 			],
 
 			[
@@ -98,7 +98,7 @@ export default {
 				{ width: 0.1, chars: [{ lowerCase: ";" }] },
 				{ width: 0.1, chars: [{ lowerCase: "!" }] },
 				{ width: 0.1, chars: [{ lowerCase: "?" }] },
-				{ width: 0.2, command: 'backspace', chars: [{ icon: "cancel" }] }
+				{ width: 0.2, command: 'backspace', chars: [{ icon: "backspace" }] }
 			],
 
 			[
@@ -154,7 +154,7 @@ export default {
 				{ width: 0.1, chars: [{ lowerCase: 'b', upperCase: 'B' }] },
 				{ width: 0.1, chars: [{ lowerCase: 'n', upperCase: 'N' }] },
 				{ width: 0.1, chars: [{ lowerCase: 'm', upperCase: 'M' }] },
-				{ width: 0.15, command: 'backspace', chars: [{ icon: 'cancel' }] }
+				{ width: 0.15, command: 'backspace', chars: [{ icon: 'backspace' }] }
 			],
 
 			[
@@ -204,7 +204,7 @@ export default {
 				{ width: 0.1, chars: [{ lowerCase: ';' }] },
 				{ width: 0.1, chars: [{ lowerCase: '!' }] },
 				{ width: 0.1, chars: [{ lowerCase: '?' }] },
-				{ width: 0.2, command: 'backspace', chars: [{ icon: 'cancel' }] }
+				{ width: 0.2, command: 'backspace', chars: [{ icon: 'backspace' }] }
 			],
 
 			[
@@ -267,7 +267,7 @@ export default {
 				{ width: 1/12, chars: [{ lowerCase: "ь", upperCase: "Ь" }, { lowerCase: "m", upperCase: "M" }] },
 				{ width: 1/12, chars: [{ lowerCase: "б", upperCase: "Б" }, { lowerCase: ",", upperCase: "" }] },
 				{ width: 1/12, chars: [{ lowerCase: "ю", upperCase: "Ю" }, { lowerCase: ".", upperCase: "" }] },
-				{ width: 1.5/12, command: 'backspace', chars: [{ icon: "cancel" }] }
+				{ width: 1.5/12, command: 'backspace', chars: [{ icon: "backspace" }] }
 			],
 
 			[
@@ -317,7 +317,7 @@ export default {
 				{ width: 0.1, chars: [{ lowerCase: ";" }] },
 				{ width: 0.1, chars: [{ lowerCase: "!" }] },
 				{ width: 0.1, chars: [{ lowerCase: "?" }] },
-				{ width: 0.2, command: 'backspace', chars: [{ icon: "cancel" }] }
+				{ width: 0.2, command: 'backspace', chars: [{ icon: "backspace" }] }
 			],
 
 			[
@@ -375,7 +375,7 @@ export default {
 				{ width: 1/11, chars: [{ lowerCase: 'b', upperCase: 'B' }] },
 				{ width: 1/11, chars: [{ lowerCase: 'n', upperCase: 'N' }] },
 				{ width: 1/11, chars: [{ lowerCase: 'm', upperCase: 'M' }] },
-				{ width: 2/11, command: 'backspace', chars: [{ icon: 'cancel' }] }
+				{ width: 2/11, command: 'backspace', chars: [{ icon: 'backspace' }] }
 			],
 
 			[
@@ -425,7 +425,7 @@ export default {
 				{ width: 0.1, chars: [{ lowerCase: ';' }] },
 				{ width: 0.1, chars: [{ lowerCase: '!' }] },
 				{ width: 0.1, chars: [{ lowerCase: '?' }] },
-				{ width: 0.2, command: 'backspace', chars: [{ icon: 'cancel' }] }
+				{ width: 0.2, command: 'backspace', chars: [{ icon: 'backspace' }] }
 			],
 
 			[
@@ -482,7 +482,7 @@ export default {
 				{ width: 0.1, chars: [{ lowerCase: 'b', upperCase: 'B' }] },
 				{ width: 0.1, chars: [{ lowerCase: 'n', upperCase: 'N' }] },
 				{ width: 0.1, chars: [{ lowerCase: 'm', upperCase: 'M' }] },
-				{ width: 0.15, command: 'backspace', chars: [{ icon: 'cancel' }] }
+				{ width: 0.15, command: 'backspace', chars: [{ icon: 'backspace' }] }
 			],
 
 			[
@@ -532,7 +532,7 @@ export default {
 				{ width: 0.1, chars: [{ lowerCase: ';' }] },
 				{ width: 0.1, chars: [{ lowerCase: '!' }] },
 				{ width: 0.1, chars: [{ lowerCase: '?' }] },
-				{ width: 0.2, command: 'backspace', chars: [{ icon: 'cancel' }] }
+				{ width: 0.2, command: 'backspace', chars: [{ icon: 'backspace' }] }
 			],
 
 			[
@@ -588,7 +588,7 @@ export default {
 				{ width: 0.1, chars: [{ lowerCase: 'β', upperCase: 'Β' }, { lowerCase: 'b', upperCase: 'B' }] },
 				{ width: 0.1, chars: [{ lowerCase: 'ν', upperCase: 'Ν' }, { lowerCase: 'n', upperCase: 'N' }] },
 				{ width: 0.1, chars: [{ lowerCase: 'μ', upperCase: 'Μ' }, { lowerCase: 'm', upperCase: 'M' }] },
-				{ width: 0.15, command: 'backspace', chars: [{ icon: 'cancel' }] }
+				{ width: 0.15, command: 'backspace', chars: [{ icon: 'backspace' }] }
 			],
 
 			[
@@ -638,7 +638,7 @@ export default {
 				{ width: 0.1, chars: [{ lowerCase: ';' }] },
 				{ width: 0.1, chars: [{ lowerCase: '!' }] },
 				{ width: 0.1, chars: [{ lowerCase: '?' }] },
-				{ width: 0.2, command: 'backspace', chars: [{ icon: 'cancel' }] }
+				{ width: 0.2, command: 'backspace', chars: [{ icon: 'backspace' }] }
 			],
 
 			[

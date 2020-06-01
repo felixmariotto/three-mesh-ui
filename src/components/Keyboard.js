@@ -7,6 +7,7 @@ Job: high-level component that returns a keyboard
 import BoxComponent from './core/BoxComponent.js';
 import Block from './Block.js';
 import Text from './Text.js';
+import InlineImage from './InlineImage.js';
 import keymaps from '../utils/Keymaps.js';
 
 export default function KeyboardModule( options ) {
@@ -146,12 +147,29 @@ export default function KeyboardModule( options ) {
 
 				const char = keyItem.chars[ panelBlock.charset ].lowerCase || keyItem.chars[ panelBlock.charset ].icon || "undif";
 
-				key.add(
-					Text({
-						content: char,
-						offset: 0
-					})
-				);
+				if ( char !== "enter" &&
+					 char !== "shift" &&
+					 char !== "backspace" ) {
+
+					key.add(
+						Text({
+							content: char,
+							offset: 0
+						})
+					);
+
+				} else {
+
+					key.add(
+						InlineImage({
+							src: `./assets/${ char }.png`,
+							width: key.width,
+							height: key.height,
+							backgroundSize: 'contain'
+						})
+					);
+
+				};
 
 				key.type = "Key"
 
