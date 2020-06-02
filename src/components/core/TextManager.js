@@ -94,13 +94,13 @@ function getGlyphDimensions( options ) {
 
 function createText( options ) {
 
-	switch ( options.textType ) {
+	switch ( this.getTextType() ) {
 
 		case 'geometry' :
-			return buildGeometryText( options );
+			return buildGeometryText.call( this );
 
 		case 'MSDF' :
-			return buildMSDFText( options );
+			return buildMSDFText.call( this );
 
 	};
 
@@ -110,13 +110,13 @@ function createText( options ) {
 // then returns a mesh made of this geometry and the passed fontMaterial.
 // Called only when the Text is created with 'textType: "geometry"'
 
-function buildGeometryText( options ) {
+function buildGeometryText() {
 
 	const translatedGeom = [];
 
-	options.inlines.forEach( (inline, i)=> {
+	this.inlines.forEach( (inline, i)=> {
 
-		translatedGeom[ i ] = GeometryGlyph( inline.glyph, inline.fontSize, options.fontFamily );
+		translatedGeom[ i ] = GeometryGlyph( inline.glyph, inline.fontSize, this.getFontFamily() );
 
 		translatedGeom[ i ].translate( inline.offsetX, inline.offsetY, 0 );
 
@@ -124,7 +124,7 @@ function buildGeometryText( options ) {
 
 	const mergedGeom = BufferGeometryUtils.mergeBufferGeometries( translatedGeom );
 
-	return new Mesh( mergedGeom, options.fontMaterial );
+	return new Mesh( mergedGeom, this.getFontMaterial() );
 
 };
 
@@ -133,13 +133,13 @@ function buildGeometryText( options ) {
 // creates a THREE.Mesh, returns it.
 // Called only when the Text is created with 'textType: "MSDF"' (the default)
 
-function buildMSDFText( options ) {
+function buildMSDFText() {
 
 	const translatedGeom = [];
 
-	options.inlines.forEach( (inline, i)=> {
+	this.inlines.forEach( (inline, i)=> {
 
-		translatedGeom[ i ] = MSDFGlyph( inline, options.fontFamily );
+		translatedGeom[ i ] = MSDFGlyph( inline, this.getFontFamily() );
 
 		translatedGeom[ i ].translate( inline.offsetX, inline.offsetY, 0 );
 
@@ -150,10 +150,10 @@ function buildMSDFText( options ) {
 	//
 
 	const MATERIAL = new ShaderMaterial({
-		uniforms: { u_texture: { value: options.fontTexture }},
+		uniforms: { u_texture: { value: this.getFontTexture() }},
 		transparent: true,
 		vertexShader: VertexShader(),
-		fragmentShader: FragmentShader( options.fontColor, options.fontOpacity ),
+		fragmentShader: FragmentShader( this.getFontColor(), this.getFontOpacity() ),
 	});
 
 	//

@@ -126,15 +126,7 @@ function Text( options ) {
 
 		if ( textComponent.inlines ) {
 
-			const textContent = textComponent.createText({
-				inlines: textComponent.inlines,
-				fontFamily: this.getFontFamily(),
-				fontMaterial: this.getFontMaterial(),
-				textType: this.getTextType(),
-				fontTexture: this.getFontTexture(),
-				fontColor: this.getFontColor(),
-				fontOpacity: this.getFontOpacity()
-			});
+			const textContent = textComponent.createText();
 
 			textComponent.add( textContent );
 
