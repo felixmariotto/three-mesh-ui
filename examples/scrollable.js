@@ -9,7 +9,7 @@ import ThreeMeshUI from '../src/three-mesh-ui.js';
 const WIDTH = window.innerWidth;
 const HEIGHT = window.innerHeight;
 
-let scene, camera, renderer, controls, scrollableContainer;
+let scene, camera, renderer, controls, scrollableContainer, textContainer;
 
 window.addEventListener('load', init );
 window.addEventListener('resize', onWindowResize );
@@ -80,7 +80,7 @@ function makeTextPanel() {
 
 	//
 
-	const textContainer = ThreeMeshUI.Block({
+	textContainer = ThreeMeshUI.Block({
 		width: 0.6,
 		height: 1.2,
 		padding: 0.03
@@ -124,7 +124,11 @@ function onWindowResize() {
 
 function loop() {
 
-	if ( scrollableContainer && renderer.info.render.frame > 150 ) scrollableContainer.set({ width: (Math.abs( Math.sin(Date.now() / 500) ) * 0.3) + 0.4 })
+	if ( scrollableContainer && renderer.info.render.frame > 150 ) {
+
+		scrollableContainer.set({ width: (Math.abs( Math.sin(Date.now() / 500) ) * 0.3) + 0.4 })
+
+	};
 
 	// Don't forget, ThreeMeshUI must be updated manually.
 	// This has been introduced in version 3.0.0 in order

@@ -318,14 +318,18 @@ export default function MeshUIComponent() {
 
 			switch ( prop ) {
 
-				case "content" :
-					parsingNeedsUpdate = true;
-
 				case "width" :
 				case "height" :
+				case "padding" :
+				case "content" :
+					parsingNeedsUpdate = true;
+					layoutNeedsUpdate = true;
+					this[ prop ] = options[ prop ];
+					break;
+
+				
 				case "fontSize" :
 				case "interLine" :
-				case "padding" :
 				case "margin" :
 				case "contentDirection" :
 				case "justifyContent" :

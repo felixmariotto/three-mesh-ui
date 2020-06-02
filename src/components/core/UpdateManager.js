@@ -19,16 +19,21 @@ let requestedUpdates = {};
 
 const timestamp = Date.now();
 
+// get called by MeshUIComponent when component.set has been used.
+// It registers this component and all its descendants for the different types of updates that were required.
+
 function requestUpdate( component, updateParsing, updateLayout, updateInner ) {
 
 	component.traverse( (child)=> {
 
 		if ( !child.isUI ) return
 
+		// if ( component.isBlock && Date.now() > timestamp + 1000 ) debugger
+
+		// request updates for all descendants of the passed components
 		if ( !requestedUpdates[ child.id ] ) {
 
 			requestedUpdates[ child.id ] = {
-				child,
 				updateParsing,
 				updateLayout,
 				updateInner

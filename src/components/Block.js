@@ -40,7 +40,7 @@ export default function Block( options ) {
 
 	//
 
-	block.parseParams = function parseParams() {};
+	block.parseParams = function parseParams( resolve ) { resolve() };
 
 	block.updateLayout = updateLayout;
 
@@ -67,7 +67,7 @@ function updateLayout() {
 	const HEIGHT = this.getHeight();
 
 	if ( !WIDTH || !HEIGHT ) {
-		console.warn('Block got no dimension from its parameters or form children parameters');
+		console.warn('Block got no dimension from its parameters or from children parameters');
 		return
 	};
 
