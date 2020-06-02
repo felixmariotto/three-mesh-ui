@@ -18,10 +18,9 @@ import { Object3D } from 'three/src/core/Object3D.js';
 
 import InlineComponent from './core/InlineComponent.js';
 import MeshUIComponent from './core/MeshUIComponent.js';
-
 import FontLibrary from './core/FontLibrary.js';
+import TextManager from './core/TextManager.js';
 
-import TextManager from '../content/TextManager.js';
 import DeepDelete from '../utils/DeepDelete.js';
 
 function Text( options ) {
