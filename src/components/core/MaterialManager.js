@@ -80,8 +80,8 @@ function makeShader() {
 		},
 		transparent: true,
 		clipping: true,
-		vertexShader: VertexShader(),
-		fragmentShader: FragmentShader(),
+		vertexShader: textVertex,
+		fragmentShader: textFragment,
 	});
 
 };
@@ -90,58 +90,50 @@ function makeShader() {
 // MSDF shaders
 ////////////////
 
-function VertexShader() {
+const textVertex = `
+	varying vec2 vUv;
 
-	return `
-		varying vec2 vUv;
+	#include <clipping_planes_pars_vertex>
 
-		#include <clipping_planes_pars_vertex>
+	void main() {
 
-		void main() {
+		vUv = uv;
+		vec4 mvPosition = modelViewMatrix * vec4( position, 1.0 );
+		gl_Position = projectionMatrix * mvPosition;
+		gl_Position.z-= 0.005;
 
-			vUv = uv;
-			vec4 mvPosition = modelViewMatrix * vec4( position, 1.0 );
-			gl_Position = projectionMatrix * mvPosition;
-			gl_Position.z-= 0.005;
+		#include <clipping_planes_vertex>
 
-			#include <clipping_planes_vertex>
+	}
+`;
 
-		}
-	`
+//
 
-};
+const textFragment = `
+	#ifdef GL_OES_standard_derivatives
+	#extension GL_OES_standard_derivatives : enable
+	#endif
 
-// returns an MSDF fragment shader with the right font color and opacity
+	uniform sampler2D u_texture;
+	uniform vec3 u_color;
+	uniform float u_opacity;
 
-function FragmentShader() {
+	varying vec2 vUv;
 
-	return `
-		#ifdef GL_OES_standard_derivatives
-		#extension GL_OES_standard_derivatives : enable
-		#endif
+	#include <clipping_planes_pars_fragment>
 
-		uniform sampler2D u_texture;
-		uniform vec3 u_color;
-		uniform float u_opacity;
+	float median(float r, float g, float b) {
+		return max(min(r, g), min(max(r, g), b));
+	}
 
-		varying vec2 vUv;
+	void main() {
 
-		#include <clipping_planes_pars_fragment>
+		vec3 sample = texture2D( u_texture, vUv ).rgb;
+		float sigDist = median( sample.r, sample.g, sample.b ) - 0.5;
+		float alpha = clamp( sigDist / fwidth( sigDist ) + 0.5, 0.0, 1.0 );
+		gl_FragColor = vec4( u_color, min( alpha, u_opacity ) );
+	
+		#include <clipping_planes_fragment>
 
-		float median(float r, float g, float b) {
-			return max(min(r, g), min(max(r, g), b));
-		}
-
-		void main() {
-
-			vec3 sample = texture2D( u_texture, vUv ).rgb;
-			float sigDist = median( sample.r, sample.g, sample.b ) - 0.5;
-			float alpha = clamp( sigDist / fwidth( sigDist ) + 0.5, 0.0, 1.0 );
-			gl_FragColor = vec4( u_color, min( alpha, u_opacity ) );
-		
-			#include <clipping_planes_fragment>
-
-		}
-	`
-
-};
+	}
+`;
