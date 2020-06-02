@@ -29,7 +29,6 @@ export default function MeshUIComponent() {
 		getContainer,
 		getFontFamily,
 		getFontSize,
-		getFontMaterial,
 		getBreakOn,
 		getOffset,
 		getParentsNumber,
@@ -160,10 +159,6 @@ export default function MeshUIComponent() {
 	
 	function getFontSize() {
 		return this._getProperty( 'fontSize' );
-	};
-
-	function getFontMaterial() {
-		return this._getProperty( 'fontMaterial' );
 	};
 
 	function getFontTexture() {

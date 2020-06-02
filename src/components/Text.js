@@ -20,6 +20,7 @@ import InlineComponent from './core/InlineComponent.js';
 import MeshUIComponent from './core/MeshUIComponent.js';
 import FontLibrary from './core/FontLibrary.js';
 import TextManager from './core/TextManager.js';
+import MaterialManager from './core/MaterialManager.js';
 
 import DeepDelete from '../utils/DeepDelete.js';
 
@@ -29,6 +30,7 @@ function Text( options ) {
 		Object.create( new Object3D ),
 		InlineComponent(),
 		TextManager(),
+		MaterialManager(),
 		MeshUIComponent()
 	);
 

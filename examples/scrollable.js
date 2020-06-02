@@ -124,13 +124,11 @@ function onWindowResize() {
 
 function loop() {
 
-	/*
 	if ( scrollableContainer && renderer.info.render.frame > 150 ) {
 
 		scrollableContainer.set({ width: (Math.abs( Math.sin(Date.now() / 500) ) * 0.3) + 0.4 })
 
 	};
-	*/
 
 	// Don't forget, ThreeMeshUI must be updated manually.
 	// This has been introduced in version 3.0.0 in order
