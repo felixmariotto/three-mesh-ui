@@ -7,9 +7,7 @@ import InlineManager from './InlineManager.js';
 
 function BoxComponent() {
 
-	const boxComponent = Object.create( InlineManager() );
-
-	boxComponent.type = 'BoxComponent'
+	const boxComponent = {};
 
 	boxComponent.isBoxComponent = true;
 

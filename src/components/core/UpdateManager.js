@@ -42,7 +42,7 @@ function requestUpdate( component, updateParsing, updateLayout, updateInner ) {
 
 		};
 
-	})
+	});
 
 };
 

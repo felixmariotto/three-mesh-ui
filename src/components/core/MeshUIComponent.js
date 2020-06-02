@@ -16,14 +16,11 @@ import FontLibrary from './FontLibrary.js';
 import UpdateManager from './UpdateManager.js';
 
 import DEFAULTS from '../../utils/Defaults.js';
-import UniqueID from '../../utils/UniqueID.js';
 
 export default function MeshUIComponent() {
 
-	let component = {
+	return {
 
-		type: 'MeshUIComponent',
-		id: UniqueID(),
 		states: {},
 		currentState: undefined,
 		isUI: true,
@@ -62,24 +59,6 @@ export default function MeshUIComponent() {
 
 	};
 
-	// Inherit from THREE.Object3D
-
-	const propsObj = {};
-
-	for ( let propName of Object.keys(component) ) {
-
-		propsObj[ propName ] = {
-			writable: true,
-			configurable: true,
-			value: component[ propName ]
-		};
-
-	};
-
-	component = Object.create( new Object3D, propsObj )
-
-	return component
-
 	/////////////
 	/// GETTERS
 	/////////////
@@ -110,7 +89,7 @@ export default function MeshUIComponent() {
 
 		if ( this.parent && this.parent.isUI ) {
 
-			if ( this.type === "Block" ) {
+			if ( this.isBlock ) {
 
 				const yLimit = (this.parent.getHeight() / 2) - (this.parent.padding || 0);
 				const xLimit = (this.parent.getWidth() / 2) - (this.parent.padding || 0);
@@ -308,7 +287,7 @@ export default function MeshUIComponent() {
 
 	function update( updateParsing, updateLayout, updateInner ) {
 
-		UpdateManager.requestUpdate( this || component, updateParsing, updateLayout, updateInner );
+		UpdateManager.requestUpdate( this, updateParsing, updateLayout, updateInner );
 
 	};
 
@@ -408,7 +387,7 @@ export default function MeshUIComponent() {
 		
 		// Call component update
 
-		update( parsingNeedsUpdate, layoutNeedsUpdate, innerNeedsUpdate );
+		this.update( parsingNeedsUpdate, layoutNeedsUpdate, innerNeedsUpdate );
 
 		if ( layoutNeedsUpdate ) this.getHighestParent().update( false, true, false );
 		
