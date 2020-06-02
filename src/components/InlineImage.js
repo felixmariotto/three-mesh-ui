@@ -10,15 +10,21 @@ Knows:
 
 */
 
+import { Object3D } from 'three/src/core/Object3D.js';
+
 import InlineComponent from './core/InlineComponent.js';
+import MeshUIComponent from './core/MeshUIComponent.js';
+
 import ImageManager from '../content/ImageManager.js';
 import DeepDelete from '../utils/DeepDelete.js';
 
 function InlineImage( options ) {
 
-	const inlineImage = Object.create( InlineComponent() );
-
-	inlineImage.type = "InlineImage";
+	const inlineImage = Object.assign(
+		Object.create( new Object3D ),
+		InlineComponent(),
+		MeshUIComponent()
+	);
 
 	inlineImage.imageManager = ImageManager();
 

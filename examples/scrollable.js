@@ -188,4 +188,4 @@ function dog( name = "titi" ) {
 
 };
 
-console.log( dog().bark() )
+// console.log( dog().bark() )

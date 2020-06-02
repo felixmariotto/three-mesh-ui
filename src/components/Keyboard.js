@@ -4,7 +4,11 @@ Job: high-level component that returns a keyboard
 
 */
 
+import { Object3D } from 'three/src/core/Object3D.js';
+
 import BoxComponent from './core/BoxComponent.js';
+import InlineManager from './core/InlineManager.js';
+import MeshUIComponent from './core/MeshUIComponent.js';
 import Block from './Block.js';
 import Text from './Text.js';
 import InlineImage from './InlineImage.js';
@@ -22,9 +26,12 @@ export default function KeyboardModule( options ) {
 
 	//
 
-	const keyboard = Object.create( BoxComponent() );
-
-	keyboard.type = 'Keyboard';
+	const keyboard = Object.assign(
+		Object.create( new Object3D ),
+		BoxComponent(),
+		InlineManager(),
+		MeshUIComponent()
+	);
 
 	keyboard.currentPanel = 0;
 

@@ -14,6 +14,8 @@ https://github.com/felixmariotto/three-mesh-ui/wiki/Choosing-a-Text-type
 
 */
 
+import { Object3D } from 'three/src/core/Object3D.js';
+
 import InlineComponent from './core/InlineComponent.js';
 import MeshUIComponent from './core/MeshUIComponent.js';
 
@@ -25,12 +27,10 @@ import DeepDelete from '../utils/DeepDelete.js';
 function Text( options ) {
 
 	const textComponent = Object.assign(
-		{},
+		Object.create( new Object3D ),
 		InlineComponent(),
 		MeshUIComponent()
 	);
-
-	textComponent.type = "Text";
 
 	textComponent.textManager = TextManager();
 
