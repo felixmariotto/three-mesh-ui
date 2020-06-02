@@ -171,6 +171,12 @@ function pooper( state ) {
 
 //
 
+const parent = {
+	papa: ()=> console.log( "c'est moi" )
+}
+
+//
+
 function dog( name = "titi" ) {
 
 	const state = {
@@ -178,9 +184,13 @@ function dog( name = "titi" ) {
 	};
 
 	return Object.assign(
-		{},
+		Object.create( parent ),
 		barker( state ),
 		pooper( state )
 	)
 
 };
+
+console.log( dog() )
+
+dog().papa()
