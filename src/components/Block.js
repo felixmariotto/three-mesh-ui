@@ -7,6 +7,9 @@
 import { Object3D } from 'three/src/core/Object3D.js';
 
 import BoxComponent from './core/BoxComponent.js';
+import InlineManager from './core/InlineManager.js';
+import MeshUIComponent from './core/MeshUIComponent.js';
+
 import Frame from '../content/Frame.js';
 import DeepDelete from '../utils/DeepDelete.js';
 
@@ -14,9 +17,12 @@ import { MeshBasicMaterial } from 'three';
 
 export default function Block( options ) {
 
-	const block = Object.create( BoxComponent() );
-
-	block.type = 'Block';
+	const block = Object.assign(
+		Object.create( new Object3D ),
+		BoxComponent(),
+		InlineManager(),
+		MeshUIComponent()
+	);
 
 	const frameContainer = new Object3D();
 	frameContainer.name = "MeshUI-FrameContainer"

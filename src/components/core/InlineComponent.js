@@ -7,9 +7,7 @@ import MeshUIComponent from './MeshUIComponent.js';
 
 function InlineComponent() {
 
-	const inlineComponent = Object.create( MeshUIComponent() );
-
-	inlineComponent.type = 'InlineComponent'
+	const inlineComponent = {};
 
 	inlineComponent.isInline = true;
 

@@ -21,6 +21,10 @@ const timestamp = Date.now();
 
 function requestUpdate( component, updateParsing, updateLayout, updateInner ) {
 
+	console.log( component )
+	console.log( component.traverse )
+	debugger
+
 	component.traverse( (child)=> {
 
 		if ( !child.isUI ) return

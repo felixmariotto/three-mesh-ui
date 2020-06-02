@@ -12,9 +12,7 @@ import MeshUIComponent from './MeshUIComponent.js';
 function InlineManager( boxComponent ) {
 
 	// if a property is not found in layout, it will delegate to MeshUIComponent
-	const inlineManager = Object.create( MeshUIComponent() );
-
-	inlineManager.type = 'inlineManager'
+	const inlineManager = {};
 
 	inlineManager.computeInlinesPosition = function computeInlinesPosition() {
 

@@ -156,15 +156,18 @@ function loop() {
 function barker( state ) {
 	return {
 		bark: function bark() {
-			console.log('I am ' + state.name);
+			console.log('I am ' + this.name + this.param);
 		}
 	}
 };
 
 function pooper( state ) {
 	return {
+
+		param: 'coucou',
+
 		poop: function poop() {
-			console.log('I shit ' + state.name);
+			console.log('I shit ' + this.name);
 		}
 	}
 };
@@ -178,9 +181,11 @@ function dog( name = "titi" ) {
 	};
 
 	return Object.assign(
-		{},
-		barker( state ),
-		pooper( state )
+		state,
+		barker(),
+		pooper()
 	)
 
 };
+
+console.log( dog().bark() )
