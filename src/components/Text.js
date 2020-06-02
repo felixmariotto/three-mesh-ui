@@ -32,6 +32,8 @@ function Text( options ) {
 		MeshUIComponent()
 	);
 
+	textComponent.isText = true;
+
 	textComponent.textManager = TextManager();
 
 	textComponent.parseParams = function parseParams( resolve, reject ) {

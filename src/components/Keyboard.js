@@ -246,7 +246,7 @@ export default function KeyboardModule( options ) {
 
 			const newContent = keyboard.isLowerCase || !char.upperCase ? char.lowerCase : char.upperCase;
 
-			const textComponent = key.children.find( child => child.type === 'Text' );
+			const textComponent = key.children.find( child => child.isText );
 
 			if ( !textComponent ) return
 
@@ -274,7 +274,7 @@ export default function KeyboardModule( options ) {
 
 			const newContent = keyboard.isLowerCase || !char.upperCase ? char.lowerCase : char.upperCase;
 
-			const textComponent = key.children.find( child => child.type === 'Text' );
+			const textComponent = key.children.find( child => child.isText );
 
 			if ( !textComponent ) return
 
