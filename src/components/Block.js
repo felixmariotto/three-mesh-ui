@@ -24,6 +24,8 @@ export default function Block( options ) {
 		MeshUIComponent()
 	);
 
+	block.isBlock = true;
+
 	const frameContainer = new Object3D();
 	frameContainer.name = "MeshUI-FrameContainer"
 	block.add( frameContainer );

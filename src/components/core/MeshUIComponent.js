@@ -89,7 +89,7 @@ export default function MeshUIComponent() {
 
 		if ( this.parent && this.parent.isUI ) {
 
-			if ( this.type === "Block" ) {
+			if ( this.isBlock ) {
 
 				const yLimit = (this.parent.getHeight() / 2) - (this.parent.padding || 0);
 				const xLimit = (this.parent.getWidth() / 2) - (this.parent.padding || 0);
