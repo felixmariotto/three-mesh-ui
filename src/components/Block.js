@@ -9,6 +9,7 @@ import { Object3D } from 'three/src/core/Object3D.js';
 import BoxComponent from './core/BoxComponent.js';
 import InlineManager from './core/InlineManager.js';
 import MeshUIComponent from './core/MeshUIComponent.js';
+import MaterialManager from './core/MaterialManager.js';
 
 import Frame from '../content/Frame.js';
 import DeepDelete from '../utils/DeepDelete.js';
@@ -21,6 +22,7 @@ export default function Block( options ) {
 		Object.create( new Object3D ),
 		BoxComponent(),
 		InlineManager(),
+		MaterialManager(),
 		MeshUIComponent()
 	);
 
@@ -38,8 +40,6 @@ export default function Block( options ) {
 
 	//
 
-	block.addClipToFrameMaterial = addClipToFrameMaterial;
-
 	block.parseParams = function parseParams() {};
 
 	block.updateLayout = updateLayout;
@@ -51,22 +51,6 @@ export default function Block( options ) {
 	block.set( options, true, true );
 
 	return block;
-
-};
-
-//
-
-function addClipToFrameMaterial( frame ) {
-
-	const planes = this.getPlanes();
-
-	planes.forEach( (plane)=> {
-
-		plane.applyMatrix4( this.matrixWorld );
-
-	});
-
-	frame.material.clippingPlanes = planes;
 
 };
 
@@ -119,8 +103,6 @@ function updateLayout() {
 		this.getBackgroundMaterial()
 	);
 
-	this.addClipToFrameMaterial( frame );
-
 	frame.renderOrder = this.getParentsNumber();
 
 	this.frameContainer.add( frame );
@@ -154,8 +136,6 @@ function updateInner() {
 		if ( child.material ) {
 
 			child.material = this.getBackgroundMaterial();
-
-			this.addClipToFrameMaterial( child );
 
 		};
 

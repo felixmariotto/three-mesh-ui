@@ -30,7 +30,6 @@ export default function MeshUIComponent() {
 		getFontFamily,
 		getFontSize,
 		getFontMaterial,
-		getBackgroundMaterial,
 		getBreakOn,
 		getOffset,
 		getParentsNumber,
@@ -62,26 +61,6 @@ export default function MeshUIComponent() {
 	/////////////
 	/// GETTERS
 	/////////////
-
-	function getBackgroundMaterial() {
-
-		if ( this.backgroundMaterial === undefined && this.getUIParent() ) {
-
-			return this.parent.getBackgroundMaterial()
-
-		} else if ( this.backgroundMaterial ) {
-
-			return this.backgroundMaterial
-
-		} else {
-
-			return DEFAULTS.backgroundMaterial.clone()
-
-		};
-
-	};
-
-	//
 
 	function getPlanes() {
 
