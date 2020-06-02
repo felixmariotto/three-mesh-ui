@@ -9,7 +9,7 @@ import ThreeMeshUI from '../src/three-mesh-ui.js';
 const WIDTH = window.innerWidth;
 const HEIGHT = window.innerHeight;
 
-let scene, camera, renderer, controls ;
+let scene, camera, renderer, controls, scrollableContainer;
 
 window.addEventListener('load', init );
 window.addEventListener('resize', onWindowResize );
@@ -65,19 +65,13 @@ function init() {
 
 function makeTextPanel() {
 
-	const backgroundMaterial = new THREE.MeshBasicMaterial({
-		transparent: true,
-		opacity: 0.5
-	});
-
-	const scrollableContainer = ThreeMeshUI.Block({
+	scrollableContainer = ThreeMeshUI.Block({
 		height: 0.7,
 		padding: 0.05,
 		justifyContent: 'start',
 		alignContent: 'center',
 		fontFamily: './assets/Roboto-msdf.json',
-		fontTexture: './assets/Roboto-msdf.png',
-		backgroundMaterial
+		fontTexture: './assets/Roboto-msdf.png'
 	});
 
 	scrollableContainer.position.set( 0, 1, -1.8 );
@@ -129,6 +123,8 @@ function onWindowResize() {
 //
 
 function loop() {
+
+	if ( scrollableContainer && renderer.info.render.frame > 150 ) scrollableContainer.set({ width: (Math.abs( Math.sin(Date.now() / 500) ) * 0.3) + 0.4 })
 
 	// Don't forget, ThreeMeshUI must be updated manually.
 	// This has been introduced in version 3.0.0 in order

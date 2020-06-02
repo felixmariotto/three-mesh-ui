@@ -17,13 +17,7 @@ import DEFAULTS from '../../utils/Defaults.js';
 
 export default function MaterialManager() {
 
-	// const clippingPlanes
-	// const backgroundMaterial
-
-	return {
-		getBackgroundMaterial,
-		updatePlanes
-	}
+	return { getBackgroundMaterial }
 
 };
 
@@ -31,23 +25,17 @@ export default function MaterialManager() {
 
 function getBackgroundMaterial() {
 
-	const material = DEFAULTS.backgroundMaterial.clone();
+	if ( !this.backgroundMaterial ) {
 
-	addClippingPlanesTo( material, this );
+		this.backgroundMaterial = DEFAULTS.backgroundMaterial.clone();
 
-	return material
+	};
+
+	addClippingPlanesTo( this.backgroundMaterial, this );
+
+	return this.backgroundMaterial
 
 };
-
-//
-
-function updatePlanes() {
-
-	// recompute the position of the parents borders,
-	// then if it differs from the records,
-	// update the material's clippingPlanes
-
-}
 
 //
 
@@ -57,7 +45,7 @@ function addClippingPlanesTo( material, component ) {
 
 	planes.forEach( (plane)=> {
 
-		plane.applyMatrix4( component.matrixWorld );
+		plane.applyMatrix4( component.parent.matrixWorld );
 
 	});
 
