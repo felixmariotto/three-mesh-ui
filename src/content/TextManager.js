@@ -147,7 +147,7 @@ export default function TextContent() {
 
 		//
 
-		const MATERIAL = new ShaderMaterial( {
+		const MATERIAL = new ShaderMaterial({
 			uniforms: { u_texture: { value: options.fontTexture }},
 			transparent: true,
 			vertexShader: VertexShader(),
