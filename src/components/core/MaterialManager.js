@@ -42,18 +42,6 @@ function getBackgroundMaterial() {
 
 //
 
-function getFontMaterial() {
-
-	this.fontMaterial = makeShader.call( this );
-
-	addClippingPlanesTo( this.fontMaterial, this );
-
-	return this.fontMaterial
-
-};
-
-//
-
 function addClippingPlanesTo( material, component ) {
 
 	const planes = component.getPlanes();
@@ -70,14 +58,26 @@ function addClippingPlanesTo( material, component ) {
 
 //
 
-function makeShader() {
+function getFontMaterial() {
+
+	this.fontMaterial = makeShaderMaterial.call( this );
+
+	addClippingPlanesTo( this.fontMaterial, this );
+
+	return this.fontMaterial
+
+};
+
+//
+
+function makeShaderMaterial() {
+
+	textUniforms.u_texture.value = this.getFontTexture();
+	textUniforms.u_color.value = this.getFontColor();
+	textUniforms.u_opacity.value = this.getFontOpacity();
 
 	return new ShaderMaterial({
-		uniforms: {
-			u_texture: { value: this.getFontTexture() },
-			u_color: { value: this.getFontColor() },
-			u_opacity: { value: this.getFontOpacity() }
-		},
+		uniforms: textUniforms,
 		transparent: true,
 		clipping: true,
 		vertexShader: textVertex,
@@ -87,8 +87,16 @@ function makeShader() {
 };
 
 ////////////////
-// MSDF shaders
+// Text shaders
 ////////////////
+
+const textUniforms = {
+	u_texture: { value: undefined },
+	u_color: { value: undefined },
+	u_opacity: { value: undefined }
+};
+
+//
 
 const textVertex = `
 	varying vec2 vUv;
