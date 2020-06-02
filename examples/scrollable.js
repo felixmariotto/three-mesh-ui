@@ -142,3 +142,45 @@ function loop() {
 	renderer.render( scene, camera );
 
 };
+
+
+
+
+
+
+
+
+
+////////////////////////////////
+
+function barker( state ) {
+	return {
+		bark: function bark() {
+			console.log('I am ' + state.name);
+		}
+	}
+};
+
+function pooper( state ) {
+	return {
+		poop: function poop() {
+			console.log('I shit ' + state.name);
+		}
+	}
+};
+
+//
+
+function dog( name = "titi" ) {
+
+	const state = {
+		name
+	};
+
+	return Object.assign(
+		{},
+		barker( state ),
+		pooper( state )
+	)
+
+};
