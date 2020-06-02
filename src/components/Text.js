@@ -28,12 +28,11 @@ function Text( options ) {
 	const textComponent = Object.assign(
 		Object.create( new Object3D ),
 		InlineComponent(),
+		TextManager(),
 		MeshUIComponent()
 	);
 
 	textComponent.isText = true;
-
-	textComponent.textManager = TextManager();
 
 	textComponent.parseParams = function parseParams( resolve, reject ) {
 
@@ -76,7 +75,7 @@ function Text( options ) {
 		const glyphInfos = chars.map( (glyph)=> {
 
 			// Get height, width, and anchor point of this glyph
-			const dimensions = textComponent.textManager.getGlyphDimensions({
+			const dimensions = textComponent.getGlyphDimensions({
 				textType,
 				glyph,
 				font,
@@ -127,7 +126,7 @@ function Text( options ) {
 
 		if ( textComponent.inlines ) {
 
-			const textContent = textComponent.textManager.create({
+			const textContent = textComponent.createText({
 				inlines: textComponent.inlines,
 				fontFamily: this.getFontFamily(),
 				fontMaterial: this.getFontMaterial(),

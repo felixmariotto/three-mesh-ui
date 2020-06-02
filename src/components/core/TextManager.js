@@ -22,7 +22,7 @@ import MSDFGlyph from '../../content/MSDFGlyph.js';
 export default function TextManager() {
 
 	return {
-		create,
+		createText,
 		getGlyphDimensions
 	};
 
@@ -92,7 +92,7 @@ function getGlyphDimensions( options ) {
 
 //
 
-function create( options ) {
+function createText( options ) {
 
 	switch ( options.textType ) {
 
