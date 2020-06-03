@@ -15,7 +15,6 @@ https://github.com/felixmariotto/three-mesh-ui/wiki/Choosing-a-Text-type
 import { Mesh } from 'three/src/objects/Mesh.js';
 import { BufferGeometryUtils } from 'three/examples/jsm/utils/BufferGeometryUtils.js';
 
-import GeometryGlyph from '../../content/GeometryGlyph.js';
 import MSDFGlyph from '../../content/MSDFGlyph.js';
 
 export default function TextManager() {
@@ -44,27 +43,6 @@ function getGlyphDimensions( options ) {
 	// Depending on the type of font, the way to compute a glyph dimensions vary
 
 	switch ( options.textType ) {
-
-		case 'geometry' :
-
-			width = FONT.data.glyphs[ GLYPH ] ? FONT.data.glyphs[ GLYPH ].ha * ( FONT_SIZE / FONT.data.resolution ) : 0 ;
-
-			height = FONT.data.glyphs[ GLYPH ] ? FONT.data.lineHeight * ( FONT_SIZE / FONT.data.resolution ) : 0 ;
-
-			ascender = FONT.data.glyphs[ GLYPH ] ? FONT.data.ascender * ( FONT_SIZE / FONT.data.resolution ) : 0 ;
-
-			// world-space length between lowest point and the text cursor position
-			anchor = height - ascender;
-
-			if ( GLYPH.match(/\s/) ) height = 0;
-
-			return {
-				width,
-				height,
-				anchor
-			};
-
-		//
 
 		case 'MSDF' :
 
@@ -95,35 +73,10 @@ function createText( options ) {
 
 	switch ( this.getTextType() ) {
 
-		case 'geometry' :
-			return buildGeometryText.call( this );
-
 		case 'MSDF' :
 			return buildMSDFText.call( this );
 
 	};
-
-};
-
-// Create a THREE.BufferGeometry with the shape of the required glyph,
-// then returns a mesh made of this geometry and the passed fontMaterial.
-// Called only when the Text is created with 'textType: "geometry"'
-
-function buildGeometryText() {
-
-	const translatedGeom = [];
-
-	this.inlines.forEach( (inline, i)=> {
-
-		translatedGeom[ i ] = GeometryGlyph( inline.glyph, inline.fontSize, this.getFontFamily() );
-
-		translatedGeom[ i ].translate( inline.offsetX, inline.offsetY, 0 );
-
-	});
-
-	const mergedGeom = BufferGeometryUtils.mergeBufferGeometries( translatedGeom );
-
-	return new Mesh( mergedGeom, this.getFontMaterial() );
 
 };
 
