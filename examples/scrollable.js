@@ -1,5 +1,4 @@
 
-import Stats from 'three/examples/jsm/libs/stats.module.js';
 import * as THREE from 'three';
 import { VRButton } from 'three/examples/jsm/webxr/VRButton.js';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
@@ -10,7 +9,7 @@ import ThreeMeshUI from '../src/three-mesh-ui.js';
 const WIDTH = window.innerWidth;
 const HEIGHT = window.innerHeight;
 
-let scene, camera, renderer, controls, stats,
+let scene, camera, renderer, controls,
 	scrollableContainer, textContainer;
 
 window.addEventListener('load', init );
@@ -37,19 +36,10 @@ function init() {
 	document.body.appendChild(VRButton.createButton(renderer));
 	document.body.appendChild( renderer.domElement );
 
-	/*
 	controls = new OrbitControls( camera, renderer.domElement );
 	camera.position.set( 0, 1.6, 0 );
 	controls.target = new THREE.Vector3( 0, 1, -1.8 );
 	controls.update();
-	*/
-
-	// STATS
-
-	stats = new Stats();
-	stats.dom.style.left = 'auto';
-	stats.dom.style.right = '0px';
-	document.body.appendChild( stats.dom );
 
 	// ROOM
 
@@ -99,15 +89,6 @@ function makeTextPanel() {
 
 	let counter = 0;
 
-	/*
-	setTimeout( ()=> {
-		setInterval( ()=> {
-			counter = (counter + 0.2) % 1;
-			textContainer.set({ width: 0.5 + counter })
-		}, 500 )
-	}, 2000 );
-	*/
-
 	//
 
 	textContainer.add(
@@ -133,22 +114,18 @@ function onWindowResize() {
 
 function loop() {
 
-	if ( scrollableContainer ) {
-
-		scrollableContainer.set({ width: (Math.abs( Math.sin(Date.now() / 500) ) * 0.3) + 0.4 })
-
-	};
+	/*
+	scrollableContainer.set({
+		width: ( (Math.abs( Math.sin( Date.now() / 500 ) )) * 0.5 ) + 0.2
+	})
+	*/
 
 	// Don't forget, ThreeMeshUI must be updated manually.
 	// This has been introduced in version 3.0.0 in order
 	// to improve performance
 	ThreeMeshUI.update();
 
-	camera.position.x = Math.sin( Date.now() / 1000 ) * 0.2;
-	camera.lookAt( 0, 1, -1.8 );
-
-	stats.update();
-	// controls.update();
+	controls.update();
 	renderer.render( scene, camera );
 
 };
