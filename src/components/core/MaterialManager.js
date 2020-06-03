@@ -69,12 +69,15 @@ function getBackgroundMaterial() {
 		u_opacity: this.getBackgroundOpacity()
 	};
 
-	if ( !this.backgroundUniforms ||
-		 newUniforms.u_texture !== this.backgroundUniforms.u_texture.value ||
-		 newUniforms.u_color !== this.backgroundUniforms.u_color.value ||
-		 newUniforms.u_opacity !== this.backgroundUniforms.u_opacity.value ) {
+	if ( !this.backgroundMaterial || !this.backgroundUniforms ) {
 
 		this.backgroundMaterial = makeBackgroundMaterial.call( this, newUniforms );
+
+	} else if ( newUniforms.u_texture !== this.backgroundUniforms.u_texture.value ||
+				newUniforms.u_color !== this.backgroundUniforms.u_color.value ||
+				newUniforms.u_opacity !== this.backgroundUniforms.u_opacity.value ) {
+
+		this.updateBackgroundMaterial();
 
 	};
 
