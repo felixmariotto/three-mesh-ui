@@ -1,4 +1,5 @@
 
+import Stats from 'three/examples/jsm/libs/stats.module.js';
 import * as THREE from 'three';
 import { VRButton } from 'three/examples/jsm/webxr/VRButton.js';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
@@ -9,7 +10,8 @@ import ThreeMeshUI from '../src/three-mesh-ui.js';
 const WIDTH = window.innerWidth;
 const HEIGHT = window.innerHeight;
 
-let scene, camera, renderer, controls, scrollableContainer, textContainer;
+let scene, camera, renderer, controls, stats,
+	scrollableContainer, textContainer;
 
 window.addEventListener('load', init );
 window.addEventListener('resize', onWindowResize );
@@ -41,6 +43,13 @@ function init() {
 	controls.target = new THREE.Vector3( 0, 1, -1.8 );
 	controls.update();
 	*/
+
+	// STATS
+
+	stats = new Stats();
+	stats.dom.style.left = 'auto';
+	stats.dom.style.right = '0px';
+	document.body.appendChild( stats.dom );
 
 	// ROOM
 
@@ -138,6 +147,7 @@ function loop() {
 	camera.position.x = Math.sin( Date.now() / 1000 ) * 0.2;
 	camera.lookAt( 0, 1, -1.8 );
 
+	stats.update();
 	// controls.update();
 	renderer.render( scene, camera );
 
