@@ -32,6 +32,10 @@ export default function Frame( width, height, borderRadius, backgroundSize, mate
 
 	mesh.updateUVs = function updateUVs( backgroundSize ) {
 
+		const texture = mesh.material.uniforms.u_texture ?
+								mesh.material.uniforms.u_texture.value :
+								null;
+
 		switch( backgroundSize ) {
 
 			case 'stretch' :
@@ -39,12 +43,12 @@ export default function Frame( width, height, borderRadius, backgroundSize, mate
 				break
 
 			case 'contain' :
-				if ( mesh.material.map ) mapFitUVs( backgroundSize, width, height, geometry, mesh.material.map );
+				if ( texture ) mapFitUVs( backgroundSize, width, height, geometry, texture );
 				else mapStretchUVs( width, height, geometry );
 				break
 
 			case 'cover' :
-				if ( mesh.material.map ) mapFitUVs( backgroundSize, width, height, geometry, mesh.material.map );
+				if ( texture ) mapFitUVs( backgroundSize, width, height, geometry, texture );
 				else mapStretchUVs( width, height, geometry );
 				break
 
