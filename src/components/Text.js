@@ -128,9 +128,9 @@ function Text( options ) {
 
 		if ( textComponent.inlines ) {
 
-			const textContent = textComponent.createText();
+			textComponent.textContent = textComponent.createText();
 
-			textComponent.add( textContent );
+			textComponent.add( textComponent.textContent );
 
 		};
 
@@ -141,6 +141,8 @@ function Text( options ) {
 	textComponent.updateInner = function updateInner() {
 
 		textComponent.position.z = textComponent.getOffset();
+
+		if ( textComponent.textContent ) textComponent.updateTextMaterial();
 
 	};
 

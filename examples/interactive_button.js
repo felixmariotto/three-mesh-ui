@@ -218,7 +218,8 @@ function makePanel() {
 		attributes: {
 			offset: 0.05,
 			backgroundColor: new THREE.Color( 0x999999 ),
-			backgroundOpacity: 1
+			backgroundOpacity: 1,
+			fontColor: new THREE.Color( 0xffffff )
 		},
 	};
 
@@ -227,7 +228,8 @@ function makePanel() {
 		attributes: {
 			offset: 0.05,
 			backgroundColor: new THREE.Color( 0x666666 ),
-			backgroundOpacity: 0.3
+			backgroundOpacity: 0.3,
+			fontColor: new THREE.Color( 0xffffff )
 		},
 	};
 
@@ -253,7 +255,8 @@ function makePanel() {
 		state: "selected",
 		attributes: {
 			offset: 0.02,
-			backgroundColor: new THREE.Color( 0x777777 )
+			backgroundColor: new THREE.Color( 0x777777 ),
+			fontColor: new THREE.Color( 0x000000 )
 		},
 		onSet: ()=> {
 			currentMesh = (currentMesh + 1) % 3 ;
@@ -269,7 +272,8 @@ function makePanel() {
 		state: "selected",
 		attributes: {
 			offset: 0.02,
-			backgroundColor: new THREE.Color( 0x777777 )
+			backgroundColor: new THREE.Color( 0x777777 ),
+			fontColor: new THREE.Color( 0x000000 )
 		},
 		onSet: ()=> {
 			currentMesh -= 1;

@@ -25,6 +25,7 @@ export default function MaterialManager() {
 		getBackgroundMaterial,
 		getFontMaterial,
 		updateBackgroundMaterial,
+		updateTextMaterial,
 		updateClippingPlanes
 	}
 
@@ -39,6 +40,19 @@ function updateBackgroundMaterial() {
 		this.backgroundUniforms.u_texture.value = this.getBackgroundTexture();
 		this.backgroundUniforms.u_color.value = this.getBackgroundColor();
 		this.backgroundUniforms.u_opacity.value = this.getBackgroundOpacity();
+
+	};
+
+};
+
+//
+
+function updateTextMaterial() {
+
+	if ( this.textUniforms ) {
+
+		this.textUniforms.u_color.value = this.getFontColor();
+		this.textUniforms.u_opacity.value = this.getFontOpacity();
 
 	};
 

@@ -355,8 +355,6 @@ export default function MeshUIComponent() {
 				case "alignContent" :
 				case "content" :
 				case "textType" :
-				case "fontColor" :
-				case "fontOpacity" :
 				case "borderRadius" :
 				case "backgroundSize" :
 				case "src" :
@@ -364,7 +362,8 @@ export default function MeshUIComponent() {
 					this[ prop ] = options[ prop ];
 					break;
 
-				case "fontMaterial" :
+				case "fontColor" :
+				case "fontOpacity" :
 				case "offset" :
 				case "backgroundColor" :
 				case "backgroundOpacity" :
