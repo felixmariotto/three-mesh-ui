@@ -267,9 +267,11 @@ const backgroundFragment = `
 
 	void main() {
 
-		vec3 sample = texture2D( u_texture, vUv ).rgb;
+		vec4 sample = texture2D( u_texture, vUv ).rgba;
 
-		gl_FragColor = vec4( u_color, u_opacity );
+		vec4 color = vec4( u_color, u_opacity );
+
+		gl_FragColor = mix( color, sample, sample.a );
 	
 		#include <clipping_planes_fragment>
 
