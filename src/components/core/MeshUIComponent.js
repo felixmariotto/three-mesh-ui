@@ -44,7 +44,7 @@ export default function MeshUIComponent() {
 		getBackgroundSize,
 		getUIChildren,
 		getUIParent,
-		getPlanes,
+		getClippingPlanes,
 
 		update,
 		_updateFontFamily,
@@ -61,7 +61,7 @@ export default function MeshUIComponent() {
 	/// GETTERS
 	/////////////
 
-	function getPlanes() {
+	function getClippingPlanes() {
 
 		const planes = [];
 
@@ -91,7 +91,7 @@ export default function MeshUIComponent() {
 
 			if ( this.parent.parent && this.parent.parent.isUI ) {
 
-				planes.push( ...this.parent.getPlanes() );
+				planes.push( ...this.parent.getClippingPlanes() );
 
 			};
 

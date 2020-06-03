@@ -31,17 +31,11 @@ export default function MaterialManager() {
 
 //
 
-let clippingPlanes;
-
-//
-
 function getBackgroundMaterial() {
 
 	this.backgroundMaterial = DEFAULTS.backgroundMaterial.clone();
 
 	this.updateClippingPlanes();
-
-	this.backgroundMaterial.clippingPlanes = clippingPlanes;
 
 	return this.backgroundMaterial
 
@@ -49,21 +43,23 @@ function getBackgroundMaterial() {
 
 //
 
-function updateClippingPlanes() {
-
-	clippingPlanes = this.getPlanes();
-
-};
-
-//
-
 function getFontMaterial() {
 
-	this.fontMaterial = makeShaderMaterial.call( this );
+	const newUniforms = {
+		u_texture: this.getFontTexture(),
+		u_color: this.getFontColor(),
+		u_opacity: this.getFontOpacity()
+	};
+
+	if ( newUniforms.u_texture !== textUniforms.u_texture.value ||
+		 newUniforms.u_color !== textUniforms.u_color.value ||
+		 newUniforms.u_opacity !== textUniforms.u_opacity.value ) {
+
+		this.fontMaterial = makeShaderMaterial.call( this, newUniforms );
+
+	};
 
 	this.updateClippingPlanes();
-
-	this.fontMaterial.clippingPlanes = clippingPlanes;
 
 	return this.fontMaterial
 
@@ -71,15 +67,35 @@ function getFontMaterial() {
 
 //
 
-function makeShaderMaterial() {
+function updateClippingPlanes() {
 
-	textUniforms.u_texture.value = this.getFontTexture();
-	textUniforms.u_color.value = this.getFontColor();
-	textUniforms.u_opacity.value = this.getFontOpacity();
+	const newClippingPlanes = this.getClippingPlanes();
 
+	if ( JSON.stringify(newClippingPlanes) !== JSON.stringify(this.clippingPlanes) ) {
+
+		this.clippingPlanes = newClippingPlanes;
+
+		if ( this.fontMaterial ) this.fontMaterial.clippingPlanes = this.clippingPlanes;
+
+		if ( this.backgroundMaterial ) this.backgroundMaterial.clippingPlanes = this.clippingPlanes;
+
+	};
+
+};
+
+//
+
+function makeShaderMaterial( materialOptions ) {
+
+	textUniforms.u_texture.value = materialOptions.u_texture;
+	textUniforms.u_color.value = materialOptions.u_color;
+	textUniforms.u_opacity.value = materialOptions.u_opacity;
+
+	/*
 	setInterval( ()=> {
 		textUniforms.u_color.value.set( 0xffffff * Math.random() );
 	}, 100 )
+	*/
 
 	return new ShaderMaterial({
 		uniforms: textUniforms,
