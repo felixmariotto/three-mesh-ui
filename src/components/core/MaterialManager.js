@@ -23,10 +23,15 @@ export default function MaterialManager() {
 
 	return {
 		getBackgroundMaterial,
-		getFontMaterial
+		getFontMaterial,
+		updateClippingPlanes
 	}
 
 };
+
+//
+
+let clippingPlanes;
 
 //
 
@@ -34,7 +39,9 @@ function getBackgroundMaterial() {
 
 	this.backgroundMaterial = DEFAULTS.backgroundMaterial.clone();
 
-	addClippingPlanesTo( this.backgroundMaterial, this );
+	this.updateClippingPlanes();
+
+	this.backgroundMaterial.clippingPlanes = clippingPlanes;
 
 	return this.backgroundMaterial
 
@@ -42,17 +49,9 @@ function getBackgroundMaterial() {
 
 //
 
-function addClippingPlanesTo( material, component ) {
+function updateClippingPlanes() {
 
-	const planes = component.getPlanes();
-
-	planes.forEach( (plane)=> {
-
-		plane.applyMatrix4( component.parent.matrixWorld );
-
-	});
-
-	material.clippingPlanes = planes;
+	clippingPlanes = this.getPlanes();
 
 };
 
@@ -62,7 +61,9 @@ function getFontMaterial() {
 
 	this.fontMaterial = makeShaderMaterial.call( this );
 
-	addClippingPlanesTo( this.fontMaterial, this );
+	this.updateClippingPlanes();
+
+	this.fontMaterial.clippingPlanes = clippingPlanes;
 
 	return this.fontMaterial
 
@@ -76,12 +77,16 @@ function makeShaderMaterial() {
 	textUniforms.u_color.value = this.getFontColor();
 	textUniforms.u_opacity.value = this.getFontOpacity();
 
+	setInterval( ()=> {
+		textUniforms.u_color.value.set( 0xffffff * Math.random() );
+	}, 100 )
+
 	return new ShaderMaterial({
 		uniforms: textUniforms,
 		transparent: true,
 		clipping: true,
 		vertexShader: textVertex,
-		fragmentShader: textFragment,
+		fragmentShader: textFragment
 	});
 
 };

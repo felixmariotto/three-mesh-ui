@@ -126,7 +126,7 @@ function loop() {
 
 	if ( scrollableContainer && renderer.info.render.frame > 150 ) {
 
-		scrollableContainer.set({ width: (Math.abs( Math.sin(Date.now() / 500) ) * 0.3) + 0.4 })
+		// scrollableContainer.set({ width: (Math.abs( Math.sin(Date.now() / 500) ) * 0.3) + 0.4 })
 
 	};
 

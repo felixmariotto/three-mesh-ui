@@ -72,12 +72,20 @@ export default function MeshUIComponent() {
 				const yLimit = (this.parent.getHeight() / 2) - (this.parent.padding || 0);
 				const xLimit = (this.parent.getWidth() / 2) - (this.parent.padding || 0);
 
-				planes.push(
+				const newPlanes = [
 					new Plane( new Vector3( 0, 1, 0 ), yLimit ),
 					new Plane( new Vector3( 0, -1, 0 ), yLimit ),
 					new Plane( new Vector3( 1, 0, 0 ), xLimit ),
 					new Plane( new Vector3( -1, 0, 0 ), xLimit )
-				);
+				];
+
+				newPlanes.forEach( (plane)=> {
+
+					plane.applyMatrix4( this.parent.matrixWorld );
+
+				});
+
+				planes.push( ...newPlanes );
 
 			};
 
