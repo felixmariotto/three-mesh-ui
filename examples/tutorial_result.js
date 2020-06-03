@@ -62,7 +62,8 @@ function makeUI() {
 
 	const container = ThreeMeshUI.Block({
 		height: 1.5,
-		width: 1
+		width: 1,
+		backgroundOpacity: 0
 	});
 
 	container.position.set( 0, 1, -1.8 );
@@ -73,15 +74,13 @@ function makeUI() {
 
 	const imageBlock = ThreeMeshUI.Block({
 		height: 1,
-		width: 1,
-		offset: 0.1
+		width: 1
 	});
 
 	const textBlock = ThreeMeshUI.Block({
 		height: 0.4,
 		width: 0.8,
-		margin: 0.05,
-		offset: 0.1
+		margin: 0.05
 	});
 
 	container.add( imageBlock, textBlock );
@@ -92,9 +91,7 @@ function makeUI() {
 
 	loader.load( './assets/spiny_bush_viper.jpg', (texture)=> {
 
-		const material = new THREE.MeshBasicMaterial({ map: texture });
-
-		imageBlock.set({ backgroundMaterial: material });
+		imageBlock.set({ backgroundTexture: texture });
 
 	});
 
