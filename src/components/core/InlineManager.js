@@ -128,13 +128,13 @@ function InlineManager( boxComponent ) {
 
 		});
 
-		// Vertical offset
+		// individual vertical offset
 
 		let textHeight = lines.reduce( (offsetY, line, i, arr)=> {
 
 			line.forEach( (char)=> {
 
-				char.offsetY = offsetY - line.totalHeight + arr[0].totalHeight;
+				char.offsetY = offsetY - line.totalHeight + line.lowestPoint + arr[0].totalHeight;
 
 			});
 
@@ -146,14 +146,14 @@ function InlineManager( boxComponent ) {
 
 		textHeight = Math.abs( textHeight );
 
-		// Vertical positioning
+		// Line vertical positioning
 
 		const justificationOffset = (()=> {
 			switch ( JUSTIFICATION ) {
-				case 'start': return (INNER_HEIGHT / 2) - lines[0].heighestPoint
-				case 'end': return textHeight - lines[0].heighestPoint - ( INNER_HEIGHT / 2 ) + (lines[ lines.length -1 ].totalHeight - lines[ lines.length -1 ].heighestPoint) ;
-				case 'center': return (textHeight / 2) - lines[0].heighestPoint
-				default: console.warn('"textJustification" is not valid')
+				case 'start': return (INNER_HEIGHT / 2) - lines[0].totalHeight
+				case 'end': return textHeight - lines[0].totalHeight - ( INNER_HEIGHT / 2 ) + (lines[ lines.length -1 ].totalHeight - lines[ lines.length -1 ].totalHeight) ;
+				case 'center': return (textHeight / 2) - lines[0].totalHeight
+				default: console.warn(`justifyContent: '${ JUSTIFICATION }' is not valid`)
 			};
 		})();
 
