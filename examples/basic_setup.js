@@ -61,7 +61,7 @@ function init() {
 function makeTextPanel() {
 
 	const container = ThreeMeshUI.Block({
-		width: 1.1,
+		width: 1.2,
 		height: 0.5,
 		padding: 0.05,
 		justifyContent: 'center',
@@ -85,7 +85,7 @@ function makeTextPanel() {
 
 		ThreeMeshUI.Text({
 			content: " As well as multi-font-size lines with consistent vertical spacing.",
-			fontSize: 0.07
+			fontSize: 0.08
 		}),
 
 	);
