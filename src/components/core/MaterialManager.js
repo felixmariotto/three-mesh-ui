@@ -33,7 +33,28 @@ export default function MaterialManager() {
 
 function getBackgroundMaterial() {
 
+	/*
 	this.backgroundMaterial = DEFAULTS.backgroundMaterial.clone();
+
+	this.updateClippingPlanes();
+
+	return this.backgroundMaterial
+	*/
+
+	const newUniforms = {
+		u_texture: this.getBackgroundTexture(),
+		u_color: this.getBackgroundColor(),
+		u_opacity: this.getBackgroundOpacity()
+	};
+
+	if ( !this.backgroundUniforms ||
+		 newUniforms.u_texture !== this.backgroundUniforms.u_texture.value ||
+		 newUniforms.u_color !== this.backgroundUniforms.u_color.value ||
+		 newUniforms.u_opacity !== this.backgroundUniforms.u_opacity.value ) {
+
+		this.backgroundMaterial = makeBackgroundMaterial.call( this, newUniforms );
+
+	};
 
 	this.updateClippingPlanes();
 
@@ -51,23 +72,12 @@ function getFontMaterial() {
 		u_opacity: this.getFontOpacity()
 	};
 
-	/*
-	console.log('/////////////////////////////////////')
-	console.log( this.textUniforms.u_opacity.value )
-	console.log( newUniforms.u_color )
-	console.log( newUniforms.u_texture !== this.textUniforms.u_texture.value )
-	console.log( newUniforms.u_color !== this.textUniforms.u_color.value )
-	console.log( newUniforms.u_opacity !== this.textUniforms.u_opacity.value )
-	*/
-
 	if ( !this.textUniforms ||
 		 newUniforms.u_texture !== this.textUniforms.u_texture.value ||
 		 newUniforms.u_color !== this.textUniforms.u_color.value ||
 		 newUniforms.u_opacity !== this.textUniforms.u_opacity.value ) {
 
-		this.fontMaterial = makeShaderMaterial.call( this, newUniforms );
-
-		// console.log( this.content )
+		this.fontMaterial = makeTextMaterial.call( this, newUniforms );
 
 	};
 
@@ -97,7 +107,7 @@ function updateClippingPlanes() {
 
 //
 
-function makeShaderMaterial( materialOptions ) {
+function makeTextMaterial( materialOptions ) {
 
 	this.textUniforms = {
 		u_texture: { value: materialOptions.u_texture },
@@ -117,6 +127,26 @@ function makeShaderMaterial( materialOptions ) {
 		clipping: true,
 		vertexShader: textVertex,
 		fragmentShader: textFragment
+	});
+
+};
+
+//
+
+function makeBackgroundMaterial( materialOptions ) {
+
+	this.backgroundUniforms = {
+		u_texture: { value: materialOptions.u_texture },
+		u_color: { value: materialOptions.u_color },
+		u_opacity: { value: materialOptions.u_opacity }
+	};
+
+	return new ShaderMaterial({
+		uniforms: this.backgroundUniforms,
+		transparent: true,
+		clipping: true,
+		vertexShader: backgroundVertex,
+		fragmentShader: backgroundFragment
 	});
 
 };
@@ -167,6 +197,52 @@ const textFragment = `
 		float sigDist = median( sample.r, sample.g, sample.b ) - 0.5;
 		float alpha = clamp( sigDist / fwidth( sigDist ) + 0.5, 0.0, 1.0 );
 		gl_FragColor = vec4( u_color, min( alpha, u_opacity ) );
+	
+		#include <clipping_planes_fragment>
+
+	}
+`;
+
+//////////////////////
+// Background shaders
+//////////////////////
+
+const backgroundVertex = `
+	varying vec2 vUv;
+
+	#include <clipping_planes_pars_vertex>
+
+	void main() {
+
+		vUv = uv;
+		vec4 mvPosition = modelViewMatrix * vec4( position, 1.0 );
+		gl_Position = projectionMatrix * mvPosition;
+
+		#include <clipping_planes_vertex>
+
+	}
+`;
+
+//
+
+const backgroundFragment = `
+	#ifdef GL_OES_standard_derivatives
+	#extension GL_OES_standard_derivatives : enable
+	#endif
+
+	uniform sampler2D u_texture;
+	uniform vec3 u_color;
+	uniform float u_opacity;
+
+	varying vec2 vUv;
+
+	#include <clipping_planes_pars_fragment>
+
+	void main() {
+
+		vec3 sample = texture2D( u_texture, vUv ).rgb;
+
+		gl_FragColor = vec4( sample, u_opacity );
 	
 		#include <clipping_planes_fragment>
 

@@ -42,6 +42,9 @@ export default function MeshUIComponent() {
 		getFontOpacity,
 		getBorderRadius,
 		getBackgroundSize,
+		getBackgroundColor,
+		getBackgroundTexture,
+		getBackgroundOpacity,
 		getUIChildren,
 		getUIParent,
 		getClippingPlanes,
@@ -239,6 +242,19 @@ export default function MeshUIComponent() {
 	/// GETTERS WITH NO PARENTS LOOKUP
 	////////////////////////////////////
 
+	function getBackgroundOpacity() {
+		return ( !this.backgroundOpacity && this.backgroundOpacity !== 0 ) ?
+					DEFAULTS.backgroundOpacity : this.backgroundOpacity;
+	};
+
+	function getBackgroundColor() {
+		return this.backgroundColor || DEFAULTS.backgroundColor;
+	};
+
+	function getBackgroundTexture() {
+		return this.backgroundTexture || DEFAULTS.backgroundTexture;
+	};
+
 	function getAlignContent() {
 		return this.alignContent || DEFAULTS.alignContent;
 	};
@@ -350,7 +366,9 @@ export default function MeshUIComponent() {
 
 				case "fontMaterial" :
 				case "offset" :
-				case "backgroundMaterial" :
+				case "backgroundColor" :
+				case "backgroundOpacity" :
+				case "backgroundTexture" :
 					innerNeedsUpdate = true;
 					this[ prop ] = options[ prop ];
 					break;

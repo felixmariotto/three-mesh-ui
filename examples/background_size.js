@@ -11,7 +11,7 @@ import ThreeMeshUI from '../src/three-mesh-ui.js';
 const WIDTH = window.innerWidth;
 const HEIGHT = window.innerHeight;
 
-let scene, camera, renderer, controls, transparentMaterial;
+let scene, camera, renderer, controls;
 
 window.addEventListener('load', init );
 window.addEventListener('resize', onWindowResize );
@@ -50,11 +50,6 @@ function init() {
 
 	// TEXT PANEL
 
-	transparentMaterial = new THREE.MeshBasicMaterial({
-		transparent: true,
-		opacity: 0
-	});
-
 	makePanels();
 
 	//
@@ -72,7 +67,7 @@ function makePanels() {
 		width: 2,
 		contentDirection: 'row',
 		justifyContent: 'center',
-		backgroundMaterial: transparentMaterial
+		backgroundOpacity: 0
 	});
 
 	container.position.set( 0, 1, -1.8 );
@@ -88,26 +83,22 @@ function makePanels() {
 		texture.wrapS = THREE.RepeatWrapping;
 		texture.wrapT = THREE.RepeatWrapping;
 
-		const textureMaterial = new THREE.MeshBasicMaterial({
-			map: texture
-		});
-
 		const stretchSection = makeSection(
-			textureMaterial,
+			texture,
 			'stretch',
 			'backgroundSize: "stretch"',
 			" stretches each size of the image's texture to fit the borders of the Block."
 		);
 
 		const containSection = makeSection(
-			textureMaterial,
+			texture,
 			'contain',
 			'backgroundSize: "contain"',
 			" fits the texture inside a Block, while keeping its aspect ratio and showing all of its surface."
 		);
 
 		const coverSection = makeSection(
-			textureMaterial,
+			texture,
 			'cover',
 			'backgroundSize: "cover"',
 			" extends the texture while keeping its aspect ratio, so that it covers the Block entirely."
@@ -121,20 +112,21 @@ function makePanels() {
 
 //
 
-function makeSection( textureMaterial, backgroundSize, text1, text2 ) {
+function makeSection( texture, backgroundSize, text1, text2 ) {
 
 	const block = ThreeMeshUI.Block({
 		height: 1.6,
 		width: 0.6,
 		margin: 0.05,
-		backgroundMaterial: transparentMaterial
+		backgroundOpacity: 0
 	});
 
 	const imageBlock = ThreeMeshUI.Block({
 		height: 1.1,
 		width: 0.6,
 		borderRadius: 0.05,
-		backgroundMaterial: textureMaterial,
+		backgroundTexture: texture,
+		backgroundOpacity: 1,
 		backgroundSize
 	});
 
@@ -146,7 +138,7 @@ function makeSection( textureMaterial, backgroundSize, text1, text2 ) {
 		justifyContent: 'center',
 		fontFamily: './assets/Roboto-msdf.json',
 		fontTexture: './assets/Roboto-msdf.png',
-		backgroundMaterial: null,
+		backgroundOpacity: 0.4,
 		fontSize: 0.04
 	});
 
