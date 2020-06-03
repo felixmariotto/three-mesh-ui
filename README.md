@@ -35,7 +35,8 @@ const container = ThreeMeshUI.Block({
  height: 0.8,
  padding: 0.2,
  alignContent: 'left',
- fontFamily: './assets/helvetiker_regular.typeface.json'
+ fontFamily: './assets/Roboto-msdf.json',
+ fontTexture: './assets/Roboto-msdf.png',
 });
 
 //
