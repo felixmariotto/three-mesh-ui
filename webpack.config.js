@@ -7,7 +7,7 @@ let pages = [
 	['nested_blocks', 'nested blocks'],
 	['tutorial_result', 'tutorial result'],
 	['interactive_button', 'interactive button'],
-	['msdf_text', 'MSDF text'],
+	['msdf_text', 'big text'],
 	['background_size', 'background size'],
 	['inline_image', 'inline image'],
 	['scrollable', 'scrollable'],
