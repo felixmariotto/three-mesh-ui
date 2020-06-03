@@ -60,13 +60,6 @@ function init() {
 
 function makeTextPanel() {
 
-	const transparentMaterial = new THREE.MeshBasicMaterial({
-		transparent: true,
-		opacity: 0
-	});
-
-	// 
-
 	const container = ThreeMeshUI.Block({
 		padding: 0.05,
 		textType: 'MSDF',
@@ -89,14 +82,14 @@ function makeTextPanel() {
 		height: 1.2,
 		justifyContent: 'center',
 		alignContent: 'left',
-		backgroundMaterial: transparentMaterial
+		backgroundOpacity: 0
 	});
 
 	bigTextContainer.add(
 
 		ThreeMeshUI.Text({
-			content: 'MSDFText is very efficient when rendering big text because the glyphs are textures on simple planes geometries, all merged together. '.repeat( 18 ),
-			fontSize: 0.034
+			content: 'three-mesh-ui is very efficient when rendering big text because the glyphs are textures on simple planes geometries, all merged together. '.repeat( 18 ),
+			fontSize: 0.033
 		})
 
 	);
@@ -108,7 +101,7 @@ function makeTextPanel() {
 		height: 0.25,
 		padding: 0.04,
 		margin: 0.03,
-		backgroundMaterial: transparentMaterial
+		backgroundOpacity: 0
 	}).add(
 
 		ThreeMeshUI.Text({
