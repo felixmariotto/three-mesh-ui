@@ -138,7 +138,7 @@ function makeSection( texture, backgroundSize, text1, text2 ) {
 		justifyContent: 'center',
 		fontFamily: './assets/Roboto-msdf.json',
 		fontTexture: './assets/Roboto-msdf.png',
-		backgroundOpacity: 0.4,
+		backgroundOpacity: 0.7,
 		fontSize: 0.04
 	});
 
