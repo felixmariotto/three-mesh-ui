@@ -66,8 +66,9 @@ function makeTextPanel() {
 
 	scrollableContainer = ThreeMeshUI.Block({
 		height: 0.7,
+		width: 0.6,
 		padding: 0.05,
-		justifyContent: 'start',
+		justifyContent: 'center',
 		alignContent: 'center',
 		fontFamily: './assets/Roboto-msdf.json',
 		fontTexture: './assets/Roboto-msdf.png'
@@ -80,9 +81,10 @@ function makeTextPanel() {
 	//
 
 	textContainer = ThreeMeshUI.Block({
-		width: 0.6,
+		width: 1.2,
 		height: 1.2,
-		padding: 0.03
+		padding: 0.03,
+		justifyContent: 'center'
 	});
 
 	scrollableContainer.add( textContainer );
@@ -94,7 +96,7 @@ function makeTextPanel() {
 	textContainer.add(
 
 		ThreeMeshUI.Text({
-			content: "Scroll me. ".repeat( 40 ),
+			content: "hiddenOverflow = true | ".repeat( 60 ),
 			fontSize: 0.055
 		})
 
@@ -114,11 +116,8 @@ function onWindowResize() {
 
 function loop() {
 
-	/*
-	scrollableContainer.set({
-		width: ( (Math.abs( Math.sin( Date.now() / 500 ) )) * 0.5 ) + 0.2
-	})
-	*/
+	textContainer.position.x = Math.sin( Date.now() / 1500 ) * 0.3;
+	textContainer.position.y = Math.cos( Date.now() / 1500 ) * 0.3;
 
 	// Don't forget, ThreeMeshUI must be updated manually.
 	// This has been introduced in version 3.0.0 in order
