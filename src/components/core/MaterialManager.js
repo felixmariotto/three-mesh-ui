@@ -51,6 +51,7 @@ function updateTextMaterial() {
 
 	if ( this.textUniforms ) {
 
+		this.textUniforms.u_texture.value = this.getFontTexture();
 		this.textUniforms.u_color.value = this.getFontColor();
 		this.textUniforms.u_opacity.value = this.getFontOpacity();
 
@@ -93,12 +94,15 @@ function getFontMaterial() {
 		u_opacity: this.getFontOpacity()
 	};
 
-	if ( !this.textUniforms ||
-		 newUniforms.u_texture !== this.textUniforms.u_texture.value ||
-		 newUniforms.u_color !== this.textUniforms.u_color.value ||
-		 newUniforms.u_opacity !== this.textUniforms.u_opacity.value ) {
+	if ( !this.fontMaterial || !this.textUniforms ) {
 
 		this.fontMaterial = makeTextMaterial.call( this, newUniforms );
+
+	} else if ( newUniforms.u_texture !== this.textUniforms.u_texture.value ||
+				newUniforms.u_color !== this.textUniforms.u_color.value ||
+				newUniforms.u_opacity !== this.textUniforms.u_opacity.value ) {
+
+		this.updateTextMaterial();
 
 	};
 
@@ -114,7 +118,7 @@ function updateClippingPlanes() {
 
 	const newClippingPlanes = this.getClippingPlanes();
 
-	if ( JSON.stringify(newClippingPlanes) !== JSON.stringify(this.clippingPlanes) ) {
+	if ( JSON.stringify( newClippingPlanes ) !== JSON.stringify( this.clippingPlanes ) ) {
 
 		this.clippingPlanes = newClippingPlanes;
 

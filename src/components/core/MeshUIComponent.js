@@ -392,7 +392,7 @@ export default function MeshUIComponent() {
 		this.update( parsingNeedsUpdate, layoutNeedsUpdate, innerNeedsUpdate );
 
 		if ( layoutNeedsUpdate ) this.getHighestParent().update( false, true, false );
-		
+
 	};
 
 	/////////////////////
