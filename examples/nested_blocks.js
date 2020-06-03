@@ -58,22 +58,13 @@ function init() {
 
 function makeTextPanel() {
 
-	const whiteMaterial = new THREE.MeshBasicMaterial({ color: 0xffffff });
-	const greenMaterial = new THREE.MeshBasicMaterial({ color: 0x92e66c});
-	const transparentMaterial = new THREE.MeshBasicMaterial({
-		transparent: true,
-		opacity: 0
-	});
-
-	//
-
 	const container = ThreeMeshUI.Block({
 		ref: 'container',
 		padding: 0.025,
 		fontFamily: './assets/Roboto-msdf.json',
 		fontTexture: './assets/Roboto-msdf.png',
-		fontMaterial: whiteMaterial,
-		backgroundMaterial: transparentMaterial
+		fontColor: new THREE.Color( 0xffffff ),
+		backgroundOpacity: 0
 	});
 
 	container.position.set( 0, 1, -1.8 );
@@ -87,8 +78,7 @@ function makeTextPanel() {
 		width: 1.5,
 		margin: 0.025,
 		justifyContent: 'center',
-		fontSize: 0.07,
-		backgroundMaterial: null
+		fontSize: 0.09
 	});
 
 	title.add(
@@ -114,14 +104,13 @@ function makeTextPanel() {
 		height: 0.07,
 		width: 0.37,
 		alignContent: 'center',
-		justifyContent: 'center',
-		backgroundMaterial: null
+		justifyContent: 'center'
 	});
 
 	caption.add(
 		ThreeMeshUI.Text({
 			content: "Mind your fingers",
-			fontSize: 0.03
+			fontSize: 0.04
 		})
 	);
 
@@ -130,8 +119,7 @@ function makeTextPanel() {
 	//
 
 	const rightSubBlock = ThreeMeshUI.Block({
-		margin: 0.025,
-		backgroundMaterial: null
+		margin: 0.025
 	});
 
 	const subSubBlock1 = ThreeMeshUI.Block({
@@ -139,9 +127,9 @@ function makeTextPanel() {
 		width: 0.5,
 		margin: 0.025,
 		padding: 0.02,
-		fontSize: 0.03,
+		fontSize: 0.04,
 		justifyContent: 'center',
-		backgroundMaterial: transparentMaterial
+		backgroundOpacity: 0
 	}).add(
 
 		ThreeMeshUI.Text({
@@ -150,7 +138,7 @@ function makeTextPanel() {
 
 		ThreeMeshUI.Text({
 			content: "bristly",
-			fontMaterial: greenMaterial
+			fontColor: new THREE.Color( 0x92e66c )
 		}),
 
 		ThreeMeshUI.Text({
@@ -164,9 +152,9 @@ function makeTextPanel() {
 		width: 0.5,
 		margin: 0.01,
 		padding: 0.02,
-		fontSize: 0.019,
+		fontSize: 0.025,
 		alignContent: 'left',
-		backgroundMaterial: transparentMaterial
+		backgroundOpacity: 0
 	}).add(
 
 		ThreeMeshUI.Text({
@@ -182,7 +170,8 @@ function makeTextPanel() {
 	const contentContainer = ThreeMeshUI.Block({
 		contentDirection: "row",
 		padding: 0.02,
-		margin: 0.025
+		margin: 0.025,
+		backgroundOpacity: 0
 	});
 
 	contentContainer.add( leftSubBlock, rightSubBlock );
@@ -193,9 +182,7 @@ function makeTextPanel() {
 	new THREE.TextureLoader().load('./assets/spiny_bush_viper.jpg', (texture)=> {
 
 		leftSubBlock.set({
-			backgroundMaterial: new THREE.MeshBasicMaterial({
-				map: texture
-			})
+			backgroundTexture: texture
 		});
 
 	});
