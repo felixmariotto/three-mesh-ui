@@ -66,8 +66,8 @@ function makeTextPanel() {
 		padding: 0.05,
 		justifyContent: 'center',
 		alignContent: 'left',
-		fontFamily: './assets/helvetiker_regular.typeface.json',
-		textType: "geometry"
+		fontFamily: './assets/Roboto-msdf.json',
+		fontTexture: './assets/Roboto-msdf.png',
 	});
 
 	container.position.set( 0, 1, -1.8 );

@@ -192,8 +192,8 @@ function makePanel() {
 		justifyContent: 'center',
 		alignContent: 'center',
 		contentDirection: 'row-reverse',
-		fontFamily: './assets/helvetiker_regular.typeface.json',
-		textType: 'geometry',
+		fontFamily: './assets/Roboto-msdf.json',
+		fontTexture: './assets/Roboto-msdf.png',
 		backgroundMaterial: null
 	});
 

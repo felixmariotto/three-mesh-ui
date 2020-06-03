@@ -70,8 +70,8 @@ function makeTextPanel() {
 	const container = ThreeMeshUI.Block({
 		ref: 'container',
 		padding: 0.025,
-		fontFamily: './assets/helvetiker_regular.typeface.json',
-		textType: 'geometry',
+		fontFamily: './assets/Roboto-msdf.json',
+		fontTexture: './assets/Roboto-msdf.png',
 		fontMaterial: whiteMaterial,
 		backgroundMaterial: transparentMaterial
 	});
