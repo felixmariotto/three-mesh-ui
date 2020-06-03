@@ -51,11 +51,23 @@ function getFontMaterial() {
 		u_opacity: this.getFontOpacity()
 	};
 
-	if ( newUniforms.u_texture !== textUniforms.u_texture.value ||
-		 newUniforms.u_color !== textUniforms.u_color.value ||
-		 newUniforms.u_opacity !== textUniforms.u_opacity.value ) {
+	/*
+	console.log('/////////////////////////////////////')
+	console.log( this.textUniforms.u_opacity.value )
+	console.log( newUniforms.u_color )
+	console.log( newUniforms.u_texture !== this.textUniforms.u_texture.value )
+	console.log( newUniforms.u_color !== this.textUniforms.u_color.value )
+	console.log( newUniforms.u_opacity !== this.textUniforms.u_opacity.value )
+	*/
+
+	if ( !this.textUniforms ||
+		 newUniforms.u_texture !== this.textUniforms.u_texture.value ||
+		 newUniforms.u_color !== this.textUniforms.u_color.value ||
+		 newUniforms.u_opacity !== this.textUniforms.u_opacity.value ) {
 
 		this.fontMaterial = makeShaderMaterial.call( this, newUniforms );
+
+		// console.log( this.content )
 
 	};
 
@@ -87,18 +99,20 @@ function updateClippingPlanes() {
 
 function makeShaderMaterial( materialOptions ) {
 
-	textUniforms.u_texture.value = materialOptions.u_texture;
-	textUniforms.u_color.value = materialOptions.u_color;
-	textUniforms.u_opacity.value = materialOptions.u_opacity;
+	this.textUniforms = {
+		u_texture: { value: materialOptions.u_texture },
+		u_color: { value: materialOptions.u_color },
+		u_opacity: { value: materialOptions.u_opacity }
+	};
 
 	/*
 	setInterval( ()=> {
-		textUniforms.u_color.value.set( 0xffffff * Math.random() );
+		this.textUniforms.u_color.value.set( 0xffffff * Math.random() );
 	}, 100 )
 	*/
 
 	return new ShaderMaterial({
-		uniforms: textUniforms,
+		uniforms: this.textUniforms,
 		transparent: true,
 		clipping: true,
 		vertexShader: textVertex,
@@ -110,14 +124,6 @@ function makeShaderMaterial( materialOptions ) {
 ////////////////
 // Text shaders
 ////////////////
-
-const textUniforms = {
-	u_texture: { value: undefined },
-	u_color: { value: undefined },
-	u_opacity: { value: undefined }
-};
-
-//
 
 const textVertex = `
 	varying vec2 vUv;
