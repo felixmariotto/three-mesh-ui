@@ -226,8 +226,8 @@ function makePanel() {
 		state: "idle",
 		attributes: {
 			offset: 0.05,
-			backgroundColor: new THREE.Color( 0x999999 ),
-			backgroundOpacity: 0.4
+			backgroundColor: new THREE.Color( 0x666666 ),
+			backgroundOpacity: 0.3
 		},
 	};
 

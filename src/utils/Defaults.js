@@ -23,8 +23,8 @@ export default {
 	fontOpacity: 1,
 	borderRadius: 0.015,
 	backgroundSize: "cover",
-	backgroundColor: new Color( 0x777777 ),
-	backgroundOpacity: 0.4,
+	backgroundColor: new Color( 0x222222 ),
+	backgroundOpacity: 0.8,
 	backgroundTexture: null,
 
 	fontMaterial: new MeshBasicMaterial({
