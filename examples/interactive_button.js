@@ -217,7 +217,7 @@ function makePanel() {
 	// Options for component.setupState().
 	// It must contain a 'state' parameter, which you will refer to with component.setState( 'name-of-the-state' ).
 
-	const hoveredStateOptions = {
+	const hoveredStateAttributes = {
 		state: "hovered",
 		attributes: {
 			offset: 0.035,
@@ -227,7 +227,7 @@ function makePanel() {
 		},
 	};
 
-	const idleStateOptions = {
+	const idleStateAttributes = {
 		state: "idle",
 		attributes: {
 			offset: 0.035,
@@ -255,38 +255,36 @@ function makePanel() {
 	// Create states for the buttons.
 	// In the loop, we will call component.setState( 'state-name' ) when mouse hover or click
 
+	const selectedAttributes = {
+		offset: 0.02,
+		backgroundColor: new THREE.Color( 0x777777 ),
+		fontColor: new THREE.Color( 0x222222 )
+	};
+
 	buttonNext.setupState({
 		state: "selected",
-		attributes: {
-			offset: 0.02,
-			backgroundColor: new THREE.Color( 0x777777 ),
-			fontColor: new THREE.Color( 0x222222 )
-		},
+		attributes: selectedAttributes,
 		onSet: ()=> {
 			currentMesh = (currentMesh + 1) % 3 ;
 			showMesh( currentMesh );
 		}
 	});
-	buttonNext.setupState( hoveredStateOptions );
-	buttonNext.setupState( idleStateOptions );
+	buttonNext.setupState( hoveredStateAttributes );
+	buttonNext.setupState( idleStateAttributes );
 
 	//
 
 	buttonPrevious.setupState({
 		state: "selected",
-		attributes: {
-			offset: 0.02,
-			backgroundColor: new THREE.Color( 0x777777 ),
-			fontColor: new THREE.Color( 0x222222 )
-		},
+		attributes: selectedAttributes,
 		onSet: ()=> {
 			currentMesh -= 1;
 			if ( currentMesh < 0 ) currentMesh = 2;
 			showMesh( currentMesh );
 		}
 	});
-	buttonPrevious.setupState( hoveredStateOptions );
-	buttonPrevious.setupState( idleStateOptions );
+	buttonPrevious.setupState( hoveredStateAttributes );
+	buttonPrevious.setupState( idleStateAttributes );
 
 	//
 
