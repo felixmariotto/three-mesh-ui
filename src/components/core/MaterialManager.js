@@ -24,6 +24,7 @@ export default function MaterialManager() {
 	return {
 		getBackgroundMaterial,
 		getFontMaterial,
+		updateBackgroundMaterial,
 		updateClippingPlanes
 	}
 
@@ -31,15 +32,21 @@ export default function MaterialManager() {
 
 //
 
+function updateBackgroundMaterial() {
+
+	if ( this.backgroundUniforms ) {
+
+		this.backgroundUniforms.u_texture.value = this.getBackgroundTexture();
+		this.backgroundUniforms.u_color.value = this.getBackgroundColor();
+		this.backgroundUniforms.u_opacity.value = this.getBackgroundOpacity();
+
+	};
+
+};
+
+//
+
 function getBackgroundMaterial() {
-
-	/*
-	this.backgroundMaterial = DEFAULTS.backgroundMaterial.clone();
-
-	this.updateClippingPlanes();
-
-	return this.backgroundMaterial
-	*/
 
 	const newUniforms = {
 		u_texture: this.getBackgroundTexture(),
@@ -140,6 +147,12 @@ function makeBackgroundMaterial( materialOptions ) {
 		u_color: { value: materialOptions.u_color },
 		u_opacity: { value: materialOptions.u_opacity }
 	};
+
+	/*
+	setInterval( ()=> {
+		this.backgroundUniforms.u_color.value.set( 0xffffff * Math.random() );
+	}, 100 )
+	*/
 
 	return new ShaderMaterial({
 		uniforms: this.backgroundUniforms,
@@ -242,7 +255,7 @@ const backgroundFragment = `
 
 		vec3 sample = texture2D( u_texture, vUv ).rgb;
 
-		gl_FragColor = vec4( sample, u_opacity );
+		gl_FragColor = vec4( u_color, u_opacity );
 	
 		#include <clipping_planes_fragment>
 

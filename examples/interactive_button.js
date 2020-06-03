@@ -180,10 +180,6 @@ function showMesh( id ) {
 
 function makePanel() {
 
-	// Materials used by the buttons on idle and hover
-
-	const hoverMaterial = new THREE.MeshLambertMaterial({ color: 0x222222 });
-
 	// Container block, in which we put the two buttons.
 	// We don't define width and height, it will be set automatically from the children's dimensions
 	// Note that we set contentDirection: "row-reverse", in order to orient the buttons horizontally
@@ -193,8 +189,7 @@ function makePanel() {
 		alignContent: 'center',
 		contentDirection: 'row-reverse',
 		fontFamily: './assets/Roboto-msdf.json',
-		fontTexture: './assets/Roboto-msdf.png',
-		backgroundMaterial: null
+		fontTexture: './assets/Roboto-msdf.png'
 	});
 
 	container.position.set( 0, 0.6, -1.2 );
@@ -222,7 +217,8 @@ function makePanel() {
 		state: "hovered",
 		attributes: {
 			offset: 0.05,
-			backgroundMaterial: hoverMaterial
+			backgroundColor: new THREE.Color( 0x999999 ),
+			backgroundOpacity: 1
 		},
 	};
 
@@ -230,7 +226,8 @@ function makePanel() {
 		state: "idle",
 		attributes: {
 			offset: 0.05,
-			backgroundMaterial: null
+			backgroundColor: new THREE.Color( 0x999999 ),
+			backgroundOpacity: 0.4
 		},
 	};
 
@@ -256,7 +253,7 @@ function makePanel() {
 		state: "selected",
 		attributes: {
 			offset: 0.02,
-			backgroundMaterial: hoverMaterial
+			backgroundColor: new THREE.Color( 0x777777 )
 		},
 		onSet: ()=> {
 			currentMesh = (currentMesh + 1) % 3 ;
@@ -272,7 +269,7 @@ function makePanel() {
 		state: "selected",
 		attributes: {
 			offset: 0.02,
-			backgroundMaterial: hoverMaterial
+			backgroundColor: new THREE.Color( 0x777777 )
 		},
 		onSet: ()=> {
 			currentMesh -= 1;

@@ -95,7 +95,7 @@ function updateLayout() {
 
 	// Create new visible frame
 
-	const frame = Frame(
+	this.frame = Frame(
 		WIDTH,
 		HEIGHT,
 		this.getBorderRadius(),
@@ -103,9 +103,9 @@ function updateLayout() {
 		this.getBackgroundMaterial()
 	);
 
-	frame.renderOrder = this.getParentsNumber();
+	this.frame.renderOrder = this.getParentsNumber();
 
-	this.frameContainer.add( frame );
+	this.frameContainer.add( this.frame );
 
 	// We check if this block is the root component,
 	// because most of the time the user wants to set the
@@ -131,14 +131,6 @@ function updateInner() {
 
 	};
 
-	this.frameContainer.traverse( (child)=> {
-
-		if ( child.material ) {
-
-			child.material = this.getBackgroundMaterial();
-
-		};
-
-	});
+	if ( this.frame ) this.updateBackgroundMaterial();
 	
 };
