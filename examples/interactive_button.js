@@ -66,7 +66,6 @@ function init() {
 	renderer.xr.enabled = true;
 	document.body.appendChild( VRButton.createButton(renderer) );
 	document.body.appendChild( renderer.domElement );
-	renderer.shadowMap.enabled = true ;
 
 	// Orbit controls for no-vr
 

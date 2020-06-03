@@ -67,7 +67,7 @@ function makeTextPanel() {
 		justifyContent: 'center',
 		alignContent: 'left',
 		fontFamily: './assets/Roboto-msdf.json',
-		fontTexture: './assets/Roboto-msdf.png',
+		fontTexture: './assets/Roboto-msdf.png'
 	});
 
 	container.position.set( 0, 1, -1.8 );

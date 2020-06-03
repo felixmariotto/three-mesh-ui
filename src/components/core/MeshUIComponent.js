@@ -337,16 +337,15 @@ export default function MeshUIComponent() {
 
 			switch ( prop ) {
 
-				case "width" :
-				case "height" :
-				case "padding" :
 				case "content" :
 					parsingNeedsUpdate = true;
 					layoutNeedsUpdate = true;
 					this[ prop ] = options[ prop ];
 					break;
 
-				
+				case "width" :
+				case "height" :
+				case "padding" :
 				case "fontSize" :
 				case "interLine" :
 				case "margin" :
