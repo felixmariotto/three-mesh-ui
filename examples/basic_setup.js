@@ -80,12 +80,12 @@ function makeTextPanel() {
 
 		ThreeMeshUI.Text({
 			content: "This library supports line-break-friendly-characters,",
-			fontSize: 0.04
+			fontSize: 0.055
 		}),
 
 		ThreeMeshUI.Text({
 			content: " As well as multi-font-size lines with consistent vertical spacing.",
-			fontSize: 0.05
+			fontSize: 0.07
 		}),
 
 	);
