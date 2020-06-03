@@ -189,7 +189,10 @@ function makePanel() {
 		alignContent: 'center',
 		contentDirection: 'row-reverse',
 		fontFamily: './assets/Roboto-msdf.json',
-		fontTexture: './assets/Roboto-msdf.png'
+		fontTexture: './assets/Roboto-msdf.png',
+		fontSize: 0.07,
+		padding: 0.02,
+		borderRadius: 0.11
 	});
 
 	container.position.set( 0, 0.6, -1.2 );
@@ -202,12 +205,13 @@ function makePanel() {
 	// in order to write less code.
 
 	const buttonOptions = {
-		width: 0.5,
-		height: 0.2,
+		width: 0.4,
+		height: 0.15,
 		justifyContent: 'center',
 		alignContent: 'center',
 		offset: 0.05,
-		margin: 0.05
+		margin: 0.02,
+		borderRadius: 0.075
 	};
 
 	// Options for component.setupState().
@@ -216,7 +220,7 @@ function makePanel() {
 	const hoveredStateOptions = {
 		state: "hovered",
 		attributes: {
-			offset: 0.05,
+			offset: 0.035,
 			backgroundColor: new THREE.Color( 0x999999 ),
 			backgroundOpacity: 1,
 			fontColor: new THREE.Color( 0xffffff )
@@ -226,7 +230,7 @@ function makePanel() {
 	const idleStateOptions = {
 		state: "idle",
 		attributes: {
-			offset: 0.05,
+			offset: 0.035,
 			backgroundColor: new THREE.Color( 0x666666 ),
 			backgroundOpacity: 0.3,
 			fontColor: new THREE.Color( 0xffffff )
@@ -256,7 +260,7 @@ function makePanel() {
 		attributes: {
 			offset: 0.02,
 			backgroundColor: new THREE.Color( 0x777777 ),
-			fontColor: new THREE.Color( 0x000000 )
+			fontColor: new THREE.Color( 0x222222 )
 		},
 		onSet: ()=> {
 			currentMesh = (currentMesh + 1) % 3 ;
@@ -273,7 +277,7 @@ function makePanel() {
 		attributes: {
 			offset: 0.02,
 			backgroundColor: new THREE.Color( 0x777777 ),
-			fontColor: new THREE.Color( 0x000000 )
+			fontColor: new THREE.Color( 0x222222 )
 		},
 		onSet: ()=> {
 			currentMesh -= 1;
