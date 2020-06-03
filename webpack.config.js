@@ -8,9 +8,9 @@ let pages = [
 	['tutorial_result', 'tutorial result'],
 	['interactive_button', 'interactive button'],
 	['msdf_text', 'big text'],
-	['background_size', 'background size'],
+	['background_size', 'backgroundSize'],
 	['inline_image', 'inline image'],
-	['scrollable', 'scrollable'],
+	['hidden_overflow', 'hiddenOverflow'],
 	['keyboard', 'keyboard']
 ];
 
@@ -60,7 +60,7 @@ module.exports = env => {
 			msdf_text: './examples/msdf_text.js',
 			background_size: './examples/background_size.js',
 			inline_image: './examples/inline_image.js',
-			scrollable: './examples/scrollable.js',
+			hidden_overflow: './examples/hidden_overflow.js',
 			keyboard: './examples/keyboard.js'
 		},
 

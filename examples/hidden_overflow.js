@@ -81,7 +81,7 @@ function makeTextPanel() {
 	//
 
 	textContainer = ThreeMeshUI.Block({
-		width: 1.2,
+		width: 1.4,
 		height: 1.2,
 		padding: 0.03,
 		justifyContent: 'center'
@@ -96,8 +96,8 @@ function makeTextPanel() {
 	textContainer.add(
 
 		ThreeMeshUI.Text({
-			content: "hiddenOverflow = true | ".repeat( 60 ),
-			fontSize: 0.055
+			content: "hiddenOverflow = true | ".repeat( 30 ),
+			fontSize: 0.07
 		})
 
 	);
