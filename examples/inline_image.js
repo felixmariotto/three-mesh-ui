@@ -62,7 +62,7 @@ function makeTextPanel() {
 
 	const container = ThreeMeshUI.Block({
 		width: 1.7,
-		height: 1.3,
+		height: 0.7,
 		padding: 0.05,
 		justifyContent: 'center',
 		alignContent: 'left',
@@ -80,27 +80,29 @@ function makeTextPanel() {
 
 	const loader = new THREE.TextureLoader();
 
-	loader.load( "./assets/threejs.jpg", (texture)=> {
+	loader.load( "./assets/threejs.png", (texture)=> {
 
 		container.add(
 
 			ThreeMeshUI.Text({
 				fontSize: 0.09,
-				content: "three-mesh-ui supports inline blocks :\n"
+				content: "three-mesh-ui supports inline blocks\n"
 			}),
 
 			ThreeMeshUI.Text({
+				fontSize: 0.07,
 				content: "This is an InlineBlock : ",
 				fontColor: new THREE.Color(0xffc654)
 			}),
 
 			ThreeMeshUI.InlineBlock({
-				height: 0.2,
-				width: 0.2,
-				backgroundTexture: texture
+				height: 0.24,
+				width: 0.5,
+				backgroundTexture: texture,
+				backgroundOpacity: 0
 			}),
 
-			ThreeMeshUI.Text({ content: `\nYou can use the 'borderRadius' and 'backgroundSize' attributes on this component. Note the rounded corners of the JPG image. Here the images are 512x512 pixels, but our components are manually sized and not square. What keeps the texture from stretching is the 'backgroundSize' attribute, which by default is set to 'cover'.` })
+			ThreeMeshUI.Text({ content: `\nIt works like a Block component, but can be positioned among inline components like text. Perfect for emojis.` })
 
 		);
 
