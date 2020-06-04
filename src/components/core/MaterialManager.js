@@ -61,6 +61,24 @@ function updateTextMaterial() {
 
 //
 
+function updateClippingPlanes( value ) {
+
+	const newClippingPlanes = value !== undefined ? value : this.getClippingPlanes();
+
+	if ( JSON.stringify( newClippingPlanes ) !== JSON.stringify( this.clippingPlanes ) ) {
+
+		this.clippingPlanes = newClippingPlanes;
+
+		if ( this.fontMaterial ) this.fontMaterial.clippingPlanes = this.clippingPlanes;
+
+		if ( this.backgroundMaterial ) this.backgroundMaterial.clippingPlanes = this.clippingPlanes;
+
+	};
+
+};
+
+//
+
 function getBackgroundMaterial() {
 
 	const newUniforms = {
@@ -108,24 +126,6 @@ function getFontMaterial() {
 	};
 
 	return this.fontMaterial
-
-};
-
-//
-
-function updateClippingPlanes() {
-
-	const newClippingPlanes = this.getClippingPlanes();
-
-	if ( JSON.stringify( newClippingPlanes ) !== JSON.stringify( this.clippingPlanes ) ) {
-
-		this.clippingPlanes = newClippingPlanes;
-
-		if ( this.fontMaterial ) this.fontMaterial.clippingPlanes = this.clippingPlanes;
-
-		if ( this.backgroundMaterial ) this.backgroundMaterial.clippingPlanes = this.clippingPlanes;
-
-	};
 
 };
 

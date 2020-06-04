@@ -48,6 +48,7 @@ export default function MeshUIComponent() {
 		getUIChildren,
 		getUIParent,
 		getClippingPlanes,
+		getHiddenOverflow,
 
 		update,
 		_updateFontFamily,
@@ -70,7 +71,7 @@ export default function MeshUIComponent() {
 
 		if ( this.parent && this.parent.isUI ) {
 
-			if ( this.isBlock ) {
+			if ( this.isBlock && this.parent.getHiddenOverflow() ) {
 
 				const yLimit = (this.parent.getHeight() / 2) - (this.parent.padding || 0);
 				const xLimit = (this.parent.getWidth() / 2) - (this.parent.padding || 0);
@@ -279,6 +280,10 @@ export default function MeshUIComponent() {
 		return (this.backgroundSize === undefined) ? DEFAULTS.backgroundSize : this.backgroundSize;
 	};
 
+	function getHiddenOverflow() {
+		return (this.hiddenOverflow === undefined) ? DEFAULTS.hiddenOverflow : this.hiddenOverflow;
+	};
+
 	///////////////
 	///  UPDATE
 	///////////////
@@ -370,6 +375,10 @@ export default function MeshUIComponent() {
 					innerNeedsUpdate = true;
 					this[ prop ] = options[ prop ];
 					break;
+
+				case "hiddenOverflow" :
+					this[ prop ] = options[ prop ];
+					break
 
 			};
 

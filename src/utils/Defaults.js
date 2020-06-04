@@ -26,6 +26,7 @@ export default {
 	backgroundColor: new Color( 0x222222 ),
 	backgroundOpacity: 0.8,
 	backgroundTexture: null,
+	hiddenOverflow: false,
 
 	fontMaterial: new MeshBasicMaterial({
 		color: 0xffffff
