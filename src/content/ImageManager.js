@@ -12,7 +12,6 @@ Knows:
 import { Mesh } from 'three/src/objects/Mesh.js';
 import { PlaneBufferGeometry } from 'three/src/geometries/PlaneGeometry.js';
 import { MeshBasicMaterial } from 'three/src/materials/MeshBasicMaterial.js';
-import { SVGLoader } from 'three/examples/jsm/loaders/SVGLoader.js';
 import { TextureLoader } from 'three/src/loaders/TextureLoader.js' ;
 
 import Frame from './Frame.js';

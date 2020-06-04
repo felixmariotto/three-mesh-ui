@@ -82,30 +82,17 @@ function makeTextPanel() {
 
 		ThreeMeshUI.Text({
 			fontSize: 0.09,
-			content: "three-mesh-ui supports inline images :\n"
+			content: "three-mesh-ui supports inline blocks :\n"
 		}),
 
 		ThreeMeshUI.Text({
-			content: "This is a PNG : ",
+			content: "This is an InlineBlock : ",
 			fontColor: new THREE.Color(0xffc654)
 		}),
 
-		ThreeMeshUI.InlineImage({
-			src: "./assets/threejs.png",
+		ThreeMeshUI.InlineBlock({
 			height: 0.2,
-			width: 0.42
-		}),
-
-		ThreeMeshUI.Text({
-			content: "\nThis is a JPG : ",
-			fontColor: new THREE.Color(0x5999ff)
-		}),
-
-		ThreeMeshUI.InlineImage({
-			src: "./assets/threejs.jpg",
-			height: 0.2,
-			width: 0.42,
-			borderRadius: 0.04
+			width: 0.2
 		}),
 
 		ThreeMeshUI.Text({ content: `\nYou can use the 'borderRadius' and 'backgroundSize' attributes on this component. Note the rounded corners of the JPG image. Here the images are 512x512 pixels, but our components are manually sized and not square. What keeps the texture from stretching is the 'backgroundSize' attribute, which by default is set to 'cover'.` })

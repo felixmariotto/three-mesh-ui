@@ -128,6 +128,7 @@ function Text( options ) {
 
 		if ( textComponent.inlines ) {
 
+			// happening in TextManager
 			textComponent.textContent = textComponent.createText();
 
 			textComponent.add( textComponent.textContent );

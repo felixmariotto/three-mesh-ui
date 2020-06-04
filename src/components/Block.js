@@ -107,6 +107,7 @@ function updateLayout() {
 
 	const component = this;
 
+	// This is for hiddenOverflow to work
 	this.frame.onBeforeRender = function( renderer, scene, camera, geometry, material, group ) {
 
 		if ( component.updateClippingPlanes ) {

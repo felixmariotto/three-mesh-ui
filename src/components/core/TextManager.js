@@ -105,6 +105,7 @@ function buildMSDFText() {
 
 	mesh.renderOrder = Infinity;
 
+	// This is for hiddenOverflow to work
 	mesh.onBeforeRender = function( renderer, scene, camera, geometry, material, group ) {
 
 		if ( component.updateClippingPlanes ) {
