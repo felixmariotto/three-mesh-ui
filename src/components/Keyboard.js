@@ -4,6 +4,8 @@ Job: high-level component that returns a keyboard
 
 */
 
+import { TextureLoader } from 'three';
+
 import { Object3D } from 'three/src/core/Object3D.js';
 
 import BoxComponent from './core/BoxComponent.js';
@@ -11,8 +13,14 @@ import InlineManager from './core/InlineManager.js';
 import MeshUIComponent from './core/MeshUIComponent.js';
 import Block from './Block.js';
 import Text from './Text.js';
-import InlineImage from './InlineImage.js';
+import InlineBlock from './InlineBlock.js';
 import keymaps from '../utils/Keymaps.js';
+
+//
+
+const textureLoader = new TextureLoader();
+
+//
 
 export default function KeyboardModule( options ) {
 
@@ -126,7 +134,9 @@ export default function KeyboardModule( options ) {
 			offset: 0,
 			padding: options.padding,
 			fontFamily: options.fontFamily,
-			fontTexture: options.fontTexture
+			fontTexture: options.fontTexture,
+			backgroundColor: options.backgroundColor,
+			backgroundOpacity: options.backgroundOpacity
 		});
 
 		panelBlock.charset = 0;
@@ -171,14 +181,19 @@ export default function KeyboardModule( options ) {
 
 				} else {
 
-					key.add(
-						InlineImage({
-							src: `./assets/${ char }.png`,
-							width: key.width * 0.65,
-							height: key.height * 0.65,
-							backgroundSize: 'contain'
-						})
-					);
+					textureLoader.load(`./assets/${ char }.png`, (texture)=> {
+
+						key.add(
+							InlineBlock({
+								width: key.width * 0.65,
+								height: key.height * 0.65,
+								backgroundSize: 'contain',
+								backgroundTexture: texture,
+								backgroundOpacity: 0
+							})
+						);
+
+					});
 
 				};
 

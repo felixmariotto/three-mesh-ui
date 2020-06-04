@@ -31,13 +31,6 @@ let scene,
 
 let objsToTest = [];
 
-// PANEL MATERIALS
-
-const backgroundMaterial = new THREE.MeshBasicMaterial({ color: 0x5c5c5c });
-const hoveredMaterial = new THREE.MeshBasicMaterial({ color: 0x1c1c1c });
-const selectedMaterial = new THREE.MeshBasicMaterial({ color: 0x109c5d });
-const buttonMaterial = new THREE.MeshBasicMaterial({ color: 0x363636 });
-
 //
 
 const raycaster = new THREE.Raycaster();
@@ -179,7 +172,8 @@ function makeUI() {
 		fontTexture: './assets/Roboto-msdf.png',
     	width: 1,
     	height: 0.35,
-    	backgroundColor: new THREE.Color( 0x0b0b0b )
+    	backgroundColor: new THREE.Color( 0x0b0b0b ),
+    	backgroundOpacity: 1
     });
 
     textPanel.position.set( 0, -0.15, 0 );
@@ -203,7 +197,8 @@ function makeUI() {
     	width: 1,
     	height: 0.4,
     	fontSize: 0.033,
-    	padding: 0.02
+    	padding: 0.02,
+    	backgroundOpacity: 0
     }).add( userText );
 
     textPanel.add( title, textField );
@@ -231,7 +226,8 @@ function makeUI() {
     		width: 0.2,
     		margin: 0.012,
     		justifyContent: 'center',
-	  		backgroundMaterial: buttonMaterial
+	  		backgroundColor: new THREE.Color( 0x363636 ),
+	  		backgroundOpacity: 1
     	}).add(
 
     		ThreeMeshUI.Text({
@@ -246,7 +242,8 @@ function makeUI() {
 			state: "idle",
 			attributes: {
 				offset: 0.02,
-				backgroundMaterial: buttonMaterial
+				backgroundColor: new THREE.Color( 0x363636 ),
+	  			backgroundOpacity: 1
 			}
 		});
 
@@ -254,7 +251,8 @@ function makeUI() {
 			state: "hovered",
 			attributes: {
 				offset: 0.02,
-				backgroundMaterial: hoveredMaterial
+				backgroundColor: new THREE.Color( 0x1c1c1c ),
+				backgroundOpacity: 1
 			}
 		});
 
@@ -262,7 +260,8 @@ function makeUI() {
 			state: "selected",
 			attributes: {
 				offset: 0.01,
-				backgroundMaterial: selectedMaterial
+				backgroundColor: new THREE.Color( 0x109c5d ),
+				backgroundOpacity: 1
 			},
 			onSet: ()=> {
 				
@@ -314,14 +313,16 @@ function makeUI() {
     	height: 0.25,
     	width: 1,
     	offset: 0,
-    	backgroundColor: new THREE.Color( 0x0b0b0b )
+    	backgroundColor: new THREE.Color( 0x0b0b0b ),
+    	backgroundOpacity: 1
     }).add(
 
     	ThreeMeshUI.Block({
     		height: 0.1,
     		width: 0.6,
     		offset: 0,
-    		justifyContent: 'center'
+    		justifyContent: 'center',
+    		backgroundOpacity: 0
 	  	}).add(
 
 	  		ThreeMeshUI.Text({
@@ -336,7 +337,8 @@ function makeUI() {
 	  		width: 1,
 	  		offset: 0,
 	  		contentDirection: 'row',
-	  		justifyContent: 'center'
+	  		justifyContent: 'center',
+    		backgroundOpacity: 0
 	  	}).add(
 
 	  		layoutButtons[ 0 ],
@@ -351,7 +353,8 @@ function makeUI() {
 	  		width: 1,
 	  		offset: 0,
 	  		contentDirection: 'row',
-	  		justifyContent: 'center'
+	  		justifyContent: 'center',
+    		backgroundOpacity: 0
 	  	}).add(
 
 	  		layoutButtons[ 4 ],
@@ -389,7 +392,8 @@ function makeKeyboard( language ) {
 		language: language,
 		fontFamily: './assets/Roboto-msdf.json',
 		fontTexture: './assets/Roboto-msdf.png',
-		backgroundMaterial: backgroundMaterial
+		backgroundColor: new THREE.Color( 0x5c5c5c ),
+	  	backgroundOpacity: 1
 	});
 
 	keyboard.position.set( 0, 0.88, -1 );
@@ -406,7 +410,8 @@ function makeKeyboard( language ) {
 			state: 'idle',
 			attributes: {
 				offset: 0,
-				backgroundColor: new THREE.Color( 0x0b0b0b )
+				backgroundColor: new THREE.Color( 0x0b0b0b ),
+    			backgroundOpacity: 1
 			}
 		});
 
@@ -414,7 +419,8 @@ function makeKeyboard( language ) {
 			state: 'hovered',
 			attributes: {
 				offset: 0,
-				backgroundMaterial: hoveredMaterial
+				backgroundColor: new THREE.Color( 0x1c1c1c ),
+				backgroundOpacity: 1
 			}
 		});
 
@@ -422,7 +428,8 @@ function makeKeyboard( language ) {
 			state: 'selected',
 			attributes: {
 				offset: -0.009,
-				backgroundMaterial: selectedMaterial
+				backgroundColor: new THREE.Color( 0x109c5d ),
+				backgroundOpacity: 1
 			},
 			// triggered when the user clicked on a keyboard's key
 			onSet: ()=> {
