@@ -1,16 +1,19 @@
 # three-mesh-ui
 
-<a href="https://github.com/felixmariotto/three-mesh-ui/wiki/Getting-started">
-  <img alt="tuto example" target="_blank" src="https://felixmariotto.s3.eu-west-3.amazonaws.com/three-mesh-ui-teasers/teaser_basic_optimised.gif" width="45%">
-</a>
 <a href="https://three-mesh-ui.herokuapp.com/#interactive_button">
-  <img alt="buttons example" target="_blank" src="https://felixmariotto.s3.eu-west-3.amazonaws.com/three-mesh-ui-teasers/teaser_button_optimised.gif" width="45%">
+  <img alt="buttons example" target="_blank" src="https://felixmariotto.s3.eu-west-3.amazonaws.com/three-mesh-ui-teasers/buttons_opti.gif" width="45%">
 </a>
-<a href="https://three-mesh-ui.herokuapp.com/#msdf_text">
-  <img alt="big text example" target="_blank" src="https://felixmariotto.s3.eu-west-3.amazonaws.com/three-mesh-ui-teasers/big-text-github.gif" width="45%">
+
+<a href="https://three-mesh-ui.herokuapp.com/#hidden_overflow">
+  <img alt="tuto example" target="_blank" src="https://felixmariotto.s3.eu-west-3.amazonaws.com/three-mesh-ui-teasers/hidden_overflow_opti.gif" width="45%">
 </a>
+
+<a href="https://three-mesh-ui.herokuapp.com/#nested_blocks">
+  <img alt="big text example" target="_blank" src="https://felixmariotto.s3.eu-west-3.amazonaws.com/three-mesh-ui-teasers/nested_layout_opti.gif" width="45%">
+</a>
+
 <a href="https://three-mesh-ui.herokuapp.com/#keyboard">
-  <img alt="big text example" target="_blank" src="https://felixmariotto.s3.eu-west-3.amazonaws.com/three-mesh-ui-teasers/keyboard_github.gif" width="45%">
+  <img alt="big text example" target="_blank" src="https://felixmariotto.s3.eu-west-3.amazonaws.com/three-mesh-ui-teasers/keyboard_opti.gif" width="45%">
 </a>
 
 ## What is it ?
