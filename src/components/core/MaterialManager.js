@@ -81,8 +81,6 @@ function getBackgroundMaterial() {
 
 	};
 
-	this.updateClippingPlanes();
-
 	return this.backgroundMaterial
 
 };
@@ -108,8 +106,6 @@ function getFontMaterial() {
 		this.updateTextMaterial();
 
 	};
-
-	this.updateClippingPlanes();
 
 	return this.fontMaterial
 

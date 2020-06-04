@@ -105,6 +105,18 @@ function updateLayout() {
 
 	this.frame.renderOrder = this.getParentsNumber();
 
+	const component = this;
+
+	this.frame.onBeforeRender = function( renderer, scene, camera, geometry, material, group ) {
+
+		if ( component.updateClippingPlanes ) {
+
+			component.updateClippingPlanes();
+
+		};
+
+	};
+
 	this.frameContainer.add( this.frame );
 
 	// We check if this block is the root component,

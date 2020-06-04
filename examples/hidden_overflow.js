@@ -116,8 +116,11 @@ function onWindowResize() {
 
 function loop() {
 
-	textContainer.position.x = Math.sin( Date.now() / 1500 ) * 0.3;
-	textContainer.position.y = Math.cos( Date.now() / 1500 ) * 0.3;
+	scrollableContainer.position.x = Math.sin( Date.now() / 1500 ) * 0.3;
+	scrollableContainer.position.y = (Math.cos( Date.now() / 1500 ) * 0.3) + 1;
+
+	// textContainer.position.x = Math.sin( Date.now() / 1500 ) * 0.3;
+	// textContainer.position.y = Math.cos( Date.now() / 1500 ) * 0.3;
 
 	// Don't forget, ThreeMeshUI must be updated manually.
 	// This has been introduced in version 3.0.0 in order

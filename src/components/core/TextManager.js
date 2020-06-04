@@ -87,6 +87,8 @@ function createText( options ) {
 
 function buildMSDFText() {
 
+	const component = this;
+
 	const translatedGeom = [];
 
 	this.inlines.forEach( (inline, i)=> {
@@ -102,6 +104,16 @@ function buildMSDFText() {
 	const mesh = new Mesh( mergedGeom, this.getFontMaterial() );
 
 	mesh.renderOrder = Infinity;
+
+	mesh.onBeforeRender = function( renderer, scene, camera, geometry, material, group ) {
+
+		if ( component.updateClippingPlanes ) {
+
+			component.updateClippingPlanes();
+
+		};
+
+	};
 
 	return mesh
 
