@@ -10,7 +10,7 @@ const WIDTH = window.innerWidth;
 const HEIGHT = window.innerHeight;
 
 let scene, camera, renderer, controls,
-	scrollableContainer, textContainer;
+	container, textContainer;
 
 window.addEventListener('load', init );
 window.addEventListener('resize', onWindowResize );
@@ -82,33 +82,31 @@ function makeTextPanel() {
 
 	//
 
-	scrollableContainer = ThreeMeshUI.Block({
+	container = ThreeMeshUI.Block({
 		height: 0.7,
 		width: 0.6,
 		padding: 0.05,
 		justifyContent: 'center',
 		alignContent: 'center',
 		backgroundOpacity: 1,
-		backgroundColor: new THREE.Color( 'grey' ),
-		// temp
-		hiddenOverflow: false
+		backgroundColor: new THREE.Color( 'grey' )
 	});
 
-	scrollableContainer.setupState({
+	container.setupState({
 		state: "hidden-on",
 		attributes: { hiddenOverflow: true }
 	});
 
-	scrollableContainer.setupState({
+	container.setupState({
 		state: "hidden-off",
 		attributes: { hiddenOverflow: false }
 	});
 	
-	scrollableContainer.setState( "hidden-on" );
+	container.setState( "hidden-on" );
 
-	scrollableContainer.position.set( 0, 1, -1.8 );
-	scrollableContainer.rotation.x = -0.55;
-	scene.add( scrollableContainer );
+	container.position.set( 0, 1, -1.8 );
+	container.rotation.x = -0.55;
+	scene.add( container );
 
 	//
 
@@ -121,50 +119,28 @@ function makeTextPanel() {
 		justifyContent: 'center'
 	});
 
-	scrollableContainer.add( textContainer );
-
-	let counter = 0;
+	container.add( textContainer );
 
 	//
 
 	const text = ThreeMeshUI.Text({
-		content: "true ".repeat( 40 ),
-		fontSize: 0.1,
+		content: "hiddenOverflow ".repeat( 28 ),
+		fontSize: 0.059,
 		fontFamily: './assets/Roboto-msdf.json',
 		fontTexture: './assets/Roboto-msdf.png'
 	});
 
 	textContainer.add( text );
 
-	textContainer.update( true, true, true )
-
-	text.setupState({
-		state: "hidden-on",
-		attributes: {
-			content: "true ".repeat( 40 )
-		}
-	});
-
-	text.setupState({
-		state: "hidden-off",
-		attributes: {
-			content: "false ".repeat( 30 )
-		}
-	});
-
 	setInterval( ()=> {
 
-		if ( scrollableContainer.currentState === "hidden-on" ) {
+		if ( container.currentState === "hidden-on" ) {
 
-			scrollableContainer.setState( "hidden-off" );
-
-			text.setState( "hidden-off" );
+			container.setState( "hidden-off" );
 
 		} else {
 
-			scrollableContainer.setState( "hidden-on" );
-
-			text.setState( "hidden-on" );
+			container.setState( "hidden-on" );
 
 		};
 
@@ -189,8 +165,8 @@ function loop() {
 	const x = Math.sin( Date.now() / 2000 ) * 0.25;
 	const y = (Math.cos( Date.now() / 2000 ) * 0.25);
 
-	scrollableContainer.position.x = x;
-	scrollableContainer.position.y = y + 0.85;
+	container.position.x = x;
+	container.position.y = y + 0.85;
 
 	textContainer.position.x = x * 0.6;
 	textContainer.position.y = y * 0.6;
