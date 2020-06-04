@@ -44,7 +44,7 @@
 			height: 100%;
 			min-width: 270px;
 			border-right: solid 1px var(--dark-colour);
-			transition: height 0.2s;
+			transition: height 0.26s;
 			overflow-y: auto;
 		}
 
@@ -182,6 +182,7 @@
 				height: var(--navbar-height);
 				width: 100%;
 				border-right: none;
+				overflow-y: hidden;
 			}
 
 			#navbar-container {
@@ -189,7 +190,7 @@
 			}
 
 			#iframe-container {
-				height: calc( 100% - 60px );
+				height: calc( 100% - var(--navbar-height) );
 				width: 100vw;
 			}
 
@@ -273,7 +274,7 @@
 
 			if ( navbarIsClosed ) {
 
-				root.style.setProperty('--navbar-height', '100vh');
+				root.style.setProperty('--navbar-height', '100%');
 				btn.innerHTML = "hide examples ▲";
 
 			} else {
