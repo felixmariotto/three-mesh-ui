@@ -95,24 +95,6 @@ function makeTextPanel() {
 				fontColor: new THREE.Color(0xffc654)
 			}),
 
-			ThreeMeshUI.Text({
-				fontSize: 0.07,
-				content: "This is an InlineBlock : ",
-				fontColor: new THREE.Color(0xffc654)
-			}),
-
-			ThreeMeshUI.Text({
-				fontSize: 0.07,
-				content: "This is an InlineBlock : ",
-				fontColor: new THREE.Color(0xffc654)
-			}),
-
-			ThreeMeshUI.Text({
-				fontSize: 0.07,
-				content: "This is an InlineBlock : ",
-				fontColor: new THREE.Color(0xffc654)
-			}),
-
 			ThreeMeshUI.InlineBlock({
 				height: 0.24,
 				width: 0.5,
