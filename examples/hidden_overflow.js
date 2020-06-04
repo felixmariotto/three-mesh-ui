@@ -70,6 +70,8 @@ function makeTextPanel() {
 		padding: 0.05,
 		justifyContent: 'center',
 		alignContent: 'center',
+		backgroundOpacity: 1,
+		backgroundColor: new THREE.Color( 'grey' ),
 		fontFamily: './assets/Roboto-msdf.json',
 		fontTexture: './assets/Roboto-msdf.png'
 	});
@@ -93,10 +95,12 @@ function makeTextPanel() {
 	//
 
 	textContainer = ThreeMeshUI.Block({
-		width: 1.4,
+		width: 1.2,
 		height: 1.2,
-		padding: 0.03,
-		justifyContent: 'center'
+		padding: 0.09,
+		backgroundColor: new THREE.Color( 'blue' ),
+		backgroundOpacity: 0.2,
+		alignContent: 'left'
 	});
 
 	scrollableContainer.add( textContainer );
@@ -106,8 +110,8 @@ function makeTextPanel() {
 	//
 
 	const text = ThreeMeshUI.Text({
-		content: "hiddenOverflow = true | ".repeat( 30 ),
-		fontSize: 0.07
+		content: "hiddenOverflow = true ".repeat( 11 ),
+		fontSize: 0.1
 	});
 
 	textContainer.add( text );
@@ -118,17 +122,17 @@ function makeTextPanel() {
 
 			scrollableContainer.setState( "hidden-off" );
 
-			text.set({ content: "hiddenOverflow = false | ".repeat( 30 ) });
+			text.set({ content: "hiddenOverflow = false ".repeat( 11 ) });
 
 		} else {
 
 			scrollableContainer.setState( "hidden-on" );
 
-			text.set({ content: "hiddenOverflow = true | ".repeat( 30 ) });
+			text.set({ content: "hiddenOverflow = true ".repeat( 11 ) });
 
 		};
 
-	}, 1000 );
+	}, 1500 );
 
 };
 
@@ -146,8 +150,8 @@ function loop() {
 
 	// animate user interface
 
-	const x = Math.sin( Date.now() / 1500 ) * 0.2;
-	const y = (Math.cos( Date.now() / 1500 ) * 0.2);
+	const x = Math.sin( Date.now() / 2000 ) * 0.25;
+	const y = (Math.cos( Date.now() / 2000 ) * 0.25);
 
 	scrollableContainer.position.x = x;
 	scrollableContainer.position.y = y + 1;
