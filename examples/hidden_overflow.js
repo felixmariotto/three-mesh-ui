@@ -64,6 +64,24 @@ function init() {
 
 function makeTextPanel() {
 
+	const title = ThreeMeshUI.Block({
+		height: 0.2,
+		width: 1.2,
+		fontSize: 0.09,
+		justifyContent: 'center',
+		fontFamily: './assets/Roboto-msdf.json',
+		fontTexture: './assets/Roboto-msdf.png',
+		backgroundColor: new THREE.Color( 'blue' ),
+		backgroundOpacity: 0.2
+	}).add(
+		ThreeMeshUI.Text({ content: "hiddenOverflow attribute :" })
+	);
+
+	title.position.set( 0, 1.8, -2 );
+	scene.add( title );
+
+	//
+
 	scrollableContainer = ThreeMeshUI.Block({
 		height: 0.7,
 		width: 0.6,
@@ -95,12 +113,12 @@ function makeTextPanel() {
 	//
 
 	textContainer = ThreeMeshUI.Block({
-		width: 1.2,
-		height: 1.2,
+		width: 1,
+		height: 1,
 		padding: 0.09,
 		backgroundColor: new THREE.Color( 'blue' ),
 		backgroundOpacity: 0.2,
-		alignContent: 'left'
+		justifyContent: 'center'
 	});
 
 	scrollableContainer.add( textContainer );
@@ -110,8 +128,22 @@ function makeTextPanel() {
 	//
 
 	const text = ThreeMeshUI.Text({
-		content: "hiddenOverflow = true ".repeat( 11 ),
+		content: "true ".repeat( 30 ),
 		fontSize: 0.1
+	});
+
+	text.setupState({
+		state: "hidden-on",
+		attributes: {
+			content: "true ".repeat( 30 )
+		}
+	});
+
+	text.setupState({
+		state: "hidden-off",
+		attributes: {
+			content: "false ".repeat( 30 )
+		}
 	});
 
 	textContainer.add( text );
@@ -122,13 +154,13 @@ function makeTextPanel() {
 
 			scrollableContainer.setState( "hidden-off" );
 
-			text.set({ content: "hiddenOverflow = false ".repeat( 11 ) });
+			text.setState( "hidden-off" );
 
 		} else {
 
 			scrollableContainer.setState( "hidden-on" );
 
-			text.set({ content: "hiddenOverflow = true ".repeat( 11 ) });
+			text.setState( "hidden-on" );
 
 		};
 
@@ -154,10 +186,10 @@ function loop() {
 	const y = (Math.cos( Date.now() / 2000 ) * 0.25);
 
 	scrollableContainer.position.x = x;
-	scrollableContainer.position.y = y + 1;
+	scrollableContainer.position.y = y + 0.85;
 
-	textContainer.position.x = x;
-	textContainer.position.y = y;
+	textContainer.position.x = x * 0.6;
+	textContainer.position.y = y * 0.6;
 
 	// Don't forget, ThreeMeshUI must be updated manually.
 	// This has been introduced in version 3.0.0 in order
