@@ -50,7 +50,7 @@ function InlineManager( boxComponent ) {
 				if ( lastInlineOffset + inline.width > INNER_WIDTH ||
 					 inline.lineBreak === "mandatory" ||
 					 /* test if current glyph is break-friendly and next break-friendly glyph is beyond limit */
-					 (inlines[ i - 1 ] && lastInlineOffset + nextBreak > INNER_WIDTH && BREAK_ON.indexOf( inlines[ i - 1 ].glyph ) > -1) ) {
+					 (inlines[ i - 1 ] && inlines[ i - 1 ].glyph && lastInlineOffset + nextBreak > INNER_WIDTH && BREAK_ON.indexOf( inlines[ i - 1 ].glyph ) > -1) ) {
 
 					lines.push([ inline ]);
 

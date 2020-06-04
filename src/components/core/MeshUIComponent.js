@@ -50,6 +50,7 @@ export default function MeshUIComponent() {
 		getClippingPlanes,
 		getHiddenOverflow,
 
+		add,
 		update,
 		_updateFontFamily,
 		_updateFontTexture,
@@ -287,6 +288,18 @@ export default function MeshUIComponent() {
 	///////////////
 	///  UPDATE
 	///////////////
+
+	// When the user calls component.add, it triggers updates, then
+	// call THREE.Object3D.add.
+	function add() {
+
+		this.getHighestParent().update( null, true );
+
+		this.__proto__.add.call( this, ...arguments );
+
+	};
+
+	//
 
 	function update( updateParsing, updateLayout, updateInner ) {
 

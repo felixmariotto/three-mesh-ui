@@ -66,6 +66,24 @@ function InlineBlock( options ) {
 
 	inlineBlock.updateLayout = function updateLayout() {
 
+		/*
+		Create text content
+
+		At this point, text.inlines should have been modified by the parent
+		component, to add xOffset and yOffset properties to each inlines.
+		This way, TextContent knows were to position each character.
+
+		*/
+
+		// security in case the layout wasn't done yet by the parent
+		if ( !this.hasLayoutBeenDone() ) {
+
+			this.parent.update( null, true );
+
+			return
+
+		};
+
 		DeepDelete( inlineBlock );
 
 		if ( inlineBlock.inlines ) {

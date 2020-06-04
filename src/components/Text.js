@@ -124,6 +124,15 @@ function Text( options ) {
 
 		*/
 
+		// security in case the layout wasn't done yet by the parent
+		if ( !textComponent.hasLayoutBeenDone() ) {
+
+			textComponent.parent.update( null, true );
+
+			return
+
+		};
+
 		DeepDelete( textComponent );
 
 		if ( textComponent.inlines ) {

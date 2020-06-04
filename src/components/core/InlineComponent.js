@@ -5,14 +5,37 @@
 
 import MeshUIComponent from './MeshUIComponent.js';
 
-function InlineComponent() {
+export default function InlineComponent() {
 
 	const inlineComponent = {};
 
 	inlineComponent.isInline = true;
 
+	inlineComponent.hasLayoutBeenDone = hasLayoutBeenDone;
+
 	return inlineComponent
 
 };
 
-export default InlineComponent
+//
+
+function hasLayoutBeenDone() {
+
+	let layoutIsDone = true;
+
+	this.inlines.forEach( (inline)=> {
+
+		if ( !inline.offsetX || !inline.offsetY ) layoutIsDone = false;
+
+	});
+
+	/*
+	if ( !layoutIsDone ) {
+		console.log( this.parent )
+		debugger
+	}
+	*/
+
+	return layoutIsDone
+
+};
