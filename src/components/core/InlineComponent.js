@@ -21,6 +21,8 @@ export default function InlineComponent() {
 
 function hasLayoutBeenDone() {
 
+	if ( !this.inlines ) return true
+
 	let layoutIsDone = true;
 
 	this.inlines.forEach( (inline)=> {
