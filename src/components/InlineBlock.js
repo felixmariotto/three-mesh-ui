@@ -35,6 +35,8 @@ function InlineBlock( options ) {
 		MeshUIComponent()
 	);
 
+	inlineBlock.isInlineBlock = true;
+
 	//
 
 	inlineBlock.parseParams = function parseParams( resolve, reject ) {

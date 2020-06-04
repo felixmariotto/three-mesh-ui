@@ -343,7 +343,7 @@ export default function MeshUIComponent() {
 			switch ( prop ) {
 
 				case "content" :
-					parsingNeedsUpdate = true;
+					if ( this.isText ) parsingNeedsUpdate = true;
 					layoutNeedsUpdate = true;
 					this[ prop ] = options[ prop ];
 					break;
@@ -351,6 +351,11 @@ export default function MeshUIComponent() {
 				case "width" :
 				case "height" :
 				case "padding" :
+					if ( this.isInlineBlock ) parsingNeedsUpdate = true;
+					layoutNeedsUpdate = true;
+					this[ prop ] = options[ prop ];
+					break;
+
 				case "fontSize" :
 				case "interLine" :
 				case "margin" :
