@@ -9,6 +9,7 @@
 		:root {
 			--navbar-height: 60px;
 			--dark-colour: #262626;
+			--github-btn-offset: 20px;
 		}
 
 		* {
@@ -41,6 +42,7 @@
 		}
 
 		#menu {
+			position: relative;
 			height: 100%;
 			min-width: 270px;
 			border-right: solid 1px var(--dark-colour);
@@ -69,11 +71,6 @@
 			margin-top: 10px;
 			border-top: solid 1px var(--dark-colour);
 			list-style-type: none;
-		}
-
-		#github-link {
-			display: flex;
-			align-items: center;
 		}
 
 			#example-code-icon {
@@ -124,7 +121,9 @@
 
 			#iframe-container>a {
 				position: absolute;
-				right: 20px;
+				display: flex;
+				align-items: center;
+				right: var(--github-btn-offset);
 				bottom: 20px;
 				z-index: 2;
 				color: white;
@@ -275,11 +274,13 @@
 			if ( navbarIsClosed ) {
 
 				root.style.setProperty('--navbar-height', '100%');
+				root.style.setProperty('--github-btn-offset', '-300px');
 				btn.innerHTML = "hide examples ▲";
 
 			} else {
 
 				root.style.setProperty('--navbar-height', '60px');
+				root.style.setProperty('--github-btn-offset', '20px');
 				btn.innerHTML = "more examples ▼";
 
 			};
