@@ -1,6 +1,7 @@
 <!doctype html><html><head><title>three-mesh-ui | examples</title><meta charset="utf-8"><meta name="viewport" content="width=device-width,user-scalable=no,minimum-scale=1,maximum-scale=1"><style>:root {
 			--navbar-height: 60px;
 			--dark-colour: #262626;
+			--github-btn-offset: 20px;
 		}
 
 		* {
@@ -33,10 +34,11 @@
 		}
 
 		#menu {
+			position: relative;
 			height: 100%;
 			min-width: 270px;
 			border-right: solid 1px var(--dark-colour);
-			transition: height 0.2s;
+			transition: height 0.26s;
 			overflow-y: auto;
 		}
 
@@ -61,11 +63,6 @@
 			margin-top: 10px;
 			border-top: solid 1px var(--dark-colour);
 			list-style-type: none;
-		}
-
-		#github-link {
-			display: flex;
-			align-items: center;
 		}
 
 			#example-code-icon {
@@ -116,7 +113,9 @@
 
 			#iframe-container>a {
 				position: absolute;
-				right: 20px;
+				display: flex;
+				align-items: center;
+				right: var(--github-btn-offset);
 				bottom: 20px;
 				z-index: 2;
 				color: white;
@@ -174,6 +173,7 @@
 				height: var(--navbar-height);
 				width: 100%;
 				border-right: none;
+				overflow-y: hidden;
 			}
 
 			#navbar-container {
@@ -181,11 +181,11 @@
 			}
 
 			#iframe-container {
-				height: calc( 100% - 60px );
+				height: calc( 100% - var(--navbar-height) );
 				width: 100vw;
 			}
 
-		}</style></head><body><div id="page"><div id="menu"><div id="navbar-container"><button id="toggle-btn" onclick="toggleNavbar()">more examples ▼</button></div><div id="examples-container"><h1>three-mesh-ui</h1><a id="github-link-menu" href="https://github.com/felixmariotto/three-mesh-ui" target="_blank"><img id="menu-icon" src="https://felixmariotto.s3.eu-west-3.amazonaws.com/github-white-icon.png"> Github page</a><h2>examples</h2><ul><li title="basic_setup">basic setup</li><li title="nested_blocks">nested blocks</li><li title="tutorial_result">tutorial result</li><li title="interactive_button">interactive button</li><li title="msdf_text">MSDF text</li><li title="background_size">background size</li><li title="inline_image">inline image</li><li title="scrollable">scrollable</li><li title="keyboard">keyboard</li></ul></div></div><div id="iframe-container"><iframe src="./basic_setup.html" allowfullscreen allowvr frameborder="0"></iframe><img src="./assets/loading.gif"> <a id="github-link" href="" target="_blank"><img id="example-code-icon" src="https://felixmariotto.s3.eu-west-3.amazonaws.com/github-white-icon.png"> code on Github</a></div></div><script>const root = document.documentElement;
+		}</style></head><body><div id="page"><div id="menu"><div id="navbar-container"><button id="toggle-btn" onclick="toggleNavbar()">more examples ▼</button></div><div id="examples-container"><h1>three-mesh-ui</h1><a id="github-link-menu" href="https://github.com/felixmariotto/three-mesh-ui" target="_blank"><img id="menu-icon" src="https://felixmariotto.s3.eu-west-3.amazonaws.com/github-white-icon.png"> Github page</a><h2>examples</h2><ul><li title="basic_setup">basic setup</li><li title="nested_blocks">nested blocks</li><li title="tutorial_result">tutorial result</li><li title="interactive_button">interactive button</li><li title="msdf_text">big text</li><li title="background_size">backgroundSize</li><li title="inline_block">InlineBlock</li><li title="hidden_overflow">hiddenOverflow</li><li title="keyboard">keyboard</li></ul></div></div><div id="iframe-container"><iframe src="./basic_setup.html" allowfullscreen allowvr frameborder="0"></iframe><img src="./assets/loading.gif"> <a id="github-link" href="" target="_blank"><img id="example-code-icon" src="https://felixmariotto.s3.eu-west-3.amazonaws.com/github-white-icon.png"> code on Github</a></div></div><script>const root = document.documentElement;
 		const btn = document.getElementById('toggle-btn');
 		const link = document.getElementById('github-link');
 		const iframe = document.querySelector('iframe');
@@ -203,12 +203,14 @@
 
 			if ( navbarIsClosed ) {
 
-				root.style.setProperty('--navbar-height', '100vh');
+				root.style.setProperty('--navbar-height', '100%');
+				root.style.setProperty('--github-btn-offset', '-300px');
 				btn.innerHTML = "hide examples ▲";
 
 			} else {
 
 				root.style.setProperty('--navbar-height', '60px');
+				root.style.setProperty('--github-btn-offset', '20px');
 				btn.innerHTML = "more examples ▼";
 
 			};
