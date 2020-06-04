@@ -102,10 +102,12 @@ function init() {
 
 	// STATS
 
+	/*
 	stats = new Stats();
 	stats.dom.style.left = 'auto';
 	stats.dom.style.right = '0px';
 	document.body.appendChild( stats.dom );
+	*/
 
 	// LIGHT
 
@@ -515,7 +517,7 @@ function loop() {
 	ThreeMeshUI.update();
 	
 	controls.update();
-	stats.update();
+	// stats.update();
 	renderer.render( scene, camera );
 	
 };
