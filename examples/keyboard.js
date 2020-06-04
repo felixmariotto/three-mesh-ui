@@ -31,6 +31,16 @@ let scene,
 
 let objsToTest = [];
 
+// Colors
+
+const colors = {
+	keyboardBack: 0x858585,
+	panelBack: 0x262626,
+	button: 0x363636,
+	hovered: 0x1c1c1c,
+	selected: 0x109c5d
+};
+
 //
 
 const raycaster = new THREE.Raycaster();
@@ -172,7 +182,7 @@ function makeUI() {
 		fontTexture: './assets/Roboto-msdf.png',
     	width: 1,
     	height: 0.35,
-    	backgroundColor: new THREE.Color( 0x0b0b0b ),
+    	backgroundColor: new THREE.Color( colors.panelBack ),
     	backgroundOpacity: 1
     });
 
@@ -226,7 +236,7 @@ function makeUI() {
     		width: 0.2,
     		margin: 0.012,
     		justifyContent: 'center',
-	  		backgroundColor: new THREE.Color( 0x363636 ),
+	  		backgroundColor: new THREE.Color( colors.button ),
 	  		backgroundOpacity: 1
     	}).add(
 
@@ -242,7 +252,7 @@ function makeUI() {
 			state: "idle",
 			attributes: {
 				offset: 0.02,
-				backgroundColor: new THREE.Color( 0x363636 ),
+				backgroundColor: new THREE.Color( colors.button ),
 	  			backgroundOpacity: 1
 			}
 		});
@@ -251,7 +261,7 @@ function makeUI() {
 			state: "hovered",
 			attributes: {
 				offset: 0.02,
-				backgroundColor: new THREE.Color( 0x1c1c1c ),
+				backgroundColor: new THREE.Color( colors.hovered ),
 				backgroundOpacity: 1
 			}
 		});
@@ -260,7 +270,7 @@ function makeUI() {
 			state: "selected",
 			attributes: {
 				offset: 0.01,
-				backgroundColor: new THREE.Color( 0x109c5d ),
+				backgroundColor: new THREE.Color( colors.selected ),
 				backgroundOpacity: 1
 			},
 			onSet: ()=> {
@@ -313,7 +323,7 @@ function makeUI() {
     	height: 0.25,
     	width: 1,
     	offset: 0,
-    	backgroundColor: new THREE.Color( 0x0b0b0b ),
+    	backgroundColor: new THREE.Color( colors.panelBack ),
     	backgroundOpacity: 1
     }).add(
 
@@ -392,7 +402,7 @@ function makeKeyboard( language ) {
 		language: language,
 		fontFamily: './assets/Roboto-msdf.json',
 		fontTexture: './assets/Roboto-msdf.png',
-		backgroundColor: new THREE.Color( 0x5c5c5c ),
+		backgroundColor: new THREE.Color( colors.keyboardBack ),
 	  	backgroundOpacity: 1
 	});
 
@@ -410,7 +420,7 @@ function makeKeyboard( language ) {
 			state: 'idle',
 			attributes: {
 				offset: 0,
-				backgroundColor: new THREE.Color( 0x0b0b0b ),
+				backgroundColor: new THREE.Color( colors.button ),
     			backgroundOpacity: 1
 			}
 		});
@@ -419,7 +429,7 @@ function makeKeyboard( language ) {
 			state: 'hovered',
 			attributes: {
 				offset: 0,
-				backgroundColor: new THREE.Color( 0x1c1c1c ),
+				backgroundColor: new THREE.Color( colors.hovered ),
 				backgroundOpacity: 1
 			}
 		});
@@ -428,7 +438,7 @@ function makeKeyboard( language ) {
 			state: 'selected',
 			attributes: {
 				offset: -0.009,
-				backgroundColor: new THREE.Color( 0x109c5d ),
+				backgroundColor: new THREE.Color( colors.selected ),
 				backgroundOpacity: 1
 			},
 			// triggered when the user clicked on a keyboard's key
