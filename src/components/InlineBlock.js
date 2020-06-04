@@ -75,15 +75,6 @@ function InlineBlock( options ) {
 
 		*/
 
-		// security in case the layout wasn't done yet by the parent
-		if ( !this.hasLayoutBeenDone() ) {
-
-			this.parent.update( null, true );
-
-			return
-
-		};
-
 		DeepDelete( inlineBlock );
 
 		if ( inlineBlock.inlines ) {

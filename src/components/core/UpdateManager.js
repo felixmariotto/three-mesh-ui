@@ -24,6 +24,15 @@ let requestedUpdates = {};
 
 function requestUpdate( component, updateParsing, updateLayout, updateInner ) {
 
+	/*
+	if ( !component.isInline ) {
+		console.log('//////////////////////////////////')
+		console.log( "updateParsing : ", updateParsing )
+		console.log( "updateLayout : ", updateLayout )
+		console.log( "updateInner : ", updateInner )
+	};
+	*/
+
 	component.traverse( (child)=> {
 
 		if ( !child.isUI ) return

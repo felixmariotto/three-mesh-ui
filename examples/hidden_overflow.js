@@ -64,6 +64,7 @@ function init() {
 
 function makeTextPanel() {
 
+	/*
 	const title = ThreeMeshUI.Block({
 		height: 0.2,
 		width: 1.2,
@@ -79,6 +80,7 @@ function makeTextPanel() {
 
 	title.position.set( 0, 1.8, -2 );
 	scene.add( title );
+	*/
 
 	//
 
@@ -90,10 +92,11 @@ function makeTextPanel() {
 		alignContent: 'center',
 		backgroundOpacity: 1,
 		backgroundColor: new THREE.Color( 'grey' ),
-		fontFamily: './assets/Roboto-msdf.json',
-		fontTexture: './assets/Roboto-msdf.png'
+		// temp
+		hiddenOverflow: false
 	});
 
+	/*
 	scrollableContainer.setupState({
 		state: "hidden-on",
 		attributes: { hiddenOverflow: true }
@@ -103,8 +106,9 @@ function makeTextPanel() {
 		state: "hidden-off",
 		attributes: { hiddenOverflow: false }
 	});
-
+	
 	scrollableContainer.setState( "hidden-on" );
+	*/
 
 	scrollableContainer.position.set( 0, 1, -1.8 );
 	scrollableContainer.rotation.x = -0.55;
@@ -128,10 +132,17 @@ function makeTextPanel() {
 	//
 
 	const text = ThreeMeshUI.Text({
-		content: "true ".repeat( 30 ),
-		fontSize: 0.1
+		content: "fezfez ".repeat( 30 ),
+		fontSize: 0.1,
+		fontFamily: './assets/Roboto-msdf.json',
+		fontTexture: './assets/Roboto-msdf.png'
 	});
 
+	textContainer.add( text );
+
+	textContainer.update( true, true, true )
+
+	/*
 	text.setupState({
 		state: "hidden-on",
 		attributes: {
@@ -146,7 +157,7 @@ function makeTextPanel() {
 		}
 	});
 
-	textContainer.add( text );
+	
 
 	setInterval( ()=> {
 
@@ -165,6 +176,7 @@ function makeTextPanel() {
 		};
 
 	}, 1500 );
+	*/
 
 };
 
