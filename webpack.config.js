@@ -9,7 +9,7 @@ let pages = [
 	['interactive_button', 'interactive button'],
 	['msdf_text', 'big text'],
 	['background_size', 'backgroundSize'],
-	['inline_image', 'inline image'],
+	['inline_block', 'InlineBlock'],
 	['hidden_overflow', 'hiddenOverflow'],
 	['keyboard', 'keyboard']
 ];
@@ -59,7 +59,7 @@ module.exports = env => {
 			interactive_button: './examples/interactive_button.js',
 			msdf_text: './examples/msdf_text.js',
 			background_size: './examples/background_size.js',
-			inline_image: './examples/inline_image.js',
+			inline_block: './examples/inline_block.js',
 			hidden_overflow: './examples/hidden_overflow.js',
 			keyboard: './examples/keyboard.js'
 		},
