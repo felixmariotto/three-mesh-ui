@@ -295,7 +295,7 @@ export default function MeshUIComponent() {
 
 		this.getHighestParent().update( null, true );
 
-		this.__proto__.add.call( this, ...arguments );
+		return this.__proto__.add.call( this, ...arguments );
 
 	};
 

@@ -33,7 +33,6 @@ let objsToTest = [];
 
 // PANEL MATERIALS
 
-const foregroundMaterial = new THREE.MeshBasicMaterial({ color: 0x0b0b0b });
 const backgroundMaterial = new THREE.MeshBasicMaterial({ color: 0x5c5c5c });
 const hoveredMaterial = new THREE.MeshBasicMaterial({ color: 0x1c1c1c });
 const selectedMaterial = new THREE.MeshBasicMaterial({ color: 0x109c5d });
@@ -180,7 +179,7 @@ function makeUI() {
 		fontTexture: './assets/Roboto-msdf.png',
     	width: 1,
     	height: 0.35,
-    	backgroundMaterial: foregroundMaterial
+    	backgroundColor: new THREE.Color( 0x0b0b0b )
     });
 
     textPanel.position.set( 0, -0.15, 0 );
@@ -192,7 +191,8 @@ function makeUI() {
     	width: 1,
     	height: 0.1,
     	justifyContent: 'center',
-    	fontSize: 0.045
+    	fontSize: 0.045,
+    	backgroundOpacity: 0
     }).add(
     	ThreeMeshUI.Text({ content: 'Type some text on the keyboard' })
     );
@@ -205,8 +205,6 @@ function makeUI() {
     	fontSize: 0.033,
     	padding: 0.02
     }).add( userText );
-
-    title.frameContainer.visible = textField.frameContainer.visible = false;
 
     textPanel.add( title, textField );
 
@@ -316,7 +314,7 @@ function makeUI() {
     	height: 0.25,
     	width: 1,
     	offset: 0,
-    	backgroundMaterial: foregroundMaterial
+    	backgroundColor: new THREE.Color( 0x0b0b0b )
     }).add(
 
     	ThreeMeshUI.Block({
@@ -408,7 +406,7 @@ function makeKeyboard( language ) {
 			state: 'idle',
 			attributes: {
 				offset: 0,
-				backgroundMaterial: foregroundMaterial
+				backgroundColor: new THREE.Color( 0x0b0b0b )
 			}
 		});
 
