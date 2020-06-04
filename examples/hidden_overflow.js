@@ -74,6 +74,18 @@ function makeTextPanel() {
 		fontTexture: './assets/Roboto-msdf.png'
 	});
 
+	scrollableContainer.setupState({
+		state: "hidden-on",
+		attributes: { hiddenOverflow: true }
+	});
+
+	scrollableContainer.setupState({
+		state: "hidden-off",
+		attributes: { hiddenOverflow: false }
+	});
+
+	scrollableContainer.setState( "hidden-on" );
+
 	scrollableContainer.position.set( 0, 1, -1.8 );
 	scrollableContainer.rotation.x = -0.55;
 	scene.add( scrollableContainer );
@@ -93,14 +105,30 @@ function makeTextPanel() {
 
 	//
 
-	textContainer.add(
+	const text = ThreeMeshUI.Text({
+		content: "hiddenOverflow = true | ".repeat( 30 ),
+		fontSize: 0.07
+	});
 
-		ThreeMeshUI.Text({
-			content: "hiddenOverflow = true | ".repeat( 30 ),
-			fontSize: 0.07
-		})
+	textContainer.add( text );
 
-	);
+	setInterval( ()=> {
+
+		if ( scrollableContainer.currentState === "hidden-on" ) {
+
+			scrollableContainer.setState( "hidden-off" );
+
+			text.set({ content: "hiddenOverflow = false | ".repeat( 30 ) });
+
+		} else {
+
+			scrollableContainer.setState( "hidden-on" );
+
+			text.set({ content: "hiddenOverflow = true | ".repeat( 30 ) });
+
+		};
+
+	}, 1000 );
 
 };
 
@@ -116,16 +144,23 @@ function onWindowResize() {
 
 function loop() {
 
-	scrollableContainer.position.x = Math.sin( Date.now() / 1500 ) * 0.3;
-	scrollableContainer.position.y = (Math.cos( Date.now() / 1500 ) * 0.3) + 1;
+	// animate user interface
 
-	// textContainer.position.x = Math.sin( Date.now() / 1500 ) * 0.3;
-	// textContainer.position.y = Math.cos( Date.now() / 1500 ) * 0.3;
+	const x = Math.sin( Date.now() / 1500 ) * 0.2;
+	const y = (Math.cos( Date.now() / 1500 ) * 0.2);
+
+	scrollableContainer.position.x = x;
+	scrollableContainer.position.y = y + 1;
+
+	textContainer.position.x = x;
+	textContainer.position.y = y;
 
 	// Don't forget, ThreeMeshUI must be updated manually.
 	// This has been introduced in version 3.0.0 in order
 	// to improve performance
 	ThreeMeshUI.update();
+
+	//
 
 	controls.update();
 	renderer.render( scene, camera );
