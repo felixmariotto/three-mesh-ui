@@ -17,7 +17,7 @@ const UpdateManager = {
 const components = [];
 let requestedUpdates = {};
 
-const timestamp = Date.now();
+// const timestamp = Date.now();
 
 // get called by MeshUIComponent when component.set has been used.
 // It registers this component and all its descendants for the different types of updates that were required.

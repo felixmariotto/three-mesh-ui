@@ -293,7 +293,12 @@ export default function MeshUIComponent() {
 	// call THREE.Object3D.add.
 	function add() {
 
-		this.getHighestParent().update( null, true );
+		for ( let id of Object.keys(arguments) ) {
+
+			// An inline component relies on its parent for positioning
+			if ( arguments[id].isInline ) this.update( null, true );
+
+		};
 
 		return this.__proto__.add.call( this, ...arguments );
 
