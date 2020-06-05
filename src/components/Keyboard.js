@@ -4,16 +4,17 @@ Job: high-level component that returns a keyboard
 
 */
 
-import { TextureLoader } from 'three';
-
+import { TextureLoader } from 'three/src/loaders/TextureLoader.js';
 import { Object3D } from 'three/src/core/Object3D.js';
 
 import BoxComponent from './core/BoxComponent.js';
 import InlineManager from './core/InlineManager.js';
 import MeshUIComponent from './core/MeshUIComponent.js';
+
 import Block from './Block.js';
 import Text from './Text.js';
 import InlineBlock from './InlineBlock.js';
+
 import keymaps from '../utils/Keymaps.js';
 
 //
@@ -52,7 +53,8 @@ export default function KeyboardModule( options ) {
 	//////////
 
 	// ../utils/Keymaps contains information about various keyboard layouts
-	// We select one depending on the user's browser language
+	// We select one depending on the user's browser language if
+	// there is no options.language
 
 	let keymap;
 
@@ -309,18 +311,12 @@ export default function KeyboardModule( options ) {
 	//  UPDATE
 	////////////
 
-	keyboard.parseParams = function ParseParams() {};
-
-	//
-
+	keyboard.parseParams = function ParseParams( resolve ) { resolve() };
 	keyboard.updateLayout = function UpdateLayout() {};
-
-	//
-
 	keyboard.updateInner = function UpdateInner() {};
 
 	// Lastly set the options parameters to this object, which will trigger an update
-	keyboard.set( options, true, true );
+	keyboard.set( options );
 
 	return keyboard;
 
