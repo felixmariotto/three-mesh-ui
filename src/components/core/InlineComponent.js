@@ -1,6 +1,9 @@
 /*
-	Job: no job yet
-	Knows: parent dimensions
+
+Job: nothing yet, but adding a isInline parameter to an inline component
+
+Knows: parent dimensions
+
 */
 
 import MeshUIComponent from './MeshUIComponent.js';
