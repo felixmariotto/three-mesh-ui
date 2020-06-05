@@ -2,6 +2,7 @@
 /*
 
 Job: Create and return a plane mesh according to dimensions and style parameters
+
 Knows: Dimension and style of the plane to create
 
 */
@@ -15,13 +16,9 @@ import { Shape } from 'three/src/extras/core/Shape.js';
 
 export default function Frame( width, height, borderRadius, backgroundSize, material ) {
 
-	var shape = new Shape();
-
-	roundedRect( shape, width, height, borderRadius );
+	var shape = RoundedRectShape( width, height, borderRadius );
 
 	const geometry = new ShapeBufferGeometry( shape );
-
-	//
 
 	const mesh = new Mesh(
 		geometry,
@@ -30,48 +27,24 @@ export default function Frame( width, height, borderRadius, backgroundSize, mate
 
 	mesh.castShadow = true;
 	mesh.receiveShadow = true;
+	
 	mesh.name = "MeshUI-Frame";
 
-	mesh.updateUVs = function updateUVs( backgroundSize ) {
+	mesh.width = width;
+	mesh.height = height;
 
-		const texture = mesh.material.uniforms.u_texture ?
-								mesh.material.uniforms.u_texture.value :
-								null;
-
-		switch( backgroundSize ) {
-
-			case 'stretch' :
-				mapStretchUVs( width, height, geometry );
-				break
-
-			case 'contain' :
-				if ( texture ) mapFitUVs( backgroundSize, width, height, geometry, texture );
-				else mapStretchUVs( width, height, geometry );
-				break
-
-			case 'cover' :
-				if ( texture ) mapFitUVs( backgroundSize, width, height, geometry, texture );
-				else mapStretchUVs( width, height, geometry );
-				break
-
-			default :
-				console.warn(`'${ backgroundSize }' is an unknown value for the backgroundSize attribute`)
-
-		};
-
-		geometry.attributes.uv.needsUpdate = true;
-
-	};
-
-	mesh.updateUVs( backgroundSize );
+	mesh.updateUVs = updateUVs;
+	mesh.updateUVs( backgroundSize ); // cover, contain, or stretch
 
 	return mesh;
 
 };
 
-//
+// Returns a THREE.Shape of rounded rectangle
 
-function roundedRect( ctx, width, height, radius ) {
+function RoundedRectShape( width, height, radius ) {
+
+	const ctx = new Shape();
 
 	const x = - width / 2 ;
 	const y = - height / 2 ;
@@ -86,9 +59,46 @@ function roundedRect( ctx, width, height, radius ) {
 	ctx.lineTo( x + radius, y );
 	ctx.quadraticCurveTo( x, y, x, y + radius );
 
+	return ctx
+
 };
 
-//
+// Call the right function to update the geometry UVs depending on the backgroundSize param
+
+function updateUVs( backgroundSize ) {
+
+	const texture = this.material.uniforms.u_texture ?
+						this.material.uniforms.u_texture.value :
+						null;
+
+	switch( backgroundSize ) {
+
+		case 'stretch' :
+			mapStretchUVs( this.width, this.height, this.geometry );
+			break
+
+		case 'contain' :
+			if ( texture ) mapFitUVs( backgroundSize, this.width, this.height, this.geometry, texture );
+			else mapStretchUVs( this.width, this.height, this.geometry );
+			break
+
+		case 'cover' :
+			if ( texture ) mapFitUVs( backgroundSize, this.width, this.height, this.geometry, texture );
+			else mapStretchUVs( this.width, this.height, this.geometry );
+			break
+
+		default :
+			console.warn(`'${ backgroundSize }' is an unknown value for the backgroundSize attribute`)
+
+	};
+
+	this.geometry.attributes.uv.needsUpdate = true;
+
+};
+
+// Update the UVs of the passed geometry so that the
+// left-most point will be u = 0 and the right-most
+// point will be u = 1. Same for V direction.
 
 function mapStretchUVs( width, height, geometry ) {
 
@@ -115,7 +125,11 @@ function mapStretchUVs( width, height, geometry ) {
 
 };
 
-//
+// Update the UVs of the passed geometry so that the passed texture
+// is not deformed and is fit to the geometry's border.
+// Depending on the backgroundSize parameter, the texture will
+// overflow in the smallest axis of the geometry and fit the widest,
+// or the reverse.
 
 function mapFitUVs( backgroundSize, width, height, geometry, texture ) {
 
