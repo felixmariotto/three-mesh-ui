@@ -1,14 +1,17 @@
 
 /*
 
-Job: Takes glyphs (strings), positions, and text types, returns meshes to Text
+Job: 
+	- Computing glyphs dimensions according to this component's font and content
+	- Create the text Mesh (call MSDFGlyph for each letter)
 
 Knows:
 	- The Text component for which it creates Meshes
 	- The parameters of the text mesh it must return
 
-To learn more about the differences between Text types :
-https://github.com/felixmariotto/three-mesh-ui/wiki/Choosing-a-Text-type
+Note : The architecture formerly supported a second type of text, 'geometry'.
+This text type has been dropped for performance reasons, but the architecture remain,
+so it's easy to add more text type, like vector font, instanced mesh font...
 
 */
 
@@ -30,8 +33,6 @@ export default function TextManager() {
 
 function getGlyphDimensions( options ) {
 
-	// Constants common to all types of font
-
 	const FONT = options.font;
 
 	const FONT_SIZE = options.fontSize; 
@@ -39,8 +40,6 @@ function getGlyphDimensions( options ) {
 	const GLYPH = options.glyph;
 
 	let width, height, ascender, anchor;
-
-	// Depending on the type of font, the way to compute a glyph dimensions vary
 
 	switch ( options.textType ) {
 
@@ -83,7 +82,6 @@ function createText( options ) {
 // Creates a THREE.Plane geometry, with UVs carefully positioned to map a particular
 // glyph on the MSDF texture. Then creates a shaderMaterial with the MSDF shaders,
 // creates a THREE.Mesh, returns it.
-// Called only when the Text is created with 'textType: "MSDF"' (the default)
 
 function buildMSDFText() {
 
