@@ -1,18 +1,15 @@
 /*
 
 Job: - Host the materials of a given component.
-	 - Keep track of the material clippingPlanes parameters
+	 - Update a component's materials clipping planes
 	 - When materials attributes are updated, update the material
-	 - When parents update their dimensions, update clippingPlanes
 
-Knows: - Its component and all its parents
-	   - Its component material
-	   - Its component's anscestors' dimension
+Knows: - Its component materials
+	   - Its component ancestors clipping planes
 
 */
 
-import { MeshBasicMaterial } from 'three';
-
+import { MeshBasicMaterial } from 'three/src/materials/MeshBasicMaterial.js';
 import { ShaderMaterial } from 'three/src/materials/ShaderMaterial.js';
 
 import DEFAULTS from '../../utils/Defaults.js';
@@ -31,7 +28,7 @@ export default function MaterialManager() {
 
 };
 
-//
+// Update existing backgroundMaterial uniforms
 
 function updateBackgroundMaterial() {
 
@@ -45,7 +42,7 @@ function updateBackgroundMaterial() {
 
 };
 
-//
+// Update existing fontMaterial uniforms
 
 function updateTextMaterial() {
 
@@ -59,7 +56,8 @@ function updateTextMaterial() {
 
 };
 
-//
+// Update a component's materials clipping planes.
+// Called every frame
 
 function updateClippingPlanes( value ) {
 
