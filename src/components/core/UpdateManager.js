@@ -4,15 +4,33 @@ Job:
 	- recording components required updates
 	- trigger those updates when 'update' is called
 
+This module is a bit special. It is, with FontLibrary, one of the only modules in the 'component'
+directory not to be used in component composition (Object.assign).
+
+When MeshUIComponent is instanciated, it calls UpdateManager.register().
+
+Then when MeshUIComponent receives new attributes, it doesn't update the component right away.
+Instead, it calls UpdateManager.requestUpdate(), so that the component is updated when the user
+decides it (usually in the render loop).
+
+This is best for performance, because when a UI is created, thousands of componants can
+potentially be instantiated. If they called updates function on their ancestors right away,
+a given component could be updated thousands of times in one frame, which is very ineficient.
+
+Instead, redundant update request are moot, the component will update once when the use calls
+update() in their render loop.
+
 */
 
-//
+export { update }
 
-const UpdateManager = {
+export default {
 	requestUpdate,
 	register,
 	disposeOf
 };
+
+//
 
 const components = [];
 let requestedUpdates = {};
@@ -24,20 +42,9 @@ let requestedUpdates = {};
 
 function requestUpdate( component, updateParsing, updateLayout, updateInner ) {
 
-	/*
-	if ( !component.isInline ) {
-		console.log('//////////////////////////////////')
-		console.log( "updateParsing : ", updateParsing )
-		console.log( "updateLayout : ", updateLayout )
-		console.log( "updateInner : ", updateInner )
-	};
-	*/
-
 	component.traverse( (child)=> {
 
 		if ( !child.isUI ) return
-
-		// if ( component.isBlock && Date.now() > timestamp + 1000 ) debugger
 
 		// request updates for all descendants of the passed components
 		if ( !requestedUpdates[ child.id ] ) {
@@ -60,7 +67,7 @@ function requestUpdate( component, updateParsing, updateLayout, updateInner ) {
 
 };
 
-//
+// Register a passed component for later updates
 
 function register( component ) {
 
@@ -72,7 +79,7 @@ function register( component ) {
 
 };
 
-//
+// Unregister a component (when it's deleted for instance)
 
 function disposeOf( component ) {
 
@@ -86,7 +93,7 @@ function disposeOf( component ) {
 
 };
 
-//
+// Trigger all requested updates of registered components
 
 function update() {
 
@@ -124,7 +131,7 @@ function update() {
 
 };
 
-//
+// Synchronously calls parseParams update of all components from parent to children
 
 function callParsingUpdateOf( component ) {
 
@@ -176,7 +183,7 @@ function callParsingUpdateOf( component ) {
 
 };
 
-//
+// Calls updateLayout and updateInner functions of components that need an update
 
 function callUpdatesOf( component ) {
 
@@ -215,9 +222,3 @@ function callUpdatesOf( component ) {
 	});
 
 };
-
-export { UpdateManager }
-export { update }
-export { disposeOf }
-
-export default UpdateManager;
