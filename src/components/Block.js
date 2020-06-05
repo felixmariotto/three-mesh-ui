@@ -1,7 +1,11 @@
 
 /*
-	Job: Keep a THREE.Object3D that contains the 3D content
-	Knows: Its size and limits, and the THREE.Object3D containing the content and its transform.
+
+Job: - Update a Block component
+	 - Calls BoxComponent's API to position its children box components
+	 - Calls InlineManager's API to position its children inline components
+	 - Call creation and update functions of its background planes
+
 */
 
 import { Object3D } from 'three/src/core/Object3D.js';
@@ -13,8 +17,6 @@ import MaterialManager from './core/MaterialManager.js';
 
 import Frame from '../content/Frame.js';
 import DeepDelete from '../utils/DeepDelete.js';
-
-import { MeshBasicMaterial } from 'three';
 
 export default function Block( options ) {
 
@@ -41,14 +43,12 @@ export default function Block( options ) {
 	//
 
 	block.parseParams = function parseParams( resolve ) { resolve() };
-
 	block.updateLayout = updateLayout;
-
 	block.updateInner = updateInner;
 
 	// Lastly set the options parameters to this object, which will trigger an update
 	
-	block.set( options, true, true );
+	block.set( options );
 
 	return block;
 
