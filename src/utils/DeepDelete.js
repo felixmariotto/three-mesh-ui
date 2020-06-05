@@ -1,4 +1,10 @@
 
+/*
+
+Job : Recursively erase THE CHILDREN of the passed object
+
+*/
+
 import UpdateManager from '../components/core/UpdateManager.js';
 
 function DeepDelete( Object3D ) {

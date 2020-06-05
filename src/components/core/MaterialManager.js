@@ -12,8 +12,6 @@ Knows: - Its component materials
 import { MeshBasicMaterial } from 'three/src/materials/MeshBasicMaterial.js';
 import { ShaderMaterial } from 'three/src/materials/ShaderMaterial.js';
 
-import DEFAULTS from '../../utils/Defaults.js';
-
 //
 
 export default function MaterialManager() {

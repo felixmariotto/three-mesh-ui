@@ -1,7 +1,8 @@
 
 /*
-	Job: List the default values of the lib components
-	Knows: Nothing
+
+Job: List the default values of the lib components
+
 */
 
 import { MeshBasicMaterial } from 'three/src/materials/MeshBasicMaterial.js';
@@ -13,7 +14,7 @@ export default {
 	fontSize: 0.05,
 	offset: 0.01,
 	interLine: 0.01,
-	breakOn: '- ',
+	breakOn: '- ,.:?!',
 	contentDirection: "column",
 	alignContent: "center",
 	justifyContent: "start",
@@ -27,9 +28,4 @@ export default {
 	backgroundOpacity: 0.8,
 	backgroundTexture: null,
 	hiddenOverflow: false,
-
-	fontMaterial: new MeshBasicMaterial({
-		color: 0xffffff
-	})
-
 };
