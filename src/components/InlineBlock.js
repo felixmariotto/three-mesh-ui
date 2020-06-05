@@ -2,12 +2,12 @@
 /*
 
 Job:
-	- computing its own size according to user measurements or content measurement
-	- creating an 'inlines' object with info, so that the parent component can organise it along with other inlines
+- computing its own size according to user measurements or content measurement
+- creating an 'inlines' object with info, so that the parent component can organise it along with other inlines
 
 Knows:
-	- Its measurements parameter
-	- Parent block
+- Its measurements parameter
+- Parent block
 
 */
 

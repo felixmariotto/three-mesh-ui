@@ -1,11 +1,13 @@
 /*
 
-Job: - Host the materials of a given component.
-	 - Update a component's materials clipping planes
-	 - When materials attributes are updated, update the material
+Job:
+- Host the materials of a given component.
+- Update a component's materials clipping planes
+- When materials attributes are updated, update the material
 
-Knows: - Its component materials
-	   - Its component ancestors clipping planes
+Knows:
+- Its component materials
+- Its component ancestors clipping planes
 
 */
 
@@ -87,9 +89,11 @@ function getBackgroundMaterial() {
 
 		this.backgroundMaterial = makeBackgroundMaterial.call( this, newUniforms );
 
-	} else if ( newUniforms.u_texture !== this.backgroundUniforms.u_texture.value ||
-				newUniforms.u_color !== this.backgroundUniforms.u_color.value ||
-				newUniforms.u_opacity !== this.backgroundUniforms.u_opacity.value ) {
+	} else if (
+		newUniforms.u_texture !== this.backgroundUniforms.u_texture.value ||
+		newUniforms.u_color !== this.backgroundUniforms.u_color.value ||
+		newUniforms.u_opacity !== this.backgroundUniforms.u_opacity.value
+	) {
 
 		this.updateBackgroundMaterial();
 
@@ -113,9 +117,11 @@ function getFontMaterial() {
 
 		this.fontMaterial = makeTextMaterial.call( this, newUniforms );
 
-	} else if ( newUniforms.u_texture !== this.textUniforms.u_texture.value ||
-				newUniforms.u_color !== this.textUniforms.u_color.value ||
-				newUniforms.u_opacity !== this.textUniforms.u_opacity.value ) {
+	} else if (
+		newUniforms.u_texture !== this.textUniforms.u_texture.value ||
+		newUniforms.u_color !== this.textUniforms.u_color.value ||
+		newUniforms.u_opacity !== this.textUniforms.u_opacity.value
+	) {
 
 		this.updateTextMaterial();
 

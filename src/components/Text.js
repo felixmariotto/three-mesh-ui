@@ -1,13 +1,13 @@
 /*
 
 Job:
-	- computing its own size according to user measurements or content measurement
-	- creating 'inlines' objects with info, so that the parent component can organise them in lines
+- computing its own size according to user measurements or content measurement
+- creating 'inlines' objects with info, so that the parent component can organise them in lines
 
 Knows:
-	- Its text content (string)
-	- Font attributes ('font', 'fontSize'.. etc..)
-	- Parent block
+- Its text content (string)
+- Font attributes ('font', 'fontSize'.. etc..)
+- Parent block
 
 */
 

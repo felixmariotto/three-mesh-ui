@@ -170,9 +170,11 @@ export default function KeyboardModule( options ) {
 
 				const char = keyItem.chars[ panelBlock.charset ].lowerCase || keyItem.chars[ panelBlock.charset ].icon || "undif";
 
-				if ( char !== "enter" &&
-					 char !== "shift" &&
-					 char !== "backspace" ) {
+				if (
+					char !== "enter" &&
+					char !== "shift" &&
+					char !== "backspace"
+				) {
 
 					key.add(
 						Text({

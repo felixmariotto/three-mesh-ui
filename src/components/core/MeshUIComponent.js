@@ -2,9 +2,9 @@
 /*
 
 Job:
-	- Set this component attributes and call updates accordingly
-	- Getting this component attribute, from itself or from its parents
-	- Managing this component's states
+- Set this component attributes and call updates accordingly
+- Getting this component attribute, from itself or from its parents
+- Managing this component's states
 
 This is the core module of three-mesh-ui. Every component is composed with it.
 It owns the principal public methods of a component : set, setupState and setState.
@@ -23,7 +23,6 @@ import DEFAULTS from '../../utils/Defaults.js';
 export default function MeshUIComponent() {
 
 	return {
-
 		states: {},
 		currentState: undefined,
 		isUI: true,
@@ -62,7 +61,6 @@ export default function MeshUIComponent() {
 		setupState,
 		setState,
 		clear
-
 	};
 
 };

@@ -2,12 +2,12 @@
 /*
 
 Job: 
-	- Computing glyphs dimensions according to this component's font and content
-	- Create the text Mesh (call MSDFGlyph for each letter)
+- Computing glyphs dimensions according to this component's font and content
+- Create the text Mesh (call MSDFGlyph for each letter)
 
 Knows:
-	- The Text component for which it creates Meshes
-	- The parameters of the text mesh it must return
+- The Text component for which it creates Meshes
+- The parameters of the text mesh it must return
 
 Note : The architecture formerly supported a second type of text, 'geometry'.
 This text type has been dropped for performance reasons, but the architecture remain,

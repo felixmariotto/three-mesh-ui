@@ -1,10 +1,11 @@
 
 /*
 
-Job: - Update a Block component
-	 - Calls BoxComponent's API to position its children box components
-	 - Calls InlineManager's API to position its children inline components
-	 - Call creation and update functions of its background planes
+Job:
+- Update a Block component
+- Calls BoxComponent's API to position its children box components
+- Calls InlineManager's API to position its children inline components
+- Call creation and update functions of its background planes
 
 */
 

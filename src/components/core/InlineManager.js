@@ -61,15 +61,15 @@ function computeInlinesPosition() {
 
 			const nextBreak = distanceToNextBreak( inlines, i );
 
-			if ( lastInlineOffset + inline.width > INNER_WIDTH ||
-				 inline.lineBreak === "mandatory" ||
-				 this.shouldFriendlyBreak( inlines[ i - 1 ], lastInlineOffset, nextBreak, INNER_WIDTH ) ) {
+			if (
+				lastInlineOffset + inline.width > INNER_WIDTH ||
+				inline.lineBreak === "mandatory" ||
+				this.shouldFriendlyBreak( inlines[ i - 1 ], lastInlineOffset, nextBreak, INNER_WIDTH )
+			) {
 
 				lines.push([ inline ]);
 
 				inline.offsetX = 0;
-
-				//
 
 				return inline.width;
 
@@ -191,7 +191,7 @@ function computeInlinesPosition() {
 				case 'left': return -INNER_WIDTH / 2
 				case 'right': return -line.width + (INNER_WIDTH / 2)
 				case 'center': return -line.width / 2
-				default: console.warn('"textJustification" is not valid')
+				default: console.warn(`alignContent: '${ ALIGNMENT }' is not valid`)
 			};
 		})();
 

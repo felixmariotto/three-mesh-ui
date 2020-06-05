@@ -1,8 +1,9 @@
 
 /*
 
-Job: Keeping record of all the loaded fonts, which component use which font,
-	 and load new fonts if necessary
+Job: 
+Keeping record of all the loaded fonts, which component use which font,
+and load new fonts if necessary
 
 Knows: Which component use which font, loaded fonts
 
@@ -83,6 +84,7 @@ function setFontFamily( component, url ) {
 
 	// keep record of the font that this component use
 	if ( !records[ component.id ] ) records[ component.id ] = {component};
+
 	records[ component.id ].jsonURL = url;
 
 	// update the component, only if the font is already requested and loaded
@@ -124,6 +126,7 @@ function setFontTexture( component, url ) {
 
 	// keep record of the font that this component use
 	if ( !records[ component.id ] ) records[ component.id ] = {component};
+	
 	records[ component.id ].textureURL = url;
 
 	// update the component, only if the font is already requested and loaded

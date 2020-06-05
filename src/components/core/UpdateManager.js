@@ -1,8 +1,8 @@
 /*
 
 Job:
-	- recording components required updates
-	- trigger those updates when 'update' is called
+- recording components required updates
+- trigger those updates when 'update' is called
 
 This module is a bit special. It is, with FontLibrary, one of the only modules in the 'component'
 directory not to be used in component composition (Object.assign).
