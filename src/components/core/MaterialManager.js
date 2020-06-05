@@ -11,7 +11,6 @@ Knows:
 
 */
 
-import { MeshBasicMaterial } from 'three/src/materials/MeshBasicMaterial.js';
 import { ShaderMaterial } from 'three/src/materials/ShaderMaterial.js';
 
 //
@@ -26,7 +25,7 @@ export default function MaterialManager() {
 		updateClippingPlanes
 	}
 
-};
+}
 
 // Update existing backgroundMaterial uniforms
 
@@ -38,9 +37,9 @@ function updateBackgroundMaterial() {
 		this.backgroundUniforms.u_color.value = this.getBackgroundColor();
 		this.backgroundUniforms.u_opacity.value = this.getBackgroundOpacity();
 
-	};
+	}
 
-};
+}
 
 // Update existing fontMaterial uniforms
 
@@ -52,9 +51,9 @@ function updateTextMaterial() {
 		this.textUniforms.u_color.value = this.getFontColor();
 		this.textUniforms.u_opacity.value = this.getFontOpacity();
 
-	};
+	}
 
-};
+}
 
 // Update a component's materials clipping planes.
 // Called every frame
@@ -71,19 +70,19 @@ function updateClippingPlanes( value ) {
 
 		if ( this.backgroundMaterial ) this.backgroundMaterial.clippingPlanes = this.clippingPlanes;
 
-	};
+	}
 
-};
+}
 
 //
 
 function getBackgroundMaterial() {
 
 	const newUniforms = {
-		u_texture: this.getBackgroundTexture(),
-		u_color: this.getBackgroundColor(),
-		u_opacity: this.getBackgroundOpacity()
-	};
+		'u_texture': this.getBackgroundTexture(),
+		'u_color': this.getBackgroundColor(),
+		'u_opacity': this.getBackgroundOpacity()
+	}
 
 	if ( !this.backgroundMaterial || !this.backgroundUniforms ) {
 
@@ -97,20 +96,20 @@ function getBackgroundMaterial() {
 
 		this.updateBackgroundMaterial();
 
-	};
+	}
 
 	return this.backgroundMaterial
 
-};
+}
 
 //
 
 function getFontMaterial() {
 
 	const newUniforms = {
-		u_texture: this.getFontTexture(),
-		u_color: this.getFontColor(),
-		u_opacity: this.getFontOpacity()
+		'u_texture': this.getFontTexture(),
+		'u_color': this.getFontColor(),
+		'u_opacity': this.getFontOpacity()
 	};
 
 	if ( !this.fontMaterial || !this.textUniforms ) {
@@ -125,21 +124,21 @@ function getFontMaterial() {
 
 		this.updateTextMaterial();
 
-	};
+	}
 
 	return this.fontMaterial
 
-};
+}
 
 //
 
 function makeTextMaterial( materialOptions ) {
 
 	this.textUniforms = {
-		u_texture: { value: materialOptions.u_texture },
-		u_color: { value: materialOptions.u_color },
-		u_opacity: { value: materialOptions.u_opacity }
-	};
+		'u_texture': { value: materialOptions.u_texture },
+		'u_color': { value: materialOptions.u_color },
+		'u_opacity': { value: materialOptions.u_opacity }
+	}
 
 	/*
 	setInterval( ()=> {
@@ -153,18 +152,18 @@ function makeTextMaterial( materialOptions ) {
 		clipping: true,
 		vertexShader: textVertex,
 		fragmentShader: textFragment
-	});
+	})
 
-};
+}
 
 //
 
 function makeBackgroundMaterial( materialOptions ) {
 
 	this.backgroundUniforms = {
-		u_texture: { value: materialOptions.u_texture },
-		u_color: { value: materialOptions.u_color },
-		u_opacity: { value: materialOptions.u_opacity }
+		'u_texture': { value: materialOptions.u_texture },
+		'u_color': { value: materialOptions.u_color },
+		'u_opacity': { value: materialOptions.u_opacity }
 	};
 
 	/*
@@ -179,9 +178,9 @@ function makeBackgroundMaterial( materialOptions ) {
 		clipping: true,
 		vertexShader: backgroundVertex,
 		fragmentShader: backgroundFragment
-	});
+	})
 
-};
+}
 
 ////////////////
 // Text shaders
