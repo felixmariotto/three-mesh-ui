@@ -1,7 +1,17 @@
 
 /*
-	Job: Keeping record of all the loaded fonts, which component use which font, and load new fonts if necessary
-	Knows: Which component use which font, loaded fonts
+
+Job: Keeping record of all the loaded fonts, which component use which font,
+	 and load new fonts if necessary
+
+Knows: Which component use which font, loaded fonts
+
+This is one of the only modules in the 'component' folder that is not used
+for composition (Object.assign). MeshUIComponent is the only module with
+a reference to it, it uses FontLibrary for recording fonts accross components.
+This way, if a component uses the same font as another, FontLibrary will skip
+loading it twice, even if the two component are not in the same parent/child hierarchy
+
 */
 
 import { Font } from 'three/src/extras/core/Font.js';
@@ -17,6 +27,10 @@ const requiredFontTextures = [];
 const fontTextures = {};
 
 const records = {};
+
+// Called by MeshUIComponent after fontFamily was set
+// When done, it calls MeshUIComponent.update, to actually display
+// the text with the loaded font.
 
 function setFontFamily( component, url ) {
 	
@@ -78,7 +92,9 @@ function setFontFamily( component, url ) {
 
 };
 
-//
+// Called by MeshUIComponent after fontTexture was set
+// When done, it calls MeshUIComponent.update, to actually display
+// the text with the loaded font.
 
 function setFontTexture( component, url ) {
 
