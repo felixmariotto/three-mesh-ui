@@ -43,13 +43,13 @@ export default function InlineBlock( options ) {
 
 	return inlineBlock
 
-};
+}
 
 ///////////
 // UPDATES
 ///////////
 
-function parseParams( resolve, reject ) {
+function parseParams( resolve ) {
 
 	// Get image dimensions
 
@@ -68,7 +68,7 @@ function parseParams( resolve, reject ) {
 
 	resolve();
 
-};
+}
 
 //
 
@@ -108,23 +108,23 @@ function updateLayout() {
 
 		const component = this;
 
-		this.frame.onBeforeRender = function( renderer, scene, camera, geometry, material, group ) {
+		this.frame.onBeforeRender = function() {
 
 			if ( component.updateClippingPlanes ) {
 
 				component.updateClippingPlanes();
 
-			};
+			}
 
 		};
 
 		this.add( this.frame );
 
-	};
+	}
 
 	this.position.z = this.getOffset();
 
-};
+}
 
 //
 
@@ -132,4 +132,4 @@ function updateInner() {
 
 	this.position.z = this.getOffset();
 
-};
+}

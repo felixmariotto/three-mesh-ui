@@ -1,3 +1,5 @@
+/* global global */
+
 import Block from './components/Block.js';
 import Text from './components/Text.js';
 import InlineBlock from './components/InlineBlock.js';
@@ -12,7 +14,7 @@ const ThreeMeshUI = {
 	update
 };
 
-global.ThreeMeshUI = ThreeMeshUI;
+if (global) global.ThreeMeshUI = ThreeMeshUI;
 
 export { Block }
 export { Text }

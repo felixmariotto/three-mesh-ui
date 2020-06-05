@@ -5,7 +5,6 @@ Job: List the default values of the lib components
 
 */
 
-import { MeshBasicMaterial } from 'three/src/materials/MeshBasicMaterial.js';
 import { Color } from 'three/src/math/Color.js';
 
 export default {

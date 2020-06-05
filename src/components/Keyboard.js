@@ -62,61 +62,61 @@ export default function KeyboardModule( options ) {
 
 		switch ( options.language || navigator.language  ) {
 
-			case 'fr' :
-			case "fr-CH" :
-			case "fr-CA" :
-				keymap = keymaps.fr;
-				break
+		case 'fr' :
+		case "fr-CH" :
+		case "fr-CA" :
+			keymap = keymaps.fr;
+			break
 
-			case 'ru' :
-				keyboard.charsetCount = 2;
-				keymap = keymaps.ru;
-				break
+		case 'ru' :
+			keyboard.charsetCount = 2;
+			keymap = keymaps.ru;
+			break
 
-			case "de" :
-			case "de-DE" :
-			case "de-AT" :
-			case "de-LI" :
-			case "de-CH" :
-				keymap = keymaps.de;
-				break
+		case "de" :
+		case "de-DE" :
+		case "de-AT" :
+		case "de-LI" :
+		case "de-CH" :
+			keymap = keymaps.de;
+			break
 
-			case "es" :
-			case "es-419" :
-			case "es-AR" :
-			case "es-CL" :
-			case "es-CO" :
-			case "es-ES" :
-			case "es-CR" :
-			case "es-US" :
-			case "es-HN" :
-			case "es-MX" :
-			case "es-PE" :
-			case "es-UY" :
-			case "es-VE" :
-				keymap = keymaps.es;
-				break
+		case "es" :
+		case "es-419" :
+		case "es-AR" :
+		case "es-CL" :
+		case "es-CO" :
+		case "es-ES" :
+		case "es-CR" :
+		case "es-US" :
+		case "es-HN" :
+		case "es-MX" :
+		case "es-PE" :
+		case "es-UY" :
+		case "es-VE" :
+			keymap = keymaps.es;
+			break
 
-			case "el" :
-				keyboard.charsetCount = 2;
-				keymap = keymaps.el;
-				break
+		case "el" :
+			keyboard.charsetCount = 2;
+			keymap = keymaps.el;
+			break
 
-			case "nord" :
-				keymap = keymaps.nord;
-				break
+		case "nord" :
+			keymap = keymaps.nord;
+			break
 
-			default :
-				keymap = keymaps.eng;
-				break
+		default :
+			keymap = keymaps.eng;
+			break
 
-		};
+		}
 
 	} else {
 
 		keymap = keymaps.eng
 
-	};
+	}
 
 	////////////////////
 	// BLOCKS CREATION
@@ -126,7 +126,7 @@ export default function KeyboardModule( options ) {
 
 	keyboard.keys = [];
 
-	keyboard.panels = keymap.map( (panel, i)=> {
+	keyboard.panels = keymap.map( (panel)=> {
 
 		const lineHeight = (options.height / panel.length) - (options.margin * 2);
 
@@ -143,7 +143,7 @@ export default function KeyboardModule( options ) {
 
 		panelBlock.charset = 0;
 
-		panelBlock.add( ...panel.map( (line, i, lines)=> {
+		panelBlock.add( ...panel.map( (line)=> {
 
 			const lineBlock = Block({
 				width: options.width,
@@ -155,7 +155,7 @@ export default function KeyboardModule( options ) {
 
 			lineBlock.frameContainer.visible = false;
 
-			let keys = [];
+			const keys = [];
 
 			line.forEach( (keyItem)=> {
 
@@ -199,7 +199,7 @@ export default function KeyboardModule( options ) {
 
 					});
 
-				};
+				}
 
 				key.type = "Key"
 
@@ -322,4 +322,4 @@ export default function KeyboardModule( options ) {
 
 	return keyboard;
 
-};
+}

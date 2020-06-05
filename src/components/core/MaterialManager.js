@@ -11,7 +11,6 @@ Knows:
 
 */
 
-import { MeshBasicMaterial } from 'three/src/materials/MeshBasicMaterial.js';
 import { ShaderMaterial } from 'three/src/materials/ShaderMaterial.js';
 
 //
@@ -26,7 +25,7 @@ export default function MaterialManager() {
 		updateClippingPlanes
 	}
 
-};
+}
 
 // Update existing backgroundMaterial uniforms
 
@@ -34,13 +33,13 @@ function updateBackgroundMaterial() {
 
 	if ( this.backgroundUniforms ) {
 
-		this.backgroundUniforms.u_texture.value = this.getBackgroundTexture();
-		this.backgroundUniforms.u_color.value = this.getBackgroundColor();
-		this.backgroundUniforms.u_opacity.value = this.getBackgroundOpacity();
+		this.backgroundUniforms.uTexture.value = this.getBackgroundTexture();
+		this.backgroundUniforms.uColor.value = this.getBackgroundColor();
+		this.backgroundUniforms.uOpacity.value = this.getBackgroundOpacity();
 
-	};
+	}
 
-};
+}
 
 // Update existing fontMaterial uniforms
 
@@ -48,13 +47,13 @@ function updateTextMaterial() {
 
 	if ( this.textUniforms ) {
 
-		this.textUniforms.u_texture.value = this.getFontTexture();
-		this.textUniforms.u_color.value = this.getFontColor();
-		this.textUniforms.u_opacity.value = this.getFontOpacity();
+		this.textUniforms.uTexture.value = this.getFontTexture();
+		this.textUniforms.uColor.value = this.getFontColor();
+		this.textUniforms.uOpacity.value = this.getFontOpacity();
 
-	};
+	}
 
-};
+}
 
 // Update a component's materials clipping planes.
 // Called every frame
@@ -71,18 +70,18 @@ function updateClippingPlanes( value ) {
 
 		if ( this.backgroundMaterial ) this.backgroundMaterial.clippingPlanes = this.clippingPlanes;
 
-	};
+	}
 
-};
+}
 
 //
 
 function getBackgroundMaterial() {
 
 	const newUniforms = {
-		u_texture: this.getBackgroundTexture(),
-		u_color: this.getBackgroundColor(),
-		u_opacity: this.getBackgroundOpacity()
+		uTexture: this.getBackgroundTexture(),
+		uColor: this.getBackgroundColor(),
+		uOpacity: this.getBackgroundOpacity()
 	};
 
 	if ( !this.backgroundMaterial || !this.backgroundUniforms ) {
@@ -90,27 +89,27 @@ function getBackgroundMaterial() {
 		this.backgroundMaterial = makeBackgroundMaterial.call( this, newUniforms );
 
 	} else if (
-		newUniforms.u_texture !== this.backgroundUniforms.u_texture.value ||
-		newUniforms.u_color !== this.backgroundUniforms.u_color.value ||
-		newUniforms.u_opacity !== this.backgroundUniforms.u_opacity.value
+		newUniforms.uTexture !== this.backgroundUniforms.uTexture.value ||
+		newUniforms.uColor !== this.backgroundUniforms.uColor.value ||
+		newUniforms.uOpacity !== this.backgroundUniforms.uOpacity.value
 	) {
 
 		this.updateBackgroundMaterial();
 
-	};
+	}
 
 	return this.backgroundMaterial
 
-};
+}
 
 //
 
 function getFontMaterial() {
 
 	const newUniforms = {
-		u_texture: this.getFontTexture(),
-		u_color: this.getFontColor(),
-		u_opacity: this.getFontOpacity()
+		uTexture: this.getFontTexture(),
+		uColor: this.getFontColor(),
+		uOpacity: this.getFontOpacity()
 	};
 
 	if ( !this.fontMaterial || !this.textUniforms ) {
@@ -118,32 +117,32 @@ function getFontMaterial() {
 		this.fontMaterial = makeTextMaterial.call( this, newUniforms );
 
 	} else if (
-		newUniforms.u_texture !== this.textUniforms.u_texture.value ||
-		newUniforms.u_color !== this.textUniforms.u_color.value ||
-		newUniforms.u_opacity !== this.textUniforms.u_opacity.value
+		newUniforms.uTexture !== this.textUniforms.uTexture.value ||
+		newUniforms.uColor !== this.textUniforms.uColor.value ||
+		newUniforms.uOpacity !== this.textUniforms.uOpacity.value
 	) {
 
 		this.updateTextMaterial();
 
-	};
+	}
 
 	return this.fontMaterial
 
-};
+}
 
 //
 
 function makeTextMaterial( materialOptions ) {
 
 	this.textUniforms = {
-		u_texture: { value: materialOptions.u_texture },
-		u_color: { value: materialOptions.u_color },
-		u_opacity: { value: materialOptions.u_opacity }
+		uTexture: { value: materialOptions.uTexture },
+		uColor: { value: materialOptions.uColor },
+		uOpacity: { value: materialOptions.uOpacity }
 	};
 
 	/*
 	setInterval( ()=> {
-		this.textUniforms.u_color.value.set( 0xffffff * Math.random() );
+		this.textUniforms.uColor.value.set( 0xffffff * Math.random() );
 	}, 100 )
 	*/
 
@@ -155,21 +154,21 @@ function makeTextMaterial( materialOptions ) {
 		fragmentShader: textFragment
 	});
 
-};
+}
 
 //
 
 function makeBackgroundMaterial( materialOptions ) {
 
 	this.backgroundUniforms = {
-		u_texture: { value: materialOptions.u_texture },
-		u_color: { value: materialOptions.u_color },
-		u_opacity: { value: materialOptions.u_opacity }
+		uTexture: { value: materialOptions.uTexture },
+		uColor: { value: materialOptions.uColor },
+		uOpacity: { value: materialOptions.uOpacity }
 	};
 
 	/*
 	setInterval( ()=> {
-		this.backgroundUniforms.u_color.value.set( 0xffffff * Math.random() );
+		this.backgroundUniforms.uColor.value.set( 0xffffff * Math.random() );
 	}, 100 )
 	*/
 
@@ -181,7 +180,7 @@ function makeBackgroundMaterial( materialOptions ) {
 		fragmentShader: backgroundFragment
 	});
 
-};
+}
 
 ////////////////
 // Text shaders
@@ -211,9 +210,9 @@ const textFragment = `
 	#extension GL_OES_standard_derivatives : enable
 	#endif
 
-	uniform sampler2D u_texture;
-	uniform vec3 u_color;
-	uniform float u_opacity;
+	uniform sampler2D uTexture;
+	uniform vec3 uColor;
+	uniform float uOpacity;
 
 	varying vec2 vUv;
 
@@ -225,10 +224,10 @@ const textFragment = `
 
 	void main() {
 
-		vec3 sample = texture2D( u_texture, vUv ).rgb;
+		vec3 sample = texture2D( uTexture, vUv ).rgb;
 		float sigDist = median( sample.r, sample.g, sample.b ) - 0.5;
 		float alpha = clamp( sigDist / fwidth( sigDist ) + 0.5, 0.0, 1.0 );
-		gl_FragColor = vec4( u_color, min( alpha, u_opacity ) );
+		gl_FragColor = vec4( uColor, min( alpha, uOpacity ) );
 	
 		#include <clipping_planes_fragment>
 
@@ -262,9 +261,9 @@ const backgroundFragment = `
 	#extension GL_OES_standard_derivatives : enable
 	#endif
 
-	uniform sampler2D u_texture;
-	uniform vec3 u_color;
-	uniform float u_opacity;
+	uniform sampler2D uTexture;
+	uniform vec3 uColor;
+	uniform float uOpacity;
 
 	varying vec2 vUv;
 
@@ -272,9 +271,9 @@ const backgroundFragment = `
 
 	void main() {
 
-		vec4 sample = texture2D( u_texture, vUv ).rgba;
+		vec4 sample = texture2D( uTexture, vUv ).rgba;
 
-		vec4 color = vec4( u_color, u_opacity );
+		vec4 color = vec4( uColor, uOpacity );
 
 		gl_FragColor = mix( color, sample, sample.a );
 	

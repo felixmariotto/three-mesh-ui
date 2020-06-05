@@ -41,13 +41,13 @@ export default function Text( options ) {
 
 	return textComponent
 
-};
+}
 
 ///////////
 // UPDATES
 ///////////
 
-function parseParams( resolve, reject ) {
+function parseParams( resolve ) {
 
 	/*
 	Here we compute each glyph dimension, and we store it in this
@@ -66,26 +66,26 @@ function parseParams( resolve, reject ) {
 	if ( !font || typeof font === 'string' ) {
 		if ( !FontLibrary.getFontOf( this ) ) console.warn('no font was found');
 		return
-	};
+	}
 
 	if ( !this.content ) {
 		this.inlines = null
 		return
-	};
+	}
 
 	if ( textType === 'geometry' && font.fontType !== 'Typeface' ) {
 		console.error( `${ textType } text is not compatible with the type of font '${ font.fontType }'.\n See https://github.com/felixmariotto/three-mesh-ui/wiki/Choosing-a-Text-type` )
 		return
-	};
+	}
 
 	if ( textType === 'MSDF' && font.fontType !== 'MSDF' ) {
 		console.error( `${ textType } text is not compatible with the type of font '${ font.fontType }'.\n See https://github.com/felixmariotto/three-mesh-ui/wiki/Choosing-a-Text-type` )
 		return
-	};
+	}
 
 	// Compute glyphs sizes
 
-	let chars = Array.from ? Array.from( content ) : String( content ).split( '' );
+	const chars = Array.from ? Array.from( content ) : String( content ).split( '' );
 
 	const glyphInfos = chars.map( (glyph)=> {
 
@@ -124,7 +124,7 @@ function parseParams( resolve, reject ) {
 
 	resolve();
 
-};
+}
 
 //
 
@@ -148,11 +148,11 @@ function updateLayout() {
 
 		this.add( this.textContent );
 
-	};
+	}
 
 	this.position.z = this.getOffset();
 
-};
+}
 
 //
 
@@ -162,4 +162,4 @@ function updateInner() {
 
 	if ( this.textContent ) this.updateTextMaterial();
 
-};
+}

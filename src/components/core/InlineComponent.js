@@ -6,8 +6,6 @@ Knows: parent dimensions
 
 */
 
-import MeshUIComponent from './MeshUIComponent.js';
-
 export default function InlineComponent() {
 
 	const inlineComponent = {};
@@ -16,4 +14,4 @@ export default function InlineComponent() {
 
 	return inlineComponent
 
-};
+}

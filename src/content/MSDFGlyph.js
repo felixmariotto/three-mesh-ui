@@ -32,11 +32,11 @@ export default function MSDFGlyph( inline, font ) {
 		geometry.scale( 0, 0, 1 );
 		geometry.translate( 0, fontSize / 2, 0 );
 
-	};
+	}
 
 	return geometry
 
-};
+}
 
 // Compute the right UVs that will map the MSDF texture so that the passed character
 // will appear centered in full size
@@ -59,10 +59,10 @@ function mapUVs( geometry, font, char ) {
 
 	const uvAttribute = geometry.attributes.uv;
 
-	for ( var i = 0; i < uvAttribute.count; i ++ ) {
+	for ( let i = 0; i < uvAttribute.count; i ++ ) {
 
-		var u = uvAttribute.getX( i );
-		var v = uvAttribute.getY( i );
+		let u = uvAttribute.getX( i );
+		let v = uvAttribute.getY( i );
 
 		[ u, v ] = (()=> {
 			switch ( i ) {
@@ -70,14 +70,14 @@ function mapUVs( geometry, font, char ) {
 			case 1 : return [ xMax, yMax ]
 			case 2 : return [ xMin, yMin ]
 			case 3 : return [ xMax, yMin ]
-			};
+			}
 		})();
 
 		uvAttribute.setXY( i, u, v );
 
-	};
+	}
 
-};
+}
 
 // Set all UVs to 0, so that none of the glyphs on the texture will appear
 
@@ -85,13 +85,13 @@ function nullifyUVs( geometry ) {
 
 	const uvAttribute = geometry.attributes.uv;
 
-	for ( var i = 0; i < uvAttribute.count; i ++ ) {
+	for ( let i = 0; i < uvAttribute.count; i ++ ) {
 
 		uvAttribute.setXY( i, 0, 0 );
 
-	};
+	}
 
-};
+}
 
 // Gives the previously computed scale and offset to the geometry
 
@@ -118,4 +118,4 @@ function transformGeometry( geometry, font, fontSize, char, inline ) {
 		0
 	);
 
-};
+}

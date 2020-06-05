@@ -14,20 +14,14 @@ in its own updateLayout function.
 
 */
 
-import { BufferGeometry } from 'three/src/core/BufferGeometry.js';
-import { ShapeBufferGeometry } from 'three/src/geometries/ShapeGeometry.js';
-import { BufferGeometryUtils } from 'three/examples/jsm/utils/BufferGeometryUtils.js';
-
-import MeshUIComponent from './MeshUIComponent.js';
-
-export default function InlineManager( boxComponent ) {
+export default function InlineManager() {
 
 	return {
 		computeInlinesPosition,
 		shouldFriendlyBreak
 	}
 
-};
+}
 
 //
 
@@ -45,55 +39,55 @@ function computeInlinesPosition() {
 		return child.isInline ? true : false
 
 	})
-	.reduce( (lastInlineOffset, inlineComponent)=> {
+		.reduce( (lastInlineOffset, inlineComponent)=> {
 
-		// Abort condition
+			// Abort condition
 
-		if ( !inlineComponent.inlines ) return
+			if ( !inlineComponent.inlines ) return
 
-		//////////////////////////////////////////////////////////////
-		// Compute offset of each children according to its dimensions
-		//////////////////////////////////////////////////////////////
+			//////////////////////////////////////////////////////////////
+			// Compute offset of each children according to its dimensions
+			//////////////////////////////////////////////////////////////
 
-		const currentInlineInfo = inlineComponent.inlines.reduce( (lastInlineOffset, inline, i, inlines)=> {
+			const currentInlineInfo = inlineComponent.inlines.reduce( (lastInlineOffset, inline, i, inlines)=> {
 
-			// Line break
+				// Line break
 
-			const nextBreak = distanceToNextBreak( inlines, i );
+				const nextBreak = distanceToNextBreak( inlines, i );
 
-			if (
-				lastInlineOffset + inline.width > INNER_WIDTH ||
+				if (
+					lastInlineOffset + inline.width > INNER_WIDTH ||
 				inline.lineBreak === "mandatory" ||
 				this.shouldFriendlyBreak( inlines[ i - 1 ], lastInlineOffset, nextBreak, INNER_WIDTH )
-			) {
+				) {
 
-				lines.push([ inline ]);
+					lines.push([ inline ]);
 
-				inline.offsetX = 0;
+					inline.offsetX = 0;
 
-				return inline.width;
+					return inline.width;
 
-			} else {
+				} 
 
 				lines[ lines.length - 1 ].push( inline );
 
-			};
+			
+
+				//
+
+				inline.offsetX = lastInlineOffset;
+
+				//
+
+				return lastInlineOffset + inline.width;
+
+			}, lastInlineOffset );
 
 			//
 
-			inline.offsetX = lastInlineOffset;
+			return currentInlineInfo
 
-			//
-
-			return lastInlineOffset + inline.width;
-
-		}, lastInlineOffset );
-
-		//
-
-		return currentInlineInfo
-
-	}, 0 );
+		}, 0 );
 
 	/////////////////////////////////////////////////////////////////
 	// Position lines according to justifyContent and contentAlign
@@ -163,11 +157,11 @@ function computeInlinesPosition() {
 
 	const justificationOffset = (()=> {
 		switch ( JUSTIFICATION ) {
-			case 'start': return (INNER_HEIGHT / 2) - lines[0].totalHeight
-			case 'end': return textHeight - lines[0].totalHeight - ( INNER_HEIGHT / 2 ) + (lines[ lines.length -1 ].totalHeight - lines[ lines.length -1 ].totalHeight) ;
-			case 'center': return (textHeight / 2) - lines[0].totalHeight
-			default: console.warn(`justifyContent: '${ JUSTIFICATION }' is not valid`)
-		};
+		case 'start': return (INNER_HEIGHT / 2) - lines[0].totalHeight
+		case 'end': return textHeight - lines[0].totalHeight - ( INNER_HEIGHT / 2 ) + (lines[ lines.length -1 ].totalHeight - lines[ lines.length -1 ].totalHeight) ;
+		case 'center': return (textHeight / 2) - lines[0].totalHeight
+		default: console.warn(`justifyContent: '${ JUSTIFICATION }' is not valid`)
+		}
 	})();
 
 	//
@@ -188,11 +182,11 @@ function computeInlinesPosition() {
 
 		const alignmentOffset = (()=> {
 			switch ( ALIGNMENT ) {
-				case 'left': return -INNER_WIDTH / 2
-				case 'right': return -line.width + (INNER_WIDTH / 2)
-				case 'center': return -line.width / 2
-				default: console.warn(`alignContent: '${ ALIGNMENT }' is not valid`)
-			};
+			case 'left': return -INNER_WIDTH / 2
+			case 'right': return -line.width + (INNER_WIDTH / 2)
+			case 'center': return -line.width / 2
+			default: console.warn(`alignContent: '${ ALIGNMENT }' is not valid`)
+			}
 		})();
 
 		line.forEach( (char)=> {
@@ -203,7 +197,7 @@ function computeInlinesPosition() {
 
 	});
 
-};
+}
 
 // get the distance in world coord to the next glyph defined
 // as break-line-safe ( like whitespace for instance )
@@ -221,17 +215,17 @@ function distanceToNextBreak( inlines, currentIdx, accu ) {
 		return accu + inlines[ currentIdx ].width
 
 	// no line break is possible on this character
-	} else {
+	} 
 
-		return distanceToNextBreak(
-			inlines,
-			currentIdx + 1,
-			accu + inlines[ currentIdx ].width
-		);
+	return distanceToNextBreak(
+		inlines,
+		currentIdx + 1,
+		accu + inlines[ currentIdx ].width
+	);
 
-	};
+	
 
-};
+}
 
 // Text if we should line break here even if the current glyph is not out of boundary.
 // It might be necessary if the last glyph was break-line-friendly (whitespace, hyphen..)
@@ -251,4 +245,4 @@ function shouldFriendlyBreak( prevChar, lastInlineOffset, nextBreak, INNER_WIDTH
 	// Previous glyph was break-line-friendly
 	return BREAK_ON.indexOf( prevChar.glyph ) > -1
 
-};			 
+}			 

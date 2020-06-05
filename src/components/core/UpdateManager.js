@@ -33,7 +33,7 @@ export default {
 //
 
 const components = [];
-let requestedUpdates = {};
+const requestedUpdates = {};
 
 // const timestamp = Date.now();
 
@@ -61,11 +61,11 @@ function requestUpdate( component, updateParsing, updateLayout, updateInner ) {
 			if (updateLayout) requestedUpdates[ child.id ].updateLayout = true;
 			if (updateInner) requestedUpdates[ child.id ].updateInner = true;
 
-		};
+		}
 
 	});
 
-};
+}
 
 // Register a passed component for later updates
 
@@ -75,9 +75,9 @@ function register( component ) {
 
 		components.push( component );
 
-	};
+	}
 
-};
+}
 
 // Unregister a component (when it's deleted for instance)
 
@@ -89,9 +89,9 @@ function disposeOf( component ) {
 
 		components.splice( idx, 1 );
 
-	};
+	}
 
-};
+}
 
 // Trigger all requested updates of registered components
 
@@ -112,24 +112,24 @@ function update() {
 			return callParsingUpdateOf( component );
 
 		}))
-		.then( ()=> {
+			.then( ()=> {
 
-			roots.forEach( (component)=> {
+				roots.forEach( (component)=> {
 
-				callUpdatesOf( component );
+					callUpdatesOf( component );
+
+				});
+
+			})
+			.catch( (err)=> {
+
+				console.error(err)
 
 			});
 
-		})
-		.catch( (err)=> {
+	}
 
-			console.error(err)
-
-		});
-
-	};
-
-};
+}
 
 // Synchronously calls parseParams update of all components from parent to children
 
@@ -151,19 +151,26 @@ function callParsingUpdateOf( component ) {
 
 				resolveThisComponent();
 
-			};
+			}
 
 		})
-		.then( (data)=> {
-
-			Promise.all( component.getUIChildren().map( (childUI)=> {
-
-				return callParsingUpdateOf( childUI );
-
-			}))
 			.then( ()=> {
 
-				resolve();
+				Promise.all( component.getUIChildren().map( (childUI)=> {
+
+					return callParsingUpdateOf( childUI );
+
+				}))
+					.then( ()=> {
+
+						resolve();
+
+					})
+					.catch( (err)=> {
+
+						console.error( err );
+
+					});
 
 			})
 			.catch( (err)=> {
@@ -172,22 +179,15 @@ function callParsingUpdateOf( component ) {
 
 			});
 
-		})
-		.catch( (err)=> {
-
-			console.error( err );
-
-		});
-
 	});
 
-};
+}
 
 // Calls updateLayout and updateInner functions of components that need an update
 
 function callUpdatesOf( component ) {
 
-	let request = requestedUpdates[ component.id ]
+	const request = requestedUpdates[ component.id ]
 
 	//
 
@@ -197,7 +197,7 @@ function callUpdatesOf( component ) {
 
 		component.updateLayout();
 
-	};
+	}
 
 	//
 
@@ -207,7 +207,7 @@ function callUpdatesOf( component ) {
 
 		component.updateInner();
 
-	};
+	}
 
 	//
 
@@ -221,4 +221,4 @@ function callUpdatesOf( component ) {
 
 	});
 
-};
+}

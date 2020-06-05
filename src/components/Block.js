@@ -53,7 +53,7 @@ export default function Block( options ) {
 
 	return block;
 
-};
+}
 
 ////////////
 //  UPDATE
@@ -70,7 +70,7 @@ function updateLayout() {
 	if ( !WIDTH || !HEIGHT ) {
 		console.warn('Block got no dimension from its parameters or from children parameters');
 		return
-	};
+	}
 
 	// Position this element according to earlier parent computation.
 	// Delegate to BoxComponent.
@@ -88,7 +88,7 @@ function updateLayout() {
 
 		this.computeInlinesPosition();
 
-	};
+	}
 	
 	// Cleanup previous depictions
 
@@ -109,13 +109,13 @@ function updateLayout() {
 	const component = this;
 
 	// This is for hiddenOverflow to work
-	this.frame.onBeforeRender = function( renderer, scene, camera, geometry, material, group ) {
+	this.frame.onBeforeRender = function() {
 
 		if ( component.updateClippingPlanes ) {
 
 			component.updateClippingPlanes();
 
-		};
+		}
 
 	};
 
@@ -128,9 +128,9 @@ function updateLayout() {
 
 		this.position.z = this.getOffset();
 
-	};
+	}
 
-};
+}
 
 //
 
@@ -143,8 +143,8 @@ function updateInner() {
 
 		this.position.z = this.getOffset();
 
-	};
+	}
 
 	if ( this.frame ) this.updateBackgroundMaterial();
 	
-};
+}

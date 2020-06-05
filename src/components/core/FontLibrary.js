@@ -63,24 +63,24 @@ function setFontFamily( component, url ) {
 				font = new Font( font );
 				font.fontType = "Typeface";
 
-			};
+			}
 
 			fontFamilies[ url ] = font;
 
-			for ( let recordID of Object.keys(records) ) {
+			for ( const recordID of Object.keys(records) ) {
 
 				if ( url === records[ recordID ].jsonURL ) {
 
 					// update all the components that were waiting for this font for an update
 					records[ recordID ].component._updateFontFamily( font );
 
-				};
+				}
 
-			};
+			}
 
 		});
 
-	};
+	}
 
 	// keep record of the font that this component use
 	if ( !records[ component.id ] ) records[ component.id ] = {component};
@@ -90,9 +90,9 @@ function setFontFamily( component, url ) {
 	// update the component, only if the font is already requested and loaded
 	if ( fontFamilies[ url ] ) {
 		component._updateFontFamily( fontFamilies[ url ] );
-	};
+	}
 
-};
+}
 
 // Called by MeshUIComponent after fontTexture was set
 // When done, it calls MeshUIComponent.update, to actually display
@@ -109,20 +109,20 @@ function setFontTexture( component, url ) {
 
 			fontTextures[ url ] = texture;
 
-			for ( let recordID of Object.keys(records) ) {
+			for ( const recordID of Object.keys(records) ) {
 
 				if ( url === records[ recordID ].textureURL ) {
 
 					// update all the components that were waiting for this font for an update
 					records[ recordID ].component._updateFontTexture( texture );
 
-				};
+				}
 
-			};
+			}
 
 		});
 
-	};
+	}
 
 	// keep record of the font that this component use
 	if ( !records[ component.id ] ) records[ component.id ] = {component};
@@ -132,9 +132,9 @@ function setFontTexture( component, url ) {
 	// update the component, only if the font is already requested and loaded
 	if ( fontTextures[ url ] ) {
 		component._updateFontTexture( fontTextures[ url ] );
-	};
+	}
 
-};
+}
 
 // used by Text to know if a warning must be thrown
 
@@ -146,13 +146,13 @@ function getFontOf( component ) {
 
 		return getFontOf( component.getUIParent() );
 
-	} else {
+	} 
 
-		return record
+	return record
 
-	};
+	;
 
-};
+}
 
 //
 

@@ -16,7 +16,7 @@ import { Shape } from 'three/src/extras/core/Shape.js';
 
 export default function Frame( width, height, borderRadius, backgroundSize, material ) {
 
-	var shape = RoundedRectShape( width, height, borderRadius );
+	const shape = RoundedRectShape( width, height, borderRadius );
 
 	const geometry = new ShapeBufferGeometry( shape );
 
@@ -38,7 +38,7 @@ export default function Frame( width, height, borderRadius, backgroundSize, mate
 
 	return mesh;
 
-};
+}
 
 // Returns a THREE.Shape of rounded rectangle
 
@@ -61,40 +61,40 @@ function RoundedRectShape( width, height, radius ) {
 
 	return ctx
 
-};
+}
 
 // Call the right function to update the geometry UVs depending on the backgroundSize param
 
 function updateUVs( backgroundSize ) {
 
 	const texture = this.material.uniforms.u_texture ?
-						this.material.uniforms.u_texture.value :
-						null;
+		this.material.uniforms.u_texture.value :
+		null;
 
 	switch( backgroundSize ) {
 
-		case 'stretch' :
-			mapStretchUVs( this.width, this.height, this.geometry );
-			break
+	case 'stretch' :
+		mapStretchUVs( this.width, this.height, this.geometry );
+		break
 
-		case 'contain' :
-			if ( texture ) mapFitUVs( backgroundSize, this.width, this.height, this.geometry, texture );
-			else mapStretchUVs( this.width, this.height, this.geometry );
-			break
+	case 'contain' :
+		if ( texture ) mapFitUVs( backgroundSize, this.width, this.height, this.geometry, texture );
+		else mapStretchUVs( this.width, this.height, this.geometry );
+		break
 
-		case 'cover' :
-			if ( texture ) mapFitUVs( backgroundSize, this.width, this.height, this.geometry, texture );
-			else mapStretchUVs( this.width, this.height, this.geometry );
-			break
+	case 'cover' :
+		if ( texture ) mapFitUVs( backgroundSize, this.width, this.height, this.geometry, texture );
+		else mapStretchUVs( this.width, this.height, this.geometry );
+		break
 
-		default :
-			console.warn(`'${ backgroundSize }' is an unknown value for the backgroundSize attribute`)
+	default :
+		console.warn(`'${ backgroundSize }' is an unknown value for the backgroundSize attribute`)
 
-	};
+	}
 
 	this.geometry.attributes.uv.needsUpdate = true;
 
-};
+}
 
 // Update the UVs of the passed geometry so that the
 // left-most point will be u = 0 and the right-most
@@ -108,22 +108,22 @@ function mapStretchUVs( width, height, geometry ) {
 	const dummyVec = new Vector2();
 	const offset = new Vector2( width / 2, height / 2 );
 		
-	for ( var i = 0; i < posAttribute.count; i ++ ) {
+	for ( let i = 0; i < posAttribute.count; i ++ ) {
 			
-	    dummyVec.x = posAttribute.getX( i );
-	    dummyVec.y = posAttribute.getY( i );
+		dummyVec.x = posAttribute.getX( i );
+		dummyVec.y = posAttribute.getY( i );
 
-	    dummyVec.add( offset );
+		dummyVec.add( offset );
 
-	    // Stretch the texture to make it size like the geometry
-	    dummyVec.x /= width;
-	    dummyVec.y /= height;
+		// Stretch the texture to make it size like the geometry
+		dummyVec.x /= width;
+		dummyVec.y /= height;
 
-	    uvAttribute.setXY( i, dummyVec.x, dummyVec.y );
+		uvAttribute.setXY( i, dummyVec.x, dummyVec.y );
 
-	};
+	}
 
-};
+}
 
 // Update the UVs of the passed geometry so that the passed texture
 // is not deformed and is fit to the geometry's border.
@@ -160,7 +160,7 @@ function mapFitUVs( backgroundSize, width, height, geometry, texture ) {
 
 		fitDimensions = xFitDimensions.length() > yFitDimensions.length() ? xFitDimensions : yFitDimensions;
 
-	};
+	}
 
 	// Update UVs
 
@@ -170,23 +170,23 @@ function mapFitUVs( backgroundSize, width, height, geometry, texture ) {
 	const dummyVec = new Vector2();
 	const offset = new Vector2( width / 2, height / 2 );
 		
-	for ( var i = 0; i < posAttribute.count; i ++ ) {
+	for ( let i = 0; i < posAttribute.count; i ++ ) {
 			
-	    dummyVec.x = posAttribute.getX( i );
-	    dummyVec.y = posAttribute.getY( i );
+		dummyVec.x = posAttribute.getX( i );
+		dummyVec.y = posAttribute.getY( i );
 
-	    dummyVec.add( offset );
+		dummyVec.add( offset );
 
-	    // resize the texture so it does not stretch
-	    dummyVec.x /= fitDimensions.x;
-	    dummyVec.y /= fitDimensions.y;
+		// resize the texture so it does not stretch
+		dummyVec.x /= fitDimensions.x;
+		dummyVec.y /= fitDimensions.y;
 
-	    // center the texture
-	    dummyVec.x -= (( width / fitDimensions.x ) / 2) - 0.5;
-	    dummyVec.y -= (( height / fitDimensions.y ) / 2) - 0.5;
+		// center the texture
+		dummyVec.x -= (( width / fitDimensions.x ) / 2) - 0.5;
+		dummyVec.y -= (( height / fitDimensions.y ) / 2) - 0.5;
 
-	    uvAttribute.setXY( i, dummyVec.x, dummyVec.y );
+		uvAttribute.setXY( i, dummyVec.x, dummyVec.y );
 
-	};
+	}
 
-};
+}

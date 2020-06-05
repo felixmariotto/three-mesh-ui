@@ -9,6 +9,7 @@
   "scripts": {
     "start": "node app.js",
     "dev": "webpack-dev-server --open --env.NODE_ENV=dev",
+    "lint": "eslint src",
     "build": "npx webpack --config webpack.config.js --env.NODE_ENV=prod",
     "test": "echo \"No test specified\""
   },
@@ -28,6 +29,7 @@
   },
   "homepage": "https://github.com/felixmariotto/Three-Mesh-UI#readme",
   "devDependencies": {
+    "eslint": "^7.1.0",
     "express": "^4.17.1",
     "html-webpack-plugin": "^4.3.0",
     "webpack": "^4.43.0",

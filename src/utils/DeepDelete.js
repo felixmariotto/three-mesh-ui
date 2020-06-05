@@ -25,6 +25,6 @@ function DeepDelete( Object3D ) {
 
 	Object3D.children = [];
 
-};
+}
 
 export default DeepDelete

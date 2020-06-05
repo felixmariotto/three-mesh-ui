@@ -11,7 +11,6 @@ It owns the principal public methods of a component : set, setupState and setSta
 
 */
 
-import { Object3D } from 'three/src/core/Object3D.js';
 import { Plane } from 'three/src/math/Plane.js';
 import { Vector3 } from 'three/src/math/Vector3.js';
 
@@ -63,7 +62,7 @@ export default function MeshUIComponent() {
 		clear
 	};
 
-};
+}
 
 /////////////
 /// GETTERS
@@ -95,19 +94,19 @@ function getClippingPlanes() {
 
 			planes.push( ...newPlanes );
 
-		};
+		}
 
 		if ( this.parent.parent && this.parent.parent.isUI ) {
 
 			planes.push( ...this.parent.getClippingPlanes() );
 
-		};
+		}
 
-	};
+	}
 
 	return planes;
 
-};
+}
 
 //
 
@@ -119,7 +118,7 @@ function getUIChildren() {
 
 	});
 
-};
+}
 
 //
 
@@ -129,13 +128,13 @@ function getUIParent() {
 
 		return this.parent
 
-	} else {
+	} 
 
-		return null
+	return null
 
-	};
+	
 
-};
+}
 
 // Get the highest parent of this component (the parent that has no parent on top of it)
 function getHighestParent() {
@@ -144,13 +143,13 @@ function getHighestParent() {
 
 		return this
 
-	} else {
+	} 
 
-		return this.parent.getHighestParent();
+	return this.parent.getHighestParent();
 
-	};
+	
 
-};
+}
 
 // look for a property in this object, and if does not find it, find in parents or return default value
 function _getProperty( propName ) {
@@ -163,47 +162,47 @@ function _getProperty( propName ) {
 
 		return this[ propName ]
 
-	} else {
+	} 
 
-		return DEFAULTS[ propName ]
+	return DEFAULTS[ propName ]
 
-	};
+	;
 
-};
+}
 
 //
 
 function getFontSize() {
 	return this._getProperty( 'fontSize' );
-};
+}
 
 function getFontTexture() {
 	return this._getProperty( 'fontTexture' );
-};
+}
 
 function getFontFamily() {
 	return this._getProperty( 'fontFamily' );
-};
+}
 
 function getBreakOn() {
 	return this._getProperty( 'breakOn' );
-};
+}
 
 function getTextType() {
 	return this._getProperty( 'textType' );
-};
+}
 
 function getFontColor() {
 	return this._getProperty( 'fontColor' );
-};
+}
 
 function getFontOpacity() {
 	return this._getProperty( 'fontOpacity' );
-};
+}
 
 function getBorderRadius() {
 	return this._getProperty( 'borderRadius' );
-};
+}
 
 /// SPECIALS
 
@@ -218,13 +217,13 @@ function getContainer() {
 
 		return this
 
-	} else {
+	} 
 
-		return DEFAULTS.container
+	return DEFAULTS.container
 
-	};
+	
 
-};
+}
 
 // Get the number of UI parents above this elements (0 if no parent)
 function getParentsNumber( i ) {
@@ -235,13 +234,13 @@ function getParentsNumber( i ) {
 
 		return this.parent.getParentsNumber( i + 1 )
 
-	} else {
+	} 
 
-		return i
+	return i
 
-	};
+	;
 
-};
+}
 
 ////////////////////////////////////
 /// GETTERS WITH NO PARENTS LOOKUP
@@ -249,44 +248,44 @@ function getParentsNumber( i ) {
 
 function getBackgroundOpacity() {
 	return ( !this.backgroundOpacity && this.backgroundOpacity !== 0 ) ?
-				DEFAULTS.backgroundOpacity : this.backgroundOpacity;
-};
+		DEFAULTS.backgroundOpacity : this.backgroundOpacity;
+}
 
 function getBackgroundColor() {
 	return this.backgroundColor || DEFAULTS.backgroundColor;
-};
+}
 
 function getBackgroundTexture() {
 	return this.backgroundTexture || DEFAULTS.backgroundTexture;
-};
+}
 
 function getAlignContent() {
 	return this.alignContent || DEFAULTS.alignContent;
-};
+}
 
 function getContentDirection() {
 	return this.contentDirection || DEFAULTS.contentDirection;
-};
+}
 
 function getJustifyContent() {
 	return this.justifyContent || DEFAULTS.justifyContent;
-};
+}
 
 function getInterLine() {
 	return (this.interLine === undefined) ? DEFAULTS.interLine : this.interLine;
-};
+}
 
 function getOffset() {
 	return (this.offset === undefined) ? DEFAULTS.offset : this.offset;
-};
+}
 
 function getBackgroundSize() {
 	return (this.backgroundSize === undefined) ? DEFAULTS.backgroundSize : this.backgroundSize;
-};
+}
 
 function getHiddenOverflow() {
 	return (this.hiddenOverflow === undefined) ? DEFAULTS.hiddenOverflow : this.hiddenOverflow;
-};
+}
 
 ///////////////
 ///  UPDATE
@@ -296,16 +295,16 @@ function getHiddenOverflow() {
 // call THREE.Object3D.add.
 function add() {
 
-	for ( let id of Object.keys(arguments) ) {
+	for ( const id of Object.keys(arguments) ) {
 
 		// An inline component relies on its parent for positioning
 		if ( arguments[id].isInline ) this.update( null, true );
 
-	};
+	}
 
-	return this.__proto__.add.call( this, ...arguments );
+	return Object.getPrototypeOf( this ).add.call( this, ...arguments );
 
-};
+}
 
 //
 
@@ -313,7 +312,7 @@ function update( updateParsing, updateLayout, updateInner ) {
 
 	UpdateManager.requestUpdate( this, updateParsing, updateLayout, updateInner );
 
-};
+}
 
 // Called by FontLibrary when the font requested for the current component is ready.
 // Trigger an update for the component whose font is now available.
@@ -329,7 +328,7 @@ function _updateFontFamily( font ) {
 
 	this.getHighestParent().update( false, true, false );
 
-};
+}
 
 function _updateFontTexture( texture ) {
 
@@ -337,7 +336,7 @@ function _updateFontTexture( texture ) {
 
 	this.getHighestParent().update( false, true, false );
 
-};
+}
 
 // Set this component's passed parameters.
 // If necessary, take special actions.
@@ -359,68 +358,67 @@ function set( options ) {
 	// in one batch, and the rest in the other. This way, efficient animation is possible with
 	// attribute from the light batch.
 
-	for ( let prop of Object.keys(options) ) {
+	for ( const prop of Object.keys(options) ) {
 
 		switch ( prop ) {
 
-			case "content" :
-				if ( this.isText ) parsingNeedsUpdate = true;
-				layoutNeedsUpdate = true;
-				this[ prop ] = options[ prop ];
-				break;
+		case "content" :
+			if ( this.isText ) parsingNeedsUpdate = true;
+			layoutNeedsUpdate = true;
+			this[ prop ] = options[ prop ];
+			break;
 
-			case "width" :
-			case "height" :
-			case "padding" :
-				if ( this.isInlineBlock ) parsingNeedsUpdate = true;
-				layoutNeedsUpdate = true;
-				this[ prop ] = options[ prop ];
-				break;
+		case "width" :
+		case "height" :
+		case "padding" :
+			if ( this.isInlineBlock ) parsingNeedsUpdate = true;
+			layoutNeedsUpdate = true;
+			this[ prop ] = options[ prop ];
+			break;
 
-			case "fontSize" :
-			case "interLine" :
-			case "margin" :
-			case "contentDirection" :
-			case "justifyContent" :
-			case "alignContent" :
-			case "content" :
-			case "textType" :
-			case "borderRadius" :
-			case "backgroundSize" :
-			case "src" :
-				layoutNeedsUpdate = true;
-				this[ prop ] = options[ prop ];
-				break;
+		case "fontSize" :
+		case "interLine" :
+		case "margin" :
+		case "contentDirection" :
+		case "justifyContent" :
+		case "alignContent" :
+		case "textType" :
+		case "borderRadius" :
+		case "backgroundSize" :
+		case "src" :
+			layoutNeedsUpdate = true;
+			this[ prop ] = options[ prop ];
+			break;
 
-			case "fontColor" :
-			case "fontOpacity" :
-			case "offset" :
-			case "backgroundColor" :
-			case "backgroundOpacity" :
-			case "backgroundTexture" :
-				innerNeedsUpdate = true;
-				this[ prop ] = options[ prop ];
-				break;
+		case "fontColor" :
+		case "fontOpacity" :
+		case "offset" :
+		case "backgroundColor" :
+		case "backgroundOpacity" :
+		case "backgroundTexture" :
+			innerNeedsUpdate = true;
+			this[ prop ] = options[ prop ];
+			break;
 
-			case "hiddenOverflow" :
-				this[ prop ] = options[ prop ];
-				break
+		case "hiddenOverflow" :
+			this[ prop ] = options[ prop ];
+			break
 
-		};
+		}
 
-	};
+	}
 
 	// special cases, this.update() must be called only when some files finished loading
 
 	if ( options.fontFamily ) {
 		FontLibrary.setFontFamily( this, options.fontFamily );
 		layoutNeedsUpdate = false;
-	};
+	}
 
 	if ( options.fontTexture ) {
 		FontLibrary.setFontTexture( this, options.fontTexture );
 		layoutNeedsUpdate = false;
-	};
+	}
 	
 	// Call component update
 
@@ -428,7 +426,7 @@ function set( options ) {
 
 	if ( layoutNeedsUpdate ) this.getHighestParent().update( false, true, false );
 
-};
+}
 
 /////////////////////
 // STATES MANAGEMENT
@@ -441,7 +439,7 @@ function setupState( options ) {
 		onSet: options.onSet
 	};
 
-};
+}
 
 //
 
@@ -452,7 +450,7 @@ function setState( state ) {
 	if ( !savedState ) {
 		console.warn(`state "${ state }" does not exist within this component`);
 		return
-	};
+	}
 
 	if ( state === this.currentState ) return
 
@@ -462,7 +460,7 @@ function setState( state ) {
 
 	if ( savedState.attributes ) this.set( savedState.attributes );
 
-};
+}
 
 //
 
@@ -478,4 +476,4 @@ function clear() {
 
 	});
 
-};
+}
