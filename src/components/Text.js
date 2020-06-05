@@ -6,7 +6,7 @@ Job:
 
 Knows:
 	- Its text content (string)
-	- Font attributes ('font', 'fontType', 'fontSize')
+	- Font attributes ('font', 'fontSize'.. etc..)
 	- Parent block
 
 */

@@ -1,7 +1,9 @@
 
 /*
-	Job: Create and return a plane mesh according to dimensions and style parameters
-	Knows: Dimension and style of the plane to create
+
+Job: Create and return a plane mesh according to dimensions and style parameters
+Knows: Dimension and style of the plane to create
+
 */
 
 import { ShapeBufferGeometry } from 'three/src/geometries/ShapeGeometry.js';

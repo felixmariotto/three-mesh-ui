@@ -344,9 +344,9 @@ function _updateFontTexture( texture ) {
 // Set this component's passed parameters.
 // If necessary, take special actions.
 // Update this component unless otherwise specified.
-function set( options, layoutNeedsUpdate, innerNeedsUpdate ) {
+function set( options ) {
 
-	let parsingNeedsUpdate;
+	let parsingNeedsUpdate, layoutNeedsUpdate, innerNeedsUpdate;
 
 	// Register to the update manager, so that it knows when to update
 
