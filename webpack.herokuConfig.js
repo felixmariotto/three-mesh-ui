@@ -2,6 +2,7 @@ const path = require('path');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
+// data in format [ JS file name => demo title in examples page ]
 let pages = [
 	['basic_setup', 'basic setup'],
 	['nested_blocks', 'nested blocks'],
@@ -14,6 +15,7 @@ let pages = [
 	['keyboard', 'keyboard']
 ];
 
+// create one config for each of the data set above
 pagesConfig = pages.map( (page)=> {
 	return new HtmlWebpackPlugin({
 		title: page[0],
@@ -24,6 +26,7 @@ pagesConfig = pages.map( (page)=> {
 	});
 });
 
+// just add one config for the index page
 pagesConfig.push(
 	new HtmlWebpackPlugin({
 		pages: pages.reduce( (accu, page)=> {

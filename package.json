@@ -10,7 +10,7 @@
     "start": "node app.js",
     "dev": "webpack-dev-server --open --env.NODE_ENV=dev",
     "lint": "eslint src",
-    "build": "npx webpack --config webpack.config.js --env.NODE_ENV=prod",
+    "heroku-postbuild": "npx webpack --config webpack.herokuConfig.js --env.NODE_ENV=prod",
     "test": "echo \"No test specified\""
   },
   "repository": {
