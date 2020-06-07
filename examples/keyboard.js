@@ -27,7 +27,8 @@ let scene,
 	keyboard,
 	userText,
 	currentLayoutButton,
-	stats;
+	intersectionRoom
+	// stats;
 
 let objsToTest = [];
 
@@ -144,7 +145,7 @@ function init() {
 		new THREE.LineBasicMaterial( { color: 0x808080 } )
 	);
 	
-	const roomMesh = new THREE.Mesh(
+	intersectionRoom = new THREE.Mesh(
 		new THREE.BoxGeometry( 6, 6, 6, 10, 10, 10 ).translate( 0, 3, 0 ),
 		new THREE.MeshBasicMaterial({
 			side: THREE.BackSide,
@@ -153,8 +154,8 @@ function init() {
 		}),
 	);
 
-	scene.add( room, roomMesh );
-    objsToTest.push(roomMesh);
+	scene.add( room, intersectionRoom );
+    objsToTest.push( intersectionRoom );
 
     // USER INTERFACE
 
@@ -599,7 +600,10 @@ function raycast() {
 
 		// Everything that is not a child of keyboard is pruned out,
 		// so keys in panels that are hidden are not tested
-		if ( !obj || !keyboard.getObjectById( obj.id ) ) return closestIntersection
+		if (
+			(!obj || !keyboard.getObjectById( obj.id )) &&
+			obj !== intersectionRoom
+		) return closestIntersection
 
 		const intersection = raycaster.intersectObject( obj, true );
 
