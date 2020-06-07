@@ -600,7 +600,7 @@ function updateButtons() {
 
 //
 
-function raycast() {
+function raycast() { 
 
 	return objsToTest.reduce( (closestIntersection, obj)=> {
 
