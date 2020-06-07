@@ -9,10 +9,10 @@
   "scripts": {
     "start": "node examples/app.js",
     "test": "echo \"No test specified yet\"",
-    "lint": "eslint src",
-    "build": "npx webpack --config webpack.config.js",
-    "dev": "webpack-dev-server --config webpack.prodConfig.js --open --env.NODE_ENV=dev",
-    "heroku-postbuild": "npx webpack --config webpack.prodConfig.js --env.NODE_ENV=prod"
+    "lint": "eslint -c config/.eslintrc src",
+    "build": "npx webpack --config config/webpack.config.js",
+    "dev": "webpack-dev-server --config config/webpack.prodConfig.js --open --env.NODE_ENV=dev",
+    "heroku-postbuild": "npx webpack --config config/webpack.prodConfig.js --env.NODE_ENV=prod"
   },
   "repository": {
     "type": "git",
