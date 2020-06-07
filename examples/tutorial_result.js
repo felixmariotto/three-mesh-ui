@@ -8,6 +8,8 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 
 import ThreeMeshUI from '../src/three-mesh-ui.js';
 
+import SnakeImage from './assets/spiny_bush_viper.jpg'
+
 const WIDTH = window.innerWidth;
 const HEIGHT = window.innerHeight;
 
@@ -89,7 +91,7 @@ function makeUI() {
 
 	const loader = new THREE.TextureLoader();
 
-	loader.load( './assets/spiny_bush_viper.jpg', (texture)=> {
+	loader.load( SnakeImage, (texture)=> {
 
 		imageBlock.set({ backgroundTexture: texture });
 

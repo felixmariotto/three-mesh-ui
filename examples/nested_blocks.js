@@ -6,6 +6,8 @@ import { BoxLineGeometry } from 'three/examples/jsm/geometries/BoxLineGeometry.j
 
 import ThreeMeshUI from '../src/three-mesh-ui.js';
 
+import SnakeImage from './assets/spiny_bush_viper.jpg'
+
 const WIDTH = window.innerWidth;
 const HEIGHT = window.innerHeight;
 
@@ -179,7 +181,7 @@ function makeTextPanel() {
 
 	//
 
-	new THREE.TextureLoader().load('./assets/spiny_bush_viper.jpg', (texture)=> {
+	new THREE.TextureLoader().load(SnakeImage, (texture)=> {
 
 		leftSubBlock.set({
 			backgroundTexture: texture
