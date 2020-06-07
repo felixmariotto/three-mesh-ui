@@ -1,4 +1,6 @@
 examples/
 dist/
-app.js
 webpack.config.js
+webpack.prodConfig.js
+Procfile
+.eslintrc
