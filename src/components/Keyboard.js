@@ -189,10 +189,10 @@ export default function KeyboardModule( options ) {
 
 					const url = (()=>{
 						switch( char ) {
-							case "backspace": return Backspace
-							case "enter": return Enter
-							case "shift": return Shift
-							default: console.warn('There is no icon image for this key')
+						case "backspace": return Backspace
+						case "enter": return Enter
+						case "shift": return Shift
+						default: console.warn('There is no icon image for this key')
 						}
 					})();
 

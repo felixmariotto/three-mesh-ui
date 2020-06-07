@@ -15,7 +15,6 @@ loading it twice, even if the two component are not in the same parent/child hie
 
 */
 
-import { Font } from 'three/src/extras/core/Font.js';
 import { FileLoader } from 'three/src/loaders/FileLoader.js' ;
 import { TextureLoader } from 'three/src/loaders/TextureLoader.js' ;
 
@@ -126,7 +125,7 @@ function loadFontJSON( component, url ) {
 		fileLoader.load( url, ( text )=> {
 
 			// FileLoader import as a JSON string
-			let font = JSON.parse( text );
+			const font = JSON.parse( text );
 
 			setFontType( font );
 
