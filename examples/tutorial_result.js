@@ -9,6 +9,8 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import ThreeMeshUI from '../src/three-mesh-ui.js';
 
 import SnakeImage from './assets/spiny_bush_viper.jpg'
+import FontJSON from './assets/Roboto-msdf.json';
+import FontImage from './assets/Roboto-msdf.png';
 
 const WIDTH = window.innerWidth;
 const HEIGHT = window.innerHeight;
@@ -100,8 +102,8 @@ function makeUI() {
 	//
 
 	container.set({
-		fontFamily: './assets/Roboto-msdf.json',
-		fontTexture: './assets/Roboto-msdf.png',
+		fontFamily: FontJSON,
+		fontTexture: FontImage,
 	});
 
 	const text = new ThreeMeshUI.Text({

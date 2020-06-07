@@ -5,6 +5,8 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import { BoxLineGeometry } from 'three/examples/jsm/geometries/BoxLineGeometry.js';
 
 import ThreeMeshUI from '../src/three-mesh-ui.js';
+import FontJSON from './assets/Roboto-msdf.json';
+import FontImage from './assets/Roboto-msdf.png';
 
 const WIDTH = window.innerWidth;
 const HEIGHT = window.innerHeight;
@@ -66,8 +68,8 @@ function makeTextPanel() {
 		padding: 0.05,
 		justifyContent: 'center',
 		alignContent: 'left',
-		fontFamily: './assets/Roboto-msdf.json',
-		fontTexture: './assets/Roboto-msdf.png'
+		fontFamily: FontJSON,
+		fontTexture: FontImage
 	});
 
 	container.position.set( 0, 1, -1.8 );

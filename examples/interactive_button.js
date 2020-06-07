@@ -8,6 +8,9 @@ import ThreeMeshUI from '../src/three-mesh-ui.js';
 import VRControl from './utils/VRControl.js';
 import ShadowedLight from './utils/ShadowedLight.js';
 
+import FontJSON from './assets/Roboto-msdf.json';
+import FontImage from './assets/Roboto-msdf.png';
+
 let scene, camera, renderer, controls, vrControl;
 let meshContainer, meshes, currentMesh;
 let objsToTest = [];
@@ -187,8 +190,8 @@ function makePanel() {
 		justifyContent: 'center',
 		alignContent: 'center',
 		contentDirection: 'row-reverse',
-		fontFamily: './assets/Roboto-msdf.json',
-		fontTexture: './assets/Roboto-msdf.png',
+		fontFamily: FontJSON,
+		fontTexture: FontImage,
 		fontSize: 0.07,
 		padding: 0.02,
 		borderRadius: 0.11

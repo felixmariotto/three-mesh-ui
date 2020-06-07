@@ -19,6 +19,9 @@ import ThreeMeshUI from '../src/three-mesh-ui.js';
 import VRControl from './utils/VRControl.js';
 import ShadowedLight from './utils/ShadowedLight.js';
 
+import FontJSON from './assets/Roboto-msdf.json';
+import FontImage from './assets/Roboto-msdf.png';
+
 let scene,
 	camera,
 	renderer,
@@ -182,8 +185,8 @@ function makeUI() {
 	//////////////
 
     const textPanel = ThreeMeshUI.Block({
-    	fontFamily: './assets/Roboto-msdf.json',
-		fontTexture: './assets/Roboto-msdf.png',
+    	fontFamily: FontJSON,
+		fontTexture: FontImage,
     	width: 1,
     	height: 0.35,
     	backgroundColor: new THREE.Color( colors.panelBack ),
@@ -324,8 +327,8 @@ function makeUI() {
     // CONTAINER
 
     layoutOptions = ThreeMeshUI.Block({
-    	fontFamily: './assets/Roboto-msdf.json',
-		fontTexture: './assets/Roboto-msdf.png',
+    	fontFamily: FontJSON,
+		fontTexture: FontImage,
     	height: 0.25,
     	width: 1,
     	offset: 0,
@@ -407,8 +410,8 @@ function makeKeyboard( language ) {
 
 	keyboard = ThreeMeshUI.Keyboard({
 		language: language,
-		fontFamily: './assets/Roboto-msdf.json',
-		fontTexture: './assets/Roboto-msdf.png',
+		fontFamily: FontJSON,
+		fontTexture: FontImage,
 		backgroundColor: new THREE.Color( colors.keyboardBack ),
 	  	backgroundOpacity: 1
 	});

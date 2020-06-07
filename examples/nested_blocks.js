@@ -7,6 +7,8 @@ import { BoxLineGeometry } from 'three/examples/jsm/geometries/BoxLineGeometry.j
 import ThreeMeshUI from '../src/three-mesh-ui.js';
 
 import SnakeImage from './assets/spiny_bush_viper.jpg'
+import FontJSON from './assets/Roboto-msdf.json';
+import FontImage from './assets/Roboto-msdf.png';
 
 const WIDTH = window.innerWidth;
 const HEIGHT = window.innerHeight;
@@ -63,8 +65,8 @@ function makeTextPanel() {
 	const container = ThreeMeshUI.Block({
 		ref: 'container',
 		padding: 0.025,
-		fontFamily: './assets/Roboto-msdf.json',
-		fontTexture: './assets/Roboto-msdf.png',
+		fontFamily: FontJSON,
+		fontTexture: FontImage,
 		fontColor: new THREE.Color( 0xffffff ),
 		backgroundOpacity: 0
 	});

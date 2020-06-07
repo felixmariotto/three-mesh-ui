@@ -5,6 +5,8 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import { BoxLineGeometry } from 'three/examples/jsm/geometries/BoxLineGeometry.js';
 
 import ThreeMeshUI from '../src/three-mesh-ui.js';
+import FontJSON from './assets/Roboto-msdf.json';
+import FontImage from './assets/Roboto-msdf.png';
 
 const WIDTH = window.innerWidth;
 const HEIGHT = window.innerHeight;
@@ -69,8 +71,8 @@ function makeTextPanel() {
 		width: 1.2,
 		fontSize: 0.09,
 		justifyContent: 'center',
-		fontFamily: './assets/Roboto-msdf.json',
-		fontTexture: './assets/Roboto-msdf.png',
+		fontFamily: FontJSON,
+		fontTexture: FontImage,
 		backgroundColor: new THREE.Color( 'blue' ),
 		backgroundOpacity: 0.2
 	}).add(
@@ -126,8 +128,8 @@ function makeTextPanel() {
 	const text = ThreeMeshUI.Text({
 		content: "hiddenOverflow ".repeat( 28 ),
 		fontSize: 0.059,
-		fontFamily: './assets/Roboto-msdf.json',
-		fontTexture: './assets/Roboto-msdf.png'
+		fontFamily: FontJSON,
+		fontTexture: FontImage
 	});
 
 	textContainer.add( text );
