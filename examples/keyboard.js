@@ -605,6 +605,8 @@ function raycast() {
 			obj !== intersectionRoom
 		) return closestIntersection
 
+		console.log('intersection')
+
 		const intersection = raycaster.intersectObject( obj, true );
 
 		// if intersection is an empty array, we skip
