@@ -8,10 +8,11 @@
   "main": "src/three-mesh-ui.js",
   "scripts": {
     "start": "node app.js",
-    "dev": "webpack-dev-server --open --env.NODE_ENV=dev",
+    "test": "echo \"No test specified yet\"",
     "lint": "eslint src",
-    "heroku-postbuild": "npx webpack --config webpack.herokuConfig.js --env.NODE_ENV=prod",
-    "test": "echo \"No test specified\""
+    "build": "npx webpack --config webpack.config.js",
+    "dev": "webpack-dev-server --config webpack.prodConfig.js --open --env.NODE_ENV=dev",
+    "heroku-postbuild": "npx webpack --config webpack.prodConfig.js --env.NODE_ENV=prod"
   },
   "repository": {
     "type": "git",
