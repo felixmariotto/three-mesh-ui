@@ -1,2 +1,4 @@
 node_modules/
 Procfile.txt
+dist/
+build/
