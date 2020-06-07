@@ -124,7 +124,7 @@ function loadFontJSON( component, url ) {
 
 		fileLoader.load( url, ( text )=> {
 
-			// FileLoader import as a JSON string
+			// FileLoader import as  a JSON string
 			const font = JSON.parse( text );
 
 			setFontType( font );
