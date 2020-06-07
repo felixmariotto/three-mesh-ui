@@ -8,6 +8,8 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 
 import ThreeMeshUI from '../src/three-mesh-ui.js';
 
+import UVImage from './assets/uv_grid.jpg';
+
 const WIDTH = window.innerWidth;
 const HEIGHT = window.innerHeight;
 
@@ -78,7 +80,7 @@ function makePanels() {
 
 	const loader = new THREE.TextureLoader();
 
-	loader.load( './assets/uv_grid.jpg', (texture)=> {
+	loader.load( UVImage, (texture)=> {
 
 		texture.wrapS = THREE.RepeatWrapping;
 		texture.wrapT = THREE.RepeatWrapping;
