@@ -225,7 +225,8 @@ export default function KeyboardModule( options ) {
 
 	keyboard.add( keyboard.panels[ 0 ] );
 
-	//
+	// Used to switch to an entirely different panel of this keyboard,
+	// with potentially a completely different layout
 
 	keyboard.setNextPanel = function setNextPanel() {
 
@@ -243,7 +244,9 @@ export default function KeyboardModule( options ) {
 
 	};
 
-	//
+	// Used to change the keys charset. Some layout support this,
+	// like the Russian or Greek keyboard, to be able to switch to
+	// English layout when necessary
 
 	keyboard.setNextCharset = function setNextCharset() {
 
@@ -279,7 +282,7 @@ export default function KeyboardModule( options ) {
 
 	};
 
-	//
+	// Toggle case for characters that support it.
 
 	keyboard.toggleCase = function toggleCase() {
 

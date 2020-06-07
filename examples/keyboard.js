@@ -597,8 +597,9 @@ function raycast() {
 
 	return objsToTest.reduce( (closestIntersection, obj)=> {
 
-		// Everything that is not a child of scene is pruned out
-		if ( !obj || !scene.getObjectById( obj.id ) ) return closestIntersection
+		// Everything that is not a child of keyboard is pruned out,
+		// so keys in panels that are hidden are not tested
+		if ( !obj || !keyboard.getObjectById( obj.id ) ) return closestIntersection
 
 		const intersection = raycaster.intersectObject( obj, true );
 
