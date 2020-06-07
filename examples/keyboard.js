@@ -383,6 +383,7 @@ function makeUI() {
 
     layoutOptions.position.set( 0, 0.2, 0 );
     container.add( layoutOptions );
+    objsToTest.push( layoutOptions );
 
 };
 
@@ -566,19 +567,17 @@ function updateButtons() {
 
 	// Update targeted button state (if any)
 
-	// console.log( intersect )
-
 	if ( intersect && intersect.object.isUI ) {
 
 		if ( (selectState && intersect.object.currentState === 'hovered') || touchState ) {
 
 			// Component.setState internally call component.set with the options you defined in component.setupState
-			intersect.object.setState( 'selected' );
+			if ( intersect.object.states['selected'] ) intersect.object.setState( 'selected' );
 
 		} else if ( !selectState && !touchState ) {
 
 			// Component.setState internally call component.set with the options you defined in component.setupState
-			intersect.object.setState( 'hovered' );
+			if ( intersect.object.states['hovered'] ) intersect.object.setState( 'hovered' );
 
 		};
 
@@ -591,7 +590,7 @@ function updateButtons() {
 		if ( (!intersect || obj !== intersect.object) && obj.isUI ) {
 
 			// Component.setState internally call component.set with the options you defined in component.setupState
-			obj.setState( 'idle' );
+			if ( obj.states['idle'] ) obj.setState( 'idle' );
 
 		};
 
@@ -602,10 +601,6 @@ function updateButtons() {
 //
 
 function raycast() {
-
-	// return raycaster.intersectObject( intersectionRoom, true )[0];
-
-	// console.log( objsToTest.includes(intersectionRoom) )
 
 	return objsToTest.reduce( (closestIntersection, obj)=> {
 
@@ -618,10 +613,6 @@ function raycast() {
 		}
 
 		const intersection = raycaster.intersectObject( obj, true );
-
-		// if ( intersectionRoom === obj ) console.log('zefezfezfez')
-
-		// if ( intersectionRoom.getObjectById( obj.id ) !== undefined ) console.log( intersection[0] )
 
 		// if intersection is an empty array, we skip
 		if ( !intersection[0] ) return closestIntersection
