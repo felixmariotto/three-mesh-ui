@@ -4,10 +4,10 @@ const PORT = process.env.PORT || 5000;
 
 const app = express()
 	
-	.use(express.static('dist'))
+	.use(express.static('public'))
 
 	.get('/', (req, res)=> {
-		res.sendFile(path.join(__dirname + '/dist/index.html'));
+		res.sendFile(path.join(__dirname + '/public/index.html'));
 	})
 
 	.listen(PORT, ()=> {

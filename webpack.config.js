@@ -52,7 +52,7 @@ module.exports = env => {
 		mode: mode,
 
 		entry: {
-			'../build/three-mesh-ui': './src/three-mesh-ui.js',
+			'../dist/three-mesh-ui': './src/three-mesh-ui.js',
 			basic_setup: './examples/basic_setup.js',
 			nested_blocks: './examples/nested_blocks.js',
 			tutorial_result: './examples/tutorial_result.js',
@@ -75,12 +75,12 @@ module.exports = env => {
 		devtool: devtool,
 
 		devServer: {
-			contentBase: './dist'
+			contentBase: false
 		},
 
 		output: {
 			filename: '[name].js',
-			path: path.resolve(__dirname, 'dist')
+			path: path.resolve(__dirname, 'public')
 		},
 
 		module: {
