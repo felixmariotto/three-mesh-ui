@@ -7,7 +7,7 @@
   },
   "main": "src/three-mesh-ui.js",
   "scripts": {
-    "start": "node app.js",
+    "start": "node examples/app.js",
     "test": "echo \"No test specified yet\"",
     "lint": "eslint src",
     "build": "npx webpack --config webpack.config.js",
