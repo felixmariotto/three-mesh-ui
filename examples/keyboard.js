@@ -564,6 +564,8 @@ function updateButtons() {
 
 	// Update targeted button state (if any)
 
+	console.log( intersect )
+
 	if ( intersect && intersect.object.isUI ) {
 
 		if ( (selectState && intersect.object.currentState === 'hovered') || touchState ) {
@@ -599,6 +601,8 @@ function updateButtons() {
 
 function raycast() {
 
+	return raycaster.intersectObject( intersectionRoom, true )[0];
+
 	return objsToTest.reduce( (closestIntersection, obj)=> {
 
 		// keys in panels that are hidden are not tested
@@ -611,7 +615,7 @@ function raycast() {
 
 		const intersection = raycaster.intersectObject( obj, true );
 
-		if ( intersectionRoom.getObjectById( obj.id ) !== undefined ) console.log( intersection[0] )
+		// if ( intersectionRoom.getObjectById( obj.id ) !== undefined ) console.log( intersection[0] )
 
 		// if intersection is an empty array, we skip
 		if ( !intersection[0] ) return closestIntersection
