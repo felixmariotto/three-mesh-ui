@@ -548,6 +548,8 @@ function updateButtons() {
 
 		intersect = raycast();
 
+		if ( intersect ) console.log( intersect.point )
+
 		// Position the little white dot at the end of the controller pointing ray
 		if ( intersect ) vrControl.setPointerAt( 0, intersect.point );
 
@@ -604,8 +606,6 @@ function raycast() {
 			(!obj || !keyboard.getObjectById( obj.id )) &&
 			obj !== intersectionRoom
 		) return closestIntersection
-
-		console.log('intersection')
 
 		const intersection = raycaster.intersectObject( obj, true );
 
