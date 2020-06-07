@@ -33,63 +33,23 @@ const records = {};
 // When done, it calls MeshUIComponent.update, to actually display
 // the text with the loaded font.
 
-function setFontFamily( component, url ) {
-	
-	// if this font was never asked for, we load it
-	if ( requiredFontFamilies.indexOf( url ) === -1 ) {
+function setFontFamily( component, fontFamily ) {
 
-		requiredFontFamilies.push( url );
+	if ( typeof fontFamily === 'string' ) {
 
-		fileLoader.load( url, ( text )=> {
+		loadFontJSON( component, fontFamily );
 
-			// FileLoader import as a JSON string
-			let font = JSON.parse( text );
+	} else {
 
-			// We test the type of font
-			if (
-				font.chars !== undefined,
-				font.common !== undefined,
-				font.info !== undefined,
-				font.kernings !== undefined,
-				font.pages !== undefined
-			) {
+		// keep record of the font that this component use
+		if ( !records[ component.id ] ) records[ component.id ] = {component};
 
-				font.fontType = "MSDF";
+		records[ component.id ].json = fontFamily;
 
-			} else {
+		setFontType( fontFamily );
 
-				// If the font is a typeface font, we want to create a THREE.Font
-				// instance to access methods like Font.generateShapes
-				font = new Font( font );
-				font.fontType = "Typeface";
+		component._updateFontFamily( fontFamily );
 
-			}
-
-			fontFamilies[ url ] = font;
-
-			for ( const recordID of Object.keys(records) ) {
-
-				if ( url === records[ recordID ].jsonURL ) {
-
-					// update all the components that were waiting for this font for an update
-					records[ recordID ].component._updateFontFamily( font );
-
-				}
-
-			}
-
-		});
-
-	}
-
-	// keep record of the font that this component use
-	if ( !records[ component.id ] ) records[ component.id ] = {component};
-
-	records[ component.id ].jsonURL = url;
-
-	// update the component, only if the font is already requested and loaded
-	if ( fontFamilies[ url ] ) {
-		component._updateFontFamily( fontFamilies[ url ] );
 	}
 
 }
@@ -151,6 +111,70 @@ function getFontOf( component ) {
 	return record
 
 	;
+
+}
+
+//
+
+function loadFontJSON( component, url ) {
+
+	// if this font was never asked for, we load it
+	if ( requiredFontFamilies.indexOf( url ) === -1 ) {
+
+		requiredFontFamilies.push( url );
+
+		fileLoader.load( url, ( text )=> {
+
+			// FileLoader import as a JSON string
+			let font = JSON.parse( text );
+
+			setFontType( font );
+
+			fontFamilies[ url ] = font;
+
+			for ( const recordID of Object.keys(records) ) {
+
+				if ( url === records[ recordID ].jsonURL ) {
+
+					// update all the components that were waiting for this font for an update
+					records[ recordID ].component._updateFontFamily( font );
+
+				}
+
+			}
+
+		});
+
+	}
+
+	// keep record of the font that this component use
+	if ( !records[ component.id ] ) records[ component.id ] = {component};
+
+	records[ component.id ].jsonURL = url;
+
+	// update the component, only if the font is already requested and loaded
+	if ( fontFamilies[ url ] ) {
+		component._updateFontFamily( fontFamilies[ url ] );
+	}
+
+}
+
+//
+
+function setFontType( fontObject ) {
+
+	// We test the type of font
+	if (
+		fontObject.chars !== undefined,
+		fontObject.common !== undefined,
+		fontObject.info !== undefined,
+		fontObject.kernings !== undefined,
+		fontObject.pages !== undefined
+	) {
+
+		fontObject.fontType = "MSDF";
+
+	}
 
 }
 

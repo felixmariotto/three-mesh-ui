@@ -9,6 +9,8 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import ThreeMeshUI from '../src/three-mesh-ui.js';
 
 import UVImage from './assets/uv_grid.jpg';
+import FontJSON from './assets/Roboto-msdf.json';
+import FontImage from './assets/Roboto-msdf.png';
 
 const WIDTH = window.innerWidth;
 const HEIGHT = window.innerHeight;
@@ -138,8 +140,8 @@ function makeSection( texture, backgroundSize, text1, text2 ) {
 		margin: 0.05,
 		padding: 0.03,
 		justifyContent: 'center',
-		fontFamily: './assets/Roboto-msdf.json',
-		fontTexture: './assets/Roboto-msdf.png',
+		fontFamily: FontJSON, // './assets/Roboto-msdf.json',
+		fontTexture: FontImage,
 		backgroundOpacity: 0.7,
 		fontSize: 0.04
 	});
