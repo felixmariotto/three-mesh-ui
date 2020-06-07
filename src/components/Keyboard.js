@@ -16,6 +16,10 @@ import InlineBlock from './InlineBlock.js';
 
 import keymaps from '../utils/Keymaps.js';
 
+import Backspace from '../assets/backspace.png';
+import Enter from '../assets/enter.png';
+import Shift from '../assets/shift.png';
+
 //
 
 const textureLoader = new TextureLoader();
@@ -183,7 +187,16 @@ export default function KeyboardModule( options ) {
 
 				} else {
 
-					textureLoader.load(`./assets/${ char }.png`, (texture)=> {
+					const url = (()=>{
+						switch( char ) {
+							case "backspace": return Backspace
+							case "enter": return Enter
+							case "shift": return Shift
+							default: console.warn('There is no icon image for this key')
+						}
+					})();
+
+					textureLoader.load(url , (texture)=> {
 
 						key.add(
 							InlineBlock({
