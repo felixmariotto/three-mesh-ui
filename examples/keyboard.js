@@ -292,7 +292,9 @@ function makeUI() {
 
 				};
 
-				objsToTest.splice( objsToTest.indexOf(button), 1 );
+				const idx = objsToTest.indexOf(button);
+
+				if ( idx > -1 ) objsToTest.splice( idx, 1 );
 
 				currentLayoutButton = button;
 
@@ -564,7 +566,7 @@ function updateButtons() {
 
 	// Update targeted button state (if any)
 
-	console.log( intersect )
+	// console.log( intersect )
 
 	if ( intersect && intersect.object.isUI ) {
 
@@ -601,19 +603,23 @@ function updateButtons() {
 
 function raycast() {
 
-	return raycaster.intersectObject( intersectionRoom, true )[0];
+	// return raycaster.intersectObject( intersectionRoom, true )[0];
+
+	// console.log( objsToTest.includes(intersectionRoom) )
 
 	return objsToTest.reduce( (closestIntersection, obj)=> {
 
 		// keys in panels that are hidden are not tested
 		if (!layoutOptions.getObjectById( obj.id ) &&
 			!keyboard.getObjectById( obj.id ) &&
-			!intersectionRoom.getObjectById( obj.id )
+			intersectionRoom !== obj
 		) {
 			return closestIntersection
 		}
 
 		const intersection = raycaster.intersectObject( obj, true );
+
+		// if ( intersectionRoom === obj ) console.log('zefezfezfez')
 
 		// if ( intersectionRoom.getObjectById( obj.id ) !== undefined ) console.log( intersection[0] )
 
