@@ -33,13 +33,9 @@ export default function Block( options ) {
 
 	//
 
-	const frameContainer = new Object3D();
+	block.frameContainer = new Object3D();
 
-	frameContainer.name = "MeshUI-FrameContainer"
-
-	block.add( frameContainer );
-
-	block.frameContainer = frameContainer;
+	block.add( block.frameContainer );
 
 	//
 

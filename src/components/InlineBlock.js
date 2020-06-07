@@ -14,6 +14,8 @@ Knows:
 import { Object3D } from 'three/src/core/Object3D.js';
 
 import InlineComponent from './core/InlineComponent.js';
+import BoxComponent from './core/BoxComponent.js';
+import InlineManager from './core/InlineManager.js';
 import MeshUIComponent from './core/MeshUIComponent.js';
 import MaterialManager from './core/MaterialManager.js';
 
@@ -25,11 +27,19 @@ export default function InlineBlock( options ) {
 	const inlineBlock = Object.assign(
 		Object.create( new Object3D ),
 		InlineComponent(),
+		BoxComponent(),
+		InlineManager(),
 		MaterialManager(),
 		MeshUIComponent()
 	);
 
 	inlineBlock.isInlineBlock = true;
+
+	//
+
+	inlineBlock.frameContainer = new Object3D();
+
+	inlineBlock.add( inlineBlock.frameContainer );
 
 	//
 
@@ -83,7 +93,7 @@ function updateLayout() {
 
 	*/
 
-	DeepDelete( this );
+	DeepDelete( this.frameContainer );
 
 	if ( this.inlines ) {
 
@@ -98,11 +108,11 @@ function updateLayout() {
 		);
 
 		// basic translation to put the plane's left bottom corner at the center of its space
-		this.frame.position.set( options.width / 2, options.height / 2, 0 );
+		this.position.set( options.width / 2, options.height / 2, 0 );
 
 		// translation required by inlineManager to position this component inline
-		this.frame.position.x += options.offsetX;
-		this.frame.position.y += options.offsetY;
+		this.position.x += options.offsetX;
+		this.position.y += options.offsetY;
 
 		this.frame.renderOrder = this.getParentsNumber();
 
@@ -118,7 +128,20 @@ function updateLayout() {
 
 		};
 
-		this.add( this.frame );
+		this.frameContainer.add( this.frame );
+
+	}
+
+	// Position inner elements according to dimensions and layout parameters.
+	// Delegate to BoxComponent.
+
+	if ( !this.children.find( child => child.isInline ) ) {
+
+		this.computeChildrenPosition();
+
+	} else {
+
+		this.computeInlinesPosition();
 
 	}
 

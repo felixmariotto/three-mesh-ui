@@ -8,7 +8,6 @@ import { TextureLoader } from 'three/src/loaders/TextureLoader.js';
 import { Object3D } from 'three/src/core/Object3D.js';
 
 import BoxComponent from './core/BoxComponent.js';
-import InlineManager from './core/InlineManager.js';
 import MeshUIComponent from './core/MeshUIComponent.js';
 
 import Block from './Block.js';
@@ -38,7 +37,6 @@ export default function KeyboardModule( options ) {
 	const keyboard = Object.assign(
 		Object.create( new Object3D ),
 		BoxComponent(),
-		InlineManager(),
 		MeshUIComponent()
 	);
 

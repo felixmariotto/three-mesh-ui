@@ -82,6 +82,21 @@ function makeTextPanel() {
 
 	loader.load( "./assets/threejs.png", (texture)=> {
 
+		const inline = ThreeMeshUI.InlineBlock({
+			height: 0.24,
+			width: 0.5,
+			backgroundTexture: texture,
+			backgroundOpacity: 1,
+			justifyContent: 'center',
+			alignContent: 'center'
+		}).add(
+
+			ThreeMeshUI.Text({
+				content: "test"
+			})
+
+		);
+
 		container.add(
 
 			ThreeMeshUI.Text({
@@ -95,12 +110,7 @@ function makeTextPanel() {
 				fontColor: new THREE.Color(0xffc654)
 			}),
 
-			ThreeMeshUI.InlineBlock({
-				height: 0.24,
-				width: 0.5,
-				backgroundTexture: texture,
-				backgroundOpacity: 0
-			}),
+			inline,
 
 			ThreeMeshUI.Text({ content: `\nIt works like a Block component, but can be positioned among inline components like text. Perfect for emojis.` })
 
