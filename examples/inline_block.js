@@ -6,6 +6,8 @@ import { BoxLineGeometry } from 'three/examples/jsm/geometries/BoxLineGeometry.j
 
 import ThreeMeshUI from '../src/three-mesh-ui.js';
 
+import ThreeIcon from './assets/threejs.png';
+
 const WIDTH = window.innerWidth;
 const HEIGHT = window.innerHeight;
 
@@ -80,7 +82,7 @@ function makeTextPanel() {
 
 	const loader = new THREE.TextureLoader();
 
-	loader.load( "./assets/threejs.png", (texture)=> {
+	loader.load( ThreeIcon, (texture)=> {
 
 		container.add(
 
