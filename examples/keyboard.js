@@ -27,7 +27,8 @@ let scene,
 	keyboard,
 	userText,
 	currentLayoutButton,
-	intersectionRoom
+	intersectionRoom,
+	layoutOptions
 	// stats;
 
 let objsToTest = [];
@@ -320,7 +321,7 @@ function makeUI() {
 
     // CONTAINER
 
-    const layoutOptions = ThreeMeshUI.Block({
+    layoutOptions = ThreeMeshUI.Block({
     	fontFamily: './assets/Roboto-msdf.json',
 		fontTexture: './assets/Roboto-msdf.png',
     	height: 0.25,
@@ -600,12 +601,13 @@ function raycast() {
 
 	return objsToTest.reduce( (closestIntersection, obj)=> {
 
-		// Everything that is not a child of keyboard is pruned out,
-		// so keys in panels that are hidden are not tested
-		if (
-			(!obj || !keyboard.getObjectById( obj.id )) &&
-			obj !== intersectionRoom
-		) return closestIntersection
+		// keys in panels that are hidden are not tested
+		if (!layoutOptions.getObjectById( obj.id ) &&
+			!keyboard.getObjectById( obj.id ) &&
+			!intersectionRoom.getObjectById( obj.id )
+		) {
+			return closestIntersection
+		}
 
 		const intersection = raycaster.intersectObject( obj, true );
 
