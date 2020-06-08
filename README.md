@@ -16,21 +16,26 @@
   <img alt="big text example" target="_blank" src="https://felixmariotto.s3.eu-west-3.amazonaws.com/three-mesh-ui-teasers/keyboard_opti.gif" width="45%">
 </a>
 
-## What is it ?
+# What is it ?
 
 **three-mesh-ui** is a small library for building VR user interfaces. The objects it creates are [Three.Object3Ds](https://github.com/mrdoob/three.js/blob/dev/src/core/Object3D.js), usable directly in a [three.js](https://threejs.org) scene like any other Object3D.    
         
 **It is not a framework**, but a minimalist library to be used with the last version of three.js. It has no dependency other than three.js.
 
-## Why ?
+# Why ?
 
 In a normal three.js workflow, the common practice is to build the user interfaces with HTML/CSS.
 
 In immersive VR, this option is available. **The purpose of _three-mesh-ui_ is to offer a tool similar to HTML/CSS** to build genuine meshes that can be used the normal way inside a three.js scene rendered with WebGLRenderer.
 
-## How to use
+# How to use
 
 ### Import
+**With npm and ES6 :**   
+`npm install three-mesh-ui`
+```javascript
+import ThreeMeshUI from 'three-mesh-ui'
+```
 
 ### Using font files
 
