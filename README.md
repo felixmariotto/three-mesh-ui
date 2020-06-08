@@ -30,7 +30,7 @@ In immersive VR, this option is available. **The purpose of _three-mesh-ui_ is t
 
 # How to use
 
-### Import
+## Import
 **With NPM and ES6 :**   
 In your console : `npm install three-mesh-ui`
 ```javascript
@@ -50,9 +50,9 @@ const ThreeMeshUI = require('three-mesh-ui/dist/three-mesh-ui.js');
 <script src='https://unpkg.com/three-mesh-ui@4.1.3/dist/three-mesh-ui.js'></script>
 ```
 
-### Using font files
+## Using font files
 
-### API
+## API
 
 Here is a short example of basic three-mesh-ui usage : 
 
