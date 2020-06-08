@@ -20,5 +20,6 @@ export { Block }
 export { Text }
 export { InlineBlock }
 export { Keyboard }
+export { update }
 
 export default ThreeMeshUI

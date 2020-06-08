@@ -4,8 +4,8 @@ import { VRButton } from 'three/examples/jsm/webxr/VRButton.js';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import { BoxLineGeometry } from 'three/examples/jsm/geometries/BoxLineGeometry.js';
 
-// import ThreeMeshUI from '../src/three-mesh-ui.js';
-import ThreeMeshUI from '../dist/three-mesh-ui.js';
+import ThreeMeshUI from '../src/three-mesh-ui.js';
+// import ThreeMeshUI from '../dist/three-mesh-ui.js';
 // const ThreeMeshUI = require('../dist/three-mesh-ui.js');
 
 import FontJSON from './assets/Roboto-msdf.json';
