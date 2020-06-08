@@ -20,7 +20,7 @@ pagesConfig = pages.map( (page)=> {
 	return new HtmlWebpackPlugin({
 		title: page[0],
 		filename: page[0] + '.html',
-		template: path.resolve(__dirname, `examples/html/example_template.html`),
+		template: path.resolve(__dirname, `../examples/html/example_template.html`),
 		chunks: [page[0], 'three-mesh-ui'],
 		inject: true
 	});
@@ -33,7 +33,7 @@ pagesConfig.push(
 			return accu + `<li title="${ page[0] }">${ page[1] }</li>`
 		}, '' ),
 		filename: 'index.html',
-		template: path.resolve(__dirname, `examples/html/index.html`),
+		template: path.resolve(__dirname, `../examples/html/index.html`),
 		inject: false
 	})
 );
