@@ -29,6 +29,8 @@ module.exports = env => {
 
 		output: {
 			filename: '[name].js',
+			library: 'three-mesh-ui',
+   			libraryTarget: 'commonjs2'
 		},
 
 		module: {
