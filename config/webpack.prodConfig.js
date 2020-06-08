@@ -66,13 +66,7 @@ module.exports = env => {
 			keyboard: './examples/keyboard.js'
 		},
 
-		plugins: [
-
-			new webpack.ProvidePlugin({
-				THREE: 'three'
-			})
-
-		].concat( pagesConfig ),
+		plugins: pagesConfig,
 
 		devtool: devtool,
 
