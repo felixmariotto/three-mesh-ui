@@ -37,7 +37,6 @@ const container = ThreeMeshUI.Block({
  width: 1.2,
  height: 0.8,
  padding: 0.2,
- alignContent: 'left',
  fontFamily: './assets/Roboto-msdf.json',
  fontTexture: './assets/Roboto-msdf.png',
 });
@@ -45,12 +44,9 @@ const container = ThreeMeshUI.Block({
 //
 
 container.appendChild(
-
  ThreeMeshUI.Text({
-  content: "Some text to be displayed",
-  fontSize: 0.07
+  content: "Some text to be displayed"
  })
-
 );
 
 // This is typically done in the loop :
