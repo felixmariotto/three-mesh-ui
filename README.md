@@ -45,6 +45,11 @@ In your console : `npm install three-mesh-ui`
 const ThreeMeshUI = require('three-mesh-ui/dist/three-mesh-ui.js');
 ```
 
+**With HTML <script> tag :**    
+```html
+<script src='https://unpkg.com/three-mesh-ui@4.1.3/dist/three-mesh-ui.js'></script>
+```
+
 ### Using font files
 
 ### API
