@@ -22,6 +22,10 @@ import ShadowedLight from './utils/ShadowedLight.js';
 import FontJSON from './assets/Roboto-msdf.json';
 import FontImage from './assets/Roboto-msdf.png';
 
+import Backspace from './assets/backspace.png';
+import Enter from './assets/enter.png';
+import Shift from './assets/shift.png';
+
 let scene,
 	camera,
 	renderer,
@@ -413,7 +417,10 @@ function makeKeyboard( language ) {
 		fontFamily: FontJSON,
 		fontTexture: FontImage,
 		backgroundColor: new THREE.Color( colors.keyboardBack ),
-	  	backgroundOpacity: 1
+	  	backgroundOpacity: 1,
+	  	backspaceTexture: Backspace,
+	  	shiftTexture: Shift,
+	  	enterTexture: Enter
 	});
 
 	keyboard.position.set( 0, 0.88, -1 );
