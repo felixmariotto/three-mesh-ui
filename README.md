@@ -52,6 +52,9 @@ const ThreeMeshUI = require('three-mesh-ui/dist/three-mesh-ui.js');
 
 ## Using font files
 
+In order to display some text with three-mesh-ui, you will need to provide font files.   
+You can use the two files named `Roboto-msdf` in [this directory](https://github.com/felixmariotto/three-mesh-ui/tree/master/examples/assets), or [create your own font files](https://github.com/felixmariotto/three-mesh-ui/wiki/Creating-your-own-fonts)
+
 ## API
 
 Here is a short example of basic three-mesh-ui usage : 
