@@ -34,14 +34,12 @@ In immersive VR, this option is available. **The purpose of _three-mesh-ui_ is t
 **With NPM and ES6 :**   
 In your console : `npm install three-mesh-ui`
 ```javascript
-// In your code :
 import ThreeMeshUI from 'three-mesh-ui'
 ```
 
 **With NPM and CommonJS :**   
 In your console : `npm install three-mesh-ui`
 ```javascript
-// In your code :
 const ThreeMeshUI = require('three-mesh-ui/dist/three-mesh-ui.js');
 ```
 
