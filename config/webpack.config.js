@@ -23,27 +23,6 @@ module.exports = env => {
 			filename: '[name].js',
 			library: 'three-mesh-ui',
    			libraryTarget: 'commonjs2'
-		},
-
-		module: {
-
-			rules: [
-
-				{
-					test: /\.(png|svg|jpg|gif)$/,
-					use: [
-						{
-							loader: 'file-loader',
-							options: {
-								name: 'assets/[name].[ext]'
-							}
-						},
-					],
-					 
-				},
-
-			],
-
 		}
 
 	}
