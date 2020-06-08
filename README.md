@@ -76,6 +76,9 @@ container.appendChild(
  
 );
 
+// scene is a THREE.Scene (see three.js)
+scene.add( container );
+
 // This is typically done in the loop :
 ThreeMeshUI.update();
 ```
