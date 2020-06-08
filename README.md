@@ -69,9 +69,11 @@ const container = ThreeMeshUI.Block({
 //
 
 container.appendChild(
+
  ThreeMeshUI.Text({
   content: "Some text to be displayed"
  })
+ 
 );
 
 // This is typically done in the loop :
