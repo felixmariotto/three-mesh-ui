@@ -16,9 +16,11 @@ import InlineBlock from './InlineBlock.js';
 
 import keymaps from '../utils/Keymaps.js';
 
+/*
 import Backspace from '../assets/backspace.png';
 import Enter from '../assets/enter.png';
 import Shift from '../assets/shift.png';
+*/
 
 //
 
@@ -173,19 +175,10 @@ export default function KeyboardModule( options ) {
 				const char = keyItem.chars[ panelBlock.charset ].lowerCase || keyItem.chars[ panelBlock.charset ].icon || "undif";
 
 				if (
-					char !== "enter" &&
-					char !== "shift" &&
-					char !== "backspace"
+					(char === "enter" && options.enterTexture) ||
+					(char === "shift" && options.shiftTexture) ||
+					(char === "backspace" && options.backspaceTexture)
 				) {
-
-					key.add(
-						Text({
-							content: char,
-							offset: 0
-						})
-					);
-
-				} else {
 
 					const url = (()=>{
 						switch( char ) {
@@ -209,6 +202,15 @@ export default function KeyboardModule( options ) {
 						);
 
 					});
+					
+				} else {
+
+					key.add(
+						Text({
+							content: char,
+							offset: 0
+						})
+					);
 
 				}
 
