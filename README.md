@@ -35,7 +35,7 @@ Here is a short example of basic three-mesh-ui usage :
 ```javascript
 const container = ThreeMeshUI.Block({
  width: 1.2,
- height: 0.8,
+ height: 0.7,
  padding: 0.2,
  fontFamily: './assets/Roboto-msdf.json',
  fontTexture: './assets/Roboto-msdf.png',
