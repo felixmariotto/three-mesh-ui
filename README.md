@@ -28,7 +28,13 @@ In a normal three.js workflow, the common practice is to build the user interfac
 
 In immersive VR, this option is available. **The purpose of _three-mesh-ui_ is to offer a tool similar to HTML/CSS** to build genuine meshes that can be used the normal way inside a three.js scene rendered with WebGLRenderer.
 
-## API
+## How to use
+
+### Import
+
+### Using font files
+
+### API
 
 Here is a short example of basic three-mesh-ui usage : 
 
