@@ -55,7 +55,7 @@ You can use the two files named `Roboto-msdf` in [this directory](https://github
 
 ## API
 
-Here is a short example of basic three-mesh-ui usage : 
+Here is an example of basic three-mesh-ui usage : 
 
 ```javascript
 const container = ThreeMeshUI.Block({
