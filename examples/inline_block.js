@@ -99,7 +99,7 @@ function makeTextPanel() {
 				fontColor: new THREE.Color(0xffc654)
 			}),
 
-			ThreeMeshUI.InlineBlock({
+			new ThreeMeshUI.InlineBlock({
 				height: 0.24,
 				width: 0.5,
 				backgroundTexture: texture,

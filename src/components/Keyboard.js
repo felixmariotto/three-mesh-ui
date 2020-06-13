@@ -187,7 +187,7 @@ export default class Keyboard extends Object3D {
                         textureLoader.load(url , ( texture ) => {
 
                             key.add(
-                                InlineBlock({
+                                new InlineBlock({
                                     width: key.width * 0.65,
                                     height: key.height * 0.65,
                                     backgroundSize: 'contain',

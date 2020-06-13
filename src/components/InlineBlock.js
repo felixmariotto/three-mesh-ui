@@ -1,16 +1,4 @@
 
-/*
-
-Job:
-- computing its own size according to user measurements or content measurement
-- creating an 'inlines' object with info, so that the parent component can organise it along with other inlines
-
-Knows:
-- Its measurements parameter
-- Parent block
-
-*/
-
 import { Object3D } from 'three/src/core/Object3D.js';
 
 import InlineComponent from './core/InlineComponent.js';
@@ -22,137 +10,142 @@ import MaterialManager from './core/MaterialManager.js';
 import Frame from '../content/Frame.js';
 import DeepDelete from '../utils/DeepDelete.js';
 
-export default function InlineBlock( options ) {
+/**
+ * Job:
+ * - computing its own size according to user measurements or content measurement
+ * - creating an 'inlines' object with info, so that the parent component can organise it along with other inlines
+ * 
+ * Knows:
+ * - Its measurements parameter
+ * - Parent block
+ */
+export default class InlineBlock extends Object3D {
 
-	const inlineBlock = Object.assign(
-		Object.create( new Object3D ),
-		InlineComponent(),
-		BoxComponent(),
-		InlineManager(),
-		MaterialManager(),
-		MeshUIComponent()
-	);
+    constructor( options ) {
 
-	inlineBlock.isInlineBlock = true;
+        super();
 
-	//
+        Object.assign(
+            this,
+            InlineComponent(),
+            BoxComponent(),
+            InlineManager(),
+            MaterialManager(),
+            MeshUIComponent()
+        );
 
-	inlineBlock.frameContainer = new Object3D();
+        this.isInlineBlock = true;
 
-	inlineBlock.add( inlineBlock.frameContainer );
+        //
 
-	//
+        this.frameContainer = new Object3D();
 
-	inlineBlock.parseParams = parseParams;
-	inlineBlock.updateLayout = updateLayout;
-	inlineBlock.updateInner = updateInner;
+        this.add( this.frameContainer );
 
-	//
+        this.set( options );
 
-	inlineBlock.set( options );
+    }
 
-	return inlineBlock
+    ///////////
+    // UPDATES
+    ///////////
 
-}
+    parseParams( resolve ) {
 
-///////////
-// UPDATES
-///////////
+        // Get image dimensions
 
-function parseParams( resolve ) {
+        if ( !this.width ) console.warn('inlineBlock has no width. Set to 0.3 by default');
+        if ( !this.height ) console.warn('inlineBlock has no height. Set to 0.3 by default');
 
-	// Get image dimensions
+        const WIDTH = this.width || 0.3;
+        const HEIGHT = this.height || 0.3;
 
-	if ( !this.width ) console.warn('inlineBlock has no width. Set to 0.3 by default');
-	if ( !this.height ) console.warn('inlineBlock has no height. Set to 0.3 by default');
+        this.inlines = [{
+            height: HEIGHT,
+            width: WIDTH,
+            anchor: 0,
+            lineBreak: "possible"
+        }];
 
-	const WIDTH = this.width || 0.3;
-	const HEIGHT = this.height || 0.3;
+        resolve();
 
-	this.inlines = [{
-		height: HEIGHT,
-		width: WIDTH,
-		anchor: 0,
-		lineBreak: "possible"
-	}];
+    }
 
-	resolve();
+    //
 
-}
 
-//
+    /**
+     * Create text content
+     * 
+     * At this point, text.inlines should have been modified by the parent
+     * component, to add xOffset and yOffset properties to each inlines.
+     * This way, TextContent knows were to position each character.
+     * 
+     */
+    updateLayout() {
 
-function updateLayout() {
+        DeepDelete( this.frameContainer );
 
-	/*
-	Create text content
+        if ( this.inlines ) {
 
-	At this point, text.inlines should have been modified by the parent
-	component, to add xOffset and yOffset properties to each inlines.
-	This way, TextContent knows were to position each character.
+            const options = this.inlines[0];
 
-	*/
+            this.frame = new Frame(
+                options.width,
+                options.height,
+                this.getBorderRadius(),
+                this.getBackgroundSize(),
+                this.getBackgroundMaterial()
+            );
 
-	DeepDelete( this.frameContainer );
+            // basic translation to put the plane's left bottom corner at the center of its space
+            this.position.set( options.width / 2, options.height / 2, 0 );
 
-	if ( this.inlines ) {
+            // translation required by inlineManager to position this component inline
+            this.position.x += options.offsetX;
+            this.position.y += options.offsetY;
 
-		const options = this.inlines[0];
+            this.frame.renderOrder = this.getParentsNumber();
 
-		this.frame = new Frame(
-			options.width,
-			options.height,
-			this.getBorderRadius(),
-			this.getBackgroundSize(),
-			this.getBackgroundMaterial()
-		);
+            const component = this;
 
-		// basic translation to put the plane's left bottom corner at the center of its space
-		this.position.set( options.width / 2, options.height / 2, 0 );
+            this.frame.onBeforeRender = function() {
 
-		// translation required by inlineManager to position this component inline
-		this.position.x += options.offsetX;
-		this.position.y += options.offsetY;
+                if ( component.updateClippingPlanes ) {
 
-		this.frame.renderOrder = this.getParentsNumber();
+                    component.updateClippingPlanes();
 
-		const component = this;
+                }
 
-		this.frame.onBeforeRender = function() {
+            };
 
-			if ( component.updateClippingPlanes ) {
+            this.frameContainer.add( this.frame );
 
-				component.updateClippingPlanes();
+        }
 
-			}
+        // Position inner elements according to dimensions and layout parameters.
+        // Delegate to BoxComponent.
 
-		};
+        if ( !this.children.find( child => child.isInline ) ) {
 
-		this.frameContainer.add( this.frame );
+            this.computeChildrenPosition();
 
-	}
+        } else {
 
-	// Position inner elements according to dimensions and layout parameters.
-	// Delegate to BoxComponent.
+            this.computeInlinesPosition();
 
-	if ( !this.children.find( child => child.isInline ) ) {
+        }
 
-		this.computeChildrenPosition();
+        this.position.z = this.getOffset();
 
-	} else {
+    }
 
-		this.computeInlinesPosition();
+    //
 
-	}
+    updateInner() {
 
-	this.position.z = this.getOffset();
+        this.position.z = this.getOffset();
 
-}
-
-//
-
-function updateInner() {
-
-	this.position.z = this.getOffset();
+    }
 
 }
