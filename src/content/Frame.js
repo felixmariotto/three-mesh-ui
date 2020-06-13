@@ -33,7 +33,10 @@ export default class Frame extends Mesh {
 
     }
 
-    /** Call the right function to update the geometry UVs depending on the backgroundSize param */
+    /**
+     * Call the right function to update the geometry UVs depending on the backgroundSize param
+     * @private
+     */
     updateUVs( backgroundSize ) {
 
         switch( backgroundSize ) {
@@ -65,6 +68,7 @@ export default class Frame extends Mesh {
      * Update the UVs of the geometry so that the
      * left-most point will be u = 0 and the right-most
      * point will be u = 1. Same for V direction.
+     * @private
      */
     mapStretchUVs() {
 
@@ -97,6 +101,7 @@ export default class Frame extends Mesh {
      * Depending on the backgroundSize parameter, the texture will
      * overflow in the smallest axis of the geometry and fit the widest,
      * or the reverse.
+     * @private
      */
     mapFitUVs( backgroundSize ) {
 
