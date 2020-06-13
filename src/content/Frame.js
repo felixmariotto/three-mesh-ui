@@ -1,5 +1,3 @@
-// @ts-check
-
 import { ShapeBufferGeometry } from 'three/src/geometries/ShapeGeometry.js';
 import { Mesh } from 'three/src/objects/Mesh.js';
 import { Vector2 } from 'three/src/math/Vector2.js';
