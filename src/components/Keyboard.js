@@ -240,8 +240,10 @@ export default class Keyboard extends Object3D {
 
     }
 
-    // Used to switch to an entirely different panel of this keyboard,
-    // with potentially a completely different layout
+    /**
+     * Used to switch to an entirely different panel of this keyboard,
+     * with potentially a completely different layout
+     */
     setNextPanel() {
 
         this.panels.forEach( ( panel ) => {
@@ -258,9 +260,11 @@ export default class Keyboard extends Object3D {
 
     }
 
-    // Used to change the keys charset. Some layout support this,
-    // like the Russian or Greek keyboard, to be able to switch to
-    // English layout when necessary
+    /*
+     * Used to change the keys charset. Some layout support this,
+     * like the Russian or Greek keyboard, to be able to switch to
+     * English layout when necessary
+     */
     setNextCharset() {
 
         this.panels[ this.currentPanel ].charset = ( this.panels[ this.currentPanel ].charset + 1) % this.charsetCount;
@@ -295,7 +299,7 @@ export default class Keyboard extends Object3D {
 
     }
 
-    // Toggle case for characters that support it.
+    /** Toggle case for characters that support it. */
     toggleCase() {
 
         this.isLowerCase = !this.isLowerCase;
