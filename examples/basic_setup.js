@@ -81,12 +81,12 @@ function makeTextPanel() {
 
 	container.add(
 
-		ThreeMeshUI.Text({
+		new ThreeMeshUI.Text({
 			content: "This library supports line-break-friendly-characters,",
 			fontSize: 0.055
 		}),
 
-		ThreeMeshUI.Text({
+		new ThreeMeshUI.Text({
 			content: " As well as multi-font-size lines with consistent vertical spacing.",
 			fontSize: 0.08
 		}),

@@ -209,10 +209,10 @@ function makeUI() {
     	fontSize: 0.045,
     	backgroundOpacity: 0
     }).add(
-    	ThreeMeshUI.Text({ content: 'Type some text on the keyboard' })
+    	new ThreeMeshUI.Text({ content: 'Type some text on the keyboard' })
     );
 
-    userText = ThreeMeshUI.Text({ content: '' });
+    userText = new ThreeMeshUI.Text({ content: '' });
 
     const textField = ThreeMeshUI.Block({
     	width: 1,
@@ -251,7 +251,7 @@ function makeUI() {
 	  		backgroundOpacity: 1
     	}).add(
 
-    		ThreeMeshUI.Text({
+    		new ThreeMeshUI.Text({
     			offset: 0,
     			fontSize: 0.035,
     			content: options[ 0 ]
@@ -348,7 +348,7 @@ function makeUI() {
     		backgroundOpacity: 0
 	  	}).add(
 
-	  		ThreeMeshUI.Text({
+	  		new ThreeMeshUI.Text({
 	  			fontSize: 0.04,
 	  			content: 'Select a keyboard layout :'
 	  		})

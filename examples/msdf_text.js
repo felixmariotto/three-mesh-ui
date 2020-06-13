@@ -90,7 +90,7 @@ function makeTextPanel() {
 
 	bigTextContainer.add(
 
-		ThreeMeshUI.Text({
+		new ThreeMeshUI.Text({
 			content: 'three-mesh-ui is very efficient when rendering big text because the glyphs are textures on simple planes geometries, all merged together. '.repeat( 18 ),
 			fontSize: 0.033
 		})
@@ -107,7 +107,7 @@ function makeTextPanel() {
 		backgroundOpacity: 0
 	}).add(
 
-		ThreeMeshUI.Text({
+		new ThreeMeshUI.Text({
 			content: "Do you need to render a big text ?",
 			fontSize: 0.07
 		})

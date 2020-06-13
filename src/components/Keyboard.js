@@ -200,7 +200,7 @@ export default function KeyboardModule( options ) {
 				} else {
 
 					key.add(
-						Text({
+						new Text({
 							content: char,
 							offset: 0
 						})

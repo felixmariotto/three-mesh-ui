@@ -86,7 +86,7 @@ function makeTextPanel() {
 	});
 
 	title.add(
-		ThreeMeshUI.Text({
+		new ThreeMeshUI.Text({
 			content: "spiny bush viper"
 		})
 	);
@@ -112,7 +112,7 @@ function makeTextPanel() {
 	});
 
 	caption.add(
-		ThreeMeshUI.Text({
+		new ThreeMeshUI.Text({
 			content: "Mind your fingers",
 			fontSize: 0.04
 		})
@@ -136,16 +136,16 @@ function makeTextPanel() {
 		backgroundOpacity: 0
 	}).add(
 
-		ThreeMeshUI.Text({
+		new ThreeMeshUI.Text({
 			content: "Known for its extremely keeled dorsal scales that give it a "
 		}),
 
-		ThreeMeshUI.Text({
+		new ThreeMeshUI.Text({
 			content: "bristly",
 			fontColor: new THREE.Color( 0x92e66c )
 		}),
 
-		ThreeMeshUI.Text({
+		new ThreeMeshUI.Text({
 			content: " appearance."
 		})
 
@@ -161,7 +161,7 @@ function makeTextPanel() {
 		backgroundOpacity: 0
 	}).add(
 
-		ThreeMeshUI.Text({
+		new ThreeMeshUI.Text({
 			content: "The males of this species grow to maximum total length of 73 cm (29 in): body 58 cm (23 in), tail 15 cm (5.9 in). Females grow to a maximum total length of 58 cm (23 in). The males are surprisingly long and slender compared to the females.\nThe head has a short snout, more so in males than in females.\nThe eyes are large and surrounded by 9–16 circumorbital scales. The orbits (eyes) are separated by 7–9 scales."
 		})
 

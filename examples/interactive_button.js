@@ -247,11 +247,11 @@ function makePanel() {
 	// Add text to buttons
 
 	buttonNext.add(
-		ThreeMeshUI.Text({ content: "next" })
+		new ThreeMeshUI.Text({ content: "next" })
 	);
 
 	buttonPrevious.add(
-		ThreeMeshUI.Text({ content: "previous" })
+		new ThreeMeshUI.Text({ content: "previous" })
 	);
 
 	// Create states for the buttons.

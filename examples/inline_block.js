@@ -88,12 +88,12 @@ function makeTextPanel() {
 
 		container.add(
 
-			ThreeMeshUI.Text({
+			new ThreeMeshUI.Text({
 				fontSize: 0.09,
 				content: "three-mesh-ui supports inline blocks\n"
 			}),
 
-			ThreeMeshUI.Text({
+			new ThreeMeshUI.Text({
 				fontSize: 0.07,
 				content: "This is an InlineBlock : ",
 				fontColor: new THREE.Color(0xffc654)
@@ -106,7 +106,7 @@ function makeTextPanel() {
 				backgroundOpacity: 0
 			}),
 
-			ThreeMeshUI.Text({ content: `\nIt works like a Block component, but can be positioned among inline components like text. Perfect for emojis.` })
+			new ThreeMeshUI.Text({ content: `\nIt works like a Block component, but can be positioned among inline components like text. Perfect for emojis.` })
 
 		);
 

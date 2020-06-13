@@ -76,7 +76,7 @@ function makeTextPanel() {
 		backgroundColor: new THREE.Color( 'blue' ),
 		backgroundOpacity: 0.2
 	}).add(
-		ThreeMeshUI.Text({ content: "hiddenOverflow attribute :" })
+		new ThreeMeshUI.Text({ content: "hiddenOverflow attribute :" })
 	);
 
 	title.position.set( 0, 1.8, -2 );
@@ -125,7 +125,7 @@ function makeTextPanel() {
 
 	//
 
-	const text = ThreeMeshUI.Text({
+	const text = new ThreeMeshUI.Text({
 		content: "hiddenOverflow ".repeat( 28 ),
 		fontSize: 0.059,
 		fontFamily: FontJSON,

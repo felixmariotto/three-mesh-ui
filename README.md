@@ -70,7 +70,7 @@ const container = ThreeMeshUI.Block({
 
 container.add(
 
- ThreeMeshUI.Text({
+ new ThreeMeshUI.Text({
   content: "Some text to be displayed"
  })
  
