@@ -99,7 +99,7 @@ function updateLayout() {
 
 		const options = this.inlines[0];
 
-		this.frame = Frame(
+		this.frame = new Frame(
 			options.width,
 			options.height,
 			this.getBorderRadius(),

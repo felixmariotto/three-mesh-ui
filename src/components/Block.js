@@ -92,7 +92,7 @@ function updateLayout() {
 
 	// Create new visible frame
 
-	this.frame = Frame(
+	this.frame = new Frame(
 		WIDTH,
 		HEIGHT,
 		this.getBorderRadius(),
