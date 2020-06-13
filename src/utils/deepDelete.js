@@ -7,13 +7,13 @@ Job : Recursively erase THE CHILDREN of the passed object
 
 import UpdateManager from '../components/core/UpdateManager.js';
 
-function DeepDelete( Object3D ) {
+function deepDelete( object3D ) {
 
-	Object3D.children.forEach( (child)=> {
+	object3D.children.forEach( (child)=> {
 
-		if ( child.children.length > 0 ) DeepDelete( child );
+		if ( child.children.length > 0 ) deepDelete( child );
 
-		Object3D.remove( child );
+		object3D.remove( child );
 
 		UpdateManager.disposeOf( child );
 
@@ -23,8 +23,8 @@ function DeepDelete( Object3D ) {
 
 	});
 
-	Object3D.children = [];
+	object3D.children = [];
 
 }
 
-export default DeepDelete
+export default deepDelete
