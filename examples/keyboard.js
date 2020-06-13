@@ -412,7 +412,7 @@ mouse and touch interaction, and VR controllers pointing rays.
 
 function makeKeyboard( language ) {
 
-	keyboard = ThreeMeshUI.Keyboard({
+	keyboard = new ThreeMeshUI.Keyboard({
 		language: language,
 		fontFamily: FontJSON,
 		fontTexture: FontImage,
