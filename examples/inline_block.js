@@ -64,7 +64,7 @@ function init() {
 
 function makeTextPanel() {
 
-	const container = ThreeMeshUI.Block({
+	const container = new ThreeMeshUI.Block({
 		width: 1.7,
 		height: 0.7,
 		padding: 0.05,

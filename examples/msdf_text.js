@@ -63,7 +63,7 @@ function init() {
 
 function makeTextPanel() {
 
-	const container = ThreeMeshUI.Block({
+	const container = new ThreeMeshUI.Block({
 		padding: 0.05,
 		textType: 'MSDF',
 		fontFamily: FontJSON,
@@ -78,7 +78,7 @@ function makeTextPanel() {
 
 	//
 
-	const bigTextContainer = ThreeMeshUI.Block({
+	const bigTextContainer = new ThreeMeshUI.Block({
 		padding: 0.03,
 		margin: 0.03,
 		width: 1.5,
@@ -99,7 +99,7 @@ function makeTextPanel() {
 
 	//
 
-	const titleContainer = ThreeMeshUI.Block({
+	const titleContainer = new ThreeMeshUI.Block({
 		width: 0.9,
 		height: 0.25,
 		padding: 0.04,

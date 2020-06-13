@@ -129,7 +129,7 @@ export default class Keyboard extends Object3D {
 
             const lineHeight = (options.height / panel.length) - (options.margin * 2);
 
-            const panelBlock = Block({
+            const panelBlock = new Block({
                 width: options.width + (options.padding * 2),
                 height: options.height + (options.padding * 2),
                 offset: 0,
@@ -144,7 +144,7 @@ export default class Keyboard extends Object3D {
 
             panelBlock.add( ...panel.map( ( line ) => {
 
-                const lineBlock = Block({
+                const lineBlock = new Block({
                     width: options.width,
                     height: lineHeight,
                     margin: options.margin,
@@ -158,7 +158,7 @@ export default class Keyboard extends Object3D {
 
                 line.forEach( ( keyItem ) => {
 
-                    const key = Block({
+                    const key = new Block({
                         width: (options.width * keyItem.width) - (options.margin * 2),
                         height: lineHeight,
                         margin: options.margin,

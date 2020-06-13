@@ -188,7 +188,7 @@ function makeUI() {
 	// TEXT PANEL
 	//////////////
 
-    const textPanel = ThreeMeshUI.Block({
+    const textPanel = new ThreeMeshUI.Block({
     	fontFamily: FontJSON,
 		fontTexture: FontImage,
     	width: 1,
@@ -202,7 +202,7 @@ function makeUI() {
 
     //
 
-    const title = ThreeMeshUI.Block({
+    const title = new ThreeMeshUI.Block({
     	width: 1,
     	height: 0.1,
     	justifyContent: 'center',
@@ -214,7 +214,7 @@ function makeUI() {
 
     userText = new ThreeMeshUI.Text({ content: '' });
 
-    const textField = ThreeMeshUI.Block({
+    const textField = new ThreeMeshUI.Block({
     	width: 1,
     	height: 0.4,
     	fontSize: 0.033,
@@ -242,7 +242,7 @@ function makeUI() {
 
     layoutButtons = layoutButtons.map( (options)=> {
 
-    	const button = ThreeMeshUI.Block({
+    	const button = new ThreeMeshUI.Block({
     		height: 0.06,
     		width: 0.2,
     		margin: 0.012,
@@ -330,7 +330,7 @@ function makeUI() {
 
     // CONTAINER
 
-    layoutOptions = ThreeMeshUI.Block({
+    layoutOptions = new ThreeMeshUI.Block({
     	fontFamily: FontJSON,
 		fontTexture: FontImage,
     	height: 0.25,
@@ -340,7 +340,7 @@ function makeUI() {
     	backgroundOpacity: 1
     }).add(
 
-    	ThreeMeshUI.Block({
+    	new ThreeMeshUI.Block({
     		height: 0.1,
     		width: 0.6,
     		offset: 0,
@@ -355,7 +355,7 @@ function makeUI() {
 
 	  	),
 
-	  	ThreeMeshUI.Block({
+	  	new ThreeMeshUI.Block({
 	  		height: 0.075,
 	  		width: 1,
 	  		offset: 0,
@@ -371,7 +371,7 @@ function makeUI() {
 
 	  	),
 
-	  	ThreeMeshUI.Block({
+	  	new ThreeMeshUI.Block({
 	  		height: 0.075,
 	  		width: 1,
 	  		offset: 0,

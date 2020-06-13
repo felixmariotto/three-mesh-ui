@@ -66,7 +66,7 @@ function init() {
 
 function makePanels() {
 
-	const container = ThreeMeshUI.Block({
+	const container = new ThreeMeshUI.Block({
 		height: 1.6,
 		width: 2,
 		contentDirection: 'row',
@@ -118,14 +118,14 @@ function makePanels() {
 
 function makeSection( texture, backgroundSize, text1, text2 ) {
 
-	const block = ThreeMeshUI.Block({
+	const block = new ThreeMeshUI.Block({
 		height: 1.6,
 		width: 0.6,
 		margin: 0.05,
 		backgroundOpacity: 0
 	});
 
-	const imageBlock = ThreeMeshUI.Block({
+	const imageBlock = new ThreeMeshUI.Block({
 		height: 1.1,
 		width: 0.6,
 		borderRadius: 0.05,
@@ -134,7 +134,7 @@ function makeSection( texture, backgroundSize, text1, text2 ) {
 		backgroundSize
 	});
 
-	const textBlock = ThreeMeshUI.Block({
+	const textBlock = new ThreeMeshUI.Block({
 		height: 0.45,
 		width: 0.6,
 		margin: 0.05,

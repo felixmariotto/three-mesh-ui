@@ -186,7 +186,7 @@ function makePanel() {
 	// We don't define width and height, it will be set automatically from the children's dimensions
 	// Note that we set contentDirection: "row-reverse", in order to orient the buttons horizontally
 
-	const container = ThreeMeshUI.Block({
+	const container = new ThreeMeshUI.Block({
 		justifyContent: 'center',
 		alignContent: 'center',
 		contentDirection: 'row-reverse',
@@ -241,8 +241,8 @@ function makePanel() {
 
 	// Buttons creation, with the options objects passed in parameters.
 
-	const buttonNext = ThreeMeshUI.Block( buttonOptions );
-	const buttonPrevious = ThreeMeshUI.Block( buttonOptions );
+	const buttonNext = new ThreeMeshUI.Block( buttonOptions );
+	const buttonPrevious = new ThreeMeshUI.Block( buttonOptions );
 
 	// Add text to buttons
 

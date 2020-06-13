@@ -66,7 +66,7 @@ function init() {
 
 function makeTextPanel() {
 
-	const title = ThreeMeshUI.Block({
+	const title = new ThreeMeshUI.Block({
 		height: 0.2,
 		width: 1.2,
 		fontSize: 0.09,
@@ -84,7 +84,7 @@ function makeTextPanel() {
 
 	//
 
-	container = ThreeMeshUI.Block({
+	container = new ThreeMeshUI.Block({
 		height: 0.7,
 		width: 0.6,
 		padding: 0.05,
@@ -112,7 +112,7 @@ function makeTextPanel() {
 
 	//
 
-	textContainer = ThreeMeshUI.Block({
+	textContainer = new ThreeMeshUI.Block({
 		width: 1,
 		height: 1,
 		padding: 0.09,
