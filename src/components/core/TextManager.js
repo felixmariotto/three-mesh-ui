@@ -95,7 +95,7 @@ function buildMSDFText() {
 
 	this.inlines.forEach( (inline, i)=> {
 
-		translatedGeom[ i ] = MSDFGlyph( inline, this.getFontFamily() );
+		translatedGeom[ i ] = new MSDFGlyph( inline, this.getFontFamily() );
 
 		translatedGeom[ i ].translate( inline.offsetX, inline.offsetY, 0 );
 
