@@ -22,7 +22,7 @@ const textureLoader = new TextureLoader();
 
 //
 
-export default function KeyboardModule( options ) {
+export default function Keyboard( options ) {
 
 	// DEFAULTS
 
