@@ -74,7 +74,8 @@ module.exports = env => {
 
 		].concat( pagesConfig ),
 
-		devtool: devtool,
+		// devtool: devtool,
+		devtool: false,
 
 		devServer: {
 			contentBase: false

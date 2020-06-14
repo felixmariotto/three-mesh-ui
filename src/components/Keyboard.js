@@ -9,6 +9,7 @@ import Text from './Text.js';
 import InlineBlock from './InlineBlock.js';
 
 import keymaps from '../utils/Keymaps.js';
+import { mix } from '../utils/mix.js';
 
 //
 
@@ -19,7 +20,7 @@ const textureLoader = new TextureLoader();
 /**
  * Job: high-level component that returns a keyboard
  */
-export default class Keyboard extends Object3D {
+export default class Keyboard extends mix.withBase( Object3D )( BoxComponent, MeshUIComponent ) {
 
     constructor( options ) {
 
@@ -33,13 +34,7 @@ export default class Keyboard extends Object3D {
 
         //
 
-        super();
-
-        Object.assign(
-            this,
-            BoxComponent(),
-            MeshUIComponent()
-        );
+        super( options );
 
         this.currentPanel = 0;
 

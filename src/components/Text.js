@@ -20,20 +20,18 @@ import TextManager from './core/TextManager.js';
 import MaterialManager from './core/MaterialManager.js';
 
 import DeepDelete from '../utils/DeepDelete.js';
+import { mix } from '../utils/mix.js';
 
-export default class Text extends Object3D {
+export default class Text extends mix.withBase( Object3D )(
+    InlineComponent,
+    TextManager,
+    MaterialManager,
+    MeshUIComponent,
+) {
 
     constructor( options ) {
 
-        super();
-
-        Object.assign(
-            this,
-            InlineComponent(),
-            TextManager(),
-            MaterialManager(),
-            MeshUIComponent()
-        );
+        super( options );
 
         this.isText = true;
 

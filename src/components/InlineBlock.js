@@ -9,6 +9,7 @@ import MaterialManager from './core/MaterialManager.js';
 
 import Frame from '../content/Frame.js';
 import DeepDelete from '../utils/DeepDelete.js';
+import { mix } from '../utils/mix.js';
 
 /**
  * Job:
@@ -19,20 +20,17 @@ import DeepDelete from '../utils/DeepDelete.js';
  * - Its measurements parameter
  * - Parent block
  */
-export default class InlineBlock extends Object3D {
+export default class InlineBlock extends mix.withBase( Object3D )(
+    InlineComponent,
+    BoxComponent,
+    InlineManager,
+    MaterialManager,
+    MeshUIComponent,
+) {
 
     constructor( options ) {
 
-        super();
-
-        Object.assign(
-            this,
-            InlineComponent(),
-            BoxComponent(),
-            InlineManager(),
-            MaterialManager(),
-            MeshUIComponent()
-        );
+        super( options );
 
         this.isInlineBlock = true;
 
