@@ -45,7 +45,7 @@ const ThreeMeshUI = require('three-mesh-ui/dist/three-mesh-ui.js');
 
 **With HTML <script> tag :**    
 ```html
-<script src='https://unpkg.com/three-mesh-ui@4.1.3/dist/three-mesh-ui.js'></script>
+<script src='https://unpkg.com/three-mesh-ui@4.1.5/dist/three-mesh-ui.js'></script>
 ```
 
 ## Font files
@@ -68,13 +68,16 @@ const container = ThreeMeshUI.Block({
 
 //
 
-container.appendChild(
+container.add(
 
  ThreeMeshUI.Text({
   content: "Some text to be displayed"
  })
  
 );
+
+// scene is a THREE.Scene (see three.js)
+scene.add( container );
 
 // This is typically done in the loop :
 ThreeMeshUI.update();

@@ -20,7 +20,7 @@ import MeshUIComponent from './core/MeshUIComponent.js';
 import MaterialManager from './core/MaterialManager.js';
 
 import Frame from '../content/Frame.js';
-import DeepDelete from '../utils/DeepDelete.js';
+import deepDelete from '../utils/deepDelete.js';
 
 export default function InlineBlock( options ) {
 
@@ -93,7 +93,7 @@ function updateLayout() {
 
 	*/
 
-	DeepDelete( this.frameContainer );
+	deepDelete( this.frameContainer );
 
 	if ( this.inlines ) {
 
