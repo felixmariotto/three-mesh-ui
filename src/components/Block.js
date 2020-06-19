@@ -17,7 +17,7 @@ import MeshUIComponent from './core/MeshUIComponent.js';
 import MaterialManager from './core/MaterialManager.js';
 
 import Frame from '../content/Frame.js';
-import DeepDelete from '../utils/DeepDelete.js';
+import deepDelete from '../utils/deepDelete.js';
 import { mix } from '../utils/mix.js';
 
 export default class Block extends mix.withBase( Object3D )(
@@ -84,7 +84,7 @@ export default class Block extends mix.withBase( Object3D )(
         
         // Cleanup previous depictions
 
-        DeepDelete( this.frameContainer );
+        deepDelete( this.frameContainer );
 
         // Create new visible frame
 

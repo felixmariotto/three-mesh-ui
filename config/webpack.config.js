@@ -16,41 +16,12 @@ module.exports = env => {
 			'../dist/three-mesh-ui': './src/three-mesh-ui.js',
 		},
 
-		plugins: [
-
-			new webpack.ProvidePlugin({
-				THREE: 'three'
-			})
-
-		],
-
 		devtool: devtool,
 
 		output: {
 			filename: '[name].js',
 			library: 'three-mesh-ui',
    			libraryTarget: 'commonjs2'
-		},
-
-		module: {
-
-			rules: [
-
-				{
-					test: /\.(png|svg|jpg|gif)$/,
-					use: [
-						{
-							loader: 'file-loader',
-							options: {
-								name: 'assets/[name].[ext]'
-							}
-						},
-					],
-					 
-				},
-
-			],
-
 		}
 
 	}

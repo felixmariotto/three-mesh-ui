@@ -19,7 +19,7 @@ import FontLibrary from './core/FontLibrary.js';
 import TextManager from './core/TextManager.js';
 import MaterialManager from './core/MaterialManager.js';
 
-import DeepDelete from '../utils/DeepDelete.js';
+import deepDelete from '../utils/deepDelete.js';
 import { mix } from '../utils/mix.js';
 
 export default class Text extends mix.withBase( Object3D )(
@@ -132,7 +132,7 @@ export default class Text extends mix.withBase( Object3D )(
      */
     updateLayout() {
 
-        DeepDelete( this );
+        deepDelete( this );
 
         if ( this.inlines ) {
 
