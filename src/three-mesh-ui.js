@@ -4,14 +4,16 @@ import Block from './components/Block.js';
 import Text from './components/Text.js';
 import InlineBlock from './components/InlineBlock.js';
 import Keyboard from './components/Keyboard.js';
-import { update } from './components/core/UpdateManager.js';
+import UpdateManager from './components/core/UpdateManager.js';
+
+const update = () => UpdateManager.update()
 
 const ThreeMeshUI = {
 	Block,
 	Text,
 	InlineBlock,
 	Keyboard,
-	update
+	update,
 };
 
 if (global) global.ThreeMeshUI = ThreeMeshUI;

@@ -63,7 +63,7 @@ function init() {
 
 function makeTextPanel() {
 
-	const container = ThreeMeshUI.Block({
+	const container = new ThreeMeshUI.Block({
 		padding: 0.05,
 		textType: 'MSDF',
 		fontFamily: FontJSON,
@@ -78,7 +78,7 @@ function makeTextPanel() {
 
 	//
 
-	const bigTextContainer = ThreeMeshUI.Block({
+	const bigTextContainer = new ThreeMeshUI.Block({
 		padding: 0.03,
 		margin: 0.03,
 		width: 1.5,
@@ -90,7 +90,7 @@ function makeTextPanel() {
 
 	bigTextContainer.add(
 
-		ThreeMeshUI.Text({
+		new ThreeMeshUI.Text({
 			content: 'three-mesh-ui is very efficient when rendering big text because the glyphs are textures on simple planes geometries, all merged together. '.repeat( 18 ),
 			fontSize: 0.033
 		})
@@ -99,7 +99,7 @@ function makeTextPanel() {
 
 	//
 
-	const titleContainer = ThreeMeshUI.Block({
+	const titleContainer = new ThreeMeshUI.Block({
 		width: 0.9,
 		height: 0.25,
 		padding: 0.04,
@@ -107,7 +107,7 @@ function makeTextPanel() {
 		backgroundOpacity: 0
 	}).add(
 
-		ThreeMeshUI.Text({
+		new ThreeMeshUI.Text({
 			content: "Do you need to render a big text ?",
 			fontSize: 0.07
 		})

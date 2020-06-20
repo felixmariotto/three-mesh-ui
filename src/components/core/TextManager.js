@@ -1,5 +1,10 @@
 
-/*
+import { Mesh } from 'three/src/objects/Mesh.js';
+import { BufferGeometryUtils } from 'three/examples/jsm/utils/BufferGeometryUtils.js';
+
+import MSDFGlyph from '../../content/MSDFGlyph.js';
+
+/**
 
 Job: 
 - Computing glyphs dimensions according to this component's font and content
@@ -14,110 +19,103 @@ This text type has been dropped for performance reasons, but the architecture re
 so it's easy to add more text type, like vector font, instanced mesh font...
 
 */
+export default function TextManager( Base = class {} ) {
 
-import { Mesh } from 'three/src/objects/Mesh.js';
-import { BufferGeometryUtils } from 'three/examples/jsm/utils/BufferGeometryUtils.js';
+    return class TextManager extends Base {
 
-import MSDFGlyph from '../../content/MSDFGlyph.js';
+        createText() {
 
-export default function TextManager() {
+            switch ( this.getTextType() ) {
 
-	return {
-		createText,
-		getGlyphDimensions
-	};
+            case 'MSDF' :
+                return this.buildMSDFText.call( this );
 
-}
+            }
 
-//
+        }
 
-function getGlyphDimensions( options ) {
+        //
 
-	const FONT = options.font;
+        getGlyphDimensions( options ) {
 
-	const FONT_SIZE = options.fontSize; 
+            const FONT = options.font;
 
-	const GLYPH = options.glyph;
+            const FONT_SIZE = options.fontSize; 
 
-	let width, height, anchor, charOBJ;
+            const GLYPH = options.glyph;
 
-	switch ( options.textType ) {
+            let width, height, anchor, charOBJ;
 
-	case 'MSDF' :
+            switch ( options.textType ) {
 
-		charOBJ = FONT.chars.find( charOBJ => charOBJ.char === GLYPH );
+            case 'MSDF' :
 
-		width = charOBJ ? (charOBJ.width * FONT_SIZE) / FONT.common.lineHeight : FONT_SIZE / 3 ;
+                charOBJ = FONT.chars.find( charOBJ => charOBJ.char === GLYPH );
 
-		if ( GLYPH === '\n' ) width = 0;
+                width = charOBJ ? (charOBJ.width * FONT_SIZE) / FONT.common.lineHeight : FONT_SIZE / 3 ;
 
-		height = charOBJ ? (charOBJ.height * FONT_SIZE) / FONT.common.lineHeight : 0 ;
+                if ( GLYPH === '\n' ) width = 0;
 
-		// world-space length between lowest point and the text cursor position
-		anchor = charOBJ ? ((charOBJ.yoffset + charOBJ.height - FONT.common.base) * FONT_SIZE) / FONT.common.lineHeight : 0 ;
+                height = charOBJ ? (charOBJ.height * FONT_SIZE) / FONT.common.lineHeight : 0 ;
 
-		return {
-			width,
-			height,
-			anchor
-		};
+                // world-space length between lowest point and the text cursor position
+                anchor = charOBJ ? ((charOBJ.yoffset + charOBJ.height - FONT.common.base) * FONT_SIZE) / FONT.common.lineHeight : 0 ;
 
-	default :
-		console.warn(`'${ options.textType }' is not a supported text type`);
-		break
+                return {
+                    width,
+                    height,
+                    anchor
+                };
 
-	}
+            default :
+                console.warn(`'${ options.textType }' is not a supported text type`);
+                break
 
-}
+            }
 
-//
+        }
 
-function createText() {
+        /**
+         * Creates a THREE.Plane geometry, with UVs carefully positioned to map a particular
+         * glyph on the MSDF texture. Then creates a shaderMaterial with the MSDF shaders,
+         * creates a THREE.Mesh, returns it.
+         * @private
+         */
+        buildMSDFText() {
 
-	switch ( this.getTextType() ) {
+            const component = this;
 
-	case 'MSDF' :
-		return buildMSDFText.call( this );
+            const translatedGeom = [];
 
-	}
+            this.inlines.forEach( (inline, i)=> {
 
-}
+                translatedGeom[ i ] = new MSDFGlyph( inline, this.getFontFamily() );
 
-// Creates a THREE.Plane geometry, with UVs carefully positioned to map a particular
-// glyph on the MSDF texture. Then creates a shaderMaterial with the MSDF shaders,
-// creates a THREE.Mesh, returns it.
+                translatedGeom[ i ].translate( inline.offsetX, inline.offsetY, 0 );
 
-function buildMSDFText() {
+            });
 
-	const component = this;
+            const mergedGeom = BufferGeometryUtils.mergeBufferGeometries( translatedGeom );
 
-	const translatedGeom = [];
+            const mesh = new Mesh( mergedGeom, this.getFontMaterial() );
 
-	this.inlines.forEach( (inline, i)=> {
+            mesh.renderOrder = Infinity;
 
-		translatedGeom[ i ] = MSDFGlyph( inline, this.getFontFamily() );
+            // This is for hiddenOverflow to work
+            mesh.onBeforeRender = function() {
 
-		translatedGeom[ i ].translate( inline.offsetX, inline.offsetY, 0 );
+                if ( component.updateClippingPlanes ) {
 
-	});
+                    component.updateClippingPlanes();
 
-	const mergedGeom = BufferGeometryUtils.mergeBufferGeometries( translatedGeom );
+                }
 
-	const mesh = new Mesh( mergedGeom, this.getFontMaterial() );
+            };
 
-	mesh.renderOrder = Infinity;
+            return mesh
 
-	// This is for hiddenOverflow to work
-	mesh.onBeforeRender = function() {
+        }
 
-		if ( component.updateClippingPlanes ) {
-
-			component.updateClippingPlanes();
-
-		}
-
-	};
-
-	return mesh
+    }
 
 }

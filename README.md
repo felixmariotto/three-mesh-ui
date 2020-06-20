@@ -60,7 +60,7 @@ You can use the two files named `Roboto-msdf` in [this directory](https://github
 Here is an example of basic three-mesh-ui usage : 
 
 ```javascript
-const container = ThreeMeshUI.Block({
+const container = new ThreeMeshUI.Block({
  width: 1.2,
  height: 0.7,
  padding: 0.2,
@@ -72,7 +72,7 @@ const container = ThreeMeshUI.Block({
 
 container.add(
 
- ThreeMeshUI.Text({
+ new ThreeMeshUI.Text({
   content: "Some text to be displayed"
  })
  

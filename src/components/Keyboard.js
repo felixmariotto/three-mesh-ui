@@ -1,9 +1,3 @@
-/*
-
-Job: high-level component that returns a keyboard
-
-*/
-
 import { TextureLoader } from 'three/src/loaders/TextureLoader.js';
 import { Object3D } from 'three/src/core/Object3D.js';
 
@@ -15,6 +9,7 @@ import Text from './Text.js';
 import InlineBlock from './InlineBlock.js';
 
 import keymaps from '../utils/Keymaps.js';
+import { mix } from '../utils/mix.js';
 
 //
 
@@ -22,314 +17,316 @@ const textureLoader = new TextureLoader();
 
 //
 
-export default function Keyboard( options ) {
+/**
+ * Job: high-level component that returns a keyboard
+ */
+export default class Keyboard extends mix.withBase( Object3D )( BoxComponent, MeshUIComponent ) {
 
-	// DEFAULTS
+    constructor( options ) {
 
-	if ( !options ) options = {};
-	if ( !options.width ) options.width = 1;
-	if ( !options.height ) options.height = 0.4;
-	if ( !options.margin ) options.margin = 0.003;
-	if ( !options.padding ) options.padding = 0.01;
+        // DEFAULTS
 
-	//
+        if ( !options ) options = {};
+        if ( !options.width ) options.width = 1;
+        if ( !options.height ) options.height = 0.4;
+        if ( !options.margin ) options.margin = 0.003;
+        if ( !options.padding ) options.padding = 0.01;
 
-	const keyboard = Object.assign(
-		Object.create( new Object3D ),
-		BoxComponent(),
-		MeshUIComponent()
-	);
+        //
 
-	keyboard.currentPanel = 0;
+        super( options );
 
-	keyboard.isLowerCase = true;
+        this.currentPanel = 0;
 
-	keyboard.charsetCount = 1;
+        this.isLowerCase = true;
 
-	//////////
-	// KEYMAP
-	//////////
+        this.charsetCount = 1;
 
-	// ../utils/Keymaps contains information about various keyboard layouts
-	// We select one depending on the user's browser language if
-	// there is no options.language
+        //////////
+        // KEYMAP
+        //////////
 
-	let keymap;
+        // ../utils/Keymaps contains information about various keyboard layouts
+        // We select one depending on the user's browser language if
+        // there is no options.language
 
-	if ( options.language || navigator.language ) {
+        let keymap;
 
-		switch ( options.language || navigator.language  ) {
+        if ( options.language || navigator.language ) {
 
-		case 'fr' :
-		case "fr-CH" :
-		case "fr-CA" :
-			keymap = keymaps.fr;
-			break
+            switch ( options.language || navigator.language  ) {
 
-		case 'ru' :
-			keyboard.charsetCount = 2;
-			keymap = keymaps.ru;
-			break
+            case 'fr' :
+            case "fr-CH" :
+            case "fr-CA" :
+                keymap = keymaps.fr;
+                break
 
-		case "de" :
-		case "de-DE" :
-		case "de-AT" :
-		case "de-LI" :
-		case "de-CH" :
-			keymap = keymaps.de;
-			break
+            case 'ru' :
+                this.charsetCount = 2;
+                keymap = keymaps.ru;
+                break
 
-		case "es" :
-		case "es-419" :
-		case "es-AR" :
-		case "es-CL" :
-		case "es-CO" :
-		case "es-ES" :
-		case "es-CR" :
-		case "es-US" :
-		case "es-HN" :
-		case "es-MX" :
-		case "es-PE" :
-		case "es-UY" :
-		case "es-VE" :
-			keymap = keymaps.es;
-			break
-
-		case "el" :
-			keyboard.charsetCount = 2;
-			keymap = keymaps.el;
-			break
-
-		case "nord" :
-			keymap = keymaps.nord;
-			break
-
-		default :
-			keymap = keymaps.eng;
-			break
-
-		}
-
-	} else {
-
-		keymap = keymaps.eng
-
-	}
-
-	////////////////////
-	// BLOCKS CREATION
-	////////////////////
-
-	// PANELS
-
-	keyboard.keys = [];
-
-	keyboard.panels = keymap.map( (panel)=> {
-
-		const lineHeight = (options.height / panel.length) - (options.margin * 2);
-
-		const panelBlock = Block({
-			width: options.width + (options.padding * 2),
-			height: options.height + (options.padding * 2),
-			offset: 0,
-			padding: options.padding,
-			fontFamily: options.fontFamily,
-			fontTexture: options.fontTexture,
-			backgroundColor: options.backgroundColor,
-			backgroundOpacity: options.backgroundOpacity
-		});
+            case "de" :
+            case "de-DE" :
+            case "de-AT" :
+            case "de-LI" :
+            case "de-CH" :
+                keymap = keymaps.de;
+                break
 
-		panelBlock.charset = 0;
+            case "es" :
+            case "es-419" :
+            case "es-AR" :
+            case "es-CL" :
+            case "es-CO" :
+            case "es-ES" :
+            case "es-CR" :
+            case "es-US" :
+            case "es-HN" :
+            case "es-MX" :
+            case "es-PE" :
+            case "es-UY" :
+            case "es-VE" :
+                keymap = keymaps.es;
+                break
+
+            case "el" :
+                this.charsetCount = 2;
+                keymap = keymaps.el;
+                break
+
+            case "nord" :
+                keymap = keymaps.nord;
+                break
+
+            default :
+                keymap = keymaps.eng;
+                break
+
+            }
+
+        } else {
+
+            keymap = keymaps.eng
+
+        }
+
+        ////////////////////
+        // BLOCKS CREATION
+        ////////////////////
+
+        // PANELS
 
-		panelBlock.add( ...panel.map( (line)=> {
+        this.keys = [];
+
+        this.panels = keymap.map( ( panel ) => {
 
-			const lineBlock = Block({
-				width: options.width,
-				height: lineHeight,
-				margin: options.margin,
-				contentDirection: 'row',
-				justifyContent: 'center'
-			});
+            const lineHeight = (options.height / panel.length) - (options.margin * 2);
 
-			lineBlock.frameContainer.visible = false;
+            const panelBlock = new Block({
+                width: options.width + (options.padding * 2),
+                height: options.height + (options.padding * 2),
+                offset: 0,
+                padding: options.padding,
+                fontFamily: options.fontFamily,
+                fontTexture: options.fontTexture,
+                backgroundColor: options.backgroundColor,
+                backgroundOpacity: options.backgroundOpacity
+            });
 
-			const keys = [];
+            panelBlock.charset = 0;
 
-			line.forEach( (keyItem)=> {
+            panelBlock.add( ...panel.map( ( line ) => {
 
-				const key = Block({
-					width: (options.width * keyItem.width) - (options.margin * 2),
-					height: lineHeight,
-					margin: options.margin,
-					justifyContent: 'center',
-					fontSize: 0.035,
-					offset: 0
-				});
+                const lineBlock = new Block({
+                    width: options.width,
+                    height: lineHeight,
+                    margin: options.margin,
+                    contentDirection: 'row',
+                    justifyContent: 'center'
+                });
 
-				const char = keyItem.chars[ panelBlock.charset ].lowerCase || keyItem.chars[ panelBlock.charset ].icon || "undif";
+                lineBlock.frameContainer.visible = false;
 
-				if (
-					(char === "enter" && options.enterTexture) ||
-					(char === "shift" && options.shiftTexture) ||
-					(char === "backspace" && options.backspaceTexture)
-				) {
+                const keys = [];
 
-					const url = (()=>{
-						switch( char ) {
-						case "backspace": return options.backspaceTexture
-						case "enter": return options.enterTexture
-						case "shift": return options.shiftTexture
-						default: console.warn('There is no icon image for this key')
-						}
-					})();
+                line.forEach( ( keyItem ) => {
 
-					textureLoader.load(url , (texture)=> {
+                    const key = new Block({
+                        width: (options.width * keyItem.width) - (options.margin * 2),
+                        height: lineHeight,
+                        margin: options.margin,
+                        justifyContent: 'center',
+                        fontSize: 0.035,
+                        offset: 0
+                    });
 
-						key.add(
-							InlineBlock({
-								width: key.width * 0.65,
-								height: key.height * 0.65,
-								backgroundSize: 'contain',
-								backgroundTexture: texture,
-								backgroundOpacity: 0
-							})
-						);
+                    const char = keyItem.chars[ panelBlock.charset ].lowerCase || keyItem.chars[ panelBlock.charset ].icon || "undif";
 
-					});
-					
-				} else {
+                    if (
+                        (char === "enter" && options.enterTexture) ||
+                        (char === "shift" && options.shiftTexture) ||
+                        (char === "backspace" && options.backspaceTexture)
+                    ) {
 
-					key.add(
-						Text({
-							content: char,
-							offset: 0
-						})
-					);
+                        const url = (() => {
+                            switch( char ) {
+                            case "backspace": return options.backspaceTexture
+                            case "enter": return options.enterTexture
+                            case "shift": return options.shiftTexture
+                            default: console.warn('There is no icon image for this key')
+                            }
+                        })();
 
-				}
+                        textureLoader.load(url , ( texture ) => {
 
-				key.type = "Key"
+                            key.add(
+                                new InlineBlock({
+                                    width: key.width * 0.65,
+                                    height: key.height * 0.65,
+                                    backgroundSize: 'contain',
+                                    backgroundTexture: texture,
+                                    backgroundOpacity: 0
+                                })
+                            );
 
-				key.info = keyItem;
-				key.info.input = char;
-				key.panel = panelBlock;
+                        });
+                        
+                    } else {
 
-				// line's keys
-				keys.push( key );
+                        key.add(
+                            new Text({
+                                content: char,
+                                offset: 0
+                            })
+                        );
 
-				// keyboard's keys
-				keyboard.keys.push( key );
+                    }
 
-			});
+                    key.type = "Key"
 
-			lineBlock.add( ...keys )
+                    key.info = keyItem;
+                    key.info.input = char;
+                    key.panel = panelBlock;
 
-			return lineBlock
+                    // line's keys
+                    keys.push( key );
 
-		}))
+                    // keyboard's keys
+                    this.keys.push( key );
 
-		return panelBlock
+                });
 
-	});
+                lineBlock.add( ...keys )
 
-	keyboard.add( keyboard.panels[ 0 ] );
+                return lineBlock
 
-	// Used to switch to an entirely different panel of this keyboard,
-	// with potentially a completely different layout
+            }))
 
-	keyboard.setNextPanel = function setNextPanel() {
+            return panelBlock
 
-		keyboard.panels.forEach( (panel)=> {
+        });
 
-			keyboard.remove( panel );
+        this.add( this.panels[ 0 ] );
 
-		});
+        // Lastly set the options parameters to this object, which will trigger an update
+        this.set( options );
 
-		keyboard.currentPanel = (keyboard.currentPanel + 1) % (keyboard.panels.length);
+    }
 
-		keyboard.add( keyboard.panels[ keyboard.currentPanel ] );
+    /**
+     * Used to switch to an entirely different panel of this keyboard,
+     * with potentially a completely different layout
+     */
+    setNextPanel() {
 
-		keyboard.update( true, true, true );
+        this.panels.forEach( ( panel ) => {
 
-	};
+            this.remove( panel );
 
-	// Used to change the keys charset. Some layout support this,
-	// like the Russian or Greek keyboard, to be able to switch to
-	// English layout when necessary
+        });
 
-	keyboard.setNextCharset = function setNextCharset() {
+        this.currentPanel = (this.currentPanel + 1) % (this.panels.length);
 
-		keyboard.panels[ keyboard.currentPanel ].charset = ( keyboard.panels[ keyboard.currentPanel ].charset + 1) % keyboard.charsetCount;
+        this.add( this.panels[ this.currentPanel ] );
 
-		keyboard.keys.forEach( (key)=> {
+        this.update( true, true, true );
 
-			// Here we sort the keys, we only keep the ones that are part of the current panel.
+    }
 
-			const isInCurrentPanel = keyboard.panels[ keyboard.currentPanel ].getObjectById( key.id );
+    /*
+     * Used to change the keys charset. Some layout support this,
+     * like the Russian or Greek keyboard, to be able to switch to
+     * English layout when necessary
+     */
+    setNextCharset() {
 
-			if ( !isInCurrentPanel ) return
+        this.panels[ this.currentPanel ].charset = ( this.panels[ this.currentPanel ].charset + 1) % this.charsetCount;
 
-			//
+        this.keys.forEach( ( key ) => {
 
-			const char = key.info.chars[ key.panel.charset ] || key.info.chars[ 0 ];
+            // Here we sort the keys, we only keep the ones that are part of the current panel.
 
-			const newContent = keyboard.isLowerCase || !char.upperCase ? char.lowerCase : char.upperCase;
+            const isInCurrentPanel = this.panels[ this.currentPanel ].getObjectById( key.id );
 
-			const textComponent = key.children.find( child => child.isText );
+            if ( !isInCurrentPanel ) return
 
-			if ( !textComponent ) return
+            //
 
-			key.info.input = newContent;
+            const char = key.info.chars[ key.panel.charset ] || key.info.chars[ 0 ];
 
-			textComponent.set({
-				content: newContent
-			});
+            const newContent = this.isLowerCase || !char.upperCase ? char.lowerCase : char.upperCase;
 
-			textComponent.update( true, true, true );
+            const textComponent = key.children.find( child => child.isText );
 
-		});
+            if ( !textComponent ) return
 
-	};
+            key.info.input = newContent;
 
-	// Toggle case for characters that support it.
+            textComponent.set({
+                content: newContent
+            });
 
-	keyboard.toggleCase = function toggleCase() {
+            textComponent.update( true, true, true );
 
-		keyboard.isLowerCase = !keyboard.isLowerCase;
+        });
 
-		keyboard.keys.forEach( (key)=> {
+    }
 
-			const char = key.info.chars[ key.panel.charset ] || key.info.chars[ 0 ];
+    /** Toggle case for characters that support it. */
+    toggleCase() {
 
-			const newContent = keyboard.isLowerCase || !char.upperCase ? char.lowerCase : char.upperCase;
+        this.isLowerCase = !this.isLowerCase;
 
-			const textComponent = key.children.find( child => child.isText );
+        this.keys.forEach( ( key ) => {
 
-			if ( !textComponent ) return
+            const char = key.info.chars[ key.panel.charset ] || key.info.chars[ 0 ];
 
-			key.info.input = newContent;
+            const newContent = this.isLowerCase || !char.upperCase ? char.lowerCase : char.upperCase;
 
-			textComponent.set({
-				content: newContent
-			});
+            const textComponent = key.children.find( child => child.isText );
 
-			textComponent.update( true, true, true );
+            if ( !textComponent ) return
 
-		});
+            key.info.input = newContent;
 
-	};
+            textComponent.set({
+                content: newContent
+            });
 
-	////////////
-	//  UPDATE
-	////////////
+            textComponent.update( true, true, true );
 
-	keyboard.parseParams = function ParseParams( resolve ) { resolve() };
-	keyboard.updateLayout = function UpdateLayout() {};
-	keyboard.updateInner = function UpdateInner() {};
+        });
 
-	// Lastly set the options parameters to this object, which will trigger an update
-	keyboard.set( options );
+    }
 
-	return keyboard;
+    ////////////
+    //  UPDATE
+    ////////////
+
+    parseParams( resolve ) { resolve() };
+    updateLayout() {};
+    updateInner() {};
 
 }

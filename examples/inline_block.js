@@ -64,7 +64,7 @@ function init() {
 
 function makeTextPanel() {
 
-	const container = ThreeMeshUI.Block({
+	const container = new ThreeMeshUI.Block({
 		width: 1.7,
 		height: 0.7,
 		padding: 0.05,
@@ -88,25 +88,25 @@ function makeTextPanel() {
 
 		container.add(
 
-			ThreeMeshUI.Text({
+			new ThreeMeshUI.Text({
 				fontSize: 0.09,
 				content: "three-mesh-ui supports inline blocks\n"
 			}),
 
-			ThreeMeshUI.Text({
+			new ThreeMeshUI.Text({
 				fontSize: 0.07,
 				content: "This is an InlineBlock : ",
 				fontColor: new THREE.Color(0xffc654)
 			}),
 
-			ThreeMeshUI.InlineBlock({
+			new ThreeMeshUI.InlineBlock({
 				height: 0.24,
 				width: 0.5,
 				backgroundTexture: texture,
 				backgroundOpacity: 0
 			}),
 
-			ThreeMeshUI.Text({ content: `\nIt works like a Block component, but can be positioned among inline components like text. Perfect for emojis.` })
+			new ThreeMeshUI.Text({ content: `\nIt works like a Block component, but can be positioned among inline components like text. Perfect for emojis.` })
 
 		);
 

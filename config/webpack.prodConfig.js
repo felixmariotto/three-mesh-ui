@@ -68,7 +68,8 @@ module.exports = env => {
 
 		plugins: pagesConfig,
 
-		devtool: devtool,
+		// devtool: devtool,
+		devtool: false,
 
 		devServer: {
 			contentBase: false

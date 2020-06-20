@@ -63,7 +63,7 @@ function init() {
 
 function makeTextPanel() {
 
-	const container = ThreeMeshUI.Block({
+	const container = new ThreeMeshUI.Block({
 		width: 1.2,
 		height: 0.5,
 		padding: 0.05,
@@ -81,12 +81,12 @@ function makeTextPanel() {
 
 	container.add(
 
-		ThreeMeshUI.Text({
+		new ThreeMeshUI.Text({
 			content: "This library supports line-break-friendly-characters,",
 			fontSize: 0.055
 		}),
 
-		ThreeMeshUI.Text({
+		new ThreeMeshUI.Text({
 			content: " As well as multi-font-size lines with consistent vertical spacing.",
 			fontSize: 0.08
 		}),
