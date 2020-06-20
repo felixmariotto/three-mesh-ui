@@ -68,8 +68,7 @@ module.exports = env => {
 
 		plugins: pagesConfig,
 
-		// devtool: devtool,
-		devtool: false,
+		devtool: devtool,
 
 		devServer: {
 			contentBase: false
@@ -77,7 +76,7 @@ module.exports = env => {
 
 		output: {
 			filename: '[name].js',
-			path: path.resolve(__dirname, 'public')
+			path: path.resolve(__dirname, '../public')
 		},
 
 		module: {
