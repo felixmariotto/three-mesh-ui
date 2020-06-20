@@ -63,8 +63,7 @@ export default function MaterialManager( Base = class {} ) {
 
         }
 
-        //
-
+        /** Called by Block, which needs the background material to create a mesh */
         getBackgroundMaterial() {
 
             const newUniforms = {
@@ -75,7 +74,7 @@ export default function MaterialManager( Base = class {} ) {
 
             if ( !this.backgroundMaterial || !this.backgroundUniforms ) {
 
-                this.backgroundMaterial = this.makeBackgroundMaterial( newUniforms );
+                this.backgroundMaterial = this._makeBackgroundMaterial( newUniforms );
 
             } else if (
                 newUniforms.u_texture !== this.backgroundUniforms.u_texture.value ||
@@ -91,8 +90,7 @@ export default function MaterialManager( Base = class {} ) {
 
         }
 
-        //
-
+        /** Called by Text to get the font material */
         getFontMaterial() {
 
             const newUniforms = {
@@ -103,7 +101,7 @@ export default function MaterialManager( Base = class {} ) {
 
             if ( !this.fontMaterial || !this.textUniforms ) {
 
-                this.fontMaterial = this.makeTextMaterial( newUniforms );
+                this.fontMaterial = this._makeTextMaterial( newUniforms );
 
             } else if (
                 newUniforms.u_texture !== this.textUniforms.u_texture.value ||
@@ -120,7 +118,7 @@ export default function MaterialManager( Base = class {} ) {
         }
 
         /** @private */
-        makeTextMaterial( materialOptions ) {
+        _makeTextMaterial( materialOptions ) {
 
             this.textUniforms = {
                 'u_texture': { value: materialOptions.u_texture },
@@ -145,7 +143,7 @@ export default function MaterialManager( Base = class {} ) {
         }
 
         /** @private */
-        makeBackgroundMaterial( materialOptions ) {
+        _makeBackgroundMaterial( materialOptions ) {
 
             this.backgroundUniforms = {
                 'u_texture': { value: materialOptions.u_texture },

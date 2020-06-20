@@ -1,12 +1,11 @@
 
-/*
+/**
 
 Contains key maps for the Keyboard component.
 Most languages need a specific keyboard. Therefore, Keyboard takes a language attribute
 and if not passed tries to detect the language. If not found, it uses the basic QZERTY layout.
 
 */
-
 export default {
 
 	fr:

@@ -6,7 +6,7 @@ let _Base = null
  */
 export function mix(...mixins) {
 
-    console.log('initial Base: ', _Base);
+    // console.log('initial Base: ', _Base);
 
     let Base = _Base || class Default {};
 

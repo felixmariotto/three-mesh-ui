@@ -1,12 +1,7 @@
 
-/*
-
-Job: List the default values of the lib components
-
-*/
-
 import { Color } from 'three/src/math/Color.js';
 
+/** List the default values of the lib components */
 export default {
 	container: null,
 	fontFamily: null,

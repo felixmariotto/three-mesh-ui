@@ -1,14 +1,4 @@
 
-/*
-
-Job:
-- Update a Block component
-- Calls BoxComponent's API to position its children box components
-- Calls InlineManager's API to position its children inline components
-- Call creation and update functions of its background planes
-
-*/
-
 import { Object3D } from 'three/src/core/Object3D.js';
 
 import BoxComponent from './core/BoxComponent.js';
@@ -20,6 +10,15 @@ import Frame from '../content/Frame.js';
 import deepDelete from '../utils/deepDelete.js';
 import { mix } from '../utils/mix.js';
 
+/**
+
+Job:
+- Update a Block component
+- Calls BoxComponent's API to position its children box components
+- Calls InlineManager's API to position its children inline components
+- Call creation and update functions of its background planes
+
+*/
 export default class Block extends mix.withBase( Object3D )(
     BoxComponent,
     InlineManager,

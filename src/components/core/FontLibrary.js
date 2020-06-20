@@ -28,10 +28,13 @@ const fontTextures = {};
 
 const records = {};
 
-// Called by MeshUIComponent after fontFamily was set
-// When done, it calls MeshUIComponent.update, to actually display
-// the text with the loaded font.
+/**
 
+Called by MeshUIComponent after fontFamily was set
+When done, it calls MeshUIComponent.update, to actually display
+the text with the loaded font.
+
+*/
 function setFontFamily( component, fontFamily ) {
 
 	if ( typeof fontFamily === 'string' ) {
@@ -53,10 +56,13 @@ function setFontFamily( component, fontFamily ) {
 
 }
 
-// Called by MeshUIComponent after fontTexture was set
-// When done, it calls MeshUIComponent.update, to actually display
-// the text with the loaded font.
+/**
 
+Called by MeshUIComponent after fontTexture was set
+When done, it calls MeshUIComponent.update, to actually display
+the text with the loaded font.
+
+*/
 function setFontTexture( component, url ) {
 
 	// if this font was never asked for, we load it
@@ -95,8 +101,7 @@ function setFontTexture( component, url ) {
 
 }
 
-// used by Text to know if a warning must be thrown
-
+/** used by Text to know if a warning must be thrown */
 function getFontOf( component ) {
 
 	const record = records[ component.id ];
@@ -113,8 +118,7 @@ function getFontOf( component ) {
 
 }
 
-//
-
+/** Load JSON file at the url provided by the user at the component attribute 'fontFamily' */
 function loadFontJSON( component, url ) {
 
 	// if this font was never asked for, we load it
@@ -158,8 +162,7 @@ function loadFontJSON( component, url ) {
 
 }
 
-//
-
+/** Add a 'fontType' property to the font object */
 function setFontType( fontObject ) {
 
 	// We test the type of font

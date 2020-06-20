@@ -176,7 +176,7 @@ export default function MeshUIComponent( Base = class {} ) {
 
         /// SPECIALS
 
-        // return the first parent with a 'threeOBJ' property
+        /** return the first parent with a 'threeOBJ' property */
         getContainer() {
 
             if ( !this.threeOBJ && this.parent ) {
@@ -195,7 +195,7 @@ export default function MeshUIComponent( Base = class {} ) {
 
         }
 
-        // Get the number of UI parents above this elements (0 if no parent)
+        /** Get the number of UI parents above this elements (0 if no parent) */
         getParentsNumber( i ) {
 
             i = i || 0;
@@ -261,8 +261,10 @@ export default function MeshUIComponent( Base = class {} ) {
         ///  UPDATE
         ///////////////
 
-        // When the user calls component.add, it triggers updates, then
-        // call THREE.Object3D.add.
+        /**
+         * When the user calls component.add, it triggers updates, then
+         * call THREE.Object3D.add.
+         */
         add() {
 
             for ( const id of Object.keys(arguments) ) {
@@ -312,9 +314,11 @@ export default function MeshUIComponent( Base = class {} ) {
 
         }
 
-        // Set this component's passed parameters.
-        // If necessary, take special actions.
-        // Update this component unless otherwise specified.
+        /**
+         * Set this component's passed parameters.
+         * If necessary, take special actions.
+         * Update this component unless otherwise specified.
+         */
         set( options ) {
 
             let parsingNeedsUpdate, layoutNeedsUpdate, innerNeedsUpdate;
@@ -406,6 +410,7 @@ export default function MeshUIComponent( Base = class {} ) {
         // STATES MANAGEMENT
         /////////////////////
 
+        /** Store a new state in this component, with linked attributes */
         setupState( options ) {
 
             this.states[ options.state ] = {
@@ -415,8 +420,7 @@ export default function MeshUIComponent( Base = class {} ) {
 
         }
 
-        //
-
+        /** Set the attributes of a stored state of this component */
         setState( state ) {
 
             const savedState = this.states[ state ];
@@ -436,8 +440,7 @@ export default function MeshUIComponent( Base = class {} ) {
 
         }
 
-        //
-
+        /** Get completely rid of this component and its children, also unregister it for updates */
         clear() {
 
             this.traverse( (obj)=> {

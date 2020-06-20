@@ -1,4 +1,4 @@
-/*
+/**
 
 Job: Positioning inline elements according to their dimensions inside this component
 
@@ -13,11 +13,11 @@ in order to create a line break when necessary. It's Text that merge the various
 in its own updateLayout function.
 
 */
-
 export default function InlineManager( Base = class {} ) {
 
 	return class InlineManager extends Base {
 
+        /** Compute children .inlines objects position, according to their pre-computed dimensions */
         computeInlinesPosition() {
 
             // computed by BoxComponent
@@ -223,7 +223,7 @@ export default function InlineManager( Base = class {} ) {
         }
 
         /**
-         * Text if we should line break here even if the current glyph is not out of boundary.
+         * Test if we should line break here even if the current glyph is not out of boundary.
          * It might be necessary if the last glyph was break-line-friendly (whitespace, hyphen..)
          * and the distance to the next friendly glyph is out of boundary.
          */

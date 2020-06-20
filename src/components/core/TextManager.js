@@ -34,8 +34,10 @@ export default function TextManager( Base = class {} ) {
 
         }
 
-        //
-
+        /**
+         * Called by Text to get the domensions of a particular glyph,
+         * in order for InlineManager to compute its position
+         */
         getGlyphDimensions( options ) {
 
             const FONT = options.font;

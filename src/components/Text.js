@@ -1,15 +1,3 @@
-/*
-
-Job:
-- computing its own size according to user measurements or content measurement
-- creating 'inlines' objects with info, so that the parent component can organise them in lines
-
-Knows:
-- Its text content (string)
-- Font attributes ('font', 'fontSize'.. etc..)
-- Parent block
-
-*/
 
 import { Object3D } from 'three/src/core/Object3D.js';
 
@@ -22,6 +10,18 @@ import MaterialManager from './core/MaterialManager.js';
 import deepDelete from '../utils/deepDelete.js';
 import { mix } from '../utils/mix.js';
 
+/**
+
+Job:
+- computing its own size according to user measurements or content measurement
+- creating 'inlines' objects with info, so that the parent component can organise them in lines
+
+Knows:
+- Its text content (string)
+- Font attributes ('font', 'fontSize'.. etc..)
+- Parent block
+
+*/
 export default class Text extends mix.withBase( Object3D )(
     InlineComponent,
     TextManager,
