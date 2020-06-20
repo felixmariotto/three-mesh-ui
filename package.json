@@ -3,7 +3,7 @@
   "version": "4.2.0",
   "description": "a library on top of three.js to help in creating 3D user interfaces",
   "engines": {
-    "node": "*"
+    "node": ">12.0.0"
   },
   "main": "src/three-mesh-ui.js",
   "scripts": {
