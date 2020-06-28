@@ -213,8 +213,8 @@ const textFragment = `
 
 	void main() {
 
-		vec3 sample = texture2D( u_texture, vUv ).rgb;
-		float sigDist = median( sample.r, sample.g, sample.b ) - 0.5;
+		vec3 textureSample = texture2D( u_texture, vUv ).rgb;
+		float sigDist = median( textureSample.r, textureSample.g, textureSample.b ) - 0.5;
 		float alpha = clamp( sigDist / fwidth( sigDist ) + 0.5, 0.0, 1.0 );
 		gl_FragColor = vec4( u_color, min( alpha, u_opacity ) );
 	
@@ -260,11 +260,11 @@ const backgroundFragment = `
 
 	void main() {
 
-		vec4 sample = texture2D( u_texture, vUv ).rgba;
+		vec4 textureSample = texture2D( u_texture, vUv ).rgba;
 
 		vec4 color = vec4( u_color, u_opacity );
 
-		gl_FragColor = mix( color, sample, sample.a );
+		gl_FragColor = mix( color, textureSample, textureSample.a );
 	
 		#include <clipping_planes_fragment>
 

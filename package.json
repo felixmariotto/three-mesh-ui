@@ -30,15 +30,15 @@
   },
   "homepage": "https://github.com/felixmariotto/Three-Mesh-UI#readme",
   "devDependencies": {
-    "eslint": "^7.1.0",
+    "eslint": "^7.3.1",
     "express": "^4.17.1",
     "file-loader": "^6.0.0",
     "html-webpack-plugin": "^4.3.0",
     "webpack": "^4.43.0",
-    "webpack-cli": "^3.3.11",
+    "webpack-cli": "^3.3.12",
     "webpack-dev-server": "^3.11.0"
   },
   "dependencies": {
-    "three": "^0.117.1"
+    "three": "^0.118.0"
   }
 }
