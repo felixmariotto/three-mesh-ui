@@ -309,6 +309,18 @@
 
 		//
 
+		window.addEventListener('popstate', () => {
+
+			let hash = window.location.hash.substring(1);
+
+			iframe.src = `./${ hash }.html`;
+
+			link.href = `https://github.com/felixmariotto/three-mesh-ui/blob/master/examples/${ hash }.js`
+
+		})
+
+		//
+
 		function selectView( listItem ) {
 
 			iframe.src = `./${ listItem.title }.html`;
