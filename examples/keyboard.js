@@ -299,16 +299,15 @@ function makeUI() {
 
 				};
 
-				const idx = objsToTest.indexOf(button);
-
-				if ( idx > -1 ) objsToTest.splice( idx, 1 );
-
 				currentLayoutButton = button;
 
 				makeKeyboard( options[ 1 ] );
 
 			}
+
 		});
+
+		objsToTest.push( button );
 
 		// Set English button as selected from the start
 		
@@ -317,10 +316,6 @@ function makeUI() {
 			button.setState('selected');
 
 			currentLayoutButton = button;
-
-		} else {
-
-			objsToTest.push( button );
 
 		};
 
