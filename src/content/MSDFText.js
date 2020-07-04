@@ -62,7 +62,7 @@ function buildText() {
 
     const translatedGeom = [];
 
-    this.inlines.forEach( (inline, i)=> {
+    component.inlines.forEach( (inline, i)=> {
 
         translatedGeom[ i ] = new MSDFGlyph( inline, this.getFontFamily() );
 
@@ -73,19 +73,6 @@ function buildText() {
     const mergedGeom = BufferGeometryUtils.mergeBufferGeometries( translatedGeom );
 
     const mesh = new Mesh( mergedGeom, this.getFontMaterial() );
-
-    mesh.renderOrder = Infinity;
-
-    // This is for hiddenOverflow to work
-    mesh.onBeforeRender = function() {
-
-        if ( component.updateClippingPlanes ) {
-
-            component.updateClippingPlanes();
-
-        }
-
-    };
 
     return mesh
 

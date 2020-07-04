@@ -22,16 +22,37 @@ export default function TextManager( Base = class {} ) {
 
         createText() {
 
-            switch ( this.getTextType() ) {
+            const component = this;
 
-            case 'MSDF' :
-                return MSDFText.buildText.call( this )
+            const mesh = (() => {
 
-            default :
-                console.warn(`'${ this.getTextType() }' is not a supported text type.\nSee https://github.com/felixmariotto/three-mesh-ui/wiki/Using-a-custom-text-type`);
-                break
+                switch ( this.getTextType() ) {
 
-            }
+                case 'MSDF' :
+                    return MSDFText.buildText.call( this )
+
+                default :
+                    console.warn(`'${ this.getTextType() }' is not a supported text type.\nSee https://github.com/felixmariotto/three-mesh-ui/wiki/Using-a-custom-text-type`);
+                    break
+
+                }
+
+            })()
+
+            mesh.renderOrder = Infinity;
+
+            // This is for hiddenOverflow to work
+            mesh.onBeforeRender = function() {
+
+                if ( component.updateClippingPlanes ) {
+
+                    component.updateClippingPlanes();
+
+                }
+
+            };
+
+            return mesh
 
         }
 
