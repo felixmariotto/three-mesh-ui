@@ -48,8 +48,6 @@ function setFontFamily( component, fontFamily ) {
 
 		records[ component.id ].json = fontFamily;
 
-		setFontType( fontFamily );
-
 		component._updateFontFamily( fontFamily );
 
 	}
@@ -131,8 +129,6 @@ function loadFontJSON( component, url ) {
 			// FileLoader import as  a JSON string
 			const font = JSON.parse( text );
 
-			setFontType( font );
-
 			fontFamilies[ url ] = font;
 
 			for ( const recordID of Object.keys(records) ) {
@@ -158,24 +154,6 @@ function loadFontJSON( component, url ) {
 	// update the component, only if the font is already requested and loaded
 	if ( fontFamilies[ url ] ) {
 		component._updateFontFamily( fontFamilies[ url ] );
-	}
-
-}
-
-/** Add a 'fontType' property to the font object */
-function setFontType( fontObject ) {
-
-	// We test the type of font
-	if (
-		fontObject.chars !== undefined,
-		fontObject.common !== undefined,
-		fontObject.info !== undefined,
-		fontObject.kernings !== undefined,
-		fontObject.pages !== undefined
-	) {
-
-		fontObject.fontType = "MSDF";
-
 	}
 
 }

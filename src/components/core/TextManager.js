@@ -70,7 +70,7 @@ export default function TextManager( Base = class {} ) {
                 };
 
             default :
-                console.warn(`'${ options.textType }' is not a supported text type`);
+                console.warn(`'${ options.textType }' is not a supported text type.\nSee https://github.com/felixmariotto/three-mesh-ui/wiki/Using-a-custom-text-type`);
                 break
 
             }

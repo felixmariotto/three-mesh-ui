@@ -69,13 +69,8 @@ export default class Text extends mix.withBase( Object3D )(
             return
         }
 
-        if ( textType === 'geometry' && font.fontType !== 'Typeface' ) {
-            console.error( `${ textType } text is not compatible with the type of font '${ font.fontType }'.\n See https://github.com/felixmariotto/three-mesh-ui/wiki/Choosing-a-Text-type` )
-            return
-        }
-
-        if ( textType === 'MSDF' && font.fontType !== 'MSDF' ) {
-            console.error( `${ textType } text is not compatible with the type of font '${ font.fontType }'.\n See https://github.com/felixmariotto/three-mesh-ui/wiki/Choosing-a-Text-type` )
+        if ( !textType ) {
+            console.error( `You must to provide a 'textType' attribute so three-mesh-ui knows how to render your text.\n See https://github.com/felixmariotto/three-mesh-ui/wiki/Using-a-custom-text-type` )
             return
         }
 
