@@ -40,4 +40,4 @@ function DefaultBackgroundTexture() {
 	texture.isDefault = true;
 	return texture;
 
-};
+}

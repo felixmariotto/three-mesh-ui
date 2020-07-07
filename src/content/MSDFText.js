@@ -24,28 +24,26 @@ function getGlyphDimensions( options ) {
 
 	const GLYPH = options.glyph;
 
-	let width, height, anchor, charOBJ;
-
 	//
 
-	charOBJ = FONT.chars.find( charOBJ => charOBJ.char === GLYPH );
+	const charOBJ = FONT.chars.find( charOBJ => charOBJ.char === GLYPH );
 
-	width = charOBJ ? (charOBJ.width * FONT_SIZE) / FONT.common.lineHeight : FONT_SIZE / 3 ;
+	let width = charOBJ ? (charOBJ.width * FONT_SIZE) / FONT.common.lineHeight : FONT_SIZE / 3 ;
 
 	if ( GLYPH === '\n' ) width = 0;
 
-	height = charOBJ ? (charOBJ.height * FONT_SIZE) / FONT.common.lineHeight : 0 ;
+	const height = charOBJ ? (charOBJ.height * FONT_SIZE) / FONT.common.lineHeight : 0 ;
 
 	// world-space length between lowest point and the text cursor position
-	anchor = charOBJ ? ((charOBJ.yoffset + charOBJ.height - FONT.common.base) * FONT_SIZE) / FONT.common.lineHeight : 0 ;
+	const anchor = charOBJ ? ((charOBJ.yoffset + charOBJ.height - FONT.common.base) * FONT_SIZE) / FONT.common.lineHeight : 0 ;
 
 	return {
 		width,
 		height,
 		anchor
-	};
+	}
 
-};
+}
 
 
 //

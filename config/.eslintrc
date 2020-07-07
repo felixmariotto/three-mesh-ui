@@ -38,7 +38,6 @@
         "no-unused-vars": 1,
         "camelcase": 1,
         "eol-last": 1,
-        "indent": ["error", "tab"],
         "no-array-constructor": 1,
         "no-continue": 1,
         "no-lonely-if": 1,

@@ -25,7 +25,7 @@ export default class InlineBlock extends mix.withBase( Object3D )(
     BoxComponent,
     InlineManager,
     MaterialManager,
-    MeshUIComponent,
+    MeshUIComponent
 ) {
 
     constructor( options ) {

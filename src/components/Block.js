@@ -23,7 +23,7 @@ export default class Block extends mix.withBase( Object3D )(
     BoxComponent,
     InlineManager,
     MaterialManager,
-    MeshUIComponent,
+    MeshUIComponent
 ) {
 
     constructor( options ) {

@@ -209,7 +209,7 @@ export default class UpdateManager {
 
     }
 
-};
+}
 
 // TODO move these into the class (Webpack unfortunately doesn't understand
 // `static` property syntax, despite browsers already supporting this)

@@ -325,8 +325,8 @@ export default class Keyboard extends mix.withBase( Object3D )( BoxComponent, Me
     //  UPDATE
     ////////////
 
-    parseParams( resolve ) { resolve() };
-    updateLayout() {};
-    updateInner() {};
+    parseParams( resolve ) { resolve() }
+    updateLayout() {}
+    updateInner() {}
 
 }
