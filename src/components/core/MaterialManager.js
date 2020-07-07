@@ -157,12 +157,14 @@ export default function MaterialManager( Base = class {} ) {
             }, 100 )
             */
 
+            const fragShader = materialOptions.u_texture ? backgroundFragment : backgroundFragmentNoText;
+
             return new ShaderMaterial({
                 uniforms: this.backgroundUniforms,
                 transparent: true,
                 clipping: true,
                 vertexShader: backgroundVertex,
-                fragmentShader: backgroundFragment
+                fragmentShader: fragShader
             })
 
         }
@@ -273,4 +275,25 @@ const backgroundFragment = `
 	}
 `;
 
-// gl_FragColor = mix( color, textureSample, textureSample.a );
+//
+
+const backgroundFragmentNoText = `
+    #ifdef GL_OES_standard_derivatives
+    #extension GL_OES_standard_derivatives : enable
+    #endif
+
+    uniform vec3 u_color;
+    uniform float u_opacity;
+
+    varying vec2 vUv;
+
+    #include <clipping_planes_pars_fragment>
+
+    void main() {
+
+        gl_FragColor = vec4( u_color, u_opacity );
+    
+        #include <clipping_planes_fragment>
+
+    }
+`;
