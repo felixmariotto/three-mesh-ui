@@ -103,7 +103,8 @@ function makeTextPanel() {
 				height: 0.24,
 				width: 0.5,
 				backgroundTexture: texture,
-				backgroundOpacity: 0
+				backgroundColor: new THREE.Color( 0xffff00 ),
+				backgroundOpacity: 0.7
 			}),
 
 			new ThreeMeshUI.Text({ content: `\nIt works like a Block component, but can be positioned among inline components like text. Perfect for emojis.` })

@@ -262,11 +262,15 @@ const backgroundFragment = `
 
 		vec4 textureSample = texture2D( u_texture, vUv ).rgba;
 
-		vec4 color = vec4( u_color, u_opacity );
+        float blendedOpacity = u_opacity * textureSample.a;
 
-		gl_FragColor = mix( color, textureSample, textureSample.a );
+        vec3 blendedColor = textureSample.rgb * u_color;
+
+		gl_FragColor = vec4( blendedColor, blendedOpacity );
 	
 		#include <clipping_planes_fragment>
 
 	}
 `;
+
+// gl_FragColor = mix( color, textureSample, textureSample.a );
