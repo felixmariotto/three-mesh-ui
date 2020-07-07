@@ -66,7 +66,7 @@ function makeTextPanel() {
 
 	const container = new ThreeMeshUI.Block({
 		width: 1.7,
-		height: 0.7,
+		height: 0.95,
 		padding: 0.05,
 		justifyContent: 'center',
 		alignContent: 'left',
@@ -100,12 +100,26 @@ function makeTextPanel() {
 			}),
 
 			new ThreeMeshUI.InlineBlock({
-				height: 0.24,
-				width: 0.5,
+				height: 0.2,
+				width: 0.4,
 				backgroundTexture: texture,
 			}),
 
-			new ThreeMeshUI.Text({ content: `\nIt works like a Block component, but can be positioned among inline components like text. Perfect for emojis.` })
+			new ThreeMeshUI.Text({
+				fontSize: 0.07,
+				content: "\nwith modified color and opacity : ",
+				fontColor: new THREE.Color(0xffc654),
+			}),
+
+			new ThreeMeshUI.InlineBlock({
+				height: 0.2,
+				width: 0.4,
+				backgroundTexture: texture,
+				backgroundColor: new THREE.Color( 0x00ff00 ),
+				backgroundOpacity: 0.5
+			}),
+
+			new ThreeMeshUI.Text({ content: `\nIt works like a Block component, but can be positioned among inline components like text. Perfect for icons and emojis.` })
 
 		);
 
