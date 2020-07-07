@@ -22,13 +22,22 @@ export default function MaterialManager( Base = class {} ) {
 
             const texture = this.getBackgroundTexture();
 
-            const color = texture.isDefault ?
-                this.getBackgroundColor() :
-                Defaults.backgroundWhiteColor;
+            let color, opacity
 
-            const opacity = texture.isDefault ?
-                this.getBackgroundOpacity() :
-                Defaults.backgroundOpaqueOpacity;
+            if ( texture.isDefault ) {
+
+                color = this.getBackgroundColor();
+                opacity = this.getBackgroundOpacity();
+
+            } else {
+
+                color = this.backgroundColor || Defaults.backgroundWhiteColor;
+
+                opacity = ( !this.backgroundOpacity && this.backgroundOpacity !== 0 ) ?
+                    Defaults.backgroundOpaqueOpacity :
+                    this.backgroundOpacity;
+
+            }
 
             return {
                 texture,
