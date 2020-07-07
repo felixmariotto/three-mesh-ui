@@ -1,5 +1,6 @@
 
 import { Color } from 'three/src/math/Color.js';
+import { CanvasTexture } from 'three/src/textures/CanvasTexture.js';
 
 /** List the default values of the lib components */
 export default {
@@ -20,6 +21,19 @@ export default {
 	backgroundSize: "cover",
 	backgroundColor: new Color( 0x222222 ),
 	backgroundOpacity: 0.8,
-	backgroundTexture: null,
+	backgroundTexture: DefaultBackgroundTexture(),
 	hiddenOverflow: false,
+};
+
+//
+
+function DefaultBackgroundTexture() {
+
+	const ctx = document.createElement('canvas').getContext('2d');
+	ctx.canvas.width = 1;
+	ctx.canvas.height = 1;
+	ctx.fillStyle = '#ffffff';
+	ctx.fillRect(0, 0, 1, 1);
+	return new CanvasTexture(ctx.canvas);
+
 };
