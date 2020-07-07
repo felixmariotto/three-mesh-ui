@@ -1,5 +1,6 @@
 
 import { ShaderMaterial } from 'three/src/materials/ShaderMaterial.js';
+import Defaults from '../../utils/Defaults.js';
 
 /**
 
@@ -17,14 +18,36 @@ export default function MaterialManager( Base = class {} ) {
 
 	return class MaterialManager extends Base {
 
+        getBackgroundUniforms() {
+
+            const texture = this.getBackgroundTexture();
+
+            const color = texture.isDefault ?
+                this.getBackgroundColor() :
+                Defaults.backgroundWhiteColor;
+
+            const opacity = texture.isDefault ?
+                this.getBackgroundOpacity() :
+                Defaults.backgroundOpaqueOpacity;
+
+            return {
+                texture,
+                color,
+                opacity
+            }
+
+        }
+
         /** Update existing backgroundMaterial uniforms */
         updateBackgroundMaterial() {
 
             if ( this.backgroundUniforms ) {
 
-                this.backgroundUniforms.u_texture.value = this.getBackgroundTexture();
-                this.backgroundUniforms.u_color.value = this.getBackgroundColor();
-                this.backgroundUniforms.u_opacity.value = this.getBackgroundOpacity();
+                const uniforms = this.getBackgroundUniforms();
+
+                this.backgroundUniforms.u_texture.value = uniforms.texture;
+                this.backgroundUniforms.u_color.value = uniforms.color;
+                this.backgroundUniforms.u_opacity.value = uniforms.opacity;
 
             }
 
@@ -66,20 +89,16 @@ export default function MaterialManager( Base = class {} ) {
         /** Called by Block, which needs the background material to create a mesh */
         getBackgroundMaterial() {
 
-            const newUniforms = {
-                'u_texture': this.getBackgroundTexture(),
-                'u_color': this.getBackgroundColor(),
-                'u_opacity': this.getBackgroundOpacity()
-            }
+            const newUniforms = this.getBackgroundUniforms();
 
             if ( !this.backgroundMaterial || !this.backgroundUniforms ) {
 
                 this.backgroundMaterial = this._makeBackgroundMaterial( newUniforms );
 
             } else if (
-                newUniforms.u_texture !== this.backgroundUniforms.u_texture.value ||
-                newUniforms.u_color !== this.backgroundUniforms.u_color.value ||
-                newUniforms.u_opacity !== this.backgroundUniforms.u_opacity.value
+                newUniforms.texture !== this.backgroundUniforms.u_texture.value ||
+                newUniforms.color !== this.backgroundUniforms.u_color.value ||
+                newUniforms.opacity !== this.backgroundUniforms.u_opacity.value
             ) {
 
                 this.updateBackgroundMaterial();
@@ -146,9 +165,9 @@ export default function MaterialManager( Base = class {} ) {
         _makeBackgroundMaterial( materialOptions ) {
 
             this.backgroundUniforms = {
-                'u_texture': { value: materialOptions.u_texture },
-                'u_color': { value: materialOptions.u_color },
-                'u_opacity': { value: materialOptions.u_opacity }
+                'u_texture': { value: materialOptions.texture },
+                'u_color': { value: materialOptions.color },
+                'u_opacity': { value: materialOptions.opacity }
             };
 
             /*

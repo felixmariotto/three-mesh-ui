@@ -20,7 +20,9 @@ export default {
 	borderRadius: 0.015,
 	backgroundSize: "cover",
 	backgroundColor: new Color( 0x222222 ),
+	backgroundWhiteColor: new Color( 0xffffff ),
 	backgroundOpacity: 0.8,
+	backgroundOpaqueOpacity: 1.0,
 	backgroundTexture: DefaultBackgroundTexture(),
 	hiddenOverflow: false,
 };
@@ -34,6 +36,8 @@ function DefaultBackgroundTexture() {
 	ctx.canvas.height = 1;
 	ctx.fillStyle = '#ffffff';
 	ctx.fillRect(0, 0, 1, 1);
-	return new CanvasTexture(ctx.canvas);
+	const texture = new CanvasTexture(ctx.canvas);
+	texture.isDefault = true;
+	return texture;
 
 };
