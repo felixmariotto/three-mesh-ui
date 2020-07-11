@@ -186,8 +186,7 @@ export default class Keyboard extends mix.withBase( Object3D )( BoxComponent, Me
                                     width: key.width * 0.65,
                                     height: key.height * 0.65,
                                     backgroundSize: 'contain',
-                                    backgroundTexture: texture,
-                                    backgroundOpacity: 0
+                                    backgroundTexture: texture
                                 })
                             );
 
