@@ -1,12 +1,12 @@
 
-/* Import everything we need from Three.js */
-
 import * as THREE from 'three';
 import { VRButton } from 'three/examples/jsm/webxr/VRButton.js';
 import { BoxLineGeometry } from 'three/examples/jsm/geometries/BoxLineGeometry.js';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 
 import ThreeMeshUI from '../src/three-mesh-ui.js';
+
+// assets URLs
 
 import UVImage from './assets/uv_grid.jpg';
 import FontJSON from './assets/Roboto-msdf.json';
