@@ -158,12 +158,29 @@ function loadFontJSON( component, url ) {
 
 }
 
+/*
+
+This method is intended for adding manually loaded fonts. Method assumes font hasn't been loaded or requested yet. If it was,
+font with specified name will be overwritten, but components using it won't be updated.
+
+*/
+function addFont(name, json, texture) {
+	requiredFontFamilies.push( name );
+	fontFamilies[ name ] = json;
+
+	if ( texture ) {
+		requiredFontTextures.push(name);
+		fontTextures[ name ] = texture;
+	}
+}
+
 //
 
 const FontLibrary = {
 	setFontFamily,
 	setFontTexture,
-	getFontOf
+	getFontOf,
+	addFont
 };
 
 export default FontLibrary

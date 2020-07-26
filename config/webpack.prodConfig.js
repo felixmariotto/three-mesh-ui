@@ -5,6 +5,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 // data in format [ JS file name => demo title in examples page ]
 let pages = [
 	['basic_setup', 'basic setup'],
+	['preloaded_font', 'preloaded font'],
 	['nested_blocks', 'nested blocks'],
 	['tutorial_result', 'tutorial result'],
 	['interactive_button', 'interactive button'],
@@ -56,6 +57,7 @@ module.exports = env => {
 		entry: {
 			'../dist/three-mesh-ui': './src/three-mesh-ui.js',
 			basic_setup: './examples/basic_setup.js',
+			preloaded_font: './examples/preloaded_font.js',
 			nested_blocks: './examples/nested_blocks.js',
 			tutorial_result: './examples/tutorial_result.js',
 			interactive_button: './examples/interactive_button.js',

@@ -5,6 +5,7 @@ import Text from './components/Text.js';
 import InlineBlock from './components/InlineBlock.js';
 import Keyboard from './components/Keyboard.js';
 import UpdateManager from './components/core/UpdateManager.js';
+import FontLibrary from './components/core/FontLibrary.js';
 
 const update = () => UpdateManager.update()
 
@@ -13,6 +14,7 @@ const ThreeMeshUI = {
 	Text,
 	InlineBlock,
 	Keyboard,
+	FontLibrary,
 	update,
 };
 
@@ -22,6 +24,7 @@ export { Block }
 export { Text }
 export { InlineBlock }
 export { Keyboard }
+export { FontLibrary }
 export { update }
 
 export default ThreeMeshUI
