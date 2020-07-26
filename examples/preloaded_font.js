@@ -98,15 +98,19 @@ function makeTextPanel() {
 	container.add(
 
 		new ThreeMeshUI.Text({
-			content: "This library supports line-break-friendly-characters,",
-			fontSize: 0.055
-		}),
-
-		new ThreeMeshUI.Text({
-			content: " As well as multi-font-size lines with consistent vertical spacing.",
+			content: "This example shows how to use pre-loaded font files",
 			fontSize: 0.08
 		}),
 
+		new ThreeMeshUI.Text({
+			content: "\nYou can preload font or font and texture, and add it to FontLibrary!",
+			fontSize: 0.05
+		}),
+
+		new ThreeMeshUI.Text({
+			content: "\nAfter that, all added text of this font will be displayed with no loading delays!",
+			fontSize: 0.05
+		})
 	);
 
 };
