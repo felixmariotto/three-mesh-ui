@@ -41,7 +41,7 @@ function getGlyphDimensions( options ) {
 
 		width = (mootGlyph.width * FONT_SIZE) / FONT.common.lineHeight;
 
-	};
+	}
 
 	if ( GLYPH === '\n' ) width = 0;
 
