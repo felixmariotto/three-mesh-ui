@@ -1,5 +1,5 @@
 
-import { Mesh } from 'three/src/objects/Mesh.js';
+import { Mesh } from 'three';
 import { BufferGeometryUtils } from 'three/examples/jsm/utils/BufferGeometryUtils.js';
 
 import MSDFGlyph from './MSDFGlyph.js';

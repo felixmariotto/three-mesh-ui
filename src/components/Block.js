@@ -1,5 +1,5 @@
 
-import { Object3D } from 'three/src/core/Object3D.js';
+import { Object3D } from 'three';
 
 import BoxComponent from './core/BoxComponent.js';
 import InlineManager from './core/InlineManager.js';

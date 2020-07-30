@@ -1,6 +1,6 @@
 
-import { Color } from 'three/src/math/Color.js';
-import { CanvasTexture } from 'three/src/textures/CanvasTexture.js';
+import { Color } from 'three';
+import { CanvasTexture } from 'three';
 
 /** List the default values of the lib components */
 export default {
