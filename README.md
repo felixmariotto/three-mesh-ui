@@ -28,7 +28,7 @@
 
 In a normal three.js workflow, the common practice is to build the user interfaces with HTML/CSS.
 
-In immersive VR, this option is available. **The purpose of _three-mesh-ui_ is to offer a tool similar to HTML/CSS** to build genuine meshes that can be used the normal way inside a three.js scene rendered with WebGLRenderer.
+In immersive VR, this is not possible. **The purpose of _three-mesh-ui_ is to offer a tool similar to HTML/CSS** to build genuine meshes that can be used the normal way inside a three.js scene rendered with WebGLRenderer.
 
 # How to use
 
