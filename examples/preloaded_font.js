@@ -103,12 +103,12 @@ function makeTextPanel() {
 		}),
 
 		new ThreeMeshUI.Text({
-			content: "\nYou can preload font or font and texture, and add it to FontLibrary!",
+			content: "\nYou can preload font or font and texture, and add it to FontLibrary !",
 			fontSize: 0.05
 		}),
 
 		new ThreeMeshUI.Text({
-			content: "\nAfter that, all added text of this font will be displayed with no loading delays!",
+			content: "\nAfter that, all added text of this font will be displayed with no loading delays !",
 			fontSize: 0.05
 		})
 	);
