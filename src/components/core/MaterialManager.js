@@ -223,10 +223,6 @@ const textVertex = `
 //
 
 const textFragment = `
-	#ifdef GL_OES_standard_derivatives
-	#extension GL_OES_standard_derivatives : enable
-	#endif
-
 	uniform sampler2D u_texture;
 	uniform vec3 u_color;
 	uniform float u_opacity;
@@ -274,10 +270,6 @@ const backgroundVertex = `
 //
 
 const backgroundFragment = `
-	#ifdef GL_OES_standard_derivatives
-	#extension GL_OES_standard_derivatives : enable
-	#endif
-
 	uniform sampler2D u_texture;
 	uniform vec3 u_color;
 	uniform float u_opacity;
