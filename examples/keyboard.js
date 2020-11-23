@@ -64,14 +64,14 @@ mouse.x = mouse.y = null;
 let selectState = false;
 let touchState = false;
 
-window.addEventListener( 'mousemove', ( event )=>{
+window.addEventListener( 'pointermove', ( event )=>{
 	mouse.x = ( event.clientX / window.innerWidth ) * 2 - 1;
 	mouse.y = - ( event.clientY / window.innerHeight ) * 2 + 1;
 });
 
-window.addEventListener( 'mousedown', ()=> { selectState = true });
+window.addEventListener( 'pointerdown', ()=> { selectState = true });
 
-window.addEventListener( 'mouseup', ()=> { selectState = false });
+window.addEventListener( 'pointerup', ()=> { selectState = false });
 
 window.addEventListener( 'touchstart', ( event )=> {
 	touchState = true;
