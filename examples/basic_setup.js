@@ -26,7 +26,7 @@ function init() {
 
 	camera = new THREE.PerspectiveCamera( 60, WIDTH / HEIGHT, 0.1, 100 );
 
-	renderer = new THREE.WebGLRenderer({
+	renderer = new THREE.WebGL1Renderer({
 		antialias: true
 	});
 	renderer.setPixelRatio( window.devicePixelRatio );

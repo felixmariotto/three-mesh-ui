@@ -165,7 +165,10 @@ export default function MaterialManager( Base = class {} ) {
                 transparent: true,
                 clipping: true,
                 vertexShader: textVertex,
-                fragmentShader: textFragment
+                fragmentShader: textFragment,
+                extensions: {
+                    derivatives: true
+                }
             })
 
         }
@@ -190,7 +193,10 @@ export default function MaterialManager( Base = class {} ) {
                 transparent: true,
                 clipping: true,
                 vertexShader: backgroundVertex,
-                fragmentShader: backgroundFragment
+                fragmentShader: backgroundFragment,
+                extensions: {
+                    derivatives: true
+                }
             })
 
         }
