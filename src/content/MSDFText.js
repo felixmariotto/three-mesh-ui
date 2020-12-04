@@ -33,13 +33,7 @@ function getGlyphDimensions( options ) {
 	// some font don't provide a width for whitespaces, in that case we take other glyph width
 	if ( width === 0 ) {
 
-		let mootGlyph = FONT.chars.find( charOBJ => charOBJ.char === 'j' );
-
-		if ( !mootGlyph ) mootGlyph = FONT.chars.find( charOBJ => charOBJ.char === 'k' );
-
-		if ( !mootGlyph ) mootGlyph = FONT.chars.find( charOBJ => charOBJ.char === 'n' );
-
-		width = (mootGlyph.width * FONT_SIZE) / FONT.common.lineHeight;
+		width = FONT_SIZE;
 
 	}
 
