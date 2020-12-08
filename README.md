@@ -32,9 +32,9 @@ In immersive VR, this is not possible. **The purpose of _three-mesh-ui_ is to of
 
 # Try it
 
-Give it a try in this fiddle : https://jsfiddle.net/felixmariotto/1n9sdyar/45/
+Give it a try in [this fiddle](https://jsfiddle.net/felixmariotto/1n9sdyar/45/)
 
-Alternatively with react-three-fiber : https://codesandbox.io/s/react-three-mesh-ui-8533g?file=/src/Button.js
+Alternatively [with react-three-fiber](https://codesandbox.io/s/react-three-mesh-ui-8533g?file=/src/Button.js)
 
 # Quick Start
 
