@@ -30,16 +30,13 @@ function getGlyphDimensions( options ) {
 
 	let width = charOBJ ? (charOBJ.width * FONT_SIZE) / FONT.common.lineHeight : FONT_SIZE / 3 ;
 
-	// some font don't provide a width for whitespaces, in that case we take other glyph width
-	if ( width === 0 ) {
+	let height = charOBJ ? (charOBJ.height * FONT_SIZE) / FONT.common.lineHeight : 0 ;
 
-		width = FONT_SIZE;
-
-	}
+	// handle whitespaces and line breaks
+	if ( width === 0 )  width = FONT_SIZE;
+	if ( height === 0 )  height = FONT_SIZE * 0.7;
 
 	if ( GLYPH === '\n' ) width = 0;
-
-	const height = charOBJ ? (charOBJ.height * FONT_SIZE) / FONT.common.lineHeight : 0 ;
 
 	// world-space length between lowest point and the text cursor position
 	const anchor = charOBJ ? ((charOBJ.yoffset + charOBJ.height - FONT.common.base) * FONT_SIZE) / FONT.common.lineHeight : 0 ;

@@ -89,7 +89,7 @@ function makeTextPanel() {
 		new ThreeMeshUI.Text({
 			content: " As well as multi-font-size lines with consistent vertical spacing.",
 			fontSize: 0.08
-		}),
+		})
 
 	);
 
