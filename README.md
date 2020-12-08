@@ -42,12 +42,12 @@ import ThreeMeshUI from 'three-mesh-ui'
 **With NPM and CommonJS :**   
 In your console : `npm install three-mesh-ui`
 ```javascript
-const ThreeMeshUI = require('three-mesh-ui/dist/three-mesh-ui.js');
+const ThreeMeshUI = require('three-mesh-ui');
 ```
 
 **With HTML <script> tag :**    
 ```html
-<script src='https://unpkg.com/three-mesh-ui/dist/three-mesh-ui.js'></script>
+<script src='https://unpkg.com/three-mesh-ui'></script>
 ```
 
 ## Font files
