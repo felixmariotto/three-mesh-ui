@@ -30,11 +30,11 @@ In a normal three.js workflow, the common practice is to build the user interfac
 
 In immersive VR, this is not possible. **The purpose of _three-mesh-ui_ is to offer a tool similar to HTML/CSS** to build genuine meshes that can be used the normal way inside a three.js scene rendered with WebGLRenderer.
 
-# Try it now
+# Quick Start
+
+## Try it now
 
 Give it a try in [this jdFiddle](https://jsfiddle.net/felixmariotto/1n9sdyar/45/)
-
-# Quick Start
 
 ## Import
 **With NPM and ES6 :**   
