@@ -2,24 +2,18 @@ const webpack = require('webpack');
 
 module.exports = env => {
 
-	// let mode = "development";
-	// let devtool = 'eval-source-map';
-
-	const devtool = false;
-	const mode = 'production';
-
 	return {
 
-		mode: mode,
+		mode: 'production',
 
 		entry: {
 			'../dist/three-mesh-ui': './src/three-mesh-ui.js',
 		},
 
-		devtool: devtool,
-
 		output: {
-			filename: '[name].js'
+			filename: '[name].js',
+			library: 'ThreeMeshUI',
+			libraryTarget: 'umd'
 		}
 
 	}

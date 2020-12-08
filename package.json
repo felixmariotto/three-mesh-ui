@@ -5,7 +5,8 @@
   "engines": {
     "node": "x.x.x"
   },
-  "main": "src/three-mesh-ui.js",
+  "main": "dist/three-mesh-ui.js",
+  "module": "src/three-mesh-ui.js",
   "scripts": {
     "start": "node examples/app.js",
     "test": "echo \"No test specified yet\"",
@@ -21,7 +22,11 @@
   "keywords": [
     "three.js",
     "ui",
-    "user-interface"
+    "user-interface",
+    "vr",
+    "ar",
+    "virtual reality",
+    "webXR"
   ],
   "author": "felix mariotto",
   "license": "MIT",
