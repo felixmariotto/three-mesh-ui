@@ -34,7 +34,7 @@ In immersive VR, this is not possible. **The purpose of _three-mesh-ui_ is to of
 
 ## Try it now
 
-Give it a try in [this jdFiddle](https://jsfiddle.net/felixmariotto/1n9sdyar/45/)
+Give it a try in [this jdFiddle](https://jsfiddle.net/felixmariotto/1n9sdyar/83/)
 
 Using react-three-fiber ? Here is a [codesandbox](https://codesandbox.io/s/react-three-mesh-ui-8533g) to get started.
 
