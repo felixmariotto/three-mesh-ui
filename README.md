@@ -76,13 +76,11 @@ const container = new ThreeMeshUI.Block({
 
 //
 
-container.add(
+const text = new ThreeMeshUI.Text({
+ content: "Some text to be displayed"
+});
 
- new ThreeMeshUI.Text({
-  content: "Some text to be displayed"
- })
- 
-);
+container.add( text );
 
 // scene is a THREE.Scene (see three.js)
 scene.add( container );
