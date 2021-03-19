@@ -20,7 +20,7 @@
 
 # What is it ?
 
-**three-mesh-ui** is a small library for building VR user interfaces. The objects it creates are [Three.Object3Ds](https://github.com/mrdoob/three.js/blob/dev/src/core/Object3D.js), usable directly in a [three.js](https://threejs.org) scene like any other Object3D.    
+**three-mesh-ui** is a small library for building VR user interfaces. The objects it creates are [three.object3Ds](https://github.com/mrdoob/three.js/blob/dev/src/core/Object3D.js), usable directly in a [three.js](https://threejs.org) scene like any other Object3D.    
         
 **It is not a framework**, but a minimalist library to be used with the last version of three.js. It has no dependency but three.js.
 
@@ -30,7 +30,13 @@ In a normal three.js workflow, the common practice is to build the user interfac
 
 In immersive VR, this is not possible. **The purpose of _three-mesh-ui_ is to offer a tool similar to HTML/CSS** to build genuine meshes that can be used the normal way inside a three.js scene rendered with WebGLRenderer.
 
-# How to use
+# Quick Start
+
+## Try it now
+
+Give it a try in [this jdFiddle](https://jsfiddle.net/felixmariotto/1n9sdyar/83/)
+
+Using react-three-fiber ? Here is a [codesandbox](https://codesandbox.io/s/react-three-mesh-ui-8533g) to get started.
 
 ## Import
 **With NPM and ES6 :**   
@@ -70,13 +76,11 @@ const container = new ThreeMeshUI.Block({
 
 //
 
-container.add(
+const text = new ThreeMeshUI.Text({
+ content: "Some text to be displayed"
+});
 
- new ThreeMeshUI.Text({
-  content: "Some text to be displayed"
- })
- 
-);
+container.add( text );
 
 // scene is a THREE.Scene (see three.js)
 scene.add( container );
