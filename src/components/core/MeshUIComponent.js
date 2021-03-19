@@ -262,8 +262,8 @@ export default function MeshUIComponent( Base = class {} ) {
         ///////////////
 
         /**
-         * When the user calls component.add, it triggers updates, then
-         * call THREE.Object3D.add.
+         * When the user calls component.add, it registers for updates,
+         * then call THREE.Object3D.add.
          */
         add() {
 
@@ -275,6 +275,23 @@ export default function MeshUIComponent( Base = class {} ) {
             }
 
             return super.add( ...arguments );
+
+        }
+
+        /**
+         * When the user calls component.remove, it registers for updates,
+         * then call THREE.Object3D.remove.
+         */
+        remove() {
+
+            for ( const id of Object.keys(arguments) ) {
+
+                // An inline component relies on its parent for positioning
+                if ( arguments[id].isInline ) this.update( null, true );
+
+            }
+
+            return super.remove( ...arguments );
 
         }
 
