@@ -13,7 +13,8 @@ let pages = [
 	['background_size', 'backgroundSize'],
 	['inline_block', 'InlineBlock'],
 	['hidden_overflow', 'hiddenOverflow'],
-	['keyboard', 'keyboard']
+	['onafterupdate', 'onAfterUpdate'],
+	['keyboard', 'keyboard'],
 ];
 
 // create one config for each of the data set above
@@ -65,6 +66,7 @@ module.exports = env => {
 			background_size: './examples/background_size.js',
 			inline_block: './examples/inline_block.js',
 			hidden_overflow: './examples/hidden_overflow.js',
+			onafterupdate: './examples/onafterupdate.js',
 			keyboard: './examples/keyboard.js'
 		},
 
