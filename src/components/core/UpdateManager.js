@@ -37,7 +37,8 @@ export default class UpdateManager {
                 this.requestedUpdates[ child.id ] = {
                     updateParsing,
                     updateLayout,
-                    updateInner
+                    updateInner,
+                    needCallback: ( updateParsing || updateLayout || updateInner )
                 };
 
             } else {
@@ -94,20 +95,20 @@ export default class UpdateManager {
                 return this.callParsingUpdateOf( component );
 
             }))
-                .then( ()=> {
+            .then( ()=> {
 
-                    roots.forEach( (component)=> {
+                roots.forEach( (component)=> {
 
-                        this.callUpdatesOf( component );
-
-                    });
-
-                })
-                .catch( (err)=> {
-
-                    console.error(err)
+                    this.callUpdatesOf( component );
 
                 });
+
+            })
+            .catch( (err)=> {
+
+                console.error(err)
+
+            });
 
         }
 
@@ -192,6 +193,14 @@ export default class UpdateManager {
             request.updateInner = false;
 
             component.updateInner();
+
+        }
+
+        //
+
+        if ( request && request.needCallback ) {
+
+            component.onAfterUpdate();
 
         }
 

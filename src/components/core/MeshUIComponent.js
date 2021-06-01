@@ -303,6 +303,8 @@ export default function MeshUIComponent( Base = class {} ) {
 
         }
 
+        onAfterUpdate() {}
+
         /**
          * Called by FontLibrary when the font requested for the current component is ready.
          * Trigger an update for the component whose font is now available.
