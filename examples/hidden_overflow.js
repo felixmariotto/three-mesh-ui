@@ -82,7 +82,9 @@ function makeTextPanel() {
 	title.position.set( 0, 1.8, -2 );
 	scene.add( title );
 
-	//
+	// !!! BEWARE !!!
+	// three-mesh-ui uses three.js local clipping to hide overflows, so don't
+	// forget to enable local clipping with renderer.localClippingEnabled = true;
 
 	container = new ThreeMeshUI.Block({
 		height: 0.7,
