@@ -411,6 +411,7 @@ function makeKeyboard( language ) {
 		language: language,
 		fontFamily: FontJSON,
 		fontTexture: FontImage,
+		fontSize: 0.035, // fontSize will propagate to the keys blocks
 		backgroundColor: new THREE.Color( colors.keyboardBack ),
 	  	backgroundOpacity: 1,
 	  	backspaceTexture: Backspace,

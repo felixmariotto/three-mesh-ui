@@ -159,7 +159,6 @@ export default class Keyboard extends mix.withBase( Object3D )( BoxComponent, Me
                         height: lineHeight,
                         margin: options.margin,
                         justifyContent: 'center',
-                        fontSize: 0.035,
                         offset: 0
                     });
 
