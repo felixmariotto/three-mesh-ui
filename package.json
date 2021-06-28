@@ -43,7 +43,10 @@
     "webpack-cli": "^3.3.12",
     "webpack-dev-server": "^3.11.2"
   },
-  "dependencies": {
+  "peerDependencies": {
     "three": "^0.128.0"
+  },
+  "dependencies": {
+    "three": "^0.129.0"
   }
 }
