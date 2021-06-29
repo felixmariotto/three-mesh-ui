@@ -330,9 +330,13 @@ const backgroundFragment = `
             }
         } else if ( u_backgroundMapping == 2 ) { // cover
             if ( textureRatio < panelRatio ) { // stretch on Y
-                uv.y *= textureRatio / panelRatio;
+                float newY = uv.y * ( textureRatio / panelRatio );
+                newY -= 0.5 + 0.5 * ( textureRatio / panelRatio );
+                uv.y = newY;
             } else { // stretch on X
-                uv.x *= panelRatio / textureRatio;
+                float newX = uv.x * ( panelRatio / textureRatio );
+                newX -= 0.5 + 0.5 * ( panelRatio / textureRatio );
+                uv.x = newX;
             }
         }
         return texture2D( u_texture, uv ).rgba;
