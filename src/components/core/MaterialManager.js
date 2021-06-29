@@ -39,10 +39,19 @@ export default function MaterialManager( Base = class {} ) {
 
             }
 
+            const backgroundMapping = ( () => {
+                switch ( this.getBackgroundSize() ) {
+                    case 'stretch': return 0;
+                    case 'contain': return 1;
+                    case 'cover': return 2;
+                }
+            } )();
+
             return {
                 texture,
                 color,
                 opacity,
+                backgroundMapping,
                 borderRadius: this.getBorderRadius(),
                 borderWidth: this.getBorderWidth(),
                 borderColor: this.getBorderColor(),
@@ -61,6 +70,7 @@ export default function MaterialManager( Base = class {} ) {
                 this.backgroundUniforms.u_texture.value = uniforms.texture;
                 this.backgroundUniforms.u_color.value = uniforms.color;
                 this.backgroundUniforms.u_opacity.value = uniforms.opacity;
+                this.backgroundUniforms.u_backgroundMapping.value = uniforms.backgroundMapping;
 
                 this.backgroundUniforms.u_borderRadius.value = uniforms.borderRadius;
                 this.backgroundUniforms.u_borderWidth.value = uniforms.borderWidth;
@@ -115,7 +125,12 @@ export default function MaterialManager( Base = class {} ) {
             } else if (
                 newUniforms.texture !== this.backgroundUniforms.u_texture.value ||
                 newUniforms.color !== this.backgroundUniforms.u_color.value ||
-                newUniforms.opacity !== this.backgroundUniforms.u_opacity.value
+                newUniforms.opacity !== this.backgroundUniforms.u_opacity.value ||
+                newUniforms.backgroundMapping !== this.backgroundUniforms.u_backgroundMapping.value ||
+                newUniforms.borderRadius !== this.backgroundUniforms.u_borderRadius.value ||
+                newUniforms.borderWidth !== this.backgroundUniforms.u_borderWidth.value ||
+                newUniforms.borderColor !== this.backgroundUniforms.u_borderColor.value ||
+                newUniforms.size !== this.backgroundUniforms.u_size.value
             ) {
 
                 this.updateBackgroundMaterial();
@@ -182,6 +197,7 @@ export default function MaterialManager( Base = class {} ) {
                 'u_texture': { value: materialOptions.texture },
                 'u_color': { value: materialOptions.color },
                 'u_opacity': { value: materialOptions.opacity },
+                'u_backgroundMapping': { value: materialOptions.backgroundMapping },
                 'u_borderRadius': { value: materialOptions.borderRadius },
                 'u_borderWidth': { value: materialOptions.borderWidth },
                 'u_borderColor': { value: materialOptions.borderColor },
@@ -284,6 +300,7 @@ const backgroundFragment = `
     uniform float u_borderWidth;
     uniform vec3 u_borderColor;
     uniform vec2 u_size;
+    uniform int u_backgroundMapping;
 
 	varying vec2 vUv;
 
@@ -300,10 +317,31 @@ const backgroundFragment = `
         return mix( innerRadDist, roundedDist, s );
     }
 
+    vec4 sampleTexture() {
+        ivec2 tSize = textureSize( u_texture, 0 );
+        float textureRatio = float( tSize.x ) / float( tSize.y );
+        float panelRatio = u_size.x / u_size.y;
+        vec2 uv = vUv;
+        if ( u_backgroundMapping == 1 ) { // contain
+            if ( textureRatio < panelRatio ) { // repeat on X
+                uv.x *= panelRatio / textureRatio;
+            } else { // repeat on Y
+                uv.y *= textureRatio / panelRatio;
+            }
+        } else if ( u_backgroundMapping == 2 ) { // cover
+            if ( textureRatio < panelRatio ) { // stretch on Y
+                uv.y *= textureRatio / panelRatio;
+            } else { // stretch on X
+                uv.x *= panelRatio / textureRatio;
+            }
+        }
+        return texture2D( u_texture, uv ).rgba;
+    }
+
 	void main() {
         float edgeDist = getEdgeDist();
         if ( edgeDist > 0.0 ) discard;
-		vec4 textureSample = texture2D( u_texture, vUv ).rgba;
+		vec4 textureSample = sampleTexture();
         float blendedOpacity = u_opacity * textureSample.a;
         vec3 blendedColor = textureSample.rgb * u_color;
         if ( edgeDist * -1.0 < u_borderWidth ) blendedColor = u_borderColor;

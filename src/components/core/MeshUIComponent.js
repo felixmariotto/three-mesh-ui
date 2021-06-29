@@ -388,7 +388,6 @@ export default function MeshUIComponent( Base = class {} ) {
                 case "justifyContent" :
                 case "alignContent" :
                 case "textType" :
-                case "backgroundSize" :
                 case "src" :
                     layoutNeedsUpdate = true;
                     this[ prop ] = options[ prop ];
@@ -400,6 +399,7 @@ export default function MeshUIComponent( Base = class {} ) {
                 case "backgroundColor" :
                 case "backgroundOpacity" :
                 case "backgroundTexture" :
+                case "backgroundSize" :
                 case "borderRadius" :
                 case "borderWidth" :
                 case "borderColor" :

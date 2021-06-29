@@ -126,7 +126,7 @@ function makeSection( texture, backgroundSize, text1, text2 ) {
 	});
 
 	const imageBlock = new ThreeMeshUI.Block({
-		height: 1.1,
+		height: 0.4,//1.1,
 		width: 0.6,
 		borderRadius: 0.05,
 		backgroundTexture: texture,
