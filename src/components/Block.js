@@ -80,6 +80,8 @@ export default class Block extends mix.withBase( Object3D )(
 
         if ( this.frame ) this.updateBackgroundMaterial();
 
+        this.frame.renderOrder = this.getParentsNumber();
+
         // Position this element according to earlier parent computation.
         // Delegate to BoxComponent.
 
