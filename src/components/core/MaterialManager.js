@@ -42,7 +42,11 @@ export default function MaterialManager( Base = class {} ) {
             return {
                 texture,
                 color,
-                opacity
+                opacity,
+                borderRadius: this.getBorderRadius(),
+                borderWidth: this.getBorderWidth(),
+                borderColor: this.getBorderColor(),
+                size: this.size
             }
 
         }
@@ -57,6 +61,10 @@ export default function MaterialManager( Base = class {} ) {
                 this.backgroundUniforms.u_texture.value = uniforms.texture;
                 this.backgroundUniforms.u_color.value = uniforms.color;
                 this.backgroundUniforms.u_opacity.value = uniforms.opacity;
+
+                this.backgroundUniforms.u_borderRadius.value = uniforms.borderRadius;
+                this.backgroundUniforms.u_borderWidth.value = uniforms.borderWidth;
+                this.backgroundUniforms.u_borderColor.value = uniforms.borderColor;
 
             }
 
@@ -154,12 +162,6 @@ export default function MaterialManager( Base = class {} ) {
                 'u_opacity': { value: materialOptions.u_opacity }
             }
 
-            /*
-            setInterval( ()=> {
-                this.textUniforms.u_color.value.set( 0xffffff * Math.random() );
-            }, 100 )
-            */
-
             return new ShaderMaterial({
                 uniforms: this.textUniforms,
                 transparent: true,
@@ -179,14 +181,12 @@ export default function MaterialManager( Base = class {} ) {
             this.backgroundUniforms = {
                 'u_texture': { value: materialOptions.texture },
                 'u_color': { value: materialOptions.color },
-                'u_opacity': { value: materialOptions.opacity }
+                'u_opacity': { value: materialOptions.opacity },
+                'u_borderRadius': { value: materialOptions.borderRadius },
+                'u_borderWidth': { value: materialOptions.borderWidth },
+                'u_borderColor': { value: materialOptions.borderColor },
+                'u_size': { value: materialOptions.size }
             };
-
-            /*
-            setInterval( ()=> {
-                this.backgroundUniforms.u_color.value.set( 0xffffff * Math.random() );
-            }, 100 )
-            */
 
             return new ShaderMaterial({
                 uniforms: this.backgroundUniforms,
@@ -280,21 +280,34 @@ const backgroundFragment = `
 	uniform vec3 u_color;
 	uniform float u_opacity;
 
+    uniform float u_borderRadius;
+    uniform float u_borderWidth;
+    uniform vec3 u_borderColor;
+    uniform vec2 u_size;
+
 	varying vec2 vUv;
 
 	#include <clipping_planes_pars_fragment>
 
+    float getEdgeDist() {
+        vec2 ndc = vec2( vUv.x * 2.0 - 1.0, vUv.y * 2.0 - 1.0 );
+        vec2 planeSpaceCoord = vec2( u_size.x * 0.5 * ndc.x, u_size.y * 0.5 * ndc.y );
+        vec2 corner = u_size * 0.5;
+        vec2 offsetCorner = corner - abs( planeSpaceCoord );
+        float innerRadDist = min( offsetCorner.x, offsetCorner.y ) * -1.0;
+        float roundedDist = length( max( abs( planeSpaceCoord ) - u_size * 0.5 + u_borderRadius, 0.0 ) ) - u_borderRadius;
+        float s = step( innerRadDist * -1.0, u_borderRadius );
+        return mix( innerRadDist, roundedDist, s );
+    }
+
 	void main() {
-
+        float edgeDist = getEdgeDist();
+        if ( edgeDist > 0.0 ) discard;
 		vec4 textureSample = texture2D( u_texture, vUv ).rgba;
-
         float blendedOpacity = u_opacity * textureSample.a;
-
         vec3 blendedColor = textureSample.rgb * u_color;
-
+        if ( edgeDist * -1.0 < u_borderWidth ) blendedColor = u_borderColor;
 		gl_FragColor = vec4( blendedColor, blendedOpacity );
-	
 		#include <clipping_planes_fragment>
-
 	}
 `;

@@ -1,5 +1,5 @@
 
-import { Object3D } from 'three';
+import { Object3D, Vector2 } from 'three';
 
 import BoxComponent from './core/BoxComponent.js';
 import InlineManager from './core/InlineManager.js';
@@ -34,9 +34,22 @@ export default class Block extends mix.withBase( Object3D )(
 
         //
 
-        this.frameContainer = new Object3D();
+        this.size = new Vector2( 1, 1 );
 
-        this.add( this.frameContainer );
+        this.frame = new Frame( this.getBackgroundMaterial() );
+
+        // This is for hiddenOverflow to work
+        this.frame.onBeforeRender = () => {
+
+            if ( this.updateClippingPlanes ) {
+
+                this.updateClippingPlanes();
+
+            }
+
+        };
+
+        this.add( this.frame );
 
         // Lastly set the options parameters to this object, which will trigger an update
         
@@ -63,6 +76,10 @@ export default class Block extends mix.withBase( Object3D )(
             return
         }
 
+        this.size.set( WIDTH, HEIGHT );
+
+        if ( this.frame ) this.updateBackgroundMaterial();
+
         // Position this element according to earlier parent computation.
         // Delegate to BoxComponent.
 
@@ -81,36 +98,9 @@ export default class Block extends mix.withBase( Object3D )(
 
         }
         
-        // Cleanup previous depictions
+        //
 
-        deepDelete( this.frameContainer );
-
-        // Create new visible frame
-
-        this.frame = new Frame(
-            WIDTH,
-            HEIGHT,
-            this.getBorderRadius(),
-            this.getBackgroundSize(),
-            this.getBackgroundMaterial()
-        );
-
-        this.frame.renderOrder = this.getParentsNumber();
-
-        const component = this;
-
-        // This is for hiddenOverflow to work
-        this.frame.onBeforeRender = function() {
-
-            if ( component.updateClippingPlanes ) {
-
-                component.updateClippingPlanes();
-
-            }
-
-        };
-
-        this.frameContainer.add( this.frame );
+        this.frame.scale.set( WIDTH, HEIGHT, 1 );
 
         // We check if this block is the root component,
         // because most of the time the user wants to set the

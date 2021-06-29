@@ -174,6 +174,14 @@ export default function MeshUIComponent( Base = class {} ) {
             return this._getProperty( 'borderRadius' );
         }
 
+        getBorderWidth() {
+            return this._getProperty( 'borderWidth' );
+        }
+
+        getBorderColor() {
+            return this._getProperty( 'borderColor' );
+        }
+
         /// SPECIALS
 
         /** return the first parent with a 'threeOBJ' property */
@@ -380,7 +388,6 @@ export default function MeshUIComponent( Base = class {} ) {
                 case "justifyContent" :
                 case "alignContent" :
                 case "textType" :
-                case "borderRadius" :
                 case "backgroundSize" :
                 case "src" :
                     layoutNeedsUpdate = true;
@@ -393,6 +400,9 @@ export default function MeshUIComponent( Base = class {} ) {
                 case "backgroundColor" :
                 case "backgroundOpacity" :
                 case "backgroundTexture" :
+                case "borderRadius" :
+                case "borderWidth" :
+                case "borderColor" :
                     innerNeedsUpdate = true;
                     this[ prop ] = options[ prop ];
                     break;
