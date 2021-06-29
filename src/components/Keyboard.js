@@ -148,7 +148,7 @@ export default class Keyboard extends mix.withBase( Object3D )( BoxComponent, Me
                     justifyContent: 'center'
                 });
 
-                lineBlock.frameContainer.visible = false;
+                lineBlock.frame.visible = false;
 
                 const keys = [];
 
