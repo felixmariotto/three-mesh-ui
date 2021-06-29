@@ -325,21 +325,21 @@ const backgroundFragment = `
         if ( u_backgroundMapping == 1 ) { // contain
             if ( textureRatio < panelRatio ) { // repeat on X
                 float newX = uv.x * ( panelRatio / textureRatio );
-                newX -= 0.5 + 0.5 * ( panelRatio / textureRatio );
+                newX += 0.5 - 0.5 * ( panelRatio / textureRatio );
                 uv.x = newX;
             } else { // repeat on Y
                 float newY = uv.y * ( textureRatio / panelRatio );
-                newY -= 0.5 + 0.5 * ( textureRatio / panelRatio );
+                newY += 0.5 - 0.5 * ( textureRatio / panelRatio );
                 uv.y = newY;
             }
         } else if ( u_backgroundMapping == 2 ) { // cover
             if ( textureRatio < panelRatio ) { // stretch on Y
                 float newY = uv.y * ( textureRatio / panelRatio );
-                newY -= 0.5 + 0.5 * ( textureRatio / panelRatio );
+                newY += 0.5 - 0.5 * ( textureRatio / panelRatio );
                 uv.y = newY;
             } else { // stretch on X
                 float newX = uv.x * ( panelRatio / textureRatio );
-                newX -= 0.5 + 0.5 * ( panelRatio / textureRatio );
+                newX += 0.5 - 0.5 * ( panelRatio / textureRatio );
                 uv.x = newX;
             }
         }

@@ -16,6 +16,7 @@ const WIDTH = window.innerWidth;
 const HEIGHT = window.innerHeight;
 
 let scene, camera, renderer, controls;
+const imageBlocks = [];
 
 window.addEventListener('load', init );
 window.addEventListener('resize', onWindowResize );
@@ -126,13 +127,15 @@ function makeSection( texture, backgroundSize, text1, text2 ) {
 	});
 
 	const imageBlock = new ThreeMeshUI.Block({
-		height: 0.9,//1.1,
+		height: 1.1,
 		width: 0.6,
 		borderRadius: 0.05,
 		backgroundTexture: texture,
 		backgroundOpacity: 1,
 		backgroundSize
 	});
+
+	imageBlocks.push( imageBlock );
 
 	const textBlock = new ThreeMeshUI.Block({
 		height: 0.45,
@@ -176,6 +179,12 @@ function onWindowResize() {
 //
 
 function loop() {
+
+	imageBlocks.forEach( (imageBlock) => {
+
+		imageBlock.set({ height: 0.6 + 0.2 * Math.sin( Date.now() / 700 ) });
+
+	} );
 
 	// Don't forget, ThreeMeshUI must be updated manually.
 	// This has been introduced in version 3.0.0 in order
