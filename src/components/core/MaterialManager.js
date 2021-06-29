@@ -324,9 +324,13 @@ const backgroundFragment = `
         vec2 uv = vUv;
         if ( u_backgroundMapping == 1 ) { // contain
             if ( textureRatio < panelRatio ) { // repeat on X
-                uv.x *= panelRatio / textureRatio;
+                float newX = uv.x * ( panelRatio / textureRatio );
+                newX -= 0.5 + 0.5 * ( panelRatio / textureRatio );
+                uv.x = newX;
             } else { // repeat on Y
-                uv.y *= textureRatio / panelRatio;
+                float newY = uv.y * ( textureRatio / panelRatio );
+                newY -= 0.5 + 0.5 * ( textureRatio / panelRatio );
+                uv.y = newY;
             }
         } else if ( u_backgroundMapping == 2 ) { // cover
             if ( textureRatio < panelRatio ) { // stretch on Y
