@@ -81,13 +81,7 @@ function makeTextPanel() {
 
 	panel.add(
 		new ThreeMeshUI.Text({
-			content: `
-				Block.borderRadius
-
-				Block.borderWidth
-
-				Block.borderColor
-			`,
+			content: `Block.borderRadius\n\nBlock.borderWidth\n\nBlock.borderColor`,
 		})
 	);
 
