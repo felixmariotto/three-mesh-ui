@@ -77,6 +77,7 @@ export default class Block extends mix.withBase( Object3D )(
         }
 
         this.size.set( WIDTH, HEIGHT );
+        this.frame.scale.set( WIDTH, HEIGHT, 1 );
 
         if ( this.frame ) this.updateBackgroundMaterial();
 
@@ -99,10 +100,6 @@ export default class Block extends mix.withBase( Object3D )(
             this.computeInlinesPosition();
 
         }
-        
-        //
-
-        this.frame.scale.set( WIDTH, HEIGHT, 1 );
 
         // We check if this block is the root component,
         // because most of the time the user wants to set the

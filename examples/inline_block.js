@@ -102,13 +102,13 @@ function makeTextPanel() {
 			new ThreeMeshUI.InlineBlock({
 				height: 0.2,
 				width: 0.4,
-				backgroundTexture: texture,
+				backgroundTexture: texture
 			}),
 
 			new ThreeMeshUI.Text({
 				fontSize: 0.07,
 				content: "\nwith modified color and opacity : ",
-				fontColor: new THREE.Color(0xffc654),
+				fontColor: new THREE.Color(0xffc654)
 			}),
 
 			new ThreeMeshUI.InlineBlock({

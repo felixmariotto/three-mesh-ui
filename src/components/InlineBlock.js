@@ -1,5 +1,5 @@
 
-import { Object3D } from 'three';
+import { Object3D, Vector2 } from 'three';
 
 import InlineComponent from './core/InlineComponent.js';
 import BoxComponent from './core/BoxComponent.js';
@@ -36,9 +36,24 @@ export default class InlineBlock extends mix.withBase( Object3D )(
 
         //
 
-        this.frameContainer = new Object3D();
+        this.size = new Vector2( 1, 1 );
 
-        this.add( this.frameContainer );
+        this.frame = new Frame( this.getBackgroundMaterial() );
+
+        // This is for hiddenOverflow to work
+        this.frame.onBeforeRender = () => {
+
+            if ( this.updateClippingPlanes ) {
+
+                this.updateClippingPlanes();
+
+            }
+
+        };
+
+        this.add( this.frame );
+
+         // Lastly set the options parameters to this object, which will trigger an update
 
         this.set( options );
 
@@ -82,19 +97,12 @@ export default class InlineBlock extends mix.withBase( Object3D )(
      */
     updateLayout() {
 
-        deepDelete( this.frameContainer );
+        const WIDTH = this.getWidth();
+        const HEIGHT = this.getHeight();
 
         if ( this.inlines ) {
 
             const options = this.inlines[0];
-
-            this.frame = new Frame(
-                options.width,
-                options.height,
-                this.getBorderRadius(),
-                this.getBackgroundSize(),
-                this.getBackgroundMaterial()
-            );
 
             // basic translation to put the plane's left bottom corner at the center of its space
             this.position.set( options.width / 2, options.height / 2, 0 );
@@ -103,23 +111,14 @@ export default class InlineBlock extends mix.withBase( Object3D )(
             this.position.x += options.offsetX;
             this.position.y += options.offsetY;
 
-            this.frame.renderOrder = this.getParentsNumber();
-
-            const component = this;
-
-            this.frame.onBeforeRender = function() {
-
-                if ( component.updateClippingPlanes ) {
-
-                    component.updateClippingPlanes();
-
-                }
-
-            };
-
-            this.frameContainer.add( this.frame );
-
         }
+
+        this.size.set( WIDTH, HEIGHT );
+        this.frame.scale.set( WIDTH, HEIGHT, 1 );
+
+        if ( this.frame ) this.updateBackgroundMaterial();
+
+        this.frame.renderOrder = this.getParentsNumber();
 
         // Position inner elements according to dimensions and layout parameters.
         // Delegate to BoxComponent.
@@ -143,6 +142,8 @@ export default class InlineBlock extends mix.withBase( Object3D )(
     updateInner() {
 
         this.position.z = this.getOffset();
+
+        if ( this.frame ) this.updateBackgroundMaterial();
 
     }
 
