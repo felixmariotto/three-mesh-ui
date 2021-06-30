@@ -180,12 +180,6 @@ function onWindowResize() {
 
 function loop() {
 
-	imageBlocks.forEach( (imageBlock) => {
-
-		imageBlock.set({ height: 0.6 + 0.2 * Math.sin( Date.now() / 700 ) });
-
-	} );
-
 	// Don't forget, ThreeMeshUI must be updated manually.
 	// This has been introduced in version 3.0.0 in order
 	// to improve performance
