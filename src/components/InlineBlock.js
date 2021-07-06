@@ -8,7 +8,6 @@ import MeshUIComponent from './core/MeshUIComponent.js';
 import MaterialManager from './core/MaterialManager.js';
 
 import Frame from '../content/Frame.js';
-import deepDelete from '../utils/deepDelete.js';
 import { mix } from '../utils/mix.js';
 
 /**

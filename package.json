@@ -8,12 +8,11 @@
   "main": "dist/three-mesh-ui.js",
   "module": "src/three-mesh-ui.js",
   "scripts": {
-    "start": "node examples/app.js",
     "test": "echo \"No test specified yet\"",
     "lint": "eslint -c config/.eslintrc src",
     "build": "npx webpack --config config/webpack.config.js",
     "build-site": "npx webpack --config config/webpack.prodConfig.js --env.NODE_ENV=prod",
-    "dev": "webpack-dev-server --config config/webpack.prodConfig.js --open --env.NODE_ENV=dev",
+    "start": "webpack-dev-server --config config/webpack.prodConfig.js --open --env.NODE_ENV=dev",
     "heroku-postbuild": "npx webpack --config config/webpack.prodConfig.js --env.NODE_ENV=prod"
   },
   "repository": {
@@ -37,7 +36,6 @@
   "homepage": "https://github.com/felixmariotto/Three-Mesh-UI#readme",
   "devDependencies": {
     "eslint": "^7.25.0",
-    "express": "^4.17.1",
     "file-loader": "^6.2.0",
     "html-webpack-plugin": "^4.5.2",
     "webpack": "^4.46.0",
@@ -48,6 +46,6 @@
     "three": "^0.128.0"
   },
   "dependencies": {
-    "three": "^0.129.0"
+    "three": "^0.128.0"
   }
 }

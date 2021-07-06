@@ -1,8 +1,6 @@
 
 import { PlaneGeometry } from 'three';
 import { Mesh } from 'three';
-import { Vector2 } from 'three';
-import { Shape } from 'three';
 
 /**
  * Returns a basic plane mesh.
