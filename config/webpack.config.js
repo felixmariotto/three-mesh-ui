@@ -7,7 +7,7 @@ module.exports = env => {
 		mode: 'production',
 
 		entry: {
-			'../dist/three-mesh-ui': './src/three-mesh-ui.js',
+			'../build/three-mesh-ui': './src/three-mesh-ui.js',
 		},
 
 		output: {
