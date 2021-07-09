@@ -329,7 +329,7 @@ const backgroundFragment = `
     }
 
     vec4 sampleTexture() {
-        float textureRatio = float( u_tSize.x ) / float( u_tSize.y );
+        float textureRatio = u_tSize.x / u_tSize.y;
         float panelRatio = u_size.x / u_size.y;
         vec2 uv = vUv;
         if ( u_backgroundMapping == 1 ) { // contain
