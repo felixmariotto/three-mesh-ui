@@ -20,9 +20,14 @@ export default function MaterialManager( Base = class {} ) {
 
         getBackgroundUniforms() {
 
+            let color, opacity;
+
             const texture = this.getBackgroundTexture();
 
-            let color, opacity
+            this.tSize.set(
+                texture.image.width,
+                texture.image.height
+            );
 
             if ( texture.isDefault ) {
 
@@ -55,7 +60,8 @@ export default function MaterialManager( Base = class {} ) {
                 borderRadius: this.getBorderRadius(),
                 borderWidth: this.getBorderWidth(),
                 borderColor: this.getBorderColor(),
-                size: this.size
+                size: this.size,
+                tSize: this.tSize
             }
 
         }
@@ -71,6 +77,8 @@ export default function MaterialManager( Base = class {} ) {
                 this.backgroundUniforms.u_color.value = uniforms.color;
                 this.backgroundUniforms.u_opacity.value = uniforms.opacity;
                 this.backgroundUniforms.u_backgroundMapping.value = uniforms.backgroundMapping;
+                this.backgroundUniforms.u_size.value = uniforms.size;
+                this.backgroundUniforms.u_tSize.value = uniforms.tSize;
 
                 this.backgroundUniforms.u_borderRadius.value = uniforms.borderRadius;
                 this.backgroundUniforms.u_borderWidth.value = uniforms.borderWidth;
@@ -130,7 +138,8 @@ export default function MaterialManager( Base = class {} ) {
                 newUniforms.borderRadius !== this.backgroundUniforms.u_borderRadius.value ||
                 newUniforms.borderWidth !== this.backgroundUniforms.u_borderWidth.value ||
                 newUniforms.borderColor !== this.backgroundUniforms.u_borderColor.value ||
-                newUniforms.size !== this.backgroundUniforms.u_size.value
+                newUniforms.size !== this.backgroundUniforms.u_size.value ||
+                newUniforms.tSize !== this.backgroundUniforms.u_tSize.value
             ) {
 
                 this.updateBackgroundMaterial();
@@ -201,7 +210,8 @@ export default function MaterialManager( Base = class {} ) {
                 'u_borderRadius': { value: materialOptions.borderRadius },
                 'u_borderWidth': { value: materialOptions.borderWidth },
                 'u_borderColor': { value: materialOptions.borderColor },
-                'u_size': { value: materialOptions.size }
+                'u_size': { value: materialOptions.size },
+                'u_tSize': { value: materialOptions.tSize }
             };
 
             return new ShaderMaterial({
@@ -300,6 +310,7 @@ const backgroundFragment = `
     uniform float u_borderWidth;
     uniform vec3 u_borderColor;
     uniform vec2 u_size;
+    uniform vec2 u_tSize;
     uniform int u_backgroundMapping;
 
 	varying vec2 vUv;
@@ -318,8 +329,7 @@ const backgroundFragment = `
     }
 
     vec4 sampleTexture() {
-        ivec2 tSize = textureSize( u_texture, 0 );
-        float textureRatio = float( tSize.x ) / float( tSize.y );
+        float textureRatio = float( u_tSize.x ) / float( u_tSize.y );
         float panelRatio = u_size.x / u_size.y;
         vec2 uv = vUv;
         if ( u_backgroundMapping == 1 ) { // contain

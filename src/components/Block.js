@@ -34,6 +34,7 @@ export default class Block extends mix.withBase( Object3D )(
         //
 
         this.size = new Vector2( 1, 1 );
+        this.tSize = new Vector2( 1, 1 );
 
         this.frame = new Frame( this.getBackgroundMaterial() );
 
