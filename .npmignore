@@ -3,3 +3,4 @@ webpack.config.js
 webpack.prodConfig.js
 Procfile
 .eslintrc
+dist/
