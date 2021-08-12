@@ -28,7 +28,7 @@
 
 In a normal three.js workflow, the common practice is to build the user interfaces with HTML/CSS.
 
-In immersive VR, this is not possible. **The purpose of _three-mesh-ui_ is to offer a tool similar to HTML/CSS** to build genuine meshes that can be used the normal way inside a three.js scene rendered with WebGLRenderer.
+In immersive VR, it used to be impossible, therefore this library was created. Today WebXR evolved and [new solutions exist](https://threejs.org/examples/?q=xr#webxr_vr_layers), we recommend that you check them out. Three-mesh-ui is still a viable alternative for special use cases.
 
 # Quick Start
 
@@ -36,7 +36,7 @@ In immersive VR, this is not possible. **The purpose of _three-mesh-ui_ is to of
 
 Give it a try in [this jdFiddle](https://jsfiddle.net/felixmariotto/y81rf5t2/)
 
-Using react-three-fiber ? Here is a [codesandbox](https://codesandbox.io/s/react-three-mesh-ui-8533g) to get started.
+Using react-three-fiber ? Here is a [codesandbox](https://codesandbox.io/s/react-three-mesh-ui-forked-v7n0b?file=/src/index.js) to get started.
 
 ## Import
 **With NPM and ES6 :**   
