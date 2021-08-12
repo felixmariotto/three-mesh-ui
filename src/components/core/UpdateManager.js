@@ -82,52 +82,21 @@ export default class UpdateManager {
 
         if ( Object.keys( this.requestedUpdates ).length > 0 ) {
 
-            const roots = this.components.filter( (component)=> {
+            const roots = this.components.filter( ( component ) => {
 
                 return !component.getUIParent()
 
             } );
 
             roots.forEach( root => this.traverseParsing( root ) );
-
-            roots.forEach( (component)=> {
-
-                    this.callUpdatesOf( component );
-
-                });
-
-            /*
-
-            //
-
-            Promise.all( roots.map( (component)=> {
-
-                return this.callParsingUpdateOf( component );
-
-            }))
-            .then( ()=> {
-
-                roots.forEach( (component)=> {
-
-                    this.callUpdatesOf( component );
-
-                });
-
-            })
-            .catch( (err)=> {
-
-                console.error(err)
-
-            });
-
-            */
+            roots.forEach( root => this.traverseUpdates( root ) );
 
         }
 
     }
 
     /**
-     * Synchronously calls parseParams update of all components from parent to children
+     * Calls parseParams update of all components from parent to children
      * @private
      */
     static traverseParsing( component ) {
@@ -147,64 +116,10 @@ export default class UpdateManager {
     }
 
     /**
-     * Synchronously calls parseParams update of all components from parent to children
-     * @private
-     */
-    static callParsingUpdateOf( component ) {
-
-        return new Promise( (resolve)=> {
-
-            new Promise( (resolveThisComponent, reject)=> {
-
-                const request = this.requestedUpdates[ component.id ];
-
-                if ( request && request.updateParsing ) {
-
-                    request.updateParsing = false;
-
-                    component.parseParams( resolveThisComponent, reject );
-
-                } else {
-
-                    resolveThisComponent();
-
-                }
-
-            })
-                .then( ()=> {
-
-                    Promise.all( component.getUIChildren().map( (childUI)=> {
-
-                        return this.callParsingUpdateOf( childUI );
-
-                    }))
-                        .then( ()=> {
-
-                            resolve();
-
-                        })
-                        .catch( (err)=> {
-
-                            console.error( err );
-
-                        });
-
-                })
-                .catch( (err)=> {
-
-                    console.error( err );
-
-                });
-
-        });
-
-    }
-
-    /**
      * Calls updateLayout and updateInner functions of components that need an update
      * @private
      */
-    static callUpdatesOf( component ) {
+    static traverseUpdates( component ) {
 
         const request = this.requestedUpdates[ component.id ]
 
@@ -242,11 +157,11 @@ export default class UpdateManager {
 
         //
 
-        component.getUIChildren().forEach( (childUI)=> {
+        component.getUIChildren().forEach( ( childUI ) => {
 
-            this.callUpdatesOf( childUI );
+            this.traverseUpdates( childUI );
 
-        });
+        } );
 
     }
 
