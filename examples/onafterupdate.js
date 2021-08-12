@@ -83,9 +83,7 @@ function makeTextPanel() {
 	// and get called after any update to the component.
 
 	container.onAfterUpdate = function () {
-
 		this.frame.layers.set( count % 2 );
-
 	}
 
 	//
@@ -106,7 +104,7 @@ function makeTextPanel() {
 
 	setInterval( () => {
 		count ++;
-		counter.set({ content: String( count ) });
+		counter.set( { content: String( count ) } );
 	}, 500 );
 
 };
