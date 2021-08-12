@@ -49,7 +49,7 @@ export default class Text extends mix.withBase( Object3D )(
      * component's inlines parameter. This way the parent Block will
      * compute each glyph position on updateLayout.
      */
-    parseParams( resolve ) {
+    parseParams() {
 
         const content = this.content ;
         const font = this.getFontFamily();
@@ -112,8 +112,6 @@ export default class Text extends mix.withBase( Object3D )(
         // Update 'inlines' property, so that the parent can compute each glyph position
 
         this.inlines = glyphInfos;
-
-        resolve();
 
     }
 

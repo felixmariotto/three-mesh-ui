@@ -63,24 +63,19 @@ export default class InlineBlock extends mix.withBase( Object3D )(
     // UPDATES
     ///////////
 
-    parseParams( resolve ) {
+    parseParams() {
 
         // Get image dimensions
 
-        if ( !this.width ) console.warn('inlineBlock has no width. Set to 0.3 by default');
-        if ( !this.height ) console.warn('inlineBlock has no height. Set to 0.3 by default');
+        if ( !this.width ) console.warn( 'inlineBlock has no width. Set to 0.3 by default' );
+        if ( !this.height ) console.warn( 'inlineBlock has no height. Set to 0.3 by default' );
 
-        const WIDTH = this.width || 0.3;
-        const HEIGHT = this.height || 0.3;
-
-        this.inlines = [{
-            height: HEIGHT,
-            width: WIDTH,
+        this.inlines = [ {
+            height: this.height || 0.3,
+            width: this.width || 0.3,
             anchor: 0,
             lineBreak: "possible"
-        }];
-
-        resolve();
+        } ];
 
     }
 

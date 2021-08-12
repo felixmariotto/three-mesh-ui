@@ -80,13 +80,23 @@ export default class UpdateManager {
     /** Trigger all requested updates of registered components */
     static update() {
 
-        if ( Object.keys(this.requestedUpdates).length > 0 ) {
+        if ( Object.keys( this.requestedUpdates ).length > 0 ) {
 
             const roots = this.components.filter( (component)=> {
 
                 return !component.getUIParent()
 
-            });
+            } );
+
+            roots.forEach( root => this.traverseParsing( root ) );
+
+            roots.forEach( (component)=> {
+
+                    this.callUpdatesOf( component );
+
+                });
+
+            /*
 
             //
 
@@ -110,7 +120,29 @@ export default class UpdateManager {
 
             });
 
+            */
+
         }
+
+    }
+
+    /**
+     * Synchronously calls parseParams update of all components from parent to children
+     * @private
+     */
+    static traverseParsing( component ) {
+
+        const request = this.requestedUpdates[ component.id ];
+
+        if ( request && request.updateParsing ) {
+
+            component.parseParams();
+
+            request.updateParsing = false;
+
+        }
+
+        component.getUIChildren().forEach( child => this.traverseParsing( child ) );
 
     }
 

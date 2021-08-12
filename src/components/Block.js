@@ -61,7 +61,7 @@ export default class Block extends mix.withBase( Object3D )(
     //  UPDATE
     ////////////
 
-    parseParams( resolve ) { resolve() }
+    parseParams() {}
 
     updateLayout() {
 
