@@ -43,8 +43,8 @@ export default function MeshUIComponent( Base = class {} ) {
 
                 if ( this.isBlock && this.parent.getHiddenOverflow() ) {
 
-                    const yLimit = (this.parent.getHeight() / 2) - (this.parent.padding || 0);
-                    const xLimit = (this.parent.getWidth() / 2) - (this.parent.padding || 0);
+                    const yLimit = ( this.parent.getHeight() / 2 ) - ( this.parent.padding || 0 );
+                    const xLimit = ( this.parent.getWidth() / 2 ) - ( this.parent.padding || 0 );
 
                     const newPlanes = [
                         new Plane( new Vector3( 0, 1, 0 ), yLimit ),
@@ -53,7 +53,7 @@ export default function MeshUIComponent( Base = class {} ) {
                         new Plane( new Vector3( -1, 0, 0 ), xLimit )
                     ];
 
-                    newPlanes.forEach( (plane)=> {
+                    newPlanes.forEach( plane => {
 
                         plane.applyMatrix4( this.parent.matrixWorld );
 

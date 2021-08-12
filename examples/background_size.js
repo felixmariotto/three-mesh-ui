@@ -85,6 +85,7 @@ function makePanels() {
 
 	loader.load( UVImage, (texture)=> {
 
+		// necessary for backgroundSize: 'contain'
 		texture.wrapS = THREE.RepeatWrapping;
 		texture.wrapT = THREE.RepeatWrapping;
 
@@ -143,7 +144,7 @@ function makeSection( texture, backgroundSize, text1, text2 ) {
 		margin: 0.05,
 		padding: 0.03,
 		justifyContent: 'center',
-		fontFamily: FontJSON, // './assets/Roboto-msdf.json',
+		fontFamily: FontJSON,
 		fontTexture: FontImage,
 		backgroundOpacity: 0.7,
 		fontSize: 0.04
@@ -185,6 +186,5 @@ function loop() {
 	// to improve performance
 	ThreeMeshUI.update();
 
-	controls.update();
 	renderer.render( scene, camera );
 };

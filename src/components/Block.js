@@ -33,7 +33,7 @@ export default class Block extends mix.withBase( Object3D )(
 
         //
 
-        this.size = new Vector2( 1, 1 );
+        this.size = new Vector2( 0, 0 );
         this.tSize = new Vector2( 1, 1 );
 
         this.frame = new Frame( this.getBackgroundMaterial() );
@@ -72,7 +72,7 @@ export default class Block extends mix.withBase( Object3D )(
         const HEIGHT = this.getHeight();
 
         if ( !WIDTH || !HEIGHT ) {
-            console.warn('Block got no dimension from its parameters or from children parameters');
+            console.warn( 'Block got no dimension from its parameters or from children parameters' );
             return
         }
 

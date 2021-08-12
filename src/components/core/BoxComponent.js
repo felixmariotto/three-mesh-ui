@@ -80,8 +80,8 @@ export default function BoxComponent( Base = class {} ) {
                 const margin = (child.margin * 2) || 0;
 
                 const CHILD_SIZE = (dimension === "width") ?
-                    (child.getWidth() + margin) :
-                    (child.getHeight() + margin);
+                    ( child.getWidth() + margin ) :
+                    ( child.getHeight() + margin );
 
                 return accu + CHILD_SIZE;
 
@@ -257,7 +257,7 @@ export default function BoxComponent( Base = class {} ) {
         alignChildrenOnX() {
 
             const ALIGNMENT = this.getAlignContent();
-            const X_TARGET = (this.getWidth() / 2) - (this.padding || 0);
+            const X_TARGET = ( this.getWidth() / 2 ) - ( this.padding || 0 );
 
             if ( ALIGNMENT !== "center" && ALIGNMENT !== "right" && ALIGNMENT !== "left" ) {
                 console.warn(`alignContent === '${ ALIGNMENT }' is not supported on this direction.`)
@@ -271,11 +271,11 @@ export default function BoxComponent( Base = class {} ) {
 
                 if ( ALIGNMENT === "right" ) {
 
-                    offset = X_TARGET - (child.getWidth() / 2) - (child.margin || 0) ;
+                    offset = X_TARGET - ( child.getWidth() / 2 ) - ( child.margin || 0 ) ;
 
                 } else if ( ALIGNMENT === "left" ) {
 
-                    offset = -X_TARGET + (child.getWidth() / 2) + (child.margin || 0) ;
+                    offset = - X_TARGET + ( child.getWidth() / 2 ) + ( child.margin || 0 ) ;
 
                 }
 
@@ -343,7 +343,7 @@ export default function BoxComponent( Base = class {} ) {
          * With padding, without margin
          */
         getWidth() {
-            return this.width || this.getInnerWidth() + (this.padding * 2 || 0);
+            return this.width || this.getInnerWidth() + ( this.padding * 2 || 0 );
         }
 
         /**
@@ -351,7 +351,7 @@ export default function BoxComponent( Base = class {} ) {
          * With padding, without margin
          */
         getHeight() {
-            return this.height || this.getInnerHeight() + (this.padding * 2 || 0);
+            return this.height || this.getInnerHeight() + ( this.padding * 2 || 0 );
         }
 
     }
