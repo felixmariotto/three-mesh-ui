@@ -85,7 +85,7 @@ container.add( text );
 // scene is a THREE.Scene (see three.js)
 scene.add( container );
 
-// This is typically done in the loop :
+// This is typically done in the render loop :
 ThreeMeshUI.update();
 ```
 
