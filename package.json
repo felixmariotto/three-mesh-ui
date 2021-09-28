@@ -38,13 +38,11 @@
     "eslint": "^7.25.0",
     "file-loader": "^6.2.0",
     "html-webpack-plugin": "^4.5.2",
-    "three": "^0.128.0",
     "webpack": "^4.46.0",
     "webpack-cli": "^3.3.12",
     "webpack-dev-server": "^3.11.2"
   },
   "peerDependencies": {
-    "three": "^0.128.0"
-  },
-  "dependencies": {}
+    "three": "^0.132.1"
+  }
 }
