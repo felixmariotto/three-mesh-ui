@@ -34,7 +34,7 @@ In immersive VR, it used to be impossible, therefore this library was created. T
 
 ## Try it now
 
-Give it a try in [this jdFiddle](https://jsfiddle.net/felixmariotto/y81rf5t2/)
+Give it a try in [this jdFiddle](https://jsfiddle.net/felixmariotto/y81rf5t2/44/)
 
 Using react-three-fiber ? Here is a [codesandbox](https://codesandbox.io/s/react-three-mesh-ui-forked-v7n0b?file=/src/index.js) to get started.
 
@@ -85,7 +85,7 @@ container.add( text );
 // scene is a THREE.Scene (see three.js)
 scene.add( container );
 
-// This is typically done in the loop :
+// This is typically done in the render loop :
 ThreeMeshUI.update();
 ```
 
