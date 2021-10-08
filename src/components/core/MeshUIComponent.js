@@ -25,9 +25,10 @@ export default function MeshUIComponent( Base = class {} ) {
 
             super( options );
 
-            this.states = {}
-            this.currentState = undefined
-            this.isUI = true
+            this.states = {};
+            this.currentState = undefined;
+            this.isUI = true;
+            this.autoLayout = true;
 
         }
 

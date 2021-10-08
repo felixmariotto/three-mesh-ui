@@ -15,6 +15,7 @@ let pages = [
 	['inline_block', 'InlineBlock'],
 	['hidden_overflow', 'hiddenOverflow'],
 	['onafterupdate', 'onAfterUpdate'],
+	['manual_positioning', 'manual content positioning'],
 	['keyboard', 'keyboard'],
 ];
 
@@ -69,6 +70,7 @@ module.exports = env => {
 			inline_block: './examples/inline_block.js',
 			hidden_overflow: './examples/hidden_overflow.js',
 			onafterupdate: './examples/onafterupdate.js',
+			manual_positioning: './examples/manual_positioning.js',
 			keyboard: './examples/keyboard.js'
 		},
 

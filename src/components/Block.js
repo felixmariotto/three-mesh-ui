@@ -86,20 +86,22 @@ export default class Block extends mix.withBase( Object3D )(
         // Position this element according to earlier parent computation.
         // Delegate to BoxComponent.
 
-        this.setPosFromParentRecords();
+        if ( this.autoLayout ) {
+
+            this.setPosFromParentRecords();
+
+        }
 
         // Position inner elements according to dimensions and layout parameters.
         // Delegate to BoxComponent.
 
-        if ( !this.children.find( child => child.isInline ) ) {
-
-            this.computeChildrenPosition();
-
-        } else {
+        if ( this.children.find( child => child.isInline ) ) {
 
             this.computeInlinesPosition();
 
-        }
+        };
+
+        this.computeChildrenPosition();
 
         // We check if this block is the root component,
         // because most of the time the user wants to set the

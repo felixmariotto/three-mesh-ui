@@ -50,8 +50,8 @@ export default function InlineManager( Base = class {} ) {
 
                         if (
                             lastInlineOffset + inline.width > INNER_WIDTH ||
-                        inline.lineBreak === "mandatory" ||
-                        this.shouldFriendlyBreak( inlines[ i - 1 ], lastInlineOffset, nextBreak, INNER_WIDTH )
+                            inline.lineBreak === "mandatory" ||
+                            this.shouldFriendlyBreak( inlines[ i - 1 ], lastInlineOffset, nextBreak, INNER_WIDTH )
                         ) {
 
                             lines.push([ inline ]);
