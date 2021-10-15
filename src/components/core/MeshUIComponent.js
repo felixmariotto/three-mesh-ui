@@ -369,6 +369,7 @@ export default function MeshUIComponent( Base = class {} ) {
                 switch ( prop ) {
 
                 case "content" :
+                case "fontSize" :
                     if ( this.isText ) parsingNeedsUpdate = true;
                     layoutNeedsUpdate = true;
                     this[ prop ] = options[ prop ];

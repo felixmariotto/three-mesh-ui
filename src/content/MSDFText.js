@@ -60,11 +60,9 @@ function getGlyphDimensions( options ) {
  */
 function buildText() {
 
-    const component = this;
-
     const translatedGeom = [];
 
-    component.inlines.forEach( (inline, i)=> {
+    this.inlines.forEach( (inline, i)=> {
 
         translatedGeom[ i ] = new MSDFGlyph( inline, this.getFontFamily() );
 

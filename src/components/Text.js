@@ -70,7 +70,7 @@ export default class Text extends mix.withBase( Object3D )(
         }
 
         if ( !textType ) {
-            console.error( `You must to provide a 'textType' attribute so three-mesh-ui knows how to render your text.\n See https://github.com/felixmariotto/three-mesh-ui/wiki/Using-a-custom-text-type` )
+            console.error( `You must provide a 'textType' attribute so three-mesh-ui knows how to render your text.\n See https://github.com/felixmariotto/three-mesh-ui/wiki/Using-a-custom-text-type` )
             return
         }
 
