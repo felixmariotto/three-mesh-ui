@@ -2,13 +2,10 @@
 import { Object3D, Vector2 } from 'three';
 
 import InlineComponent from './core/InlineComponent.js';
-import BoxComponent from './core/BoxComponent.js';
 import InlineManager from './core/InlineManager.js';
-import MeshUIComponent from './core/MeshUIComponent.js';
 import MaterialManager from './core/MaterialManager.js';
 
 import Frame from '../content/Frame.js';
-import { mix } from '../utils/mix.js';
 
 /**
  * Job:
@@ -19,13 +16,7 @@ import { mix } from '../utils/mix.js';
  * - Its measurements parameter
  * - Parent block
  */
-export default class InlineBlock extends mix.withBase( Object3D )(
-    InlineComponent,
-    BoxComponent,
-    InlineManager,
-    MaterialManager,
-    MeshUIComponent
-) {
+export default class InlineBlock extends InlineComponent( InlineManager( MaterialManager( Object3D ) ) ) {
 
     constructor( options ) {
 

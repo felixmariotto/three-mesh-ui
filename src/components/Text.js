@@ -2,13 +2,10 @@
 import { Object3D } from 'three';
 
 import InlineComponent from './core/InlineComponent.js';
-import MeshUIComponent from './core/MeshUIComponent.js';
 import FontLibrary from './core/FontLibrary.js';
 import TextManager from './core/TextManager.js';
-import MaterialManager from './core/MaterialManager.js';
 
 import deepDelete from '../utils/deepDelete.js';
-import { mix } from '../utils/mix.js';
 
 /**
 
@@ -22,18 +19,13 @@ Knows:
 - Parent block
 
 */
-export default class Text extends mix.withBase( Object3D )(
-    InlineComponent,
-    TextManager,
-    MaterialManager,
-    MeshUIComponent
-) {
+export default class Text extends InlineComponent( TextManager( Object3D ) ) {
+
+    isText = true;
 
     constructor( options ) {
 
         super( options );
-
-        this.isText = true;
 
         this.set( options );
 

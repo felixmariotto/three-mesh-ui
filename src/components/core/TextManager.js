@@ -1,5 +1,7 @@
 
 import MSDFText from '../../content/MSDFText.js';
+import MaterialManager from './MaterialManager.js';
+import MeshUIComponent from './MeshUIComponent.js';
 
 /**
 
@@ -15,14 +17,15 @@ but the architecture allows you to easily stick in your custom Text type.
 More information here :
 https://github.com/felixmariotto/three-mesh-ui/wiki/Using-a-custom-text-type
 
-*/
-export default function TextManager( Base = class {} ) {
+@template {!Constructor<import('three').Object3D>} T
+@param {T} Base
 
-    return class TextManager extends Base {
+*/
+export default function TextManager( Base ) {
+
+    return class TextManager extends MaterialManager( MeshUIComponent( Base ) ) {
 
         createText() {
-
-            const component = this;
 
             const mesh = (() => {
 
@@ -42,11 +45,11 @@ export default function TextManager( Base = class {} ) {
             mesh.renderOrder = Infinity;
 
             // This is for hiddenOverflow to work
-            mesh.onBeforeRender = function() {
+            mesh.onBeforeRender = () => {
 
-                if ( component.updateClippingPlanes ) {
+                if ( this.updateClippingPlanes ) {
 
-                    component.updateClippingPlanes();
+                    this.updateClippingPlanes();
 
                 }
 

@@ -13,8 +13,11 @@ Knows:
 - Its component materials
 - Its component ancestors clipping planes
 
+@template {!Constructor<import('three').Object3D>} T
+@param {T} Base
+
 */
-export default function MaterialManager( Base = class {} ) {
+export default function MaterialManager( Base ) {
 
 	return class MaterialManager extends Base {
 

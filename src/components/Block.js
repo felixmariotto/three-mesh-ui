@@ -1,13 +1,10 @@
 
 import { Object3D, Vector2 } from 'three';
 
-import BoxComponent from './core/BoxComponent.js';
 import InlineManager from './core/InlineManager.js';
-import MeshUIComponent from './core/MeshUIComponent.js';
 import MaterialManager from './core/MaterialManager.js';
 
 import Frame from '../content/Frame.js';
-import { mix } from '../utils/mix.js';
 
 /**
 
@@ -18,12 +15,7 @@ Job:
 - Call creation and update functions of its background planes
 
 */
-export default class Block extends mix.withBase( Object3D )(
-    BoxComponent,
-    InlineManager,
-    MaterialManager,
-    MeshUIComponent
-) {
+export default class Block extends InlineManager( MaterialManager( Object3D ) ) {
 
     constructor( options ) {
 

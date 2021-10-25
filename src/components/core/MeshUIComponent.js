@@ -17,20 +17,19 @@ Job:
 This is the core module of three-mesh-ui. Every component is composed with it.
 It owns the principal public methods of a component : set, setupState and setState.
 
+@template {!Constructor<import('three').Object3D>} T
+@param {T} Base
+
 */
-export default function MeshUIComponent( Base = class {} ) {
+export default function MeshUIComponent( Base ) {
 
 	return class MeshUIComponent extends Base {
-        constructor( options ) {
 
-            super( options );
-
-            this.states = {};
-            this.currentState = undefined;
-            this.isUI = true;
-            this.autoLayout = true;
-
-        }
+        states = {};
+        /** @type {string | undefined} */
+        currentState = undefined;
+        isUI = true;
+        autoLayout = true;
 
         /////////////
         /// GETTERS
@@ -367,6 +366,8 @@ export default function MeshUIComponent( Base = class {} ) {
             for ( const prop of Object.keys(options) ) {
 
                 switch ( prop ) {
+                        
+                // TODO List all the following props as fields on this class, so that they are picked up by intellisense.
 
                 case "content" :
                 case "fontSize" :

@@ -1,4 +1,6 @@
 
+import MeshUIComponent from "./MeshUIComponent";
+
 /**
 
 Job: Handle everything related to a BoxComponent element dimensioning and positioning
@@ -9,19 +11,16 @@ It's worth noting that in three-mesh-ui, it's the parent Block that computes
 its children position. A Block can only have either only box components (Block)
 as children, or only inline components (Text, InlineBlock).
 
+@template {!Constructor<import('three').Object3D>} T
+@param {T} Base
+
 */
-export default function BoxComponent( Base = class {} ) {
+export default function BoxComponent( Base ) {
 
-    return class BoxComponent extends Base {
+    return class BoxComponent extends MeshUIComponent( Base ) {
 
-        constructor( options ) {
-
-            super( options );
-
-            this.isBoxComponent = true;
-            this.childrenPos = {};
-
-        }
+        isBoxComponent = true;
+        childrenPos = {};
 
 
         /** Get width of this component minus its padding */

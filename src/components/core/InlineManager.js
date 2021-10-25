@@ -1,3 +1,6 @@
+
+import BoxComponent from './BoxComponent';
+
 /**
 
 Job: Positioning inline elements according to their dimensions inside this component
@@ -12,10 +15,13 @@ It's worth noting that a Text is not positioned as a whole, but letter per lette
 in order to create a line break when necessary. It's Text that merge the various letters
 in its own updateLayout function.
 
-*/
-export default function InlineManager( Base = class {} ) {
+@template {!Constructor<import('three').Object3D>} T
+@param {T} Base
 
-	return class InlineManager extends Base {
+*/
+export default function InlineManager( Base ) {
+
+	return class InlineManager extends BoxComponent( Base ) {
 
         /** Compute children .inlines objects position, according to their pre-computed dimensions */
         computeInlinesPosition() {

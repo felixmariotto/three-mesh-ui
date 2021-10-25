@@ -3,14 +3,12 @@ import { TextureLoader } from 'three';
 import { Object3D } from 'three';
 
 import BoxComponent from './core/BoxComponent.js';
-import MeshUIComponent from './core/MeshUIComponent.js';
 
 import Block from './Block.js';
 import Text from './Text.js';
 import InlineBlock from './InlineBlock.js';
 
 import keymaps from '../utils/Keymaps.js';
-import { mix } from '../utils/mix.js';
 
 //
 
@@ -21,9 +19,14 @@ const textureLoader = new TextureLoader();
 /**
  * Job: high-level component that returns a keyboard
  */
-export default class Keyboard extends mix.withBase( Object3D )( BoxComponent, MeshUIComponent ) {
+export default class Keyboard extends BoxComponent( Object3D ) {
 
-    constructor( options ) {
+    currentPanel = 0;
+    isLowerCase = true;
+    charsetCount = 1;
+
+    // @ts-ignore options parsing not allowed before super() call in TS. This can be fixed by passing options via this.set() instead of super().
+    constructor( options = {} ) {
 
         // DEFAULTS
 
@@ -36,12 +39,6 @@ export default class Keyboard extends mix.withBase( Object3D )( BoxComponent, Me
         //
 
         super( options );
-
-        this.currentPanel = 0;
-
-        this.isLowerCase = true;
-
-        this.charsetCount = 1;
 
         //////////
         // KEYMAP
@@ -119,6 +116,7 @@ export default class Keyboard extends mix.withBase( Object3D )( BoxComponent, Me
 
         // PANELS
 
+        /** @type {Array<Block>} */
         this.keys = [];
 
         this.panels = keymap.map( ( panel ) => {
