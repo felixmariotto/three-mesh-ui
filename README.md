@@ -28,7 +28,7 @@
 
 In a normal three.js workflow, the common practice is to build the user interfaces with HTML/CSS.
 
-In immersive VR, it used to be impossible, therefore this library was created. Today WebXR evolved and [new solutions exist](https://threejs.org/examples/?q=xr#webxr_vr_layers), we recommend that you check them out. Three-mesh-ui is still a viable alternative for special use cases.
+In immersive VR, it is impossible, therefore this library was created.
 
 # Quick Start
 
