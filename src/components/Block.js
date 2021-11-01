@@ -99,7 +99,7 @@ export default class Block extends mix.withBase( Object3D )(
 
             this.computeInlinesPosition();
 
-        };
+        }
 
         this.computeChildrenPosition();
 

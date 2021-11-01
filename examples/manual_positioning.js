@@ -9,6 +9,8 @@ import ThreeMeshUI from '../src/three-mesh-ui.js';
 import FontJSON from './assets/Roboto-msdf.json';
 import FontImage from './assets/Roboto-msdf.png';
 
+import Stats from 'three/examples/jsm/libs/stats.module.js';
+
 /*
 
 This example demonstrate how to manually position a Block inside
@@ -29,7 +31,7 @@ parent component.
 const WIDTH = window.innerWidth;
 const HEIGHT = window.innerHeight;
 
-let scene, camera, renderer, controls;
+let scene, camera, renderer, controls, stats;
 let outerContainer, innerContainer;
 let text;
 
@@ -53,6 +55,9 @@ function init() {
 	renderer.xr.enabled = true;
 	document.body.appendChild(VRButton.createButton(renderer));
 	document.body.appendChild( renderer.domElement );
+
+	stats = new Stats();
+	document.body.appendChild( stats.dom );
 
 	controls = new OrbitControls( camera, renderer.domElement );
 	camera.position.set( 0, 1.6, 0 );
@@ -115,7 +120,7 @@ function makeTextPanel() {
 
 };
 
-function makeAbsoluteBlock( string, x, y, align ) {
+function makeAbsoluteBlock( string, x, y ) {
 
 	text = new ThreeMeshUI.Block({
 		height: 0.08,
@@ -166,4 +171,5 @@ function loop() {
 
 	controls.update();
 	renderer.render( scene, camera );
+	// stats.update()
 };

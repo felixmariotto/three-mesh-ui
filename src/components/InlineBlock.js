@@ -122,7 +122,7 @@ export default class InlineBlock extends mix.withBase( Object3D )(
 
             this.computeInlinesPosition();
 
-        };
+        }
 
         this.computeChildrenPosition();
 
