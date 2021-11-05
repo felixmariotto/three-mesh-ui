@@ -34,7 +34,7 @@ In immersive VR, it is impossible, therefore this library was created.
 
 ## Try it now
 
-Give it a try in [this jdFiddle](https://jsfiddle.net/felixmariotto/y81rf5t2/44/)
+Give it a try in [this jsFiddle](https://jsfiddle.net/felixmariotto/y81rf5t2/44/)
 
 Using react-three-fiber ? Here is a [codesandbox](https://codesandbox.io/s/react-three-mesh-ui-forked-v7n0b?file=/src/index.js) to get started.
 
