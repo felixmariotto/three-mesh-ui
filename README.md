@@ -26,7 +26,7 @@
 
 # Why ?
 
-In a normal three.js workflow, the common practice is to build the user interfaces with HTML/CSS.
+In a normal three.js workflow, the common practice is to build user interfaces with HTML/CSS.
 
 In immersive VR, it is impossible, therefore this library was created.
 
