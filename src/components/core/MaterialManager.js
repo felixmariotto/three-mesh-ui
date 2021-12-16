@@ -60,6 +60,7 @@ export default function MaterialManager( Base = class {} ) {
                 borderRadius: this.getBorderRadius(),
                 borderWidth: this.getBorderWidth(),
                 borderColor: this.getBorderColor(),
+                borderOpacity: this.getBorderOpacity(),
                 size: this.size,
                 tSize: this.tSize
             }
@@ -83,6 +84,7 @@ export default function MaterialManager( Base = class {} ) {
                 this.backgroundUniforms.u_borderRadius.value = uniforms.borderRadius;
                 this.backgroundUniforms.u_borderWidth.value = uniforms.borderWidth;
                 this.backgroundUniforms.u_borderColor.value = uniforms.borderColor;
+                this.backgroundUniforms.u_borderOpacity.value = uniforms.borderOpacity;
 
             }
 
@@ -138,6 +140,7 @@ export default function MaterialManager( Base = class {} ) {
                 newUniforms.borderRadius !== this.backgroundUniforms.u_borderRadius.value ||
                 newUniforms.borderWidth !== this.backgroundUniforms.u_borderWidth.value ||
                 newUniforms.borderColor !== this.backgroundUniforms.u_borderColor.value ||
+                newUniforms.borderOpacity !== this.backgroundUniforms.u_borderOpacity.value ||
                 newUniforms.size !== this.backgroundUniforms.u_size.value ||
                 newUniforms.tSize !== this.backgroundUniforms.u_tSize.value
             ) {
@@ -210,6 +213,7 @@ export default function MaterialManager( Base = class {} ) {
                 'u_borderRadius': { value: materialOptions.borderRadius },
                 'u_borderWidth': { value: materialOptions.borderWidth },
                 'u_borderColor': { value: materialOptions.borderColor },
+                'u_borderOpacity': { value: materialOptions.borderOpacity },
                 'u_size': { value: materialOptions.size },
                 'u_tSize': { value: materialOptions.tSize }
             };
@@ -309,6 +313,7 @@ const backgroundFragment = `
     uniform float u_borderRadius;
     uniform float u_borderWidth;
     uniform vec3 u_borderColor;
+    uniform float u_borderOpacity;
     uniform vec2 u_size;
     uniform vec2 u_tSize;
     uniform int u_backgroundMapping;
@@ -362,8 +367,11 @@ const backgroundFragment = `
 		vec4 textureSample = sampleTexture();
         float blendedOpacity = u_opacity * textureSample.a;
         vec3 blendedColor = textureSample.rgb * u_color;
-        if ( edgeDist * -1.0 < u_borderWidth ) blendedColor = u_borderColor;
+        if ( edgeDist * -1.0 < u_borderWidth ) {
+        gl_FragColor = vec4( blendedColor, u_borderOpacity );
+        } else {
 		gl_FragColor = vec4( blendedColor, blendedOpacity );
+		}
 		#include <clipping_planes_fragment>
 	}
 `;
