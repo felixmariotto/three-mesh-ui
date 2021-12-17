@@ -18,7 +18,7 @@ const ThreeMeshUI = {
 	update,
 };
 
-if (global) global.ThreeMeshUI = ThreeMeshUI;
+if (typeof global !== 'undefined') global.ThreeMeshUI = ThreeMeshUI;
 
 export { Block }
 export { Text }
