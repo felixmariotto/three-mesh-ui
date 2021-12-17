@@ -434,7 +434,7 @@ const backgroundFragment = `
         float blendedOpacity = u_opacity * textureSample.a;
         vec3 blendedColor = textureSample.rgb * u_color;
         if ( edgeDist * -1.0 < u_borderWidth ) {
-        gl_FragColor = vec4( blendedColor, u_borderOpacity );
+        gl_FragColor = vec4( u_borderColor, u_borderOpacity );
         } else {
 		gl_FragColor = vec4( blendedColor, blendedOpacity );
 		}
