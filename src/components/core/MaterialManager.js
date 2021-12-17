@@ -60,6 +60,7 @@ export default function MaterialManager( Base = class {} ) {
                 borderRadius: this.getBorderRadius(),
                 borderWidth: this.getBorderWidth(),
                 borderColor: this.getBorderColor(),
+                borderOpacity: this.getBorderOpacity(),
                 size: this.size,
                 tSize: this.tSize
             }
@@ -70,7 +71,6 @@ export default function MaterialManager( Base = class {} ) {
         updateBackgroundMaterial() {
 
             if ( this.backgroundUniforms ) {
-
                 const uniforms = this.getBackgroundUniforms();
 
                 this.backgroundUniforms.u_texture.value = uniforms.texture;
@@ -80,9 +80,21 @@ export default function MaterialManager( Base = class {} ) {
                 this.backgroundUniforms.u_size.value = uniforms.size;
                 this.backgroundUniforms.u_tSize.value = uniforms.tSize;
 
-                this.backgroundUniforms.u_borderRadius.value = uniforms.borderRadius;
+                if (Array.isArray(uniforms.borderRadius)) {
+                    this.backgroundUniforms.u_borderRadiusTopLeft.value = uniforms.borderRadius[0];
+                    this.backgroundUniforms.u_borderRadiusTopRight.value = uniforms.borderRadius[1];
+                    this.backgroundUniforms.u_borderRadiusBottomRight.value = uniforms.borderRadius[2];
+                    this.backgroundUniforms.u_borderRadiusBottomLeft.value = uniforms.borderRadius[3];
+                } else {
+                    this.backgroundUniforms.u_borderRadiusTopLeft.value = uniforms.borderRadius;
+                    this.backgroundUniforms.u_borderRadiusTopRight.value = uniforms.borderRadius;
+                    this.backgroundUniforms.u_borderRadiusBottomRight.value = uniforms.borderRadius;
+                    this.backgroundUniforms.u_borderRadiusBottomLeft.value = uniforms.borderRadius;
+                }
+
                 this.backgroundUniforms.u_borderWidth.value = uniforms.borderWidth;
                 this.backgroundUniforms.u_borderColor.value = uniforms.borderColor;
+                this.backgroundUniforms.u_borderOpacity.value = uniforms.borderOpacity;
 
             }
 
@@ -130,16 +142,38 @@ export default function MaterialManager( Base = class {} ) {
 
                 this.backgroundMaterial = this._makeBackgroundMaterial( newUniforms );
 
-            } else if (
-                newUniforms.texture !== this.backgroundUniforms.u_texture.value ||
-                newUniforms.color !== this.backgroundUniforms.u_color.value ||
-                newUniforms.opacity !== this.backgroundUniforms.u_opacity.value ||
-                newUniforms.backgroundMapping !== this.backgroundUniforms.u_backgroundMapping.value ||
-                newUniforms.borderRadius !== this.backgroundUniforms.u_borderRadius.value ||
-                newUniforms.borderWidth !== this.backgroundUniforms.u_borderWidth.value ||
-                newUniforms.borderColor !== this.backgroundUniforms.u_borderColor.value ||
-                newUniforms.size !== this.backgroundUniforms.u_size.value ||
-                newUniforms.tSize !== this.backgroundUniforms.u_tSize.value
+                return this.backgroundMaterial
+
+            }
+
+            let borderRadiusChanged;
+            if (Array.isArray(newUniforms.borderRadius)) {
+                borderRadiusChanged = (
+                  newUniforms.borderRadius[0] !== this.backgroundUniforms.u_borderRadiusTopLeft.value ||
+                  newUniforms.borderRadius[1] !== this.backgroundUniforms.u_borderRadiusTopRight.value ||
+                  newUniforms.borderRadius[2] !== this.backgroundUniforms.u_borderRadiusBottomRight.value ||
+                  newUniforms.borderRadius[3] !== this.backgroundUniforms.u_borderRadiusBottomLeft.value
+                )
+            } else {
+                borderRadiusChanged = (
+                  newUniforms.borderRadius !== this.backgroundUniforms.u_borderRadiusTopLeft.value ||
+                  newUniforms.borderRadius !== this.backgroundUniforms.u_borderRadiusTopRight.value ||
+                  newUniforms.borderRadius !== this.backgroundUniforms.u_borderRadiusBottomRight.value ||
+                  newUniforms.borderRadius !== this.backgroundUniforms.u_borderRadiusBottomLeft.value
+                )
+            }
+
+            if (
+              newUniforms.texture !== this.backgroundUniforms.u_texture.value ||
+              newUniforms.color !== this.backgroundUniforms.u_color.value ||
+              newUniforms.opacity !== this.backgroundUniforms.u_opacity.value ||
+              newUniforms.backgroundMapping !== this.backgroundUniforms.u_backgroundMapping.value ||
+              borderRadiusChanged ||
+              newUniforms.borderWidth !== this.backgroundUniforms.u_borderWidth.value ||
+              newUniforms.borderColor !== this.backgroundUniforms.u_borderColor.value ||
+              newUniforms.borderOpacity !== this.backgroundUniforms.u_borderOpacity.value ||
+              newUniforms.size !== this.backgroundUniforms.u_size.value ||
+              newUniforms.tSize !== this.backgroundUniforms.u_tSize.value
             ) {
 
                 this.updateBackgroundMaterial();
@@ -207,12 +241,28 @@ export default function MaterialManager( Base = class {} ) {
                 'u_color': { value: materialOptions.color },
                 'u_opacity': { value: materialOptions.opacity },
                 'u_backgroundMapping': { value: materialOptions.backgroundMapping },
-                'u_borderRadius': { value: materialOptions.borderRadius },
                 'u_borderWidth': { value: materialOptions.borderWidth },
                 'u_borderColor': { value: materialOptions.borderColor },
+                'u_borderRadiusTopLeft': { value: 0 },
+                'u_borderRadiusTopRight': { value: 0 },
+                'u_borderRadiusBottomRight': { value: 0 },
+                'u_borderRadiusBottomLeft': { value: 0 },
+                'u_borderOpacity': { value: materialOptions.borderOpacity },
                 'u_size': { value: materialOptions.size },
                 'u_tSize': { value: materialOptions.tSize }
             };
+
+            if (Array.isArray(materialOptions.borderRadius)) {
+                this.backgroundUniforms['u_borderRadiusTopLeft'].values = materialOptions.borderRadius[0];
+                this.backgroundUniforms['u_borderRadiusTopRight'].values = materialOptions.borderRadius[1];
+                this.backgroundUniforms['u_borderRadiusBottomRight'].values = materialOptions.borderRadius[2];
+                this.backgroundUniforms['u_borderRadiusBottomLeft'].values = materialOptions.borderRadius[3];
+            } else {
+                this.backgroundUniforms['u_borderRadiusTopLeft'].values = materialOptions.borderRadius;
+                this.backgroundUniforms['u_borderRadiusTopRight'].values = materialOptions.borderRadius;
+                this.backgroundUniforms['u_borderRadiusBottomRight'].values = materialOptions.borderRadius;
+                this.backgroundUniforms['u_borderRadiusBottomLeft'].values = materialOptions.borderRadius;
+            }
 
             return new ShaderMaterial({
                 uniforms: this.backgroundUniforms,
@@ -306,9 +356,13 @@ const backgroundFragment = `
 	uniform vec3 u_color;
 	uniform float u_opacity;
 
-    uniform float u_borderRadius;
+    uniform float u_borderRadiusTopLeft;
+    uniform float u_borderRadiusTopRight;
+    uniform float u_borderRadiusBottomLeft;
+    uniform float u_borderRadiusBottomRight;
     uniform float u_borderWidth;
     uniform vec3 u_borderColor;
+    uniform float u_borderOpacity;
     uniform vec2 u_size;
     uniform vec2 u_tSize;
     uniform int u_backgroundMapping;
@@ -323,9 +377,26 @@ const backgroundFragment = `
         vec2 corner = u_size * 0.5;
         vec2 offsetCorner = corner - abs( planeSpaceCoord );
         float innerRadDist = min( offsetCorner.x, offsetCorner.y ) * -1.0;
-        float roundedDist = length( max( abs( planeSpaceCoord ) - u_size * 0.5 + u_borderRadius, 0.0 ) ) - u_borderRadius;
-        float s = step( innerRadDist * -1.0, u_borderRadius );
-        return mix( innerRadDist, roundedDist, s );
+        if (vUv.x < 0.5 && vUv.y >= 0.5) {
+            float roundedDist = length( max( abs( planeSpaceCoord ) - u_size * 0.5 + u_borderRadiusTopLeft, 0.0 ) ) - u_borderRadiusTopLeft;
+            float s = step( innerRadDist * -1.0, u_borderRadiusTopLeft );
+            return mix( innerRadDist, roundedDist, s );
+        }
+        if (vUv.x >= 0.5 && vUv.y >= 0.5) {
+            float roundedDist = length( max( abs( planeSpaceCoord ) - u_size * 0.5 + u_borderRadiusTopRight, 0.0 ) ) - u_borderRadiusTopRight;
+            float s = step( innerRadDist * -1.0, u_borderRadiusTopRight );
+            return mix( innerRadDist, roundedDist, s );
+        }
+        if (vUv.x >= 0.5 && vUv.y < 0.5) {
+            float roundedDist = length( max( abs( planeSpaceCoord ) - u_size * 0.5 + u_borderRadiusBottomRight, 0.0 ) ) - u_borderRadiusBottomRight;
+            float s = step( innerRadDist * -1.0, u_borderRadiusBottomRight );
+            return mix( innerRadDist, roundedDist, s );
+        }
+        if (vUv.x < 0.5 && vUv.y < 0.5) {
+            float roundedDist = length( max( abs( planeSpaceCoord ) - u_size * 0.5 + u_borderRadiusBottomLeft, 0.0 ) ) - u_borderRadiusBottomLeft;
+            float s = step( innerRadDist * -1.0, u_borderRadiusBottomLeft );
+            return mix( innerRadDist, roundedDist, s );
+        }
     }
 
     vec4 sampleTexture() {
@@ -362,8 +433,11 @@ const backgroundFragment = `
 		vec4 textureSample = sampleTexture();
         float blendedOpacity = u_opacity * textureSample.a;
         vec3 blendedColor = textureSample.rgb * u_color;
-        if ( edgeDist * -1.0 < u_borderWidth ) blendedColor = u_borderColor;
+        if ( edgeDist * -1.0 < u_borderWidth ) {
+        gl_FragColor = vec4( blendedColor, u_borderOpacity );
+        } else {
 		gl_FragColor = vec4( blendedColor, blendedOpacity );
+		}
 		#include <clipping_planes_fragment>
 	}
 `;

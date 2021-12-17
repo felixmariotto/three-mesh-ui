@@ -96,11 +96,11 @@ export default function MeshUIComponent( Base = class {} ) {
 
                 return this.parent
 
-            } 
+            }
 
             return null
 
-            
+
 
         }
 
@@ -111,11 +111,11 @@ export default function MeshUIComponent( Base = class {} ) {
 
                 return this
 
-            } 
+            }
 
             return this.parent.getHighestParent();
 
-            
+
 
         }
 
@@ -133,7 +133,7 @@ export default function MeshUIComponent( Base = class {} ) {
 
                 return this[ propName ]
 
-            } 
+            }
 
             return DEFAULTS[ propName ]
 
@@ -183,6 +183,10 @@ export default function MeshUIComponent( Base = class {} ) {
             return this._getProperty( 'borderColor' );
         }
 
+        getBorderOpacity() {
+            return this._getProperty( 'borderOpacity' );
+        }
+
         /// SPECIALS
 
         /** return the first parent with a 'threeOBJ' property */
@@ -196,11 +200,11 @@ export default function MeshUIComponent( Base = class {} ) {
 
                 return this
 
-            } 
+            }
 
             return DEFAULTS.container
 
-            
+
 
         }
 
@@ -213,7 +217,7 @@ export default function MeshUIComponent( Base = class {} ) {
 
                 return this.parent.getParentsNumber( i + 1 )
 
-            } 
+            }
 
             return i
 
@@ -322,7 +326,7 @@ export default function MeshUIComponent( Base = class {} ) {
         _updateFontFamily( font ) {
 
             this.fontFamily = font;
-            
+
             this.traverse( (child)=> {
 
                 if ( child.isUI ) child.update( true, true, false );
@@ -405,6 +409,7 @@ export default function MeshUIComponent( Base = class {} ) {
                 case "borderRadius" :
                 case "borderWidth" :
                 case "borderColor" :
+                case "borderOpacity" :
                     innerNeedsUpdate = true;
                     this[ prop ] = options[ prop ];
                     break;
@@ -428,7 +433,7 @@ export default function MeshUIComponent( Base = class {} ) {
                 FontLibrary.setFontTexture( this, options.fontTexture );
                 layoutNeedsUpdate = false;
             }
-            
+
             // Call component update
 
             this.update( parsingNeedsUpdate, layoutNeedsUpdate, innerNeedsUpdate );
@@ -455,7 +460,7 @@ export default function MeshUIComponent( Base = class {} ) {
         setState( state ) {
 
             const savedState = this.states[ state ];
-            
+
             if ( !savedState ) {
                 console.warn(`state "${ state }" does not exist within this component`);
                 return

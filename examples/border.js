@@ -81,7 +81,7 @@ function makeTextPanel() {
 
 	panel.add(
 		new ThreeMeshUI.Text({
-			content: `Block.borderRadius\n\nBlock.borderWidth\n\nBlock.borderColor`,
+			content: `Block.borderRadius\n\nBlock.borderWidth\n\nBlock.borderColor\n\nBlock.borderOpacity`,
 		})
 	);
 
@@ -100,9 +100,10 @@ function onWindowResize() {
 function loop() {
 
 	panel.set({
-		borderRadius: 0.2 + 0.2 * Math.sin( Date.now() / 500 ),
+		borderRadius: [0, 0.2 + 0.2 * Math.sin( Date.now() / 500 ), 0, 0],
 		borderWidth: 0.05 - 0.06 * Math.sin( Date.now() / 500 ),
-		borderColor: new THREE.Color( 0.5 + 0.5 * Math.sin( Date.now() / 500 ), 0.5, 1 )
+		borderColor: new THREE.Color( 0.5 + 0.5 * Math.sin( Date.now() / 500 ), 0.5, 1 ),
+		borderOpacity: 1
 	});
 
 	// Don't forget, ThreeMeshUI must be updated manually.
