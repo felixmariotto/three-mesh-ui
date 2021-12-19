@@ -266,6 +266,10 @@ export default function MeshUIComponent( Base = class {} ) {
             return (this.hiddenOverflow === undefined) ? DEFAULTS.hiddenOverflow : this.hiddenOverflow;
         }
 
+        getLetterSpacing() {
+          return (this.letterSpacing === undefined) ? DEFAULTS.letterSpacing : this.letterSpacing;
+        }
+
         ///////////////
         ///  UPDATE
         ///////////////
@@ -370,6 +374,7 @@ export default function MeshUIComponent( Base = class {} ) {
 
                 case "content" :
                 case "fontSize" :
+                case "letterSpacing" :
                     if ( this.isText ) parsingNeedsUpdate = true;
                     layoutNeedsUpdate = true;
                     this[ prop ] = options[ prop ];

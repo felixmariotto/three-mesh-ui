@@ -17,6 +17,7 @@ let pages = [
 	['onafterupdate', 'onAfterUpdate'],
 	['manual_positioning', 'manual content positioning'],
 	['keyboard', 'keyboard'],
+	['letter_spacing', 'letter spacing'],
 ];
 
 // create one config for each of the data set above
@@ -71,7 +72,8 @@ module.exports = env => {
 			hidden_overflow: './examples/hidden_overflow.js',
 			onafterupdate: './examples/onafterupdate.js',
 			manual_positioning: './examples/manual_positioning.js',
-			keyboard: './examples/keyboard.js'
+			keyboard: './examples/keyboard.js',
+			letter_spacing: './examples/letter_spacing.js'
 		},
 
 		plugins: pagesConfig,

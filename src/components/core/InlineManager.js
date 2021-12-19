@@ -58,7 +58,7 @@ export default function InlineManager( Base = class {} ) {
 
                             inline.offsetX = 0;
 
-                            return inline.width;
+                            return inline.width+ inline.letterSpacing;
 
                         } 
 
@@ -72,7 +72,7 @@ export default function InlineManager( Base = class {} ) {
 
                         //
 
-                        return lastInlineOffset + inline.width;
+                        return lastInlineOffset + inline.width + inline.letterSpacing;
 
                     }, lastInlineOffset );
 
@@ -215,7 +215,7 @@ export default function InlineManager( Base = class {} ) {
             return this.distanceToNextBreak(
                 inlines,
                 currentIdx + 1,
-                accu + inlines[ currentIdx ].width
+                accu + inlines[ currentIdx ].width + inlines[currentIdx].letterSpacing
             );
 
             
