@@ -56,7 +56,6 @@ export default class Text extends mix.withBase( Object3D )(
         const fontSize = this.getFontSize();
         const breakChars = this.getBreakOn();
         const textType = this.getTextType();
-        const letterSpacing = this.getLetterSpacing()* fontSize;
 
         // Abort condition
         
@@ -105,8 +104,7 @@ export default class Text extends mix.withBase( Object3D )(
                 anchor: dimensions.anchor,
                 lineBreak,
                 glyph,
-                fontSize,
-                letterSpacing: letterSpacing
+                fontSize
             };
 
         });

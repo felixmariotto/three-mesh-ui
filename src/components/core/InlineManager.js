@@ -42,11 +42,13 @@ export default function InlineManager( Base = class {} ) {
                     // Compute offset of each children according to its dimensions
                     //////////////////////////////////////////////////////////////
 
+                    const letterSpacing = inlineComponent.isText ? inlineComponent.getLetterSpacing() * inlineComponent.getFontSize() : 0;
+
                     const currentInlineInfo = inlineComponent.inlines.reduce( (lastInlineOffset, inline, i, inlines)=> {
 
                         // Line break
 
-                        const nextBreak = this.distanceToNextBreak( inlines, i );
+                        const nextBreak = this.distanceToNextBreak( inlines, i , letterSpacing );
 
                         if (
                             lastInlineOffset + inline.width > INNER_WIDTH ||
@@ -58,7 +60,7 @@ export default function InlineManager( Base = class {} ) {
 
                             inline.offsetX = 0;
 
-                            return inline.width+ inline.letterSpacing;
+                            return inline.width + letterSpacing;
 
                         } 
 
@@ -72,7 +74,7 @@ export default function InlineManager( Base = class {} ) {
 
                         //
 
-                        return lastInlineOffset + inline.width + inline.letterSpacing;
+                        return lastInlineOffset + inline.width + letterSpacing;
 
                     }, lastInlineOffset );
 
@@ -197,7 +199,7 @@ export default function InlineManager( Base = class {} ) {
          * as break-line-safe ( like whitespace for instance )
          * @private
          */
-        distanceToNextBreak( inlines, currentIdx, accu ) {
+        distanceToNextBreak( inlines, currentIdx, letterSpacing , accu ) {
 
             accu = accu || 0 ;
 
@@ -215,6 +217,7 @@ export default function InlineManager( Base = class {} ) {
             return this.distanceToNextBreak(
                 inlines,
                 currentIdx + 1,
+                letterSpacing,
                 accu + inlines[ currentIdx ].width + inlines[currentIdx].letterSpacing
             );
 

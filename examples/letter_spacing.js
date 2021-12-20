@@ -76,22 +76,16 @@ function makeTextPanel() {
 	container.position.set( 0, 1, -1.8 );
 	container.rotation.x = -0.55;
 	scene.add( container );
-
 	//
 
 	const text = new ThreeMeshUI.Text({
-			content: "This library supports line-break-friendly-characters, and letter spacing,",
+			content: "letterSpacing ".repeat(3),
 			fontSize: 0.055
 		});
 
 	container.add(
 
 		text,
-
-		new ThreeMeshUI.Text({
-			content: " As well as multi-font-size lines with consistent vertical spacing.",
-			fontSize: 0.08
-		})
 
 	);
 
@@ -109,7 +103,7 @@ function makeTextPanel() {
 		}
 
 		// update the text component
-		text.set({letterSpacing:letterSpacing});
+		text.set({letterSpacing});
 
 	},2000);
 

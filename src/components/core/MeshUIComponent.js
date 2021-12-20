@@ -147,6 +147,10 @@ export default function MeshUIComponent( Base = class {} ) {
             return this._getProperty( 'fontSize' );
         }
 
+        getLetterSpacing() {
+          return this._getProperty( 'letterSpacing' );
+        }
+
         getFontTexture() {
             return this._getProperty( 'fontTexture' );
         }
@@ -266,10 +270,6 @@ export default function MeshUIComponent( Base = class {} ) {
             return (this.hiddenOverflow === undefined) ? DEFAULTS.hiddenOverflow : this.hiddenOverflow;
         }
 
-        getLetterSpacing() {
-          return (this.letterSpacing === undefined) ? DEFAULTS.letterSpacing : this.letterSpacing;
-        }
-
         ///////////////
         ///  UPDATE
         ///////////////
@@ -374,7 +374,6 @@ export default function MeshUIComponent( Base = class {} ) {
 
                 case "content" :
                 case "fontSize" :
-                case "letterSpacing" :
                     if ( this.isText ) parsingNeedsUpdate = true;
                     layoutNeedsUpdate = true;
                     this[ prop ] = options[ prop ];
@@ -388,7 +387,7 @@ export default function MeshUIComponent( Base = class {} ) {
                     this[ prop ] = options[ prop ];
                     break;
 
-                case "fontSize" :
+                case "letterSpacing" :
                 case "interLine" :
                 case "margin" :
                 case "contentDirection" :
