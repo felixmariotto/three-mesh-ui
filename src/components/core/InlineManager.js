@@ -218,7 +218,7 @@ export default function InlineManager( Base = class {} ) {
                 inlines,
                 currentIdx + 1,
                 letterSpacing,
-                accu + inlines[ currentIdx ].width + inlines[currentIdx].letterSpacing
+                accu + inlines[ currentIdx ].width + letterSpacing
             );
 
             
