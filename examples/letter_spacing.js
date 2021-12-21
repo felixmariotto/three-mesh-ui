@@ -26,9 +26,7 @@ function init() {
 
 	camera = new THREE.PerspectiveCamera( 60, WIDTH / HEIGHT, 0.1, 100 );
 
-	renderer = new THREE.WebGLRenderer({
-		antialias: true
-	});
+	renderer = new THREE.WebGLRenderer( { antialias: true } );
 	renderer.setPixelRatio( window.devicePixelRatio );
 	renderer.setSize( WIDTH, HEIGHT );
 	renderer.xr.enabled = true;
@@ -76,21 +74,18 @@ function makeTextPanel() {
 	container.position.set( 0, 1, -1.8 );
 	container.rotation.x = -0.55;
 	scene.add( container );
+
 	//
 
 	const text = new ThreeMeshUI.Text({
-			content: "letterSpacing ".repeat(3),
-			fontSize: 0.055
-		});
+		content: "letterSpacing ".repeat(3),
+		fontSize: 0.055
+	});
 
-	container.add(
+	container.add( text );
 
-		text,
-
-	);
-
-	// Update the letterSpacing in time in order demo its effect
-	let letterSpacingSpeed = 0.1;
+	// Update the letterSpacing in time in order to demo its effect
+	const letterSpacingSpeed = 0.1;
 
 	setInterval( ()=>{
 
@@ -98,14 +93,14 @@ function makeTextPanel() {
 		letterSpacing += letterSpacingSpeed;
 
 		// reverse the speed at some points
-		if( letterSpacing > 1 || letterSpacing <= 0 ){
+		if ( letterSpacing > 1 || letterSpacing <= 0 ) {
 			letterSpacingSpeed *= -1;
 		}
 
 		// update the text component
-		text.set({letterSpacing});
+		text.set( { letterSpacing } );
 
-	},2000);
+	}, 500 );
 
 };
 

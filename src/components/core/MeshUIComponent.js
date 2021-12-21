@@ -148,7 +148,7 @@ export default function MeshUIComponent( Base = class {} ) {
         }
 
         getLetterSpacing() {
-          return this._getProperty( 'letterSpacing' );
+            return this._getProperty( 'letterSpacing' );
         }
 
         getFontTexture() {

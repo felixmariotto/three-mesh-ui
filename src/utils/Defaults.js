@@ -27,7 +27,7 @@ export default {
 	backgroundOpaqueOpacity: 1.0,
 	backgroundTexture: DefaultBackgroundTexture(),
 	hiddenOverflow: false,
-	letterSpacing:0
+	letterSpacing: 0
 };
 
 //
