@@ -147,6 +147,10 @@ export default function MeshUIComponent( Base = class {} ) {
             return this._getProperty( 'fontSize' );
         }
 
+        getLetterSpacing() {
+          return this._getProperty( 'letterSpacing' );
+        }
+
         getFontTexture() {
             return this._getProperty( 'fontTexture' );
         }
@@ -387,7 +391,7 @@ export default function MeshUIComponent( Base = class {} ) {
                     this[ prop ] = options[ prop ];
                     break;
 
-                case "fontSize" :
+                case "letterSpacing" :
                 case "interLine" :
                 case "margin" :
                 case "contentDirection" :
