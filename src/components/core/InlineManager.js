@@ -46,6 +46,8 @@ export default function InlineManager( Base = class {} ) {
 
                     const currentInlineInfo = inlineComponent.inlines.reduce( (lastInlineOffset, inline, i, inlines)=> {
 
+                        const kerning = inline.kerning ? inline.kerning : 0;
+
                         // Line break
 
                         const nextBreak = this.distanceToNextBreak( inlines, i , letterSpacing );
@@ -60,7 +62,18 @@ export default function InlineManager( Base = class {} ) {
 
                             inline.offsetX = 0;
 
-                            return inline.width + letterSpacing;
+                            // @TODO: How to prevent this
+
+                            if( inline.width > 0 ){
+
+                                // Do not kern first letter of a line, its has not lefthanded peer
+                                return inline.width + letterSpacing;
+                            }else{
+                                // When line breaker here "\n" its width is 0
+                                // but letterSpacing was still adding constant offset on empty char
+                                return 0;
+                            }
+
 
                         } 
 
@@ -69,12 +82,11 @@ export default function InlineManager( Base = class {} ) {
                     
 
                         //
-
-                        inline.offsetX = lastInlineOffset;
+                        inline.offsetX = lastInlineOffset + kerning;
 
                         //
 
-                        return lastInlineOffset + inline.width + letterSpacing;
+                        return lastInlineOffset + inline.width + letterSpacing + kerning;
 
                     }, lastInlineOffset );
 
@@ -206,10 +218,13 @@ export default function InlineManager( Base = class {} ) {
             // end of the text
             if ( !inlines[ currentIdx ] ) return accu
 
-            // if inline.lineBreak is set, it is 'mandatory' or 'possible'
-            if ( inlines[ currentIdx ].lineBreak ) {
+            const inline = inlines[ currentIdx ];
+            const kerning = inline.kerning ? inline.kerning : 0;
 
-                return accu + inlines[ currentIdx ].width
+            // if inline.lineBreak is set, it is 'mandatory' or 'possible'
+            if ( inline.lineBreak ) {
+
+                return accu + inline.width
 
             // no line break is possible on this character
             } 
@@ -218,7 +233,7 @@ export default function InlineManager( Base = class {} ) {
                 inlines,
                 currentIdx + 1,
                 letterSpacing,
-                accu + inlines[ currentIdx ].width + letterSpacing
+                accu + inline.width + kerning + letterSpacing
             );
 
             

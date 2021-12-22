@@ -223,6 +223,7 @@ export default function MaterialManager( Base = class {} ) {
             return new ShaderMaterial({
                 uniforms: this.textUniforms,
                 transparent: true,
+                depthWrite: false, // @added to prevent overlapping issues
                 clipping: true,
                 vertexShader: textVertex,
                 fragmentShader: textFragment,

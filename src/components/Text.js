@@ -109,6 +109,23 @@ export default class Text extends mix.withBase( Object3D )(
 
         });
 
+        // apply kerning
+        if( this.getFontKerning() ){
+
+            // First character won't be kerned with its void lefthanded peer
+            for (let i = 1; i < glyphInfos.length; i++) {
+
+                const glyphInfo = glyphInfos[i];
+                const glyphPair = glyphInfos[i-1].glyph+glyphInfos[i].glyph;
+
+                const kerning = this.getGlyphPairKerning( textType, font, glyphPair);
+                glyphInfo['kerning'] = kerning * fontSize * glyphInfo['width'];
+
+            }
+        }
+
+
+
         // Update 'inlines' property, so that the parent can compute each glyph position
 
         this.inlines = glyphInfos;

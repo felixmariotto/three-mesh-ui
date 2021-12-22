@@ -50,6 +50,18 @@ function getGlyphDimensions( options ) {
 }
 
 
+/**
+ * Try to find the kerning amount of a
+ * @param font
+ * @param {string} glyphPair
+ * @returns {number}
+ */
+function getGlyphPairKerning( font, glyphPair ){
+	const KERNINGS = font._kernings;
+	return KERNINGS[glyphPair] ? KERNINGS[glyphPair] : 0;
+}
+
+
 //
 
 /**
@@ -82,5 +94,6 @@ function buildText() {
 
 export default {
 	getGlyphDimensions,
+	getGlyphPairKerning,
 	buildText
 }

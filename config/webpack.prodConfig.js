@@ -18,6 +18,7 @@ let pages = [
 	['manual_positioning', 'manual content positioning'],
 	['keyboard', 'keyboard'],
 	['letter_spacing', 'letter spacing'],
+	['font_kerning', 'font kerning'],
 ];
 
 // create one config for each of the data set above
@@ -73,7 +74,8 @@ module.exports = env => {
 			onafterupdate: './examples/onafterupdate.js',
 			manual_positioning: './examples/manual_positioning.js',
 			keyboard: './examples/keyboard.js',
-			letter_spacing: './examples/letter_spacing.js'
+			letter_spacing: './examples/letter_spacing.js',
+			font_kerning: './examples/font_kerning.js',
 		},
 
 		plugins: pagesConfig,
