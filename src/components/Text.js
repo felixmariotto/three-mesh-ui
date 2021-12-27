@@ -110,7 +110,7 @@ export default class Text extends mix.withBase( Object3D )(
         });
 
         // apply kerning
-        if( this.getFontKerning() ){
+        if( this.getFontKerning() !== 'none' ){
 
             // First character won't be kerned with its void lefthanded peer
             for (let i = 1; i < glyphInfos.length; i++) {
@@ -118,7 +118,10 @@ export default class Text extends mix.withBase( Object3D )(
                 const glyphInfo = glyphInfos[i];
                 const glyphPair = glyphInfos[i-1].glyph+glyphInfos[i].glyph;
 
+                // retrieve the kerning from the font
                 const kerning = this.getGlyphPairKerning( textType, font, glyphPair);
+
+                // compute the final kerning value according to requested fontSize
                 glyphInfo['kerning'] = kerning * fontSize * glyphInfo['width'];
 
             }

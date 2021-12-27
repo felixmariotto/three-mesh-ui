@@ -62,15 +62,23 @@ export default function InlineManager( Base = class {} ) {
 
                             inline.offsetX = 0;
 
-                            // @TODO: How to prevent this
-
+                            // Workaround : Sometimes, ThreeMeshUI linebreaks before a newline "\n"
+                            //              and `lines.push([ inline ])` push the newline char "\n" itself as first char
+                            //
+                            // LetterSpacing feature was introducing a visual glitch
+                            // by adding constant letterSpacing to those hidden chars
+                            //
+                            // So as workaround if the first char has a width of 0, do not add letterSpacing
                             if( inline.width > 0 ){
 
-                                // Do not kern first letter of a line, its has not lefthanded peer
+                                // Do not kern first letter of a line, its has not lefthanded peer char
+                                // But still use the letterspacing
                                 return inline.width + letterSpacing;
                             }else{
+
                                 // When line breaker here "\n" its width is 0
-                                // but letterSpacing was still adding constant offset on empty char
+                                // Fix by setting width of 0
+                                // as letterSpacing was still adding constant offset on empty char
                                 return 0;
                             }
 

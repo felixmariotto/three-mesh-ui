@@ -223,7 +223,6 @@ export default function MaterialManager( Base = class {} ) {
             return new ShaderMaterial({
                 uniforms: this.textUniforms,
                 transparent: true,
-                depthWrite: false, // @added to prevent overlapping issues
                 clipping: true,
                 vertexShader: textVertex,
                 fragmentShader: textFragment,
@@ -323,7 +322,11 @@ const textFragment = `
 		vec3 textureSample = texture2D( u_texture, vUv ).rgb;
 		float sigDist = median( textureSample.r, textureSample.g, textureSample.b ) - 0.5;
 		float alpha = clamp( sigDist / fwidth( sigDist ) + 0.5, 0.0, 1.0 );
-		gl_FragColor = vec4( u_color, min( alpha, u_opacity ) );
+		alpha = min( alpha, u_opacity );
+		
+		if( alpha < 0.02) discard;
+		
+		gl_FragColor = vec4( u_color, alpha );
 	
 		#include <clipping_planes_fragment>
 

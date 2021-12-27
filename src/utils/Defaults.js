@@ -7,6 +7,7 @@ export default {
 	container: null,
 	fontFamily: null,
 	fontSize: 0.05,
+	fontKerning: "normal", // FontKerning would act like css : "none"|"normal"|"auto"("auto" not yet implemented)
 	offset: 0.01,
 	interLine: 0.01,
 	breakOn: '- ,.:?!',

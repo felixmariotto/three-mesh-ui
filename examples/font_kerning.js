@@ -85,66 +85,16 @@ function makeTextPanel() {
 
   //
 
-  const textContent = "LYON F. to ATLANTA GA. Via ALTOONA PA.";
+  const textContent = `LYON F. to ATLANTA GA. Via ALTOONA PA.`;
   container.add(
     new ThreeMeshUI.Text({
-      content: textContent + "\n",
-      fontKerning: true
+      content: textContent + ` - (fontKerning:"normal")\n`,
     }),
     new ThreeMeshUI.Text({
-      content: textContent + "\n\n",
-    }),
-    new ThreeMeshUI.Text({
-      content: textContent + "\n",
-      fontKerning: true,
-      letterSpacing: 0.25,
-    }),
-
-    new ThreeMeshUI.Text({
-      content: textContent + "\n\n",
-      letterSpacing: 0.25,
-    }),
-    new ThreeMeshUI.Text({
-      content: textContent + "\n",
-      fontKerning: true,
-      letterSpacing: 0.55,
-    }),
-
-    new ThreeMeshUI.Text({
-      content: textContent,
-      letterSpacing: 0.55,
+      content: textContent + ` - (fontKerning:"none")`,
+      fontKerning:"none"
     }),
   );
-
-
-
-  container.onAfterUpdate = function () {
-    console.log(container.getFontFamily());
-  }
-
-
-
-  let _overlap = false;
-  Object.defineProperty(window, 'overlap', {
-    get() {
-      _overlap = !_overlap;
-
-      for (let i = 0; i < container.children.length; i++) {
-        const child = container.children[i];
-
-        if( child.isText ){
-          child.fontMaterial.depthWrite = _overlap;
-        }
-      }
-
-      // and return a value as it is a getter
-      return "Toggle Overlap"
-    },
-    set(newValue) {
-    },
-    enumerable: false,
-    configurable: false
-  });
 
 };
 
