@@ -15,8 +15,8 @@ const HEIGHT = window.innerHeight;
 
 let scene, camera, renderer, controls ;
 
-window.addEventListener('load', init );
-window.addEventListener('resize', onWindowResize );
+window.addEventListener( 'load', init );
+window.addEventListener( 'resize', onWindowResize );
 
 //
 
@@ -27,9 +27,7 @@ function init() {
 
 	camera = new THREE.PerspectiveCamera( 60, WIDTH / HEIGHT, 0.1, 100 );
 
-	renderer = new THREE.WebGLRenderer({
-		antialias: true
-	});
+	renderer = new THREE.WebGLRenderer( { antialias: true } );
 	renderer.setPixelRatio( window.devicePixelRatio );
 	renderer.setSize( WIDTH, HEIGHT );
 	renderer.xr.enabled = true;
@@ -72,7 +70,7 @@ function makeTextPanel() {
 		alignContent: 'left',
 		fontFamily: FontJSON,
 		fontTexture: FontImage,
-		fontSize: 0.055,
+		fontSize: 0.05,
 		interLine: 0.05
 	});
 

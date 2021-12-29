@@ -24,13 +24,15 @@ function getGlyphDimensions( options ) {
 
 	const GLYPH = options.glyph;
 
+	const SCALE_MULT = FONT_SIZE / FONT.info.size;
+
 	//
 
 	const charOBJ = FONT.chars.find( charOBJ => charOBJ.char === GLYPH );
 
-	let width = charOBJ ? (charOBJ.width * FONT_SIZE) / FONT.common.lineHeight : FONT_SIZE / 3 ;
+	let width = charOBJ ? charOBJ.width * SCALE_MULT : FONT_SIZE / 3 ;
 
-	let height = charOBJ ? (charOBJ.height * FONT_SIZE) / FONT.common.lineHeight : 0 ;
+	let height = charOBJ ? charOBJ.height * SCALE_MULT : 0 ;
 
 	// handle whitespaces and line breaks
 	if ( width === 0 )  width = FONT_SIZE;
@@ -38,15 +40,32 @@ function getGlyphDimensions( options ) {
 
 	if ( GLYPH === '\n' ) width = 0;
 
+	let xadvance = charOBJ ? charOBJ.xadvance * SCALE_MULT : width;
+	let xoffset = charOBJ ? charOBJ.xoffset * SCALE_MULT : 0;
+
 	// world-space length between lowest point and the text cursor position
 	const anchor = charOBJ ? ((charOBJ.yoffset + charOBJ.height - FONT.common.base) * FONT_SIZE) / FONT.common.lineHeight : 0 ;
 
 	return {
 		width,
 		height,
-		anchor
+		anchor,
+		xadvance,
+		xoffset
 	}
 
+}
+
+
+/**
+ * Try to find the kerning amount of a
+ * @param font
+ * @param {string} glyphPair
+ * @returns {number}
+ */
+function getGlyphPairKerning( font, glyphPair ){
+	const KERNINGS = font._kernings;
+	return KERNINGS[glyphPair] ? KERNINGS[glyphPair] : 0;
 }
 
 
@@ -82,5 +101,6 @@ function buildText() {
 
 export default {
 	getGlyphDimensions,
+	getGlyphPairKerning,
 	buildText
 }

@@ -46,6 +46,9 @@ function setFontFamily( component, fontFamily ) {
 		// keep record of the font that this component use
 		if ( !records[ component.id ] ) records[ component.id ] = {component};
 
+		// Ensure the font json is processed
+		_buildFriendlyKerningValues(fontFamily);
+
 		records[ component.id ].json = fontFamily;
 
 		component._updateFontFamily( fontFamily );
@@ -129,6 +132,9 @@ function loadFontJSON( component, url ) {
 			// FileLoader import as  a JSON string
 			const font = JSON.parse( text );
 
+			// Ensure the font json is processed
+			_buildFriendlyKerningValues(fontFamily);
+
 			fontFamilies[ url ] = font;
 
 			for ( const recordID of Object.keys(records) ) {
@@ -158,6 +164,43 @@ function loadFontJSON( component, url ) {
 
 }
 
+/**
+ * From the original json font kernings array
+ * First  : Reduce the number of values by ignoring any kerning defining an amount of 0
+ * Second : Update the data structure of kernings from
+ * 			{Array} : [{first: 97, second: 121, amount: 0},{first: 97, second: 122, amount: -1},...]
+ * 			to
+ * 			{Object}: {"ij":-2,"WA":-3,...}}
+ *
+ * @private
+ */
+function _buildFriendlyKerningValues( font ){
+
+	// As "font registering" can comes from different paths : addFont, loadFontJSON, setFontFamily
+	// Be sure we don't repeat this operation
+	if( font._kernings ) return;
+
+	const friendlyKernings = {};
+
+	for (let i = 0; i < font.kernings.length; i++) {
+
+		const kerning = font.kernings[i];
+
+		// ignore zero kerned glyph pair
+		if( kerning.amount === 0){
+			continue;
+		}
+
+		// Build and store the glyph paired characters "ij","WA", ... as keys, referecing their kerning amount
+		const glyphPair = String.fromCharCode(kerning.first,kerning.second);
+		friendlyKernings[glyphPair] = kerning.amount;
+	}
+
+	// update the font to keep it
+	font._kernings = friendlyKernings;
+
+}
+
 /*
 
 This method is intended for adding manually loaded fonts. Method assumes font hasn't been loaded or requested yet. If it was,
@@ -167,6 +210,9 @@ font with specified name will be overwritten, but components using it won't be u
 function addFont(name, json, texture) {
 	requiredFontFamilies.push( name );
 	fontFamilies[ name ] = json;
+
+	// Ensure the font json is processed
+	_buildFriendlyKerningValues(json);
 
 	if ( texture ) {
 		requiredFontTextures.push(name);

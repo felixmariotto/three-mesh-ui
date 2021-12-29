@@ -147,6 +147,10 @@ export default function MeshUIComponent( Base = class {} ) {
             return this._getProperty( 'fontSize' );
         }
 
+        getFontKerning() {
+          return this._getProperty( 'fontKerning' );
+        }
+
         getLetterSpacing() {
             return this._getProperty( 'letterSpacing' );
         }
@@ -378,6 +382,7 @@ export default function MeshUIComponent( Base = class {} ) {
 
                 case "content" :
                 case "fontSize" :
+                case "fontKerning" :
                     if ( this.isText ) parsingNeedsUpdate = true;
                     layoutNeedsUpdate = true;
                     this[ prop ] = options[ prop ];

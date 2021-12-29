@@ -57,7 +57,7 @@ export default function TextManager( Base = class {} ) {
         }
 
         /**
-         * Called by Text to get the domensions of a particular glyph,
+         * Called by Text to get the dimensions of a particular glyph,
          * in order for InlineManager to compute its position
          */
         getGlyphDimensions( options ) {
@@ -76,6 +76,29 @@ export default function TextManager( Base = class {} ) {
 
         }
 
+
+        /**
+         * Called by Text to get the amount of kerning for pair of glyph
+         * @param textType
+         * @param font
+         * @param glyphPair
+         * @returns {number}
+         */
+        getGlyphPairKerning( textType, font, glyphPair ) {
+
+            switch ( textType ) {
+
+                case 'MSDF' :
+
+                    return MSDFText.getGlyphPairKerning( font, glyphPair )
+
+                default :
+                    console.warn(`'${ textType }' is not a supported text type.\nSee https://github.com/felixmariotto/three-mesh-ui/wiki/Using-a-custom-text-type`);
+                    break
+
+            }
+
+        }
     }
 
 }

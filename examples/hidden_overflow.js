@@ -28,9 +28,7 @@ function init() {
 	camera.position.set( 0, 1.6, 0 );
 	camera.lookAt( 0, 1, -1.8 );
 
-	renderer = new THREE.WebGLRenderer({
-		antialias: true
-	});
+	renderer = new THREE.WebGLRenderer( { antialias: true } );
 	renderer.localClippingEnabled = true;
 	renderer.setPixelRatio( window.devicePixelRatio );
 	renderer.setSize( WIDTH, HEIGHT );
@@ -129,7 +127,7 @@ function makeTextPanel() {
 
 	const text = new ThreeMeshUI.Text({
 		content: "hiddenOverflow ".repeat( 28 ),
-		fontSize: 0.059,
+		fontSize: 0.054,
 		fontFamily: FontJSON,
 		fontTexture: FontImage
 	});
