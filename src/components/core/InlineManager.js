@@ -44,23 +44,29 @@ export default function InlineManager( Base = class {} ) {
 
                     const letterSpacing = inlineComponent.isText ? inlineComponent.getLetterSpacing() * inlineComponent.getFontSize() : 0;
 
+
+
                     const currentInlineInfo = inlineComponent.inlines.reduce( (lastInlineOffset, inline, i, inlines)=> {
 
                         const kerning = inline.kerning ? inline.kerning : 0;
+                        const xoffset = inline.xoffset ? inline.xoffset : 0;
+                        const xadvance = inline.xadvance ? inline.xadvance : inline.width;
 
                         // Line break
+                        // const xoffset = inline.xadvance - inline.width;
+                        // const xoffset = 0;
 
                         const nextBreak = this.distanceToNextBreak( inlines, i , letterSpacing );
 
                         if (
-                            lastInlineOffset + inline.width > INNER_WIDTH ||
+                            lastInlineOffset + xadvance + xoffset + kerning > INNER_WIDTH ||
                             inline.lineBreak === "mandatory" ||
                             this.shouldFriendlyBreak( inlines[ i - 1 ], lastInlineOffset, nextBreak, INNER_WIDTH )
                         ) {
 
                             lines.push([ inline ]);
 
-                            inline.offsetX = 0;
+                            inline.offsetX = xoffset;
 
                             // Workaround : Sometimes, ThreeMeshUI linebreaks before a newline "\n"
                             //              and `lines.push([ inline ])` push the newline char "\n" itself as first char
@@ -73,7 +79,7 @@ export default function InlineManager( Base = class {} ) {
 
                                 // Do not kern first letter of a line, its has not lefthanded peer char
                                 // But still use the letterspacing
-                                return inline.width + letterSpacing;
+                                return xadvance + xoffset + letterSpacing;
                             }else{
 
                                 // When line breaker here "\n" its width is 0
@@ -87,14 +93,17 @@ export default function InlineManager( Base = class {} ) {
 
                         lines[ lines.length - 1 ].push( inline );
 
+
+
+                            inline.offsetX = lastInlineOffset + xoffset + kerning;
                     
 
-                        //
-                        inline.offsetX = lastInlineOffset + kerning;
+
 
                         //
+                        const result = lastInlineOffset + xadvance + kerning + letterSpacing;
 
-                        return lastInlineOffset + inline.width + letterSpacing + kerning;
+                        return result;
 
                     }, lastInlineOffset );
 
@@ -103,6 +112,8 @@ export default function InlineManager( Base = class {} ) {
                     return currentInlineInfo
 
                 }, 0 );
+
+
 
             /////////////////////////////////////////////////////////////////
             // Position lines according to justifyContent and contentAlign
@@ -144,7 +155,12 @@ export default function InlineManager( Base = class {} ) {
 
                 line.width = line.reduce( (width, inline)=> {
 
-                    return width + inline.width
+
+                    const kerning = inline.kerning ? inline.kerning : 0;
+                    const xoffset = inline.xoffset ? inline.xoffset : 0;
+                    const xadvance = inline.xadvance ? inline.xadvance : inline.width ;
+
+                    return width + xadvance + xoffset + kerning ;
 
                 }, 0 );
 
@@ -228,11 +244,13 @@ export default function InlineManager( Base = class {} ) {
 
             const inline = inlines[ currentIdx ];
             const kerning = inline.kerning ? inline.kerning : 0;
+            const xoffset = inline.xoffset ? inline.xoffset : 0;
+            const xadvance = inline.xadvance ? inline.xadvance : inline.width ;
 
             // if inline.lineBreak is set, it is 'mandatory' or 'possible'
             if ( inline.lineBreak ) {
 
-                return accu + inline.width
+                return accu + xadvance
 
             // no line break is possible on this character
             } 
@@ -241,7 +259,7 @@ export default function InlineManager( Base = class {} ) {
                 inlines,
                 currentIdx + 1,
                 letterSpacing,
-                accu + inline.width + kerning + letterSpacing
+                accu + xadvance + letterSpacing + xoffset + kerning
             );
 
             

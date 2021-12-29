@@ -102,6 +102,8 @@ export default class Text extends mix.withBase( Object3D )(
                 height: dimensions.height,
                 width: dimensions.width,
                 anchor: dimensions.anchor,
+                xadvance: dimensions.xadvance,
+                xoffset: dimensions.xoffset,
                 lineBreak,
                 glyph,
                 fontSize
@@ -122,11 +124,10 @@ export default class Text extends mix.withBase( Object3D )(
                 const kerning = this.getGlyphPairKerning( textType, font, glyphPair);
 
                 // compute the final kerning value according to requested fontSize
-                glyphInfo['kerning'] = kerning * fontSize * glyphInfo['width'];
+                glyphInfo['kerning'] = kerning * (fontSize/font.info.size);
 
             }
         }
-
 
 
         // Update 'inlines' property, so that the parent can compute each glyph position

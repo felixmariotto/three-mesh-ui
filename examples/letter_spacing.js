@@ -85,7 +85,7 @@ function makeTextPanel() {
 	container.add( text );
 
 	// Update the letterSpacing in time in order to demo its effect
-	const letterSpacingSpeed = 0.1;
+	let letterSpacingSpeed = 0.1;
 
 	setInterval( ()=>{
 
