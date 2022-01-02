@@ -327,6 +327,7 @@ const textFragment = `
 		if( alpha < 0.02) discard;
 		
 		gl_FragColor = vec4( u_color, alpha );
+        // gl_FragColor = vec4( 1.0 );
 	
 		#include <clipping_planes_fragment>
 

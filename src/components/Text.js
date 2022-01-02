@@ -57,6 +57,9 @@ export default class Text extends mix.withBase( Object3D )(
         const breakChars = this.getBreakOn();
         const textType = this.getTextType();
 
+        const SCALE_MULT = fontSize / font.info.size;
+        const lineHeight = font.common.lineHeight * SCALE_MULT;
+
         // Abort condition
         
         if ( !font || typeof font === 'string' ) {
@@ -106,7 +109,8 @@ export default class Text extends mix.withBase( Object3D )(
                 xoffset: dimensions.xoffset,
                 lineBreak,
                 glyph,
-                fontSize
+                fontSize,
+                lineHeight
             };
 
         });

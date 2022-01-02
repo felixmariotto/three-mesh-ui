@@ -88,19 +88,12 @@ export default function InlineManager( Base = class {} ) {
                                 return 0;
                             }
 
-
-                        } 
+                        }
 
                         lines[ lines.length - 1 ].push( inline );
 
-
-
-                            inline.offsetX = lastInlineOffset + xoffset + kerning;
+                        inline.offsetX = lastInlineOffset + xoffset + kerning;
                     
-
-
-
-                        //
                         const result = lastInlineOffset + xadvance + kerning + letterSpacing;
 
                         return result;
@@ -131,6 +124,7 @@ export default function InlineManager( Base = class {} ) {
 
             lines.forEach( (line)=> {
 
+                /*
                 line.lowestPoint = line.reduce( (lowest, inline)=> {
 
                     return lowest < inline.anchor ? inline.anchor : lowest
@@ -149,7 +143,21 @@ export default function InlineManager( Base = class {} ) {
 
                 //
 
-                line.totalHeight = line.lowestPoint + line.heighestPoint;
+                line.test = line.lowestPoint + line.heighestPoint;
+                */
+
+                //
+
+                line.totalHeight = line.reduce( (height, inline) => {
+
+                    const charHeight = inline.lineHeight !== undefined ? inline.lineHeight : inline.height;
+
+                    return Math.max( height, charHeight )
+
+                }, 0 );
+
+                // console.log( 'test', line.test )
+                // console.log( 'totalHeight', line.totalHeight )
 
                 //
 
@@ -172,7 +180,9 @@ export default function InlineManager( Base = class {} ) {
 
                 line.forEach( (char)=> {
 
-                    char.offsetY = offsetY - line.totalHeight + line.lowestPoint + arr[0].totalHeight;
+                    console.log( 'InlineManager', char.lineHeight )
+
+                    char.offsetY = offsetY - line.totalHeight + /* line.lowestPoint */ 0 + arr[0].totalHeight;
 
                 });
 
@@ -194,6 +204,8 @@ export default function InlineManager( Base = class {} ) {
                 default: console.warn(`justifyContent: '${ JUSTIFICATION }' is not valid`)
                 }
             })();
+
+            // const justificationOffset = 0;
 
             //
 
