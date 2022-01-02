@@ -133,7 +133,7 @@ function loadFontJSON( component, url ) {
 			const font = JSON.parse( text );
 
 			// Ensure the font json is processed
-			_buildFriendlyKerningValues(fontFamily);
+			_buildFriendlyKerningValues( font );
 
 			fontFamilies[ url ] = font;
 
