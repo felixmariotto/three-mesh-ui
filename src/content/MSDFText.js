@@ -46,7 +46,12 @@ function getGlyphDimensions( options ) {
 	// world-space length between lowest point and the text cursor position
 	const anchor = charOBJ ? ((charOBJ.yoffset + charOBJ.height - FONT.common.base) * FONT_SIZE) / FONT.common.lineHeight : 0 ;
 
+	// const lineHeight = FONT.common.lineHeight * SCALE_MULT;
+
+	// console.log( lineHeight )
+
 	return {
+		// lineHeight,
 		width,
 		height,
 		anchor,

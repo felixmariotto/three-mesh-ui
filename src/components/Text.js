@@ -78,6 +78,10 @@ export default class Text extends mix.withBase( Object3D )(
 
         const chars = Array.from ? Array.from( content ) : String( content ).split( '' );
 
+        const SCALE_MULT = fontSize / font.info.size;
+        const lineHeight = font.common.lineHeight * SCALE_MULT;
+        const lineBase = font.common.base * SCALE_MULT;
+
         const glyphInfos = chars.map( (glyph)=> {
 
             // Get height, width, and anchor point of this glyph
@@ -106,7 +110,9 @@ export default class Text extends mix.withBase( Object3D )(
                 xoffset: dimensions.xoffset,
                 lineBreak,
                 glyph,
-                fontSize
+                fontSize,
+                lineHeight,
+                lineBase
             };
 
         });

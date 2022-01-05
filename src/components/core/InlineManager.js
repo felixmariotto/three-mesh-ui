@@ -44,8 +44,6 @@ export default function InlineManager( Base = class {} ) {
 
                     const letterSpacing = inlineComponent.isText ? inlineComponent.getLetterSpacing() * inlineComponent.getFontSize() : 0;
 
-
-
                     const currentInlineInfo = inlineComponent.inlines.reduce( (lastInlineOffset, inline, i, inlines)=> {
 
                         const kerning = inline.kerning ? inline.kerning : 0;
@@ -88,19 +86,12 @@ export default function InlineManager( Base = class {} ) {
                                 return 0;
                             }
 
-
-                        } 
+                        }
 
                         lines[ lines.length - 1 ].push( inline );
 
-
-
-                            inline.offsetX = lastInlineOffset + xoffset + kerning;
+                        inline.offsetX = lastInlineOffset + xoffset + kerning;
                     
-
-
-
-                        //
                         const result = lastInlineOffset + xadvance + kerning + letterSpacing;
 
                         return result;
@@ -112,8 +103,6 @@ export default function InlineManager( Base = class {} ) {
                     return currentInlineInfo
 
                 }, 0 );
-
-
 
             /////////////////////////////////////////////////////////////////
             // Position lines according to justifyContent and contentAlign
@@ -131,36 +120,35 @@ export default function InlineManager( Base = class {} ) {
 
             lines.forEach( (line)=> {
 
-                line.lowestPoint = line.reduce( (lowest, inline)=> {
+                //
 
-                    return lowest < inline.anchor ? inline.anchor : lowest
+                line.lineHeight = line.reduce( (height, inline) => {
+
+                    const charHeight = inline.lineHeight !== undefined ? inline.lineHeight : inline.height;
+
+                    return Math.max( height, charHeight )
 
                 }, 0 );
 
                 //
 
-                line.heighestPoint = line.reduce( (highest, inline)=> {
+                line.lineBase = line.reduce( (lineBase, inline) => {
 
-                    const topPart = inline.height - inline.anchor;
+                    const newLineBase = inline.lineBase !== undefined ? inline.lineBase : inline.height;
 
-                    return highest < topPart ? topPart : highest 
+                    return Math.max( lineBase, newLineBase );
 
                 }, 0 );
-
-                //
-
-                line.totalHeight = line.lowestPoint + line.heighestPoint;
 
                 //
 
                 line.width = line.reduce( (width, inline)=> {
 
-
                     const kerning = inline.kerning ? inline.kerning : 0;
                     const xoffset = inline.xoffset ? inline.xoffset : 0;
                     const xadvance = inline.xadvance ? inline.xadvance : inline.width ;
 
-                    return width + xadvance + xoffset + kerning ;
+                    return width + xadvance + xoffset + kerning;
 
                 }, 0 );
 
@@ -170,13 +158,15 @@ export default function InlineManager( Base = class {} ) {
 
             let textHeight = lines.reduce( (offsetY, line, i, arr)=> {
 
-                line.forEach( (char)=> {
+                const charAlignement = line.lineHeight - line.lineBase;
 
-                    char.offsetY = offsetY - line.totalHeight + line.lowestPoint + arr[0].totalHeight;
+                line.forEach( (inline)=> {
+
+                    inline.offsetY = offsetY - line.lineHeight + charAlignement + arr[0].lineHeight;
 
                 });
 
-                return offsetY - line.totalHeight - INTERLINE;
+                return offsetY - line.lineHeight - INTERLINE;
 
             }, 0 ) + INTERLINE;
 
@@ -188,12 +178,14 @@ export default function InlineManager( Base = class {} ) {
 
             const justificationOffset = (()=> {
                 switch ( JUSTIFICATION ) {
-                case 'start': return (INNER_HEIGHT / 2) - lines[0].totalHeight
-                case 'end': return textHeight - lines[0].totalHeight - ( INNER_HEIGHT / 2 ) + (lines[ lines.length -1 ].totalHeight - lines[ lines.length -1 ].totalHeight) ;
-                case 'center': return (textHeight / 2) - lines[0].totalHeight
+                case 'start': return (INNER_HEIGHT / 2) - lines[0].lineHeight
+                case 'end': return textHeight - lines[0].lineHeight - ( INNER_HEIGHT / 2 ) + (lines[ lines.length -1 ].lineHeight - lines[ lines.length -1 ].lineHeight) ;
+                case 'center': return (textHeight / 2) - lines[0].lineHeight
                 default: console.warn(`justifyContent: '${ JUSTIFICATION }' is not valid`)
                 }
             })();
+
+            // const justificationOffset = 0;
 
             //
 
