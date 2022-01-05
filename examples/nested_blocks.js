@@ -78,7 +78,7 @@ function makeTextPanel() {
   });
 
   const subSubBlock1 = new ThreeMeshUI.Block({
-    height: 0.35,
+    height: 0.3,
     width: 0.5,
     margin: 0.025,
     padding: 0.02,
@@ -86,10 +86,46 @@ function makeTextPanel() {
     justifyContent: "center",
     backgroundOpacity: 0,
   }).add(
+
     new ThreeMeshUI.Text({
       content: "oooo\noooo\noooo\nooffggoo\n((()))\n((((\noooo",
       // content: "Known for its extremely keeled dorsal scales that give it a bristly appearance.",
     })
+
+    /*
+    new ThreeMeshUI.InlineBlock({
+      height: 0.1,
+      width: 0.2,
+      // backgroundTexture: texture,
+      backgroundColor: new THREE.Color( 0x00ff00 ),
+      backgroundOpacity: 0.3,
+    }),
+
+    new ThreeMeshUI.Text({
+      content: "\n"
+    }),
+
+    new ThreeMeshUI.InlineBlock({
+      height: 0.1,
+      width: 0.2,
+      // backgroundTexture: texture,
+      backgroundColor: new THREE.Color( 0x00ff00 ),
+      backgroundOpacity: 0.3,
+    }),
+
+    new ThreeMeshUI.Text({
+      content: "\n"
+    }),
+
+    new ThreeMeshUI.InlineBlock({
+      height: 0.1,
+      width: 0.2,
+      // backgroundTexture: texture,
+      backgroundColor: new THREE.Color( 0x00ff00 ),
+      backgroundOpacity: 0.3,
+    })
+    */
+
   );
 
   rightSubBlock.add(subSubBlock1);

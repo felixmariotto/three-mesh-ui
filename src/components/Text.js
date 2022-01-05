@@ -57,9 +57,6 @@ export default class Text extends mix.withBase( Object3D )(
         const breakChars = this.getBreakOn();
         const textType = this.getTextType();
 
-        const SCALE_MULT = fontSize / font.info.size;
-        const lineHeight = font.common.lineHeight * SCALE_MULT;
-
         // Abort condition
         
         if ( !font || typeof font === 'string' ) {
@@ -80,6 +77,10 @@ export default class Text extends mix.withBase( Object3D )(
         // Compute glyphs sizes
 
         const chars = Array.from ? Array.from( content ) : String( content ).split( '' );
+
+        const SCALE_MULT = fontSize / font.info.size;
+        const lineHeight = font.common.lineHeight * SCALE_MULT;
+        const lineBase = font.common.base * SCALE_MULT;
 
         const glyphInfos = chars.map( (glyph)=> {
 
@@ -110,7 +111,8 @@ export default class Text extends mix.withBase( Object3D )(
                 lineBreak,
                 glyph,
                 fontSize,
-                lineHeight
+                lineHeight,
+                lineBase
             };
 
         });

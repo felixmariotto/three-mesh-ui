@@ -106,8 +106,6 @@ export default function InlineManager( Base = class {} ) {
 
                 }, 0 );
 
-
-
             /////////////////////////////////////////////////////////////////
             // Position lines according to justifyContent and contentAlign
             /////////////////////////////////////////////////////////////////
@@ -148,7 +146,7 @@ export default function InlineManager( Base = class {} ) {
 
                 //
 
-                line.totalHeight = line.reduce( (height, inline) => {
+                line.lineHeight = line.reduce( (height, inline) => {
 
                     const charHeight = inline.lineHeight !== undefined ? inline.lineHeight : inline.height;
 
@@ -156,19 +154,25 @@ export default function InlineManager( Base = class {} ) {
 
                 }, 0 );
 
-                // console.log( 'test', line.test )
-                // console.log( 'totalHeight', line.totalHeight )
+                //
+
+                line.lineBase = line.reduce( (lineBase, inline) => {
+
+                    const newLineBase = inline.lineBase !== undefined ? inline.lineBase : inline.height;
+
+                    return Math.max( lineBase, newLineBase );
+
+                }, 0 );
 
                 //
 
                 line.width = line.reduce( (width, inline)=> {
 
-
                     const kerning = inline.kerning ? inline.kerning : 0;
                     const xoffset = inline.xoffset ? inline.xoffset : 0;
                     const xadvance = inline.xadvance ? inline.xadvance : inline.width ;
 
-                    return width + xadvance + xoffset + kerning ;
+                    return width + xadvance + xoffset + kerning;
 
                 }, 0 );
 
@@ -178,15 +182,19 @@ export default function InlineManager( Base = class {} ) {
 
             let textHeight = lines.reduce( (offsetY, line, i, arr)=> {
 
-                line.forEach( (char)=> {
+                const charAlignement = line.lineHeight - line.lineBase;
 
-                    console.log( 'InlineManager', char.lineHeight )
+                console.log( charAlignement )
 
-                    char.offsetY = offsetY - line.totalHeight + /* line.lowestPoint */ 0 + arr[0].totalHeight;
+                line.forEach( (inline)=> {
+
+                    // const charAlignement = inline.lineHeight && inline.lineBase ? inline.lineHeight - inline.lineBase : 0;
+
+                    inline.offsetY = offsetY - line.lineHeight + charAlignement + arr[0].lineHeight;
 
                 });
 
-                return offsetY - line.totalHeight - INTERLINE;
+                return offsetY - line.lineHeight - INTERLINE;
 
             }, 0 ) + INTERLINE;
 
@@ -198,9 +206,9 @@ export default function InlineManager( Base = class {} ) {
 
             const justificationOffset = (()=> {
                 switch ( JUSTIFICATION ) {
-                case 'start': return (INNER_HEIGHT / 2) - lines[0].totalHeight
-                case 'end': return textHeight - lines[0].totalHeight - ( INNER_HEIGHT / 2 ) + (lines[ lines.length -1 ].totalHeight - lines[ lines.length -1 ].totalHeight) ;
-                case 'center': return (textHeight / 2) - lines[0].totalHeight
+                case 'start': return (INNER_HEIGHT / 2) - lines[0].lineHeight
+                case 'end': return textHeight - lines[0].lineHeight - ( INNER_HEIGHT / 2 ) + (lines[ lines.length -1 ].lineHeight - lines[ lines.length -1 ].lineHeight) ;
+                case 'center': return (textHeight / 2) - lines[0].lineHeight
                 default: console.warn(`justifyContent: '${ JUSTIFICATION }' is not valid`)
                 }
             })();
