@@ -44,8 +44,6 @@ export default function InlineManager( Base = class {} ) {
 
                     const letterSpacing = inlineComponent.isText ? inlineComponent.getLetterSpacing() * inlineComponent.getFontSize() : 0;
 
-
-
                     const currentInlineInfo = inlineComponent.inlines.reduce( (lastInlineOffset, inline, i, inlines)=> {
 
                         const kerning = inline.kerning ? inline.kerning : 0;
@@ -122,28 +120,6 @@ export default function InlineManager( Base = class {} ) {
 
             lines.forEach( (line)=> {
 
-                /*
-                line.lowestPoint = line.reduce( (lowest, inline)=> {
-
-                    return lowest < inline.anchor ? inline.anchor : lowest
-
-                }, 0 );
-
-                //
-
-                line.heighestPoint = line.reduce( (highest, inline)=> {
-
-                    const topPart = inline.height - inline.anchor;
-
-                    return highest < topPart ? topPart : highest 
-
-                }, 0 );
-
-                //
-
-                line.test = line.lowestPoint + line.heighestPoint;
-                */
-
                 //
 
                 line.lineHeight = line.reduce( (height, inline) => {
@@ -184,11 +160,7 @@ export default function InlineManager( Base = class {} ) {
 
                 const charAlignement = line.lineHeight - line.lineBase;
 
-                console.log( charAlignement )
-
                 line.forEach( (inline)=> {
-
-                    // const charAlignement = inline.lineHeight && inline.lineBase ? inline.lineHeight - inline.lineBase : 0;
 
                     inline.offsetY = offsetY - line.lineHeight + charAlignement + arr[0].lineHeight;
 
