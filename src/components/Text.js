@@ -58,7 +58,7 @@ export default class Text extends mix.withBase( Object3D )(
         const textType = this.getTextType();
 
         // Abort condition
-        
+
         if ( !font || typeof font === 'string' ) {
             if ( !FontLibrary.getFontOf( this ) ) console.warn('no font was found');
             return
@@ -145,7 +145,7 @@ export default class Text extends mix.withBase( Object3D )(
 
     /**
      * Create text content
-     * 
+     *
      * At this point, text.inlines should have been modified by the parent
      * component, to add xOffset and yOffset properties to each inlines.
      * This way, TextContent knows were to position each character.

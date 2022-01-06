@@ -19,7 +19,7 @@ let pages = [
 	['keyboard', 'keyboard'],
 	['letter_spacing', 'letter spacing'],
 	['font_kerning', 'font kerning'],
-	['second-set-uvs', '2nd UVs'],
+	['second_set_uvs', '2nd UVs'],
 ];
 
 // create one config for each of the data set above
