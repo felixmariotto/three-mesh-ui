@@ -66,24 +66,22 @@ export default function InlineManager( Base = class {} ) {
 
                             inline.offsetX = xoffset;
 
-                            // Workaround : Sometimes, ThreeMeshUI linebreaks before a newline "\n"
-                            //              and `lines.push([ inline ])` push the newline char "\n" itself as first char
-                            //
-                            // LetterSpacing feature was introducing a visual glitch
-                            // by adding constant letterSpacing to those hidden chars
-                            //
-                            // So as workaround if the first char has a width of 0, do not add letterSpacing
-                            if( inline.width > 0 ){
 
-                                // Do not kern first letter of a line, its has not lefthanded peer char
-                                // But still use the letterspacing
-                                return xadvance + xoffset + letterSpacing;
+                            // if the first inline of this new line :
+                            //   has a width of zero ( such as "\n" glyph )
+                            //   or
+                            //   is a space
+                            // @TODO: This might be more widely supported "\r \t"
+                            if( inline.width === 0 || inline.glyph === " " ){
+
+                                // restart the lastInlineOffset as zero.
+                                return 0;
                             }else{
 
-                                // When line breaker here "\n" its width is 0
-                                // Fix by setting width of 0
-                                // as letterSpacing was still adding constant offset on empty char
-                                return 0;
+                                // compute lastInlineOffset normally
+                                // except for kerning which won't apply
+                                // as there is visually no lefthanded glyph to kern with
+                                return xadvance + xoffset + letterSpacing;
                             }
 
                         }
@@ -91,7 +89,7 @@ export default function InlineManager( Base = class {} ) {
                         lines[ lines.length - 1 ].push( inline );
 
                         inline.offsetX = lastInlineOffset + xoffset + kerning;
-                    
+
                         const result = lastInlineOffset + xadvance + kerning + letterSpacing;
 
                         return result;
@@ -245,7 +243,7 @@ export default function InlineManager( Base = class {} ) {
                 return accu + xadvance
 
             // no line break is possible on this character
-            } 
+            }
 
             return this.distanceToNextBreak(
                 inlines,
@@ -254,7 +252,7 @@ export default function InlineManager( Base = class {} ) {
                 accu + xadvance + letterSpacing + xoffset + kerning
             );
 
-            
+
 
         }
 
@@ -277,7 +275,7 @@ export default function InlineManager( Base = class {} ) {
             // Previous glyph was break-line-friendly
             return BREAK_ON.indexOf( prevChar.glyph ) > -1
 
-        }			 
+        }
 
 	}
 

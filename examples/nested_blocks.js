@@ -162,6 +162,57 @@ function makeTextPanel() {
 
   rightSubBlock.add(subSubBlock1, subSubBlock2);
 
+
+  // @TODO : TO BE REMOVED BEFORE PUBLISHING -------------------------------------------------
+  // -----------------------------------------------------------------------------------------
+    const rightSubBlock1 = new ThreeMeshUI.Block({
+        margin: 0.025,
+    });
+
+    const subSubBlock11 = new ThreeMeshUI.Block({
+        height: 0.35,
+        width: 0.5,
+        margin: 0.025,
+        padding: 0.02,
+        fontSize: 0.04,
+        justifyContent: "center",
+        backgroundOpacity: 0,
+    }).add(
+        new ThreeMeshUI.Text({
+            content: "Known for its extremely keeled dorsal scales that give it a ",
+        }),
+
+        new ThreeMeshUI.Text({
+            content: "bristly",
+            fontColor: new THREE.Color(0x92e66c),
+        }),
+
+        new ThreeMeshUI.Text({
+            content: " appearance.",
+        })
+    );
+
+    const subSubBlock21 = new ThreeMeshUI.Block({
+        height: 0.53,
+        width: 0.5,
+        margin: 0.01,
+        padding: 0.02,
+        fontSize: 0.025,
+        alignContent: "left",
+        backgroundOpacity: 0,
+    }).add(
+        new ThreeMeshUI.Text({
+            content:
+                "The males of this species grow to maximum total length of 73 cm (29 in):                    body 58 cm (23 in), tail 15 cm (5.9 in). Females grow to a maximum total length of 58 cm (23 in). The males are surprisingly long and slender compared to the females.\nThe head has a short snout, more so in males than in females.\nThe eyes are large and surrounded by 9–16 circumorbital scales. The orbits (eyes) are separated by 7–9 scales.",
+        })
+    );
+
+    rightSubBlock1.add(subSubBlock11, subSubBlock21);
+
+    // -----------------------------------------------------------------------------------
+    // -------------------------------------------------  TO BE REMOVED BEFORE PUBLISHING
+
+
   //
 
   const contentContainer = new ThreeMeshUI.Block({
@@ -171,7 +222,7 @@ function makeTextPanel() {
     backgroundOpacity: 0,
   });
 
-  contentContainer.add(leftSubBlock, rightSubBlock);
+  contentContainer.add(leftSubBlock, rightSubBlock, rightSubBlock1);
   container.add(contentContainer);
 
   //
