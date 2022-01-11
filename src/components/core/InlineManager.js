@@ -214,6 +214,11 @@ export default function InlineManager( Base = class {} ) {
                 });
 
             });
+
+
+            // debugging purpose but could be useful for text-selection feature
+            this.lines = lines;
+
         }
 
 

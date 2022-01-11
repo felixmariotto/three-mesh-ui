@@ -7,13 +7,11 @@ import {OrbitControls} from "three/examples/jsm/controls/OrbitControls.js";
 
 import ThreeMeshUI from "../src/three-mesh-ui.js";
 
-import SnakeImage from "./assets/spiny_bush_viper.jpg";
-// import FontJSON from "./assets/Roboto-msdf.json";
-import FontJSON from "./assets/Roboto-Regular-space-msdf.json";
-// import FontImage from "./assets/Roboto-msdf.png";
-import FontImage from "./assets/Roboto-Regular-space-msdf.png";
-import FontMaterialDebugger from "../src/utils/materials/FontMaterialDebugger";
-import {Mesh, MeshBasicMaterial, MeshStandardMaterial, PlaneBufferGeometry} from "three";
+import FontJSON from "./assets/Roboto-msdf.json";
+import FontImage from "./assets/Roboto-msdf.png";
+
+
+import {Mesh, MeshBasicMaterial, PlaneBufferGeometry, ShaderMaterial, UniformsUtils} from "three";
 
 const WIDTH = window.innerWidth;
 const HEIGHT = window.innerHeight;
@@ -29,9 +27,7 @@ function init() {
     scene = new THREE.Scene();
     scene.background = new THREE.Color(0x505050);
 
-    //camera = new THREE.PerspectiveCamera(60, WIDTH / HEIGHT, 0.1, 100);
-    // camera = new THREE.PerspectiveCamera(60, WIDTH / HEIGHT, 0.1, 100);
-
+    // use of orthgraphic camera to increase matching
     camera = new THREE.OrthographicCamera( WIDTH / - 2, WIDTH / 2, HEIGHT / 2, HEIGHT / - 2, 1, 1000 );
 
     renderer = new THREE.WebGLRenderer({antialias: true});
@@ -89,13 +85,14 @@ function makeUI() {
         height: 0.4,
         width: 0.73,
         margin: 0.05,
+        alignContent: "right",
+        justifyContent: "center",
+        padding: 0.03,
         interLine: -0.01,
-        // interLine: 0.03,
         letterSpacing: 0
     });
 
     container.add(textBlock);
-    window.textBlock = textBlock;
 
     //
 
@@ -106,10 +103,14 @@ function makeUI() {
 
     const textContent = "The spiny bush viper is known for its extremely keeled dorsal scales.";
     const text = new ThreeMeshUI.Text({
+        fontSize: 0.06,
         fontOpacity: 0.75,
         content: textContent,
     });
 
+
+    // Lines properties. Lines are planes manually added behind each text lines
+    // in order to perceive and validate line width
 
     let lineMat = new MeshBasicMaterial({color:0xff9900,opacity:0.5});
     let lines = [];
@@ -118,53 +119,41 @@ function makeUI() {
 
         if (!(text.fontMaterial instanceof FontMaterialDebugger) ) {
 
-            // remove all lines
+            // remove all lines previously added
             for (let i = 0; i < lines.length; i++) {
                 const line = lines[i];
                 container.remove(line);
             }
             lines = [];
 
+            // only process when texts are not empty
             if( text.children.length == 0 ) return;
 
+            // replace the default fontMaterial with a debugging one
+            // which shows quad in opposite font color
             text.children[0].material = new FontMaterialDebugger(text.fontMaterial);
             text.children[0].material.uniforms.u_texture.value = text.fontMaterial.uniforms.u_texture.value;
             text.children[0].material.uniforms.u_opacity.value = text.fontMaterial.uniforms.u_opacity.value;
 
-            // console.log(text.children[0].material.uniforms.u_opacity.value);
-
-
-
-            // console.log( text.position );
-            // console.log( textBlock.lines );
-
-
+            // retrieve all lines sent by InlineManager for the textBlock
             for (let i = 0; i < textBlock.lines.length; i++) {
 
                 let lineProperty = textBlock.lines[i];
 
                 if( !lineProperty[0] ) continue;
 
+                // ( I was unable to quickly match lineHeight )
+                // lineHeight doesn't fit
                 const lineHeight = lineProperty.lineHeight/4;
-                const lineBase = lineProperty.lineBase;
 
+                // create a mesh for each line
                 let lineGeo = new PlaneBufferGeometry(lineProperty.width, lineHeight );
                 let lineMesh = new Mesh( lineGeo, lineMat);
-
-                const delta = lineHeight-lineBase;
-
 
                 lineMesh.position.x = lineProperty[0].offsetX + (lineProperty.width/2);
                 lineMesh.position.y = lineProperty[0].offsetY + (lineHeight/2);
 
-
-
-
-                // I don't understand where the inline offset comes from
-                // it has this.position.z = this.getOffset();
-                // but this doens't fit
                 lineMesh.position.z = 0.018;
-
 
                 lines.push(lineMesh);
                 container.add(lineMesh);
@@ -175,43 +164,27 @@ function makeUI() {
 
     textBlock.add(text);
 
-    //
 
-    text.set({
-        // fontColor: new THREE.Color(0x92e66c),
-        fontColor: new THREE.Color(0xffffff),
-        fontSize: 0.06,
-    });
-
-    textBlock.set({
-        alignContent: "right",
-        justifyContent: "center",
-        padding: 0.03,
-    });
-
-    //
-
-
-
-    //build html overlay
+    //build html overlay for comparison and selection
     const overlay = document.createElement('div');
     overlay.classList.add('overlay');
 
     overlay.innerHTML = `
     <div style="flex-grow: 1; display: flex; flex-direction: column">
+    <!-- Text Area for input -->
     <textarea></textarea>
+    <!-- Buttons for preset text contents -->
     <div style="display: flex">
         <button data-tc="The spiny bush viper is known for its extremely keeled dorsal scales.">Default</button>
         <button data-tc="The spiny bush viper is \nknown for its extremely \nkeeled dorsal scales.">Default formatted</button>
         <button data-tc="The spiny bush viper is\nknown for its extremely\nkeeled dorsal scales.">Default formatted trimmed</button>
         <button data-tc="          d         \n          d         \n          d         ">Untrimmed matrix</button>
         <button data-tc="a................................. a....."> Issue: html dont break</button>
-        <button>T3</button>
-        <button>T4</button>
     </div>
     </div>
 
     <div>
+        <!-- html visualizers of what the render should look like with different white-space value -->
         <fieldset data-ws="normal">
             <legend>white-space:normal</legend>
             <p data-a="left"></p>
@@ -232,6 +205,7 @@ function makeUI() {
         </fieldset>
     </div>`;
 
+    //
     const tA = overlay.querySelector('textarea');
     tA.value = textContent;
 
@@ -256,12 +230,13 @@ function makeUI() {
                 whiteSpace: whiteSpace,// but this is not propagated to children
             });
 
-            //so Text whitespace will helps to know whitespace behaviour of \n ;
+            // so setting Text whitespace is required to know whitespace behaviour of \n ;
             // lineBreak : mandatory|possible ( done in Text );
             text.set({whiteSpace:whiteSpace});
         })
     }
 
+    // preset content buttons interactions
     const textButtons = overlay.querySelectorAll("button");
     for (let i = 0; i < textButtons.length; i++) {
         textButtons[i].addEventListener('click',(e)=>{
@@ -294,12 +269,15 @@ function makeUI() {
     document.body.appendChild(overlay);
 
 
+    // update texts as soon textarea changes
     tA.addEventListener('input', (e) => {
         const tc = tA.value;
 
+        // update html paragraph
         for (let i = 0; i < paragraphs.length; i++) {
             paragraphs[i].textContent = tc;
         }
+        // and threemeshui text
         text.set({content: tc});
     });
 
@@ -335,3 +313,77 @@ function loop() {
     controls.update();
     renderer.render(scene, camera);
 }
+
+/**
+ * 
+ */
+class FontMaterialDebugger extends ShaderMaterial {
+
+    /**
+     *
+     * @param {ShaderMaterial} fontMaterial
+     */
+    constructor( fontMaterial ) {
+
+        super({
+            uniforms: UniformsUtils.clone(fontMaterial.uniforms),
+            transparent: true,
+            clipping: true,
+            vertexShader: textVertex,
+            fragmentShader: textFragment,
+            extensions: {
+                derivatives: true
+            }
+        });
+    }
+}
+
+const textVertex = `
+	varying vec2 vUv;
+
+	#include <clipping_planes_pars_vertex>
+
+	void main() {
+
+		vUv = uv;
+		vec4 mvPosition = modelViewMatrix * vec4( position, 1.0 );
+		gl_Position = projectionMatrix * mvPosition;
+		gl_Position.z -= 0.00001;
+
+		#include <clipping_planes_vertex>
+
+	}
+`;
+
+//
+
+const textFragment = `
+	uniform sampler2D u_texture;
+	uniform vec3 u_color;
+	uniform float u_opacity;
+
+	varying vec2 vUv;
+
+	#include <clipping_planes_pars_fragment>
+
+	float median(float r, float g, float b) {
+		return max(min(r, g), min(max(r, g), b));
+	}
+
+	void main() {
+
+		vec3 textureSample = texture2D( u_texture, vUv ).rgb;
+		float sigDist = median( textureSample.r, textureSample.g, textureSample.b ) - 0.5;
+		float alpha = clamp( sigDist / fwidth( sigDist ) + 0.5, 0.0, 1.0 );
+		alpha = min( alpha, u_opacity );
+
+		if( alpha < 0.02) {
+		    gl_FragColor = vec4( vec3(1.)-u_color, u_opacity );
+		}else{
+            gl_FragColor = vec4( u_color, u_opacity );
+         }
+
+		#include <clipping_planes_fragment>
+
+	}
+`;
