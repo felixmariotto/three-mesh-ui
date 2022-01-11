@@ -153,6 +153,8 @@ function makeTextPanel() {
     fontSize: 0.025,
     alignContent: "left",
     backgroundOpacity: 0,
+      // whiteSpace: "pre-line"
+      // whiteSpace: "normal"
   }).add(
     new ThreeMeshUI.Text({
       content:
@@ -200,6 +202,8 @@ function makeTextPanel() {
         fontSize: 0.025,
         alignContent: "left",
         backgroundOpacity: 0,
+        // whiteSpace: "normal"
+        // whiteSpace: "pre-line"
     }).add(
         new ThreeMeshUI.Text({
             content:

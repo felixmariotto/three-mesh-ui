@@ -81,6 +81,7 @@ function makeUI() {
     height: 0.4,
     width: 0.8,
     margin: 0.05,
+      // whiteSpace: "normal"
   });
 
   container.add(imageBlock, textBlock);
