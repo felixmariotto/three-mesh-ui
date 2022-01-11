@@ -19,6 +19,7 @@ let pages = [
 	['keyboard', 'keyboard'],
 	['letter_spacing', 'letter spacing'],
 	['font_kerning', 'font kerning'],
+    ['best_fit', 'best fit'],
 ];
 
 // create one config for each of the data set above
@@ -76,6 +77,7 @@ module.exports = env => {
 			keyboard: './examples/keyboard.js',
 			letter_spacing: './examples/letter_spacing.js',
 			font_kerning: './examples/font_kerning.js',
+            best_fit: './examples/best_fit.js'
 		},
 
 		plugins: pagesConfig,

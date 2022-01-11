@@ -51,6 +51,45 @@ export default class Text extends mix.withBase( Object3D )(
      */
     parseParams() {
 
+        this.calculateInlines();
+
+    }
+
+
+    /**
+     * Create text content
+     *
+     * At this point, text.inlines should have been modified by the parent
+     * component, to add xOffset and yOffset properties to each inlines.
+     * This way, TextContent knows were to position each character.
+     */
+    updateLayout() {
+
+        deepDelete( this );
+
+        if ( this.inlines ) {
+
+            // happening in TextManager
+            this.textContent = this.createText();
+
+            this.add( this.textContent );
+
+        }
+
+        this.position.z = this.getOffset();
+
+    }
+
+    updateInner() {
+
+        this.position.z = this.getOffset();
+
+        if ( this.textContent ) this.updateTextMaterial();
+
+    }
+
+    calculateInlines(){
+
         const content = this.content ;
         const font = this.getFontFamily();
         const fontSize = this.getFontSize();
@@ -58,7 +97,7 @@ export default class Text extends mix.withBase( Object3D )(
         const textType = this.getTextType();
 
         // Abort condition
-        
+
         if ( !font || typeof font === 'string' ) {
             if ( !FontLibrary.getFontOf( this ) ) console.warn('no font was found');
             return
@@ -139,40 +178,6 @@ export default class Text extends mix.withBase( Object3D )(
         // Update 'inlines' property, so that the parent can compute each glyph position
 
         this.inlines = glyphInfos;
-
-    }
-
-
-    /**
-     * Create text content
-     * 
-     * At this point, text.inlines should have been modified by the parent
-     * component, to add xOffset and yOffset properties to each inlines.
-     * This way, TextContent knows were to position each character.
-     */
-    updateLayout() {
-
-        deepDelete( this );
-
-        if ( this.inlines ) {
-
-            // happening in TextManager
-            this.textContent = this.createText();
-
-            this.add( this.textContent );
-
-        }
-
-        this.position.z = this.getOffset();
-
-    }
-
-    updateInner() {
-
-        this.position.z = this.getOffset();
-
-        if ( this.textContent ) this.updateTextMaterial();
-
     }
 
 }

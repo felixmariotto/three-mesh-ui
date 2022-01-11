@@ -278,6 +278,10 @@ export default function MeshUIComponent( Base = class {} ) {
             return (this.hiddenOverflow === undefined) ? DEFAULTS.hiddenOverflow : this.hiddenOverflow;
         }
 
+        getBestFit() {
+            return (this.bestFit === undefined) ? DEFAULTS.bestFit : this.bestFit;
+        }
+
         ///////////////
         ///  UPDATE
         ///////////////
@@ -388,16 +392,26 @@ export default function MeshUIComponent( Base = class {} ) {
                     this[ prop ] = options[ prop ];
                     break;
 
+                case "bestFit" :
+                    if ( this.isBlock && options[ prop ] == true ) {
+                        parsingNeedsUpdate = true;
+                        layoutNeedsUpdate = true;
+                    }
+                    this[ prop ] = options[ prop ];
+                    break;
+
                 case "width" :
                 case "height" :
                 case "padding" :
-                    if ( this.isInlineBlock ) parsingNeedsUpdate = true;
+                    if ( this.isInlineBlock || ( this.isBlock && this[ "bestFit" ] == true )) parsingNeedsUpdate = true;
                     layoutNeedsUpdate = true;
                     this[ prop ] = options[ prop ];
                     break;
 
                 case "letterSpacing" :
                 case "interLine" :
+                    if( this.isBlock && this[ "bestFit" ] == true ) parsingNeedsUpdate = true;
+
                 case "margin" :
                 case "contentDirection" :
                 case "justifyContent" :
@@ -442,6 +456,10 @@ export default function MeshUIComponent( Base = class {} ) {
                 FontLibrary.setFontTexture( this, options.fontTexture );
                 layoutNeedsUpdate = false;
             }
+
+            // if font kerning changes for a child of a block with Best Fit enabled, we need to trigger parsing for the parent as well.
+            const parent = this.getUIParent();
+            if( parent && parent.getBestFit()) parent.update(true, true, false);
 
             // Call component update
 
