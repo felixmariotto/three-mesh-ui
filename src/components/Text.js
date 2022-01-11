@@ -80,12 +80,18 @@ export default class Text extends mix.withBase( Object3D )(
 
         // collapse whitespace for white-space normal
         let whitespaceProcessedContent = content;
-        if( whiteSpace === 'normal' || whiteSpace === 'pre-line'){
-            // newlines are treated as other whitespace characters
-            whitespaceProcessedContent = content.replace(/\n/g," ");
-            // collapsed white spaces sequences
-            whitespaceProcessedContent = whitespaceProcessedContent.replace(/[ ]{2,}/g," ");
+        switch (whiteSpace){
+            case "normal":
+                // newlines are treated as other whitespace characters
+                whitespaceProcessedContent = content.replace(/\n/g," ");
+            case "pre-line":
+                // collapsed white spaces sequences
+                whitespaceProcessedContent = whitespaceProcessedContent.replace(/[ ]{2,}/g," ");
+                break;
+
+            default:
         }
+        
         const chars = Array.from ? Array.from( whitespaceProcessedContent ) : String( whitespaceProcessedContent ).split( '' );
 
 
