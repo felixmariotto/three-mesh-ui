@@ -56,9 +56,10 @@ export default class Text extends mix.withBase( Object3D )(
         const fontSize = this.getFontSize();
         const breakChars = this.getBreakOn();
         const textType = this.getTextType();
+        const whiteSpace = this.getWhiteSpace();
 
         // Abort condition
-        
+
         if ( !font || typeof font === 'string' ) {
             if ( !FontLibrary.getFontOf( this ) ) console.warn('no font was found');
             return
@@ -76,7 +77,17 @@ export default class Text extends mix.withBase( Object3D )(
 
         // Compute glyphs sizes
 
-        const chars = Array.from ? Array.from( content ) : String( content ).split( '' );
+
+        // collapse whitespace for white-space normal
+        let whitespaceProcessedContent = content;
+        if( whiteSpace === 'normal' || whiteSpace === 'pre-line'){
+            // newlines are treated as other whitespace characters
+            whitespaceProcessedContent = content.replace(/\n/g," ");
+            // collapsed white spaces sequences
+            whitespaceProcessedContent = whitespaceProcessedContent.replace(/[ ]{2,}/g," ");
+        }
+        const chars = Array.from ? Array.from( whitespaceProcessedContent ) : String( whitespaceProcessedContent ).split( '' );
+
 
         const SCALE_MULT = fontSize / font.info.size;
         const lineHeight = font.common.lineHeight * SCALE_MULT;
@@ -98,7 +109,19 @@ export default class Text extends mix.withBase( Object3D )(
 
             if ( breakChars.includes( glyph ) || glyph.match(/\s/g) ) lineBreak = "possible" ;
 
-            if ( glyph.match(/\n/g) ) lineBreak = "mandatory" ;
+            if ( glyph.match(/\n/g) ){
+                switch (whiteSpace){
+
+                    case "pre-wrap":
+                    case "pre-line":
+                        lineBreak = "mandatory";
+                        break;
+
+                    case "normal":
+                    default:
+                        // do not automatically break on newline
+                }
+            }
 
             //
 

@@ -67,13 +67,7 @@ export default function InlineManager( Base = class {} ) {
                             inline.offsetX = xoffset;
 
 
-                            // if the first inline of this new line :
-                            //   has a width of zero ( such as "\n" glyph )
-                            //   or
-                            //   is a space
-                            // @TODO: This might be more widely supported "\r \t"
-                            if( inline.width === 0 || inline.glyph === " " ){
-
+                            if( inline.width === 0 ){
                                 // restart the lastInlineOffset as zero.
                                 return 0;
                             }else{
@@ -81,7 +75,7 @@ export default function InlineManager( Base = class {} ) {
                                 // compute lastInlineOffset normally
                                 // except for kerning which won't apply
                                 // as there is visually no lefthanded glyph to kern with
-                                return xadvance + xoffset + letterSpacing;
+                                return xadvance + letterSpacing;
                             }
 
                         }
@@ -90,9 +84,7 @@ export default function InlineManager( Base = class {} ) {
 
                         inline.offsetX = lastInlineOffset + xoffset + kerning;
 
-                        const result = lastInlineOffset + xadvance + kerning + letterSpacing;
-
-                        return result;
+                        return lastInlineOffset + xadvance + kerning + letterSpacing;
 
                     }, lastInlineOffset );
 
@@ -138,17 +130,22 @@ export default function InlineManager( Base = class {} ) {
 
                 }, 0 );
 
-                //
 
-                line.width = line.reduce( (width, inline)=> {
+                line.width = 0;
+                const lineHasInlines = line[0];
+                if( lineHasInlines ) {
+                    // starts by processing whitespace, it will return a collapsed left offset
+                    const WHITE_SPACE = this.getWhiteSpace();
+                    const whiteSpaceOffset = this.processWhiteSpace(line, WHITE_SPACE);
 
-                    const kerning = inline.kerning ? inline.kerning : 0;
-                    const xoffset = inline.xoffset ? inline.xoffset : 0;
-                    const xadvance = inline.xadvance ? inline.xadvance : inline.width ;
+                    // apply the collapsed left offset to ensure the starting offset is 0
+                    line.forEach((inline) => {
+                        inline.offsetX -= whiteSpaceOffset
+                    });
 
-                    return width + xadvance + xoffset + kerning;
-
-                }, 0 );
+                    // compute its width: length from firstInline:LEFT to lastInline:RIGHT
+                    line.width = this.computeLineWidth(line);
+                }
 
             });
 
@@ -217,8 +214,152 @@ export default function InlineManager( Base = class {} ) {
                 });
 
             });
+        }
+
+
+        /**
+         * Alter a line of inlines according to white-space property
+         * @param line
+         * @param {('normal'|'pre-wrap'|'pre-line')} whiteSpace
+         */
+        processWhiteSpace(line, whiteSpace){
+            let firstInline = line[0];
+
+            let lastInline = line[line.length-1];
+
+            /**
+             * @see https://developer.mozilla.org/en-US/docs/Web/API/Document_Object_Model/Whitespace#whitespace_helper_functions
+             *
+             * Throughout, whitespace is defined as one of the characters
+             *  "\t" TAB \u0009
+             *  "\n" LF  \u000A
+             *  "\r" CR  \u000D
+             *  " "  SPC \u0020
+             *
+             * This does not use Javascript's "\s" because that includes non-breaking
+             * spaces (and also some other characters).
+             **/
+            // @TODO: shouldn't be initiated upon each function execution
+            const whiteChars = {"\t":"\u0009","\n":"\u000A","\r":"\u000D", " ":"\u0020"};
+
+
+            // @see https://developer.mozilla.org/en-US/docs/Web/API/Document_Object_Model/Whitespace
+            //
+            // current implementation is 'pre-wrap'
+            // if the breaking character is a space, get the previous one
+            switch (whiteSpace){
+
+                // trim/collapse first and last whitespace characters of a line
+                case "pre-wrap":
+
+                    // only process whiteChars glyphs inlines
+                    // if( firstInline.glyph && whiteChars[firstInline.glyph] && line.length > 1 ){
+                    if( firstInline.glyph && firstInline.glyph === "\n" && line.length > 1 ){
+                        this._collapseInlineLeft(firstInline,line[1])
+                    }
+
+                    // if( lastInline.glyph && whiteChars[lastInline.glyph] && line.length > 1 ){
+                    if( lastInline.glyph && lastInline.glyph === "\n" && line.length > 1 ){
+                        this._collapseInlineRight(lastInline, line[line.length-2])
+                    }
+                    break;
+
+
+                case "pre-line":
+                case "normal":
+                    // only process whiteChars glyphs inlines
+                    let inlinesToCollapse = [];
+                    let collapsingTarget;
+                    for (let i = 0; i < line.length; i++) {
+                        const inline = line[i];
+                        if( inline.glyph && whiteChars[inline.glyph] && line.length > i){
+                            inlinesToCollapse.push(inline);
+                            collapsingTarget = line[i+1];
+                            continue;
+                        }
+                        break;
+                    }
+
+                    for (let i = 0; i < inlinesToCollapse.length; i++) {
+                        const inline = inlinesToCollapse[i];
+                        this._collapseInlineLeft(inline,collapsingTarget);
+                    }
+
+
+
+                    inlinesToCollapse = [];
+                    collapsingTarget = null;
+                    for (let i = line.length-1; i > 0; i--) {
+                        const inline = line[i];
+                        if( inline.glyph && whiteChars[inline.glyph] && i>0){
+                            inlinesToCollapse.push(inline);
+                            collapsingTarget = line[i-1];
+                            continue;
+                        }
+                        break;
+                    }
+                    for (let i = 0; i < inlinesToCollapse.length; i++) {
+                        const inline = inlinesToCollapse[i];
+                        this._collapseInlineRight(inline,collapsingTarget);
+                    }
+
+                    break;
+
+                default:
+                    console.warn(`whiteSpace: '${ whiteSpace }' is not valid`);
+                    return 0;
+            }
+
+            return firstInline.offsetX;
 
         }
+
+        /**
+         * Visually collapse inlines from right to left ( endtrim )
+         * @param inline
+         * @param targetInline
+         * @private
+         */
+        _collapseInlineRight(inline, targetInline ){
+
+            if( !targetInline ) return;
+
+            inline.width = 0;
+            inline.height = 0;
+            inline.offsetX = targetInline.offsetX + targetInline.width;
+        }
+
+        /**
+         * Visually collapse inlines from left to right (starttrim)
+         * @param inline
+         * @param targetInline
+         * @private
+         */
+        _collapseInlineLeft(inline, targetInline ){
+
+            if( !targetInline ) return;
+
+            inline.width = 0;
+            inline.height = 0;
+            inline.offsetX = targetInline.offsetX;
+        }
+
+        /**
+         * Compute the width of a line
+         * @param line
+         * @returns {number}
+         */
+        computeLineWidth( line ){
+
+            // only by the length of its extremities
+            const firstInline = line[0];
+
+            let lastInline = line[line.length-1];
+
+            return Math.abs(firstInline.offsetX - (lastInline.offsetX+lastInline.width));
+
+        }
+
 
         /**
          * get the distance in world coord to the next glyph defined
