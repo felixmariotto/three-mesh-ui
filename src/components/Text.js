@@ -50,9 +50,7 @@ export default class Text extends mix.withBase( Object3D )(
      * compute each glyph position on updateLayout.
      */
     parseParams() {
-
-        this.calculateInlines();
-
+        this.calculateInlines(this._fitFontSize || this.getFontSize());
     }
 
 
@@ -88,11 +86,10 @@ export default class Text extends mix.withBase( Object3D )(
 
     }
 
-    calculateInlines(){
+    calculateInlines(fontSize){
 
         const content = this.content ;
         const font = this.getFontFamily();
-        const fontSize = this.getFontSize();
         const breakChars = this.getBreakOn();
         const textType = this.getTextType();
 

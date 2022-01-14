@@ -117,22 +117,20 @@ export default function InlineManager( Base = class {} ) {
 
             });
 
-            // use the smallest fontSize from all inline children as initial guess
-            let fontSize = inlineChildren.reduce( (smallestFontSize, inlineComponent)=> {
+            if(inlineChildren.length == 0)
+            {
+                return;
+            }
 
-                const currentFontSize = inlineComponent.getFontSize();
+            //Iterative method to find a fontSize of text children that text will fit into container
+            let iterations = 1;
+            const heightTolerance = 0.075;
+            const firstText = inlineChildren.find(inlineComponent => inlineComponent.isText);
 
-                if( smallestFontSize == 0 || currentFontSize < smallestFontSize)
-                    smallestFontSize = currentFontSize;
-
-                return smallestFontSize;
-
-            }, 0 );
-
-
-            let iterations = 0;
-            const heightTolerance = 0.005;
-            let fontMultiplier;
+            let minFontMultiplier = 0;
+            let maxFontMultiplier = 2;
+            let fontMultiplier = firstText._fitFontSize ? firstText._fitFontSize / firstText.getFontSize() : 1;
+            let textHeight;
 
             do {
 
@@ -141,15 +139,15 @@ export default function InlineManager( Base = class {} ) {
                     if ( inlineComponent.isInlineBlock ) return;
 
                     // Set font size and recalculate dimensions
-                    inlineComponent.fontSize = fontSize;
-                    inlineComponent.calculateInlines();
+                    inlineComponent._fitFontSize = inlineComponent.getFontSize() * fontMultiplier;
+                    inlineComponent.calculateInlines(inlineComponent._fitFontSize);
                 });
 
                 const lines = this.computeLines();
 
                 const INTERLINE = this.getInterLine();
 
-                let textHeight = lines.reduce( (offsetY, line)=> {
+                textHeight = lines.reduce( (offsetY, line)=> {
 
                     return offsetY - line.lineHeight - INTERLINE;
 
@@ -159,15 +157,44 @@ export default function InlineManager( Base = class {} ) {
 
                 textHeight = Math.abs( textHeight );
 
-                fontMultiplier = Math.sqrt(INNER_HEIGHT / textHeight);
-                if (Math.abs(INNER_HEIGHT - textHeight) < heightTolerance) {
-                    break;
-                  } else {
-                    fontSize *= fontMultiplier;
-                  }
 
-            }while(iterations++ < 10 );
 
+                if(textHeight > INNER_HEIGHT)
+                {
+                    maxFontMultiplier = fontMultiplier;
+                    fontMultiplier -= (maxFontMultiplier - minFontMultiplier) / 2;
+                }
+                else
+                {
+                    if (Math.abs(INNER_HEIGHT - textHeight) < heightTolerance) {
+                        break;
+                    }
+
+                    if(Math.abs(fontMultiplier - maxFontMultiplier) < 5e-10)
+                    {
+                        maxFontMultiplier *= 2;
+                    }
+
+                    minFontMultiplier = fontMultiplier;
+                    fontMultiplier += (maxFontMultiplier - minFontMultiplier) / 2;
+                }
+
+            }while(++iterations <= 10 );
+
+            /*
+            console.log(
+                "Font multiplier: " +
+                fontMultiplier +
+                ". Inner height: " +
+                INNER_HEIGHT +
+                ". Text height: " +
+                textHeight +
+                ". Error: " +
+                (INNER_HEIGHT - textHeight) +
+                ". Iteration: " +
+                iterations
+                );
+            */
 
         }
 
@@ -200,7 +227,8 @@ export default function InlineManager( Base = class {} ) {
                 // Compute offset of each children according to its dimensions
                 //////////////////////////////////////////////////////////////
 
-                const letterSpacing = inlineComponent.isText ? inlineComponent.getLetterSpacing() * inlineComponent.getFontSize() : 0;
+                const fontSize = inlineComponent._fitFontSize || inlineComponent.getFontSize();
+                const letterSpacing = inlineComponent.isText ? inlineComponent.getLetterSpacing() * fontSize : 0;
 
                 const currentInlineInfo = inlineComponent.inlines.reduce( (lastInlineOffset, inline, i, inlines)=> {
 

@@ -381,6 +381,10 @@ export default function MeshUIComponent( Base = class {} ) {
             // attribute from the light batch.
 
             for ( const prop of Object.keys(options) ) {
+                if(this[prop] == options[prop])
+                {
+                    continue;
+                }
 
                 switch ( prop ) {
 

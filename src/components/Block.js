@@ -63,12 +63,17 @@ export default class Block extends mix.withBase( Object3D )(
 
     parseParams() {
 
-        if ( this.getBestFit() ) {
+        if ( this.getBestFit() && ( this.children.find( child => child.isText ))) {
 
-            // We only need to run this logic if at least one child is a Text object.
-            if ( this.children.find( child => child.isText ) ){
-                this.calculateBestFit();
-            }
+            this.calculateBestFit();
+
+        }
+        else {
+
+            this.children.filter(child => {return child.isText}).forEach(child => {
+
+                child._fitFontSize = undefined;
+            });
         }
     }
 
