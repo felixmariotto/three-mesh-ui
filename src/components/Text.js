@@ -9,6 +9,7 @@ import MaterialManager from './core/MaterialManager.js';
 
 import deepDelete from '../utils/deepDelete.js';
 import { mix } from '../utils/mix.js';
+import Whitespace from "../utils/Whitespace";
 
 /**
 
@@ -75,25 +76,12 @@ export default class Text extends mix.withBase( Object3D )(
             return
         }
 
-        // Compute glyphs sizes
-
-
         // collapse whitespace for white-space normal
-        let whitespaceProcessedContent = content;
-        switch (whiteSpace){
-            case "normal":
-                // newlines are treated as other whitespace characters
-                whitespaceProcessedContent = content.replace(/\n/g," ");
-            case "pre-line":
-                // collapsed white spaces sequences
-                whitespaceProcessedContent = whitespaceProcessedContent.replace(/[ ]{2,}/g," ");
-                break;
-
-            default:
-        }
-        
+        let whitespaceProcessedContent = Whitespace.collapseContent(content,whiteSpace);
         const chars = Array.from ? Array.from( whitespaceProcessedContent ) : String( whitespaceProcessedContent ).split( '' );
 
+
+        // Compute glyphs sizes
 
         const SCALE_MULT = fontSize / font.info.size;
         const lineHeight = font.common.lineHeight * SCALE_MULT;
@@ -115,18 +103,9 @@ export default class Text extends mix.withBase( Object3D )(
 
             if ( breakChars.includes( glyph ) || glyph.match(/\s/g) ) lineBreak = "possible" ;
 
+
             if ( glyph.match(/\n/g) ){
-                switch (whiteSpace){
-
-                    case "pre-wrap":
-                    case "pre-line":
-                        lineBreak = "mandatory";
-                        break;
-
-                    case "normal":
-                    default:
-                        // do not automatically break on newline
-                }
+                lineBreak = Whitespace.newlineBreakability(whiteSpace);
             }
 
             //
@@ -174,7 +153,7 @@ export default class Text extends mix.withBase( Object3D )(
 
     /**
      * Create text content
-     * 
+     *
      * At this point, text.inlines should have been modified by the parent
      * component, to add xOffset and yOffset properties to each inlines.
      * This way, TextContent knows were to position each character.

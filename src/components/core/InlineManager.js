@@ -13,6 +13,8 @@ in order to create a line break when necessary. It's Text that merge the various
 in its own updateLayout function.
 
 */
+import Whitespace from "../../utils/Whitespace";
+
 export default function InlineManager( Base = class {} ) {
 
 	return class InlineManager extends Base {
@@ -136,7 +138,7 @@ export default function InlineManager( Base = class {} ) {
                 if( lineHasInlines ) {
                     // starts by processing whitespace, it will return a collapsed left offset
                     const WHITE_SPACE = this.getWhiteSpace();
-                    const whiteSpaceOffset = this.processWhiteSpace(line, WHITE_SPACE);
+                    const whiteSpaceOffset = Whitespace.collapseInlines(line, WHITE_SPACE);
 
                     // apply the collapsed left offset to ensure the starting offset is 0
                     line.forEach((inline) => {
@@ -214,134 +216,6 @@ export default function InlineManager( Base = class {} ) {
                 });
 
             });
-        }
-
-
-        /**
-         * Alter a line of inlines according to white-space property
-         * @param line
-         * @param {('normal'|'pre-wrap'|'pre-line')} whiteSpace
-         */
-        processWhiteSpace(line, whiteSpace){
-            let firstInline = line[0];
-
-            let lastInline = line[line.length-1];
-
-            /**
-             * @see https://developer.mozilla.org/en-US/docs/Web/API/Document_Object_Model/Whitespace#whitespace_helper_functions
-             *
-             * Throughout, whitespace is defined as one of the characters
-             *  "\t" TAB \u0009
-             *  "\n" LF  \u000A
-             *  "\r" CR  \u000D
-             *  " "  SPC \u0020
-             *
-             * This does not use Javascript's "\s" because that includes non-breaking
-             * spaces (and also some other characters).
-             **/
-            // @TODO: shouldn't be initiated upon each function execution
-            const whiteChars = {"\t":"\u0009","\n":"\u000A","\r":"\u000D", " ":"\u0020"};
-
-
-            // @see https://developer.mozilla.org/en-US/docs/Web/API/Document_Object_Model/Whitespace
-            //
-            // current implementation is 'pre-wrap'
-            // if the breaking character is a space, get the previous one
-            switch (whiteSpace){
-
-                // trim/collapse first and last whitespace characters of a line
-                case "pre-wrap":
-
-                    // only process whiteChars glyphs inlines
-                    // if( firstInline.glyph && whiteChars[firstInline.glyph] && line.length > 1 ){
-                    if( firstInline.glyph && firstInline.glyph === "\n" && line.length > 1 ){
-                        this._collapseInlineLeft(firstInline,line[1])
-                    }
-
-                    // if( lastInline.glyph && whiteChars[lastInline.glyph] && line.length > 1 ){
-                    if( lastInline.glyph && lastInline.glyph === "\n" && line.length > 1 ){
-                        this._collapseInlineRight(lastInline, line[line.length-2])
-                    }
-                    break;
-
-
-                case "pre-line":
-                case "normal":
-                    // only process whiteChars glyphs inlines
-                    let inlinesToCollapse = [];
-                    let collapsingTarget;
-                    for (let i = 0; i < line.length; i++) {
-                        const inline = line[i];
-                        if( inline.glyph && whiteChars[inline.glyph] && line.length > i){
-                            inlinesToCollapse.push(inline);
-                            collapsingTarget = line[i+1];
-                            continue;
-                        }
-                        break;
-                    }
-
-                    for (let i = 0; i < inlinesToCollapse.length; i++) {
-                        const inline = inlinesToCollapse[i];
-                        this._collapseInlineLeft(inline,collapsingTarget);
-                    }
-
-
-
-                    inlinesToCollapse = [];
-                    collapsingTarget = null;
-                    for (let i = line.length-1; i > 0; i--) {
-                        const inline = line[i];
-                        if( inline.glyph && whiteChars[inline.glyph] && i>0){
-                            inlinesToCollapse.push(inline);
-                            collapsingTarget = line[i-1];
-                            continue;
-                        }
-                        break;
-                    }
-                    for (let i = 0; i < inlinesToCollapse.length; i++) {
-                        const inline = inlinesToCollapse[i];
-                        this._collapseInlineRight(inline,collapsingTarget);
-                    }
-
-                    break;
-
-                default:
-                    console.warn(`whiteSpace: '${ whiteSpace }' is not valid`);
-                    return 0;
-            }
-
-            return firstInline.offsetX;
-
-        }
-
-        /**
-         * Visually collapse inlines from right to left ( endtrim )
-         * @param inline
-         * @param targetInline
-         * @private
-         */
-        _collapseInlineRight(inline, targetInline ){
-
-            if( !targetInline ) return;
-
-            inline.width = 0;
-            inline.height = 0;
-            inline.offsetX = targetInline.offsetX + targetInline.width;
-        }
-
-        /**
-         * Visually collapse inlines from left to right (starttrim)
-         * @param inline
-         * @param targetInline
-         * @private
-         */
-        _collapseInlineLeft(inline, targetInline ){
-
-            if( !targetInline ) return;
-
-            inline.width = 0;
-            inline.height = 0;
-            inline.offsetX = targetInline.offsetX;
         }
 
         /**

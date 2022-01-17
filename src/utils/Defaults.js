@@ -11,7 +11,7 @@ export default {
 	offset: 0.01,
 	interLine: 0.01,
 	breakOn: '- ,.:?!\n',// added '\n' to also acts as friendly breaks when white-space:normal
-    whiteSpace: "pre-wrap",
+    whiteSpace: "pre-line",
 	contentDirection: "column",
 	alignContent: "center",
 	justifyContent: "start",
