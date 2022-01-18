@@ -13,6 +13,8 @@ in order to create a line break when necessary. It's Text that merge the various
 in its own updateLayout function.
 
 */
+import Whitespace from "../../utils/Whitespace";
+
 export default function InlineManager( Base = class {} ) {
 
 	return class InlineManager extends Base {
@@ -66,24 +68,16 @@ export default function InlineManager( Base = class {} ) {
 
                             inline.offsetX = xoffset;
 
-                            // Workaround : Sometimes, ThreeMeshUI linebreaks before a newline "\n"
-                            //              and `lines.push([ inline ])` push the newline char "\n" itself as first char
-                            //
-                            // LetterSpacing feature was introducing a visual glitch
-                            // by adding constant letterSpacing to those hidden chars
-                            //
-                            // So as workaround if the first char has a width of 0, do not add letterSpacing
-                            if( inline.width > 0 ){
 
-                                // Do not kern first letter of a line, its has not lefthanded peer char
-                                // But still use the letterspacing
-                                return xadvance + xoffset + letterSpacing;
+                            if( inline.width === 0 ){
+                                // restart the lastInlineOffset as zero.
+                                return 0;
                             }else{
 
-                                // When line breaker here "\n" its width is 0
-                                // Fix by setting width of 0
-                                // as letterSpacing was still adding constant offset on empty char
-                                return 0;
+                                // compute lastInlineOffset normally
+                                // except for kerning which won't apply
+                                // as there is visually no lefthanded glyph to kern with
+                                return xadvance + letterSpacing;
                             }
 
                         }
@@ -91,10 +85,8 @@ export default function InlineManager( Base = class {} ) {
                         lines[ lines.length - 1 ].push( inline );
 
                         inline.offsetX = lastInlineOffset + xoffset + kerning;
-                    
-                        const result = lastInlineOffset + xadvance + kerning + letterSpacing;
 
-                        return result;
+                        return lastInlineOffset + xadvance + kerning + letterSpacing;
 
                     }, lastInlineOffset );
 
@@ -140,17 +132,22 @@ export default function InlineManager( Base = class {} ) {
 
                 }, 0 );
 
-                //
 
-                line.width = line.reduce( (width, inline)=> {
+                line.width = 0;
+                const lineHasInlines = line[0];
+                if( lineHasInlines ) {
+                    // starts by processing whitespace, it will return a collapsed left offset
+                    const WHITE_SPACE = this.getWhiteSpace();
+                    const whiteSpaceOffset = Whitespace.collapseInlines(line, WHITE_SPACE);
 
-                    const kerning = inline.kerning ? inline.kerning : 0;
-                    const xoffset = inline.xoffset ? inline.xoffset : 0;
-                    const xadvance = inline.xadvance ? inline.xadvance : inline.width ;
+                    // apply the collapsed left offset to ensure the starting offset is 0
+                    line.forEach((inline) => {
+                        inline.offsetX -= whiteSpaceOffset
+                    });
 
-                    return width + xadvance + xoffset + kerning;
-
-                }, 0 );
+                    // compute its width: length from firstInline:LEFT to lastInline:RIGHT
+                    line.width = this.computeLineWidth(line);
+                }
 
             });
 
@@ -219,8 +216,24 @@ export default function InlineManager( Base = class {} ) {
                 });
 
             });
+        }
+
+        /**
+         * Compute the width of a line
+         * @param line
+         * @returns {number}
+         */
+        computeLineWidth( line ){
+
+            // only by the length of its extremities
+            const firstInline = line[0];
+
+            let lastInline = line[line.length-1];
+
+            return Math.abs(firstInline.offsetX - (lastInline.offsetX+lastInline.width));
 
         }
+
 
         /**
          * get the distance in world coord to the next glyph defined
@@ -245,7 +258,7 @@ export default function InlineManager( Base = class {} ) {
                 return accu + xadvance
 
             // no line break is possible on this character
-            } 
+            }
 
             return this.distanceToNextBreak(
                 inlines,
@@ -254,7 +267,7 @@ export default function InlineManager( Base = class {} ) {
                 accu + xadvance + letterSpacing + xoffset + kerning
             );
 
-            
+
 
         }
 
@@ -277,7 +290,7 @@ export default function InlineManager( Base = class {} ) {
             // Previous glyph was break-line-friendly
             return BREAK_ON.indexOf( prevChar.glyph ) > -1
 
-        }			 
+        }
 
 	}
 

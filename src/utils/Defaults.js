@@ -10,7 +10,8 @@ export default {
 	fontKerning: "normal", // FontKerning would act like css : "none"|"normal"|"auto"("auto" not yet implemented)
 	offset: 0.01,
 	interLine: 0.01,
-	breakOn: '- ,.:?!',
+	breakOn: '- ,.:?!\n',// added '\n' to also acts as friendly breaks when white-space:normal
+    whiteSpace: "pre-line",
 	contentDirection: "column",
 	alignContent: "center",
 	justifyContent: "start",
