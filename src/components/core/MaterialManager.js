@@ -313,25 +313,33 @@ const textFragment = `
 
 	#include <clipping_planes_pars_fragment>
 
+    // functions from the original msdf repo:
+    // https://github.com/Chlumsky/msdfgen#using-a-multi-channel-distance-field
+
 	float median(float r, float g, float b) {
 		return max(min(r, g), min(max(r, g), b));
 	}
 
-	void main() {
+    float screenPxRange() {
+        float pxRange = 4.0; // not sure what this variable is about...
 
-		vec3 textureSample = texture2D( u_texture, vUv ).rgb;
-		float sigDist = median( textureSample.r, textureSample.g, textureSample.b ) - 0.5;
-		float alpha = clamp( sigDist / fwidth( sigDist ) + 0.5, 0.0, 1.0 );
-		alpha = min( alpha, u_opacity );
-		
-		if( alpha < 0.02) discard;
-		
-		gl_FragColor = vec4( u_color, alpha );
-        // gl_FragColor = vec4( 1.0 );
-	
-		#include <clipping_planes_fragment>
+        vec2 unitRange = vec2(pxRange)/vec2(textureSize(u_texture, 0));
+        vec2 screenTexSize = vec2(1.0)/fwidth(vUv);
+        return max(0.5*dot(unitRange, screenTexSize), 1.0);
+    }
 
-	}
+    void main() {
+        vec3 msd = texture( u_texture, vUv ).rgb;
+        float sd = median(msd.r, msd.g, msd.b);
+        float screenPxDistance = screenPxRange()*(sd - 0.5);
+        float alpha = clamp(screenPxDistance + 0.5, 0.0, 1.0);
+        if ( alpha < 0.02) discard;
+
+        gl_FragColor = vec4( u_color, alpha );
+
+        #include <clipping_planes_fragment>
+    }
+
 `;
 
 //////////////////////
