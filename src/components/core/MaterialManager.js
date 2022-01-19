@@ -110,7 +110,8 @@ export default function MaterialManager( Base = class {} ) {
                 this.textUniforms.u_opacity.value = this.getFontOpacity();
 
             }
-
+            
+            this.fontMaterial.defines.USE_RGSS = this.getFontSupersampling();
         }
 
         /**
@@ -230,7 +231,7 @@ export default function MaterialManager( Base = class {} ) {
                     derivatives: true
                 },
                 defines: {
-                    USE_RGSS: true,
+                    USE_RGSS: this.getFontSupersampling(),
                 }
             })
 
@@ -324,23 +325,23 @@ const textFragment = `
 	}
 
     #ifdef USE_RGSS
-    #define RANGE 2.0
+    #define RANGE 1.0 // not sure why this looks better than 2.0
     #else
     #define RANGE 1.0
     #endif
 
     float screenPxRange() {
-        float pxRange = 4.0; // not sure what this variable is about...
+        float pxRange = 4.0; // range value the texture was generated with
 
-        vec2 unitRange = RANGE * vec2(pxRange)/vec2(textureSize(u_texture, 0));
-        vec2 screenTexSize = vec2(1.0)/fwidth(vUv);
+        vec2 unitRange = vec2(pxRange)/vec2(textureSize(u_texture, 0));
+        vec2 screenTexSize = vec2(1.0)/fwidth(vUv) * RANGE;
         return max(0.5*dot(unitRange, screenTexSize), 1.0);
     }
 
     float tap(vec2 offsetUV) {
         vec3 msd = texture( u_texture, offsetUV ).rgb;
         float sd = median(msd.r, msd.g, msd.b);
-        float screenPxDistance = screenPxRange() * (sd - 0.5) * 1.0;
+        float screenPxDistance = screenPxRange() * (sd - 0.5);
         float alpha = clamp(screenPxDistance + 0.5, 0.0, 1.0);
         return alpha;
     }
@@ -353,7 +354,7 @@ const textFragment = `
         vec2 dy = dFdy(vUv);
 
         // rotated grid uv offsets
-        vec2 uvOffsets = vec2(0.125, 0.375) * 1.0;
+        vec2 uvOffsets = vec2(0.125, 0.375);
         vec2 offsetUV = vec2(0.0, 0.0);
 
         // supersampled using 2x2 rotated grid

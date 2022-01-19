@@ -179,6 +179,11 @@ export default function MeshUIComponent( Base = class {} ) {
             return this._getProperty( 'fontColor' );
         }
 
+        
+        getFontSupersampling() {
+            return this._getProperty( 'fontSupersampling' );
+        }
+
         getFontOpacity() {
             return this._getProperty( 'fontOpacity' );
         }
@@ -416,6 +421,7 @@ export default function MeshUIComponent( Base = class {} ) {
 
                 case "fontColor" :
                 case "fontOpacity" :
+                case "fontSupersampling" :
                 case "offset" :
                 case "backgroundColor" :
                 case "backgroundOpacity" :

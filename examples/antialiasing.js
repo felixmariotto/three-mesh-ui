@@ -27,7 +27,7 @@ function init() {
   scene = new THREE.Scene();
   scene.background = new THREE.Color( 0x000000 );
 
-  camera = new THREE.PerspectiveCamera( 3, WIDTH / HEIGHT, 0.1, 500 );
+  camera = new THREE.PerspectiveCamera( 60, WIDTH / HEIGHT, 0.1, 500 );
 
   renderer = new THREE.WebGLRenderer({
     antialias: true
@@ -39,7 +39,7 @@ function init() {
   document.body.appendChild( renderer.domElement );
 
   controls = new OrbitControls( camera, renderer.domElement );
-  camera.position.set( 0, 1.0, 100.0 );
+  camera.position.set( 0, 1.0, 1.0 );
   controls.target = new THREE.Vector3( 0, 1, 0 );
   controls.update();
 
@@ -50,12 +50,14 @@ function init() {
     new THREE.LineBasicMaterial( { color: 0x808080 } )
   );
 
-  scene.add( room );
+  // scene.add( room );
 
   // TEXT PANEL
 
   // attempt to have a pixel-perfect match to the reference MSDF implementation
-  makeTextPanel(0.024,.1,-2,0,0,0);
+  
+  makeTextPanel(0.024,.1,-2,0,0,0,true);
+  makeTextPanel(2.024,.1,-2,0,0,0,false);
 
   makeTextPanel(0,0,-3,0,0,0);
   makeTextPanel(0,0,-5,0,0,0);
@@ -65,9 +67,15 @@ function init() {
   makeTextPanel(-1.5,0.5,-4,0,0.9,0);
   makeTextPanel(-1.5,1.1,-4,0,1.3,0);
   makeTextPanel(-1.5,1.7,-4,0,1.6,0);
+  makeTextPanel(-2.5,0.5,-4,0,0.9,0, true);
+  makeTextPanel(-2.5,1.1,-4,0,1.3,0, true);
+  makeTextPanel(-2.5,1.7,-4,0,1.6,0, true);
+
+
   makeTextPanel(2.0,0,-3,-1,0,0);
   makeTextPanel(2.0,0,-5,-1,0,0);
   makeTextPanel(2.4,0.1,-7,-1,0,0);
+  
   makeTextPanel(1.5,1,-8,-0.55,-0.9,0);
   makeTextPanel(0,1.2,-8,-0.55,0,-0.9);
   makeTextPanel(0,1.75,-5,-0.55,0,-0.9);
@@ -81,7 +89,7 @@ function init() {
 
 //
 
-function makeTextPanel(x,y,z,rotX, rotY, rotZ) {
+function makeTextPanel(x,y,z,rotX, rotY, rotZ, supersample) {
 
   const container = new ThreeMeshUI.Block({
     width: 2.0,
@@ -94,6 +102,7 @@ function makeTextPanel(x,y,z,rotX, rotY, rotZ) {
     fontColor: new THREE.Color( 0xffffff ),
     backgroundOpacity: 1,
     backgroundColor: new THREE.Color( 0x000000 ),
+    fontSupersampling: supersample,
   });
 
   scene.add( container );
