@@ -27,14 +27,15 @@ export default {
 	backgroundWhiteColor: new Color( 0xffffff ),
 	backgroundOpacity: 0.8,
 	backgroundOpaqueOpacity: 1.0,
-	backgroundTexture: DefaultBackgroundTexture(),
+	// this default value is a function to avoid initialization issues (see issue #126)
+	backgroundTexture: makeBackgroundTexture,
 	hiddenOverflow: false,
 	letterSpacing: 0
 };
 
 //
 
-function DefaultBackgroundTexture() {
+function makeBackgroundTexture() {
 
 	const ctx = document.createElement('canvas').getContext('2d');
 	ctx.canvas.width = 1;
