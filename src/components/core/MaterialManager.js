@@ -433,16 +433,22 @@ const backgroundFragment = `
     }
 
 	void main() {
+
         float edgeDist = getEdgeDist();
-        if ( edgeDist > 0.0 ) discard;
+        float change = fwidth( edgeDist );
+
 		vec4 textureSample = sampleTexture();
-        float blendedOpacity = u_opacity * textureSample.a;
         vec3 blendedColor = textureSample.rgb * u_color;
+
+        float alpha = smoothstep( change, 0.0, edgeDist );
+        float blendedOpacity = u_opacity * textureSample.a * alpha;
+
         if ( edgeDist * -1.0 < u_borderWidth ) {
-        gl_FragColor = vec4( u_borderColor, u_borderOpacity );
+            gl_FragColor = vec4( u_borderColor, u_borderOpacity * alpha );
         } else {
-		gl_FragColor = vec4( blendedColor, blendedOpacity );
+            gl_FragColor = vec4( blendedColor, blendedOpacity );
 		}
+
 		#include <clipping_planes_fragment>
 	}
 `;
