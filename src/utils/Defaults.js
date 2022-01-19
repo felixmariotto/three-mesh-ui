@@ -8,7 +8,7 @@ export default {
 	fontFamily: null,
 	fontSize: 0.05,
 	fontKerning: "normal", // FontKerning would act like css : "none"|"normal"|"auto"("auto" not yet implemented)
-    bestFit: false,
+    bestFit: 'none',
 	offset: 0.01,
 	interLine: 0.01,
 	breakOn: '- ,.:?!\n',// added '\n' to also acts as friendly breaks when white-space:normal

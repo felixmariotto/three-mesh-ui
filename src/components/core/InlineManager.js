@@ -110,9 +110,7 @@ export default function InlineManager( Base = class {} ) {
         }
 
 
-        calculateBestFit() {
-            const INNER_HEIGHT = this.getHeight() - (this.padding * 2 || 0);
-
+        calculateBestFit(bestFit) {
             const inlineChildren = this.children.filter( (child)=> {
 
                 return child.isInline ? true : false
@@ -123,6 +121,132 @@ export default function InlineManager( Base = class {} ) {
             {
                 return;
             }
+
+            console.log("BEST FIT: " + bestFit);
+            switch(bestFit) {
+                case 'grow':
+                    this.calculateGrowFit(inlineChildren);
+                    break;
+                case 'shrink':
+                    this.calculateShrinkFit(inlineChildren);
+                    break;
+                case 'auto':
+                    this.calculateAutoFit(inlineChildren);
+                    break;
+            }
+
+        }
+
+        calculateGrowFit(inlineChildren) {
+            const INNER_HEIGHT = this.getHeight() - (this.padding * 2 || 0);
+
+            //Iterative method to find a fontSize of text children that text will fit into container
+            let iterations = 1;
+            const heightTolerance = 0.075;
+            const firstText = inlineChildren.find(inlineComponent => inlineComponent.isText);
+
+            let minFontMultiplier = 1;
+            let maxFontMultiplier = 2;
+            let fontMultiplier = firstText._fitFontSize ? firstText._fitFontSize / firstText.getFontSize() : 1;
+            let textHeight;
+
+            do {
+
+                textHeight = this.calculateHeight(inlineChildren, fontMultiplier);
+
+                if(textHeight > INNER_HEIGHT) {
+
+                    if(fontMultiplier <= minFontMultiplier) {                   // can't shrink text
+
+                        inlineChildren.forEach(inlineComponent => {
+
+                            if ( inlineComponent.isInlineBlock ) return;
+
+                            // ensure fontSize does not shrink
+                            inlineComponent._fitFontSize = inlineComponent.getFontSize();
+                        });
+
+                        break;
+
+                    }
+
+                    maxFontMultiplier = fontMultiplier;
+                    fontMultiplier -= (maxFontMultiplier - minFontMultiplier) / 2;
+
+                }
+                else
+                {
+                    if (Math.abs(INNER_HEIGHT - textHeight) < heightTolerance) {
+                        break;
+                    }
+
+                    if(Math.abs(fontMultiplier - maxFontMultiplier) < 5e-10)
+                    {
+                        maxFontMultiplier *= 2;
+                    }
+
+                    minFontMultiplier = fontMultiplier;
+                    fontMultiplier += (maxFontMultiplier - minFontMultiplier) / 2;
+                }
+
+            }while(++iterations <= 10 );
+        }
+
+        calculateShrinkFit(inlineChildren) {
+            const INNER_HEIGHT = this.getHeight() - (this.padding * 2 || 0);
+
+            //Iterative method to find a fontSize of text children that text will fit into container
+            let iterations = 1;
+            const heightTolerance = 0.075;
+            const firstText = inlineChildren.find(inlineComponent => inlineComponent.isText);
+
+            let minFontMultiplier = 0;
+            let maxFontMultiplier = 1;
+            let fontMultiplier = firstText._fitFontSize ? firstText._fitFontSize / firstText.getFontSize() : 1;
+            let textHeight;
+
+            do {
+
+                textHeight = this.calculateHeight(inlineChildren, fontMultiplier);
+
+                if(textHeight > INNER_HEIGHT)
+                {
+
+                    maxFontMultiplier = fontMultiplier;
+                    fontMultiplier -= (maxFontMultiplier - minFontMultiplier) / 2;
+
+                }
+                else
+                {
+
+                    if(fontMultiplier >= maxFontMultiplier) {                   // can't grow text
+
+                        inlineChildren.forEach(inlineComponent => {
+
+                            if ( inlineComponent.isInlineBlock ) return;
+
+                            // ensure fontSize does not grow
+                            inlineComponent._fitFontSize = inlineComponent.getFontSize();
+                        });
+
+                        break;
+
+                    }
+
+                    if (Math.abs(INNER_HEIGHT - textHeight) < heightTolerance) {
+                        break;
+                    }
+
+                    minFontMultiplier = fontMultiplier;
+                    fontMultiplier += (maxFontMultiplier - minFontMultiplier) / 2;
+
+                }
+
+            }while(++iterations <= 10 );
+        }
+
+        calculateAutoFit(inlineChildren) {
+            const INNER_HEIGHT = this.getHeight() - (this.padding * 2 || 0);
 
             //Iterative method to find a fontSize of text children that text will fit into container
             let iterations = 1;
@@ -136,30 +260,7 @@ export default function InlineManager( Base = class {} ) {
 
             do {
 
-                inlineChildren.forEach(inlineComponent => {
-
-                    if ( inlineComponent.isInlineBlock ) return;
-
-                    // Set font size and recalculate dimensions
-                    inlineComponent._fitFontSize = inlineComponent.getFontSize() * fontMultiplier;
-                    inlineComponent.calculateInlines(inlineComponent._fitFontSize);
-                });
-
-                const lines = this.computeLines();
-
-                const INTERLINE = this.getInterLine();
-
-                textHeight = lines.reduce( (offsetY, line)=> {
-
-                    return offsetY - line.lineHeight - INTERLINE;
-
-                }, 0 ) + INTERLINE;
-
-                //
-
-                textHeight = Math.abs( textHeight );
-
-
+                textHeight = this.calculateHeight(inlineChildren, fontMultiplier);
 
                 if(textHeight > INNER_HEIGHT)
                 {
@@ -182,24 +283,7 @@ export default function InlineManager( Base = class {} ) {
                 }
 
             }while(++iterations <= 10 );
-
-            /*
-            console.log(
-                "Font multiplier: " +
-                fontMultiplier +
-                ". Inner height: " +
-                INNER_HEIGHT +
-                ". Text height: " +
-                textHeight +
-                ". Error: " +
-                (INNER_HEIGHT - textHeight) +
-                ". Iteration: " +
-                iterations
-                );
-            */
-
         }
-
 
         /**
          * computes lines based on children's inlines array.
@@ -328,6 +412,31 @@ export default function InlineManager( Base = class {} ) {
             return lines;
         }
 
+        calculateHeight( inlineChildren, fontMultiplier ) {
+
+            inlineChildren.forEach(inlineComponent => {
+
+                if ( inlineComponent.isInlineBlock ) return;
+
+                // Set font size and recalculate dimensions
+                inlineComponent._fitFontSize = inlineComponent.getFontSize() * fontMultiplier;
+                inlineComponent.calculateInlines(inlineComponent._fitFontSize);
+            });
+
+            const lines = this.computeLines();
+
+            const INTERLINE = this.getInterLine();
+
+            let textHeight = lines.reduce( (offsetY, line)=> {
+
+                return offsetY - line.lineHeight - INTERLINE;
+
+            }, 0 ) + INTERLINE;
+
+            //
+
+            return Math.abs( textHeight );
+        }
         /**
          * Compute the width of a line
          * @param line

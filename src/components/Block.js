@@ -63,9 +63,11 @@ export default class Block extends mix.withBase( Object3D )(
 
     parseParams() {
 
-        if ( this.getBestFit() && ( this.children.find( child => child.isText ))) {
+        const bestFit = this.getBestFit();
 
-            this.calculateBestFit();
+        if ( bestFit != 'none' && ( this.children.find( child => child.isText ))) {
+
+            this.calculateBestFit(bestFit);
 
         }
         else {

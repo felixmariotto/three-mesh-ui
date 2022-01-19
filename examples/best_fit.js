@@ -16,13 +16,14 @@ import Stats from 'three/examples/jsm/libs/stats.module.js';
 This example demonstrate how a best fit works.
 
 */
-
+const FPS = 5;
 const WIDTH = window.innerWidth;
 const HEIGHT = window.innerHeight;
 
 let scene, camera, renderer, controls, stats;
-let outerContainer, innerContainer, firstTextBlock, secondTextBlock;
+let innerContainers = [];
 let text;
+let currentFrame = 0;
 
 window.addEventListener('load', init );
 window.addEventListener('resize', onWindowResize );
@@ -49,7 +50,7 @@ function init() {
 	document.body.appendChild( stats.dom );
 
 	controls = new OrbitControls( camera, renderer.domElement );
-	camera.position.set( 0, 1.6, 0 );
+	camera.position.set( 0, 1.6, 1.5 );
 	controls.target = new THREE.Vector3( 0, 1, -1.8 );
 	controls.update();
 
@@ -76,45 +77,74 @@ function init() {
 
 function makeTextPanel() {
 
-	outerContainer = new ThreeMeshUI.Block({
-		padding: 0.05,
-		backgroundColor: new THREE.Color( 0xd9d9d9 ),
-		backgroundOpacity: 0.5,
-		justifyContent: 'end',
-		alignContent: 'right',
-		fontColor: new THREE.Color( 0x333333 ),
-		fontFamily: FontJSON,
-		fontTexture: FontImage
-	});
+    for(let i = 0; i < 4; i++)
+    {
 
-	outerContainer.position.set( 0, 1, -1.8 );
-	outerContainer.rotation.x = -0.55;
-	scene.add( outerContainer );
+        let bestFit;
+        switch(i){
+            case 0:
+                bestFit = 'none';
+                break;
+            case 1:
+                bestFit = 'auto';
+                break;
+            case 2:
+                bestFit = 'grow';
+                break;
+            case 3:
+                bestFit = 'shrink';
+                break;
+        }
+
+        const outerContainer = new ThreeMeshUI.Block({
+            padding: 0.05,
+            backgroundColor: new THREE.Color( 0xd9d9d9 ),
+            backgroundOpacity: 0.5,
+            justifyContent: 'end',
+            alignContent: 'right',
+            fontColor: new THREE.Color( 0x333333 ),
+            fontFamily: FontJSON,
+            fontTexture: FontImage,
+            width: 1.35,
+            height: 0.95
+        });
+
+        outerContainer.position.set( -2 + 1.4 * i, 1, -1.8 );
+        outerContainer.rotation.x = -0.55;
+        scene.add( outerContainer );
+
+        //
+
+        const innerContainer = new ThreeMeshUI.Block({
+            width: 1,
+            height: 0.7,
+            padding: 0.05,
+            backgroundColor: new THREE.Color( 0xffffff ),
+            backgroundOpacity: 0.5,
+            bestFit: bestFit
+        });
+
+        outerContainer.add( innerContainer );
+        innerContainers.push(innerContainer);
+
+        const firstTextBlock = new ThreeMeshUI.Text({
+            content: "This first text component is going to be much shorter than the next one. ",
+            fontSize: 0.05
+        });
+
+        innerContainer.add(firstTextBlock);
+
+        const secondTextBlock = new ThreeMeshUI.Text({
+            content: "This second text component is much longer than the previous one, yet they both fit in the same container and share the same font size.",
+            fontSize: 0.075
+        });
+
+        innerContainer.add(secondTextBlock);
+    }
+
 
 	//
 
-	innerContainer = new ThreeMeshUI.Block({
-        padding: 0.05,
-		backgroundColor: new THREE.Color( 0xffffff ),
-		backgroundOpacity: 0.5,
-        bestFit: true
-	});
-
-	outerContainer.add( innerContainer );
-
-	//
-
-	firstTextBlock = new ThreeMeshUI.Text({
-        content: "This first paragraph is going to be much shorter than the next one."
-    });
-
-    innerContainer.add(firstTextBlock);
-
-    secondTextBlock = new ThreeMeshUI.Text({
-        content: "This second paragraph is much longer than the previous one, yet they both fit in the same container and share the same font size. It should look as if the whole text was written together."
-    });
-
-    innerContainer.add(secondTextBlock);
 };
 
 // handles resizing the renderer when the viewport is resized
@@ -133,15 +163,13 @@ function loop() {
 
 	const now = Date.now();
 
-	innerContainer.set({
-		width: Math.sin( now / 1000 ) * 0.25 + 1.2,
+	innerContainers.forEach(innerContainer => {
+        innerContainer.set({
+		width: Math.sin( now / 1000 ) * 0.25 + 1,
 		height: Math.sin( now / 500 ) * 0.15 + 0.7
+        });
 	});
 
-	outerContainer.set({
-		width: Math.sin( now / 1200 ) * 0.25 + 1.8,
-		height: 1.4
-	});
 
 	// Don't forget, ThreeMeshUI must be updated manually.
 	// This has been introduced in version 3.0.0 in order
