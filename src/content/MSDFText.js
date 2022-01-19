@@ -20,7 +20,7 @@ function getGlyphDimensions( options ) {
 
 	const FONT = options.font;
 
-	const FONT_SIZE = options.fontSize; 
+	const FONT_SIZE = options.fontSize;
 
 	const GLYPH = options.glyph;
 
@@ -34,9 +34,15 @@ function getGlyphDimensions( options ) {
 
 	let height = charOBJ ? charOBJ.height * SCALE_MULT : 0 ;
 
-	// handle whitespaces and line breaks
-	if ( width === 0 )  width = FONT_SIZE;
-	if ( height === 0 )  height = FONT_SIZE * 0.7;
+    // handle exported whitespaces
+    if ( width === 0 ) {
+        // if this whitespaces in is the charset, use its xadvance value
+        // or fallback to fontSize
+        width = charOBJ ? charOBJ.xadvance * SCALE_MULT : FONT_SIZE;
+    }
+
+
+    if ( height === 0 )  height = FONT_SIZE * 0.7;
 
 	if ( GLYPH === '\n' ) width = 0;
 

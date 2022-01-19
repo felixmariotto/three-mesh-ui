@@ -167,6 +167,10 @@ export default function MeshUIComponent( Base = class {} ) {
             return this._getProperty( 'breakOn' );
         }
 
+        getWhiteSpace() {
+            return this._getProperty( 'whiteSpace' );
+        }
+
         getTextType() {
             return this._getProperty( 'textType' );
         }
@@ -391,6 +395,8 @@ export default function MeshUIComponent( Base = class {} ) {
                 case "content" :
                 case "fontSize" :
                 case "fontKerning" :
+                case "breakOn":
+                case "whiteSpace":
                     if ( this.isText ) parsingNeedsUpdate = true;
                     layoutNeedsUpdate = true;
                     this[ prop ] = options[ prop ];

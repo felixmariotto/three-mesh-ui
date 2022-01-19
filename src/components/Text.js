@@ -9,6 +9,7 @@ import MaterialManager from './core/MaterialManager.js';
 
 import deepDelete from '../utils/deepDelete.js';
 import { mix } from '../utils/mix.js';
+import Whitespace from "../utils/Whitespace";
 
 /**
 
@@ -92,6 +93,7 @@ export default class Text extends mix.withBase( Object3D )(
         const font = this.getFontFamily();
         const breakChars = this.getBreakOn();
         const textType = this.getTextType();
+        const whiteSpace = this.getWhiteSpace();
 
         // Abort condition
 
@@ -110,9 +112,12 @@ export default class Text extends mix.withBase( Object3D )(
             return
         }
 
-        // Compute glyphs sizes
+        // collapse whitespace for white-space normal
+        let whitespaceProcessedContent = Whitespace.collapseContent(content,whiteSpace);
+        const chars = Array.from ? Array.from( whitespaceProcessedContent ) : String( whitespaceProcessedContent ).split( '' );
 
-        const chars = Array.from ? Array.from( content ) : String( content ).split( '' );
+
+        // Compute glyphs sizes
 
         const SCALE_MULT = fontSize / font.info.size;
         const lineHeight = font.common.lineHeight * SCALE_MULT;
@@ -134,7 +139,10 @@ export default class Text extends mix.withBase( Object3D )(
 
             if ( breakChars.includes( glyph ) || glyph.match(/\s/g) ) lineBreak = "possible" ;
 
-            if ( glyph.match(/\n/g) ) lineBreak = "mandatory" ;
+
+            if ( glyph.match(/\n/g) ){
+                lineBreak = Whitespace.newlineBreakability(whiteSpace);
+            }
 
             //
 
