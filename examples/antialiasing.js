@@ -38,7 +38,7 @@ function init() {
   document.body.appendChild( renderer.domElement );
 
   controls = new OrbitControls( camera, renderer.domElement );
-  camera.position.set( 0, 1.6, 0 );
+  camera.position.set( 0, 1.0, 0 );
   controls.target = new THREE.Vector3( 0, 1, -1.8 );
   controls.update();
 
@@ -53,27 +53,22 @@ function init() {
 
   // TEXT PANEL
 
-  const text01 = makeTextPanel();
-  text01.position.set(-1,0.5,-4);
-  text01.rotation.y = 0.9;
-
-  const text02 = makeTextPanel();
-  text02.position.set(1.5,0,-6);
-  text02.rotation.x = -0.55;
-
-  const text03 = makeTextPanel();
-  text03.position.set(0,0,-3);
-  text03.rotation.x = -0.55;
-
-  const text04 = makeTextPanel();
-  text04.position.set(1.5,1,-8);
-  text04.rotation.x = -0.55;
-  text04.rotation.y = -0.9;
-
-  const text05 = makeTextPanel();
-  text05.position.set(0,2,-8);
-  text05.rotation.x = -0.55;
-  text05.rotation.z = -0.9;
+  makeTextPanel(0,0,-2,0,0,0);
+  makeTextPanel(0,0,-3,0,0,0);
+  makeTextPanel(0,0,-5,0,0,0);
+  makeTextPanel(0,0,-7,0,0,0);
+  makeTextPanel(0,0,-9,0,0,0);
+  
+  makeTextPanel(-1.5,0.5,-4,0,0.9,0);
+  makeTextPanel(-1.5,1.1,-4,0,1.3,0);
+  makeTextPanel(-1.5,1.7,-4,0,1.6,0);
+  makeTextPanel(2.0,0,-3,-1,0,0);
+  makeTextPanel(2.0,0,-5,-1,0,0);
+  makeTextPanel(2.4,0.1,-7,-1,0,0);
+  makeTextPanel(1.5,1,-8,-0.55,-0.9,0);
+  makeTextPanel(0,1.2,-8,-0.55,0,-0.9);
+  makeTextPanel(0,1.75,-5,-0.55,0,-0.9);
+  makeTextPanel(0,2.0,-3,-0.55,0,-0.9);
 
   //
 
@@ -83,7 +78,7 @@ function init() {
 
 //
 
-function makeTextPanel() {
+function makeTextPanel(x,y,z,rotX, rotY, rotZ) {
 
   const container = new ThreeMeshUI.Block({
     width: 1.8,
@@ -96,6 +91,8 @@ function makeTextPanel() {
   });
 
   scene.add( container );
+  container.position.set(x,y,z);
+  container.rotation.set(rotX, rotY, rotZ);
 
   container.add(
     new ThreeMeshUI.Text({
@@ -116,6 +113,8 @@ function onWindowResize() {
 };
 
 //
+var clock = new THREE.Clock(true);
+clock.start();
 
 function loop() {
 
@@ -124,6 +123,9 @@ function loop() {
   // to improve performance
   ThreeMeshUI.update();
 
+  // swinging motion to see motion aliasing better
+  let time = clock.getElapsedTime();
+  controls.target.set(Math.sin(time * 20) * 0.001, 1, -1.8 );
   controls.update();
   renderer.render( scene, camera );
 };
