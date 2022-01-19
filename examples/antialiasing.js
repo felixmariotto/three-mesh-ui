@@ -132,7 +132,7 @@ function loop() {
 
   // swinging motion to see motion aliasing better
   let time = clock.getElapsedTime();
-  //controls.target.set(Math.sin(time * 20) * 0.001, 1, -1.8 );
+  controls.target.set(Math.sin(time * 21) * 0.0031, 1 + Math.sin(time * 23) * 0.0023, -1.8 );
   controls.update();
   renderer.render( scene, camera );
 };

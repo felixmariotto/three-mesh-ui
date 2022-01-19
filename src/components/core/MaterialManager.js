@@ -323,10 +323,16 @@ const textFragment = `
 		return max(min(r, g), min(max(r, g), b));
 	}
 
+    #ifdef USE_RGSS
+    #define RANGE 2.0
+    #else
+    #define RANGE 1.0
+    #endif
+
     float screenPxRange() {
         float pxRange = 4.0; // not sure what this variable is about...
 
-        vec2 unitRange = 2.0 * vec2(pxRange)/vec2(textureSize(u_texture, 0));
+        vec2 unitRange = RANGE * vec2(pxRange)/vec2(textureSize(u_texture, 0));
         vec2 screenTexSize = vec2(1.0)/fwidth(vUv);
         return max(0.5*dot(unitRange, screenTexSize), 1.0);
     }
