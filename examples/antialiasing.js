@@ -14,7 +14,8 @@ const HEIGHT = window.innerHeight;
 
 let scene, camera, renderer, controls ;
 
-const textContent = "The males of this species grow to maximum total length of 73 cm (29 in): body 58 cm (23 in), tail 15 cm (5.9 in). Females grow to a maximum total length of 58 cm (23 in). The males are surprisingly long and slender compared to the females.\nThe head has a short snout, more so in males than in females.\nThe eyes are large and surrounded by 9–16 circumorbital scales. The orbits (eyes) are separated by 7–9 scales.";
+const textContent = `ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-:?!
+The males of this species grow to maximum total length of 73 cm (29 in): body 58 cm (23 in), tail 15 cm (5.9 in). Females grow to a maximum total length of 58 cm (23 in). The males are surprisingly long and slender compared to the females.\nThe head has a short snout, more so in males than in females.\nThe eyes are large and surrounded by 9–16 circumorbital scales. The orbits (eyes) are separated by 7–9 scales.`;
 
 window.addEventListener('load', init );
 window.addEventListener('resize', onWindowResize );
@@ -24,9 +25,9 @@ window.addEventListener('resize', onWindowResize );
 function init() {
 
   scene = new THREE.Scene();
-  scene.background = new THREE.Color( 0x505050 );
+  scene.background = new THREE.Color( 0x000000 );
 
-  camera = new THREE.PerspectiveCamera( 60, WIDTH / HEIGHT, 0.1, 100 );
+  camera = new THREE.PerspectiveCamera( 3, WIDTH / HEIGHT, 0.1, 500 );
 
   renderer = new THREE.WebGLRenderer({
     antialias: true
@@ -38,8 +39,8 @@ function init() {
   document.body.appendChild( renderer.domElement );
 
   controls = new OrbitControls( camera, renderer.domElement );
-  camera.position.set( 0, 1.0, 0 );
-  controls.target = new THREE.Vector3( 0, 1, -1.8 );
+  camera.position.set( 0, 1.0, 100.0 );
+  controls.target = new THREE.Vector3( 0, 1, 0 );
   controls.update();
 
   // ROOM
@@ -53,7 +54,9 @@ function init() {
 
   // TEXT PANEL
 
-  makeTextPanel(0,0,-2,0,0,0);
+  // attempt to have a pixel-perfect match to the reference MSDF implementation
+  makeTextPanel(0.024,.1,-2,0,0,0);
+
   makeTextPanel(0,0,-3,0,0,0);
   makeTextPanel(0,0,-5,0,0,0);
   makeTextPanel(0,0,-7,0,0,0);
@@ -81,13 +84,16 @@ function init() {
 function makeTextPanel(x,y,z,rotX, rotY, rotZ) {
 
   const container = new ThreeMeshUI.Block({
-    width: 1.8,
-    height: 0.5,
+    width: 2.0,
+    height: 0.6,
     padding: 0.05,
     justifyContent: 'center',
     alignContent: 'left',
     fontFamily: FontJSON,
-    fontTexture: FontImage
+    fontTexture: FontImage,
+    fontColor: new THREE.Color( 0xffffff ),
+    backgroundOpacity: 1,
+    backgroundColor: new THREE.Color( 0x000000 ),
   });
 
   scene.add( container );
@@ -97,7 +103,8 @@ function makeTextPanel(x,y,z,rotX, rotY, rotZ) {
   container.add(
     new ThreeMeshUI.Text({
       content: textContent,
-      fontKerning: "normal"
+      fontKerning: "normal",
+      fontSize: 0.045,
     }),
   );
 
@@ -125,7 +132,7 @@ function loop() {
 
   // swinging motion to see motion aliasing better
   let time = clock.getElapsedTime();
-  controls.target.set(Math.sin(time * 20) * 0.001, 1, -1.8 );
+  //controls.target.set(Math.sin(time * 20) * 0.001, 1, -1.8 );
   controls.update();
   renderer.render( scene, camera );
 };
