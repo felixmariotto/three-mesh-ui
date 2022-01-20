@@ -129,14 +129,14 @@ function makeTextPanel() {
 
         const firstTextBlock = new ThreeMeshUI.Text({
             content: "This first text component is going to be much shorter than the next one. ",
-            fontSize: 0.05
+            fontSize: 0.075
         });
 
         innerContainer.add(firstTextBlock);
 
         const secondTextBlock = new ThreeMeshUI.Text({
             content: "This second text component is much longer than the previous one, yet they both fit in the same container and share the same font size.",
-            fontSize: 0.075
+            fontSize: 0.05
         });
 
         innerContainer.add(secondTextBlock);
@@ -165,8 +165,8 @@ function loop() {
 
 	innerContainers.forEach(innerContainer => {
         innerContainer.set({
-		width: Math.sin( now / 1000 ) * 0.25 + 1,
-		height: Math.sin( now / 500 ) * 0.15 + 0.7
+		width: Math.sin( now / 1000 ) * 0 + 1,
+		height: Math.sin( now / 500 ) * 0.25 + 0.6
         });
 	});
 
