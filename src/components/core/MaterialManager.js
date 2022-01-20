@@ -110,7 +110,8 @@ export default function MaterialManager( Base = class {} ) {
                 this.textUniforms.u_opacity.value = this.getFontOpacity();
 
             }
-
+            
+            this.fontMaterial.defines.USE_RGSS = this.getFontSupersampling();
         }
 
         /**
@@ -230,6 +231,9 @@ export default function MaterialManager( Base = class {} ) {
                 fragmentShader: textFragment,
                 extensions: {
                     derivatives: true
+                },
+                defines: {
+                    USE_RGSS: this.getFontSupersampling(),
                 }
             })
 
@@ -323,17 +327,52 @@ const textFragment = `
 		return max(min(r, g), min(max(r, g), b));
 	}
 
+    #ifdef USE_RGSS
+    #define RANGE 1.0 // not sure why this looks better than 2.0
+    #else
+    #define RANGE 1.0
+    #endif
+
     float screenPxRange() {
         vec2 unitRange = vec2(u_pxRange)/vec2(textureSize(u_texture, 0));
         vec2 screenTexSize = vec2(1.0)/fwidth(vUv);
         return max(0.5*dot(unitRange, screenTexSize), 1.0);
     }
 
-    void main() {
-        vec3 msd = texture( u_texture, vUv ).rgb;
+    float tap(vec2 offsetUV) {
+        vec3 msd = texture( u_texture, offsetUV ).rgb;
         float sd = median(msd.r, msd.g, msd.b);
-        float screenPxDistance = screenPxRange()*(sd - 0.5);
+        float screenPxDistance = screenPxRange() * (sd - 0.5);
         float alpha = clamp(screenPxDistance + 0.5, 0.0, 1.0);
+        return alpha;
+    }
+
+    void main() {
+#ifdef USE_RGSS
+        // shader-based supersampling based on https://bgolus.medium.com/sharper-mipmapping-using-shader-based-supersampling-ed7aadb47bec
+        // per pixel partial derivatives
+        vec2 dx = dFdx(vUv);
+        vec2 dy = dFdy(vUv);
+
+        // rotated grid uv offsets
+        vec2 uvOffsets = vec2(0.125, 0.375);
+        vec2 offsetUV = vec2(0.0, 0.0);
+
+        // supersampled using 2x2 rotated grid
+        float alpha = 0.0;
+        offsetUV.xy = vUv + uvOffsets.x * dx + uvOffsets.y * dy;
+        alpha += tap(offsetUV);
+        offsetUV.xy = vUv - uvOffsets.x * dx - uvOffsets.y * dy;
+        alpha += tap(offsetUV);
+        offsetUV.xy = vUv + uvOffsets.y * dx - uvOffsets.x * dy;
+        alpha += tap(offsetUV);
+        offsetUV.xy = vUv - uvOffsets.y * dx + uvOffsets.x * dy;
+        alpha += tap(offsetUV);
+        alpha *= 0.25;
+#else
+        float alpha = tap( vUv );
+#endif
+
         if ( alpha < 0.02) discard;
 
         gl_FragColor = vec4( u_color, alpha );

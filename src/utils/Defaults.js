@@ -20,6 +20,7 @@ export default {
 	fontColor: new Color( 0xffffff ),
 	fontOpacity: 1,
 	pxRange: 4,
+	fontSupersampling: true,
 	borderRadius: 0.01,
 	borderWidth: 0,
 	borderColor: new Color( 'black' ),
