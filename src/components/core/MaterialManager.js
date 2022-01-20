@@ -190,7 +190,8 @@ export default function MaterialManager( Base = class {} ) {
             const newUniforms = {
                 'u_texture': this.getFontTexture(),
                 'u_color': this.getFontColor(),
-                'u_opacity': this.getFontOpacity()
+                'u_opacity': this.getFontOpacity(),
+                'u_pxRange': this.getPXRange()
             };
 
             if ( !this.fontMaterial || !this.textUniforms ) {
@@ -217,7 +218,8 @@ export default function MaterialManager( Base = class {} ) {
             this.textUniforms = {
                 'u_texture': { value: materialOptions.u_texture },
                 'u_color': { value: materialOptions.u_color },
-                'u_opacity': { value: materialOptions.u_opacity }
+                'u_opacity': { value: materialOptions.u_opacity },
+                'u_pxRange': { value: materialOptions.u_pxRange }
             }
 
             return new ShaderMaterial({
@@ -308,6 +310,7 @@ const textFragment = `
 	uniform sampler2D u_texture;
 	uniform vec3 u_color;
 	uniform float u_opacity;
+    uniform float u_pxRange;
 
 	varying vec2 vUv;
 
@@ -321,9 +324,7 @@ const textFragment = `
 	}
 
     float screenPxRange() {
-        float pxRange = 4.0; // not sure what this variable is about...
-
-        vec2 unitRange = vec2(pxRange)/vec2(textureSize(u_texture, 0));
+        vec2 unitRange = vec2(u_pxRange)/vec2(textureSize(u_texture, 0));
         vec2 screenTexSize = vec2(1.0)/fwidth(vUv);
         return max(0.5*dot(unitRange, screenTexSize), 1.0);
     }

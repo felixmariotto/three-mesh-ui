@@ -183,6 +183,10 @@ export default function MeshUIComponent( Base = class {} ) {
             return this._getProperty( 'fontOpacity' );
         }
 
+        getPXRange() {
+            return this._getProperty( 'pxRange' );
+        }
+
         getBorderRadius() {
             return this._getProperty( 'borderRadius' );
         }
