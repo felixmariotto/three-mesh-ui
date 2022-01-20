@@ -129,7 +129,7 @@ export default function MeshUIComponent( Base = class {} ) {
 
                 return this.parent._getProperty( propName )
 
-            } else if ( this[ propName ] ) {
+            } else if ( this[ propName ] !== undefined ) {
 
                 return this[ propName ]
 
@@ -179,8 +179,17 @@ export default function MeshUIComponent( Base = class {} ) {
             return this._getProperty( 'fontColor' );
         }
 
+        
+        getFontSupersampling() {
+            return this._getProperty( 'fontSupersampling' );
+        }
+
         getFontOpacity() {
             return this._getProperty( 'fontOpacity' );
+        }
+
+        getFontPXRange() {
+            return this._getProperty( 'fontPXRange' );
         }
 
         getBorderRadius() {
@@ -416,6 +425,7 @@ export default function MeshUIComponent( Base = class {} ) {
 
                 case "fontColor" :
                 case "fontOpacity" :
+                case "fontSupersampling" :
                 case "offset" :
                 case "backgroundColor" :
                 case "backgroundOpacity" :
