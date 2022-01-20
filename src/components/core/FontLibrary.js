@@ -15,8 +15,7 @@ loading it twice, even if the two component are not in the same parent/child hie
 
 */
 
-import { FileLoader } from 'three';
-import { TextureLoader } from 'three';
+import { FileLoader, TextureLoader, LinearFilter } from 'three';
 
 const fileLoader = new FileLoader();
 const requiredFontFamilies = [];
@@ -72,6 +71,10 @@ function setFontTexture( component, url ) {
 		requiredFontTextures.push( url );
 
 		textureLoader.load( url, ( texture )=> {
+
+			texture.generateMipmaps = false;
+			texture.minFilter = LinearFilter;
+			texture.magFilter = LinearFilter;
 
 			fontTextures[ url ] = texture;
 
@@ -208,6 +211,11 @@ font with specified name will be overwritten, but components using it won't be u
 
 */
 function addFont(name, json, texture) {
+
+	texture.generateMipmaps = false;
+	texture.minFilter = LinearFilter;
+	texture.magFilter = LinearFilter;
+
 	requiredFontFamilies.push( name );
 	fontFamilies[ name ] = json;
 

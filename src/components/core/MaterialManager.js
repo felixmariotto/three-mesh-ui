@@ -108,6 +108,8 @@ export default function MaterialManager( Base = class {} ) {
                 this.textUniforms.u_texture.value = this.getFontTexture();
                 this.textUniforms.u_color.value = this.getFontColor();
                 this.textUniforms.u_opacity.value = this.getFontOpacity();
+                this.textUniforms.u_pxRange.value = this.getFontPXRange();
+                this.fontMaterial.u_useRGSS = this.getFontSupersampling();
 
             }
 
@@ -190,7 +192,9 @@ export default function MaterialManager( Base = class {} ) {
             const newUniforms = {
                 'u_texture': this.getFontTexture(),
                 'u_color': this.getFontColor(),
-                'u_opacity': this.getFontOpacity()
+                'u_opacity': this.getFontOpacity(),
+                'u_pxRange': this.getFontPXRange(),
+                'u_useRGSS': this.getFontSupersampling()
             };
 
             if ( !this.fontMaterial || !this.textUniforms ) {
@@ -200,7 +204,9 @@ export default function MaterialManager( Base = class {} ) {
             } else if (
                 newUniforms.u_texture !== this.textUniforms.u_texture.value ||
                 newUniforms.u_color !== this.textUniforms.u_color.value ||
-                newUniforms.u_opacity !== this.textUniforms.u_opacity.value
+                newUniforms.u_opacity !== this.textUniforms.u_opacity.value ||
+                newUniforms.u_pxRange !== this.textUniforms.u_pxRange.value ||
+                newUniforms.u_useRGSS !== this.textUniforms.u_useRGSS.value
             ) {
 
                 this.updateTextMaterial();
@@ -217,7 +223,9 @@ export default function MaterialManager( Base = class {} ) {
             this.textUniforms = {
                 'u_texture': { value: materialOptions.u_texture },
                 'u_color': { value: materialOptions.u_color },
-                'u_opacity': { value: materialOptions.u_opacity }
+                'u_opacity': { value: materialOptions.u_opacity },
+                'u_pxRange': { value: materialOptions.u_pxRange },
+                'u_useRGSS': { value: materialOptions.u_useRGSS }
             }
 
             return new ShaderMaterial({
@@ -308,30 +316,75 @@ const textFragment = `
 	uniform sampler2D u_texture;
 	uniform vec3 u_color;
 	uniform float u_opacity;
+    uniform float u_pxRange;
+    uniform bool u_useRGSS;
 
 	varying vec2 vUv;
 
 	#include <clipping_planes_pars_fragment>
 
+    // functions from the original msdf repo:
+    // https://github.com/Chlumsky/msdfgen#using-a-multi-channel-distance-field
+
 	float median(float r, float g, float b) {
 		return max(min(r, g), min(max(r, g), b));
 	}
 
-	void main() {
+    float screenPxRange() {
+        vec2 unitRange = vec2(u_pxRange)/vec2(textureSize(u_texture, 0));
+        vec2 screenTexSize = vec2(1.0)/fwidth(vUv);
+        return max(0.5*dot(unitRange, screenTexSize), 1.0);
+    }
 
-		vec3 textureSample = texture2D( u_texture, vUv ).rgb;
-		float sigDist = median( textureSample.r, textureSample.g, textureSample.b ) - 0.5;
-		float alpha = clamp( sigDist / fwidth( sigDist ) + 0.5, 0.0, 1.0 );
-		alpha = min( alpha, u_opacity );
-		
-		if( alpha < 0.02) discard;
-		
-		gl_FragColor = vec4( u_color, alpha );
-        // gl_FragColor = vec4( 1.0 );
-	
-		#include <clipping_planes_fragment>
+    float tap(vec2 offsetUV) {
+        vec3 msd = texture( u_texture, offsetUV ).rgb;
+        float sd = median(msd.r, msd.g, msd.b);
+        float screenPxDistance = screenPxRange() * (sd - 0.5);
+        float alpha = clamp(screenPxDistance + 0.5, 0.0, 1.0);
+        return alpha;
+    }
 
-	}
+    void main() {
+
+        float alpha;
+
+        if ( u_useRGSS ) {
+
+            // shader-based supersampling based on https://bgolus.medium.com/sharper-mipmapping-using-shader-based-supersampling-ed7aadb47bec
+            // per pixel partial derivatives
+            vec2 dx = dFdx(vUv);
+            vec2 dy = dFdy(vUv);
+
+            // rotated grid uv offsets
+            vec2 uvOffsets = vec2(0.125, 0.375);
+            vec2 offsetUV = vec2(0.0, 0.0);
+
+            // supersampled using 2x2 rotated grid
+            alpha = 0.0;
+            offsetUV.xy = vUv + uvOffsets.x * dx + uvOffsets.y * dy;
+            alpha += tap(offsetUV);
+            offsetUV.xy = vUv - uvOffsets.x * dx - uvOffsets.y * dy;
+            alpha += tap(offsetUV);
+            offsetUV.xy = vUv + uvOffsets.y * dx - uvOffsets.x * dy;
+            alpha += tap(offsetUV);
+            offsetUV.xy = vUv - uvOffsets.y * dx + uvOffsets.x * dy;
+            alpha += tap(offsetUV);
+            alpha *= 0.25;
+
+        } else {
+
+            alpha = tap( vUv );
+
+        }
+
+        // this is useful to avoid z-fighting when quads overlap because of kerning
+        if ( alpha < 0.02) discard;
+
+        gl_FragColor = vec4( u_color, alpha );
+
+        #include <clipping_planes_fragment>
+    }
+
 `;
 
 //////////////////////
@@ -433,16 +486,26 @@ const backgroundFragment = `
     }
 
 	void main() {
+
         float edgeDist = getEdgeDist();
-        if ( edgeDist > 0.0 ) discard;
+        float change = fwidth( edgeDist );
+
 		vec4 textureSample = sampleTexture();
-        float blendedOpacity = u_opacity * textureSample.a;
         vec3 blendedColor = textureSample.rgb * u_color;
-        if ( edgeDist * -1.0 < u_borderWidth ) {
-        gl_FragColor = vec4( u_borderColor, u_borderOpacity );
+
+        float alpha = smoothstep( change, 0.0, edgeDist );
+        float blendedOpacity = u_opacity * textureSample.a * alpha;
+
+        vec4 frameColor = vec4( blendedColor, blendedOpacity );
+
+        if ( u_borderWidth <= 0.0 ) {
+            gl_FragColor = frameColor;
         } else {
-		gl_FragColor = vec4( blendedColor, blendedOpacity );
-		}
+            vec4 borderColor = vec4( u_borderColor, u_borderOpacity * alpha );
+            float stp = smoothstep( edgeDist + change, edgeDist, u_borderWidth * -1.0 );
+            gl_FragColor = mix( frameColor, borderColor, stp );
+        }
+
 		#include <clipping_planes_fragment>
 	}
 `;
