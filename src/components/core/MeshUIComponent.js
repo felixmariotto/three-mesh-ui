@@ -391,6 +391,8 @@ export default function MeshUIComponent( Base = class {} ) {
 
             for ( const prop of Object.keys(options) ) {
 
+                if ( this[prop] == options[prop] ) continue
+
                 switch ( prop ) {
 
                 case "content" :
