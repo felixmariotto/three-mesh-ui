@@ -13,9 +13,7 @@ const WIDTH = window.innerWidth;
 const HEIGHT = window.innerHeight;
 
 let scene, camera, renderer, controls ;
-
-const textContent = `ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-:?!
-The males of this species grow to maximum total length of 73 cm (29 in): body 58 cm (23 in), tail 15 cm (5.9 in). Females grow to a maximum total length of 58 cm (23 in). The males are surprisingly long and slender compared to the females.\nThe head has a short snout, more so in males than in females.\nThe eyes are large and surrounded by 9–16 circumorbital scales. The orbits (eyes) are separated by 7–9 scales.`;
+let autoMoveCam = true;
 
 window.addEventListener('load', init );
 window.addEventListener('resize', onWindowResize );
@@ -25,13 +23,12 @@ window.addEventListener('resize', onWindowResize );
 function init() {
 
   scene = new THREE.Scene();
-  scene.background = new THREE.Color( 0x000000 );
+  scene.background = new THREE.Color( 0x505050 );
 
   camera = new THREE.PerspectiveCamera( 60, WIDTH / HEIGHT, 0.1, 500 );
+  camera.position.set( 0, 1.5, 0 );
 
-  renderer = new THREE.WebGLRenderer({
-    antialias: true
-  });
+  renderer = new THREE.WebGLRenderer( { antialias: true } );
   renderer.setPixelRatio( window.devicePixelRatio );
   renderer.setSize( WIDTH, HEIGHT );
   renderer.xr.enabled = true;
@@ -39,47 +36,23 @@ function init() {
   document.body.appendChild( renderer.domElement );
 
   controls = new OrbitControls( camera, renderer.domElement );
-  camera.position.set( 0, 1.0, 1.0 );
-  controls.target = new THREE.Vector3( 0, 1, 0 );
-  controls.update();
+  controls.addEventListener( 'start', () => autoMoveCam = false );
 
   // ROOM
 
   const room = new THREE.LineSegments(
-    new BoxLineGeometry( 20, 20, 20, 10, 10, 10 ).translate( 0, 3, 0 ),
+    new BoxLineGeometry( 6, 6, 12, 10, 10, 20 ).translate( 0, 3, 0 ),
     new THREE.LineBasicMaterial( { color: 0x808080 } )
   );
 
-  // scene.add( room );
+  scene.add( room );
 
   // TEXT PANEL
 
   // attempt to have a pixel-perfect match to the reference MSDF implementation
   
-  makeTextPanel(0.024,.1,-2,0,0,0,true);
-  makeTextPanel(2.024,.1,-2,0,0,0,false);
-
-  makeTextPanel(0,0,-3,0,0,0);
-  makeTextPanel(0,0,-5,0,0,0);
-  makeTextPanel(0,0,-7,0,0,0);
-  makeTextPanel(0,0,-9,0,0,0);
-  
-  makeTextPanel(-1.5,0.5,-4,0,0.9,0);
-  makeTextPanel(-1.5,1.1,-4,0,1.3,0);
-  makeTextPanel(-1.5,1.7,-4,0,1.6,0);
-  makeTextPanel(-2.5,0.5,-4,0,0.9,0, true);
-  makeTextPanel(-2.5,1.1,-4,0,1.3,0, true);
-  makeTextPanel(-2.5,1.7,-4,0,1.6,0, true);
-
-
-  makeTextPanel(2.0,0,-3,-1,0,0);
-  makeTextPanel(2.0,0,-5,-1,0,0);
-  makeTextPanel(2.4,0.1,-7,-1,0,0);
-  
-  makeTextPanel(1.5,1,-8,-0.55,-0.9,0);
-  makeTextPanel(0,1.2,-8,-0.55,0,-0.9);
-  makeTextPanel(0,1.75,-5,-0.55,0,-0.9);
-  makeTextPanel(0,2.0,-3,-0.55,0,-0.9);
+  makeTextPanel(  0.6, 0, 0, 0, true );
+  makeTextPanel( -0.6, 0, 0, 0, false );
 
   //
 
@@ -89,12 +62,21 @@ function init() {
 
 //
 
-function makeTextPanel(x,y,z,rotX, rotY, rotZ, supersample) {
+function makeTextPanel( x, rotX, rotY, rotZ, supersample ) {
+
+  const textContent = `
+  fontSupersampling: ${ supersample }
+
+  Three-mesh-ui uses rotated-grid-super-sampling (RGSS) to smooth out the rendering of small characters on low res displays.
+  
+  This is especially important in VR. However you can improve performance slightly by disabling it, especially if you only render big texts.
+  `;
 
   const container = new ThreeMeshUI.Block({
-    width: 2.0,
-    height: 0.6,
+    width: 1,
+    height: 0.9,
     padding: 0.05,
+    borderRadius: 0.05,
     justifyContent: 'center',
     alignContent: 'left',
     fontFamily: FontJSON,
@@ -106,15 +88,15 @@ function makeTextPanel(x,y,z,rotX, rotY, rotZ, supersample) {
   });
 
   scene.add( container );
-  container.position.set(x,y,z);
-  container.rotation.set(rotX, rotY, rotZ);
+  container.position.set( x, 1.5, -4 );
+  container.rotation.set( rotX, rotY, rotZ );
 
   container.add(
-    new ThreeMeshUI.Text({
+    new ThreeMeshUI.Text( {
       content: textContent,
       fontKerning: "normal",
       fontSize: 0.045,
-    }),
+    } ),
   );
 
   return container;
@@ -129,8 +111,6 @@ function onWindowResize() {
 };
 
 //
-var clock = new THREE.Clock(true);
-clock.start();
 
 function loop() {
 
@@ -140,8 +120,14 @@ function loop() {
   ThreeMeshUI.update();
 
   // swinging motion to see motion aliasing better
-  let time = clock.getElapsedTime();
-  controls.target.set(Math.sin(time * 21) * 0.0031, 1 + Math.sin(time * 23) * 0.0023, -1.8 );
+  if ( autoMoveCam ) {
+    controls.target.set(
+      Math.sin( Date.now() / 3000 ) * 0.3,
+      Math.cos( Date.now() / 3000 ) * 0.3 + 1.5,
+      -4
+    );
+  }
+  
   controls.update();
   renderer.render( scene, camera );
 };

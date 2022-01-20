@@ -129,7 +129,7 @@ export default function MeshUIComponent( Base = class {} ) {
 
                 return this.parent._getProperty( propName )
 
-            } else if ( this[ propName ] ) {
+            } else if ( this[ propName ] !== undefined ) {
 
                 return this[ propName ]
 
@@ -188,8 +188,8 @@ export default function MeshUIComponent( Base = class {} ) {
             return this._getProperty( 'fontOpacity' );
         }
 
-        getPXRange() {
-            return this._getProperty( 'pxRange' );
+        getFontPXRange() {
+            return this._getProperty( 'fontPXRange' );
         }
 
         getBorderRadius() {

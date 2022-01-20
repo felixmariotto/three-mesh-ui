@@ -108,10 +108,11 @@ export default function MaterialManager( Base = class {} ) {
                 this.textUniforms.u_texture.value = this.getFontTexture();
                 this.textUniforms.u_color.value = this.getFontColor();
                 this.textUniforms.u_opacity.value = this.getFontOpacity();
+                this.textUniforms.u_pxRange.value = this.getFontPXRange();
+                this.fontMaterial.u_useRGSS = this.getFontSupersampling();
 
             }
-            
-            this.fontMaterial.defines.USE_RGSS = this.getFontSupersampling();
+
         }
 
         /**
@@ -192,7 +193,8 @@ export default function MaterialManager( Base = class {} ) {
                 'u_texture': this.getFontTexture(),
                 'u_color': this.getFontColor(),
                 'u_opacity': this.getFontOpacity(),
-                'u_pxRange': this.getPXRange()
+                'u_pxRange': this.getFontPXRange(),
+                'u_useRGSS': this.getFontSupersampling()
             };
 
             if ( !this.fontMaterial || !this.textUniforms ) {
@@ -202,7 +204,9 @@ export default function MaterialManager( Base = class {} ) {
             } else if (
                 newUniforms.u_texture !== this.textUniforms.u_texture.value ||
                 newUniforms.u_color !== this.textUniforms.u_color.value ||
-                newUniforms.u_opacity !== this.textUniforms.u_opacity.value
+                newUniforms.u_opacity !== this.textUniforms.u_opacity.value ||
+                newUniforms.u_pxRange !== this.textUniforms.u_pxRange.value ||
+                newUniforms.u_useRGSS !== this.textUniforms.u_useRGSS.value
             ) {
 
                 this.updateTextMaterial();
@@ -220,7 +224,8 @@ export default function MaterialManager( Base = class {} ) {
                 'u_texture': { value: materialOptions.u_texture },
                 'u_color': { value: materialOptions.u_color },
                 'u_opacity': { value: materialOptions.u_opacity },
-                'u_pxRange': { value: materialOptions.u_pxRange }
+                'u_pxRange': { value: materialOptions.u_pxRange },
+                'u_useRGSS': { value: materialOptions.u_useRGSS }
             }
 
             return new ShaderMaterial({
@@ -231,9 +236,6 @@ export default function MaterialManager( Base = class {} ) {
                 fragmentShader: textFragment,
                 extensions: {
                     derivatives: true
-                },
-                defines: {
-                    USE_RGSS: this.getFontSupersampling(),
                 }
             })
 
@@ -315,6 +317,7 @@ const textFragment = `
 	uniform vec3 u_color;
 	uniform float u_opacity;
     uniform float u_pxRange;
+    uniform bool u_useRGSS;
 
 	varying vec2 vUv;
 
@@ -326,12 +329,6 @@ const textFragment = `
 	float median(float r, float g, float b) {
 		return max(min(r, g), min(max(r, g), b));
 	}
-
-    #ifdef USE_RGSS
-    #define RANGE 1.0 // not sure why this looks better than 2.0
-    #else
-    #define RANGE 1.0
-    #endif
 
     float screenPxRange() {
         vec2 unitRange = vec2(u_pxRange)/vec2(textureSize(u_texture, 0));
@@ -348,31 +345,39 @@ const textFragment = `
     }
 
     void main() {
-#ifdef USE_RGSS
-        // shader-based supersampling based on https://bgolus.medium.com/sharper-mipmapping-using-shader-based-supersampling-ed7aadb47bec
-        // per pixel partial derivatives
-        vec2 dx = dFdx(vUv);
-        vec2 dy = dFdy(vUv);
 
-        // rotated grid uv offsets
-        vec2 uvOffsets = vec2(0.125, 0.375);
-        vec2 offsetUV = vec2(0.0, 0.0);
+        float alpha;
 
-        // supersampled using 2x2 rotated grid
-        float alpha = 0.0;
-        offsetUV.xy = vUv + uvOffsets.x * dx + uvOffsets.y * dy;
-        alpha += tap(offsetUV);
-        offsetUV.xy = vUv - uvOffsets.x * dx - uvOffsets.y * dy;
-        alpha += tap(offsetUV);
-        offsetUV.xy = vUv + uvOffsets.y * dx - uvOffsets.x * dy;
-        alpha += tap(offsetUV);
-        offsetUV.xy = vUv - uvOffsets.y * dx + uvOffsets.x * dy;
-        alpha += tap(offsetUV);
-        alpha *= 0.25;
-#else
-        float alpha = tap( vUv );
-#endif
+        if ( u_useRGSS ) {
 
+            // shader-based supersampling based on https://bgolus.medium.com/sharper-mipmapping-using-shader-based-supersampling-ed7aadb47bec
+            // per pixel partial derivatives
+            vec2 dx = dFdx(vUv);
+            vec2 dy = dFdy(vUv);
+
+            // rotated grid uv offsets
+            vec2 uvOffsets = vec2(0.125, 0.375);
+            vec2 offsetUV = vec2(0.0, 0.0);
+
+            // supersampled using 2x2 rotated grid
+            alpha = 0.0;
+            offsetUV.xy = vUv + uvOffsets.x * dx + uvOffsets.y * dy;
+            alpha += tap(offsetUV);
+            offsetUV.xy = vUv - uvOffsets.x * dx - uvOffsets.y * dy;
+            alpha += tap(offsetUV);
+            offsetUV.xy = vUv + uvOffsets.y * dx - uvOffsets.x * dy;
+            alpha += tap(offsetUV);
+            offsetUV.xy = vUv - uvOffsets.y * dx + uvOffsets.x * dy;
+            alpha += tap(offsetUV);
+            alpha *= 0.25;
+
+        } else {
+
+            alpha = tap( vUv );
+
+        }
+
+        // this is useful to avoid z-fighting when quads overlap because of kerning
         if ( alpha < 0.02) discard;
 
         gl_FragColor = vec4( u_color, alpha );

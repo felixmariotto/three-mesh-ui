@@ -19,7 +19,7 @@ export default {
 	textType: "MSDF",
 	fontColor: new Color( 0xffffff ),
 	fontOpacity: 1,
-	pxRange: 4,
+	fontPXRange: 4,
 	fontSupersampling: true,
 	borderRadius: 0.01,
 	borderWidth: 0,
