@@ -260,7 +260,7 @@ export default function MeshUIComponent( Base = class {} ) {
         }
 
         getBackgroundTexture() {
-            return this.backgroundTexture || DEFAULTS.backgroundTexture;
+            return this.backgroundTexture || DEFAULTS.backgroundTexture();
         }
 
         getAlignContent() {
