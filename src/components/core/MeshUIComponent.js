@@ -470,12 +470,10 @@ export default function MeshUIComponent( Base = class {} ) {
 
             if ( options.fontFamily ) {
                 FontLibrary.setFontFamily( this, options.fontFamily );
-                layoutNeedsUpdate = false;
             }
 
             if ( options.fontTexture ) {
                 FontLibrary.setFontTexture( this, options.fontTexture );
-                layoutNeedsUpdate = false;
             }
 
             // if font kerning changes for a child of a block with Best Fit enabled, we need to trigger parsing for the parent as well.
