@@ -409,7 +409,7 @@ export default function MeshUIComponent( Base = class {} ) {
                         break;
 
                     case "bestFit" :
-                        if ( this.isBlock && options[ prop ] == true ) {
+                        if ( this.isBlock ) {
                             parsingNeedsUpdate = true;
                             layoutNeedsUpdate = true;
                         }
