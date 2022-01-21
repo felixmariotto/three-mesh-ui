@@ -1,6 +1,6 @@
 {
   "name": "three-mesh-ui",
-  "version": "6.1.0",
+  "version": "6.2.0",
   "description": "a library on top of three.js to help in creating 3D user interfaces",
   "engines": {
     "node": "x.x.x"
