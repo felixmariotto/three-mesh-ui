@@ -1,46 +1,55 @@
-import type {Mesh, Object3D} from "three";
+import type {Object3D} from "three";
 
-declare class Frame extends Mesh {
-    //
-}
-
-declare class Block extends Object3D {
-    // @todo
+export type BlockOptions = {
     width: number;
     height: number;
-    backgroundOpacity?: number;
-    justifyContent?: string;
+    padding?: number;
+    fontFamily?: string;
+    fontTexture?: string;
+    // @todo add missing properties
+    [property: string]: any;
 }
 
-declare type Text = {
-    // @todo
-}
-declare type InlineBlock = {
-    // @todo
-}
-declare type Keyboard = {
-    // @todo
-}
-declare type FontLibrary = {
-    // @todo
+export declare class Block extends Object3D {
+    constructor(options: BlockOptions);
 }
 
-declare type update = () => void
-
-declare type ThreeMeshUI = {
-    Block: Block,
-    Text: Text,
-    InlineBlock: InlineBlock,
-    Keyboard: Keyboard,
-    FontLibrary: FontLibrary,
-    update: update,
+type TextOptions = {
+    // @todo add missing properties
+    [property: string]: any;
 }
 
-declare global {
-    namespace JSX {
-        interface IntrinsicElements {
-            block: any
-            text: any
-        }
-    }
+export declare class Text extends Object3D {
+    constructor(options: TextOptions);
 }
+
+type InlineBlockOptions = {
+    // @todo add missing properties
+    [property: string]: any;
+}
+
+export declare class InlineBlock extends Object3D {
+    constructor(options: InlineBlockOptions);
+}
+
+type KeyboardOptions = {
+    // @todo add missing properties
+    [property: string]: any;
+}
+
+export declare class Keyboard extends Object3D {
+    constructor(options: KeyboardOptions);
+}
+
+export declare namespace FontLibrary {
+    export function setFontFamily(): void;
+
+    export function setFontTexture(): void;
+
+    export function getFontOf(): void;
+
+    // @todo fix type
+    export function addFont(component: any): any;
+}
+
+export declare function update(): void;
