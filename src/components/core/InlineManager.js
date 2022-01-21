@@ -341,13 +341,12 @@ export default function InlineManager( Base = class {} ) {
                         if( inline.width === 0 ){
                             // restart the lastInlineOffset as zero.
                             return 0;
-                        }else{
-
-                            // compute lastInlineOffset normally
-                            // except for kerning which won't apply
-                            // as there is visually no lefthanded glyph to kern with
-                            return xadvance + letterSpacing;
                         }
+
+                        // compute lastInlineOffset normally
+                        // except for kerning which won't apply
+                        // as there is visually no lefthanded glyph to kern with
+                        return xadvance + letterSpacing;
 
                     }
 
@@ -427,7 +426,7 @@ export default function InlineManager( Base = class {} ) {
 
             const INTERLINE = this.getInterLine();
 
-            let textHeight = lines.reduce( (offsetY, line)=> {
+            const textHeight = lines.reduce( (offsetY, line)=> {
 
                 return offsetY - line.lineHeight - INTERLINE;
 
@@ -447,7 +446,7 @@ export default function InlineManager( Base = class {} ) {
             // only by the length of its extremities
             const firstInline = line[0];
 
-            let lastInline = line[line.length-1];
+            const lastInline = line[line.length-1];
 
             return Math.abs(firstInline.offsetX - (lastInline.offsetX+lastInline.width));
 

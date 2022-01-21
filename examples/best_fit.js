@@ -20,6 +20,25 @@ const FPS = 5;
 const WIDTH = window.innerWidth;
 const HEIGHT = window.innerHeight;
 
+const HEADER_TEXT = [
+    "BestFit: \'none\'",
+    "BestFit: \'auto\'",
+    "BestFit: \'grow\'",
+    "BestFit: \'shrink\'"
+];
+const TEXT1 = [
+    "This text will remain the same size regardless of its parent's size.",
+    "This text will adjust its font size to ensure it always fits within its parent.",
+    "This text will only grow in size to fit container.",
+    "This text will only shrink in size to fit container."
+];
+const TEXT2 = [
+    "This is the default option and should be used in most cases.",
+    "This option will either increase or decrease the font size.",
+    "This option will only increase the font size, while capping its minimum font size to its original value.",
+    "This option will only decrease the font size, while capping its maximum font size to its original value."
+];
+
 let scene, camera, renderer, controls, stats;
 let innerContainers = [];
 let text;
@@ -77,6 +96,29 @@ function init() {
 
 function makeTextPanel() {
 
+    const warningContainer = new ThreeMeshUI.Block({
+        padding: 0.05,
+        backgroundColor: new THREE.Color( 0xf1c232 ),
+        backgroundOpacity: 1,
+        fontColor: new THREE.Color( 0x333333 ),
+        fontFamily: FontJSON,
+        fontTexture: FontImage,
+        width: 4,
+        height: 0.35
+    });
+
+    warningContainer.position.set( -0.25, 0.35, -1 );
+    warningContainer.rotation.x = -0.55;
+    scene.add( warningContainer );
+
+    const warningTextBlock = new ThreeMeshUI.Text({
+        content: "* Warning - The Best Fit functionality is computational expensive and therefore should not be used if you intend to update the container size every frame. " +
+        "If you do need to update the container while using this functionality, it may be wise to only do so at intervals.",
+        fontSize: 0.075
+    });
+
+    warningContainer.add(warningTextBlock);
+
     for(let i = 0; i < 4; i++)
     {
 
@@ -96,6 +138,28 @@ function makeTextPanel() {
                 break;
         }
 
+        const titleContainer = new ThreeMeshUI.Block({
+            padding: 0.05,
+            backgroundColor: new THREE.Color( 0xd9d9d9 ),
+            backgroundOpacity: 1,
+            fontColor: new THREE.Color( 0x333333 ),
+            fontFamily: FontJSON,
+            fontTexture: FontImage,
+            width: 1.1,
+            height: 0.15
+        });
+
+        titleContainer.position.set( -2 + 1.15 * i, 1.8, -2 );
+
+        scene.add( titleContainer );
+
+        const titleTextBlock = new ThreeMeshUI.Text({
+            content: HEADER_TEXT[i],
+            fontSize: 0.075
+        });
+
+        titleContainer.add(titleTextBlock);
+
         const outerContainer = new ThreeMeshUI.Block({
             padding: 0.05,
             backgroundColor: new THREE.Color( 0xd9d9d9 ),
@@ -105,11 +169,11 @@ function makeTextPanel() {
             fontColor: new THREE.Color( 0x333333 ),
             fontFamily: FontJSON,
             fontTexture: FontImage,
-            width: 1.35,
+            width: 1.1,
             height: 0.95
         });
 
-        outerContainer.position.set( -2 + 1.4 * i, 1, -1.8 );
+        outerContainer.position.set( -2 + 1.15 * i, 1, -1.8 );
         outerContainer.rotation.x = -0.55;
         scene.add( outerContainer );
 
@@ -128,15 +192,15 @@ function makeTextPanel() {
         innerContainers.push(innerContainer);
 
         const firstTextBlock = new ThreeMeshUI.Text({
-            content: "This first text component is going to be much shorter than the next one. ",
-            fontSize: 0.075
+            content: TEXT1[i],
+            fontSize: 0.066
         });
 
         innerContainer.add(firstTextBlock);
 
         const secondTextBlock = new ThreeMeshUI.Text({
-            content: "This second text component is much longer than the previous one, yet they both fit in the same container and share the same font size.",
-            fontSize: 0.05
+            content: TEXT2[i],
+            fontSize: 0.066
         });
 
         innerContainer.add(secondTextBlock);

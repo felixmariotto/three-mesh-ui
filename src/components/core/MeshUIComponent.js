@@ -179,7 +179,7 @@ export default function MeshUIComponent( Base = class {} ) {
             return this._getProperty( 'fontColor' );
         }
 
-        
+
         getFontSupersampling() {
             return this._getProperty( 'fontSupersampling' );
         }
@@ -394,75 +394,76 @@ export default function MeshUIComponent( Base = class {} ) {
             // attribute from the light batch.
 
             for ( const prop of Object.keys(options) ) {
-                if(this[prop] == options[prop])
-                {
-                    continue;
-                }
+                if ( this[prop] != options[prop] ) {
 
-                if ( this[prop] == options[prop] ) continue
+                    switch ( prop ) {
 
-                switch ( prop ) {
-
-                case "content" :
-                case "fontSize" :
-                case "fontKerning" :
-                case "breakOn":
-                case "whiteSpace":
-                    if ( this.isText ) parsingNeedsUpdate = true;
-                    layoutNeedsUpdate = true;
-                    this[ prop ] = options[ prop ];
-                    break;
-
-                case "bestFit" :
-                    if ( this.isBlock && options[ prop ] == true ) {
-                        parsingNeedsUpdate = true;
+                    case "content" :
+                    case "fontSize" :
+                    case "fontKerning" :
+                    case "breakOn":
+                    case "whiteSpace":
+                        if ( this.isText ) parsingNeedsUpdate = true;
                         layoutNeedsUpdate = true;
+                        this[ prop ] = options[ prop ];
+                        break;
+
+                    case "bestFit" :
+                        if ( this.isBlock && options[ prop ] == true ) {
+                            parsingNeedsUpdate = true;
+                            layoutNeedsUpdate = true;
+                        }
+                        this[ prop ] = options[ prop ];
+                        break;
+
+                    case "width" :
+                    case "height" :
+                    case "padding" :
+                        if ( this.isInlineBlock || ( this.isBlock && this[ "bestFit" ] == true )) parsingNeedsUpdate = true;
+                        layoutNeedsUpdate = true;
+                        this[ prop ] = options[ prop ];
+                        break;
+
+                    case "letterSpacing" :
+                    case "interLine" :
+                        if ( this.isBlock && this[ "bestFit" ] == true ) {
+                            parsingNeedsUpdate = true;
+                            layoutNeedsUpdate = true;
+                            this[ prop ] = options[ prop ];
+                        }
+                        break;
+
+                    case "margin" :
+                    case "contentDirection" :
+                    case "justifyContent" :
+                    case "alignContent" :
+                    case "textType" :
+                    case "src" :
+                        layoutNeedsUpdate = true;
+                        this[ prop ] = options[ prop ];
+                        break;
+
+                    case "fontColor" :
+                    case "fontOpacity" :
+                    case "fontSupersampling" :
+                    case "offset" :
+                    case "backgroundColor" :
+                    case "backgroundOpacity" :
+                    case "backgroundTexture" :
+                    case "backgroundSize" :
+                    case "borderRadius" :
+                    case "borderWidth" :
+                    case "borderColor" :
+                    case "borderOpacity" :
+                        innerNeedsUpdate = true;
+                        this[ prop ] = options[ prop ];
+                        break;
+
+                    case "hiddenOverflow" :
+                        this[ prop ] = options[ prop ];
+                        break
+
                     }
-                    this[ prop ] = options[ prop ];
-                    break;
-
-                case "width" :
-                case "height" :
-                case "padding" :
-                    if ( this.isInlineBlock || ( this.isBlock && this[ "bestFit" ] == true )) parsingNeedsUpdate = true;
-                    layoutNeedsUpdate = true;
-                    this[ prop ] = options[ prop ];
-                    break;
-
-                case "letterSpacing" :
-                case "interLine" :
-                    if( this.isBlock && this[ "bestFit" ] == true ) parsingNeedsUpdate = true;
-
-                case "margin" :
-                case "contentDirection" :
-                case "justifyContent" :
-                case "alignContent" :
-                case "textType" :
-                case "src" :
-                    layoutNeedsUpdate = true;
-                    this[ prop ] = options[ prop ];
-                    break;
-
-                case "fontColor" :
-                case "fontOpacity" :
-                case "fontSupersampling" :
-                case "offset" :
-                case "backgroundColor" :
-                case "backgroundOpacity" :
-                case "backgroundTexture" :
-                case "backgroundSize" :
-                case "borderRadius" :
-                case "borderWidth" :
-                case "borderColor" :
-                case "borderOpacity" :
-                    innerNeedsUpdate = true;
-                    this[ prop ] = options[ prop ];
-                    break;
-
-                case "hiddenOverflow" :
-                    this[ prop ] = options[ prop ];
-                    break
-
                 }
 
             }
