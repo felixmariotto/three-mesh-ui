@@ -426,11 +426,9 @@ export default function MeshUIComponent( Base = class {} ) {
 
                     case "letterSpacing" :
                     case "interLine" :
-                        if ( this.isBlock && this[ "bestFit" ] == true ) {
-                            parsingNeedsUpdate = true;
-                            layoutNeedsUpdate = true;
-                            this[ prop ] = options[ prop ];
-                        }
+                        if ( this.isBlock && this[ "bestFit" ] == true ) parsingNeedsUpdate = true;
+                        layoutNeedsUpdate = true;
+                        this[ prop ] = options[ prop ];
                         break;
 
                     case "margin" :
