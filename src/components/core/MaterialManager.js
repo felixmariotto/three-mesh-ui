@@ -377,8 +377,13 @@ const textFragment = `
 
         }
 
+
+        // apply the opacity
+        alpha *= u_opacity;
+
         // this is useful to avoid z-fighting when quads overlap because of kerning
         if ( alpha < 0.02) discard;
+
 
         gl_FragColor = vec4( u_color, alpha );
 
