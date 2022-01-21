@@ -52,7 +52,7 @@ export default class Block extends mix.withBase( Object3D )(
         this.add( this.frame );
 
         // Lastly set the options parameters to this object, which will trigger an update
-        
+
         this.set( options );
 
     }
@@ -61,7 +61,23 @@ export default class Block extends mix.withBase( Object3D )(
     //  UPDATE
     ////////////
 
-    parseParams() {}
+    parseParams() {
+
+        const bestFit = this.getBestFit();
+
+        if ( bestFit != 'none' && ( this.children.find( child => child.isText ))) {
+
+            this.calculateBestFit(bestFit);
+
+        }
+        else {
+
+            this.children.filter(child => {return child.isText}).forEach(child => {
+
+                child._fitFontSize = undefined;
+            });
+        }
+    }
 
     updateLayout() {
 
@@ -128,7 +144,7 @@ export default class Block extends mix.withBase( Object3D )(
         }
 
         if ( this.frame ) this.updateBackgroundMaterial();
-        
+
     }
 
 }
