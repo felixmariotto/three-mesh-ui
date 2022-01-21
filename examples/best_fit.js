@@ -112,7 +112,7 @@ function makeTextPanel() {
     scene.add( warningContainer );
 
     const warningTextBlock = new ThreeMeshUI.Text({
-        content: "* Warning - The Best Fit functionality is computational expensive and therefore should not be used if you intend to update the container size every frame. " +
+        content: "* Warning - The Best Fit functionality is computationally expensive and therefore should not be used if you intend to update the container size every frame. " +
         "If you do need to update the container while using this functionality, it may be wise to only do so at intervals.",
         fontSize: 0.075
     });
