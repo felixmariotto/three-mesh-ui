@@ -474,11 +474,11 @@ function makeKeyboard( language ) {
 							break;
 
 						case 'enter' :
-							userText.set({ content: userText.content += '\n' });
+							userText.set({ content: userText.content + '\n' });
 							break;
 
 						case 'space' :
-							userText.set({ content: userText.content += ' ' });
+							userText.set({ content: userText.content + ' ' });
 							break;
 
 						case 'backspace' :
@@ -497,7 +497,7 @@ function makeKeyboard( language ) {
 				// print a glyph, if any
 				} else if ( key.info.input ) {
 
-					userText.set({ content: userText.content += key.info.input });
+					userText.set({ content: userText.content + key.info.input });
 
 				};
 
