@@ -14,7 +14,7 @@ export declare class Block extends Object3D {
     constructor(options: BlockOptions);
 }
 
-type TextOptions = {
+export type TextOptions = {
     // @todo add missing properties
     [property: string]: any;
 }
@@ -23,7 +23,7 @@ export declare class Text extends Object3D {
     constructor(options: TextOptions);
 }
 
-type InlineBlockOptions = {
+export type InlineBlockOptions = {
     // @todo add missing properties
     [property: string]: any;
 }
@@ -32,7 +32,7 @@ export declare class InlineBlock extends Object3D {
     constructor(options: InlineBlockOptions);
 }
 
-type KeyboardOptions = {
+export type KeyboardOptions = {
     // @todo add missing properties
     [property: string]: any;
 }
