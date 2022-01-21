@@ -16,7 +16,7 @@ import Stats from 'three/examples/jsm/libs/stats.module.js';
 This example demonstrate how a best fit works.
 
 */
-const FPS = 5;
+
 const WIDTH = window.innerWidth;
 const HEIGHT = window.innerHeight;
 
@@ -56,9 +56,7 @@ function init() {
 
 	camera = new THREE.PerspectiveCamera( 60, WIDTH / HEIGHT, 0.1, 100 );
 
-	renderer = new THREE.WebGLRenderer({
-		antialias: true
-	});
+	renderer = new THREE.WebGLRenderer({ antialias: true });
 	renderer.setPixelRatio( window.devicePixelRatio );
 	renderer.setSize( WIDTH, HEIGHT );
 	renderer.xr.enabled = true;
@@ -100,6 +98,10 @@ function makeTextPanel() {
         padding: 0.05,
         backgroundColor: new THREE.Color( 0xf1c232 ),
         backgroundOpacity: 1,
+        borderRadius: 0.05,
+        borderWidth: 0.02,
+        borderOpacity: 1,
+        borderColor: new THREE.Color( 'orange' ),
         fontColor: new THREE.Color( 0x333333 ),
         fontFamily: FontJSON,
         fontTexture: FontImage,
@@ -107,7 +109,7 @@ function makeTextPanel() {
         height: 0.35
     });
 
-    warningContainer.position.set( -0.25, 0.35, -1 );
+    warningContainer.position.set( 0, 0.35, -1 );
     warningContainer.rotation.x = -0.55;
     scene.add( warningContainer );
 
@@ -117,13 +119,13 @@ function makeTextPanel() {
         fontSize: 0.075
     });
 
-    warningContainer.add(warningTextBlock);
+    warningContainer.add( warningTextBlock );
 
-    for(let i = 0; i < 4; i++)
-    {
+    for ( let i = 0; i < 4; i++ ) {
 
         let bestFit;
-        switch(i){
+
+        switch (i) {
             case 0:
                 bestFit = 'none';
                 break;
@@ -142,14 +144,15 @@ function makeTextPanel() {
             padding: 0.05,
             backgroundColor: new THREE.Color( 0xd9d9d9 ),
             backgroundOpacity: 1,
-            fontColor: new THREE.Color( 0x333333 ),
+            borderRadius: 0.05,
+            fontColor: new THREE.Color( 0x111111 ),
             fontFamily: FontJSON,
             fontTexture: FontImage,
             width: 1.1,
             height: 0.15
         });
 
-        titleContainer.position.set( -2 + 1.15 * i, 1.8, -2 );
+        titleContainer.position.set( -1.725 + 1.15 * i, 1.8, -2 );
 
         scene.add( titleContainer );
 
@@ -164,16 +167,20 @@ function makeTextPanel() {
             padding: 0.05,
             backgroundColor: new THREE.Color( 0xd9d9d9 ),
             backgroundOpacity: 0.5,
+            borderRadius: 0.05,
+            borderWidth: 0.01,
+            borderOpacity: 1,
+            borderColor: new THREE.Color( 0x333333 ),
             justifyContent: 'end',
             alignContent: 'right',
-            fontColor: new THREE.Color( 0x333333 ),
+            fontColor: new THREE.Color( 0x111111 ),
             fontFamily: FontJSON,
             fontTexture: FontImage,
             width: 1.1,
             height: 0.95
         });
 
-        outerContainer.position.set( -2 + 1.15 * i, 1, -1.8 );
+        outerContainer.position.set( -1.725 + 1.15 * i, 1, -1.8 );
         outerContainer.rotation.x = -0.55;
         scene.add( outerContainer );
 
@@ -196,18 +203,15 @@ function makeTextPanel() {
             fontSize: 0.066
         });
 
-        innerContainer.add(firstTextBlock);
+        innerContainer.add( firstTextBlock );
 
         const secondTextBlock = new ThreeMeshUI.Text({
             content: TEXT2[i],
             fontSize: 0.066
         });
 
-        innerContainer.add(secondTextBlock);
+        innerContainer.add( secondTextBlock );
     }
-
-
-	//
 
 };
 
@@ -227,13 +231,12 @@ function loop() {
 
 	const now = Date.now();
 
-	innerContainers.forEach(innerContainer => {
+	innerContainers.forEach( innerContainer => {
         innerContainer.set({
 		width: Math.sin( now / 1000 ) * 0 + 1,
 		height: Math.sin( now / 500 ) * 0.25 + 0.6
         });
 	});
-
 
 	// Don't forget, ThreeMeshUI must be updated manually.
 	// This has been introduced in version 3.0.0 in order
@@ -242,5 +245,5 @@ function loop() {
 
 	controls.update();
 	renderer.render( scene, camera );
-	// stats.update()
+	stats.update()
 };
