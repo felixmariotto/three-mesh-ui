@@ -1,4 +1,4 @@
-import type {Object3D} from "three";
+import type {Color, Object3D} from "three";
 
 export type BlockOptions = {
     width: number;
@@ -6,6 +6,9 @@ export type BlockOptions = {
     padding?: number;
     fontFamily?: string;
     fontTexture?: string;
+    backgroundColor?: Color;
+    backgroundOpacity?: number;
+    borderRadius?: number | [topLeft: number, topRight: number, bottomRight: number, bottomLeft: number];
     // @todo add missing properties
     [property: string]: any;
 }
@@ -49,7 +52,16 @@ export declare namespace FontLibrary {
     export function getFontOf(): void;
 
     // @todo fix type
-    export function addFont(component: any): any;
+    export function addFont(...args: any[]): any;
 }
 
 export declare function update(): void;
+
+declare global {
+    namespace JSX {
+        interface IntrinsicElements {
+            block: any
+            text: any
+        }
+    }
+}
