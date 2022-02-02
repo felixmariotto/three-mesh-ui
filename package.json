@@ -7,6 +7,7 @@
   },
   "main": "dist/three-mesh-ui.js",
   "module": "src/three-mesh-ui.js",
+  "types": "src/types.d.ts",
   "scripts": {
     "test": "echo \"No test specified yet\"",
     "lint": "eslint -c config/.eslintrc src",
@@ -35,6 +36,7 @@
   },
   "homepage": "https://github.com/felixmariotto/Three-Mesh-UI#readme",
   "devDependencies": {
+    "@types/three": "^0.136.1",
     "eslint": "^7.25.0",
     "file-loader": "^6.2.0",
     "html-webpack-plugin": "^4.5.2",
