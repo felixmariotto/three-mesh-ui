@@ -56,8 +56,8 @@ function init() {
 	document.body.appendChild(VRButton.createButton(renderer));
 	document.body.appendChild( renderer.domElement );
 
-	stats = new Stats();
-	document.body.appendChild( stats.dom );
+	// stats = new Stats();
+	// document.body.appendChild( stats.dom );
 
 	controls = new OrbitControls( camera, renderer.domElement );
 	camera.position.set( 0, 1.6, 0 );
