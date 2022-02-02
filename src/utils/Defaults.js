@@ -37,16 +37,19 @@ export default {
 };
 
 //
+var defaultBgTexture;
 
 function makeBackgroundTexture() {
 
-	const ctx = document.createElement('canvas').getContext('2d');
-	ctx.canvas.width = 1;
-	ctx.canvas.height = 1;
-	ctx.fillStyle = '#ffffff';
-	ctx.fillRect(0, 0, 1, 1);
-	const texture = new CanvasTexture(ctx.canvas);
-	texture.isDefault = true;
-	return texture;
+	if(!defaultBgTexture) {
+		const ctx = document.createElement('canvas').getContext('2d');
+		ctx.canvas.width = 1;
+		ctx.canvas.height = 1;
+		ctx.fillStyle = '#ffffff';
+		ctx.fillRect(0, 0, 1, 1);
+		defaultBgTexture = new CanvasTexture(ctx.canvas);
+		defaultBgTexture.isDefault = true;
+	}
 
+	return defaultBgTexture;
 }
