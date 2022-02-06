@@ -1,4 +1,3 @@
-
 import * as THREE from 'three';
 
 export default function ShadowedLight( options ) {
@@ -22,35 +21,36 @@ export default function ShadowedLight( options ) {
 
 	// LIGHT CONSTRUCTION
 
-    const directionalLight = new THREE.DirectionalLight( color, intensity );
+	const directionalLight = new THREE.DirectionalLight( color, intensity );
 
-    directionalLight.position.set( x, y, z );
-    directionalLight.castShadow = castShadow;
+	directionalLight.position.set( x, y, z );
+	directionalLight.castShadow = castShadow;
 
-    const d = width / 2;
+	const d = width / 2;
 
-    directionalLight.shadow.camera.left = -d;
-    directionalLight.shadow.camera.right = d;
-    directionalLight.shadow.camera.top = d;
-    directionalLight.shadow.camera.bottom = -d;
-    directionalLight.shadow.camera.near = near;
-    directionalLight.shadow.camera.far = far;
-    directionalLight.shadow.mapSize.width = resolution;
-    directionalLight.shadow.mapSize.height = resolution;
-    directionalLight.shadow.bias = bias;
+	directionalLight.shadow.camera.left = -d;
+	directionalLight.shadow.camera.right = d;
+	directionalLight.shadow.camera.top = d;
+	directionalLight.shadow.camera.bottom = -d;
+	directionalLight.shadow.camera.near = near;
+	directionalLight.shadow.camera.far = far;
+	directionalLight.shadow.mapSize.width = resolution;
+	directionalLight.shadow.mapSize.height = resolution;
+	directionalLight.shadow.bias = bias;
 
-    // Helpers
+	// Helpers
 
-    directionalLight.helpers = new THREE.Group();
+	directionalLight.helpers = new THREE.Group();
 
-    if ( useHelpers ) {
+	if ( useHelpers ) {
 
-    	const lightHelper = new THREE.DirectionalLightHelper( directionalLight, 5 );
+		const lightHelper = new THREE.DirectionalLightHelper( directionalLight, 5 );
 		const cameraHelper = new THREE.CameraHelper( directionalLight.shadow.camera );
-		
+
 		directionalLight.helpers.add( lightHelper, cameraHelper );
 
-    };
+	}
 
-    return directionalLight;
-};
+	return directionalLight;
+
+}

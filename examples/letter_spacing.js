@@ -102,9 +102,11 @@ function makeTextPanel() {
 // handles resizing the renderer when the viewport is resized
 
 function onWindowResize() {
+
 	camera.aspect = window.innerWidth / window.innerHeight;
 	camera.updateProjectionMatrix();
 	renderer.setSize( window.innerWidth, window.innerHeight );
+
 }
 
 //
@@ -118,4 +120,5 @@ function loop() {
 
 	controls.update();
 	renderer.render( scene, camera );
+
 }

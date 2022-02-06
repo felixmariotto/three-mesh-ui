@@ -1,4 +1,3 @@
-
 import * as THREE from 'three';
 import { VRButton } from 'three/examples/jsm/webxr/VRButton.js';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
@@ -8,8 +7,6 @@ import ThreeMeshUI from '../src/three-mesh-ui.js';
 
 import FontJSON from './assets/Roboto-msdf.json';
 import FontImage from './assets/Roboto-msdf.png';
-
-import Stats from 'three/examples/jsm/libs/stats.module.js';
 
 /*
 
@@ -31,12 +28,12 @@ parent component.
 const WIDTH = window.innerWidth;
 const HEIGHT = window.innerHeight;
 
-let scene, camera, renderer, controls, stats;
+let scene, camera, renderer, controls;
 let outerContainer, innerContainer;
 let text;
 
-window.addEventListener('load', init );
-window.addEventListener('resize', onWindowResize );
+window.addEventListener( 'load', init );
+window.addEventListener( 'resize', onWindowResize );
 
 //
 
@@ -47,13 +44,13 @@ function init() {
 
 	camera = new THREE.PerspectiveCamera( 60, WIDTH / HEIGHT, 0.1, 100 );
 
-	renderer = new THREE.WebGLRenderer({
+	renderer = new THREE.WebGLRenderer( {
 		antialias: true
-	});
+	} );
 	renderer.setPixelRatio( window.devicePixelRatio );
 	renderer.setSize( WIDTH, HEIGHT );
 	renderer.xr.enabled = true;
-	document.body.appendChild(VRButton.createButton(renderer));
+	document.body.appendChild( VRButton.createButton( renderer ) );
 	document.body.appendChild( renderer.domElement );
 
 	// stats = new Stats();
@@ -81,13 +78,13 @@ function init() {
 
 	renderer.setAnimationLoop( loop );
 
-};
+}
 
 //
 
 function makeTextPanel() {
 
-	outerContainer = new ThreeMeshUI.Block({
+	outerContainer = new ThreeMeshUI.Block( {
 		padding: 0.05,
 		backgroundColor: new THREE.Color( 0xd9d9d9 ),
 		backgroundOpacity: 0.5,
@@ -96,7 +93,7 @@ function makeTextPanel() {
 		fontColor: new THREE.Color( 0x333333 ),
 		fontFamily: FontJSON,
 		fontTexture: FontImage
-	});
+	} );
 
 	outerContainer.position.set( 0, 1, -1.8 );
 	outerContainer.rotation.x = -0.55;
@@ -104,10 +101,10 @@ function makeTextPanel() {
 
 	//
 
-	innerContainer = new ThreeMeshUI.Block({
+	innerContainer = new ThreeMeshUI.Block( {
 		backgroundColor: new THREE.Color( 0xffffff ),
 		backgroundOpacity: 0.5
-	});
+	} );
 
 	outerContainer.add( innerContainer );
 
@@ -118,18 +115,18 @@ function makeTextPanel() {
 	makeAbsoluteBlock( 'to make three-mesh-ui', -0.1, -0.05 );
 	makeAbsoluteBlock( 'skip its automatic layout', 0.1, -0.15 );
 
-};
+}
 
 function makeAbsoluteBlock( string, x, y ) {
 
-	text = new ThreeMeshUI.Block({
+	text = new ThreeMeshUI.Block( {
 		height: 0.08,
 		width: 0.6,
 		justifyContent: 'center',
 		backgroundOpacity: 0.2
-	});
+	} );
 
-	text.add( new ThreeMeshUI.Text({ content: string }) );
+	text.add( new ThreeMeshUI.Text( { content: string } ) );
 
 	text.autoLayout = false;
 	text.position.set( x, y, 0 );
@@ -141,11 +138,12 @@ function makeAbsoluteBlock( string, x, y ) {
 // handles resizing the renderer when the viewport is resized
 
 function onWindowResize() {
+
 	camera.aspect = window.innerWidth / window.innerHeight;
 	camera.updateProjectionMatrix();
 	renderer.setSize( window.innerWidth, window.innerHeight );
-};
 
+}
 
 
 //
@@ -154,15 +152,15 @@ function loop() {
 
 	const now = Date.now();
 
-	innerContainer.set({
+	innerContainer.set( {
 		width: Math.sin( now / 1000 ) * 0.25 + 1.2,
 		height: Math.sin( now / 500 ) * 0.15 + 0.7
-	});
+	} );
 
-	outerContainer.set({
+	outerContainer.set( {
 		width: Math.sin( now / 1200 ) * 0.25 + 1.8,
 		height: 1.4
-	});
+	} );
 
 	// Don't forget, ThreeMeshUI must be updated manually.
 	// This has been introduced in version 3.0.0 in order
@@ -171,5 +169,5 @@ function loop() {
 
 	controls.update();
 	renderer.render( scene, camera );
-	// stats.update()
-};
+
+}

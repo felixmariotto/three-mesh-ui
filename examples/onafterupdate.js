@@ -1,4 +1,3 @@
-
 import * as THREE from 'three';
 import { VRButton } from 'three/examples/jsm/webxr/VRButton.js';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
@@ -12,10 +11,10 @@ import FontImage from './assets/Roboto-msdf.png';
 const WIDTH = window.innerWidth;
 const HEIGHT = window.innerHeight;
 
-let scene, camera, renderer, controls ;
+let scene, camera, renderer, controls;
 
-window.addEventListener('load', init );
-window.addEventListener('resize', onWindowResize );
+window.addEventListener( 'load', init );
+window.addEventListener( 'resize', onWindowResize );
 
 //
 
@@ -26,13 +25,13 @@ function init() {
 
 	camera = new THREE.PerspectiveCamera( 60, WIDTH / HEIGHT, 0.1, 100 );
 
-	renderer = new THREE.WebGLRenderer({
+	renderer = new THREE.WebGLRenderer( {
 		antialias: true
-	});
+	} );
 	renderer.setPixelRatio( window.devicePixelRatio );
 	renderer.setSize( WIDTH, HEIGHT );
 	renderer.xr.enabled = true;
-	document.body.appendChild(VRButton.createButton(renderer));
+	document.body.appendChild( VRButton.createButton( renderer ) );
 	document.body.appendChild( renderer.domElement );
 
 	controls = new OrbitControls( camera, renderer.domElement );
@@ -57,7 +56,7 @@ function init() {
 
 	renderer.setAnimationLoop( loop );
 
-};
+}
 
 //
 
@@ -67,13 +66,13 @@ function makeTextPanel() {
 
 	//
 
-	const container = new ThreeMeshUI.Block({
+	const container = new ThreeMeshUI.Block( {
 		width: 1.2,
 		height: 0.5,
 		justifyContent: 'center',
 		fontFamily: FontJSON,
 		fontTexture: FontImage
-	});
+	} );
 
 	container.position.set( 0, 1, -1.8 );
 	container.rotation.x = -0.55;
@@ -84,38 +83,42 @@ function makeTextPanel() {
 
 	container.onAfterUpdate = function () {
 		this.frame.layers.set( count % 2 );
-	}
+	};
 
 	//
 
-	const text = new ThreeMeshUI.Text({
-		content: "onAfterUpdate get called after any update.\n\n",
+	const text = new ThreeMeshUI.Text( {
+		content: 'onAfterUpdate get called after any update.\n\n',
 		fontSize: 0.055
-	});
+	} );
 
-	const counter = new ThreeMeshUI.Text({
-		content: "0",
+	const counter = new ThreeMeshUI.Text( {
+		content: '0',
 		fontSize: 0.08
-	});
+	} );
 
 	container.add( text, counter );
 
 	// triggers updates to the component to test onAfterUpdate
 
 	setInterval( () => {
-		count ++;
+
+		count++;
 		counter.set( { content: String( count ) } );
+
 	}, 500 );
 
-};
+}
 
 // handles resizing the renderer when the viewport is resized
 
 function onWindowResize() {
+
 	camera.aspect = window.innerWidth / window.innerHeight;
 	camera.updateProjectionMatrix();
 	renderer.setSize( window.innerWidth, window.innerHeight );
-};
+
+}
 
 //
 
@@ -127,4 +130,5 @@ function loop() {
 
 	controls.update();
 	renderer.render( scene, camera );
-};
+
+}

@@ -12,7 +12,7 @@ import FontImage from './assets/Roboto-msdf.png';
 
 let scene, camera, renderer, controls, vrControl;
 let meshContainer, meshes, currentMesh;
-let objsToTest = [];
+const objsToTest = [];
 
 window.addEventListener( 'load', init );
 window.addEventListener( 'resize', onWindowResize );
@@ -91,7 +91,7 @@ function init() {
 
 	const roomMesh = new THREE.Mesh(
 		new THREE.BoxGeometry( 6, 6, 6, 10, 10, 10 ).translate( 0, 3, 0 ),
-		new THREE.MeshBasicMaterial( { side: THREE.BackSide } ),
+		new THREE.MeshBasicMaterial( { side: THREE.BackSide } )
 	);
 
 	scene.add( room );
@@ -418,11 +418,9 @@ function raycast() {
 
 			return intersection[ 0 ];
 
-		} else {
-
-			return closestIntersection;
-
 		}
+
+		return closestIntersection;
 
 	}, null );
 
