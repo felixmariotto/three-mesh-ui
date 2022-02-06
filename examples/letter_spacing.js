@@ -1,4 +1,3 @@
-
 import * as THREE from 'three';
 import { VRButton } from 'three/examples/jsm/webxr/VRButton.js';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
@@ -12,10 +11,10 @@ import FontImage from './assets/Roboto-msdf.png';
 const WIDTH = window.innerWidth;
 const HEIGHT = window.innerHeight;
 
-let scene, camera, renderer, controls ;
+let scene, camera, renderer, controls;
 
-window.addEventListener('load', init );
-window.addEventListener('resize', onWindowResize );
+window.addEventListener( 'load', init );
+window.addEventListener( 'resize', onWindowResize );
 
 //
 
@@ -30,7 +29,7 @@ function init() {
 	renderer.setPixelRatio( window.devicePixelRatio );
 	renderer.setSize( WIDTH, HEIGHT );
 	renderer.xr.enabled = true;
-	document.body.appendChild(VRButton.createButton(renderer));
+	document.body.appendChild( VRButton.createButton( renderer ) );
 	document.body.appendChild( renderer.domElement );
 
 	controls = new OrbitControls( camera, renderer.domElement );
@@ -40,10 +39,7 @@ function init() {
 
 	// ROOM
 
-	const room = new THREE.LineSegments(
-		new BoxLineGeometry( 6, 6, 6, 10, 10, 10 ).translate( 0, 3, 0 ),
-		new THREE.LineBasicMaterial( { color: 0x808080 } )
-	);
+	const room = new THREE.LineSegments( new BoxLineGeometry( 6, 6, 6, 10, 10, 10 ).translate( 0, 3, 0 ), new THREE.LineBasicMaterial( { color: 0x808080 } ) );
 
 	scene.add( room );
 
@@ -55,13 +51,13 @@ function init() {
 
 	renderer.setAnimationLoop( loop );
 
-};
+}
 
 //
 
 function makeTextPanel() {
 
-	const container = new ThreeMeshUI.Block({
+	const container = new ThreeMeshUI.Block( {
 		width: 1.2,
 		height: 0.5,
 		padding: 0.05,
@@ -69,7 +65,7 @@ function makeTextPanel() {
 		alignContent: 'left',
 		fontFamily: FontJSON,
 		fontTexture: FontImage
-	});
+	} );
 
 	container.position.set( 0, 1, -1.8 );
 	container.rotation.x = -0.55;
@@ -77,17 +73,16 @@ function makeTextPanel() {
 
 	//
 
-	const text = new ThreeMeshUI.Text({
-		content: "letterSpacing ".repeat(3),
-		fontSize: 0.055
-	});
+	const text = new ThreeMeshUI.Text( {
+		content: 'letterSpacing '.repeat( 3 ), fontSize: 0.055
+	} );
 
 	container.add( text );
 
 	// Update the letterSpacing in time in order to demo its effect
 	let letterSpacingSpeed = 0.1;
 
-	setInterval( ()=>{
+	setInterval( () => {
 
 		let letterSpacing = text.getLetterSpacing();
 		letterSpacing += letterSpacingSpeed;
@@ -102,7 +97,7 @@ function makeTextPanel() {
 
 	}, 500 );
 
-};
+}
 
 // handles resizing the renderer when the viewport is resized
 
@@ -110,7 +105,7 @@ function onWindowResize() {
 	camera.aspect = window.innerWidth / window.innerHeight;
 	camera.updateProjectionMatrix();
 	renderer.setSize( window.innerWidth, window.innerHeight );
-};
+}
 
 //
 
@@ -123,4 +118,4 @@ function loop() {
 
 	controls.update();
 	renderer.render( scene, camera );
-};
+}

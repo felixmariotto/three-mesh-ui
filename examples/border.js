@@ -1,4 +1,3 @@
-
 import * as THREE from 'three';
 import { VRButton } from 'three/examples/jsm/webxr/VRButton.js';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
@@ -14,8 +13,8 @@ const HEIGHT = window.innerHeight;
 
 let scene, camera, renderer, controls, panel;
 
-window.addEventListener('load', init );
-window.addEventListener('resize', onWindowResize );
+window.addEventListener( 'load', init );
+window.addEventListener( 'resize', onWindowResize );
 
 //
 
@@ -26,13 +25,13 @@ function init() {
 
 	camera = new THREE.PerspectiveCamera( 60, WIDTH / HEIGHT, 0.1, 100 );
 
-	renderer = new THREE.WebGLRenderer({
+	renderer = new THREE.WebGLRenderer( {
 		antialias: true
-	});
+	} );
 	renderer.setPixelRatio( window.devicePixelRatio );
 	renderer.setSize( WIDTH, HEIGHT );
 	renderer.xr.enabled = true;
-	document.body.appendChild(VRButton.createButton(renderer));
+	document.body.appendChild( VRButton.createButton( renderer ) );
 	document.body.appendChild( renderer.domElement );
 
 	controls = new OrbitControls( camera, renderer.domElement );
@@ -57,13 +56,13 @@ function init() {
 
 	renderer.setAnimationLoop( loop );
 
-};
+}
 
 //
 
 function makeTextPanel() {
 
-	panel = new ThreeMeshUI.Block({
+	panel = new ThreeMeshUI.Block( {
 		width: 1,
 		height: 0.8,
 		fontSize: 0.055,
@@ -71,7 +70,7 @@ function makeTextPanel() {
 		alignContent: 'center',
 		fontFamily: FontJSON,
 		fontTexture: FontImage
-	});
+	} );
 
 	panel.position.set( 0, 1, -1.8 );
 	panel.rotation.x = -0.55;
@@ -80,31 +79,33 @@ function makeTextPanel() {
 	//
 
 	panel.add(
-		new ThreeMeshUI.Text({
+		new ThreeMeshUI.Text( {
 			content: `Block.borderRadius\n\nBlock.borderWidth\n\nBlock.borderColor\n\nBlock.borderOpacity`,
-		})
+		} )
 	);
 
-};
+}
 
 // handles resizing the renderer when the viewport is resized
 
 function onWindowResize() {
+
 	camera.aspect = window.innerWidth / window.innerHeight;
 	camera.updateProjectionMatrix();
 	renderer.setSize( window.innerWidth, window.innerHeight );
-};
+
+}
 
 //
 
 function loop() {
 
-	panel.set({
-		borderRadius: [0, 0.2 + 0.2 * Math.sin( Date.now() / 500 ), 0, 0],
+	panel.set( {
+		borderRadius: [ 0, 0.2 + 0.2 * Math.sin( Date.now() / 500 ), 0, 0 ],
 		borderWidth: 0.05 - 0.06 * Math.sin( Date.now() / 500 ),
 		borderColor: new THREE.Color( 0.5 + 0.5 * Math.sin( Date.now() / 500 ), 0.5, 1 ),
 		borderOpacity: 1
-	});
+	} );
 
 	// Don't forget, ThreeMeshUI must be updated manually.
 	// This has been introduced in version 3.0.0 in order
@@ -113,4 +114,5 @@ function loop() {
 
 	controls.update();
 	renderer.render( scene, camera );
-};
+
+}
