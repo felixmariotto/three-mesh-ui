@@ -1,4 +1,3 @@
-
 import * as THREE from 'three';
 import { VRButton } from 'three/examples/jsm/webxr/VRButton.js';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
@@ -12,10 +11,10 @@ import FontImage from './assets/Roboto-msdf.png';
 const WIDTH = window.innerWidth;
 const HEIGHT = window.innerHeight;
 
-let scene, camera, renderer, controls ;
+let scene, camera, renderer, controls;
 
-window.addEventListener('load', init );
-window.addEventListener('resize', onWindowResize );
+window.addEventListener( 'load', init );
+window.addEventListener( 'resize', onWindowResize );
 
 //
 
@@ -26,13 +25,13 @@ function init() {
 
 	camera = new THREE.PerspectiveCamera( 60, WIDTH / HEIGHT, 0.1, 100 );
 
-	renderer = new THREE.WebGLRenderer({
+	renderer = new THREE.WebGLRenderer( {
 		antialias: true
-	});
+	} );
 	renderer.setPixelRatio( window.devicePixelRatio );
 	renderer.setSize( WIDTH, HEIGHT );
 	renderer.xr.enabled = true;
-	document.body.appendChild(VRButton.createButton(renderer));
+	document.body.appendChild( VRButton.createButton( renderer ) );
 	document.body.appendChild( renderer.domElement );
 
 	controls = new OrbitControls( camera, renderer.domElement );
@@ -57,13 +56,13 @@ function init() {
 
 	renderer.setAnimationLoop( loop );
 
-};
+}
 
 //
 
 function makeTextPanel() {
 
-	const container = new ThreeMeshUI.Block({
+	const container = new ThreeMeshUI.Block( {
 		width: 1.2,
 		height: 0.5,
 		padding: 0.05,
@@ -71,7 +70,7 @@ function makeTextPanel() {
 		alignContent: 'left',
 		fontFamily: FontJSON,
 		fontTexture: FontImage
-	});
+	} );
 
 	container.position.set( 0, 1, -1.8 );
 	container.rotation.x = -0.55;
@@ -80,28 +79,28 @@ function makeTextPanel() {
 	//
 
 	container.add(
-
-		new ThreeMeshUI.Text({
-			content: "This library supports line-break-friendly-characters,",
+		new ThreeMeshUI.Text( {
+			content: 'This library supports line-break-friendly-characters,',
 			fontSize: 0.055
-		}),
+		} ),
 
-		new ThreeMeshUI.Text({
-			content: " As well as multi-font-size lines with consistent vertical spacing.",
+		new ThreeMeshUI.Text( {
+			content: ' As well as multi-font-size lines with consistent vertical spacing.',
 			fontSize: 0.08
-		})
-
+		} )
 	);
 
-};
+}
 
 // handles resizing the renderer when the viewport is resized
 
 function onWindowResize() {
+
 	camera.aspect = window.innerWidth / window.innerHeight;
 	camera.updateProjectionMatrix();
 	renderer.setSize( window.innerWidth, window.innerHeight );
-};
+
+}
 
 //
 
@@ -114,4 +113,5 @@ function loop() {
 
 	controls.update();
 	renderer.render( scene, camera );
-};
+
+}
