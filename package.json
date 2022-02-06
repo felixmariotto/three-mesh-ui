@@ -10,7 +10,7 @@
   "types": "src/types.d.ts",
   "scripts": {
     "test": "echo \"No test specified yet\"",
-    "lint": "eslint -c config/.eslintrc src",
+    "lint": "eslint -c config/codestyle/.eslintrc src examples",
     "build": "npx webpack --config config/webpack.config.js",
     "build-site": "npx webpack --config config/webpack.prodConfig.js --env.NODE_ENV=prod",
     "start": "webpack-dev-server --config config/webpack.prodConfig.js --open --env.NODE_ENV=dev",
