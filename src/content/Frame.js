@@ -1,4 +1,3 @@
-
 import { PlaneGeometry } from 'three';
 import { Mesh } from 'three';
 
@@ -7,17 +6,17 @@ import { Mesh } from 'three';
  */
 export default class Frame extends Mesh {
 
-    constructor( material ) {
+	constructor( material ) {
 
-        const geometry = new PlaneGeometry();
+		const geometry = new PlaneGeometry();
 
-        super( geometry, material );
+		super( geometry, material );
 
-        this.castShadow = true;
-        this.receiveShadow = true;
+		this.castShadow = true;
+		this.receiveShadow = true;
 
-        this.name = "MeshUI-Frame";
+		this.name = 'MeshUI-Frame';
 
-    }
+	}
 
 }

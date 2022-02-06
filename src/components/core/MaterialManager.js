@@ -1,4 +1,3 @@
-
 import { ShaderMaterial } from 'three';
 import Defaults from '../../utils/Defaults.js';
 
@@ -13,279 +12,299 @@ Knows:
 - Its component materials
 - Its component ancestors clipping planes
 
-*/
-export default function MaterialManager( Base = class {} ) {
+ */
+export default function MaterialManager( Base = class {
+} ) {
 
 	return class MaterialManager extends Base {
 
-        getBackgroundUniforms() {
+		getBackgroundUniforms() {
 
-            let color, opacity;
+			let color, opacity;
 
-            const texture = this.getBackgroundTexture();
+			const texture = this.getBackgroundTexture();
 
-            this.tSize.set(
-                texture.image.width,
-                texture.image.height
-            );
+			this.tSize.set(
+				texture.image.width,
+				texture.image.height
+			);
 
-            if ( texture.isDefault ) {
+			if ( texture.isDefault ) {
 
-                color = this.getBackgroundColor();
-                opacity = this.getBackgroundOpacity();
+				color = this.getBackgroundColor();
+				opacity = this.getBackgroundOpacity();
 
-            } else {
+			} else {
 
-                color = this.backgroundColor || Defaults.backgroundWhiteColor;
+				color = this.backgroundColor || Defaults.backgroundWhiteColor;
 
-                opacity = ( !this.backgroundOpacity && this.backgroundOpacity !== 0 ) ?
-                    Defaults.backgroundOpaqueOpacity :
-                    this.backgroundOpacity;
+				opacity = ( !this.backgroundOpacity && this.backgroundOpacity !== 0 ) ?
+					Defaults.backgroundOpaqueOpacity :
+					this.backgroundOpacity;
 
-            }
+			}
 
-            const backgroundMapping = ( () => {
-                switch ( this.getBackgroundSize() ) {
-                    case 'stretch': return 0;
-                    case 'contain': return 1;
-                    case 'cover': return 2;
-                }
-            } )();
+			const backgroundMapping = ( () => {
 
-            return {
-                texture,
-                color,
-                opacity,
-                backgroundMapping,
-                borderRadius: this.getBorderRadius(),
-                borderWidth: this.getBorderWidth(),
-                borderColor: this.getBorderColor(),
-                borderOpacity: this.getBorderOpacity(),
-                size: this.size,
-                tSize: this.tSize
-            }
+				switch ( this.getBackgroundSize() ) {
+					case 'stretch':
+						return 0;
+					case 'contain':
+						return 1;
+					case 'cover':
+						return 2;
 
-        }
+				}
 
-        /** Update existing backgroundMaterial uniforms */
-        updateBackgroundMaterial() {
+			} )();
 
-            if ( this.backgroundUniforms ) {
-                const uniforms = this.getBackgroundUniforms();
+			return {
+				texture,
+				color,
+				opacity,
+				backgroundMapping,
+				borderRadius: this.getBorderRadius(),
+				borderWidth: this.getBorderWidth(),
+				borderColor: this.getBorderColor(),
+				borderOpacity: this.getBorderOpacity(),
+				size: this.size,
+				tSize: this.tSize
+			};
 
-                this.backgroundUniforms.u_texture.value = uniforms.texture;
-                this.backgroundUniforms.u_color.value = uniforms.color;
-                this.backgroundUniforms.u_opacity.value = uniforms.opacity;
-                this.backgroundUniforms.u_backgroundMapping.value = uniforms.backgroundMapping;
-                this.backgroundUniforms.u_size.value = uniforms.size;
-                this.backgroundUniforms.u_tSize.value = uniforms.tSize;
+		}
 
-                if (Array.isArray(uniforms.borderRadius)) {
-                    this.backgroundUniforms.u_borderRadiusTopLeft.value = uniforms.borderRadius[0];
-                    this.backgroundUniforms.u_borderRadiusTopRight.value = uniforms.borderRadius[1];
-                    this.backgroundUniforms.u_borderRadiusBottomRight.value = uniforms.borderRadius[2];
-                    this.backgroundUniforms.u_borderRadiusBottomLeft.value = uniforms.borderRadius[3];
-                } else {
-                    this.backgroundUniforms.u_borderRadiusTopLeft.value = uniforms.borderRadius;
-                    this.backgroundUniforms.u_borderRadiusTopRight.value = uniforms.borderRadius;
-                    this.backgroundUniforms.u_borderRadiusBottomRight.value = uniforms.borderRadius;
-                    this.backgroundUniforms.u_borderRadiusBottomLeft.value = uniforms.borderRadius;
-                }
+		/** Update existing backgroundMaterial uniforms */
+		updateBackgroundMaterial() {
 
-                this.backgroundUniforms.u_borderWidth.value = uniforms.borderWidth;
-                this.backgroundUniforms.u_borderColor.value = uniforms.borderColor;
-                this.backgroundUniforms.u_borderOpacity.value = uniforms.borderOpacity;
+			if ( this.backgroundUniforms ) {
 
-            }
+				const uniforms = this.getBackgroundUniforms();
 
-        }
+				this.backgroundUniforms.u_texture.value = uniforms.texture;
+				this.backgroundUniforms.u_color.value = uniforms.color;
+				this.backgroundUniforms.u_opacity.value = uniforms.opacity;
+				this.backgroundUniforms.u_backgroundMapping.value = uniforms.backgroundMapping;
+				this.backgroundUniforms.u_size.value = uniforms.size;
+				this.backgroundUniforms.u_tSize.value = uniforms.tSize;
 
-        /** Update existing fontMaterial uniforms */
-        updateTextMaterial() {
+				if ( Array.isArray( uniforms.borderRadius ) ) {
 
-            if ( this.textUniforms ) {
+					this.backgroundUniforms.u_borderRadiusTopLeft.value = uniforms.borderRadius[ 0 ];
+					this.backgroundUniforms.u_borderRadiusTopRight.value = uniforms.borderRadius[ 1 ];
+					this.backgroundUniforms.u_borderRadiusBottomRight.value = uniforms.borderRadius[ 2 ];
+					this.backgroundUniforms.u_borderRadiusBottomLeft.value = uniforms.borderRadius[ 3 ];
 
-                this.textUniforms.u_texture.value = this.getFontTexture();
-                this.textUniforms.u_color.value = this.getFontColor();
-                this.textUniforms.u_opacity.value = this.getFontOpacity();
-                this.textUniforms.u_pxRange.value = this.getFontPXRange();
-                this.fontMaterial.u_useRGSS = this.getFontSupersampling();
+				} else {
 
-            }
+					this.backgroundUniforms.u_borderRadiusTopLeft.value = uniforms.borderRadius;
+					this.backgroundUniforms.u_borderRadiusTopRight.value = uniforms.borderRadius;
+					this.backgroundUniforms.u_borderRadiusBottomRight.value = uniforms.borderRadius;
+					this.backgroundUniforms.u_borderRadiusBottomLeft.value = uniforms.borderRadius;
 
-        }
+				}
 
-        /**
-         * Update a component's materials clipping planes.
-         * Called every frame
-         */
-        updateClippingPlanes( value ) {
+				this.backgroundUniforms.u_borderWidth.value = uniforms.borderWidth;
+				this.backgroundUniforms.u_borderColor.value = uniforms.borderColor;
+				this.backgroundUniforms.u_borderOpacity.value = uniforms.borderOpacity;
 
-            const newClippingPlanes = value !== undefined ? value : this.getClippingPlanes();
+			}
 
-            if ( JSON.stringify( newClippingPlanes ) !== JSON.stringify( this.clippingPlanes ) ) {
+		}
 
-                this.clippingPlanes = newClippingPlanes;
+		/** Update existing fontMaterial uniforms */
+		updateTextMaterial() {
 
-                if ( this.fontMaterial ) this.fontMaterial.clippingPlanes = this.clippingPlanes;
+			if ( this.textUniforms ) {
 
-                if ( this.backgroundMaterial ) this.backgroundMaterial.clippingPlanes = this.clippingPlanes;
+				this.textUniforms.u_texture.value = this.getFontTexture();
+				this.textUniforms.u_color.value = this.getFontColor();
+				this.textUniforms.u_opacity.value = this.getFontOpacity();
+				this.textUniforms.u_pxRange.value = this.getFontPXRange();
+				this.fontMaterial.u_useRGSS = this.getFontSupersampling();
 
-            }
+			}
 
-        }
+		}
 
-        /** Called by Block, which needs the background material to create a mesh */
-        getBackgroundMaterial() {
+		/**
+		 * Update a component's materials clipping planes.
+		 * Called every frame
+		 */
+		updateClippingPlanes( value ) {
 
-            const newUniforms = this.getBackgroundUniforms();
+			const newClippingPlanes = value !== undefined ? value : this.getClippingPlanes();
 
-            if ( !this.backgroundMaterial || !this.backgroundUniforms ) {
+			if ( JSON.stringify( newClippingPlanes ) !== JSON.stringify( this.clippingPlanes ) ) {
 
-                this.backgroundMaterial = this._makeBackgroundMaterial( newUniforms );
+				this.clippingPlanes = newClippingPlanes;
 
-                return this.backgroundMaterial
+				if ( this.fontMaterial ) this.fontMaterial.clippingPlanes = this.clippingPlanes;
 
-            }
+				if ( this.backgroundMaterial ) this.backgroundMaterial.clippingPlanes = this.clippingPlanes;
 
-            let borderRadiusChanged;
-            if (Array.isArray(newUniforms.borderRadius)) {
-                borderRadiusChanged = (
-                  newUniforms.borderRadius[0] !== this.backgroundUniforms.u_borderRadiusTopLeft.value ||
-                  newUniforms.borderRadius[1] !== this.backgroundUniforms.u_borderRadiusTopRight.value ||
-                  newUniforms.borderRadius[2] !== this.backgroundUniforms.u_borderRadiusBottomRight.value ||
-                  newUniforms.borderRadius[3] !== this.backgroundUniforms.u_borderRadiusBottomLeft.value
-                )
-            } else {
-                borderRadiusChanged = (
-                  newUniforms.borderRadius !== this.backgroundUniforms.u_borderRadiusTopLeft.value ||
-                  newUniforms.borderRadius !== this.backgroundUniforms.u_borderRadiusTopRight.value ||
-                  newUniforms.borderRadius !== this.backgroundUniforms.u_borderRadiusBottomRight.value ||
-                  newUniforms.borderRadius !== this.backgroundUniforms.u_borderRadiusBottomLeft.value
-                )
-            }
+			}
 
-            if (
-              newUniforms.texture !== this.backgroundUniforms.u_texture.value ||
-              newUniforms.color !== this.backgroundUniforms.u_color.value ||
-              newUniforms.opacity !== this.backgroundUniforms.u_opacity.value ||
-              newUniforms.backgroundMapping !== this.backgroundUniforms.u_backgroundMapping.value ||
-              borderRadiusChanged ||
-              newUniforms.borderWidth !== this.backgroundUniforms.u_borderWidth.value ||
-              newUniforms.borderColor !== this.backgroundUniforms.u_borderColor.value ||
-              newUniforms.borderOpacity !== this.backgroundUniforms.u_borderOpacity.value ||
-              newUniforms.size !== this.backgroundUniforms.u_size.value ||
-              newUniforms.tSize !== this.backgroundUniforms.u_tSize.value
-            ) {
+		}
 
-                this.updateBackgroundMaterial();
+		/** Called by Block, which needs the background material to create a mesh */
+		getBackgroundMaterial() {
 
-            }
+			const newUniforms = this.getBackgroundUniforms();
 
-            return this.backgroundMaterial
+			if ( !this.backgroundMaterial || !this.backgroundUniforms ) {
 
-        }
+				this.backgroundMaterial = this._makeBackgroundMaterial( newUniforms );
 
-        /** Called by Text to get the font material */
-        getFontMaterial() {
+				return this.backgroundMaterial;
 
-            const newUniforms = {
-                'u_texture': this.getFontTexture(),
-                'u_color': this.getFontColor(),
-                'u_opacity': this.getFontOpacity(),
-                'u_pxRange': this.getFontPXRange(),
-                'u_useRGSS': this.getFontSupersampling()
-            };
+			}
 
-            if ( !this.fontMaterial || !this.textUniforms ) {
+			let borderRadiusChanged;
+			if ( Array.isArray( newUniforms.borderRadius ) ) {
 
-                this.fontMaterial = this._makeTextMaterial( newUniforms );
+				borderRadiusChanged = (
+					newUniforms.borderRadius[ 0 ] !== this.backgroundUniforms.u_borderRadiusTopLeft.value ||
+					newUniforms.borderRadius[ 1 ] !== this.backgroundUniforms.u_borderRadiusTopRight.value ||
+					newUniforms.borderRadius[ 2 ] !== this.backgroundUniforms.u_borderRadiusBottomRight.value ||
+					newUniforms.borderRadius[ 3 ] !== this.backgroundUniforms.u_borderRadiusBottomLeft.value
+				);
 
-            } else if (
-                newUniforms.u_texture !== this.textUniforms.u_texture.value ||
-                newUniforms.u_color !== this.textUniforms.u_color.value ||
-                newUniforms.u_opacity !== this.textUniforms.u_opacity.value ||
-                newUniforms.u_pxRange !== this.textUniforms.u_pxRange.value ||
-                newUniforms.u_useRGSS !== this.textUniforms.u_useRGSS.value
-            ) {
+			} else {
 
-                this.updateTextMaterial();
+				borderRadiusChanged = (
+					newUniforms.borderRadius !== this.backgroundUniforms.u_borderRadiusTopLeft.value ||
+					newUniforms.borderRadius !== this.backgroundUniforms.u_borderRadiusTopRight.value ||
+					newUniforms.borderRadius !== this.backgroundUniforms.u_borderRadiusBottomRight.value ||
+					newUniforms.borderRadius !== this.backgroundUniforms.u_borderRadiusBottomLeft.value
+				);
 
-            }
+			}
 
-            return this.fontMaterial
+			if (
+				newUniforms.texture !== this.backgroundUniforms.u_texture.value ||
+				newUniforms.color !== this.backgroundUniforms.u_color.value ||
+				newUniforms.opacity !== this.backgroundUniforms.u_opacity.value ||
+				newUniforms.backgroundMapping !== this.backgroundUniforms.u_backgroundMapping.value ||
+				borderRadiusChanged ||
+				newUniforms.borderWidth !== this.backgroundUniforms.u_borderWidth.value ||
+				newUniforms.borderColor !== this.backgroundUniforms.u_borderColor.value ||
+				newUniforms.borderOpacity !== this.backgroundUniforms.u_borderOpacity.value ||
+				newUniforms.size !== this.backgroundUniforms.u_size.value ||
+				newUniforms.tSize !== this.backgroundUniforms.u_tSize.value
+			) {
 
-        }
+				this.updateBackgroundMaterial();
 
-        /** @private */
-        _makeTextMaterial( materialOptions ) {
+			}
 
-            this.textUniforms = {
-                'u_texture': { value: materialOptions.u_texture },
-                'u_color': { value: materialOptions.u_color },
-                'u_opacity': { value: materialOptions.u_opacity },
-                'u_pxRange': { value: materialOptions.u_pxRange },
-                'u_useRGSS': { value: materialOptions.u_useRGSS }
-            }
+			return this.backgroundMaterial;
 
-            return new ShaderMaterial({
-                uniforms: this.textUniforms,
-                transparent: true,
-                clipping: true,
-                vertexShader: textVertex,
-                fragmentShader: textFragment,
-                extensions: {
-                    derivatives: true
-                }
-            })
+		}
 
-        }
+		/** Called by Text to get the font material */
+		getFontMaterial() {
 
-        /** @private */
-        _makeBackgroundMaterial( materialOptions ) {
+			const newUniforms = {
+				'u_texture': this.getFontTexture(),
+				'u_color': this.getFontColor(),
+				'u_opacity': this.getFontOpacity(),
+				'u_pxRange': this.getFontPXRange(),
+				'u_useRGSS': this.getFontSupersampling()
+			};
 
-            this.backgroundUniforms = {
-                'u_texture': { value: materialOptions.texture },
-                'u_color': { value: materialOptions.color },
-                'u_opacity': { value: materialOptions.opacity },
-                'u_backgroundMapping': { value: materialOptions.backgroundMapping },
-                'u_borderWidth': { value: materialOptions.borderWidth },
-                'u_borderColor': { value: materialOptions.borderColor },
-                'u_borderRadiusTopLeft': { value: 0 },
-                'u_borderRadiusTopRight': { value: 0 },
-                'u_borderRadiusBottomRight': { value: 0 },
-                'u_borderRadiusBottomLeft': { value: 0 },
-                'u_borderOpacity': { value: materialOptions.borderOpacity },
-                'u_size': { value: materialOptions.size },
-                'u_tSize': { value: materialOptions.tSize }
-            };
+			if ( !this.fontMaterial || !this.textUniforms ) {
 
-            if (Array.isArray(materialOptions.borderRadius)) {
-                this.backgroundUniforms['u_borderRadiusTopLeft'].values = materialOptions.borderRadius[0];
-                this.backgroundUniforms['u_borderRadiusTopRight'].values = materialOptions.borderRadius[1];
-                this.backgroundUniforms['u_borderRadiusBottomRight'].values = materialOptions.borderRadius[2];
-                this.backgroundUniforms['u_borderRadiusBottomLeft'].values = materialOptions.borderRadius[3];
-            } else {
-                this.backgroundUniforms['u_borderRadiusTopLeft'].values = materialOptions.borderRadius;
-                this.backgroundUniforms['u_borderRadiusTopRight'].values = materialOptions.borderRadius;
-                this.backgroundUniforms['u_borderRadiusBottomRight'].values = materialOptions.borderRadius;
-                this.backgroundUniforms['u_borderRadiusBottomLeft'].values = materialOptions.borderRadius;
-            }
+				this.fontMaterial = this._makeTextMaterial( newUniforms );
 
-            return new ShaderMaterial({
-                uniforms: this.backgroundUniforms,
-                transparent: true,
-                clipping: true,
-                vertexShader: backgroundVertex,
-                fragmentShader: backgroundFragment,
-                extensions: {
-                    derivatives: true
-                }
-            })
+			} else if (
+				newUniforms.u_texture !== this.textUniforms.u_texture.value ||
+				newUniforms.u_color !== this.textUniforms.u_color.value ||
+				newUniforms.u_opacity !== this.textUniforms.u_opacity.value ||
+				newUniforms.u_pxRange !== this.textUniforms.u_pxRange.value ||
+				newUniforms.u_useRGSS !== this.textUniforms.u_useRGSS.value
+			) {
 
-        }
+				this.updateTextMaterial();
 
-	}
+			}
+
+			return this.fontMaterial;
+
+		}
+
+		/** @private */
+		_makeTextMaterial( materialOptions ) {
+
+			this.textUniforms = {
+				'u_texture': { value: materialOptions.u_texture },
+				'u_color': { value: materialOptions.u_color },
+				'u_opacity': { value: materialOptions.u_opacity },
+				'u_pxRange': { value: materialOptions.u_pxRange },
+				'u_useRGSS': { value: materialOptions.u_useRGSS }
+			};
+
+			return new ShaderMaterial( {
+				uniforms: this.textUniforms,
+				transparent: true,
+				clipping: true,
+				vertexShader: textVertex,
+				fragmentShader: textFragment,
+				extensions: {
+					derivatives: true
+				}
+			} );
+
+		}
+
+		/** @private */
+		_makeBackgroundMaterial( materialOptions ) {
+
+			this.backgroundUniforms = {
+				'u_texture': { value: materialOptions.texture },
+				'u_color': { value: materialOptions.color },
+				'u_opacity': { value: materialOptions.opacity },
+				'u_backgroundMapping': { value: materialOptions.backgroundMapping },
+				'u_borderWidth': { value: materialOptions.borderWidth },
+				'u_borderColor': { value: materialOptions.borderColor },
+				'u_borderRadiusTopLeft': { value: 0 },
+				'u_borderRadiusTopRight': { value: 0 },
+				'u_borderRadiusBottomRight': { value: 0 },
+				'u_borderRadiusBottomLeft': { value: 0 },
+				'u_borderOpacity': { value: materialOptions.borderOpacity },
+				'u_size': { value: materialOptions.size },
+				'u_tSize': { value: materialOptions.tSize }
+			};
+
+			if ( Array.isArray( materialOptions.borderRadius ) ) {
+
+				this.backgroundUniforms[ 'u_borderRadiusTopLeft' ].values = materialOptions.borderRadius[ 0 ];
+				this.backgroundUniforms[ 'u_borderRadiusTopRight' ].values = materialOptions.borderRadius[ 1 ];
+				this.backgroundUniforms[ 'u_borderRadiusBottomRight' ].values = materialOptions.borderRadius[ 2 ];
+				this.backgroundUniforms[ 'u_borderRadiusBottomLeft' ].values = materialOptions.borderRadius[ 3 ];
+
+			} else {
+
+				this.backgroundUniforms[ 'u_borderRadiusTopLeft' ].values = materialOptions.borderRadius;
+				this.backgroundUniforms[ 'u_borderRadiusTopRight' ].values = materialOptions.borderRadius;
+				this.backgroundUniforms[ 'u_borderRadiusBottomRight' ].values = materialOptions.borderRadius;
+				this.backgroundUniforms[ 'u_borderRadiusBottomLeft' ].values = materialOptions.borderRadius;
+
+			}
+
+			return new ShaderMaterial( {
+				uniforms: this.backgroundUniforms,
+				transparent: true,
+				clipping: true,
+				vertexShader: backgroundVertex,
+				fragmentShader: backgroundFragment,
+				extensions: {
+					derivatives: true
+				}
+			} );
+
+		}
+
+	};
 
 }
 
