@@ -39,7 +39,6 @@
         "camelcase": 1,
         "eol-last": 1,
         "no-array-constructor": 1,
-        "no-continue": 1,
         "no-lonely-if": 1,
         "no-mixed-spaces-and-tabs": 1,
         "no-new-object": 1,
