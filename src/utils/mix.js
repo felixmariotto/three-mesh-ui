@@ -8,8 +8,11 @@ export function mix( ...mixins ) {
 
 	// console.log('initial Base: ', _Base);
 
-	let Base = _Base || class Default {
-	};
+	if( !_Base ){
+		throw new Error("Cannot use mixins with Base null");
+	}
+
+	let Base = _Base;
 
 	_Base = null;
 

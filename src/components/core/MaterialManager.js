@@ -13,8 +13,7 @@ Knows:
 - Its component ancestors clipping planes
 
  */
-export default function MaterialManager( Base = class {
-} ) {
+export default function MaterialManager( Base ) {
 
 	return class MaterialManager extends Base {
 
