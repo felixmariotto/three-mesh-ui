@@ -9,8 +9,7 @@ its children position. A Block can only have either only box components (Block)
 as children, or only inline components (Text, InlineBlock).
 
  */
-export default function BoxComponent( Base = class {
-} ) {
+export default function BoxComponent( Base ) {
 
 	return class BoxComponent extends Base {
 

@@ -17,8 +17,7 @@ This is the core module of three-mesh-ui. Every component is composed with it.
 It owns the principal public methods of a component : set, setupState and setState.
 
  */
-export default function MeshUIComponent( Base = class {
-} ) {
+export default function MeshUIComponent( Base ) {
 
 	return class MeshUIComponent extends Base {
 

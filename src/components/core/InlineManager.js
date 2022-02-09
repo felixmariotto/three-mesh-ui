@@ -15,8 +15,7 @@ in its own updateLayout function.
  */
 import Whitespace from '../../utils/Whitespace';
 
-export default function InlineManager( Base = class {
-} ) {
+export default function InlineManager( Base ) {
 
 	return class InlineManager extends Base {
 

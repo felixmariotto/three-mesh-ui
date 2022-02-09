@@ -15,8 +15,7 @@ More information here :
 https://github.com/felixmariotto/three-mesh-ui/wiki/Using-a-custom-text-type
 
  */
-export default function TextManager( Base = class {
-} ) {
+export default function TextManager( Base ) {
 
 	return class TextManager extends Base {
 
