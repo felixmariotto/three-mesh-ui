@@ -34,7 +34,7 @@ export default class InlineBlock extends mix.withBase( Object3D )(
 
 		//
 
-        this.size = new Vector2( 1, 1 );
+		this.size = new Vector2( 1, 1 );
 
 		this.frame = new Frame( this.getBackgroundMaterial() );
 
