@@ -1,50 +1,85 @@
 
-import { ShaderMaterial } from 'three';
+import { ShaderMaterial, Vector2 } from 'three';
 import Defaults from '../../utils/Defaults.js';
 
 /**
 
 Job:
 - Host the materials of a given component.
-- Update a component's materials clipping planes
-- When materials attributes are updated, update the material
+- Update a component's materials clipping planes.
+- Update a material uniforms and such.
 
 Knows:
-- Its component materials
-- Its component ancestors clipping planes
+- Its component materials.
+- Its component ancestors clipping planes.
 
 */
 export default function MaterialManager( Base = class {} ) {
 
 	return class MaterialManager extends Base {
 
-        getBackgroundUniforms() {
+        constructor( options ) {
 
-            let color, opacity;
+            super( options );
 
-            const texture = this.getBackgroundTexture();
+            this.textUniforms = {
+                u_texture: { value: null },
+                u_color: { value: null },
+                u_opacity: { value: null },
+                u_pxRange: { value: null },
+                u_useRGSS: { value: null },
+            };
 
-            this.tSize.set(
-                texture.image.width,
-                texture.image.height
+            this.backgroundUniforms = {
+                u_texture: { value: null },
+                u_color: { value: null },
+                u_opacity: { value: null },
+                u_backgroundMapping: { value: null },
+                u_borderWidth: { value: null },
+                u_borderColor: { value: null },
+                u_borderRadiusTopLeft: { value: null },
+                u_borderRadiusTopRight: { value: null },
+                u_borderRadiusBottomRight: { value: null },
+                u_borderRadiusBottomLeft: { value: null },
+                u_borderOpacity: { value: null },
+                u_size: { value: new Vector2( 1, 1 ) },
+                u_tSize: { value: new Vector2( 1, 1 ) }
+            };
+
+        }
+
+        /**
+         * Update backgroundMaterial uniforms.
+         * Used within MaterialManager and in Block and InlineBlock innerUpdates.
+         */
+        updateBackgroundMaterial() {
+
+            this.backgroundUniforms.u_texture.value = this.getBackgroundTexture();
+
+            this.backgroundUniforms.u_tSize.value.set(
+                this.backgroundUniforms.u_texture.value.image.width,
+                this.backgroundUniforms.u_texture.value.image.height
             );
 
-            if ( texture.isDefault ) {
+            if ( this.size ) this.backgroundUniforms.u_size.value.copy( this.size );
 
-                color = this.getBackgroundColor();
-                opacity = this.getBackgroundOpacity();
+            if ( this.backgroundUniforms.u_texture.value.isDefault ) {
+
+                this.backgroundUniforms.u_color.value = this.getBackgroundColor();
+
+                this.backgroundUniforms.u_opacity.value = this.getBackgroundOpacity();
 
             } else {
 
-                color = this.backgroundColor || Defaults.backgroundWhiteColor;
+                this.backgroundUniforms.u_color.value = this.backgroundColor || Defaults.backgroundWhiteColor;
 
-                opacity = ( !this.backgroundOpacity && this.backgroundOpacity !== 0 ) ?
+                this.backgroundUniforms.u_opacity.value = ( !this.backgroundOpacity && this.backgroundOpacity !== 0 ) ?
                     Defaults.backgroundOpaqueOpacity :
                     this.backgroundOpacity;
 
             }
 
-            const backgroundMapping = ( () => {
+            this.backgroundUniforms.u_backgroundMapping.value = ( () => {
                 switch ( this.getBackgroundSize() ) {
                     case 'stretch': return 0;
                     case 'contain': return 1;
@@ -52,164 +87,60 @@ export default function MaterialManager( Base = class {} ) {
                 }
             } )();
 
-            return {
-                texture,
-                color,
-                opacity,
-                backgroundMapping,
-                borderRadius: this.getBorderRadius(),
-                borderWidth: this.getBorderWidth(),
-                borderColor: this.getBorderColor(),
-                borderOpacity: this.getBorderOpacity(),
-                size: this.size,
-                tSize: this.tSize
-            }
+            const borderRadius = this.getBorderRadius();
+            this.backgroundUniforms.u_borderWidth.value = this.getBorderWidth();
+            this.backgroundUniforms.u_borderColor.value = this.getBorderColor();
+            this.backgroundUniforms.u_borderOpacity.value = this.getBorderOpacity();
 
-        }
+            //
 
-        /** Update existing backgroundMaterial uniforms */
-        updateBackgroundMaterial() {
-
-            if ( this.backgroundUniforms ) {
-                const uniforms = this.getBackgroundUniforms();
-
-                this.backgroundUniforms.u_texture.value = uniforms.texture;
-                this.backgroundUniforms.u_color.value = uniforms.color;
-                this.backgroundUniforms.u_opacity.value = uniforms.opacity;
-                this.backgroundUniforms.u_backgroundMapping.value = uniforms.backgroundMapping;
-                this.backgroundUniforms.u_size.value = uniforms.size;
-                this.backgroundUniforms.u_tSize.value = uniforms.tSize;
-
-                if (Array.isArray(uniforms.borderRadius)) {
-                    this.backgroundUniforms.u_borderRadiusTopLeft.value = uniforms.borderRadius[0];
-                    this.backgroundUniforms.u_borderRadiusTopRight.value = uniforms.borderRadius[1];
-                    this.backgroundUniforms.u_borderRadiusBottomRight.value = uniforms.borderRadius[2];
-                    this.backgroundUniforms.u_borderRadiusBottomLeft.value = uniforms.borderRadius[3];
-                } else {
-                    this.backgroundUniforms.u_borderRadiusTopLeft.value = uniforms.borderRadius;
-                    this.backgroundUniforms.u_borderRadiusTopRight.value = uniforms.borderRadius;
-                    this.backgroundUniforms.u_borderRadiusBottomRight.value = uniforms.borderRadius;
-                    this.backgroundUniforms.u_borderRadiusBottomLeft.value = uniforms.borderRadius;
-                }
-
-                this.backgroundUniforms.u_borderWidth.value = uniforms.borderWidth;
-                this.backgroundUniforms.u_borderColor.value = uniforms.borderColor;
-                this.backgroundUniforms.u_borderOpacity.value = uniforms.borderOpacity;
-
-            }
-
-        }
-
-        /** Update existing fontMaterial uniforms */
-        updateTextMaterial() {
-
-            if ( this.textUniforms ) {
-
-                this.textUniforms.u_texture.value = this.getFontTexture();
-                this.textUniforms.u_color.value = this.getFontColor();
-                this.textUniforms.u_opacity.value = this.getFontOpacity();
-                this.textUniforms.u_pxRange.value = this.getFontPXRange();
-                this.fontMaterial.u_useRGSS = this.getFontSupersampling();
-
+            if ( Array.isArray( borderRadius ) ) {
+                this.backgroundUniforms.u_borderRadiusTopLeft.value = borderRadius[0];
+                this.backgroundUniforms.u_borderRadiusTopRight.value = borderRadius[1];
+                this.backgroundUniforms.u_borderRadiusBottomRight.value = borderRadius[2];
+                this.backgroundUniforms.u_borderRadiusBottomLeft.value = borderRadius[3];
+            } else {
+                this.backgroundUniforms.u_borderRadiusTopLeft.value = borderRadius;
+                this.backgroundUniforms.u_borderRadiusTopRight.value = borderRadius;
+                this.backgroundUniforms.u_borderRadiusBottomRight.value = borderRadius;
+                this.backgroundUniforms.u_borderRadiusBottomLeft.value = borderRadius;
             }
 
         }
 
         /**
-         * Update a component's materials clipping planes.
-         * Called every frame
+         * Update backgroundMaterial uniforms.
+         * Used within MaterialManager and in Text innerUpdates.
          */
-        updateClippingPlanes( value ) {
+        updateTextMaterial() {
 
-            const newClippingPlanes = value !== undefined ? value : this.getClippingPlanes();
-
-            if ( JSON.stringify( newClippingPlanes ) !== JSON.stringify( this.clippingPlanes ) ) {
-
-                this.clippingPlanes = newClippingPlanes;
-
-                if ( this.fontMaterial ) this.fontMaterial.clippingPlanes = this.clippingPlanes;
-
-                if ( this.backgroundMaterial ) this.backgroundMaterial.clippingPlanes = this.clippingPlanes;
-
-            }
+            this.textUniforms.u_texture.value = this.getFontTexture();
+            this.textUniforms.u_color.value = this.getFontColor();
+            this.textUniforms.u_opacity.value = this.getFontOpacity();
+            this.textUniforms.u_pxRange.value = this.getFontPXRange();
+            this.textUniforms.u_useRGSS.value = this.getFontSupersampling();
 
         }
 
         /** Called by Block, which needs the background material to create a mesh */
         getBackgroundMaterial() {
 
-            const newUniforms = this.getBackgroundUniforms();
-
             if ( !this.backgroundMaterial || !this.backgroundUniforms ) {
 
-                this.backgroundMaterial = this._makeBackgroundMaterial( newUniforms );
-
-                return this.backgroundMaterial
-
-            }
-
-            let borderRadiusChanged;
-            if (Array.isArray(newUniforms.borderRadius)) {
-                borderRadiusChanged = (
-                  newUniforms.borderRadius[0] !== this.backgroundUniforms.u_borderRadiusTopLeft.value ||
-                  newUniforms.borderRadius[1] !== this.backgroundUniforms.u_borderRadiusTopRight.value ||
-                  newUniforms.borderRadius[2] !== this.backgroundUniforms.u_borderRadiusBottomRight.value ||
-                  newUniforms.borderRadius[3] !== this.backgroundUniforms.u_borderRadiusBottomLeft.value
-                )
-            } else {
-                borderRadiusChanged = (
-                  newUniforms.borderRadius !== this.backgroundUniforms.u_borderRadiusTopLeft.value ||
-                  newUniforms.borderRadius !== this.backgroundUniforms.u_borderRadiusTopRight.value ||
-                  newUniforms.borderRadius !== this.backgroundUniforms.u_borderRadiusBottomRight.value ||
-                  newUniforms.borderRadius !== this.backgroundUniforms.u_borderRadiusBottomLeft.value
-                )
-            }
-
-            if (
-              newUniforms.texture !== this.backgroundUniforms.u_texture.value ||
-              newUniforms.color !== this.backgroundUniforms.u_color.value ||
-              newUniforms.opacity !== this.backgroundUniforms.u_opacity.value ||
-              newUniforms.backgroundMapping !== this.backgroundUniforms.u_backgroundMapping.value ||
-              borderRadiusChanged ||
-              newUniforms.borderWidth !== this.backgroundUniforms.u_borderWidth.value ||
-              newUniforms.borderColor !== this.backgroundUniforms.u_borderColor.value ||
-              newUniforms.borderOpacity !== this.backgroundUniforms.u_borderOpacity.value ||
-              newUniforms.size !== this.backgroundUniforms.u_size.value ||
-              newUniforms.tSize !== this.backgroundUniforms.u_tSize.value
-            ) {
-
-                this.updateBackgroundMaterial();
+                this.backgroundMaterial = this._makeBackgroundMaterial();
 
             }
 
             return this.backgroundMaterial
-
+            
         }
 
         /** Called by Text to get the font material */
         getFontMaterial() {
 
-            const newUniforms = {
-                'u_texture': this.getFontTexture(),
-                'u_color': this.getFontColor(),
-                'u_opacity': this.getFontOpacity(),
-                'u_pxRange': this.getFontPXRange(),
-                'u_useRGSS': this.getFontSupersampling()
-            };
-
             if ( !this.fontMaterial || !this.textUniforms ) {
 
-                this.fontMaterial = this._makeTextMaterial( newUniforms );
-
-            } else if (
-                newUniforms.u_texture !== this.textUniforms.u_texture.value ||
-                newUniforms.u_color !== this.textUniforms.u_color.value ||
-                newUniforms.u_opacity !== this.textUniforms.u_opacity.value ||
-                newUniforms.u_pxRange !== this.textUniforms.u_pxRange.value ||
-                newUniforms.u_useRGSS !== this.textUniforms.u_useRGSS.value
-            ) {
-
-                this.updateTextMaterial();
+                this.fontMaterial = this._makeTextMaterial();
 
             }
 
@@ -218,15 +149,7 @@ export default function MaterialManager( Base = class {} ) {
         }
 
         /** @private */
-        _makeTextMaterial( materialOptions ) {
-
-            this.textUniforms = {
-                'u_texture': { value: materialOptions.u_texture },
-                'u_color': { value: materialOptions.u_color },
-                'u_opacity': { value: materialOptions.u_opacity },
-                'u_pxRange': { value: materialOptions.u_pxRange },
-                'u_useRGSS': { value: materialOptions.u_useRGSS }
-            }
+        _makeTextMaterial() {
 
             return new ShaderMaterial({
                 uniforms: this.textUniforms,
@@ -242,35 +165,7 @@ export default function MaterialManager( Base = class {} ) {
         }
 
         /** @private */
-        _makeBackgroundMaterial( materialOptions ) {
-
-            this.backgroundUniforms = {
-                'u_texture': { value: materialOptions.texture },
-                'u_color': { value: materialOptions.color },
-                'u_opacity': { value: materialOptions.opacity },
-                'u_backgroundMapping': { value: materialOptions.backgroundMapping },
-                'u_borderWidth': { value: materialOptions.borderWidth },
-                'u_borderColor': { value: materialOptions.borderColor },
-                'u_borderRadiusTopLeft': { value: 0 },
-                'u_borderRadiusTopRight': { value: 0 },
-                'u_borderRadiusBottomRight': { value: 0 },
-                'u_borderRadiusBottomLeft': { value: 0 },
-                'u_borderOpacity': { value: materialOptions.borderOpacity },
-                'u_size': { value: materialOptions.size },
-                'u_tSize': { value: materialOptions.tSize }
-            };
-
-            if (Array.isArray(materialOptions.borderRadius)) {
-                this.backgroundUniforms['u_borderRadiusTopLeft'].values = materialOptions.borderRadius[0];
-                this.backgroundUniforms['u_borderRadiusTopRight'].values = materialOptions.borderRadius[1];
-                this.backgroundUniforms['u_borderRadiusBottomRight'].values = materialOptions.borderRadius[2];
-                this.backgroundUniforms['u_borderRadiusBottomLeft'].values = materialOptions.borderRadius[3];
-            } else {
-                this.backgroundUniforms['u_borderRadiusTopLeft'].values = materialOptions.borderRadius;
-                this.backgroundUniforms['u_borderRadiusTopRight'].values = materialOptions.borderRadius;
-                this.backgroundUniforms['u_borderRadiusBottomRight'].values = materialOptions.borderRadius;
-                this.backgroundUniforms['u_borderRadiusBottomLeft'].values = materialOptions.borderRadius;
-            }
+        _makeBackgroundMaterial() {
 
             return new ShaderMaterial({
                 uniforms: this.backgroundUniforms,
@@ -282,6 +177,26 @@ export default function MaterialManager( Base = class {} ) {
                     derivatives: true
                 }
             })
+
+        }
+
+        /**
+         * Update a component's materials clipping planes.
+         * Called every frame.
+         */
+        updateClippingPlanes( value ) {
+
+            const newClippingPlanes = value !== undefined ? value : this.getClippingPlanes();
+
+            if ( JSON.stringify( newClippingPlanes ) !== JSON.stringify( this.clippingPlanes ) ) {
+
+                this.clippingPlanes = newClippingPlanes;
+
+                if ( this.fontMaterial ) this.fontMaterial.clippingPlanes = this.clippingPlanes;
+
+                if ( this.backgroundMaterial ) this.backgroundMaterial.clippingPlanes = this.clippingPlanes;
+
+            }
 
         }
 
