@@ -4,18 +4,18 @@ Job: nothing yet, but adding a isInline parameter to an inline component
 
 Knows: parent dimensions
 
-*/
-export default function InlineComponent( Base = class {} ) {
+ */
+export default function InlineComponent( Base ) {
 
-    return class InlineComponent extends Base {
+	return class InlineComponent extends Base {
 
-        constructor( options ) {
+		constructor( options ) {
 
-            super( options );
+			super( options );
 
-            this.isInline = true;
+			this.isInline = true;
 
-        }
+		}
 
-    }
+	};
 }

@@ -12,477 +12,497 @@ It's worth noting that a Text is not positioned as a whole, but letter per lette
 in order to create a line break when necessary. It's Text that merge the various letters
 in its own updateLayout function.
 
-*/
-import Whitespace from "../../utils/Whitespace";
+ */
+import Whitespace from '../../utils/Whitespace';
 
-export default function InlineManager( Base = class {} ) {
+export default function InlineManager( Base ) {
 
 	return class InlineManager extends Base {
 
-        /** Compute children .inlines objects position, according to their pre-computed dimensions */
-        computeInlinesPosition() {
+		/** Compute children .inlines objects position, according to their pre-computed dimensions */
+		computeInlinesPosition() {
 
-            // computed by BoxComponent
-            const INNER_WIDTH = this.getWidth() - (this.padding * 2 || 0);
-            const INNER_HEIGHT = this.getHeight() - (this.padding * 2 || 0);
+			// computed by BoxComponent
+			const INNER_WIDTH = this.getWidth() - ( this.padding * 2 || 0 );
+			const INNER_HEIGHT = this.getHeight() - ( this.padding * 2 || 0 );
 
-            // got by MeshUIComponent
-            const JUSTIFICATION = this.getJustifyContent();
-            const ALIGNMENT = this.getAlignContent();
-            const INTERLINE = this.getInterLine();
+			// got by MeshUIComponent
+			const JUSTIFICATION = this.getJustifyContent();
+			const ALIGNMENT = this.getAlignContent();
+			const INTERLINE = this.getInterLine();
 
-            // Compute lines
-            const lines = this.computeLines();
+			// Compute lines
+			const lines = this.computeLines();
 
-            /////////////////////////////////////////////////////////////////
-            // Position lines according to justifyContent and contentAlign
-            /////////////////////////////////////////////////////////////////
+			/////////////////////////////////////////////////////////////////
+			// Position lines according to justifyContent and contentAlign
+			/////////////////////////////////////////////////////////////////
 
-            // individual vertical offset
+			// individual vertical offset
 
-            let textHeight = lines.reduce( (offsetY, line, i, arr)=> {
+			let textHeight = lines.reduce( ( offsetY, line, i, arr ) => {
 
-                const charAlignement = line.lineHeight - line.lineBase;
+				const charAlignement = line.lineHeight - line.lineBase;
 
-                line.forEach( (inline)=> {
+				line.forEach( ( inline ) => {
 
-                    inline.offsetY = offsetY - line.lineHeight + charAlignement + arr[0].lineHeight;
+					inline.offsetY = offsetY - line.lineHeight + charAlignement + arr[ 0 ].lineHeight;
 
-                });
+				} );
 
-                return offsetY - line.lineHeight - INTERLINE;
+				return offsetY - line.lineHeight - INTERLINE;
 
-            }, 0 ) + INTERLINE;
+			}, 0 ) + INTERLINE;
 
-            //
+			//
 
-            textHeight = Math.abs( textHeight );
+			textHeight = Math.abs( textHeight );
 
-            // Line vertical positioning
+			// Line vertical positioning
 
-            const justificationOffset = (()=> {
-                switch ( JUSTIFICATION ) {
-                case 'start': return (INNER_HEIGHT / 2) - lines[0].lineHeight
-                case 'end': return textHeight - lines[0].lineHeight - ( INNER_HEIGHT / 2 ) + (lines[ lines.length -1 ].lineHeight - lines[ lines.length -1 ].lineHeight) ;
-                case 'center': return (textHeight / 2) - lines[0].lineHeight
-                default: console.warn(`justifyContent: '${ JUSTIFICATION }' is not valid`)
-                }
-            })();
+			const justificationOffset = ( () => {
+				switch ( JUSTIFICATION ) {
 
-            // const justificationOffset = 0;
+					case 'start':
+						return ( INNER_HEIGHT / 2 ) - lines[ 0 ].lineHeight;
+					case 'end':
+						return textHeight - lines[ 0 ].lineHeight - ( INNER_HEIGHT / 2 ) + ( lines[ lines.length - 1 ].lineHeight - lines[ lines.length - 1 ].lineHeight );
+					case 'center':
+						return ( textHeight / 2 ) - lines[ 0 ].lineHeight;
+					default:
+						console.warn( `justifyContent: '${JUSTIFICATION}' is not valid` );
 
-            //
+				}
+			} )();
 
-            lines.forEach( (line)=> {
+			// const justificationOffset = 0;
 
-                line.forEach( (inline)=> {
+			//
 
-                    inline.offsetY += justificationOffset
+			lines.forEach( ( line ) => {
 
-                });
+				line.forEach( ( inline ) => {
 
-            });
+					inline.offsetY += justificationOffset;
 
-            // Horizontal positioning
+				} );
 
-            lines.forEach( (line)=> {
+			} );
 
-                const alignmentOffset = (()=> {
-                    switch ( ALIGNMENT ) {
-                    case 'left': return -INNER_WIDTH / 2
-                    case 'right': return -line.width + (INNER_WIDTH / 2)
-                    case 'center': return -line.width / 2
-                    default: console.warn(`alignContent: '${ ALIGNMENT }' is not valid`)
-                    }
-                })();
+			// Horizontal positioning
 
-                line.forEach( (char)=> {
+			lines.forEach( ( line ) => {
 
-                    char.offsetX += alignmentOffset
+				const alignmentOffset = ( () => {
 
-                });
+					switch ( ALIGNMENT ) {
 
-            });
+						case 'left':
+							return -INNER_WIDTH / 2;
+						case 'right':
+							return -line.width + ( INNER_WIDTH / 2 );
+						case 'center':
+							return -line.width / 2;
+						default:
+							console.warn( `alignContent: '${ALIGNMENT}' is not valid` );
 
-        }
+					}
+				} )();
 
+				line.forEach( ( char ) => {
 
-        calculateBestFit( bestFit ) {
+					char.offsetX += alignmentOffset;
 
-            const inlineChildren = this.children.filter( (child)=> {
+				} );
 
-                return child.isInline ? true : false
+			} );
 
-            });
+		}
 
-            if ( inlineChildren.length == 0 )  return;
 
-            switch(bestFit) {
-                case 'grow':
-                    this.calculateGrowFit(inlineChildren);
-                    break;
-                case 'shrink':
-                    this.calculateShrinkFit(inlineChildren);
-                    break;
-                case 'auto':
-                    this.calculateAutoFit(inlineChildren);
-                    break;
-            }
+		calculateBestFit( bestFit ) {
 
-        }
+			const inlineChildren = this.children.filter( ( child ) => {
 
-        calculateGrowFit( inlineChildren ) {
+				return child.isInline ? true : false;
 
-            const INNER_HEIGHT = this.getHeight() - (this.padding * 2 || 0);
+			} );
 
-            //Iterative method to find a fontSize of text children that text will fit into container
-            let iterations = 1;
-            const heightTolerance = 0.075;
-            const firstText = inlineChildren.find( inlineComponent => inlineComponent.isText );
+			if ( inlineChildren.length === 0 ) return;
 
-            let minFontMultiplier = 1;
-            let maxFontMultiplier = 2;
-            let fontMultiplier = firstText._fitFontSize ? firstText._fitFontSize / firstText.getFontSize() : 1;
-            let textHeight;
+			switch ( bestFit ) {
+				case 'grow':
+					this.calculateGrowFit( inlineChildren );
+					break;
+				case 'shrink':
+					this.calculateShrinkFit( inlineChildren );
+					break;
+				case 'auto':
+					this.calculateAutoFit( inlineChildren );
+					break;
+			}
 
-            do {
+		}
 
-                textHeight = this.calculateHeight(inlineChildren, fontMultiplier);
+		calculateGrowFit( inlineChildren ) {
 
-                if ( textHeight > INNER_HEIGHT ) {
+			const INNER_HEIGHT = this.getHeight() - ( this.padding * 2 || 0 );
 
-                    if ( fontMultiplier <= minFontMultiplier ) { // can't shrink text
+			//Iterative method to find a fontSize of text children that text will fit into container
+			let iterations = 1;
+			const heightTolerance = 0.075;
+			const firstText = inlineChildren.find( inlineComponent => inlineComponent.isText );
 
-                        inlineChildren.forEach(inlineComponent => {
+			let minFontMultiplier = 1;
+			let maxFontMultiplier = 2;
+			let fontMultiplier = firstText._fitFontSize ? firstText._fitFontSize / firstText.getFontSize() : 1;
+			let textHeight;
 
-                            if ( inlineComponent.isInlineBlock ) return;
+			do {
 
-                            // ensure fontSize does not shrink
-                            inlineComponent._fitFontSize = inlineComponent.getFontSize();
+				textHeight = this.calculateHeight( inlineChildren, fontMultiplier );
 
-                        });
+				if ( textHeight > INNER_HEIGHT ) {
 
-                        break;
+					if ( fontMultiplier <= minFontMultiplier ) { // can't shrink text
 
-                    }
+						inlineChildren.forEach( inlineComponent => {
 
-                    maxFontMultiplier = fontMultiplier;
-                    fontMultiplier -= (maxFontMultiplier - minFontMultiplier) / 2;
+							if ( inlineComponent.isInlineBlock ) return;
 
-                } else {
+							// ensure fontSize does not shrink
+							inlineComponent._fitFontSize = inlineComponent.getFontSize();
 
-                    if ( Math.abs(INNER_HEIGHT - textHeight) < heightTolerance )  break;
+						} );
 
-                    if ( Math.abs(fontMultiplier - maxFontMultiplier) < 5e-10 ) maxFontMultiplier *= 2;
+						break;
 
-                    minFontMultiplier = fontMultiplier;
-                    fontMultiplier += (maxFontMultiplier - minFontMultiplier) / 2;
-                }
+					}
 
-            } while ( ++ iterations <= 10 );
+					maxFontMultiplier = fontMultiplier;
+					fontMultiplier -= ( maxFontMultiplier - minFontMultiplier ) / 2;
 
-        }
+				} else {
 
-        calculateShrinkFit( inlineChildren ) {
+					if ( Math.abs( INNER_HEIGHT - textHeight ) < heightTolerance ) break;
 
-            const INNER_HEIGHT = this.getHeight() - (this.padding * 2 || 0);
+					if ( Math.abs( fontMultiplier - maxFontMultiplier ) < 5e-10 ) maxFontMultiplier *= 2;
 
-            // Iterative method to find a fontSize of text children that text will fit into container
-            let iterations = 1;
-            const heightTolerance = 0.075;
-            const firstText = inlineChildren.find(inlineComponent => inlineComponent.isText);
+					minFontMultiplier = fontMultiplier;
+					fontMultiplier += ( maxFontMultiplier - minFontMultiplier ) / 2;
 
-            let minFontMultiplier = 0;
-            let maxFontMultiplier = 1;
-            let fontMultiplier = firstText._fitFontSize ? firstText._fitFontSize / firstText.getFontSize() : 1;
-            let textHeight;
+				}
 
-            do {
+			} while ( ++iterations <= 10 );
 
-                textHeight = this.calculateHeight(inlineChildren, fontMultiplier);
+		}
 
-                if ( textHeight > INNER_HEIGHT ) {
+		calculateShrinkFit( inlineChildren ) {
 
-                    maxFontMultiplier = fontMultiplier;
-                    fontMultiplier -= (maxFontMultiplier - minFontMultiplier) / 2;
+			const INNER_HEIGHT = this.getHeight() - ( this.padding * 2 || 0 );
 
-                } else {
+			// Iterative method to find a fontSize of text children that text will fit into container
+			let iterations = 1;
+			const heightTolerance = 0.075;
+			const firstText = inlineChildren.find( inlineComponent => inlineComponent.isText );
 
-                    if ( fontMultiplier >= maxFontMultiplier ) { // can't grow text
+			let minFontMultiplier = 0;
+			let maxFontMultiplier = 1;
+			let fontMultiplier = firstText._fitFontSize ? firstText._fitFontSize / firstText.getFontSize() : 1;
+			let textHeight;
 
-                        inlineChildren.forEach(inlineComponent => {
+			do {
 
-                            if ( inlineComponent.isInlineBlock ) return;
+				textHeight = this.calculateHeight( inlineChildren, fontMultiplier );
 
-                            // ensure fontSize does not grow
-                            inlineComponent._fitFontSize = inlineComponent.getFontSize();
+				if ( textHeight > INNER_HEIGHT ) {
 
-                        });
+					maxFontMultiplier = fontMultiplier;
+					fontMultiplier -= ( maxFontMultiplier - minFontMultiplier ) / 2;
 
-                        break;
+				} else {
 
-                    }
+					if ( fontMultiplier >= maxFontMultiplier ) { // can't grow text
 
-                    if ( Math.abs(INNER_HEIGHT - textHeight) < heightTolerance )  break;
+						inlineChildren.forEach( inlineComponent => {
 
-                    minFontMultiplier = fontMultiplier;
-                    fontMultiplier += (maxFontMultiplier - minFontMultiplier) / 2;
+							if ( inlineComponent.isInlineBlock ) return;
 
-                }
+							// ensure fontSize does not grow
+							inlineComponent._fitFontSize = inlineComponent.getFontSize();
 
-            } while ( ++ iterations <= 10 );
-        }
+						} );
 
-        calculateAutoFit( inlineChildren ) {
+						break;
 
-            const INNER_HEIGHT = this.getHeight() - (this.padding * 2 || 0);
+					}
 
-            //Iterative method to find a fontSize of text children that text will fit into container
-            let iterations = 1;
-            const heightTolerance = 0.075;
-            const firstText = inlineChildren.find(inlineComponent => inlineComponent.isText);
+					if ( Math.abs( INNER_HEIGHT - textHeight ) < heightTolerance ) break;
 
-            let minFontMultiplier = 0;
-            let maxFontMultiplier = 2;
-            let fontMultiplier = firstText._fitFontSize ? firstText._fitFontSize / firstText.getFontSize() : 1;
-            let textHeight;
+					minFontMultiplier = fontMultiplier;
+					fontMultiplier += ( maxFontMultiplier - minFontMultiplier ) / 2;
 
-            do {
+				}
 
-                textHeight = this.calculateHeight(inlineChildren, fontMultiplier);
+			} while ( ++iterations <= 10 );
+		}
 
-                if ( textHeight > INNER_HEIGHT ) {
-                    maxFontMultiplier = fontMultiplier;
-                    fontMultiplier -= (maxFontMultiplier - minFontMultiplier) / 2;
-                } else {
+		calculateAutoFit( inlineChildren ) {
 
-                    if ( Math.abs(INNER_HEIGHT - textHeight) < heightTolerance )  break;
+			const INNER_HEIGHT = this.getHeight() - ( this.padding * 2 || 0 );
 
-                    if ( Math.abs(fontMultiplier - maxFontMultiplier) < 5e-10 ) maxFontMultiplier *= 2;
+			//Iterative method to find a fontSize of text children that text will fit into container
+			let iterations = 1;
+			const heightTolerance = 0.075;
+			const firstText = inlineChildren.find( inlineComponent => inlineComponent.isText );
 
-                    minFontMultiplier = fontMultiplier;
-                    fontMultiplier += (maxFontMultiplier - minFontMultiplier) / 2;
+			let minFontMultiplier = 0;
+			let maxFontMultiplier = 2;
+			let fontMultiplier = firstText._fitFontSize ? firstText._fitFontSize / firstText.getFontSize() : 1;
+			let textHeight;
 
-                }
+			do {
 
-            } while ( ++ iterations <= 10 );
-        }
+				textHeight = this.calculateHeight( inlineChildren, fontMultiplier );
 
-        /**
-         * computes lines based on children's inlines array.
-         * @private
-         */
-        computeLines() {
+				if ( textHeight > INNER_HEIGHT ) {
 
-            // computed by BoxComponent
-            const INNER_WIDTH = this.getWidth() - (this.padding * 2 || 0);
+					maxFontMultiplier = fontMultiplier;
+					fontMultiplier -= ( maxFontMultiplier - minFontMultiplier ) / 2;
 
-            // Will stock the characters of each line, so that we can
-            // correct lines position before to merge
-            const lines = [[]];
+				} else {
 
-            this.children.filter( (child)=> {
+					if ( Math.abs( INNER_HEIGHT - textHeight ) < heightTolerance ) break;
 
-                return child.isInline ? true : false
+					if ( Math.abs( fontMultiplier - maxFontMultiplier ) < 5e-10 ) maxFontMultiplier *= 2;
 
-            })
-            .reduce( (lastInlineOffset, inlineComponent)=> {
+					minFontMultiplier = fontMultiplier;
+					fontMultiplier += ( maxFontMultiplier - minFontMultiplier ) / 2;
 
-                // Abort condition
+				}
 
-                if ( !inlineComponent.inlines ) return
+			} while ( ++iterations <= 10 );
+		}
 
-                //////////////////////////////////////////////////////////////
-                // Compute offset of each children according to its dimensions
-                //////////////////////////////////////////////////////////////
+		/**
+		 * computes lines based on children's inlines array.
+		 * @private
+		 */
+		computeLines() {
 
-                const fontSize = inlineComponent._fitFontSize || inlineComponent.getFontSize();
-                const letterSpacing = inlineComponent.isText ? inlineComponent.getLetterSpacing() * fontSize : 0;
+			// computed by BoxComponent
+			const INNER_WIDTH = this.getWidth() - ( this.padding * 2 || 0 );
 
-                const currentInlineInfo = inlineComponent.inlines.reduce( (lastInlineOffset, inline, i, inlines)=> {
+			// Will stock the characters of each line, so that we can
+			// correct lines position before to merge
+			const lines = [ [] ];
 
-                    const kerning = inline.kerning ? inline.kerning : 0;
-                    const xoffset = inline.xoffset ? inline.xoffset : 0;
-                    const xadvance = inline.xadvance ? inline.xadvance : inline.width;
+			this.children.filter( ( child ) => {
 
-                    // Line break
+				return child.isInline ? true : false;
 
-                    const nextBreak = this.distanceToNextBreak( inlines, i , letterSpacing );
+			} )
+				.reduce( ( lastInlineOffset, inlineComponent ) => {
 
-                    if (
-                        lastInlineOffset + xadvance + xoffset + kerning > INNER_WIDTH ||
-                        inline.lineBreak === "mandatory" ||
-                        this.shouldFriendlyBreak( inlines[ i - 1 ], lastInlineOffset, nextBreak, INNER_WIDTH )
-                    ) {
+					// Abort condition
 
-                        lines.push([ inline ]);
+					if ( !inlineComponent.inlines ) return;
 
-                        inline.offsetX = xoffset;
+					//////////////////////////////////////////////////////////////
+					// Compute offset of each children according to its dimensions
+					//////////////////////////////////////////////////////////////
 
-                        if( inline.width === 0 ){
-                            // restart the lastInlineOffset as zero.
-                            return 0;
-                        }
+					const fontSize = inlineComponent._fitFontSize || inlineComponent.getFontSize();
+					const letterSpacing = inlineComponent.isText ? inlineComponent.getLetterSpacing() * fontSize : 0;
 
-                        // compute lastInlineOffset normally
-                        // except for kerning which won't apply
-                        // as there is visually no lefthanded glyph to kern with
-                        return xadvance + letterSpacing;
+					const currentInlineInfo = inlineComponent.inlines.reduce( ( lastInlineOffset, inline, i, inlines ) => {
 
-                    }
+						const kerning = inline.kerning ? inline.kerning : 0;
+						const xoffset = inline.xoffset ? inline.xoffset : 0;
+						const xadvance = inline.xadvance ? inline.xadvance : inline.width;
 
-                    lines[ lines.length - 1 ].push( inline );
+						// Line break
 
-                    inline.offsetX = lastInlineOffset + xoffset + kerning;
+						const nextBreak = this.distanceToNextBreak( inlines, i, letterSpacing );
 
-                    return lastInlineOffset + xadvance + kerning + letterSpacing;
+						if (
+							lastInlineOffset + xadvance + xoffset + kerning > INNER_WIDTH ||
+							inline.lineBreak === 'mandatory' ||
+							this.shouldFriendlyBreak( inlines[ i - 1 ], lastInlineOffset, nextBreak, INNER_WIDTH )
+						) {
 
-                }, lastInlineOffset );
+							lines.push( [ inline ] );
 
-                //
+							inline.offsetX = xoffset;
 
-                return currentInlineInfo
+							// restart the lastInlineOffset as zero.
+							if ( inline.width === 0 ) return 0;
 
-            }, 0 );
+							// compute lastInlineOffset normally
+							// except for kerning which won't apply
+							// as there is visually no lefthanded glyph to kern with
+							return xadvance + letterSpacing;
 
-            // Compute lines dimensions
+						}
 
-            lines.forEach( (line)=> {
+						lines[ lines.length - 1 ].push( inline );
 
-                //
+						inline.offsetX = lastInlineOffset + xoffset + kerning;
 
-                line.lineHeight = line.reduce( (height, inline) => {
+						return lastInlineOffset + xadvance + kerning + letterSpacing;
 
-                    const charHeight = inline.lineHeight !== undefined ? inline.lineHeight : inline.height;
+					}, lastInlineOffset );
 
-                    return Math.max( height, charHeight )
+					//
 
-                }, 0 );
+					return currentInlineInfo;
 
-                //
+				}, 0 );
 
-                line.lineBase = line.reduce( (lineBase, inline) => {
+			// Compute lines dimensions
 
-                    const newLineBase = inline.lineBase !== undefined ? inline.lineBase : inline.height;
+			lines.forEach( ( line ) => {
 
-                    return Math.max( lineBase, newLineBase );
+				//
 
-                }, 0 );
+				line.lineHeight = line.reduce( ( height, inline ) => {
 
-                //
+					const charHeight = inline.lineHeight !== undefined ? inline.lineHeight : inline.height;
 
-                line.width = 0;
-                const lineHasInlines = line[0];
+					return Math.max( height, charHeight );
 
-                if ( lineHasInlines ) {
-                    // starts by processing whitespace, it will return a collapsed left offset
-                    const WHITE_SPACE = this.getWhiteSpace();
-                    const whiteSpaceOffset = Whitespace.collapseInlines(line, WHITE_SPACE);
+				}, 0 );
 
-                    // apply the collapsed left offset to ensure the starting offset is 0
-                    line.forEach((inline) => {
-                        inline.offsetX -= whiteSpaceOffset
-                    });
+				//
 
-                    // compute its width: length from firstInline:LEFT to lastInline:RIGHT
-                    line.width = this.computeLineWidth(line);
-                }
+				line.lineBase = line.reduce( ( lineBase, inline ) => {
 
-            });
+					const newLineBase = inline.lineBase !== undefined ? inline.lineBase : inline.height;
 
-            return lines;
-        }
+					return Math.max( lineBase, newLineBase );
 
-        calculateHeight( inlineChildren, fontMultiplier ) {
+				}, 0 );
 
-            inlineChildren.forEach( inlineComponent => {
+				//
 
-                if ( inlineComponent.isInlineBlock ) return;
+				line.width = 0;
+				const lineHasInlines = line[ 0 ];
 
-                // Set font size and recalculate dimensions
-                inlineComponent._fitFontSize = inlineComponent.getFontSize() * fontMultiplier;
-                inlineComponent.calculateInlines(inlineComponent._fitFontSize);
-            });
+				if ( lineHasInlines ) {
 
-            const lines = this.computeLines();
+					// starts by processing whitespace, it will return a collapsed left offset
+					const WHITE_SPACE = this.getWhiteSpace();
+					const whiteSpaceOffset = Whitespace.collapseInlines( line, WHITE_SPACE );
 
-            const INTERLINE = this.getInterLine();
+					// apply the collapsed left offset to ensure the starting offset is 0
+					line.forEach( ( inline ) => {
 
-            const textHeight = lines.reduce( (offsetY, line)=> {
+						inline.offsetX -= whiteSpaceOffset;
 
-                return offsetY - line.lineHeight - INTERLINE;
+					} );
 
-            }, 0 ) + INTERLINE;
+					// compute its width: length from firstInline:LEFT to lastInline:RIGHT
+					line.width = this.computeLineWidth( line );
 
-            return Math.abs( textHeight );
-        }
+				}
 
-        /**
-         * Compute the width of a line
-         * @param line
-         * @returns {number}
-         */
-         computeLineWidth( line ){
+			} );
 
-            // only by the length of its extremities
-            const firstInline = line[0];
+			return lines;
+		}
 
-            const lastInline = line[line.length-1];
+		calculateHeight( inlineChildren, fontMultiplier ) {
 
-            return Math.abs( firstInline.offsetX - (lastInline.offsetX+lastInline.width) );
+			inlineChildren.forEach( inlineComponent => {
 
-        }
+				if ( inlineComponent.isInlineBlock ) return;
 
-        /**
-         * get the distance in world coord to the next glyph defined
-         * as break-line-safe ( like whitespace for instance )
-         * @private
-         */
-        distanceToNextBreak( inlines, currentIdx, letterSpacing , accu ) {
+				// Set font size and recalculate dimensions
+				inlineComponent._fitFontSize = inlineComponent.getFontSize() * fontMultiplier;
+				inlineComponent.calculateInlines( inlineComponent._fitFontSize );
 
-            accu = accu || 0 ;
+			} );
 
-            // end of the text
-            if ( !inlines[ currentIdx ] ) return accu
+			const lines = this.computeLines();
 
-            const inline = inlines[ currentIdx ];
-            const kerning = inline.kerning ? inline.kerning : 0;
-            const xoffset = inline.xoffset ? inline.xoffset : 0;
-            const xadvance = inline.xadvance ? inline.xadvance : inline.width ;
+			const INTERLINE = this.getInterLine();
 
-            // if inline.lineBreak is set, it is 'mandatory' or 'possible'
-            if ( inline.lineBreak )  return accu + xadvance
+			const textHeight = lines.reduce( ( offsetY, line ) => {
 
-            // no line break is possible on this character
-            return this.distanceToNextBreak(
-                inlines,
-                currentIdx + 1,
-                letterSpacing,
-                accu + xadvance + letterSpacing + xoffset + kerning
-            );
+				return offsetY - line.lineHeight - INTERLINE;
 
-        }
+			}, 0 ) + INTERLINE;
 
-        /**
-         * Test if we should line break here even if the current glyph is not out of boundary.
-         * It might be necessary if the last glyph was break-line-friendly (whitespace, hyphen..)
-         * and the distance to the next friendly glyph is out of boundary.
-         */
-        shouldFriendlyBreak( prevChar, lastInlineOffset, nextBreak, INNER_WIDTH ) {
+			return Math.abs( textHeight );
+		}
 
-            // We can't check if last glyph is break-line-friendly it does not exist
-            if ( !prevChar || !prevChar.glyph ) return false
+		/**
+		 * Compute the width of a line
+		 * @param line
+		 * @returns {number}
+		 */
+		computeLineWidth( line ) {
 
-            // Next break-line-friendly glyph is inside boundary
-            if ( lastInlineOffset + nextBreak < INNER_WIDTH ) return false
+			// only by the length of its extremities
+			const firstInline = line[ 0 ];
 
-            // Characters to prioritize breaking line (eg: white space)
-            const BREAK_ON = this.getBreakOn();
+			const lastInline = line[ line.length - 1 ];
 
-            // Previous glyph was break-line-friendly
-            return BREAK_ON.indexOf( prevChar.glyph ) > -1
+			return Math.abs( firstInline.offsetX - ( lastInline.offsetX + lastInline.width ) );
 
-        }
-    }
+		}
+
+		/**
+		 * get the distance in world coord to the next glyph defined
+		 * as break-line-safe ( like whitespace for instance )
+		 * @private
+		 */
+		distanceToNextBreak( inlines, currentIdx, letterSpacing, accu ) {
+
+			accu = accu || 0;
+
+			// end of the text
+			if ( !inlines[ currentIdx ] ) return accu;
+
+			const inline = inlines[ currentIdx ];
+			const kerning = inline.kerning ? inline.kerning : 0;
+			const xoffset = inline.xoffset ? inline.xoffset : 0;
+			const xadvance = inline.xadvance ? inline.xadvance : inline.width;
+
+			// if inline.lineBreak is set, it is 'mandatory' or 'possible'
+			if ( inline.lineBreak ) return accu + xadvance;
+
+			// no line break is possible on this character
+			return this.distanceToNextBreak(
+				inlines,
+				currentIdx + 1,
+				letterSpacing,
+				accu + xadvance + letterSpacing + xoffset + kerning
+			);
+
+		}
+
+		/**
+		 * Test if we should line break here even if the current glyph is not out of boundary.
+		 * It might be necessary if the last glyph was break-line-friendly (whitespace, hyphen..)
+		 * and the distance to the next friendly glyph is out of boundary.
+		 */
+		shouldFriendlyBreak( prevChar, lastInlineOffset, nextBreak, INNER_WIDTH ) {
+
+			// We can't check if last glyph is break-line-friendly it does not exist
+			if ( !prevChar || !prevChar.glyph ) return false;
+
+			// Next break-line-friendly glyph is inside boundary
+			if ( lastInlineOffset + nextBreak < INNER_WIDTH ) return false;
+
+			// Characters to prioritize breaking line (eg: white space)
+			const BREAK_ON = this.getBreakOn();
+
+			// Previous glyph was break-line-friendly
+			return BREAK_ON.indexOf( prevChar.glyph ) > -1;
+
+		}
+
+	};
 
 }

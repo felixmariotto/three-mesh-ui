@@ -1,9 +1,8 @@
-
 function deepDelete( object3D ) {
 
-	for ( let i = object3D.children.length -1 ; i > -1 ; i-- ) {
+	for ( let i = object3D.children.length - 1; i > -1; i-- ) {
 
-		let child = object3D.children[ i ];
+		const child = object3D.children[ i ];
 
 		if ( child.children.length > 0 ) deepDelete( child );
 
@@ -13,8 +12,8 @@ function deepDelete( object3D ) {
 
 		if ( child.geometry ) child.geometry.dispose();
 
-	};
+	}
 
-};
+}
 
-export default deepDelete
+export default deepDelete;

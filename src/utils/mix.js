@@ -1,35 +1,39 @@
-let _Base = null
+let _Base = null;
 
 /**
  * A function for applying multiple mixins more tersely (less verbose)
  * @param {Function[]} mixins - All args to this function should be mixins that take a class and return a class.
  */
-export function mix(...mixins) {
+export function mix( ...mixins ) {
 
-    // console.log('initial Base: ', _Base);
+	// console.log('initial Base: ', _Base);
 
-    let Base = _Base || class Default {};
+	if( !_Base ){
+		throw new Error("Cannot use mixins with Base null");
+	}
 
-    _Base = null
+	let Base = _Base;
 
-    let i = mixins.length
-    let mixin
+	_Base = null;
 
-    while ( --i >= 0 ) {
+	let i = mixins.length;
+	let mixin;
 
-        mixin = mixins[ i ]
-        Base = mixin(Base);
+	while ( --i >= 0 ) {
 
-    }
+		mixin = mixins[ i ];
+		Base = mixin( Base );
 
-    return Base;
+	}
+
+	return Base;
 
 }
 
 mix.withBase = ( Base ) => {
 
-    _Base = Base
+	_Base = Base;
 
-    return mix
+	return mix;
 
-}
+};

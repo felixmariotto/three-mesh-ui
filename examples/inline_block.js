@@ -1,4 +1,3 @@
-
 import * as THREE from 'three';
 import { VRButton } from 'three/examples/jsm/webxr/VRButton.js';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
@@ -13,7 +12,7 @@ import FontImage from './assets/Roboto-msdf.png';
 const WIDTH = window.innerWidth;
 const HEIGHT = window.innerHeight;
 
-let scene, camera, renderer, controls ;
+let scene, camera, renderer, controls;
 
 window.addEventListener( 'load', init );
 window.addEventListener( 'resize', onWindowResize );
@@ -31,7 +30,7 @@ function init() {
 	renderer.setPixelRatio( window.devicePixelRatio );
 	renderer.setSize( WIDTH, HEIGHT );
 	renderer.xr.enabled = true;
-	document.body.appendChild(VRButton.createButton(renderer));
+	document.body.appendChild( VRButton.createButton( renderer ) );
 	document.body.appendChild( renderer.domElement );
 
 	controls = new OrbitControls( camera, renderer.domElement );
@@ -56,13 +55,13 @@ function init() {
 
 	renderer.setAnimationLoop( loop );
 
-};
+}
 
 //
 
 function makeTextPanel() {
 
-	const container = new ThreeMeshUI.Block({
+	const container = new ThreeMeshUI.Block( {
 		width: 1.7,
 		height: 0.95,
 		padding: 0.05,
@@ -72,7 +71,7 @@ function makeTextPanel() {
 		fontTexture: FontImage,
 		fontSize: 0.05,
 		interLine: 0.05
-	});
+	} );
 
 	container.position.set( 0, 1, -1.8 );
 	container.rotation.x = -0.55;
@@ -82,56 +81,56 @@ function makeTextPanel() {
 
 	const loader = new THREE.TextureLoader();
 
-	loader.load( ThreeIcon, (texture)=> {
+	loader.load( ThreeIcon, ( texture ) => {
 
 		container.add(
-
-			new ThreeMeshUI.Text({
+			new ThreeMeshUI.Text( {
 				fontSize: 0.09,
-				content: "three-mesh-ui supports inline blocks\n"
-			}),
+				content: 'three-mesh-ui supports inline blocks\n'
+			} ),
 
-			new ThreeMeshUI.Text({
+			new ThreeMeshUI.Text( {
 				fontSize: 0.07,
-				content: "This is an InlineBlock : ",
-				fontColor: new THREE.Color(0xffc654)
-			}),
+				content: 'This is an InlineBlock : ',
+				fontColor: new THREE.Color( 0xffc654 )
+			} ),
 
-			new ThreeMeshUI.InlineBlock({
+			new ThreeMeshUI.InlineBlock( {
 				height: 0.2,
 				width: 0.4,
 				backgroundTexture: texture
-			}),
+			} ),
 
-			new ThreeMeshUI.Text({
+			new ThreeMeshUI.Text( {
 				fontSize: 0.07,
-				content: "\nwith modified color and opacity : ",
-				fontColor: new THREE.Color(0xffc654)
-			}),
+				content: '\nwith modified color and opacity : ',
+				fontColor: new THREE.Color( 0xffc654 )
+			} ),
 
-			new ThreeMeshUI.InlineBlock({
+			new ThreeMeshUI.InlineBlock( {
 				height: 0.2,
 				width: 0.4,
 				backgroundTexture: texture,
 				backgroundColor: new THREE.Color( 0x00ff00 ),
 				backgroundOpacity: 0.3
-			}),
+			} ),
 
-			new ThreeMeshUI.Text({ content: `\nIt works like a Block component, but can be positioned among inline components like text. Perfect for icons and emojis.` })
-
+			new ThreeMeshUI.Text( { content: `\nIt works like a Block component, but can be positioned among inline components like text. Perfect for icons and emojis.` } )
 		);
 
-	});
+	} );
 
-};
+}
 
 // handles resizing the renderer when the viewport is resized
 
 function onWindowResize() {
+
 	camera.aspect = window.innerWidth / window.innerHeight;
 	camera.updateProjectionMatrix();
 	renderer.setSize( window.innerWidth, window.innerHeight );
-};
+
+}
 
 //
 
@@ -144,4 +143,5 @@ function loop() {
 
 	controls.update();
 	renderer.render( scene, camera );
-};
+
+}

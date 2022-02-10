@@ -1,4 +1,3 @@
-
 import { Object3D, Vector2 } from 'three';
 
 import BoxComponent from './core/BoxComponent.js';
@@ -17,133 +16,139 @@ Job:
 - Calls InlineManager's API to position its children inline components
 - Call creation and update functions of its background planes
 
-*/
+ */
 export default class Block extends mix.withBase( Object3D )(
-    BoxComponent,
-    InlineManager,
-    MaterialManager,
-    MeshUIComponent
+	BoxComponent,
+	InlineManager,
+	MaterialManager,
+	MeshUIComponent
 ) {
 
-    constructor( options ) {
+	constructor( options ) {
 
-        super( options );
+		super( options );
 
-        this.isBlock = true;
+		this.isBlock = true;
 
-        //
+		//
 
-        this.size = new Vector2( 1, 1 );
+		this.size = new Vector2( 1, 1 );
 
-        this.frame = new Frame( this.getBackgroundMaterial() );
+		this.frame = new Frame( this.getBackgroundMaterial() );
 
-        // This is for hiddenOverflow to work
-        this.frame.onBeforeRender = () => {
+		// This is for hiddenOverflow to work
+		this.frame.onBeforeRender = () => {
 
-            if ( this.updateClippingPlanes ) {
+			if ( this.updateClippingPlanes ) {
 
-                this.updateClippingPlanes();
+				this.updateClippingPlanes();
 
-            }
+			}
 
-        };
+		};
 
-        this.add( this.frame );
+		this.add( this.frame );
 
-        // Lastly set the options parameters to this object, which will trigger an update
+		// Lastly set the options parameters to this object, which will trigger an update
 
-        this.set( options );
+		this.set( options );
 
-    }
+	}
 
-    ////////////
-    //  UPDATE
-    ////////////
+	////////////
+	//  UPDATE
+	////////////
 
-    parseParams() {
+	parseParams() {
 
-        const bestFit = this.getBestFit();
+		const bestFit = this.getBestFit();
 
-        if ( bestFit != 'none' && ( this.children.find( child => child.isText ))) {
+		if ( bestFit != 'none' && ( this.children.find( child => child.isText ) ) ) {
 
-            this.calculateBestFit(bestFit);
+			this.calculateBestFit( bestFit );
 
-        }
-        else {
+		} else {
 
-            this.children.filter(child => {return child.isText}).forEach(child => {
+			this.children.filter( child => {
 
-                child._fitFontSize = undefined;
-            });
-        }
-    }
+				return child.isText;
 
-    updateLayout() {
+			} ).forEach( child => {
 
-        // Get temporary dimension
+				child._fitFontSize = undefined;
 
-        const WIDTH = this.getWidth();
+			} );
+		}
+	}
 
-        const HEIGHT = this.getHeight();
+	updateLayout() {
 
-        if ( !WIDTH || !HEIGHT ) {
-            console.warn( 'Block got no dimension from its parameters or from children parameters' );
-            return
-        }
+		// Get temporary dimension
 
-        this.size.set( WIDTH, HEIGHT );
-        this.frame.scale.set( WIDTH, HEIGHT, 1 );
+		const WIDTH = this.getWidth();
 
-        if ( this.frame ) this.updateBackgroundMaterial();
+		const HEIGHT = this.getHeight();
 
-        this.frame.renderOrder = this.getParentsNumber();
+		if ( !WIDTH || !HEIGHT ) {
 
-        // Position this element according to earlier parent computation.
-        // Delegate to BoxComponent.
+			console.warn( 'Block got no dimension from its parameters or from children parameters' );
+			return;
 
-        if ( this.autoLayout ) {
+		}
 
-            this.setPosFromParentRecords();
+		this.size.set( WIDTH, HEIGHT );
+		this.frame.scale.set( WIDTH, HEIGHT, 1 );
 
-        }
+		if ( this.frame ) this.updateBackgroundMaterial();
 
-        // Position inner elements according to dimensions and layout parameters.
-        // Delegate to BoxComponent.
+		this.frame.renderOrder = this.getParentsNumber();
 
-        if ( this.children.find( child => child.isInline ) ) {
+		// Position this element according to earlier parent computation.
+		// Delegate to BoxComponent.
 
-            this.computeInlinesPosition();
+		if ( this.autoLayout ) {
 
-        }
+			this.setPosFromParentRecords();
 
-        this.computeChildrenPosition();
+		}
 
-        // We check if this block is the root component,
-        // because most of the time the user wants to set the
-        // root component's z position themselves
-        if ( this.getUIParent() ) {
+		// Position inner elements according to dimensions and layout parameters.
+		// Delegate to BoxComponent.
 
-            this.position.z = this.getOffset();
+		if ( this.children.find( child => child.isInline ) ) {
 
-        }
+			this.computeInlinesPosition();
 
-    }
+		}
 
-    //
+		this.computeChildrenPosition();
 
-    updateInner() {
+		// We check if this block is the root component,
+		// because most of the time the user wants to set the
+		// root component's z position themselves
+		if ( this.getUIParent() ) {
 
-        // We check if this block is the root component,
-        // because most of the time the user wants to set the
-        // root component's z position themselves
-        if ( this.getUIParent() ) {
+			this.position.z = this.getOffset();
 
-            this.position.z = this.getOffset();
+		}
 
-        }
+	}
 
-        if ( this.frame ) this.updateBackgroundMaterial();
+	//
 
-    }
+	updateInner() {
+
+		// We check if this block is the root component,
+		// because most of the time the user wants to set the
+		// root component's z position themselves
+		if ( this.getUIParent() ) {
+
+			this.position.z = this.getOffset();
+
+		}
+
+		if ( this.frame ) this.updateBackgroundMaterial();
+
+	}
 
 }

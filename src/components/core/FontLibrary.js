@@ -1,7 +1,6 @@
-
 /*
 
-Job: 
+Job:
 Keeping record of all the loaded fonts, which component use which font,
 and load new fonts if necessary
 
@@ -33,7 +32,7 @@ Called by MeshUIComponent after fontFamily was set
 When done, it calls MeshUIComponent.update, to actually display
 the text with the loaded font.
 
-*/
+ */
 function setFontFamily( component, fontFamily ) {
 
 	if ( typeof fontFamily === 'string' ) {
@@ -43,10 +42,10 @@ function setFontFamily( component, fontFamily ) {
 	} else {
 
 		// keep record of the font that this component use
-		if ( !records[ component.id ] ) records[ component.id ] = {component};
+		if ( !records[ component.id ] ) records[ component.id ] = { component };
 
 		// Ensure the font json is processed
-		_buildFriendlyKerningValues(fontFamily);
+		_buildFriendlyKerningValues( fontFamily );
 
 		records[ component.id ].json = fontFamily;
 
@@ -62,7 +61,7 @@ Called by MeshUIComponent after fontTexture was set
 When done, it calls MeshUIComponent.update, to actually display
 the text with the loaded font.
 
-*/
+ */
 function setFontTexture( component, url ) {
 
 	// if this font was never asked for, we load it
@@ -70,7 +69,7 @@ function setFontTexture( component, url ) {
 
 		requiredFontTextures.push( url );
 
-		textureLoader.load( url, ( texture )=> {
+		textureLoader.load( url, ( texture ) => {
 
 			texture.generateMipmaps = false;
 			texture.minFilter = LinearFilter;
@@ -78,7 +77,7 @@ function setFontTexture( component, url ) {
 
 			fontTextures[ url ] = texture;
 
-			for ( const recordID of Object.keys(records) ) {
+			for ( const recordID of Object.keys( records ) ) {
 
 				if ( url === records[ recordID ].textureURL ) {
 
@@ -89,18 +88,20 @@ function setFontTexture( component, url ) {
 
 			}
 
-		});
+		} );
 
 	}
 
 	// keep record of the font that this component use
-	if ( !records[ component.id ] ) records[ component.id ] = {component};
-	
+	if ( !records[ component.id ] ) records[ component.id ] = { component };
+
 	records[ component.id ].textureURL = url;
 
 	// update the component, only if the font is already requested and loaded
 	if ( fontTextures[ url ] ) {
+
 		component._updateFontTexture( fontTextures[ url ] );
+
 	}
 
 }
@@ -114,11 +115,9 @@ function getFontOf( component ) {
 
 		return getFontOf( component.getUIParent() );
 
-	} 
+	}
 
-	return record
-
-	;
+	return record;
 
 }
 
@@ -130,7 +129,7 @@ function loadFontJSON( component, url ) {
 
 		requiredFontFamilies.push( url );
 
-		fileLoader.load( url, ( text )=> {
+		fileLoader.load( url, ( text ) => {
 
 			// FileLoader import as  a JSON string
 			const font = JSON.parse( text );
@@ -140,7 +139,7 @@ function loadFontJSON( component, url ) {
 
 			fontFamilies[ url ] = font;
 
-			for ( const recordID of Object.keys(records) ) {
+			for ( const recordID of Object.keys( records ) ) {
 
 				if ( url === records[ recordID ].jsonURL ) {
 
@@ -151,18 +150,20 @@ function loadFontJSON( component, url ) {
 
 			}
 
-		});
+		} );
 
 	}
 
 	// keep record of the font that this component use
-	if ( !records[ component.id ] ) records[ component.id ] = {component};
+	if ( !records[ component.id ] ) records[ component.id ] = { component };
 
 	records[ component.id ].jsonURL = url;
 
 	// update the component, only if the font is already requested and loaded
 	if ( fontFamilies[ url ] ) {
+
 		component._updateFontFamily( fontFamilies[ url ] );
+
 	}
 
 }
@@ -177,26 +178,25 @@ function loadFontJSON( component, url ) {
  *
  * @private
  */
-function _buildFriendlyKerningValues( font ){
+function _buildFriendlyKerningValues( font ) {
 
 	// As "font registering" can comes from different paths : addFont, loadFontJSON, setFontFamily
 	// Be sure we don't repeat this operation
-	if( font._kernings ) return;
+	if ( font._kernings ) return;
 
 	const friendlyKernings = {};
 
-	for (let i = 0; i < font.kernings.length; i++) {
+	for ( let i = 0; i < font.kernings.length; i++ ) {
 
-		const kerning = font.kernings[i];
+		const kerning = font.kernings[ i ];
 
 		// ignore zero kerned glyph pair
-		if( kerning.amount === 0){
-			continue;
-		}
+		if ( kerning.amount === 0 ) continue;
 
 		// Build and store the glyph paired characters "ij","WA", ... as keys, referecing their kerning amount
-		const glyphPair = String.fromCharCode(kerning.first,kerning.second);
-		friendlyKernings[glyphPair] = kerning.amount;
+		const glyphPair = String.fromCharCode( kerning.first, kerning.second );
+		friendlyKernings[ glyphPair ] = kerning.amount;
+
 	}
 
 	// update the font to keep it
@@ -210,7 +210,7 @@ This method is intended for adding manually loaded fonts. Method assumes font ha
 font with specified name will be overwritten, but components using it won't be updated.
 
 */
-function addFont(name, json, texture) {
+function addFont( name, json, texture ) {
 
 	texture.generateMipmaps = false;
 	texture.minFilter = LinearFilter;
@@ -220,10 +220,10 @@ function addFont(name, json, texture) {
 	fontFamilies[ name ] = json;
 
 	// Ensure the font json is processed
-	_buildFriendlyKerningValues(json);
+	_buildFriendlyKerningValues( json );
 
 	if ( texture ) {
-		requiredFontTextures.push(name);
+		requiredFontTextures.push( name );
 		fontTextures[ name ] = texture;
 	}
 }
@@ -237,4 +237,4 @@ const FontLibrary = {
 	addFont
 };
 
-export default FontLibrary
+export default FontLibrary;

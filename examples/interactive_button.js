@@ -1,4 +1,3 @@
-
 import * as THREE from 'three';
 import { VRButton } from 'three/examples/jsm/webxr/VRButton.js';
 import { BoxLineGeometry } from 'three/examples/jsm/geometries/BoxLineGeometry.js';
@@ -13,10 +12,10 @@ import FontImage from './assets/Roboto-msdf.png';
 
 let scene, camera, renderer, controls, vrControl;
 let meshContainer, meshes, currentMesh;
-let objsToTest = [];
+const objsToTest = [];
 
 window.addEventListener( 'load', init );
-window.addEventListener('resize', onWindowResize );
+window.addEventListener( 'resize', onWindowResize );
 
 // compute mouse position in normalized device coordinates
 // (-1 to +1) for both directions.
@@ -29,26 +28,30 @@ mouse.x = mouse.y = null;
 
 let selectState = false;
 
-window.addEventListener( 'pointermove', ( event )=>{
+window.addEventListener( 'pointermove', ( event ) => {
 	mouse.x = ( event.clientX / window.innerWidth ) * 2 - 1;
-	mouse.y = - ( event.clientY / window.innerHeight ) * 2 + 1;
-});
+	mouse.y = -( event.clientY / window.innerHeight ) * 2 + 1;
+} );
 
-window.addEventListener( 'pointerdown', ()=> { selectState = true });
-
-window.addEventListener( 'pointerup', ()=> { selectState = false });
-
-window.addEventListener( 'touchstart', ( event )=> {
+window.addEventListener( 'pointerdown', () => {
 	selectState = true;
-	mouse.x = ( event.touches[0].clientX / window.innerWidth ) * 2 - 1;
-	mouse.y = - ( event.touches[0].clientY / window.innerHeight ) * 2 + 1;
-});
+} );
 
-window.addEventListener( 'touchend', ()=> {
+window.addEventListener( 'pointerup', () => {
+	selectState = false;
+} );
+
+window.addEventListener( 'touchstart', ( event ) => {
+	selectState = true;
+	mouse.x = ( event.touches[ 0 ].clientX / window.innerWidth ) * 2 - 1;
+	mouse.y = -( event.touches[ 0 ].clientY / window.innerHeight ) * 2 + 1;
+} );
+
+window.addEventListener( 'touchend', () => {
 	selectState = false;
 	mouse.x = null;
 	mouse.y = null;
-});
+} );
 
 //
 
@@ -61,14 +64,14 @@ function init() {
 	scene = new THREE.Scene();
 	scene.background = new THREE.Color( 0x505050 );
 
-	camera = new THREE.PerspectiveCamera( 75, window.innerWidth/window.innerHeight, 0.1, 1000 );
+	camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );
 
-	renderer = new THREE.WebGLRenderer({ antialias: true });
+	renderer = new THREE.WebGLRenderer( { antialias: true } );
 	renderer.setPixelRatio( window.devicePixelRatio );
 	renderer.setSize( window.innerWidth, window.innerHeight );
 	renderer.outputEncoding = THREE.sRGBEncoding;
 	renderer.xr.enabled = true;
-	document.body.appendChild( VRButton.createButton(renderer) );
+	document.body.appendChild( VRButton.createButton( renderer ) );
 	document.body.appendChild( renderer.domElement );
 
 	// Orbit controls for no-vr
@@ -82,27 +85,27 @@ function init() {
 	/////////
 
 	const room = new THREE.LineSegments(
-        new BoxLineGeometry( 6, 6, 6, 10, 10, 10 ).translate( 0, 3, 0 ),
+		new BoxLineGeometry( 6, 6, 6, 10, 10, 10 ).translate( 0, 3, 0 ),
 		new THREE.LineBasicMaterial( { color: 0x808080 } )
 	);
-	
+
 	const roomMesh = new THREE.Mesh(
 		new THREE.BoxGeometry( 6, 6, 6, 10, 10, 10 ).translate( 0, 3, 0 ),
-		new THREE.MeshBasicMaterial({ side: THREE.BackSide }),
+		new THREE.MeshBasicMaterial( { side: THREE.BackSide } )
 	);
 
 	scene.add( room );
-    objsToTest.push(roomMesh);
+	objsToTest.push( roomMesh );
 
 	//////////
 	// Light
 	//////////
 
-	const light = ShadowedLight({
+	const light = ShadowedLight( {
 		z: 10,
 		width: 6,
 		bias: -0.0001
-	});
+	} );
 
 	const hemLight = new THREE.HemisphereLight( 0x808080, 0x606060 );
 
@@ -116,8 +119,16 @@ function init() {
 
 	scene.add( vrControl.controllerGrips[ 0 ], vrControl.controllers[ 0 ] );
 
-	vrControl.controllers[ 0 ].addEventListener( 'selectstart', ()=> { selectState = true } );
-	vrControl.controllers[ 0 ].addEventListener( 'selectend', ()=> { selectState = false } );
+	vrControl.controllers[ 0 ].addEventListener( 'selectstart', () => {
+
+		selectState = true;
+
+	} );
+	vrControl.controllers[ 0 ].addEventListener( 'selectend', () => {
+
+		selectState = false;
+
+	} );
 
 	////////////////////
 	// Primitive Meshes
@@ -131,17 +142,17 @@ function init() {
 
 	const sphere = new THREE.Mesh(
 		new THREE.IcosahedronBufferGeometry( 0.3, 1 ),
-		new THREE.MeshStandardMaterial({ color: 0x3de364, flatShading: true })
+		new THREE.MeshStandardMaterial( { color: 0x3de364, flatShading: true } )
 	);
-	
+
 	const box = new THREE.Mesh(
 		new THREE.BoxBufferGeometry( 0.45, 0.45, 0.45 ),
-		new THREE.MeshStandardMaterial({ color: 0x643de3, flatShading: true })
+		new THREE.MeshStandardMaterial( { color: 0x643de3, flatShading: true } )
 	);
-	
+
 	const cone = new THREE.Mesh(
 		new THREE.ConeBufferGeometry( 0.28, 0.5, 10 ),
-		new THREE.MeshStandardMaterial({ color: 0xe33d4e, flatShading: true })
+		new THREE.MeshStandardMaterial( { color: 0xe33d4e, flatShading: true } )
 	);
 
 	//
@@ -154,8 +165,8 @@ function init() {
 	currentMesh = 0;
 
 	showMesh( currentMesh );
- 	
- 	//////////
+
+	//////////
 	// Panel
 	//////////
 
@@ -165,17 +176,19 @@ function init() {
 
 	renderer.setAnimationLoop( loop );
 
-};
+}
 
 // Shows the primitive mesh with the passed ID and hide the others
 
 function showMesh( id ) {
 
-	meshes.forEach( (mesh, i)=> {
-		mesh.visible = i === id ? true : false;
-	});
+	meshes.forEach( ( mesh, i ) => {
 
-};
+		mesh.visible = i === id ? true : false;
+
+	} );
+
+}
 
 ///////////////////
 // UI contruction
@@ -187,7 +200,7 @@ function makePanel() {
 	// We don't define width and height, it will be set automatically from the children's dimensions
 	// Note that we set contentDirection: "row-reverse", in order to orient the buttons horizontally
 
-	const container = new ThreeMeshUI.Block({
+	const container = new ThreeMeshUI.Block( {
 		justifyContent: 'center',
 		alignContent: 'center',
 		contentDirection: 'row-reverse',
@@ -196,7 +209,7 @@ function makePanel() {
 		fontSize: 0.07,
 		padding: 0.02,
 		borderRadius: 0.11
-	});
+	} );
 
 	container.position.set( 0, 0.6, -1.2 );
 	container.rotation.x = -0.55;
@@ -221,7 +234,7 @@ function makePanel() {
 	// It must contain a 'state' parameter, which you will refer to with component.setState( 'name-of-the-state' ).
 
 	const hoveredStateAttributes = {
-		state: "hovered",
+		state: 'hovered',
 		attributes: {
 			offset: 0.035,
 			backgroundColor: new THREE.Color( 0x999999 ),
@@ -231,7 +244,7 @@ function makePanel() {
 	};
 
 	const idleStateAttributes = {
-		state: "idle",
+		state: 'idle',
 		attributes: {
 			offset: 0.035,
 			backgroundColor: new THREE.Color( 0x666666 ),
@@ -248,11 +261,11 @@ function makePanel() {
 	// Add text to buttons
 
 	buttonNext.add(
-		new ThreeMeshUI.Text({ content: "next" })
+		new ThreeMeshUI.Text( { content: 'next' } )
 	);
 
 	buttonPrevious.add(
-		new ThreeMeshUI.Text({ content: "previous" })
+		new ThreeMeshUI.Text( { content: 'previous' } )
 	);
 
 	// Create states for the buttons.
@@ -264,28 +277,32 @@ function makePanel() {
 		fontColor: new THREE.Color( 0x222222 )
 	};
 
-	buttonNext.setupState({
-		state: "selected",
+	buttonNext.setupState( {
+		state: 'selected',
 		attributes: selectedAttributes,
-		onSet: ()=> {
-			currentMesh = (currentMesh + 1) % 3 ;
+		onSet: () => {
+
+			currentMesh = ( currentMesh + 1 ) % 3;
 			showMesh( currentMesh );
+
 		}
-	});
+	} );
 	buttonNext.setupState( hoveredStateAttributes );
 	buttonNext.setupState( idleStateAttributes );
 
 	//
 
-	buttonPrevious.setupState({
-		state: "selected",
+	buttonPrevious.setupState( {
+		state: 'selected',
 		attributes: selectedAttributes,
-		onSet: ()=> {
+		onSet: () => {
+
 			currentMesh -= 1;
 			if ( currentMesh < 0 ) currentMesh = 2;
 			showMesh( currentMesh );
+
 		}
-	});
+	} );
 	buttonPrevious.setupState( hoveredStateAttributes );
 	buttonPrevious.setupState( idleStateAttributes );
 
@@ -294,15 +311,17 @@ function makePanel() {
 	container.add( buttonNext, buttonPrevious );
 	objsToTest.push( buttonNext, buttonPrevious );
 
-};
+}
 
 // Handle resizing the viewport
 
 function onWindowResize() {
+
 	camera.aspect = window.innerWidth / window.innerHeight;
 	camera.updateProjectionMatrix();
 	renderer.setSize( window.innerWidth, window.innerHeight );
-};
+
+}
 
 //
 
@@ -322,7 +341,7 @@ function loop() {
 
 	updateButtons();
 
-};
+}
 
 // Called in the loop, get intersection with either the mouse or the VR controllers,
 // then update the buttons states according to result
@@ -348,7 +367,7 @@ function updateButtons() {
 
 		intersect = raycast();
 
-	};
+	}
 
 	// Update targeted button state (if any)
 
@@ -364,47 +383,45 @@ function updateButtons() {
 			// Component.setState internally call component.set with the options you defined in component.setupState
 			intersect.object.setState( 'hovered' );
 
-		};
+		}
 
-	};
+	}
 
 	// Update non-targeted buttons state
 
-	objsToTest.forEach( (obj)=> {
+	objsToTest.forEach( ( obj ) => {
 
-		if ( (!intersect || obj !== intersect.object) && obj.isUI ) {
+		if ( ( !intersect || obj !== intersect.object ) && obj.isUI ) {
 
 			// Component.setState internally call component.set with the options you defined in component.setupState
 			obj.setState( 'idle' );
 
-		};
+		}
 
-	});
+	} );
 
-};
+}
 
 //
 
 function raycast() {
 
-	return objsToTest.reduce( (closestIntersection, obj)=> {
+	return objsToTest.reduce( ( closestIntersection, obj ) => {
 
 		const intersection = raycaster.intersectObject( obj, true );
 
-		if ( !intersection[0] ) return closestIntersection
+		if ( !intersection[ 0 ] ) return closestIntersection;
 
-		if ( !closestIntersection || intersection[0].distance < closestIntersection.distance ) {
+		if ( !closestIntersection || intersection[ 0 ].distance < closestIntersection.distance ) {
 
-			intersection[0].object = obj;
+			intersection[ 0 ].object = obj;
 
-			return intersection[0]
+			return intersection[ 0 ];
 
-		} else {
+		}
 
-			return closestIntersection
-
-		};
+		return closestIntersection;
 
 	}, null );
 
-};
+}
