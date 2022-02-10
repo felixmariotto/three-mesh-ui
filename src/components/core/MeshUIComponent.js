@@ -486,7 +486,6 @@ export default function MeshUIComponent( Base ) {
 						case 'justifyContent' :
 						case 'alignContent' :
 						case 'textType' :
-						case 'src' :
 							layoutNeedsUpdate = true;
 							this[ prop ] = options[ prop ];
 							break;
