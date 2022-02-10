@@ -1,3 +1,6 @@
+/* eslint-disable camelcase */
+//@TODO: Get rid of non camelcase uniforms
+
 import { ShaderMaterial, Vector2 } from 'three';
 import Defaults from '../../utils/Defaults.js';
 
@@ -81,12 +84,14 @@ export default function MaterialManager( Base ) {
 			this.backgroundUniforms.u_backgroundMapping.value = ( () => {
 
 				switch ( this.getBackgroundSize() ) {
+
 					case 'stretch':
 						return 0;
 					case 'contain':
 						return 1;
 					case 'cover':
 						return 2;
+
 				}
 
 			} )();
