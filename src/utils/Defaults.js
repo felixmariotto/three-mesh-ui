@@ -25,6 +25,7 @@ export default {
 	borderRadius: 0.01,
 	borderWidth: 0,
 	borderColor: new Color( 'black' ),
+	borderOpacity: 1,
 	backgroundSize: "cover",
 	backgroundColor: new Color( 0x222222 ),
 	backgroundWhiteColor: new Color( 0xffffff ),
