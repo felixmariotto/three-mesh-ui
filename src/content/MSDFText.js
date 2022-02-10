@@ -1,4 +1,3 @@
-
 import { Mesh } from 'three';
 import { mergeBufferGeometries } from 'three/examples/jsm/utils/BufferGeometryUtils.js';
 
@@ -14,7 +13,7 @@ Knows:
 - The Text component for which it creates Meshes
 - The parameters of the text mesh it must return
 
-*/
+ */
 
 function getGlyphDimensions( options ) {
 
@@ -30,27 +29,29 @@ function getGlyphDimensions( options ) {
 
 	const charOBJ = FONT.chars.find( charOBJ => charOBJ.char === GLYPH );
 
-	let width = charOBJ ? charOBJ.width * SCALE_MULT : FONT_SIZE / 3 ;
+	let width = charOBJ ? charOBJ.width * SCALE_MULT : FONT_SIZE / 3;
 
-	let height = charOBJ ? charOBJ.height * SCALE_MULT : 0 ;
+	let height = charOBJ ? charOBJ.height * SCALE_MULT : 0;
 
-    // handle exported whitespaces
-    if ( width === 0 ) {
-        // if this whitespaces in is the charset, use its xadvance value
-        // or fallback to fontSize
-        width = charOBJ ? charOBJ.xadvance * SCALE_MULT : FONT_SIZE;
-    }
+	// handle exported whitespaces
+	if ( width === 0 ) {
+
+		// if this whitespaces in is the charset, use its xadvance value
+		// or fallback to fontSize
+		width = charOBJ ? charOBJ.xadvance * SCALE_MULT : FONT_SIZE;
+
+	}
 
 
-    if ( height === 0 )  height = FONT_SIZE * 0.7;
+	if ( height === 0 ) height = FONT_SIZE * 0.7;
 
 	if ( GLYPH === '\n' ) width = 0;
 
-	let xadvance = charOBJ ? charOBJ.xadvance * SCALE_MULT : width;
-	let xoffset = charOBJ ? charOBJ.xoffset * SCALE_MULT : 0;
+	const xadvance = charOBJ ? charOBJ.xadvance * SCALE_MULT : width;
+	const xoffset = charOBJ ? charOBJ.xoffset * SCALE_MULT : 0;
 
 	// world-space length between lowest point and the text cursor position
-	const anchor = charOBJ ? ((charOBJ.yoffset + charOBJ.height - FONT.common.base) * FONT_SIZE) / FONT.common.lineHeight : 0 ;
+	const anchor = charOBJ ? ( ( charOBJ.yoffset + charOBJ.height - FONT.common.base ) * FONT_SIZE ) / FONT.common.lineHeight : 0;
 
 	// const lineHeight = FONT.common.lineHeight * SCALE_MULT;
 
@@ -63,7 +64,7 @@ function getGlyphDimensions( options ) {
 		anchor,
 		xadvance,
 		xoffset
-	}
+	};
 
 }
 
@@ -74,9 +75,11 @@ function getGlyphDimensions( options ) {
  * @param {string} glyphPair
  * @returns {number}
  */
-function getGlyphPairKerning( font, glyphPair ){
+function getGlyphPairKerning( font, glyphPair ) {
+
 	const KERNINGS = font._kernings;
-	return KERNINGS[glyphPair] ? KERNINGS[glyphPair] : 0;
+	return KERNINGS[ glyphPair ] ? KERNINGS[ glyphPair ] : 0;
+
 }
 
 
@@ -90,21 +93,21 @@ function getGlyphPairKerning( font, glyphPair ){
  */
 function buildText() {
 
-    const translatedGeom = [];
+	const translatedGeom = [];
 
-    this.inlines.forEach( (inline, i)=> {
+	this.inlines.forEach( ( inline, i ) => {
 
-        translatedGeom[ i ] = new MSDFGlyph( inline, this.getFontFamily() );
+		translatedGeom[ i ] = new MSDFGlyph( inline, this.getFontFamily() );
 
-        translatedGeom[ i ].translate( inline.offsetX, inline.offsetY, 0 );
+		translatedGeom[ i ].translate( inline.offsetX, inline.offsetY, 0 );
 
-    });
+	} );
 
-    const mergedGeom = mergeBufferGeometries( translatedGeom );
+	const mergedGeom = mergeBufferGeometries( translatedGeom );
 
-    const mesh = new Mesh( mergedGeom, this.getFontMaterial() );
+	const mesh = new Mesh( mergedGeom, this.getFontMaterial() );
 
-    return mesh
+	return mesh;
 
 }
 
@@ -114,4 +117,4 @@ export default {
 	getGlyphDimensions,
 	getGlyphPairKerning,
 	buildText
-}
+};

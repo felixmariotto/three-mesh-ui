@@ -7,7 +7,7 @@ import Keyboard from './components/Keyboard.js';
 import UpdateManager from './components/core/UpdateManager.js';
 import FontLibrary from './components/core/FontLibrary.js';
 
-const update = () => UpdateManager.update()
+const update = () => UpdateManager.update();
 
 const ThreeMeshUI = {
 	Block,
@@ -18,13 +18,13 @@ const ThreeMeshUI = {
 	update,
 };
 
-if (typeof global !== 'undefined') global.ThreeMeshUI = ThreeMeshUI;
+if ( typeof global !== 'undefined' ) global.ThreeMeshUI = ThreeMeshUI;
 
-export { Block }
-export { Text }
-export { InlineBlock }
-export { Keyboard }
-export { FontLibrary }
-export { update }
+export { Block };
+export { Text };
+export { InlineBlock };
+export { Keyboard };
+export { FontLibrary };
+export { update };
 
-export default ThreeMeshUI
+export default ThreeMeshUI;

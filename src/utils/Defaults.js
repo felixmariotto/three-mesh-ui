@@ -1,4 +1,3 @@
-
 import { Color } from 'three';
 import { CanvasTexture } from 'three';
 
@@ -7,17 +6,17 @@ export default {
 	container: null,
 	fontFamily: null,
 	fontSize: 0.05,
-	fontKerning: "normal", // FontKerning would act like css : "none"|"normal"|"auto"("auto" not yet implemented)
-    bestFit: 'none',
+	fontKerning: 'normal', // FontKerning would act like css : "none"|"normal"|"auto"("auto" not yet implemented)
+	bestFit: 'none',
 	offset: 0.01,
 	interLine: 0.01,
 	breakOn: '- ,.:?!\n',// added '\n' to also acts as friendly breaks when white-space:normal
-    whiteSpace: "pre-line",
-	contentDirection: "column",
-	alignContent: "center",
-	justifyContent: "start",
+	whiteSpace: 'pre-line',
+	contentDirection: 'column',
+	alignContent: 'center',
+	justifyContent: 'start',
 	fontTexture: null,
-	textType: "MSDF",
+	textType: 'MSDF',
 	fontColor: new Color( 0xffffff ),
 	fontOpacity: 1,
 	fontPXRange: 4,
@@ -38,19 +37,22 @@ export default {
 };
 
 //
-var defaultBgTexture;
+let defaultBgTexture;
 
 function makeBackgroundTexture() {
 
-	if(!defaultBgTexture) {
-		const ctx = document.createElement('canvas').getContext('2d');
+	if ( !defaultBgTexture ) {
+
+		const ctx = document.createElement( 'canvas' ).getContext( '2d' );
 		ctx.canvas.width = 1;
 		ctx.canvas.height = 1;
 		ctx.fillStyle = '#ffffff';
-		ctx.fillRect(0, 0, 1, 1);
-		defaultBgTexture = new CanvasTexture(ctx.canvas);
+		ctx.fillRect( 0, 0, 1, 1 );
+		defaultBgTexture = new CanvasTexture( ctx.canvas );
 		defaultBgTexture.isDefault = true;
+
 	}
 
 	return defaultBgTexture;
+
 }
