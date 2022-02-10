@@ -521,14 +521,12 @@ export default function MeshUIComponent( Base ) {
 			if ( options.fontFamily ) {
 
 				FontLibrary.setFontFamily( this, options.fontFamily );
-				layoutNeedsUpdate = false;
 
 			}
 
 			if ( options.fontTexture ) {
 
 				FontLibrary.setFontTexture( this, options.fontTexture );
-				layoutNeedsUpdate = false;
 
 			}
 
