@@ -222,77 +222,75 @@ export default function BoxComponent( Base ) {
 
 			}
 
-			let justificationMargins = [];
-			switch ( JUSTIFICATION ){
+			let justificationMargins = boxChildren.map( c => 0 );
 
-				case "space-between":
-					// only one children would act as start
-					if( boxChildren.length > 1 ){
+			if( remainingSpace > 0 ) {
 
-						const margin = remainingSpace / (boxChildren.length-1) * -Math.sign( startPos );
-						// set this margin for any children
+				switch ( JUSTIFICATION ) {
 
-						// except for first child
-						justificationMargins[0] = 0;
+					case "space-between":
+						// only one children would act as start
+						if ( boxChildren.length > 1 ) {
 
-						for ( let i = 1; i < boxChildren.length; i++ ) {
+							const margin = remainingSpace / ( boxChildren.length - 1 ) * -Math.sign( startPos );
+							// set this margin for any children
 
-							justificationMargins[i] = margin*i;
+							// except for first child
+							justificationMargins[ 0 ] = 0;
 
-						}
+							for ( let i = 1; i < boxChildren.length; i++ ) {
 
-					}
+								justificationMargins[ i ] = margin * i;
 
-					break;
-
-				case "space-evenly":
-					// only one children would act as start
-					if( boxChildren.length > 1 ){
-
-						const margin = remainingSpace / (boxChildren.length+1) * -Math.sign( startPos );
-
-						// set this margin for any children
-						for ( let i = 0; i < boxChildren.length; i++ ) {
-
-							justificationMargins[i] = margin * ( i + 1 );
+							}
 
 						}
 
-					}
+						break;
 
-					break;
+					case "space-evenly":
+						// only one children would act as start
+						if ( boxChildren.length > 1 ) {
 
-				case "space-around":
-					// only one children would act as start
-					if( boxChildren.length > 1 ){
+							const margin = remainingSpace / ( boxChildren.length + 1 ) * -Math.sign( startPos );
 
-						let margin = remainingSpace / (boxChildren.length) * -Math.sign( startPos );
+							// set this margin for any children
+							for ( let i = 0; i < boxChildren.length; i++ ) {
 
-						const start = margin / 2;
-						justificationMargins[0] = start;
+								justificationMargins[ i ] = margin * ( i + 1 );
 
-						// set this margin for any children
-						for ( let i = 1; i < boxChildren.length; i++ ) {
-
-							justificationMargins[i] = start + margin * i;
+							}
 
 						}
 
-					}
+						break;
 
-					break;
+					case "space-around":
+						// only one children would act as start
+						if ( boxChildren.length > 1 ) {
 
-				// those cases doesn't involve additional margins
-				case "end":
-				case "center":
-				case "start":
-				default:
+							let margin = remainingSpace / ( boxChildren.length ) * -Math.sign( startPos );
 
-					for ( let i = 0; i < boxChildren.length; i++ ) {
+							const start = margin / 2;
+							justificationMargins[ 0 ] = start;
 
-						justificationMargins[i] = 0;
+							// set this margin for any children
+							for ( let i = 1; i < boxChildren.length; i++ ) {
 
-					}
+								justificationMargins[ i ] = start + margin * i;
+
+							}
+
+						}
+
+						break;
+
+					// those cases doesn't involve additional margins
+					case "end":
+					case "center":
+					case "start":
+
+				}
 
 			}
 
@@ -365,78 +363,75 @@ export default function BoxComponent( Base ) {
 
 			}
 
-			let justificationMargins = [];
-			switch ( JUSTIFICATION ){
+			let justificationMargins = boxChildren.map( c => 0);
+			if( remainingSpace > 0 ) {
 
-				case "space-between":
-					// only one children would act as start
-					if( boxChildren.length > 1 ){
+				switch ( JUSTIFICATION ) {
 
-						const margin = remainingSpace / (boxChildren.length-1) * -Math.sign( startPos );
-						// set this margin for any children
+					case "space-between":
+						// only one children would act as start
+						if ( boxChildren.length > 1 ) {
 
-						// except for first child
-						justificationMargins[0] = 0;
+							const margin = remainingSpace / ( boxChildren.length - 1 ) * -Math.sign( startPos );
+							// set this margin for any children
 
-						for ( let i = 1; i < boxChildren.length; i++ ) {
+							// except for first child
+							justificationMargins[ 0 ] = 0;
 
-							justificationMargins[i] = margin*i;
+							for ( let i = 1; i < boxChildren.length; i++ ) {
 
-						}
+								justificationMargins[ i ] = margin * i;
 
-					}
-
-					break;
-
-				case "space-evenly":
-					// only one children would act as start
-					if( boxChildren.length > 1 ){
-
-						const margin = remainingSpace / (boxChildren.length+1) * -Math.sign( startPos );
-
-						// set this margin for any children
-						for ( let i = 0; i < boxChildren.length; i++ ) {
-
-							justificationMargins[i] = margin * ( i + 1 );
+							}
 
 						}
 
-					}
+						break;
 
-					break;
+					case "space-evenly":
+						// only one children would act as start
+						if ( boxChildren.length > 1 ) {
 
-				case "space-around":
-					// only one children would act as start
-					if( boxChildren.length > 1 ){
+							const margin = remainingSpace / ( boxChildren.length + 1 ) * -Math.sign( startPos );
 
-						let margin = remainingSpace / (boxChildren.length) * -Math.sign( startPos );
+							// set this margin for any children
+							for ( let i = 0; i < boxChildren.length; i++ ) {
 
-						const start = margin / 2;
-						justificationMargins[0] = start;
+								justificationMargins[ i ] = margin * ( i + 1 );
 
-						// set this margin for any children
-						for ( let i = 1; i < boxChildren.length; i++ ) {
-
-							justificationMargins[i] = start + margin * i;
+							}
 
 						}
 
-					}
+						break;
 
-					break;
+					case "space-around":
+						// only one children would act as start
+						if ( boxChildren.length > 1 ) {
 
-				// those cases doesn't involve additional margins
-				case "end":
-				case "center":
-				case "start":
-				default:
+							let margin = remainingSpace / ( boxChildren.length ) * -Math.sign( startPos );
 
-					for ( let i = 0; i < boxChildren.length; i++ ) {
+							const start = margin / 2;
+							justificationMargins[ 0 ] = start;
 
-						justificationMargins[i] = 0;
+							// set this margin for any children
+							for ( let i = 1; i < boxChildren.length; i++ ) {
 
-					}
+								justificationMargins[ i ] = start + margin * i;
 
+							}
+
+						}
+
+						break;
+
+					// those cases doesn't involve additional margins
+					case "end":
+					case "center":
+					case "start":
+					default:
+
+				}
 			}
 
 			boxChildren.forEach( ( child, childIndex ) => {

@@ -226,7 +226,7 @@ setInterval( ()=>{
 }, 1000 );
 
 let sizeMode = 1;
-let sizes = [0.125,0.25,0.375,0.5];
+let sizes = [0.125,0.175,0.225,0.295];
 
 setInterval( ()=>{
 	console.log("Dize")
