@@ -225,6 +225,30 @@ setInterval( ()=>{
 
 }, 1000 );
 
+let sizeMode = 1;
+let sizes = [0.125,0.25,0.375,0.5];
+
+setInterval( ()=>{
+	console.log("Dize")
+	sizeMode += 1;
+	sizeMode = sizeMode >= sizes.length ? 0 : sizeMode;
+
+	const mode = sizes[sizeMode];
+	console.log(mode);
+	for ( let i = 1; i < justifyInRow.children.length; i++ ) {
+		for ( let j = 1; j < justifyInRow.children[ i ].children.length; j++ ) {
+			justifyInRow.children[ i ].children[ j ].set({width:mode});
+		}
+
+	}
+
+	for ( let i = 1; i < justifyInColumn.children.length; i++ ) {
+		for ( let j = 1; j < justifyInColumn.children[ i ].children.length; j++ ) {
+			justifyInColumn.children[ i ].children[ j ].set({height:mode});
+		}
+	}
+
+}, 3000 );
 
 let currentBigSize = DIM_HIGH;
 let currentSpeed = -0.005;
