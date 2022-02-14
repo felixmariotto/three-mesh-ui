@@ -165,13 +165,20 @@ export default function BoxComponent( Base ) {
 
 			const JUSTIFICATION = this.getJustifyContent();
 
-			const availableJustification = ['start','center','end','space-around','space-between','space-evenly'];
-			if( availableJustification.indexOf(JUSTIFICATION) === -1 ){
+			const availableJustification = [
+				'start',
+				'center',
+				'end',
+				'space-around',
+				'space-between',
+				'space-evenly'
+			];
 
-				console.warn( `justifyContent === '${JUSTIFICATION}' is not supported` );
+			if ( availableJustification.indexOf( JUSTIFICATION ) === -1 ) {
+
+				console.warn( `justifyContent === '${ JUSTIFICATION }' is not supported` );
 
 			}
-
 
 			// only work on boxChildren
 			const boxChildren = this.children.filter( c => c.isBoxComponent );
@@ -211,7 +218,7 @@ export default function BoxComponent( Base ) {
 
 				case "center":
 					justificationOffset = axisOffset / 2;
-				break;
+					break;
 
 				// stays with an offset of 0
 				case "space-between":
@@ -222,9 +229,9 @@ export default function BoxComponent( Base ) {
 
 			}
 
-			let justificationMargins = boxChildren.map( c => 0 );
+			const justificationMargins = Array( boxChildren.length ).fill( 0 );
 
-			if( remainingSpace > 0 ) {
+			if ( remainingSpace > 0 ) {
 
 				switch ( JUSTIFICATION ) {
 
@@ -269,7 +276,7 @@ export default function BoxComponent( Base ) {
 						// only one children would act as start
 						if ( boxChildren.length > 1 ) {
 
-							let margin = remainingSpace / ( boxChildren.length ) * -Math.sign( startPos );
+							const margin = remainingSpace / ( boxChildren.length ) * -Math.sign( startPos );
 
 							const start = margin / 2;
 							justificationMargins[ 0 ] = start;
@@ -308,10 +315,18 @@ export default function BoxComponent( Base ) {
 
 			const JUSTIFICATION = this.getJustifyContent();
 
-			const availableJustification = ['start','center','end','space-around','space-between','space-evenly'];
-			if( availableJustification.indexOf(JUSTIFICATION) === -1 ){
+			const availableJustification = [
+				'start',
+				'center',
+				'end',
+				'space-around',
+				'space-between',
+				'space-evenly'
+			];
 
-				console.warn( `justifyContent === '${JUSTIFICATION}' is not supported` );
+			if ( availableJustification.indexOf(JUSTIFICATION) === -1 ){
+
+				console.warn( `justifyContent === '${ JUSTIFICATION }' is not supported` );
 
 			}
 
@@ -363,8 +378,9 @@ export default function BoxComponent( Base ) {
 
 			}
 
-			let justificationMargins = boxChildren.map( c => 0);
-			if( remainingSpace > 0 ) {
+			const justificationMargins = Array( boxChildren.length ).fill( 0 );
+
+			if ( remainingSpace > 0 ) {
 
 				switch ( JUSTIFICATION ) {
 
@@ -409,7 +425,7 @@ export default function BoxComponent( Base ) {
 						// only one children would act as start
 						if ( boxChildren.length > 1 ) {
 
-							let margin = remainingSpace / ( boxChildren.length ) * -Math.sign( startPos );
+							const margin = remainingSpace / ( boxChildren.length ) * -Math.sign( startPos );
 
 							const start = margin / 2;
 							justificationMargins[ 0 ] = start;

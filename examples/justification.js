@@ -75,10 +75,10 @@ function init() {
 	justifyInColumn = makeTextPanel( 'row' );
 
 	justifyInRow.position.x = -0.75;
-	justifyInRow.scale.setScalar(0.75);
+	justifyInRow.scale.setScalar( 0.75 );
 
 	justifyInColumn.position.x = 0.75;
-	justifyInColumn.scale.setScalar(0.75);
+	justifyInColumn.scale.setScalar( 0.75 );
 
 	//
 
@@ -87,7 +87,6 @@ function init() {
 }
 
 function makeTextPanel( contentDirection ) {
-//
 
 	container = new ThreeMeshUI.Block( {
 		height: DIM_HIGH + 0.2,
@@ -102,13 +101,14 @@ function makeTextPanel( contentDirection ) {
 	} );
 
 	container.position.set( 0, 1, -1.8 );
-	container.rotation.x = -0.55;
+	container.rotation.x = - 0.55;
 	scene.add( container );
 
-	for ( let i = 0; i < justificationLegend.length; i++ ) {
+	for ( let i = 0; i < justificationLegend.length; i ++ ) {
+
 		const color = new THREE.Color( justificationLegend[ i ].color );
 		const id = justificationLegend[ i ].id;
-		const panel = buildJustifiedPanel( id, color , contentDirection === 'column' ? 'row' : 'column'  );
+		const panel = buildJustifiedPanel( id, color, contentDirection === 'column' ? 'row' : 'column' );
 
 		container.add( panel );
 	}
@@ -129,7 +129,9 @@ function buildJustifiedPanel( id, color, contentDirection ) {
 	container.add( panel );
 
 	const letters = 'ABCDEF';
-	for ( let i = 0; i < 5; i++ ) {
+
+	for ( let i = 0; i < 5; i ++ ) {
+
 		const blockText = new ThreeMeshUI.Block( {
 			width: 0.125,
 			height: 0.125,
@@ -145,12 +147,14 @@ function buildJustifiedPanel( id, color, contentDirection ) {
 			content: letters[ i ]
 		} );
 		blockText.add( text );
+
 	}
 
 	return panel;
 }
 
 function makeTitlePanel(){
+
 	const panel = new ThreeMeshUI.Block( {
 		width: DIM_HIGH * 2,
 		height: 0.15,
@@ -162,18 +166,17 @@ function makeTitlePanel(){
 		fontTexture: FontImage
 	} );
 
+	for ( let i = 0; i < justificationLegend.length; i ++ ) {
 
-	for ( let i = 0; i < justificationLegend.length; i++ ) {
 		const color = new THREE.Color( justificationLegend[ i ].color );
 		const id = justificationLegend[ i ].id;
 
-		// const textContainer = new ThreeMeshUI.Block({});
-		// panel.add( textContainer );
-
-		panel.add( new ThreeMeshUI.Text({
-			content : id,
-			fontColor : color
-		}) )
+		panel.add(
+			new ThreeMeshUI.Text( {
+				content: id,
+				fontColor: color
+			} )
+		);
 
 	}
 
@@ -182,8 +185,8 @@ function makeTitlePanel(){
 
 	scene.add( panel );
 }
-// handles resizing the renderer when the viewport is resized
 
+// handles resizing the renderer when the viewport is resized
 function onWindowResize() {
 
 	camera.aspect = window.innerWidth / window.innerHeight;
@@ -193,86 +196,111 @@ function onWindowResize() {
 }
 
 //
-let isInverted = false;
-setInterval( ()=>{
-	isInverted = !isInverted;
 
-	for ( let i = 1; i < justifyInRow.children.length; i++ ) {
-		justifyInRow.children[ i ].set({contentDirection:isInverted?'row-reverse':'row'});
+let isInverted = false;
+
+setInterval( () => {
+
+	isInverted = ! isInverted;
+
+	for ( let i = 1; i < justifyInRow.children.length; i ++ ) {
+		justifyInRow.children[ i ].set( { contentDirection:isInverted ? 'row-reverse' : 'row' } );
 	}
 
-	for ( let i = 1; i < justifyInColumn.children.length; i++ ) {
-		justifyInColumn.children[ i ].set({contentDirection:isInverted?'column-reverse':'column'});
+	for ( let i = 1; i < justifyInColumn.children.length; i ++ ) {
+		justifyInColumn.children[ i ].set( { contentDirection:isInverted ? 'column-reverse' : 'column' } );
 	}
 
 }, 2500 );
 
 let alignMode = 1;
-let aligns = ['start','center','end'];
+const aligns = [ 'start', 'center', 'end' ];
 
-setInterval( ()=>{
+setInterval( () => {
+
 	alignMode += 1;
 	alignMode = alignMode >= aligns.length ? 0 : alignMode;
 
 	const mode = aligns[alignMode];
-	for ( let i = 1; i < justifyInRow.children.length; i++ ) {
-		justifyInRow.children[ i ].set({alignContent:mode});
+
+	for ( let i = 1; i < justifyInRow.children.length; i ++ ) {
+
+		justifyInRow.children[ i ].set( { alignContent: mode } );
+
 	}
 
-	for ( let i = 1; i < justifyInColumn.children.length; i++ ) {
-		justifyInColumn.children[ i ].set({alignContent:mode});
+	for ( let i = 1; i < justifyInColumn.children.length; i ++ ) {
+
+		justifyInColumn.children[ i ].set( { alignContent: mode } );
+
 	}
 
 }, 1000 );
 
 let sizeMode = 1;
-let sizes = [0.125,0.175,0.225,0.295];
+const sizes = [ 0.125, 0.175, 0.225, 0.295 ];
 
-setInterval( ()=>{
-	console.log("Dize")
+setInterval( () => {
+
+	// console.log( "Dize" );
+
 	sizeMode += 1;
 	sizeMode = sizeMode >= sizes.length ? 0 : sizeMode;
 
-	const mode = sizes[sizeMode];
-	console.log(mode);
-	for ( let i = 1; i < justifyInRow.children.length; i++ ) {
-		for ( let j = 1; j < justifyInRow.children[ i ].children.length; j++ ) {
-			justifyInRow.children[ i ].children[ j ].set({width:mode});
+	const mode = sizes[ sizeMode ];
+	// console.log( mode );
+
+	for ( let i = 1; i < justifyInRow.children.length; i ++ ) {
+
+		for ( let j = 1; j < justifyInRow.children[ i ].children.length; j ++ ) {
+
+			justifyInRow.children[ i ].children[ j ].set( { width: mode } );
+
 		}
 
 	}
 
-	for ( let i = 1; i < justifyInColumn.children.length; i++ ) {
-		for ( let j = 1; j < justifyInColumn.children[ i ].children.length; j++ ) {
-			justifyInColumn.children[ i ].children[ j ].set({height:mode});
+	for ( let i = 1; i < justifyInColumn.children.length; i ++ ) {
+
+		for ( let j = 1; j < justifyInColumn.children[ i ].children.length; j ++ ) {
+
+			justifyInColumn.children[ i ].children[ j ].set( { height:mode } );
+
 		}
 	}
 
 }, 3000 );
 
 let currentBigSize = DIM_HIGH;
-let currentSpeed = -0.005;
+let currentSpeed = - 0.005;
 
 function loop() {
 
-
 	currentBigSize += currentSpeed;
-	if( currentBigSize >= DIM_HIGH ){
+
+	if ( currentBigSize >= DIM_HIGH ) {
+
 		currentBigSize = DIM_HIGH;
-		currentSpeed *= -1;
-	}else if( currentBigSize <= MIN_HIGH ){
+		currentSpeed *= - 1;
+
+	} else if ( currentBigSize <= MIN_HIGH ) {
+
 		currentBigSize = MIN_HIGH;
 		currentSpeed *= -1;
+
 	}
 
-	for ( let i = 1; i < justifyInRow.children.length; i++ ) {
-		justifyInRow.children[ i ].set({width:currentBigSize});
+	for ( let i = 1; i < justifyInRow.children.length; i ++ ) {
+
+		justifyInRow.children[ i ].set( { width: currentBigSize } );
+
 	}
 
-	for ( let i = 1; i < justifyInColumn.children.length; i++ ) {
-		justifyInColumn.children[ i ].set({height:currentBigSize});
-	}
+	for ( let i = 1; i < justifyInColumn.children.length; i ++ ) {
 
+		justifyInColumn.children[ i ].set( { height: currentBigSize } );
+
+	}
 
 	// Don't forget, ThreeMeshUI must be updated manually.
 	// This has been introduced in version 3.0.0 in order
