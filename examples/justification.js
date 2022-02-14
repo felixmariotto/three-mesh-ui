@@ -143,10 +143,10 @@ function buildJustifiedPanel( id, color, contentDirection ) {
 		} );
 		panel.add( blockText );
 
-		const text = new ThreeMeshUI.Text( {
-			content: letters[ i ]
-		} );
-		blockText.add( text );
+		// const text = new ThreeMeshUI.Text( {
+		// 	content: letters[ i ]
+		// } );
+		// blockText.add( text );
 
 	}
 
@@ -242,13 +242,10 @@ const sizes = [ 0.125, 0.175, 0.225, 0.295 ];
 
 setInterval( () => {
 
-	// console.log( "Dize" );
-
 	sizeMode += 1;
 	sizeMode = sizeMode >= sizes.length ? 0 : sizeMode;
 
 	const mode = sizes[ sizeMode ];
-	// console.log( mode );
 
 	for ( let i = 1; i < justifyInRow.children.length; i ++ ) {
 
