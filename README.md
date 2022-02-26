@@ -39,6 +39,7 @@ Give it a try in [this jsFiddle](https://jsfiddle.net/felixmariotto/y81rf5t2/44/
 Using react-three-fiber ? Here is a [codesandbox](https://codesandbox.io/s/react-three-mesh-ui-forked-v7n0b?file=/src/index.js) to get started.
 
 ## Import
+### JSM
 **With NPM and ES6 :**   
 In your console : `npm install three-mesh-ui`
 ```javascript
@@ -51,10 +52,29 @@ In your console : `npm install three-mesh-ui`
 const ThreeMeshUI = require('three-mesh-ui');
 ```
 
-**With HTML <script> tag :**    
+**With HTML &lt;script&gt; tag :**
 ```html
+<script type="module">
+    import * as THREE from 'https://cdn.skypack.dev/three@<version>';
+    import * ThreeMeshUI from 'not-available-at-the-moment';
+    // We currently didn't have a bundled jsm file :,( 
+    // Please be welcome to contribute if this is something you use. :)
+</script>
+```
+
+
+### JS
+**With HTML &lt;script&gt; tag :**
+```html
+<!-- threejs is not anymore include in the three-mesh-ui bundle -->
+<!-- you must then load the three dependency -->
+<script src='https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js'></script>
+<!-- before loading three-mesh-ui -->
 <script src='https://unpkg.com/three-mesh-ui'></script>
 ```
+
+*Although this would theorically allows you to build 'something', loading js libraries instead of using jsm, might restrict the global features you would have. This is true for both three and three-mesh-ui libraries.*
+
 
 ## Font files
 
