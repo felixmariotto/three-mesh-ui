@@ -9,6 +9,7 @@ its children position. A Block can only have either only box components (Block)
 as children, or only inline components (Text, InlineBlock).
 
  */
+
 export default function BoxComponent( Base ) {
 
 	return class BoxComponent extends Base {
@@ -160,92 +161,101 @@ export default function BoxComponent( Base ) {
 
 		}
 
-		/** Set children X position according to this component dimension and attributes */
-		setChildrenXPos( startPos ) {
+		/**
+		 * Place child end to end and accumulate (ROW)
+		 * @param accu
+		 * @param child
+		 * @returns {*}
+		 */
+		direction__rowEndToEndChildren( accu, child ) {
 
-			const JUSTIFICATION = this.getJustifyContent();
+			const CHILD_ID = child.id;
+			const CHILD_WIDTH = child.getWidth();
+			const CHILD_MARGIN = child.margin || 0;
+			const INVERTER = this.signInvertor;
 
-			const availableJustification = [
-				'start',
-				'center',
-				'end',
-				'space-around',
-				'space-between',
-				'space-evenly'
-			];
+			accu += CHILD_MARGIN * INVERTER;
 
-			if ( availableJustification.indexOf( JUSTIFICATION ) === -1 ) {
+			this.childrenPos[ CHILD_ID ] = {
+				x: accu + ( ( CHILD_WIDTH / 2 ) * INVERTER ),
+				y: 0
+			};
 
-				console.warn( `justifyContent === '${ JUSTIFICATION }' is not supported` );
+			return accu + ( INVERTER * ( CHILD_WIDTH + CHILD_MARGIN ) );
 
-			}
+		}
 
-			// only work on boxChildren
-			const boxChildren = this.children.filter( c => c.isBoxComponent );
+		/**
+		 * Place child end to end and accumulate (COLUMN)
+		 * @param accu
+		 * @param child
+		 * @returns {*}
+		 */
+		direction__columnEndToEndChildren( accu, child ) {
 
-			boxChildren.reduce( ( accu, child ) => {
+			const CHILD_ID = child.id;
+			const CHILD_HEIGHT = child.getHeight();
+			const CHILD_MARGIN = child.margin || 0;
+			const INVERTER = this.signInvertor;
 
-				const CHILD_ID = child.id;
-				const CHILD_WIDTH = child.getWidth();
-				const CHILD_MARGIN = child.margin || 0;
+			accu += CHILD_MARGIN * INVERTER;
 
-				accu += CHILD_MARGIN * -Math.sign( startPos );
+			this.childrenPos[ CHILD_ID ] = {
+				x: 0,
+				y: accu + ( ( CHILD_HEIGHT / 2 ) * INVERTER )
+			};
 
-				this.childrenPos[ CHILD_ID ] = {
-					x: accu + ( ( CHILD_WIDTH / 2 ) * -Math.sign( startPos ) ),
-					y: 0
-				};
+			return accu + ( INVERTER * ( CHILD_HEIGHT + CHILD_MARGIN ) );
 
-				return accu + ( -Math.sign( startPos ) * ( CHILD_WIDTH + CHILD_MARGIN ) );
+		}
 
-			}, startPos );
+		/**
+		 *
+		 * @param {string} justification
+		 * @param {number} axisOffset
+		 * @returns {number}
+		 */
+		justification__getJustificationOffset( justification, axisOffset ){
 
-			//
-
-			const usedWidth = this.getChildrenSideSum( 'width' );
-			const innerWidth = this.getInnerWidth();
-
-			const remainingSpace = innerWidth - usedWidth;
-
-			const axisOffset = ( startPos * 2 ) - ( this.getChildrenSideSum( 'width' ) * Math.sign( startPos ) );
-			let justificationOffset = 0;
-
-			switch ( JUSTIFICATION ){
+			// Only end and center have justification offset
+			switch ( justification ){
 
 				case "end":
-					justificationOffset = axisOffset;
-					break;
+					return axisOffset;
 
 				case "center":
-					justificationOffset = axisOffset / 2;
-					break;
-
-				// stays with an offset of 0
-				case "space-between":
-				case "space-around":
-				case "space-evenly":
-				case "start":
-				default:
-
+					return axisOffset / 2;
 			}
 
-			const justificationMargins = Array( boxChildren.length ).fill( 0 );
+			return 0;
+		}
 
-			if ( remainingSpace > 0 ) {
+		/**
+		 *
+		 * @param items
+		 * @param spaceToDistribute
+		 * @param justification
+		 * @returns {any[]}
+		 */
+		justification__getJustificationMargin( items, spaceToDistribute, justification ){
+			const justificationMargins = Array( items.length ).fill( 0 );
 
-				switch ( JUSTIFICATION ) {
+			if ( spaceToDistribute > 0 ) {
+
+				// Only space-*  have justification margin betweem items
+				switch ( justification ) {
 
 					case "space-between":
 						// only one children would act as start
-						if ( boxChildren.length > 1 ) {
+						if ( items.length > 1 ) {
 
-							const margin = remainingSpace / ( boxChildren.length - 1 ) * -Math.sign( startPos );
+							const margin = spaceToDistribute / ( items.length - 1 ) * this.signInvertor;
 							// set this margin for any children
 
 							// except for first child
 							justificationMargins[ 0 ] = 0;
 
-							for ( let i = 1; i < boxChildren.length; i++ ) {
+							for ( let i = 1; i < items.length; i++ ) {
 
 								justificationMargins[ i ] = margin * i;
 
@@ -257,12 +267,12 @@ export default function BoxComponent( Base ) {
 
 					case "space-evenly":
 						// only one children would act as start
-						if ( boxChildren.length > 1 ) {
+						if ( items.length > 1 ) {
 
-							const margin = remainingSpace / ( boxChildren.length + 1 ) * -Math.sign( startPos );
+							const margin = spaceToDistribute / ( items.length + 1 ) * this.signInvertor;
 
 							// set this margin for any children
-							for ( let i = 0; i < boxChildren.length; i++ ) {
+							for ( let i = 0; i < items.length; i++ ) {
 
 								justificationMargins[ i ] = margin * ( i + 1 );
 
@@ -274,15 +284,15 @@ export default function BoxComponent( Base ) {
 
 					case "space-around":
 						// only one children would act as start
-						if ( boxChildren.length > 1 ) {
+						if ( items.length > 1 ) {
 
-							const margin = remainingSpace / ( boxChildren.length ) * -Math.sign( startPos );
+							const margin = spaceToDistribute / ( items.length ) * this.signInvertor;
 
 							const start = margin / 2;
 							justificationMargins[ 0 ] = start;
 
 							// set this margin for any children
-							for ( let i = 1; i < boxChildren.length; i++ ) {
+							for ( let i = 1; i < items.length; i++ ) {
 
 								justificationMargins[ i ] = start + margin * i;
 
@@ -292,14 +302,42 @@ export default function BoxComponent( Base ) {
 
 						break;
 
-					// those cases doesn't involve additional margins
-					case "end":
-					case "center":
-					case "start":
-
 				}
 
 			}
+
+			return justificationMargins;
+
+		}
+
+		/** Set children X position according to this component dimension and attributes */
+		setChildrenXPos( startPos ) {
+
+			const JUSTIFICATION = this.getJustifyContent();
+			if ( AVAILABLE_JUSTIFICATIONS.indexOf( JUSTIFICATION ) === -1 ) {
+
+				console.warn( `justifyContent === '${ JUSTIFICATION }' is not supported` );
+
+			}
+
+			// only work on boxChildren
+			const boxChildren = this.children.filter( _boxChildrenFilter );
+
+			// end to end children
+			this.signInvertor = - Math.sign( startPos );
+			// @TODO: Replace .bind() when webpack update to allow class methods as fat arrow
+			boxChildren.reduce( this.direction__rowEndToEndChildren.bind(this) , startPos );
+
+
+			const usedDirectionSpace = this.getChildrenSideSum( 'width' );
+			const remainingSpace = this.getInnerWidth() - usedDirectionSpace;
+
+			// Items Offset
+			const axisOffset = ( startPos * 2 ) - ( usedDirectionSpace * Math.sign( startPos ) );
+			const justificationOffset = this.justification__getJustificationOffset( JUSTIFICATION, axisOffset );
+
+			// Items margin
+			const justificationMargins = this.justification__getJustificationMargin( boxChildren, remainingSpace, JUSTIFICATION );
 
 			// Apply
 			boxChildren.forEach( ( child , childIndex ) => {
@@ -314,142 +352,32 @@ export default function BoxComponent( Base ) {
 		setChildrenYPos( startPos ) {
 
 			const JUSTIFICATION = this.getJustifyContent();
-
-			const availableJustification = [
-				'start',
-				'center',
-				'end',
-				'space-around',
-				'space-between',
-				'space-evenly'
-			];
-
-			if ( availableJustification.indexOf(JUSTIFICATION) === -1 ){
+			if ( AVAILABLE_JUSTIFICATIONS.indexOf(JUSTIFICATION) === -1 ){
 
 				console.warn( `justifyContent === '${ JUSTIFICATION }' is not supported` );
 
 			}
 
-			// only work on boxChildren
-			const boxChildren = this.children.filter( c => c.isBoxComponent );
-			boxChildren.reduce( ( accu, child ) => {
+			// only process on boxChildren
+			const boxChildren = this.children.filter( _boxChildrenFilter );
 
-				const CHILD_ID = child.id;
-				const CHILD_HEIGHT = child.getHeight();
-				const CHILD_MARGIN = child.margin || 0;
-
-				accu += CHILD_MARGIN * -Math.sign( startPos );
-
-				this.childrenPos[ CHILD_ID ] = {
-					x: 0,
-					y: accu + ( ( CHILD_HEIGHT / 2 ) * -Math.sign( startPos ) )
-				};
-
-				return accu + ( -Math.sign( startPos ) * ( CHILD_HEIGHT + CHILD_MARGIN ) );
-
-			}, startPos );
+			// end to end children
+			this.signInvertor = - Math.sign( startPos );
+			// @TODO: Replace .bind() when webpack update to allow class methods as fat arrow
+			boxChildren.reduce( this.direction__columnEndToEndChildren.bind(this) , startPos );
 
 			//
+			const usedDirectionSpace = this.getChildrenSideSum( 'height' );
+			const remainingSpace = this.getInnerHeight() - usedDirectionSpace;
 
-			const usedWidth = this.getChildrenSideSum( 'height' );
-			const innerWidth = this.getInnerHeight();
+			// Items Offset
+			const axisOffset = ( startPos * 2 ) - ( usedDirectionSpace * Math.sign( startPos ) );
+			const justificationOffset = this.justification__getJustificationOffset( JUSTIFICATION, axisOffset);
 
-			const remainingSpace = innerWidth - usedWidth;
+			// Items margin
+			const justificationMargins = this.justification__getJustificationMargin( boxChildren, remainingSpace, JUSTIFICATION);
 
-			const axisOffset = ( startPos * 2 ) - ( this.getChildrenSideSum( 'height' ) * Math.sign( startPos ) );
-			let justificationOffset = 0;
-
-			switch ( JUSTIFICATION ){
-
-				case "end":
-					justificationOffset = axisOffset;
-					break;
-
-				case "center":
-					justificationOffset = axisOffset / 2;
-					break;
-
-				// stays with an offset of 0
-				case "space-between":
-				case "space-around":
-				case "space-evenly":
-				case "start":
-				default:
-
-			}
-
-			const justificationMargins = Array( boxChildren.length ).fill( 0 );
-
-			if ( remainingSpace > 0 ) {
-
-				switch ( JUSTIFICATION ) {
-
-					case "space-between":
-						// only one children would act as start
-						if ( boxChildren.length > 1 ) {
-
-							const margin = remainingSpace / ( boxChildren.length - 1 ) * -Math.sign( startPos );
-							// set this margin for any children
-
-							// except for first child
-							justificationMargins[ 0 ] = 0;
-
-							for ( let i = 1; i < boxChildren.length; i++ ) {
-
-								justificationMargins[ i ] = margin * i;
-
-							}
-
-						}
-
-						break;
-
-					case "space-evenly":
-						// only one children would act as start
-						if ( boxChildren.length > 1 ) {
-
-							const margin = remainingSpace / ( boxChildren.length + 1 ) * -Math.sign( startPos );
-
-							// set this margin for any children
-							for ( let i = 0; i < boxChildren.length; i++ ) {
-
-								justificationMargins[ i ] = margin * ( i + 1 );
-
-							}
-
-						}
-
-						break;
-
-					case "space-around":
-						// only one children would act as start
-						if ( boxChildren.length > 1 ) {
-
-							const margin = remainingSpace / ( boxChildren.length ) * -Math.sign( startPos );
-
-							const start = margin / 2;
-							justificationMargins[ 0 ] = start;
-
-							// set this margin for any children
-							for ( let i = 1; i < boxChildren.length; i++ ) {
-
-								justificationMargins[ i ] = start + margin * i;
-
-							}
-
-						}
-
-						break;
-
-					// those cases doesn't involve additional margins
-					case "end":
-					case "center":
-					case "start":
-					default:
-
-				}
-			}
-
+			// Apply
 			boxChildren.forEach( ( child, childIndex ) => {
 
 				this.childrenPos[ child.id ].y -= justificationOffset - justificationMargins[childIndex];
@@ -572,3 +500,15 @@ export default function BoxComponent( Base ) {
 	};
 
 }
+
+
+const AVAILABLE_JUSTIFICATIONS = [
+	'start',
+	'center',
+	'end',
+	'space-around',
+	'space-between',
+	'space-evenly'
+];
+
+const _boxChildrenFilter = c => c.isBoxComponent;
