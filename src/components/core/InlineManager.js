@@ -117,6 +117,10 @@ export default function InlineManager( Base ) {
 
 			} );
 
+
+			// Make lines accessible to provide helpful informations
+			this.lines = lines;
+
 		}
 
 
