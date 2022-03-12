@@ -151,7 +151,8 @@ function makeTextPanel() {
     margin: 0.01,
     padding: 0.02,
     fontSize: 0.025,
-    alignContent: "left",
+    alignItems: "left",
+		textAlign: 'justify',
     backgroundOpacity: 0,
   }).add(
     new ThreeMeshUI.Text({

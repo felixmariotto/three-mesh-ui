@@ -457,7 +457,12 @@ export default function MeshUIComponent( Base ) {
 			if( options["alignContent"] ){
 
 				options["alignItems"] = options["alignContent"];
-				options["textAlign"] = options["alignContent"];
+
+				if( !options["textAlign"] ){
+
+					options["textAlign"] = options["alignContent"];
+
+				}
 
 				console.warn("`alignContent` property has been deprecated, please rely on `alignItems` and `textAlign` instead.")
 

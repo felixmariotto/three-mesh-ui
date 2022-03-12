@@ -21,7 +21,8 @@ let pages = [
 	['font_kerning', 'font kerning'],
 	['best_fit', 'best fit'],
 	['antialiasing', 'antialiasing'],
-	['justification', 'justification']
+	['justification', 'justification'],
+	['text_align', 'Text Align'],
 ];
 
 // create one config for each of the data set above
@@ -81,7 +82,8 @@ module.exports = env => {
 			font_kerning: './examples/font_kerning.js',
 			best_fit: './examples/best_fit.js',
 			antialiasing: './examples/antialiasing.js',
-			justification: './examples/justification.js'
+			justification: './examples/justification.js',
+			text_align: './examples/text_align.js'
 		},
 
 		plugins: pagesConfig,
