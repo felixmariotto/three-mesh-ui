@@ -13,9 +13,10 @@ export default {
 	breakOn: '- ,.:?!\n',// added '\n' to also acts as friendly breaks when white-space:normal
 	whiteSpace: 'pre-line',
 	contentDirection: 'column',
-	alignContent: 'center',
+	alignItems: 'center',
 	justifyContent: 'start',
 	fontTexture: null,
+	textAlign: "center",
 	textType: 'MSDF',
 	fontColor: new Color( 0xffffff ),
 	fontOpacity: 1,

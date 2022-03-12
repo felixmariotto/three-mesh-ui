@@ -28,7 +28,7 @@ export default function InlineManager( Base ) {
 
 			// got by MeshUIComponent
 			const JUSTIFICATION = this.getJustifyContent();
-			const ALIGNMENT = this.getAlignContent();
+			const ALIGNMENT = this.getTextAlign();
 
 			const INTERLINE = this.getInterLine();
 
@@ -92,20 +92,18 @@ export default function InlineManager( Base ) {
 
 			// Horizontal positioning
 
-			lines.forEach( ( line ) => {
+			lines.forEach( ( line, i, arr ) => {
 
 				const alignmentOffset = ( () => {
 
 					switch ( ALIGNMENT ) {
 
 						case 'left':
-							console.warn(`alignContent 'left' has been deprecated. Please rely on 'start' or 'end' instead`);
 							// fallthrough
 						case 'start':
 							return -INNER_WIDTH / 2;
 
 						case 'right':
-							console.warn(`alignContent 'left' has been deprecated. Please rely on 'start' or 'end' instead`);
 							// fallthrough
 						case 'end':
 							return -line.width + ( INNER_WIDTH / 2 );

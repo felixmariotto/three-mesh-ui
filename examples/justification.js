@@ -139,7 +139,7 @@ function buildJustifiedPanel( id, color, contentDirection ) {
 			borderRadius: 0.02,
 			backgroundColor: color,
 			justifyContent: 'center',
-			alignContent: 'center'
+			alignItems: 'center'
 		} );
 		panel.add( blockText );
 
@@ -225,13 +225,13 @@ setInterval( () => {
 
 	for ( let i = 1; i < justifyInRow.children.length; i ++ ) {
 
-		justifyInRow.children[ i ].set( { alignContent: mode } );
+		justifyInRow.children[ i ].set( { alignItems: mode } );
 
 	}
 
 	for ( let i = 1; i < justifyInColumn.children.length; i ++ ) {
 
-		justifyInColumn.children[ i ].set( { alignContent: mode } );
+		justifyInColumn.children[ i ].set( { alignItems: mode } );
 
 	}
 

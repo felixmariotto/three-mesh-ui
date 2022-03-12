@@ -389,7 +389,7 @@ export default function BoxComponent( Base ) {
 		/** called if justifyContent is 'column' or 'column-reverse', it align the content horizontally */
 		alignChildrenOnX() {
 
-			const ALIGNMENT = this.getAlignContent();
+			const ALIGNMENT = this.getAlignItems();
 			const X_TARGET = ( this.getWidth() / 2 ) - ( this.padding || 0 );
 
 			const availableAlignments = ['start','center','end','left','right'];
@@ -398,6 +398,8 @@ export default function BoxComponent( Base ) {
 				console.warn( `alignContent === '${ALIGNMENT}' is not supported` );
 
 			}
+
+			warnAboutDeprecatedAlignItems();
 
 			this.children.forEach( ( child ) => {
 
@@ -424,7 +426,7 @@ export default function BoxComponent( Base ) {
 		/** called if justifyContent is 'row' or 'row-reverse', it align the content vertically */
 		alignChildrenOnY() {
 
-			const ALIGNMENT = this.getAlignContent();
+			const ALIGNMENT = this.getAlignItems();
 			const Y_TARGET = ( this.getHeight() / 2 ) - ( this.padding || 0 );
 
 			const availableAlignments = ['start','center','end','top','bottom'];
@@ -433,6 +435,9 @@ export default function BoxComponent( Base ) {
 				console.warn( `alignContent === '${ALIGNMENT}' is not supported` );
 
 			}
+
+			warnAboutDeprecatedAlignItems();
+
 
 			this.children.forEach( ( child ) => {
 
@@ -510,5 +515,26 @@ const AVAILABLE_JUSTIFICATIONS = [
 	'space-between',
 	'space-evenly'
 ];
+
+const DEPRECATED_ALIGN_ITEMS = [
+	'top',
+	'right',
+	'bottom',
+	'left'
+]
+
+/**
+ * @deprecated
+ * @param alignment
+ */
+function warnAboutDeprecatedAlignItems( alignment ){
+
+	if( DEPRECATED_ALIGN_ITEMS.indexOf(alignment) !== - 1){
+
+		console.warn(`alignItems === '${alignment}' is deprecated and will be remove in 7.x.x. Fallback are 'start'|'end'`)
+
+	}
+
+}
 
 const _boxChildrenFilter = c => c.isBoxComponent;

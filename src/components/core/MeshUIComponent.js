@@ -181,6 +181,12 @@ export default function MeshUIComponent( Base ) {
 
 		}
 
+		getTextAlign() {
+
+			return this._getProperty( 'textAlign' );
+
+		}
+
 		getTextType() {
 
 			return this._getProperty( 'textType' );
@@ -294,9 +300,19 @@ export default function MeshUIComponent( Base ) {
 
 		}
 
+		/**
+		 * @deprecated
+		 * @returns {string}
+		 */
 		getAlignContent() {
 
 			return this.alignContent || DEFAULTS.alignContent;
+
+		}
+
+		getAlignItems() {
+
+			return this.alignItems || DEFAULTS.alignItems;
 
 		}
 
@@ -437,6 +453,19 @@ export default function MeshUIComponent( Base ) {
 
 			if ( !options || JSON.stringify( options ) === JSON.stringify( {} ) ) return;
 
+			//@deprecated
+			if( options["alignContent"] ){
+
+				options["alignItems"] = options["alignContent"];
+				options["textAlign"] = options["alignContent"];
+
+				console.warn("`alignContent` property has been deprecated, please rely on `alignItems` and `textAlign` instead.")
+
+				delete options["alignContent"];
+
+			}
+
+
 			// Set this component parameters according to options, and trigger updates accordingly
 			// The benefit of having two types of updates, is to put everthing that takes time
 			// in one batch, and the rest in the other. This way, efficient animation is possible with
@@ -485,6 +514,8 @@ export default function MeshUIComponent( Base ) {
 						case 'contentDirection' :
 						case 'justifyContent' :
 						case 'alignContent' :
+						case 'alignItems' :
+						case 'textAlign' :
 						case 'textType' :
 							layoutNeedsUpdate = true;
 							this[ prop ] = options[ prop ];
