@@ -122,6 +122,9 @@ export default class UpdateManager {
 	static traverseUpdates( component ) {
 
 		const request = this.requestedUpdates[ component.id ];
+		// instant remove the requested update,
+		// allowing code below ( especially onAfterUpdate ) to add it without being directly remove
+		delete this.requestedUpdates[ component.id ];
 
 		//
 
@@ -143,25 +146,21 @@ export default class UpdateManager {
 
 		}
 
-		//
 
-		if ( request && request.needCallback ) {
-
-			component.onAfterUpdate();
-
-		}
-
-		//
-
-		delete this.requestedUpdates[ component.id ];
-
-		//
+		// Update any child
 
 		component.getUIChildren().forEach( ( childUI ) => {
 
 			this.traverseUpdates( childUI );
 
 		} );
+
+		// before sending onAfterUpdate
+		if ( request && request.needCallback ) {
+
+			component.onAfterUpdate();
+
+		}
 
 	}
 
