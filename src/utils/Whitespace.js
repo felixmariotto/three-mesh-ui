@@ -25,6 +25,7 @@ export default class Whitespace {
 
 		switch ( whiteSpace ) {
 
+			case 'nowrap':
 			case 'normal':
 				// newlines are treated as other whitespace characters
 				textContent = textContent.replace( /\n/g, ' ' );
@@ -56,6 +57,7 @@ export default class Whitespace {
 			case 'pre-line':
 				return 'mandatory';
 
+			case 'nowrap':
 			case 'normal':
 			default:
 			// do not automatically break on newline
@@ -101,6 +103,7 @@ export default class Whitespace {
 
 
 			case 'pre-line':
+			case 'nowrap':
 			case 'normal': {
 				let inlinesToCollapse = [];
 				let collapsingTarget;

@@ -296,6 +296,7 @@ export default function InlineManager( Base ) {
 
 					const fontSize = inlineComponent._fitFontSize || inlineComponent.getFontSize();
 					const letterSpacing = inlineComponent.isText ? inlineComponent.getLetterSpacing() * fontSize : 0;
+					const whiteSpace = inlineComponent.getWhiteSpace();
 
 					const currentInlineInfo = inlineComponent.inlines.reduce( ( lastInlineOffset, inline, i, inlines ) => {
 
@@ -307,10 +308,10 @@ export default function InlineManager( Base ) {
 
 						const nextBreak = this.distanceToNextBreak( inlines, i, letterSpacing );
 
-						if (
+						if ( whiteSpace !== 'nowrap' && (
 							lastInlineOffset + xadvance + xoffset + kerning > INNER_WIDTH ||
 							inline.lineBreak === 'mandatory' ||
-							this.shouldFriendlyBreak( inlines[ i - 1 ], lastInlineOffset, nextBreak, INNER_WIDTH )
+							this.shouldFriendlyBreak( inlines[ i - 1 ], lastInlineOffset, nextBreak, INNER_WIDTH ) )
 						) {
 
 							lines.push( [ inline ] );
