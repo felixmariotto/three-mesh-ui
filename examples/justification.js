@@ -124,7 +124,9 @@ function buildJustifiedPanel( id, color, contentDirection ) {
 		contentDirection: contentDirection,
 		justifyContent: id,
 		backgroundOpacity: 0.5,
-		margin: 0.01
+		padding: 0.02,
+		margin: 0.01,
+		offset:0.0001
 	} );
 	container.add( panel );
 
@@ -139,7 +141,8 @@ function buildJustifiedPanel( id, color, contentDirection ) {
 			borderRadius: 0.02,
 			backgroundColor: color,
 			justifyContent: 'center',
-			alignItems: 'center'
+			alignItems: 'center',
+			offset:0.001
 		} );
 		panel.add( blockText );
 
@@ -214,7 +217,7 @@ setInterval( () => {
 }, 2500 );
 
 let alignMode = 1;
-const aligns = [ 'start', 'center', 'end' ];
+const aligns = [ 'start', 'center', 'end', 'stretch'];
 
 setInterval( () => {
 
@@ -267,6 +270,38 @@ setInterval( () => {
 	}
 
 }, 3000 );
+
+// let childAlignMode = 1;
+// const childAligns = [ 'center', 'stretch' ];
+//
+// setInterval( () => {
+//
+// 	childAlignMode += 1;
+// 	childAlignMode = childAlignMode >= childAligns.length ? 0 : childAlignMode;
+//
+// 	const mode = childAligns[ childAlignMode ];
+//
+// 	for ( let i = 1; i < justifyInRow.children.length; i ++ ) {
+//
+// 		for ( let j = 1; j < justifyInRow.children[ i ].children.length; j ++ ) {
+//
+// 			justifyInRow.children[ i ].children[ j ].set( { alignItems: mode } );
+//
+// 		}
+//
+// 	}
+//
+// 	for ( let i = 1; i < justifyInColumn.children.length; i ++ ) {
+//
+// 		for ( let j = 1; j < justifyInColumn.children[ i ].children.length; j ++ ) {
+//
+// 			justifyInColumn.children[ i ].children[ j ].set( { alignItems:mode } );
+//
+// 		}
+// 	}
+//
+// }, 500 );
+
 
 let currentBigSize = DIM_HIGH;
 let currentSpeed = - 0.005;

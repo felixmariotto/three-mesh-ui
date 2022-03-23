@@ -392,10 +392,9 @@ export default function BoxComponent( Base ) {
 			const ALIGNMENT = this.getAlignItems();
 			const X_TARGET = ( this.getWidth() / 2 ) - ( this.padding || 0 );
 
-			const availableAlignments = ['start','center','end','left','right'];
-			if( availableAlignments.indexOf(ALIGNMENT) === -1 ){
+			if( AVAILABLE_ALIGN_ITEMS.indexOf(ALIGNMENT) === -1 ){
 
-				console.warn( `alignContent === '${ALIGNMENT}' is not supported` );
+				console.warn( `alignItems === '${ALIGNMENT}' is not supported` );
 
 			}
 
@@ -429,10 +428,9 @@ export default function BoxComponent( Base ) {
 			const ALIGNMENT = this.getAlignItems();
 			const Y_TARGET = ( this.getHeight() / 2 ) - ( this.padding || 0 );
 
-			const availableAlignments = ['start','center','end','top','bottom'];
-			if( availableAlignments.indexOf(ALIGNMENT) === -1 ){
+			if( AVAILABLE_ALIGN_ITEMS.indexOf(ALIGNMENT) === -1 ){
 
-				console.warn( `alignContent === '${ALIGNMENT}' is not supported` );
+				console.warn( `alignItems === '${ALIGNMENT}' is not supported` );
 
 			}
 
@@ -488,6 +486,20 @@ export default function BoxComponent( Base ) {
 		 */
 		getWidth() {
 
+
+			// This is for stretch alignment
+			// @TODO : Conceive a better performant way
+			if( this.parent.isUI && this.parent.getAlignItems() === 'stretch' ){
+
+				if( this.parent.getContentDirection().indexOf('column') !== -1 ){
+
+					return this.parent.getWidth() -  ( this.parent.padding * 2 || 0 );
+
+				}
+
+			}
+
+
 			return this.width || this.getInnerWidth() + ( this.padding * 2 || 0 );
 
 		}
@@ -497,6 +509,18 @@ export default function BoxComponent( Base ) {
 		 * With padding, without margin
 		 */
 		getHeight() {
+
+			// This is for stretch alignment
+			// @TODO : Conceive a better performant way
+			if( this.parent.isUI && this.parent.getAlignItems() === 'stretch' ){
+
+				if( this.parent.getContentDirection().indexOf('row') !== -1 ){
+
+					return this.parent.getHeight() - ( this.parent.padding * 2 || 0 );
+
+				}
+
+			}
 
 			return this.height || this.getInnerHeight() + ( this.padding * 2 || 0 );
 
@@ -516,6 +540,16 @@ const AVAILABLE_JUSTIFICATIONS = [
 	'space-evenly'
 ];
 
+const AVAILABLE_ALIGN_ITEMS = [
+	'start',
+	'center',
+	'end',
+	'stretch',
+	'top', // @TODO: Be remove upon 7.x.x
+	'bottom' // @TODO: Be remove upon 7.x.x
+];
+
+// @TODO: Be remove upon 7.x.x
 const DEPRECATED_ALIGN_ITEMS = [
 	'top',
 	'right',
@@ -525,6 +559,7 @@ const DEPRECATED_ALIGN_ITEMS = [
 
 /**
  * @deprecated
+ * // @TODO: Be remove upon 7.x.x
  * @param alignment
  */
 function warnAboutDeprecatedAlignItems( alignment ){
