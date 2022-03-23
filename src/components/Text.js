@@ -145,7 +145,11 @@ export default class Text extends mix.withBase( Object3D )(
 
 			let lineBreak = null;
 
-			if ( breakChars.includes( glyph ) || glyph.match( /\s/g ) ) lineBreak = 'possible';
+			if( whiteSpace !== 'nowrap') {
+
+				if ( breakChars.includes( glyph ) || glyph.match( /\s/g ) ) lineBreak = 'possible';
+
+			}
 
 
 			if ( glyph.match( /\n/g ) ) {
