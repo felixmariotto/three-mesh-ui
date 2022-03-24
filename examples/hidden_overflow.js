@@ -88,7 +88,6 @@ function makeTextPanel() {
 		width: 0.6,
 		padding: 0.05,
 		justifyContent: 'center',
-		alignContent: 'center',
 		backgroundOpacity: 1,
 		backgroundColor: new THREE.Color( 'grey' )
 	} );

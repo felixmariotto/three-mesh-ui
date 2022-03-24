@@ -96,14 +96,14 @@ function makeTextPanel() {
     width: 1.0,
     margin: 0.025,
     padding: 0.025,
-    alignContent: "left",
+    textAlign: "left",
     justifyContent: "end",
   });
 
   const caption = new ThreeMeshUI.Block({
     height: 0.07,
     width: 0.37,
-    alignContent: "center",
+    textAlign: "center",
     justifyContent: "center",
   });
 
@@ -151,8 +151,8 @@ function makeTextPanel() {
     margin: 0.01,
     padding: 0.02,
     fontSize: 0.025,
-    alignItems: "left",
-		textAlign: 'justify',
+    alignItems: "start",
+    textAlign: 'justify',
     backgroundOpacity: 0,
   }).add(
     new ThreeMeshUI.Text({

@@ -67,7 +67,7 @@ function makeTextPanel() {
 		height: 0.5,
 		padding: 0.05,
 		justifyContent: 'center',
-		alignContent: 'left',
+		textAlign: 'left',
 		fontFamily: FontJSON,
 		fontTexture: FontImage
 	} );

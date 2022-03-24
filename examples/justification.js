@@ -159,11 +159,13 @@ function buildJustifiedPanel( id, color, contentDirection ) {
 function makeTitlePanel(){
 
 	const panel = new ThreeMeshUI.Block( {
-		width: DIM_HIGH * 2,
+		width: DIM_HIGH * 1.85,
 		height: 0.15,
+		padding: 0.05,
 		contentDirection: 'row',
 		justifyContent: 'center',
-		backgroundOpacity: 0.2,
+		textAlign: 'justify',
+		backgroundOpacity: 0.6,
 		fontSize: 0.1,
 		fontFamily: FontJSON,
 		fontTexture: FontImage
@@ -176,7 +178,7 @@ function makeTitlePanel(){
 
 		panel.add(
 			new ThreeMeshUI.Text( {
-				content: id,
+				content: id + " ",
 				fontColor: color
 			} )
 		);

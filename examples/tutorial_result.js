@@ -115,7 +115,7 @@ function makeUI() {
   });
 
   textBlock.set({
-    alignContent: "right",
+    textAlign: "right",
     justifyContent: "end",
     padding: 0.03,
   });

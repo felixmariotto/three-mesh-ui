@@ -36,7 +36,7 @@ function init() {
 	document.body.appendChild( renderer.domElement );
 
 	controls = new OrbitControls( camera, renderer.domElement );
-	camera.position.set( 0, 1.6, 0 );
+	camera.position.set( 0, 1.6, 0.75 );
 	controls.target = new THREE.Vector3( 0, 1.5, -1.8 );
 	controls.update();
 
@@ -50,11 +50,19 @@ function init() {
 	scene.add( room );
 
 	// TEXT PANEL
-	const textAligns = ["left","center","right", "justify-left", "justify", "justify-right"];
+	const textAligns = [
+		ThreeMeshUI.textAlign.LEFT, 					// 'left'
+		ThreeMeshUI.textAlign.CENTER, 				// 'center'
+		ThreeMeshUI.textAlign.RIGHT, 					// 'right'
+		ThreeMeshUI.textAlign.JUSTIFY_LEFT, 	// 'justify-left'
+		ThreeMeshUI.textAlign.JUSTIFY, 				// 'justify'
+		ThreeMeshUI.textAlign.JUSTIFY_RIGHT, 	// 'justify-right'
+		ThreeMeshUI.textAlign.JUSTIFY_CENTER 	// 'justify-center'
+	];
 
 	for ( let i = 0; i < textAligns.length; i++ ) {
 		const textAlign = textAligns[ i ];
-		makeTextPanel(i, textAlign);
+		makeTextPanel(i, textAlign, i=== textAligns.length-1);
 	}
 
 
@@ -66,25 +74,24 @@ function init() {
 
 //
 
-function makeTextPanel(index,textAlign) {
+function makeTextPanel(index,textAlign, last = false) {
 
 
 	const group = new Object3D();
 
 	const title = new ThreeMeshUI.Block( {
-		width: 1,
+		width: 1.15,
 		height: 0.15,
 		padding: 0.05,
 		backgroundColor: new THREE.Color(0xff9900),
 		justifyContent: 'center',
-		alignContent: 'center',
 		fontFamily: FontJSON,
 		fontTexture: FontImage
 	} );
 
 	const titleText = new ThreeMeshUI.Text( {
-			content: 'textAlign: "'+textAlign+'"',
-			fontSize: 0.08
+			content: '.set({textAlign: "'+textAlign+'"})',
+			fontSize: 0.075
 		} );
 
 	title.add(
@@ -94,11 +101,11 @@ function makeTextPanel(index,textAlign) {
 	group.add( title );
 
 	const container = new ThreeMeshUI.Block( {
-		width: 1.2,
+		width: 1.3,
 		height: 0.5,
 		padding: 0.05,
 		justifyContent: 'center',
-		alignItems: 'left',
+		alignItems: 'start',
 		textAlign,
 		fontFamily: FontJSON,
 		fontTexture: FontImage
@@ -116,7 +123,14 @@ function makeTextPanel(index,textAlign) {
 		} )
 	);
 
-	group.position.set( -1.25 + index%3 * 1.25 , 1.85 + Math.floor(index / 3) * -0.9 , -2)
+	group.position.set( -1.35 + index%3 * 1.35 , 2.25 + Math.floor(index / 3) * -0.8 , -2);
+
+	if( last ){
+
+		group.position.x = 0;
+
+	}
+
 	scene.add( group );
 
 }
