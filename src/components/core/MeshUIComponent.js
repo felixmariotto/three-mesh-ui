@@ -5,7 +5,6 @@ import FontLibrary from './FontLibrary.js';
 import UpdateManager from './UpdateManager.js';
 
 import DEFAULTS from '../../utils/Defaults.js';
-import BoxComponent from './BoxComponent';
 
 /**
 

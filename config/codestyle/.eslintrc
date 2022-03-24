@@ -1,6 +1,7 @@
 {
     "rules": {
         "no-var": 1,
+        "no-case-declarations": 0,
         "no-cond-assign": 1,
         "no-constant-condition": 1,
         "no-control-regex": 1,

@@ -313,7 +313,7 @@ export default function InlineManager( Base ) {
 						const xadvance = inline.xadvance ? inline.xadvance : inline.width;
 
 						// Line break
-						let shouldBreak = Whitespace.shouldBreak(inlines,i,lastInlineOffset, whiteSpaceOptions );
+						const shouldBreak = Whitespace.shouldBreak(inlines,i,lastInlineOffset, whiteSpaceOptions );
 
 						if ( shouldBreak ) {
 
