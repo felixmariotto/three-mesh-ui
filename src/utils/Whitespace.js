@@ -18,6 +18,13 @@ export const PRE = 'pre';
 export const PRE_LINE = 'pre-line';
 export const PRE_WRAP = 'pre-wrap';
 
+/**
+ * Collapse whitespaces and sequence of whitespaces on string
+ *
+ * @param textContent
+ * @param whiteSpace
+ * @returns {*}
+ */
 export const collapseWhitespaceOnString = function ( textContent, whiteSpace ) {
 
 	switch ( whiteSpace ) {
@@ -43,6 +50,7 @@ export const collapseWhitespaceOnString = function ( textContent, whiteSpace ) {
 
 /**
  * Get the breakability of a newline character according to white-space property
+ *
  * @param whiteSpace
  * @returns {string}
  */
@@ -64,6 +72,15 @@ export const newlineBreakability = function ( whiteSpace ) {
 
 };
 
+/**
+ * Check for breaks in inlines according to whiteSpace value
+ *
+ * @param inlines
+ * @param i
+ * @param lastInlineOffset
+ * @param options
+ * @returns {boolean}
+ */
 export const shouldBreak = function( inlines, i, lastInlineOffset, options){
 	const inline = inlines[i];
 
