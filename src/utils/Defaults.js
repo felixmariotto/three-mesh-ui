@@ -1,5 +1,8 @@
 import { Color } from 'three';
 import { CanvasTexture } from 'three';
+import { CENTER as textAlign } from './TextAlign';
+
+
 
 /** List the default values of the lib components */
 export default {
@@ -16,7 +19,7 @@ export default {
 	alignItems: 'center',
 	justifyContent: 'start',
 	fontTexture: null,
-	textAlign: "center",
+	textAlign,
 	textType: 'MSDF',
 	fontColor: new Color( 0xffffff ),
 	fontOpacity: 1,

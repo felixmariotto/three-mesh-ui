@@ -5,6 +5,7 @@ import FontLibrary from './FontLibrary.js';
 import UpdateManager from './UpdateManager.js';
 
 import DEFAULTS from '../../utils/Defaults.js';
+import BoxComponent from './BoxComponent';
 
 /**
 
@@ -453,7 +454,9 @@ export default function MeshUIComponent( Base ) {
 
 			if ( !options || JSON.stringify( options ) === JSON.stringify( {} ) ) return;
 
-			//@deprecated
+			// DEPRECATION Warnings until -------------------------------------- 7.x.x ---------------------------------------
+
+			// Align content has been removed
 			if( options["alignContent"] ){
 
 				options["alignItems"] = options["alignContent"];
@@ -467,6 +470,13 @@ export default function MeshUIComponent( Base ) {
 				console.warn("`alignContent` property has been deprecated, please rely on `alignItems` and `textAlign` instead.")
 
 				delete options["alignContent"];
+
+			}
+
+			// Align items left top bottom right will be removed
+			if( options['alignItems'] ){
+
+				warnAboutDeprecatedAlignItems( options['alignItems'] );
 
 			}
 
@@ -627,5 +637,28 @@ export default function MeshUIComponent( Base ) {
 
 		}
 	};
+
+}
+
+// @TODO: Be remove upon 7.x.x
+const DEPRECATED_ALIGN_ITEMS = [
+	'top',
+	'right',
+	'bottom',
+	'left'
+]
+
+/**
+ * @deprecated
+ * // @TODO: Be remove upon 7.x.x
+ * @param alignment
+ */
+function warnAboutDeprecatedAlignItems( alignment ){
+
+	if( DEPRECATED_ALIGN_ITEMS.indexOf(alignment) !== - 1){
+
+		console.warn(`alignItems === '${alignment}' is deprecated and will be remove in 7.x.x. Fallback are 'start'|'end'`)
+
+	}
 
 }

@@ -398,8 +398,6 @@ export default function BoxComponent( Base ) {
 
 			}
 
-			warnAboutDeprecatedAlignItems();
-
 			this.children.forEach( ( child ) => {
 
 				if ( !child.isBoxComponent ) return;
@@ -433,8 +431,6 @@ export default function BoxComponent( Base ) {
 				console.warn( `alignItems === '${ALIGNMENT}' is not supported` );
 
 			}
-
-			warnAboutDeprecatedAlignItems();
 
 
 			this.children.forEach( ( child ) => {
@@ -489,7 +485,7 @@ export default function BoxComponent( Base ) {
 
 			// This is for stretch alignment
 			// @TODO : Conceive a better performant way
-			if( this.parent.isUI && this.parent.getAlignItems() === 'stretch' ){
+			if( this.parent && this.parent.isUI && this.parent.getAlignItems() === 'stretch' ){
 
 				if( this.parent.getContentDirection().indexOf('column') !== -1 ){
 
@@ -512,7 +508,7 @@ export default function BoxComponent( Base ) {
 
 			// This is for stretch alignment
 			// @TODO : Conceive a better performant way
-			if( this.parent.isUI && this.parent.getAlignItems() === 'stretch' ){
+			if( this.parent && this.parent.isUI && this.parent.getAlignItems() === 'stretch' ){
 
 				if( this.parent.getContentDirection().indexOf('row') !== -1 ){
 
@@ -546,30 +542,9 @@ const AVAILABLE_ALIGN_ITEMS = [
 	'end',
 	'stretch',
 	'top', // @TODO: Be remove upon 7.x.x
-	'bottom' // @TODO: Be remove upon 7.x.x
+	'right', // @TODO: Be remove upon 7.x.x
+	'bottom', // @TODO: Be remove upon 7.x.x
+	'left' // @TODO: Be remove upon 7.x.x
 ];
-
-// @TODO: Be remove upon 7.x.x
-const DEPRECATED_ALIGN_ITEMS = [
-	'top',
-	'right',
-	'bottom',
-	'left'
-]
-
-/**
- * @deprecated
- * // @TODO: Be remove upon 7.x.x
- * @param alignment
- */
-function warnAboutDeprecatedAlignItems( alignment ){
-
-	if( DEPRECATED_ALIGN_ITEMS.indexOf(alignment) !== - 1){
-
-		console.warn(`alignItems === '${alignment}' is deprecated and will be remove in 7.x.x. Fallback are 'start'|'end'`)
-
-	}
-
-}
 
 const _boxChildrenFilter = c => c.isBoxComponent;

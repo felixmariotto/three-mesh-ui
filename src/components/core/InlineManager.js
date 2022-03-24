@@ -15,6 +15,8 @@ in its own updateLayout function.
  */
 import Whitespace from '../../utils/Whitespace';
 
+import * as TextAlign from '../../utils/TextAlign';
+
 export default function InlineManager( Base ) {
 
 	return class InlineManager extends Base {
@@ -91,87 +93,7 @@ export default function InlineManager( Base ) {
 			} );
 
 			// Horizontal positioning
-
-			lines.forEach( ( line, i ) => {
-
-				const alignmentOffset = ( () => {
-
-					switch ( ALIGNMENT ) {
-
-						case 'justify-left':
-							// fallthrough
-						case 'justify':
-							// fallthrough
-						case 'left':
-							// fallthrough
-						case 'start':
-							return -INNER_WIDTH / 2;
-
-						case 'justify-right':
-							// fallthrough
-						case 'right':
-							// fallthrough
-						case 'end':
-							return -line.width + ( INNER_WIDTH / 2 );
-
-						case 'center':
-							return -line.width / 2;
-
-						default:
-							console.warn( `textAlign: '${ALIGNMENT}' is not valid` );
-
-					}
-				} )();
-
-				line.forEach( ( char ) => {
-
-					char.offsetX += alignmentOffset;
-
-				} );
-
-
-				// justification
-				if( ALIGNMENT.indexOf('justify') === 0 ){
-
-					// do not process last line for justify-left or justify-right
-					if( ALIGNMENT.indexOf('-') !== -1 && i === lines.length - 1 ) return;
-
-					// can only justify is space is remaining
-					const REMAINING_SPACE = INNER_WIDTH - line.width;
-					if( REMAINING_SPACE <= 0 ) return;
-
-					// count the valid spaces to extend
-					// Do not take the first nor the last space into account
-					let validSpaces = 0;
-					for ( let j = 1; j < line.length - 1; j++ ) {
-
-						validSpaces += line[ j ].glyph === ' ' ? 1 : 0;
-
-					}
-					const additionalSpace = REMAINING_SPACE / validSpaces;
-
-					let offsetX = 0;
-					if( ALIGNMENT === 'justify' || ALIGNMENT === 'justify-left' ){
-
-						for ( let j = 1 ; j <= line.length - 1; j++ ) {
-							const char = line[ j ];
-							char.offsetX += offsetX;
-							offsetX += char.glyph === ' ' ? additionalSpace : 0;
-						}
-					}
-					else {
-
-						for ( let j = line.length - 2; j >= 0; j-- ) {
-							const char = line[ j ];
-							char.offsetX -= offsetX;
-							offsetX += char.glyph === ' ' ? additionalSpace : 0;
-						}
-
-					}
-
-				}
-
-			} );
+			TextAlign.alignLines( lines, ALIGNMENT, INNER_WIDTH );
 
 		}
 
