@@ -13,7 +13,7 @@ in order to create a line break when necessary. It's Text that merge the various
 in its own updateLayout function.
 
  */
-import Whitespace from '../../utils/Whitespace';
+import * as Whitespace from '../../utils/Whitespace';
 
 import * as TextAlign from '../../utils/TextAlign';
 
@@ -294,9 +294,17 @@ export default function InlineManager( Base ) {
 					// Compute offset of each children according to its dimensions
 					//////////////////////////////////////////////////////////////
 
-					const fontSize = inlineComponent._fitFontSize || inlineComponent.getFontSize();
-					const letterSpacing = inlineComponent.isText ? inlineComponent.getLetterSpacing() * fontSize : 0;
-					const whiteSpace = inlineComponent.getWhiteSpace();
+					const FONTSIZE = inlineComponent._fitFontSize || inlineComponent.getFontSize();
+					const LETTERSPACING = inlineComponent.isText ? inlineComponent.getLetterSpacing() * FONTSIZE : 0;
+					const WHITESPACE = inlineComponent.getWhiteSpace();
+					const BREAKON = inlineComponent.getBreakOn();
+
+					const whiteSpaceOptions = {
+						WHITESPACE,
+						LETTERSPACING,
+						BREAKON,
+						INNER_WIDTH
+					}
 
 					const currentInlineInfo = inlineComponent.inlines.reduce( ( lastInlineOffset, inline, i, inlines ) => {
 
@@ -305,14 +313,9 @@ export default function InlineManager( Base ) {
 						const xadvance = inline.xadvance ? inline.xadvance : inline.width;
 
 						// Line break
+						let shouldBreak = Whitespace.shouldBreak(inlines,i,lastInlineOffset, whiteSpaceOptions );
 
-						const nextBreak = this.distanceToNextBreak( inlines, i, letterSpacing );
-
-						if ( whiteSpace !== 'nowrap' && (
-							lastInlineOffset + xadvance + xoffset + kerning > INNER_WIDTH ||
-							inline.lineBreak === 'mandatory' ||
-							this.shouldFriendlyBreak( inlines[ i - 1 ], lastInlineOffset, nextBreak, INNER_WIDTH ) )
-						) {
+						if ( shouldBreak ) {
 
 							lines.push( [ inline ] );
 
@@ -324,7 +327,7 @@ export default function InlineManager( Base ) {
 							// compute lastInlineOffset normally
 							// except for kerning which won't apply
 							// as there is visually no lefthanded glyph to kern with
-							return xadvance + letterSpacing;
+							return xadvance + LETTERSPACING;
 
 						}
 
@@ -332,7 +335,7 @@ export default function InlineManager( Base ) {
 
 						inline.offsetX = lastInlineOffset + xoffset + kerning;
 
-						return lastInlineOffset + xadvance + kerning + letterSpacing;
+						return lastInlineOffset + xadvance + kerning + LETTERSPACING;
 
 					}, lastInlineOffset );
 
@@ -374,8 +377,8 @@ export default function InlineManager( Base ) {
 				if ( lineHasInlines ) {
 
 					// starts by processing whitespace, it will return a collapsed left offset
-					const WHITE_SPACE = this.getWhiteSpace();
-					const whiteSpaceOffset = Whitespace.collapseInlines( line, WHITE_SPACE );
+					const WHITESPACE = this.getWhiteSpace();
+					const whiteSpaceOffset = Whitespace.collapseWhitespaceOnInlines( line, WHITESPACE );
 
 					// apply the collapsed left offset to ensure the starting offset is 0
 					line.forEach( ( inline ) => {
@@ -432,57 +435,6 @@ export default function InlineManager( Base ) {
 			const lastInline = line[ line.length - 1 ];
 
 			return Math.abs( firstInline.offsetX - ( lastInline.offsetX + lastInline.width ) );
-
-		}
-
-		/**
-		 * get the distance in world coord to the next glyph defined
-		 * as break-line-safe ( like whitespace for instance )
-		 * @private
-		 */
-		distanceToNextBreak( inlines, currentIdx, letterSpacing, accu ) {
-
-			accu = accu || 0;
-
-			// end of the text
-			if ( !inlines[ currentIdx ] ) return accu;
-
-			const inline = inlines[ currentIdx ];
-			const kerning = inline.kerning ? inline.kerning : 0;
-			const xoffset = inline.xoffset ? inline.xoffset : 0;
-			const xadvance = inline.xadvance ? inline.xadvance : inline.width;
-
-			// if inline.lineBreak is set, it is 'mandatory' or 'possible'
-			if ( inline.lineBreak ) return accu + xadvance;
-
-			// no line break is possible on this character
-			return this.distanceToNextBreak(
-				inlines,
-				currentIdx + 1,
-				letterSpacing,
-				accu + xadvance + letterSpacing + xoffset + kerning
-			);
-
-		}
-
-		/**
-		 * Test if we should line break here even if the current glyph is not out of boundary.
-		 * It might be necessary if the last glyph was break-line-friendly (whitespace, hyphen..)
-		 * and the distance to the next friendly glyph is out of boundary.
-		 */
-		shouldFriendlyBreak( prevChar, lastInlineOffset, nextBreak, INNER_WIDTH ) {
-
-			// We can't check if last glyph is break-line-friendly it does not exist
-			if ( !prevChar || !prevChar.glyph ) return false;
-
-			// Next break-line-friendly glyph is inside boundary
-			if ( lastInlineOffset + nextBreak < INNER_WIDTH ) return false;
-
-			// Characters to prioritize breaking line (eg: white space)
-			const BREAK_ON = this.getBreakOn();
-
-			// Previous glyph was break-line-friendly
-			return BREAK_ON.indexOf( prevChar.glyph ) > -1;
 
 		}
 

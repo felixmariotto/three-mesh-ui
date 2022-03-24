@@ -50,19 +50,17 @@ function init() {
 	scene.add( room );
 
 	// TEXT PANEL
-	const textAligns = [
-		'left',						// 'left' or ThreeMeshUI.textAlign.LEFT,
-		'center',					// 'center' or ThreeMeshUI.textAlign.CENTER,
-		'right',					// 'right' or ThreeMeshUI.textAlign.RIGHT,
-		'justify-left',		// 'justify-left' or ThreeMeshUI.textAlign.JUSTIFY_LEFT,
-		'justify',				// 'justify' or ThreeMeshUI.textAlign.JUSTIFY,
-		'justify-right',	// 'justify-right' or ThreeMeshUI.textAlign.JUSTIFY_RIGHT,
-		'justify-center'	// 'justify-center' or ThreeMeshUI.textAlign.JUSTIFY_CENTER
+	const whitespaces = [
+		'normal', 		// 'normal' or ThreeMeshUI.whiteSpace.NORMAL
+		'pre-line', 	// 'pre-line' or ThreeMeshUI.whiteSpace.PRE_LINE
+		'pre-wrap', 	// 'pre-wrap' or ThreeMeshUI.whiteSpace.PRE_WRAP
+		'pre', 				// 'pre' or ThreeMeshUI.whiteSpace.PRE
+		'nowrap', 		// 'nowrap' or ThreeMeshUI.whiteSpace.NOWRAP
 	];
 
-	for ( let i = 0; i < textAligns.length; i++ ) {
-		const textAlign = textAligns[ i ];
-		makeTextPanel( i, textAlign, i === textAligns.length - 1 );
+	for ( let i = 0; i < whitespaces.length; i++ ) {
+		const whitespace = whitespaces[ i ];
+		makeTextPanel(i, whitespace, i=== whitespaces.length-1);
 	}
 
 
@@ -74,7 +72,7 @@ function init() {
 
 //
 
-function makeTextPanel( index, textAlign, last = false ) {
+function makeTextPanel( index, whitespace, last = false) {
 
 
 	const group = new Object3D();
@@ -83,30 +81,31 @@ function makeTextPanel( index, textAlign, last = false ) {
 		width: 1.15,
 		height: 0.15,
 		padding: 0.05,
-		backgroundColor: new THREE.Color( 0xff9900 ),
+		backgroundColor: new THREE.Color(0xff9900),
 		justifyContent: 'center',
 		fontFamily: FontJSON,
 		fontTexture: FontImage
 	} );
 
 	const titleText = new ThreeMeshUI.Text( {
-		content: '.set({textAlign: "' + textAlign + '"})',
-		fontSize: 0.075
-	} );
+			content: '.set({whiteSpace: "'+whitespace+'"})',
+			fontSize: 0.075
+		} );
 
 	title.add(
 		titleText
 	);
-	title.position.set( 0, 0.35, 0 );
+	title.position.set( 0, 0.55, 0 );
 	group.add( title );
 
 	const container = new ThreeMeshUI.Block( {
-		width: 1.3,
-		height: 0.5,
+		width: 0.91,
+		height: 0.85,
 		padding: 0.05,
 		justifyContent: 'center',
 		alignItems: 'start',
-		textAlign,
+		textAlign: 'left',
+		whiteSpace: whitespace,
 		fontFamily: FontJSON,
 		fontTexture: FontImage
 	} );
@@ -118,14 +117,20 @@ function makeTextPanel( index, textAlign, last = false ) {
 
 	container.add(
 		new ThreeMeshUI.Text( {
-			content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
+			content: `But ere she from the church-door stepped
+     She smiled and told us why:
+'It was a wicked woman's curse,'
+     Quoth she, 'and what care I?'
+
+She smiled, and smiled, and passed it off
+     Ere from the door she stept. -`,
 			fontSize: 0.055
 		} )
 	);
 
-	group.position.set( -1.35 + index % 3 * 1.35, 2.25 + Math.floor( index / 3 ) * -0.8, -2 );
+	group.position.set( -1.35 + index%3 * 1.35 , 2.15 + Math.floor(index / 3) * -1.15 , -2);
 
-	if ( last ) {
+	if( last ){
 
 		group.position.x = 0;
 

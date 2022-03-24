@@ -1,7 +1,7 @@
 import { Color } from 'three';
 import { CanvasTexture } from 'three';
 import { CENTER as textAlign } from './TextAlign';
-
+import { PRE_LINE as whiteSpace } from './Whitespace';
 
 
 /** List the default values of the lib components */
@@ -14,7 +14,7 @@ export default {
 	offset: 0.01,
 	interLine: 0.01,
 	breakOn: '- ,.:?!\n',// added '\n' to also acts as friendly breaks when white-space:normal
-	whiteSpace: 'pre-line',
+	whiteSpace,
 	contentDirection: 'column',
 	alignItems: 'center',
 	justifyContent: 'start',

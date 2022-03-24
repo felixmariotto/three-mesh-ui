@@ -22,7 +22,8 @@ let pages = [
 	['best_fit', 'best fit'],
 	['antialiasing', 'antialiasing'],
 	['justification', 'justification'],
-	['text_align', 'Text Align'],
+	['text_align', '.textAlign'],
+	['whitespace', '.whiteSpace'],
 ];
 
 // create one config for each of the data set above
@@ -83,7 +84,8 @@ module.exports = env => {
 			best_fit: './examples/best_fit.js',
 			antialiasing: './examples/antialiasing.js',
 			justification: './examples/justification.js',
-			text_align: './examples/text_align.js'
+			text_align: './examples/text_align.js',
+			whitespace: './examples/whitespace.js'
 		},
 
 		plugins: pagesConfig,
