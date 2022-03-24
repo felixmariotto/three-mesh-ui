@@ -8,7 +8,7 @@ import MaterialManager from './core/MaterialManager.js';
 
 import deepDelete from '../utils/deepDelete.js';
 import { mix } from '../utils/mix.js';
-import Whitespace from '../utils/Whitespace';
+import * as Whitespace from '../utils/Whitespace';
 
 /**
 
@@ -121,7 +121,7 @@ export default class Text extends mix.withBase( Object3D )(
 		}
 
 		// collapse whitespace for white-space normal
-		const whitespaceProcessedContent = Whitespace.collapseContent( content, whiteSpace );
+		const whitespaceProcessedContent = Whitespace.collapseWhitespaceOnString( content, whiteSpace );
 		const chars = Array.from ? Array.from( whitespaceProcessedContent ) : String( whitespaceProcessedContent ).split( '' );
 
 
@@ -145,7 +145,11 @@ export default class Text extends mix.withBase( Object3D )(
 
 			let lineBreak = null;
 
-			if ( breakChars.includes( glyph ) || glyph.match( /\s/g ) ) lineBreak = 'possible';
+			if( whiteSpace !== Whitespace.NOWRAP ) {
+
+				if ( breakChars.includes( glyph ) || glyph.match( /\s/g ) ) lineBreak = 'possible';
+
+			}
 
 
 			if ( glyph.match( /\n/g ) ) {

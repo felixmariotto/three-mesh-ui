@@ -14,7 +14,7 @@ export function alignLines( lines, ALIGNMENT, INNER_WIDTH ) {
 		const line = lines[ i ];
 
 		// compute the alignment offset of the line
-		let offsetX = computeLineOffset( line, ALIGNMENT, INNER_WIDTH, i === lines.length - 1 );
+		const offsetX = computeLineOffset( line, ALIGNMENT, INNER_WIDTH, i === lines.length - 1 );
 
 		// apply the offset to each characters of the line
 		for ( let j = 0; j < line.length; j++ ) {
@@ -110,12 +110,10 @@ const computeLineOffset = ( line, ALIGNMENT, INNER_WIDTH, lastLine ) => {
 				// center alignement
 				return -line.width / 2;
 
-			} else {
+			}
 
 				// left alignment
 				return -INNER_WIDTH / 2;
-
-			}
 
 		default:
 			console.warn( `textAlign: '${ALIGNMENT}' is not valid` );

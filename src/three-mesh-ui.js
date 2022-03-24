@@ -7,6 +7,7 @@ import Keyboard from './components/Keyboard.js';
 import UpdateManager from './components/core/UpdateManager.js';
 import FontLibrary from './components/core/FontLibrary.js';
 import * as textAlign from './utils/TextAlign';
+import * as whiteSpace from './utils/Whitespace';
 
 const update = () => UpdateManager.update();
 
@@ -17,7 +18,8 @@ const ThreeMeshUI = {
 	Keyboard,
 	FontLibrary,
 	update,
-	textAlign
+	textAlign,
+	whiteSpace,
 };
 
 if ( typeof global !== 'undefined' ) global.ThreeMeshUI = ThreeMeshUI;
@@ -29,5 +31,6 @@ export { Keyboard };
 export { FontLibrary };
 export { update };
 export { textAlign };
+export { whiteSpace };
 
 export default ThreeMeshUI;
