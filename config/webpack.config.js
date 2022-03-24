@@ -14,6 +14,9 @@ module.exports = env => {
 			filename: '[name].js',
 			library: 'ThreeMeshUI',
 			libraryTarget: 'umd'
+		},
+		externals: {
+			three:'THREE'
 		}
 
 	}
