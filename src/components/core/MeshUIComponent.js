@@ -5,6 +5,7 @@ import FontLibrary from './FontLibrary.js';
 import UpdateManager from './UpdateManager.js';
 
 import DEFAULTS from '../../utils/Defaults.js';
+import BoxComponent from './BoxComponent';
 
 /**
 
@@ -181,6 +182,12 @@ export default function MeshUIComponent( Base ) {
 
 		}
 
+		getTextAlign() {
+
+			return this._getProperty( 'textAlign' );
+
+		}
+
 		getTextType() {
 
 			return this._getProperty( 'textType' );
@@ -294,9 +301,19 @@ export default function MeshUIComponent( Base ) {
 
 		}
 
+		/**
+		 * @deprecated
+		 * @returns {string}
+		 */
 		getAlignContent() {
 
 			return this.alignContent || DEFAULTS.alignContent;
+
+		}
+
+		getAlignItems() {
+
+			return this.alignItems || DEFAULTS.alignItems;
 
 		}
 
@@ -437,6 +454,33 @@ export default function MeshUIComponent( Base ) {
 
 			if ( !options || JSON.stringify( options ) === JSON.stringify( {} ) ) return;
 
+			// DEPRECATION Warnings until -------------------------------------- 7.x.x ---------------------------------------
+
+			// Align content has been removed
+			if( options["alignContent"] ){
+
+				options["alignItems"] = options["alignContent"];
+
+				if( !options["textAlign"] ){
+
+					options["textAlign"] = options["alignContent"];
+
+				}
+
+				console.warn("`alignContent` property has been deprecated, please rely on `alignItems` and `textAlign` instead.")
+
+				delete options["alignContent"];
+
+			}
+
+			// Align items left top bottom right will be removed
+			if( options['alignItems'] ){
+
+				warnAboutDeprecatedAlignItems( options['alignItems'] );
+
+			}
+
+
 			// Set this component parameters according to options, and trigger updates accordingly
 			// The benefit of having two types of updates, is to put everthing that takes time
 			// in one batch, and the rest in the other. This way, efficient animation is possible with
@@ -485,6 +529,8 @@ export default function MeshUIComponent( Base ) {
 						case 'contentDirection' :
 						case 'justifyContent' :
 						case 'alignContent' :
+						case 'alignItems' :
+						case 'textAlign' :
 						case 'textType' :
 							layoutNeedsUpdate = true;
 							this[ prop ] = options[ prop ];
@@ -591,5 +637,28 @@ export default function MeshUIComponent( Base ) {
 
 		}
 	};
+
+}
+
+// @TODO: Be remove upon 7.x.x
+const DEPRECATED_ALIGN_ITEMS = [
+	'top',
+	'right',
+	'bottom',
+	'left'
+]
+
+/**
+ * @deprecated
+ * // @TODO: Be remove upon 7.x.x
+ * @param alignment
+ */
+function warnAboutDeprecatedAlignItems( alignment ){
+
+	if( DEPRECATED_ALIGN_ITEMS.indexOf(alignment) !== - 1){
+
+		console.warn(`alignItems === '${alignment}' is deprecated and will be remove in 7.x.x. Fallback are 'start'|'end'`)
+
+	}
 
 }

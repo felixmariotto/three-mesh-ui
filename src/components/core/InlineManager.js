@@ -15,6 +15,8 @@ in its own updateLayout function.
  */
 import Whitespace from '../../utils/Whitespace';
 
+import * as TextAlign from '../../utils/TextAlign';
+
 export default function InlineManager( Base ) {
 
 	return class InlineManager extends Base {
@@ -28,7 +30,8 @@ export default function InlineManager( Base ) {
 
 			// got by MeshUIComponent
 			const JUSTIFICATION = this.getJustifyContent();
-			const ALIGNMENT = this.getAlignContent();
+			const ALIGNMENT = this.getTextAlign();
+
 			const INTERLINE = this.getInterLine();
 
 			// Compute lines
@@ -90,32 +93,7 @@ export default function InlineManager( Base ) {
 			} );
 
 			// Horizontal positioning
-
-			lines.forEach( ( line ) => {
-
-				const alignmentOffset = ( () => {
-
-					switch ( ALIGNMENT ) {
-
-						case 'left':
-							return -INNER_WIDTH / 2;
-						case 'right':
-							return -line.width + ( INNER_WIDTH / 2 );
-						case 'center':
-							return -line.width / 2;
-						default:
-							console.warn( `alignContent: '${ALIGNMENT}' is not valid` );
-
-					}
-				} )();
-
-				line.forEach( ( char ) => {
-
-					char.offsetX += alignmentOffset;
-
-				} );
-
-			} );
+			TextAlign.alignLines( lines, ALIGNMENT, INNER_WIDTH );
 
 
 			// Make lines accessible to provide helpful informations

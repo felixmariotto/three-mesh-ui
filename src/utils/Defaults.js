@@ -1,5 +1,8 @@
 import { Color } from 'three';
 import { CanvasTexture } from 'three';
+import { CENTER as textAlign } from './TextAlign';
+
+
 
 /** List the default values of the lib components */
 export default {
@@ -13,9 +16,10 @@ export default {
 	breakOn: '- ,.:?!\n',// added '\n' to also acts as friendly breaks when white-space:normal
 	whiteSpace: 'pre-line',
 	contentDirection: 'column',
-	alignContent: 'center',
+	alignItems: 'center',
 	justifyContent: 'start',
 	fontTexture: null,
+	textAlign,
 	textType: 'MSDF',
 	fontColor: new Color( 0xffffff ),
 	fontOpacity: 1,
