@@ -113,7 +113,7 @@ function makeTextPanel(index,textAlign) {
 		new ThreeMeshUI.Text( {
 			content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
 			fontSize: 0.055
-		} ),
+		} )
 	);
 
 	group.position.set( -1.25 + index%3 * 1.25 , 1.85 + Math.floor(index / 3) * -0.9 , -2)
