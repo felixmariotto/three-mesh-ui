@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Browser Build</title>
+	<style>
+		body{ margin: 0; padding: 0; overflow: hidden; width: 100vw; height: 100vh }
+	</style>
+</head>
+<body>
+
+<script src="https://unpkg.com/three@0.132.2/build/three.js"></script>
+<script src="./three-mesh-ui.js"></script>
+<script>
+	/* global THREE, ThreeMeshUI */
+
+	const WIDTH = window.innerWidth;
+	const HEIGHT = window.innerHeight;
+
+	let scene, camera, renderer, controls;
+
+	window.addEventListener( 'load', init );
+	window.addEventListener( 'resize', onWindowResize );
+
+	//
+
+	function init() {
+
+		scene = new THREE.Scene();
+		scene.background = new THREE.Color( 0x505050 );
+
+		camera = new THREE.PerspectiveCamera( 60, WIDTH / HEIGHT, 0.1, 100 );
+
+		renderer = new THREE.WebGLRenderer( {
+			antialias: true
+		} );
+		renderer.setPixelRatio( window.devicePixelRatio );
+		renderer.setSize( WIDTH, HEIGHT );
+		document.body.appendChild( renderer.domElement );
+
+		camera.position.set( 0, 1.6, 0 );
+		camera.lookAt( new THREE.Vector3( 0, 1, -1.8 ) )
+
+		// TEXT PANEL
+
+		makeTextPanel();
+
+		//
+
+		renderer.setAnimationLoop( loop );
+
+	}
+
+	//
+
+	function makeTextPanel() {
+
+		const container = new ThreeMeshUI.Block( {
+			width: 1.2,
+			height: 0.5,
+			padding: 0.05,
+			justifyContent: 'center',
+			textAlign: 'center',
+			fontFamily: "https://raw.githubusercontent.com/felixmariotto/three-mesh-ui/master/examples/assets/Roboto-msdf.json",
+			fontTexture: "https://raw.githubusercontent.com/felixmariotto/three-mesh-ui/master/examples/assets/Roboto-msdf.png"
+		} );
+
+		container.position.set( 0, 1, -1.8 );
+		container.rotation.x = -0.55;
+		scene.add( container );
+
+		//
+
+		container.add(
+			new ThreeMeshUI.Text( {
+				content: 'three-mesh-ui.js',
+				fontSize: 0.125
+			} ),
+		);
+
+	}
+
+	// handles resizing the renderer when the viewport is resized
+
+	function onWindowResize() {
+
+		camera.aspect = window.innerWidth / window.innerHeight;
+		camera.updateProjectionMatrix();
+		renderer.setSize( window.innerWidth, window.innerHeight );
+
+	}
+
+	//
+
+	function loop() {
+
+		ThreeMeshUI.update();
+		renderer.render( scene, camera );
+
+	}
+
+</script>
+
+</body>
+</html>
