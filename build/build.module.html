@@ -9,15 +9,18 @@
 </head>
 <body>
 
+<!-- Defines the import map -->
 <script async src="https://unpkg.com/es-module-shims@1.3.6/dist/es-module-shims.js"></script>
 <script type="importmap">
-  {
-    "imports": {
-      "three": "https://unpkg.com/three@0.132.2/build/three.module.js",
-      "three-mesh-ui" : "./three-mesh-ui.module.js"
-    }
-  }
+{
+	"imports": {
+		"three": "https://unpkg.com/three@0.132.2/build/three.module.js",
+		"three-mesh-ui": "https://unpkg.com/three@6.4.0/build/three-mesh-ui.module.js"
+	}
+}
 </script>
+
+<!-- Then we can code our app -->
 <script type="module">
 
 	import * as THREE from 'three';
