@@ -10,6 +10,9 @@ as children, or only inline components (Text, InlineBlock).
 
  */
 
+// @TODO : Fix the camelcase issue by refactoring
+/* eslint-disable camelcase */
+
 export default function BoxComponent( Base ) {
 
 	return class BoxComponent extends Base {
@@ -167,7 +170,7 @@ export default function BoxComponent( Base ) {
 		 * @param child
 		 * @returns {*}
 		 */
-		direction__rowEndToEndChildren( accu, child ) {
+		direction__rowEndToEndChildren = ( accu, child ) => {
 
 			const CHILD_ID = child.id;
 			const CHILD_WIDTH = child.getWidth();
@@ -191,7 +194,7 @@ export default function BoxComponent( Base ) {
 		 * @param child
 		 * @returns {*}
 		 */
-		direction__columnEndToEndChildren( accu, child ) {
+		direction__columnEndToEndChildren = ( accu, child ) => {
 
 			const CHILD_ID = child.id;
 			const CHILD_HEIGHT = child.getHeight();
@@ -325,8 +328,7 @@ export default function BoxComponent( Base ) {
 
 			// end to end children
 			this.signInvertor = - Math.sign( startPos );
-			// @TODO: Replace .bind() when webpack update to allow class methods as fat arrow
-			boxChildren.reduce( this.direction__rowEndToEndChildren.bind(this) , startPos );
+			boxChildren.reduce( this.direction__rowEndToEndChildren , startPos );
 
 
 			const usedDirectionSpace = this.getChildrenSideSum( 'width' );
@@ -363,8 +365,7 @@ export default function BoxComponent( Base ) {
 
 			// end to end children
 			this.signInvertor = - Math.sign( startPos );
-			// @TODO: Replace .bind() when webpack update to allow class methods as fat arrow
-			boxChildren.reduce( this.direction__columnEndToEndChildren.bind(this) , startPos );
+			boxChildren.reduce( this.direction__columnEndToEndChildren , startPos );
 
 			//
 			const usedDirectionSpace = this.getChildrenSideSum( 'height' );
@@ -548,3 +549,5 @@ const AVAILABLE_ALIGN_ITEMS = [
 ];
 
 const _boxChildrenFilter = c => c.isBoxComponent;
+
+/* eslint-enable camelcase */

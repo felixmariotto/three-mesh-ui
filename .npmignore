@@ -4,3 +4,4 @@ webpack.prodConfig.js
 Procfile
 .eslintrc
 dist/
+.github/
