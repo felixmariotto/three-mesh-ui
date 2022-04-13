@@ -47,7 +47,7 @@
 /************************************************************************/
 var __webpack_exports__ = {};
 
-// UNUSED EXPORTS: Block, FontLibrary, InlineBlock, Keyboard, Text, default, textAlign, update, utils, whiteSpace
+// UNUSED EXPORTS: Block, FontLibrary, InlineBlock, Keyboard, Text, default, textAlign, update, whiteSpace
 
 // NAMESPACE OBJECT: ./src/utils/Whitespace.js
 var Whitespace_namespaceObject = {};
@@ -79,8 +79,8 @@ __webpack_require__.d(TextAlign_namespaceObject, {
   "alignLines": () => (alignLines)
 });
 
-;// CONCATENATED MODULE: external "three"
-const external_three_namespaceObject = three;
+;// CONCATENATED MODULE: external "THREE"
+const external_THREE_namespaceObject = THREE;
 ;// CONCATENATED MODULE: ./src/components/core/BoxComponent.js
 /**
 
@@ -278,7 +278,7 @@ function BoxComponent( Base ) {
 		 * @param child
 		 * @returns {*}
 		 */
-		direction__columnEndToEndChildren( accu, child ) {
+		direction__columnEndToEndChildren = ( accu, child ) => {
 
 			const CHILD_ID = child.id;
 			const CHILD_HEIGHT = child.getHeight();
@@ -412,8 +412,6 @@ function BoxComponent( Base ) {
 
 			// end to end children
 			this.signInvertor = - Math.sign( startPos );
-			// @TODO: Replace .bind() when webpack update to allow class methods as fat arrow
-			// boxChildren.reduce( this.direction__rowEndToEndChildren.bind(this) , startPos );
 			boxChildren.reduce( this.direction__rowEndToEndChildren , startPos );
 
 
@@ -451,8 +449,7 @@ function BoxComponent( Base ) {
 
 			// end to end children
 			this.signInvertor = - Math.sign( startPos );
-			// @TODO: Replace .bind() when webpack update to allow class methods as fat arrow
-			boxChildren.reduce( this.direction__columnEndToEndChildren.bind(this) , startPos );
+			boxChildren.reduce( this.direction__columnEndToEndChildren , startPos );
 
 			//
 			const usedDirectionSpace = this.getChildrenSideSum( 'height' );
@@ -1540,11 +1537,11 @@ loading it twice, even if the two component are not in the same parent/child hie
 
 
 
-const fileLoader = new external_three_namespaceObject.FileLoader();
+const fileLoader = new external_THREE_namespaceObject.FileLoader();
 const requiredFontFamilies = [];
 const fontFamilies = {};
 
-const textureLoader = new external_three_namespaceObject.TextureLoader();
+const textureLoader = new external_THREE_namespaceObject.TextureLoader();
 const requiredFontTextures = [];
 const fontTextures = {};
 
@@ -1596,8 +1593,8 @@ function setFontTexture( component, url ) {
 		textureLoader.load( url, ( texture ) => {
 
 			texture.generateMipmaps = false;
-			texture.minFilter = external_three_namespaceObject.LinearFilter;
-			texture.magFilter = external_three_namespaceObject.LinearFilter;
+			texture.minFilter = external_THREE_namespaceObject.LinearFilter;
+			texture.magFilter = external_THREE_namespaceObject.LinearFilter;
 
 			fontTextures[ url ] = texture;
 
@@ -1737,8 +1734,8 @@ font with specified name will be overwritten, but components using it won't be u
 function addFont( name, json, texture ) {
 
 	texture.generateMipmaps = false;
-	texture.minFilter = external_three_namespaceObject.LinearFilter;
-	texture.magFilter = external_three_namespaceObject.LinearFilter;
+	texture.minFilter = external_THREE_namespaceObject.LinearFilter;
+	texture.magFilter = external_THREE_namespaceObject.LinearFilter;
 
 	requiredFontFamilies.push( name );
 	fontFamilies[ name ] = json;
@@ -1930,10 +1927,6 @@ class UpdateManager {
 
 	}
 
-	bob = (cc)=>{
-		console.log("bobo");
-	}
-
 }
 
 // TODO move these into the class (Webpack unfortunately doesn't understand
@@ -1965,17 +1958,17 @@ UpdateManager.requestedUpdates = {};
 	fontTexture: null,
 	textAlign: CENTER,
 	textType: 'MSDF',
-	fontColor: new external_three_namespaceObject.Color( 0xffffff ),
+	fontColor: new external_THREE_namespaceObject.Color( 0xffffff ),
 	fontOpacity: 1,
 	fontPXRange: 4,
 	fontSupersampling: true,
 	borderRadius: 0.01,
 	borderWidth: 0,
-	borderColor: new external_three_namespaceObject.Color( 'black' ),
+	borderColor: new external_THREE_namespaceObject.Color( 'black' ),
 	borderOpacity: 1,
 	backgroundSize: "cover",
-	backgroundColor: new external_three_namespaceObject.Color( 0x222222 ),
-	backgroundWhiteColor: new external_three_namespaceObject.Color( 0xffffff ),
+	backgroundColor: new external_THREE_namespaceObject.Color( 0x222222 ),
+	backgroundWhiteColor: new external_THREE_namespaceObject.Color( 0xffffff ),
 	backgroundOpacity: 0.8,
 	backgroundOpaqueOpacity: 1.0,
 	// this default value is a function to avoid initialization issues (see issue #126)
@@ -1996,7 +1989,7 @@ function makeBackgroundTexture() {
 		ctx.canvas.height = 1;
 		ctx.fillStyle = '#ffffff';
 		ctx.fillRect( 0, 0, 1, 1 );
-		defaultBgTexture = new external_three_namespaceObject.CanvasTexture( ctx.canvas );
+		defaultBgTexture = new external_THREE_namespaceObject.CanvasTexture( ctx.canvas );
 		defaultBgTexture.isDefault = true;
 
 	}
@@ -2056,10 +2049,10 @@ function MeshUIComponent( Base ) {
 					const xLimit = ( this.parent.getWidth() / 2 ) - ( this.parent.padding || 0 );
 
 					const newPlanes = [
-						new external_three_namespaceObject.Plane( new external_three_namespaceObject.Vector3( 0, 1, 0 ), yLimit ),
-						new external_three_namespaceObject.Plane( new external_three_namespaceObject.Vector3( 0, -1, 0 ), yLimit ),
-						new external_three_namespaceObject.Plane( new external_three_namespaceObject.Vector3( 1, 0, 0 ), xLimit ),
-						new external_three_namespaceObject.Plane( new external_three_namespaceObject.Vector3( -1, 0, 0 ), xLimit )
+						new external_THREE_namespaceObject.Plane( new external_THREE_namespaceObject.Vector3( 0, 1, 0 ), yLimit ),
+						new external_THREE_namespaceObject.Plane( new external_THREE_namespaceObject.Vector3( 0, -1, 0 ), yLimit ),
+						new external_THREE_namespaceObject.Plane( new external_THREE_namespaceObject.Vector3( 1, 0, 0 ), xLimit ),
+						new external_THREE_namespaceObject.Plane( new external_THREE_namespaceObject.Vector3( -1, 0, 0 ), xLimit )
 					];
 
 					newPlanes.forEach( plane => {
@@ -2717,8 +2710,8 @@ function MaterialManager( Base ) {
 				u_borderRadiusBottomRight: { value: null },
 				u_borderRadiusBottomLeft: { value: null },
 				u_borderOpacity: { value: null },
-				u_size: { value: new external_three_namespaceObject.Vector2( 1, 1 ) },
-				u_tSize: { value: new external_three_namespaceObject.Vector2( 1, 1 ) }
+				u_size: { value: new external_THREE_namespaceObject.Vector2( 1, 1 ) },
+				u_tSize: { value: new external_THREE_namespaceObject.Vector2( 1, 1 ) }
 			};
 
 		}
@@ -2837,7 +2830,7 @@ function MaterialManager( Base ) {
 		/** @private */
 		_makeTextMaterial() {
 
-			return new external_three_namespaceObject.ShaderMaterial( {
+			return new external_THREE_namespaceObject.ShaderMaterial( {
 				uniforms: this.textUniforms,
 				transparent: true,
 				clipping: true,
@@ -2853,7 +2846,7 @@ function MaterialManager( Base ) {
 		/** @private */
 		_makeBackgroundMaterial() {
 
-			return new external_three_namespaceObject.ShaderMaterial( {
+			return new external_THREE_namespaceObject.ShaderMaterial( {
 				uniforms: this.backgroundUniforms,
 				transparent: true,
 				clipping: true,
@@ -3125,11 +3118,11 @@ void main() {
 /**
  * Returns a basic plane mesh.
  */
-class Frame extends external_three_namespaceObject.Mesh {
+class Frame extends external_THREE_namespaceObject.Mesh {
 
 	constructor( material ) {
 
-		const geometry = new external_three_namespaceObject.PlaneGeometry();
+		const geometry = new external_THREE_namespaceObject.PlaneGeometry();
 
 		super( geometry, material );
 
@@ -3203,7 +3196,7 @@ Job:
 - Call creation and update functions of its background planes
 
  */
-class Block extends mix.withBase( external_three_namespaceObject.Object3D )(
+class Block extends mix.withBase( external_THREE_namespaceObject.Object3D )(
 	BoxComponent,
 	InlineManager,
 	MaterialManager,
@@ -3218,7 +3211,7 @@ class Block extends mix.withBase( external_three_namespaceObject.Object3D )(
 
 		//
 
-		this.size = new external_three_namespaceObject.Vector2( 1, 1 );
+		this.size = new external_THREE_namespaceObject.Vector2( 1, 1 );
 
 		this.frame = new Frame( this.getBackgroundMaterial() );
 
@@ -3390,7 +3383,7 @@ function mergeBufferGeometries( geometries, useGroups = false ) {
 
 	const morphTargetsRelative = geometries[ 0 ].morphTargetsRelative;
 
-	const mergedGeometry = new external_three_namespaceObject.BufferGeometry();
+	const mergedGeometry = new external_THREE_namespaceObject.BufferGeometry();
 
 	let offset = 0;
 
@@ -3635,7 +3628,7 @@ function mergeBufferAttributes( attributes ) {
 
 	}
 
-	return new external_three_namespaceObject.BufferAttribute( array, itemSize, normalized );
+	return new external_THREE_namespaceObject.BufferAttribute( array, itemSize, normalized );
 
 }
 
@@ -4296,7 +4289,7 @@ function computeMorphedAttributes( object ) {
  *
  * Knows: dimension of the plane to create, specs of the font used, glyph requireed
  */
-class MSDFGlyph extends external_three_namespaceObject.PlaneBufferGeometry {
+class MSDFGlyph extends external_THREE_namespaceObject.PlaneBufferGeometry {
 
 	constructor( inline, font ) {
 
@@ -4526,7 +4519,7 @@ function buildText() {
 
 	const mergedGeom = mergeBufferGeometries( translatedGeom );
 
-	const mesh = new external_three_namespaceObject.Mesh( mergedGeom, this.getFontMaterial() );
+	const mesh = new external_THREE_namespaceObject.Mesh( mergedGeom, this.getFontMaterial() );
 
 	return mesh;
 
@@ -4696,7 +4689,7 @@ Knows:
 - Parent block
 
  */
-class Text extends mix.withBase( external_three_namespaceObject.Object3D )(
+class Text extends mix.withBase( external_THREE_namespaceObject.Object3D )(
 	InlineComponent,
 	TextManager,
 	MaterialManager,
@@ -4896,7 +4889,7 @@ class Text extends mix.withBase( external_three_namespaceObject.Object3D )(
  * - Its measurements parameter
  * - Parent block
  */
-class InlineBlock extends mix.withBase( external_three_namespaceObject.Object3D )(
+class InlineBlock extends mix.withBase( external_THREE_namespaceObject.Object3D )(
 	InlineComponent,
 	BoxComponent,
 	InlineManager,
@@ -4912,7 +4905,7 @@ class InlineBlock extends mix.withBase( external_three_namespaceObject.Object3D 
 
 		//
 
-		this.size = new external_three_namespaceObject.Vector2( 1, 1 );
+		this.size = new external_THREE_namespaceObject.Vector2( 1, 1 );
 
 		this.frame = new Frame( this.getBackgroundMaterial() );
 
@@ -5760,14 +5753,14 @@ and if not passed tries to detect the language. If not found, it uses the basic 
 
 //
 
-const Keyboard_textureLoader = new external_three_namespaceObject.TextureLoader();
+const Keyboard_textureLoader = new external_THREE_namespaceObject.TextureLoader();
 
 //
 
 /**
  * Job: high-level component that returns a keyboard
  */
-class Keyboard extends mix.withBase( external_three_namespaceObject.Object3D )( BoxComponent, MeshUIComponent ) {
+class Keyboard extends mix.withBase( external_THREE_namespaceObject.Object3D )( BoxComponent, MeshUIComponent ) {
 
 	constructor( options ) {
 
@@ -6112,11 +6105,6 @@ const ThreeMeshUI = {
 	update,
 	textAlign: TextAlign_namespaceObject,
 	whiteSpace: Whitespace_namespaceObject,
-	utils:{
-		bob:{
-			version: "1.0.0"
-		}
-	}
 };
 
 if ( typeof __webpack_require__.g !== 'undefined' ) __webpack_require__.g.ThreeMeshUI = ThreeMeshUI;
@@ -6129,11 +6117,6 @@ if ( typeof __webpack_require__.g !== 'undefined' ) __webpack_require__.g.ThreeM
 
 
 
-const utils = {
-	bob:{
-		version: "1.0.0"
-	}
-}
 
 /* harmony default export */ const three_mesh_ui = ((/* unused pure expression or super */ null && (ThreeMeshUI)));
 

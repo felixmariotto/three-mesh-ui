@@ -44,7 +44,6 @@ __webpack_require__.d(__webpack_exports__, {
   "ZP": () => (/* binding */ three_mesh_ui),
   "yd": () => (/* reexport */ TextAlign_namespaceObject),
   "Vx": () => (/* binding */ update),
-  "P6": () => (/* binding */ utils),
   "d8": () => (/* reexport */ Whitespace_namespaceObject)
 });
 
@@ -279,7 +278,7 @@ function BoxComponent( Base ) {
 		 * @param child
 		 * @returns {*}
 		 */
-		direction__columnEndToEndChildren( accu, child ) {
+		direction__columnEndToEndChildren = ( accu, child ) => {
 
 			const CHILD_ID = child.id;
 			const CHILD_HEIGHT = child.getHeight();
@@ -413,8 +412,6 @@ function BoxComponent( Base ) {
 
 			// end to end children
 			this.signInvertor = - Math.sign( startPos );
-			// @TODO: Replace .bind() when webpack update to allow class methods as fat arrow
-			// boxChildren.reduce( this.direction__rowEndToEndChildren.bind(this) , startPos );
 			boxChildren.reduce( this.direction__rowEndToEndChildren , startPos );
 
 
@@ -452,8 +449,7 @@ function BoxComponent( Base ) {
 
 			// end to end children
 			this.signInvertor = - Math.sign( startPos );
-			// @TODO: Replace .bind() when webpack update to allow class methods as fat arrow
-			boxChildren.reduce( this.direction__columnEndToEndChildren.bind(this) , startPos );
+			boxChildren.reduce( this.direction__columnEndToEndChildren , startPos );
 
 			//
 			const usedDirectionSpace = this.getChildrenSideSum( 'height' );
@@ -1929,10 +1925,6 @@ class UpdateManager {
 
 		}
 
-	}
-
-	bob = (cc)=>{
-		console.log("bobo");
 	}
 
 }
@@ -6113,11 +6105,6 @@ const ThreeMeshUI = {
 	update,
 	textAlign: TextAlign_namespaceObject,
 	whiteSpace: Whitespace_namespaceObject,
-	utils:{
-		bob:{
-			version: "1.0.0"
-		}
-	}
 };
 
 if ( typeof global !== 'undefined' ) global.ThreeMeshUI = ThreeMeshUI;
@@ -6130,11 +6117,6 @@ if ( typeof global !== 'undefined' ) global.ThreeMeshUI = ThreeMeshUI;
 
 
 
-const utils = {
-	bob:{
-		version: "1.0.0"
-	}
-}
 
 /* harmony default export */ const three_mesh_ui = (ThreeMeshUI);
 
@@ -6146,6 +6128,5 @@ var __webpack_exports__Text = __webpack_exports__.xv;
 var __webpack_exports__default = __webpack_exports__.ZP;
 var __webpack_exports__textAlign = __webpack_exports__.yd;
 var __webpack_exports__update = __webpack_exports__.Vx;
-var __webpack_exports__utils = __webpack_exports__.P6;
 var __webpack_exports__whiteSpace = __webpack_exports__.d8;
-export { __webpack_exports__Block as Block, __webpack_exports__FontLibrary as FontLibrary, __webpack_exports__InlineBlock as InlineBlock, __webpack_exports__Keyboard as Keyboard, __webpack_exports__Text as Text, __webpack_exports__default as default, __webpack_exports__textAlign as textAlign, __webpack_exports__update as update, __webpack_exports__utils as utils, __webpack_exports__whiteSpace as whiteSpace };
+export { __webpack_exports__Block as Block, __webpack_exports__FontLibrary as FontLibrary, __webpack_exports__InlineBlock as InlineBlock, __webpack_exports__Keyboard as Keyboard, __webpack_exports__Text as Text, __webpack_exports__default as default, __webpack_exports__textAlign as textAlign, __webpack_exports__update as update, __webpack_exports__whiteSpace as whiteSpace };
