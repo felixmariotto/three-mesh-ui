@@ -83,20 +83,6 @@ export default function MeshUIComponent( Base ) {
 
 		}
 
-		//
-
-		// getUIChildren() {
-		//
-		// 	return this.children.filter( ( child ) => {
-		//
-		// 		return child.isUI;
-		//
-		// 	} );
-		//
-		// }
-
-		//
-
 		getUIParent() {
 
 			if ( this.parent && this.parent.isUI ) {
