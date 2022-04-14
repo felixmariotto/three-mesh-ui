@@ -111,7 +111,7 @@ export default class UpdateManager {
 
 		}
 
-		component.getUIChildren().forEach( child => this.traverseParsing( child ) );
+		component.childrenUIs.forEach( child => this.traverseParsing( child ) );
 
 	}
 
@@ -148,8 +148,7 @@ export default class UpdateManager {
 
 
 		// Update any child
-
-		component.getUIChildren().forEach( ( childUI ) => {
+		component.childrenUIs.forEach( ( childUI ) => {
 
 			this.traverseUpdates( childUI );
 
