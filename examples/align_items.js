@@ -98,7 +98,7 @@ function makeTextPanelColumn( index, contentDirection ) {
 	const container = new ThreeMeshUI.Block( {
 		width: 0.7,
 		height: 1,
-		padding: 0.05,
+		padding: 0.01,
 		justifyContent: "space-evenly",
 		alignItems: contentDirection,
 		contentDirection: 'column',
@@ -169,7 +169,7 @@ function makeTextPanelRow( index, contentDirection ) {
 	const container = new ThreeMeshUI.Block( {
 		width: 3,
 		height: 0.3,
-		padding: 0.05,
+		padding: 0.01,
 		justifyContent: "space-evenly",
 		alignItems: contentDirection,
 		contentDirection: 'row',

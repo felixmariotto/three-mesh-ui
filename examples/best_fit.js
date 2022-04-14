@@ -199,7 +199,7 @@ function makeTextPanel() {
 
 		const firstTextBlock = new ThreeMeshUI.Text( {
 			content: TEXT1[ i ],
-			fontSize: 0.066
+			fontSize: 0.085
 		} );
 
 		innerContainer.add( firstTextBlock );
