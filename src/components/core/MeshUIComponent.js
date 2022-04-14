@@ -31,6 +31,12 @@ export default function MeshUIComponent( Base ) {
 			this.isUI = true;
 			this.autoLayout = true;
 
+			// children
+			this.childrenUIs = [];
+			this.childrenBoxes = [];
+			this.childrenTexts = [];
+			this.childrenInlines = [];
+
 		}
 
 		/////////////
@@ -79,15 +85,15 @@ export default function MeshUIComponent( Base ) {
 
 		//
 
-		getUIChildren() {
-
-			return this.children.filter( ( child ) => {
-
-				return child.isUI;
-
-			} );
-
-		}
+		// getUIChildren() {
+		//
+		// 	return this.children.filter( ( child ) => {
+		//
+		// 		return child.isUI;
+		//
+		// 	} );
+		//
+		// }
 
 		//
 
@@ -364,6 +370,25 @@ export default function MeshUIComponent( Base ) {
 		///////////////
 
 		/**
+		 * Filters children in order to compute only one times children lists
+		 * @private
+		 */
+		_rebuildChildrenLists(){
+
+			// Stores all children that are ui
+			this.childrenUIs = this.children.filter( child => child.isUI );
+
+			// Stores all children that are box
+			this.childrenBoxes = this.children.filter( child => child.isBoxComponent );
+
+			// Stores all children that are inline
+			this.childrenInlines = this.children.filter( child => child.isInline );
+
+			// Stores all children that are text
+			this.childrenTexts = this.children.filter( child => child.isText );
+		}
+
+		/**
 		 * When the user calls component.add, it registers for updates,
 		 * then call THREE.Object3D.add.
 		 */
@@ -376,7 +401,11 @@ export default function MeshUIComponent( Base ) {
 
 			}
 
-			return super.add( ...arguments );
+			const result = super.add( ...arguments );
+
+			this._rebuildChildrenLists();
+
+			return result;
 
 		}
 
@@ -393,7 +422,11 @@ export default function MeshUIComponent( Base ) {
 
 			}
 
-			return super.remove( ...arguments );
+			const result =  super.remove( ...arguments );
+
+			this._rebuildChildrenLists();
+
+			return result;
 
 		}
 
