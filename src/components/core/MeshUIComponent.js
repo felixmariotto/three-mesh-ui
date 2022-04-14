@@ -37,6 +37,11 @@ export default function MeshUIComponent( Base ) {
 			this.childrenTexts = [];
 			this.childrenInlines = [];
 
+			// parents
+			this.parentUI = null;
+			// update parentUI when this component will be added or removed
+			this.addEventListener( 'added', this._rebuildParentUI );
+			this.addEventListener( 'removed', this._rebuildParentUI );
 		}
 
 		/////////////
@@ -373,6 +378,24 @@ export default function MeshUIComponent( Base ) {
 			// Stores all children that are text
 			this.childrenTexts = this.children.filter( child => child.isText );
 		}
+
+		/**
+		 * Try to retrieve parentUI after each structural change
+		 * @private
+		 */
+		_rebuildParentUI = ( ) => {
+
+			if ( this.parent && this.parent.isUI ) {
+
+				this.parentUI = this.parent;
+
+			} else {
+
+				this.parentUI = null;
+
+			}
+
+		};
 
 		/**
 		 * When the user calls component.add, it registers for updates,
