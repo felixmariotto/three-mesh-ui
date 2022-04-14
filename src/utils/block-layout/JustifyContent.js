@@ -7,10 +7,6 @@ export const SPACE_EVENLY = 'space-evenly';
 
 export function justifyContent( boxComponent, direction, startPos, REVERSE){
 
-	// only work on boxChildren
-	const boxChildren = boxComponent.children.filter( _boxChildrenFilter );
-
-
 	const JUSTIFICATION = boxComponent.getJustifyContent();
 	if ( AVAILABLE_JUSTIFICATIONS.indexOf( JUSTIFICATION ) === -1 ) {
 
@@ -30,18 +26,16 @@ export function justifyContent( boxComponent, direction, startPos, REVERSE){
 	const justificationOffset = _getJustificationOffset( JUSTIFICATION, axisOffset );
 
 	// Items margin
-	const justificationMargins = _getJustificationMargin( boxChildren, remainingSpace, JUSTIFICATION, REVERSE );
+	const justificationMargins = _getJustificationMargin( boxComponent.childrenBoxes, remainingSpace, JUSTIFICATION, REVERSE );
 
 	// Apply
 	const axis = direction.indexOf( 'row' ) === 0 ? "x" : "y"
-	boxChildren.forEach( ( child , childIndex ) => {
+	boxComponent.childrenBoxes.forEach( ( child , childIndex ) => {
 
 		boxComponent.childrenPos[ child.id ][axis] -= justificationOffset - justificationMargins[childIndex];
 
 	} );
 }
-
-const _boxChildrenFilter = c => c.isBoxComponent;
 
 const AVAILABLE_JUSTIFICATIONS = [
 	START,
