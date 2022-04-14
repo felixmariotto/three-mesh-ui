@@ -116,7 +116,7 @@ export default class InlineBlock extends mix.withBase( Object3D )(
 		// Position inner elements according to dimensions and layout parameters.
 		// Delegate to BoxComponent.
 
-		if ( this.children.find( child => child.isInline ) ) {
+		if ( this.childrenInlines.length ) {
 
 			this.computeInlinesPosition();
 

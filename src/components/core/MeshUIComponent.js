@@ -359,7 +359,7 @@ export default function MeshUIComponent( Base ) {
 		 * Filters children in order to compute only one times children lists
 		 * @private
 		 */
-		_rebuildChildrenLists(){
+		_rebuildChildrenLists() {
 
 			// Stores all children that are ui
 			this.childrenUIs = this.children.filter( child => child.isUI );
@@ -408,7 +408,7 @@ export default function MeshUIComponent( Base ) {
 
 			}
 
-			const result =  super.remove( ...arguments );
+			const result = super.remove( ...arguments );
 
 			this._rebuildChildrenLists();
 
