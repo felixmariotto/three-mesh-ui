@@ -13,9 +13,8 @@ in order to create a line break when necessary. It's Text that merge the various
 in its own updateLayout function.
 
  */
-import * as Whitespace from '../../utils/Whitespace';
-
-import * as TextAlign from '../../utils/TextAlign';
+import * as Whitespace from '../../utils/inline-layout/Whitespace';
+import * as TextAlign from '../../utils/inline-layout/TextAlign';
 
 export default function InlineManager( Base ) {
 
@@ -93,7 +92,7 @@ export default function InlineManager( Base ) {
 			} );
 
 			// Horizontal positioning
-			TextAlign.alignLines( lines, ALIGNMENT, INNER_WIDTH );
+			TextAlign.textAlign( lines, ALIGNMENT, INNER_WIDTH );
 
 
 			// Make lines accessible to provide helpful informations
@@ -434,7 +433,8 @@ export default function InlineManager( Base ) {
 
 			const lastInline = line[ line.length - 1 ];
 
-			return Math.abs( firstInline.offsetX - ( lastInline.offsetX + lastInline.width ) );
+			// Right + Left ( left is negative )
+			return (lastInline.offsetX + lastInline.width) + firstInline.offsetX;
 
 		}
 

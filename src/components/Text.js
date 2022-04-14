@@ -8,7 +8,7 @@ import MaterialManager from './core/MaterialManager.js';
 
 import deepDelete from '../utils/deepDelete.js';
 import { mix } from '../utils/mix.js';
-import * as Whitespace from '../utils/Whitespace';
+import * as Whitespace from '../utils/inline-layout/Whitespace';
 
 /**
 

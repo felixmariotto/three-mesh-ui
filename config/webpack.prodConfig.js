@@ -20,13 +20,16 @@ const pages = [
 	[ 'onafterupdate', 'onAfterUpdate' ],
 	[ 'manual_positioning', 'manual content positioning' ],
 	[ 'keyboard', 'keyboard' ],
-	[ 'letter_spacing', 'letter spacing' ],
-	[ 'font_kerning', 'font kerning' ],
+	[ 'letter_spacing', '.letterSpacing' ],
+	[ 'font_kerning', '.fontKerning' ],
 	[ 'best_fit', 'best fit' ],
 	[ 'antialiasing', 'antialiasing' ],
 	[ 'justification', 'justification' ],
 	[ 'text_align', '.textAlign' ],
 	[ 'whitespace', '.whiteSpace' ],
+	[ 'content_direction', '.contentDirection' ],
+	[ 'justify_content', '.justifyContent' ],
+	[ 'align_items', '.alignItems' ],
 ];
 
 // create one config for each of the data set above
@@ -81,7 +84,10 @@ const webpackConfig = env => {
 			antialiasing: './examples/antialiasing.js',
 			justification: './examples/justification.js',
 			text_align: './examples/text_align.js',
-			whitespace: './examples/whitespace.js'
+			whitespace: './examples/whitespace.js',
+			content_direction: './examples/content_direction.js',
+			justify_content: './examples/justify_content.js',
+			align_items: './examples/align_items.js'
 		},
 
 		plugins: [

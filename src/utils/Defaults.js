@@ -1,7 +1,10 @@
 import { Color } from 'three';
 import { CanvasTexture } from 'three';
-import { CENTER as textAlign } from './TextAlign';
-import { PRE_LINE as whiteSpace } from './Whitespace';
+import { START as justifyContent } from "./block-layout/JustifyContent";
+import { CENTER as alignItems } from "./block-layout/AlignItems";
+import { COLUMN as contentDirection } from './block-layout/ContentDirection';
+import { CENTER as textAlign } from './inline-layout/TextAlign';
+import { PRE_LINE as whiteSpace } from './inline-layout/Whitespace';
 
 
 /** List the default values of the lib components */
@@ -15,9 +18,9 @@ export default {
 	interLine: 0.01,
 	breakOn: '- ,.:?!\n',// added '\n' to also acts as friendly breaks when white-space:normal
 	whiteSpace,
-	contentDirection: 'column',
-	alignItems: 'center',
-	justifyContent: 'start',
+	contentDirection,
+	alignItems,
+	justifyContent,
 	fontTexture: null,
 	textAlign,
 	textType: 'MSDF',

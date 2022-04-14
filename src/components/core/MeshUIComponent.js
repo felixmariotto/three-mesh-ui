@@ -5,6 +5,7 @@ import FontLibrary from './FontLibrary.js';
 import UpdateManager from './UpdateManager.js';
 
 import DEFAULTS from '../../utils/Defaults.js';
+import { warnAboutDeprecatedAlignItems } from '../../utils/block-layout/AlignItems';
 
 /**
 
@@ -636,28 +637,5 @@ export default function MeshUIComponent( Base ) {
 
 		}
 	};
-
-}
-
-// @TODO: Be remove upon 7.x.x
-const DEPRECATED_ALIGN_ITEMS = [
-	'top',
-	'right',
-	'bottom',
-	'left'
-]
-
-/**
- * @deprecated
- * // @TODO: Be remove upon 7.x.x
- * @param alignment
- */
-function warnAboutDeprecatedAlignItems( alignment ){
-
-	if( DEPRECATED_ALIGN_ITEMS.indexOf(alignment) !== - 1){
-
-		console.warn(`alignItems === '${alignment}' is deprecated and will be remove in 7.x.x. Fallback are 'start'|'end'`)
-
-	}
 
 }

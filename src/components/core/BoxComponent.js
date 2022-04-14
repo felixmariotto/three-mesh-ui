@@ -10,8 +10,9 @@ as children, or only inline components (Text, InlineBlock).
 
  */
 
-// @TODO : Fix the camelcase issue by refactoring
-/* eslint-disable camelcase */
+import { COLUMN, COLUMN_REVERSE, contentDirection, ROW, ROW_REVERSE } from '../../utils/block-layout/ContentDirection';
+import { alignItems } from '../../utils/block-layout/AlignItems';
+import { justifyContent } from '../../utils/block-layout/JustifyContent';
 
 export default function BoxComponent( Base ) {
 
@@ -110,349 +111,34 @@ export default function BoxComponent( Base ) {
 			if ( this.children.length > 0 ) {
 
 				const DIRECTION = this.getContentDirection();
-				let X_START, Y_START;
+				let directionalOffset;
 
 				switch ( DIRECTION ) {
 
-					case 'row' :
-
-						// start position of the children positioning inside this component
-						X_START = this.getInnerWidth() / 2;
-
-						this.setChildrenXPos( -X_START );
-
-						this.alignChildrenOnY();
-
+					case ROW :
+						directionalOffset = - this.getInnerWidth() / 2;
 						break;
 
-					case 'row-reverse' :
-
-						// start position of the children positioning inside this component
-						X_START = this.getInnerWidth() / 2;
-
-						this.setChildrenXPos( X_START );
-
-						this.alignChildrenOnY();
-
+					case ROW_REVERSE :
+						directionalOffset = this.getInnerWidth() / 2;
 						break;
 
-					case 'column' :
-
-						// start position of the children positioning inside this component
-						Y_START = this.getInnerHeight() / 2;
-
-						this.setChildrenYPos( Y_START );
-
-						this.alignChildrenOnX();
-
+					case COLUMN :
+						directionalOffset = this.getInnerHeight() / 2;
 						break;
 
-					case 'column-reverse' :
-
-						// start position of the children positioning inside this component
-						Y_START = this.getInnerHeight() / 2;
-
-						this.setChildrenYPos( -Y_START );
-
-						this.alignChildrenOnX();
-
+					case COLUMN_REVERSE :
+						directionalOffset = - this.getInnerHeight() / 2;
 						break;
 
 				}
 
+				const REVERSE = - Math.sign( directionalOffset );
+
+				contentDirection(this, DIRECTION, directionalOffset, REVERSE );
+				justifyContent(this, DIRECTION, directionalOffset, REVERSE );
+				alignItems( this, DIRECTION );
 			}
-
-		}
-
-		/**
-		 * Place child end to end and accumulate (ROW)
-		 * @param accu
-		 * @param child
-		 * @returns {*}
-		 */
-		direction__rowEndToEndChildren = ( accu, child ) => {
-
-			const CHILD_ID = child.id;
-			const CHILD_WIDTH = child.getWidth();
-			const CHILD_MARGIN = child.margin || 0;
-			const INVERTER = this.signInvertor;
-
-			accu += CHILD_MARGIN * INVERTER;
-
-			this.childrenPos[ CHILD_ID ] = {
-				x: accu + ( ( CHILD_WIDTH / 2 ) * INVERTER ),
-				y: 0
-			};
-
-			return accu + ( INVERTER * ( CHILD_WIDTH + CHILD_MARGIN ) );
-
-		}
-
-		/**
-		 * Place child end to end and accumulate (COLUMN)
-		 * @param accu
-		 * @param child
-		 * @returns {*}
-		 */
-		direction__columnEndToEndChildren = ( accu, child ) => {
-
-			const CHILD_ID = child.id;
-			const CHILD_HEIGHT = child.getHeight();
-			const CHILD_MARGIN = child.margin || 0;
-			const INVERTER = this.signInvertor;
-
-			accu += CHILD_MARGIN * INVERTER;
-
-			this.childrenPos[ CHILD_ID ] = {
-				x: 0,
-				y: accu + ( ( CHILD_HEIGHT / 2 ) * INVERTER )
-			};
-
-			return accu + ( INVERTER * ( CHILD_HEIGHT + CHILD_MARGIN ) );
-
-		}
-
-		/**
-		 *
-		 * @param {string} justification
-		 * @param {number} axisOffset
-		 * @returns {number}
-		 */
-		justification__getJustificationOffset( justification, axisOffset ){
-
-			// Only end and center have justification offset
-			switch ( justification ){
-
-				case "end":
-					return axisOffset;
-
-				case "center":
-					return axisOffset / 2;
-			}
-
-			return 0;
-		}
-
-		/**
-		 *
-		 * @param items
-		 * @param spaceToDistribute
-		 * @param justification
-		 * @returns {any[]}
-		 */
-		justification__getJustificationMargin( items, spaceToDistribute, justification ){
-			const justificationMargins = Array( items.length ).fill( 0 );
-
-			if ( spaceToDistribute > 0 ) {
-
-				// Only space-*  have justification margin betweem items
-				switch ( justification ) {
-
-					case "space-between":
-						// only one children would act as start
-						if ( items.length > 1 ) {
-
-							const margin = spaceToDistribute / ( items.length - 1 ) * this.signInvertor;
-							// set this margin for any children
-
-							// except for first child
-							justificationMargins[ 0 ] = 0;
-
-							for ( let i = 1; i < items.length; i++ ) {
-
-								justificationMargins[ i ] = margin * i;
-
-							}
-
-						}
-
-						break;
-
-					case "space-evenly":
-						// only one children would act as start
-						if ( items.length > 1 ) {
-
-							const margin = spaceToDistribute / ( items.length + 1 ) * this.signInvertor;
-
-							// set this margin for any children
-							for ( let i = 0; i < items.length; i++ ) {
-
-								justificationMargins[ i ] = margin * ( i + 1 );
-
-							}
-
-						}
-
-						break;
-
-					case "space-around":
-						// only one children would act as start
-						if ( items.length > 1 ) {
-
-							const margin = spaceToDistribute / ( items.length ) * this.signInvertor;
-
-							const start = margin / 2;
-							justificationMargins[ 0 ] = start;
-
-							// set this margin for any children
-							for ( let i = 1; i < items.length; i++ ) {
-
-								justificationMargins[ i ] = start + margin * i;
-
-							}
-
-						}
-
-						break;
-
-				}
-
-			}
-
-			return justificationMargins;
-
-		}
-
-		/** Set children X position according to this component dimension and attributes */
-		setChildrenXPos( startPos ) {
-
-			const JUSTIFICATION = this.getJustifyContent();
-			if ( AVAILABLE_JUSTIFICATIONS.indexOf( JUSTIFICATION ) === -1 ) {
-
-				console.warn( `justifyContent === '${ JUSTIFICATION }' is not supported` );
-
-			}
-
-			// only work on boxChildren
-			const boxChildren = this.children.filter( _boxChildrenFilter );
-
-			// end to end children
-			this.signInvertor = - Math.sign( startPos );
-			boxChildren.reduce( this.direction__rowEndToEndChildren , startPos );
-
-
-			const usedDirectionSpace = this.getChildrenSideSum( 'width' );
-			const remainingSpace = this.getInnerWidth() - usedDirectionSpace;
-
-			// Items Offset
-			const axisOffset = ( startPos * 2 ) - ( usedDirectionSpace * Math.sign( startPos ) );
-			const justificationOffset = this.justification__getJustificationOffset( JUSTIFICATION, axisOffset );
-
-			// Items margin
-			const justificationMargins = this.justification__getJustificationMargin( boxChildren, remainingSpace, JUSTIFICATION );
-
-			// Apply
-			boxChildren.forEach( ( child , childIndex ) => {
-
-				this.childrenPos[ child.id ].x -= justificationOffset - justificationMargins[childIndex];
-
-			} );
-
-		}
-
-		/** Set children Y position according to this component dimension and attributes */
-		setChildrenYPos( startPos ) {
-
-			const JUSTIFICATION = this.getJustifyContent();
-			if ( AVAILABLE_JUSTIFICATIONS.indexOf(JUSTIFICATION) === -1 ){
-
-				console.warn( `justifyContent === '${ JUSTIFICATION }' is not supported` );
-
-			}
-
-			// only process on boxChildren
-			const boxChildren = this.children.filter( _boxChildrenFilter );
-
-			// end to end children
-			this.signInvertor = - Math.sign( startPos );
-			boxChildren.reduce( this.direction__columnEndToEndChildren , startPos );
-
-			//
-			const usedDirectionSpace = this.getChildrenSideSum( 'height' );
-			const remainingSpace = this.getInnerHeight() - usedDirectionSpace;
-
-			// Items Offset
-			const axisOffset = ( startPos * 2 ) - ( usedDirectionSpace * Math.sign( startPos ) );
-			const justificationOffset = this.justification__getJustificationOffset( JUSTIFICATION, axisOffset);
-
-			// Items margin
-			const justificationMargins = this.justification__getJustificationMargin( boxChildren, remainingSpace, JUSTIFICATION);
-
-			// Apply
-			boxChildren.forEach( ( child, childIndex ) => {
-
-				this.childrenPos[ child.id ].y -= justificationOffset - justificationMargins[childIndex];
-
-			} );
-
-		}
-
-		/** called if justifyContent is 'column' or 'column-reverse', it align the content horizontally */
-		alignChildrenOnX() {
-
-			const ALIGNMENT = this.getAlignItems();
-			const X_TARGET = ( this.getWidth() / 2 ) - ( this.padding || 0 );
-
-			if( AVAILABLE_ALIGN_ITEMS.indexOf(ALIGNMENT) === -1 ){
-
-				console.warn( `alignItems === '${ALIGNMENT}' is not supported` );
-
-			}
-
-			this.children.forEach( ( child ) => {
-
-				if ( !child.isBoxComponent ) return;
-
-				let offset;
-
-				if ( ALIGNMENT === 'right' || ALIGNMENT === 'end' ) {
-
-					offset = X_TARGET - ( child.getWidth() / 2 ) - ( child.margin || 0 );
-
-				} else if ( ALIGNMENT === 'left' || ALIGNMENT === 'start' ) {
-
-					offset = -X_TARGET + ( child.getWidth() / 2 ) + ( child.margin || 0 );
-
-				}
-
-				this.childrenPos[ child.id ].x = offset || 0;
-
-			} );
-
-		}
-
-		/** called if justifyContent is 'row' or 'row-reverse', it align the content vertically */
-		alignChildrenOnY() {
-
-			const ALIGNMENT = this.getAlignItems();
-			const Y_TARGET = ( this.getHeight() / 2 ) - ( this.padding || 0 );
-
-			if( AVAILABLE_ALIGN_ITEMS.indexOf(ALIGNMENT) === -1 ){
-
-				console.warn( `alignItems === '${ALIGNMENT}' is not supported` );
-
-			}
-
-
-			this.children.forEach( ( child ) => {
-
-				if ( !child.isBoxComponent ) return;
-
-				let offset;
-
-				if ( ALIGNMENT === 'top' || ALIGNMENT === 'start' ) {
-
-					offset = Y_TARGET - ( child.getHeight() / 2 ) - ( child.margin || 0 );
-
-				} else if ( ALIGNMENT === 'bottom' || ALIGNMENT === 'end' ) {
-
-					offset = -Y_TARGET + ( child.getHeight() / 2 ) + ( child.margin || 0 );
-
-				}
-
-				this.childrenPos[ child.id ].y = offset || 0;
-
-			} );
 
 		}
 
@@ -527,27 +213,3 @@ export default function BoxComponent( Base ) {
 
 }
 
-
-const AVAILABLE_JUSTIFICATIONS = [
-	'start',
-	'center',
-	'end',
-	'space-around',
-	'space-between',
-	'space-evenly'
-];
-
-const AVAILABLE_ALIGN_ITEMS = [
-	'start',
-	'center',
-	'end',
-	'stretch',
-	'top', // @TODO: Be remove upon 7.x.x
-	'right', // @TODO: Be remove upon 7.x.x
-	'bottom', // @TODO: Be remove upon 7.x.x
-	'left' // @TODO: Be remove upon 7.x.x
-];
-
-const _boxChildrenFilter = c => c.isBoxComponent;
-
-/* eslint-enable camelcase */
