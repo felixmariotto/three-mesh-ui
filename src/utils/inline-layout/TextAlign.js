@@ -6,7 +6,7 @@ export const JUSTIFY_LEFT = 'justify-left';
 export const JUSTIFY_RIGHT = 'justify-right';
 export const JUSTIFY_CENTER = 'justify-center';
 
-export function alignLines( lines, ALIGNMENT, INNER_WIDTH ) {
+export function textAlign( lines, ALIGNMENT, INNER_WIDTH ) {
 
 	// Start the alignment by sticking to directions : left, right, center
 	for ( let i = 0; i < lines.length; i++ ) {
@@ -14,7 +14,7 @@ export function alignLines( lines, ALIGNMENT, INNER_WIDTH ) {
 		const line = lines[ i ];
 
 		// compute the alignment offset of the line
-		const offsetX = computeLineOffset( line, ALIGNMENT, INNER_WIDTH, i === lines.length - 1 );
+		const offsetX = _computeLineOffset( line, ALIGNMENT, INNER_WIDTH, i === lines.length - 1 );
 
 		// apply the offset to each characters of the line
 		for ( let j = 0; j < line.length; j++ ) {
@@ -87,7 +87,7 @@ export function alignLines( lines, ALIGNMENT, INNER_WIDTH ) {
 }
 
 
-const computeLineOffset = ( line, ALIGNMENT, INNER_WIDTH, lastLine ) => {
+const _computeLineOffset = ( line, ALIGNMENT, INNER_WIDTH, lastLine ) => {
 
 	switch ( ALIGNMENT ) {
 

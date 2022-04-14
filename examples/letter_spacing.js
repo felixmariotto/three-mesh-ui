@@ -7,11 +7,12 @@ import ThreeMeshUI from '../src/three-mesh-ui.js';
 
 import FontJSON from './assets/Roboto-msdf.json';
 import FontImage from './assets/Roboto-msdf.png';
+import { Color } from 'three';
 
 const WIDTH = window.innerWidth;
 const HEIGHT = window.innerHeight;
 
-let scene, camera, renderer, controls;
+let scene, camera, renderer, controls, animatedText;
 
 window.addEventListener( 'load', init );
 window.addEventListener( 'resize', onWindowResize );
@@ -58,13 +59,15 @@ function init() {
 function makeTextPanel() {
 
 	const container = new ThreeMeshUI.Block( {
-		width: 1.2,
+		width: 3,
 		height: 0.5,
 		padding: 0.05,
 		justifyContent: 'center',
-		textAlign: 'left',
+		textAlign: 'center',
+		alignItems: 'start',
 		fontFamily: FontJSON,
-		fontTexture: FontImage
+		fontTexture: FontImage,
+		backgroundOpacity: 0
 	} );
 
 	container.position.set( 0, 1, -1.8 );
@@ -73,29 +76,87 @@ function makeTextPanel() {
 
 	//
 
-	const text = new ThreeMeshUI.Text( {
-		content: 'letterSpacing '.repeat( 3 ), fontSize: 0.055
+	for ( let i = -2; i < 3; i++ ) {
+
+		const letterSpace = i / 10;
+		const opacity = letterSpace === 0 ? 1 : 0.5;
+
+		const titleBox = new ThreeMeshUI.Block( {
+			width: 1,
+			height: 0.1,
+			margin: 0.01,
+			padding: 0.025,
+			justifyContent: 'center',
+			backgroundColor: new Color( 0xff9900 ),
+			backgroundOpacity: opacity,
+			textAlign: 'left'
+		} );
+
+		const title = new ThreeMeshUI.Text( {
+			content: `.set({letterSpacing: ${letterSpace}})`,
+			fontSize: 0.055,
+		} );
+
+		titleBox.add( title );
+
+		const textBox = new ThreeMeshUI.Block( {
+			width: 3,
+			height: 0.1,
+			margin: 0.01,
+			justifyContent: 'center',
+			backgroundOpacity: opacity,
+		} );
+
+		const text = new ThreeMeshUI.Text( {
+			content: '.letterSpacing adds a constant space between each characters.',
+			fontSize: 0.055,
+			letterSpacing: letterSpace
+		} );
+
+		textBox.add( text );
+
+		container.add( titleBox );
+		container.add( textBox );
+	}
+
+
+	// Then add an animated one
+	const animatedTitleBox = new ThreeMeshUI.Block( {
+		width: 1,
+		height: 0.1,
+		margin: 0.01,
+		padding: 0.025,
+		justifyContent: 'center',
+		backgroundColor: new Color( 0xff9900 ),
+		backgroundOpacity: 0.5,
+		textAlign: 'left'
 	} );
 
-	container.add( text );
+	const animatedTitle = new ThreeMeshUI.Text( {
+		content: `animated letterSpacing`,
+		fontSize: 0.055,
+	} );
 
-	// Update the letterSpacing in time in order to demo its effect
-	let letterSpacingSpeed = 0.1;
+	animatedTitleBox.add( animatedTitle );
 
-	setInterval( () => {
+	const animatedTextBox = new ThreeMeshUI.Block( {
+		width: 3,
+		height: 0.1,
+		margin: 0.01,
+		justifyContent: 'center',
+		backgroundOpacity: 0.5
+	} );
 
-		let letterSpacing = text.getLetterSpacing();
-		letterSpacing += letterSpacingSpeed;
+	animatedText = new ThreeMeshUI.Text( {
+		content: '.letterSpacing adds a constant space between each characters.',
+		fontSize: 0.055,
+	} );
 
-		// reverse the speed at some points
-		if ( letterSpacing > 1 || letterSpacing <= 0 ) {
-			letterSpacingSpeed *= -1;
-		}
+	animatedTextBox.add( animatedText );
 
-		// update the text component
-		text.set( { letterSpacing } );
+	container.add( animatedTitleBox );
+	container.add( animatedTextBox );
 
-	}, 500 );
 
 }
 
@@ -110,8 +171,9 @@ function onWindowResize() {
 }
 
 //
+let letterSpacingSpeed = 0.005;
 
-function loop() {
+function loop( ) {
 
 	// Don't forget, ThreeMeshUI must be updated manually.
 	// This has been introduced in version 3.0.0 in order
@@ -120,5 +182,26 @@ function loop() {
 
 	controls.update();
 	renderer.render( scene, camera );
+
+
+	// console.log( animatedText )
+
+	// update letterSpacing
+	let lspace = animatedText.getLetterSpacing();
+	lspace += letterSpacingSpeed;
+
+	if ( lspace < -0.6 ) {
+
+		lspace = -0.6;
+		letterSpacingSpeed *= -1;
+
+	} else if ( lspace > 0.4 ) {
+
+		lspace = 0.4;
+		letterSpacingSpeed *= - 1;
+
+	}
+
+	animatedText.set({letterSpacing: lspace});
 
 }

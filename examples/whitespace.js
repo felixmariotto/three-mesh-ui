@@ -51,11 +51,11 @@ function init() {
 
 	// TEXT PANEL
 	const whitespaces = [
-		'normal', 		// 'normal' or ThreeMeshUI.whiteSpace.NORMAL
-		'pre-line', 	// 'pre-line' or ThreeMeshUI.whiteSpace.PRE_LINE
-		'pre-wrap', 	// 'pre-wrap' or ThreeMeshUI.whiteSpace.PRE_WRAP
-		'pre', 				// 'pre' or ThreeMeshUI.whiteSpace.PRE
-		'nowrap', 		// 'nowrap' or ThreeMeshUI.whiteSpace.NOWRAP
+		'normal', 		// 'normal' or ThreeMeshUI.Whitespace.NORMAL
+		'pre-line', 	// 'pre-line' or ThreeMeshUI.Whitespace.PRE_LINE
+		'pre-wrap', 	// 'pre-wrap' or ThreeMeshUI.Whitespace.PRE_WRAP
+		'pre', 				// 'pre' or ThreeMeshUI.Whitespace.PRE
+		'nowrap', 		// 'nowrap' or ThreeMeshUI.Whitespace.NOWRAP
 	];
 
 	for ( let i = 0; i < whitespaces.length; i++ ) {
