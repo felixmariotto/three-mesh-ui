@@ -88,19 +88,6 @@ export default function MeshUIComponent( Base ) {
 
 		}
 
-		// getUIParent() {
-		//
-		// 	if ( this.parent && this.parent.isUI ) {
-		//
-		// 		return this.parent;
-		//
-		// 	}
-		//
-		// 	return null;
-		//
-		//
-		// }
-
 		/** Get the highest parent of this component (the parent that has no parent on top of it) */
 		getHighestParent() {
 
