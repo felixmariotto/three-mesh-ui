@@ -5,9 +5,6 @@ export const COLUMN_REVERSE = "column-reverse";
 
 export function contentDirection( container, DIRECTION, startPos, REVERSE ){
 
-	// only work on boxChildren
-	const boxChildren = container.children.filter( _boxChildrenFilter );
-
 	// end to end children
 	let accu = startPos;
 
@@ -24,9 +21,9 @@ export function contentDirection( container, DIRECTION, startPos, REVERSE ){
 	}
 
 	// Refactor reduce into fori in order to get rid of this keyword
-	for ( let i = 0; i < boxChildren.length; i++ ) {
+	for ( let i = 0; i < container.childrenBoxes.length; i++ ) {
 
-		const child = boxChildren[ i ];
+		const child = container.childrenBoxes[ i ];
 
 		const CHILD_ID = child.id;
 		const CHILD_SIZE = child[childGetSize]();
@@ -45,6 +42,3 @@ export function contentDirection( container, DIRECTION, startPos, REVERSE ){
 	}
 
 }
-
-
-const _boxChildrenFilter = c => c.isBoxComponent;

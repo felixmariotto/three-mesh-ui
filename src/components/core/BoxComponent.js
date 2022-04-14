@@ -77,9 +77,7 @@ export default function BoxComponent( Base ) {
 		/** Return the sum of all this component's children sides + their margin */
 		getChildrenSideSum( dimension ) {
 
-			return this.children.reduce( ( accu, child ) => {
-
-				if ( !child.isBoxComponent ) return accu;
+			return this.childrenBoxes.reduce( ( accu, child ) => {
 
 				const margin = ( child.margin * 2 ) || 0;
 
@@ -148,9 +146,7 @@ export default function BoxComponent( Base ) {
 		 */
 		getHighestChildSizeOn( direction ) {
 
-			return this.children.reduce( ( accu, child ) => {
-
-				if ( !child.isBoxComponent ) return accu;
+			return this.childrenBoxes.reduce( ( accu, child ) => {
 
 				const margin = child.margin || 0;
 				const maxSize = direction === 'width' ?

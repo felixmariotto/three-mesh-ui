@@ -25,9 +25,7 @@ export function alignItems( boxComponent, DIRECTION){
 	}
 	const AXIS_TARGET = ( boxComponent[getSizeMethod]() / 2 ) - ( boxComponent.padding || 0 );
 
-	boxComponent.children.forEach( ( child ) => {
-
-		if ( !child.isBoxComponent ) return;
+	boxComponent.childrenBoxes.forEach( ( child ) => {
 
 		let offset;
 

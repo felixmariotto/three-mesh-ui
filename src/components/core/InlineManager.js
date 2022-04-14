@@ -103,36 +103,30 @@ export default function InlineManager( Base ) {
 
 		calculateBestFit( bestFit ) {
 
-			const inlineChildren = this.children.filter( ( child ) => {
-
-				return child.isInline ? true : false;
-
-			} );
-
-			if ( inlineChildren.length === 0 ) return;
+			if ( this.childrenInlines.length === 0 ) return;
 
 			switch ( bestFit ) {
 				case 'grow':
-					this.calculateGrowFit( inlineChildren );
+					this.calculateGrowFit();
 					break;
 				case 'shrink':
-					this.calculateShrinkFit( inlineChildren );
+					this.calculateShrinkFit();
 					break;
 				case 'auto':
-					this.calculateAutoFit( inlineChildren );
+					this.calculateAutoFit();
 					break;
 			}
 
 		}
 
-		calculateGrowFit( inlineChildren ) {
+		calculateGrowFit() {
 
 			const INNER_HEIGHT = this.getHeight() - ( this.padding * 2 || 0 );
 
 			//Iterative method to find a fontSize of text children that text will fit into container
 			let iterations = 1;
 			const heightTolerance = 0.075;
-			const firstText = inlineChildren.find( inlineComponent => inlineComponent.isText );
+			const firstText = this.childrenInlines.find( inlineComponent => inlineComponent.isText );
 
 			let minFontMultiplier = 1;
 			let maxFontMultiplier = 2;
@@ -141,13 +135,13 @@ export default function InlineManager( Base ) {
 
 			do {
 
-				textHeight = this.calculateHeight( inlineChildren, fontMultiplier );
+				textHeight = this.calculateHeight( fontMultiplier );
 
 				if ( textHeight > INNER_HEIGHT ) {
 
 					if ( fontMultiplier <= minFontMultiplier ) { // can't shrink text
 
-						inlineChildren.forEach( inlineComponent => {
+						this.childrenInlines.forEach( inlineComponent => {
 
 							if ( inlineComponent.isInlineBlock ) return;
 
@@ -178,14 +172,14 @@ export default function InlineManager( Base ) {
 
 		}
 
-		calculateShrinkFit( inlineChildren ) {
+		calculateShrinkFit() {
 
 			const INNER_HEIGHT = this.getHeight() - ( this.padding * 2 || 0 );
 
 			// Iterative method to find a fontSize of text children that text will fit into container
 			let iterations = 1;
 			const heightTolerance = 0.075;
-			const firstText = inlineChildren.find( inlineComponent => inlineComponent.isText );
+			const firstText = this.childrenInlines.find( inlineComponent => inlineComponent.isText );
 
 			let minFontMultiplier = 0;
 			let maxFontMultiplier = 1;
@@ -194,7 +188,7 @@ export default function InlineManager( Base ) {
 
 			do {
 
-				textHeight = this.calculateHeight( inlineChildren, fontMultiplier );
+				textHeight = this.calculateHeight( fontMultiplier );
 
 				if ( textHeight > INNER_HEIGHT ) {
 
@@ -205,7 +199,7 @@ export default function InlineManager( Base ) {
 
 					if ( fontMultiplier >= maxFontMultiplier ) { // can't grow text
 
-						inlineChildren.forEach( inlineComponent => {
+						this.childrenInlines.forEach( inlineComponent => {
 
 							if ( inlineComponent.isInlineBlock ) return;
 
@@ -228,14 +222,14 @@ export default function InlineManager( Base ) {
 			} while ( ++iterations <= 10 );
 		}
 
-		calculateAutoFit( inlineChildren ) {
+		calculateAutoFit()  {
 
 			const INNER_HEIGHT = this.getHeight() - ( this.padding * 2 || 0 );
 
 			//Iterative method to find a fontSize of text children that text will fit into container
 			let iterations = 1;
 			const heightTolerance = 0.075;
-			const firstText = inlineChildren.find( inlineComponent => inlineComponent.isText );
+			const firstText = this.childrenInlines.find( inlineComponent => inlineComponent.isText );
 
 			let minFontMultiplier = 0;
 			let maxFontMultiplier = 2;
@@ -244,7 +238,7 @@ export default function InlineManager( Base ) {
 
 			do {
 
-				textHeight = this.calculateHeight( inlineChildren, fontMultiplier );
+				textHeight = this.calculateHeight( fontMultiplier );
 
 				if ( textHeight > INNER_HEIGHT ) {
 
@@ -278,12 +272,7 @@ export default function InlineManager( Base ) {
 			// correct lines position before to merge
 			const lines = [ [] ];
 
-			this.children.filter( ( child ) => {
-
-				return child.isInline ? true : false;
-
-			} )
-				.reduce( ( lastInlineOffset, inlineComponent ) => {
+			this.childrenInlines.reduce( ( lastInlineOffset, inlineComponent ) => {
 
 					// Abort condition
 
@@ -396,9 +385,9 @@ export default function InlineManager( Base ) {
 			return lines;
 		}
 
-		calculateHeight( inlineChildren, fontMultiplier ) {
+		calculateHeight( fontMultiplier ) {
 
-			inlineChildren.forEach( inlineComponent => {
+			this.childrenInlines.forEach( inlineComponent => {
 
 				if ( inlineComponent.isInlineBlock ) return;
 

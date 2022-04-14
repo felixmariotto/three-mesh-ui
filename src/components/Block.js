@@ -63,17 +63,13 @@ export default class Block extends mix.withBase( Object3D )(
 
 		const bestFit = this.getBestFit();
 
-		if ( bestFit != 'none' && ( this.children.find( child => child.isText ) ) ) {
+		if ( bestFit != 'none' && this.childrenTexts.length ) {
 
 			this.calculateBestFit( bestFit );
 
 		} else {
 
-			this.children.filter( child => {
-
-				return child.isText;
-
-			} ).forEach( child => {
+			this.childrenTexts.forEach( child => {
 
 				child._fitFontSize = undefined;
 
@@ -115,7 +111,7 @@ export default class Block extends mix.withBase( Object3D )(
 		// Position inner elements according to dimensions and layout parameters.
 		// Delegate to BoxComponent.
 
-		if ( this.children.find( child => child.isInline ) ) {
+		if ( this.childrenInlines.length ) {
 
 			this.computeInlinesPosition();
 
