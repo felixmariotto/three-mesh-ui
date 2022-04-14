@@ -37,6 +37,11 @@ export default function MeshUIComponent( Base ) {
 			this.childrenTexts = [];
 			this.childrenInlines = [];
 
+			// parents
+			this.parentUI = null;
+			// update parentUI when this component will be added or removed
+			this.addEventListener( 'added', this._rebuildParentUI );
+			this.addEventListener( 'removed', this._rebuildParentUI );
 		}
 
 		/////////////
@@ -47,12 +52,12 @@ export default function MeshUIComponent( Base ) {
 
 			const planes = [];
 
-			if ( this.parent && this.parent.isUI ) {
+			if ( this.parentUI ) {
 
-				if ( this.isBlock && this.parent.getHiddenOverflow() ) {
+				if ( this.isBlock && this.parentUI.getHiddenOverflow() ) {
 
-					const yLimit = ( this.parent.getHeight() / 2 ) - ( this.parent.padding || 0 );
-					const xLimit = ( this.parent.getWidth() / 2 ) - ( this.parent.padding || 0 );
+					const yLimit = ( this.parentUI.getHeight() / 2 ) - ( this.parentUI.padding || 0 );
+					const xLimit = ( this.parentUI.getWidth() / 2 ) - ( this.parentUI.padding || 0 );
 
 					const newPlanes = [
 						new Plane( new Vector3( 0, 1, 0 ), yLimit ),
@@ -71,9 +76,9 @@ export default function MeshUIComponent( Base ) {
 
 				}
 
-				if ( this.parent.parent && this.parent.parent.isUI ) {
+				if ( this.parentUI.parentUI ) {
 
-					planes.push( ...this.parent.getClippingPlanes() );
+					planes.push( ...this.parentUI.getClippingPlanes() );
 
 				}
 
@@ -83,23 +88,10 @@ export default function MeshUIComponent( Base ) {
 
 		}
 
-		getUIParent() {
-
-			if ( this.parent && this.parent.isUI ) {
-
-				return this.parent;
-
-			}
-
-			return null;
-
-
-		}
-
 		/** Get the highest parent of this component (the parent that has no parent on top of it) */
 		getHighestParent() {
 
-			if ( !this.getUIParent() ) {
+			if ( !this.parentUI ) {
 
 				return this;
 
@@ -116,7 +108,7 @@ export default function MeshUIComponent( Base ) {
 		 */
 		_getProperty( propName ) {
 
-			if ( this[ propName ] === undefined && this.getUIParent() ) {
+			if ( this[ propName ] === undefined && this.parentUI ) {
 
 				return this.parent._getProperty( propName );
 
@@ -260,9 +252,9 @@ export default function MeshUIComponent( Base ) {
 
 			i = i || 0;
 
-			if ( this.getUIParent() ) {
+			if ( this.parentUI ) {
 
-				return this.parent.getParentsNumber( i + 1 );
+				return this.parentUI.getParentsNumber( i + 1 );
 
 			}
 
@@ -373,6 +365,24 @@ export default function MeshUIComponent( Base ) {
 			// Stores all children that are text
 			this.childrenTexts = this.children.filter( child => child.isText );
 		}
+
+		/**
+		 * Try to retrieve parentUI after each structural change
+		 * @private
+		 */
+		_rebuildParentUI = ( ) => {
+
+			if ( this.parent && this.parent.isUI ) {
+
+				this.parentUI = this.parent;
+
+			} else {
+
+				this.parentUI = null;
+
+			}
+
+		};
 
 		/**
 		 * When the user calls component.add, it registers for updates,
@@ -596,12 +606,12 @@ export default function MeshUIComponent( Base ) {
 			}
 
 			// if font kerning changes for a child of a block with Best Fit enabled, we need to trigger parsing for the parent as well.
-			const parent = this.getUIParent();
-			if ( parent && parent.getBestFit() != 'none' ) parent.update( true, true, false );
+			if ( this.parentUI && this.parentUI.getBestFit() != 'none' ) this.parentUI.update( true, true, false );
 
 			// Call component update
 
 			this.update( parsingNeedsUpdate, layoutNeedsUpdate, innerNeedsUpdate );
+
 
 			if ( layoutNeedsUpdate ) this.getHighestParent().update( false, true, false );
 
