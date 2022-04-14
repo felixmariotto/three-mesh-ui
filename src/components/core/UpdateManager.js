@@ -84,7 +84,7 @@ export default class UpdateManager {
 
 			const roots = this.components.filter( ( component ) => {
 
-				return !component.getUIParent();
+				return !component.parentUI;
 
 			} );
 

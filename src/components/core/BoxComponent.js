@@ -94,10 +94,10 @@ export default function BoxComponent( Base ) {
 		/** Look in parent record what is the instructed position for this component, then set its position */
 		setPosFromParentRecords() {
 
-			if ( this.getUIParent() && this.getUIParent().childrenPos[ this.id ] ) {
+			if ( this.parentUI && this.parentUI.childrenPos[ this.id ] ) {
 
-				this.position.x = ( this.getUIParent().childrenPos[ this.id ].x );
-				this.position.y = ( this.getUIParent().childrenPos[ this.id ].y );
+				this.position.x = ( this.parentUI.childrenPos[ this.id ].x );
+				this.position.y = ( this.parentUI.childrenPos[ this.id ].y );
 
 			}
 
@@ -168,11 +168,11 @@ export default function BoxComponent( Base ) {
 
 			// This is for stretch alignment
 			// @TODO : Conceive a better performant way
-			if( this.parent && this.parent.isUI && this.parent.getAlignItems() === 'stretch' ){
+			if( this.parentUI && this.parentUI.getAlignItems() === 'stretch' ){
 
-				if( this.parent.getContentDirection().indexOf('column') !== -1 ){
+				if( this.parentUI.getContentDirection().indexOf('column') !== -1 ){
 
-					return this.parent.getWidth() -  ( this.parent.padding * 2 || 0 );
+					return this.parentUI.getWidth() -  ( this.parentUI.padding * 2 || 0 );
 
 				}
 
@@ -191,11 +191,11 @@ export default function BoxComponent( Base ) {
 
 			// This is for stretch alignment
 			// @TODO : Conceive a better performant way
-			if( this.parent && this.parent.isUI && this.parent.getAlignItems() === 'stretch' ){
+			if( this.parentUI && this.parentUI.getAlignItems() === 'stretch' ){
 
-				if( this.parent.getContentDirection().indexOf('row') !== -1 ){
+				if( this.parentUI.getContentDirection().indexOf('row') !== -1 ){
 
-					return this.parent.getHeight() - ( this.parent.padding * 2 || 0 );
+					return this.parentUI.getHeight() - ( this.parentUI.padding * 2 || 0 );
 
 				}
 

@@ -122,7 +122,7 @@ export default class Block extends mix.withBase( Object3D )(
 		// We check if this block is the root component,
 		// because most of the time the user wants to set the
 		// root component's z position themselves
-		if ( this.getUIParent() ) {
+		if ( this.parentUI ) {
 
 			this.position.z = this.getOffset();
 
@@ -137,7 +137,7 @@ export default class Block extends mix.withBase( Object3D )(
 		// We check if this block is the root component,
 		// because most of the time the user wants to set the
 		// root component's z position themselves
-		if ( this.getUIParent() ) {
+		if ( this.parentUI ) {
 
 			this.position.z = this.getOffset();
 
