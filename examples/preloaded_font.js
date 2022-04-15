@@ -2,12 +2,10 @@ import * as THREE from 'three';
 import { VRButton } from 'three/examples/jsm/webxr/VRButton.js';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import { BoxLineGeometry } from 'three/examples/jsm/geometries/BoxLineGeometry.js';
-import { TextureLoader } from 'three/src/loaders/TextureLoader.js';
 
 import ThreeMeshUI from '../src/three-mesh-ui.js';
 
 import FontJSON from './assets/Roboto-msdf.json';
-import FontImage from './assets/Roboto-msdf.png';
 
 const WIDTH = window.innerWidth;
 const HEIGHT = window.innerHeight;
@@ -21,17 +19,13 @@ window.addEventListener( 'resize', onWindowResize );
 //
 
 function preload() {
-	const textureLoader = new TextureLoader();
+	const texture = new THREE.TextureLoader().load('./assets/Roboto-msdf.png')
 
 	// JSON may be preloaded as well
 
-	textureLoader.load( FontImage, ( texture ) => {
+	ThreeMeshUI.FontLibrary.addFont( fontName, FontJSON, texture );
 
-		ThreeMeshUI.FontLibrary.addFont( fontName, FontJSON, texture );
-
-		init();
-
-	} );
+	init();
 }
 
 //
