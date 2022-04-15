@@ -112,7 +112,7 @@ function makeUI() {
 	// Lines properties. Lines are planes manually added behind each text lines
 	// in order to perceive and validate line width
 
-	let lineMat = new MeshBasicMaterial({color:0xff9900,opacity:0.5});
+	const lineMat = new MeshBasicMaterial({color:0xff9900,opacity:0.5});
 	let lines = [];
 
 	text.onAfterUpdate = function () {
@@ -138,7 +138,7 @@ function makeUI() {
 			// retrieve all lines sent by InlineManager for the textBlock
 			for (let i = 0; i < textBlock.lines.length; i++) {
 
-				let lineProperty = textBlock.lines[i];
+				const lineProperty = textBlock.lines[i];
 
 				if( !lineProperty[0] ) continue;
 
@@ -147,8 +147,8 @@ function makeUI() {
 				const lineHeight = lineProperty.lineHeight/4;
 
 				// create a mesh for each line
-				let lineGeo = new PlaneBufferGeometry(lineProperty.width, lineHeight );
-				let lineMesh = new Mesh( lineGeo, lineMat);
+				const lineGeo = new PlaneBufferGeometry(lineProperty.width, lineHeight );
+				const lineMesh = new Mesh( lineGeo, lineMat);
 
 				lineMesh.position.x = lineProperty[0].offsetX + (lineProperty.width/2);
 				lineMesh.position.y = lineProperty[0].offsetY + (lineHeight/2);
@@ -270,7 +270,7 @@ function makeUI() {
 
 
 	// update texts as soon textarea changes
-	tA.addEventListener('input', (e) => {
+	tA.addEventListener('input', () => {
 		const tc = tA.value;
 
 		// update html paragraph
