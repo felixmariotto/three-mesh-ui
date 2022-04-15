@@ -3,71 +3,72 @@
 const path = require( 'path' );
 const HtmlWebpackPlugin = require( 'html-webpack-plugin' );
 const TerserPlugin = require( 'terser-webpack-plugin' );
-const ESLintPlugin = require('eslint-webpack-plugin');
+const ESLintPlugin = require( 'eslint-webpack-plugin' );
 
 // data in format [ JS file name => demo title in examples page ]
 const pages = [
-	[ "api__align_items", ".alignItems" ],
-	[ "api__antialiasing", ".fontSuperSampling" ],
-	[ "api__background_size", ".backgroundSize" ],
-	[ "api__best_fit", ".bestFit" ],
-	[ "api__border", ".border-<sup>*</sup>" ],
-	[ "api__content_direction", ".contentDirection" ],
-	[ "api__font_kerning", ".fontKerning" ],
-	[ "api__hidden_overflow", ".hiddenOverflow" ],
-	[ "api__justify_content", ".justifyContent" ],
-	[ "api__letter_spacing", ".letterSpacing" ],
-	[ "api__manual_positioning", ".autoLayout" ],
-	[ "api__text_align", ".textAlign" ],
-	[ "api__whitespace", ".whiteSpace" ],
-	[ "tut__basic_setup", "Basic setup" ],
-	[ "tut__preloaded_font", "Preload fonts" ],
-	[ "tut__nested_blocks", "Nested Blocks" ],
-	[ "tut__tutorial_result", "Tutorial result" ],
-	[ "ex__interactive_button", "Interactive Button" ],
-	[ "ex__msdf_text", "Big Text" ],
-	[ "ex__inline_block", "Inline Block" ],
-	[ "ex__onafterupdate", "On after Update" ],
-	[ "ex__keyboard", "Keyboard" ],
-	[ "dev__justification", "Justification" ],
-	[ "dev__whitespace", "WhiteSpace" ],
+	[ 'api__align_items', '.alignItems' ],
+	[ 'api__antialiasing', '.fontSuperSampling' ],
+	[ 'api__background_size', '.backgroundSize' ],
+	[ 'api__best_fit', '.bestFit' ],
+	[ 'api__border', '.border-<sup>*</sup>' ],
+	[ 'api__content_direction', '.contentDirection' ],
+	[ 'api__font_kerning', '.fontKerning' ],
+	[ 'api__hidden_overflow', '.hiddenOverflow' ],
+	[ 'api__justify_content', '.justifyContent' ],
+	[ 'api__letter_spacing', '.letterSpacing' ],
+	[ 'api__manual_positioning', '.autoLayout' ],
+	[ 'api__text_align', '.textAlign' ],
+	[ 'api__whitespace', '.whiteSpace' ],
+	[ 'tut__basic_setup', 'Basic setup' ],
+	[ 'tut__preloaded_font', 'Preload fonts' ],
+	[ 'tut__nested_blocks', 'Nested Blocks' ],
+	[ 'tut__tutorial_result', 'Tutorial result' ],
+	[ 'ex__interactive_button', 'Interactive Button' ],
+	[ 'ex__msdf_text', 'Big Text' ],
+	[ 'ex__inline_block', 'Inline Block' ],
+	[ 'ex__onafterupdate', 'On after Update' ],
+	[ 'ex__keyboard', 'Keyboard' ],
+	[ 'dev__justification', 'Justification' ],
+	[ 'dev__whitespace', 'WhiteSpace' ],
 ];
 
 // create one config for each of the data set above
-const pagesConfig = pages.map( (page)=> {
-	return new HtmlWebpackPlugin({
-		title: page[0],
-		filename: page[0] + '.html',
-		template: path.resolve(__dirname, `../examples/html/example_template.html`),
-		chunks: [page[0], 'three-mesh-ui'],
+const pagesConfig = pages.map( ( page ) => {
+	return new HtmlWebpackPlugin( {
+		title: page[ 0 ],
+		filename: page[ 0 ] + '.html',
+		template: path.resolve( __dirname, `../examples/html/example_template.html` ),
+		chunks: [ page[ 0 ], 'three-mesh-ui' ],
 		inject: true
-	});
-});
+	} );
+} );
 
-function pageReducer(accu, page){
-	return accu + `<li title="${ page[0] }">${ page[1] }</li>`
+function pageReducer( accu, page ) {
+	return accu + `<li title="${page[ 0 ]}">${page[ 1 ]}</li>`;
 }
 
 // just add one config for the index page
-const indexConfig = new HtmlWebpackPlugin({
+const indexConfig = new HtmlWebpackPlugin( {
 	// sort pages per purposes
 	pages: {
 
-		examples:pages.filter( p => p[0].indexOf("ex__") === 0 ).reduce( pageReducer, '' ),
-		api:pages.filter( p => p[0].indexOf("api__") === 0 ).reduce( pageReducer, '' ),
-		tutorials:pages.filter( p => p[0].indexOf("tut__") === 0 ).reduce( pageReducer, '' ),
-		dev:pages.filter( p => p[0].indexOf("dev__") === 0 ).reduce( pageReducer, '' )
+		examples: pages.filter( p => p[ 0 ].indexOf( 'ex__' ) === 0 ).reduce( pageReducer, '' ),
+		api: pages.filter( p => p[ 0 ].indexOf( 'api__' ) === 0 ).reduce( pageReducer, '' ),
+		tutorials: pages.filter( p => p[ 0 ].indexOf( 'tut__' ) === 0 ).reduce( pageReducer, '' ),
+		dev: pages.filter( p => p[ 0 ].indexOf( 'dev__' ) === 0 ).reduce( pageReducer, '' )
 
 	},
 
 	environment: {
 		production: false,
+		version: require('./../package.json').version,
 	},
 
 	filename: 'index.html',
 	template: path.resolve( __dirname, `../examples/html/index.html` ),
 	inject: false
-});
+} );
 
 pagesConfig.push( indexConfig );
 
