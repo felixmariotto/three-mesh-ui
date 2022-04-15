@@ -81,7 +81,6 @@ const webpackConfig = env => {
 		devtool: 'eval-source-map',
 
 		entry: {
-			'../dist/three-mesh-ui': './src/three-mesh-ui.js',
 			api__align_items: './examples/api__align_items.js',
 			api__antialiasing: './examples/api__antialiasing.js',
 			api__background_size: './examples/api__background_size.js',
@@ -110,9 +109,46 @@ const webpackConfig = env => {
 		},
 
 		plugins: [
-			new ESLintPlugin( { overrideConfigFile: './config/codestyle/.eslintrc', }),
+			new ESLintPlugin( { overrideConfigFile: './config/codestyle/.eslintrc', } ),
 			...pagesConfig
 		],
+
+		resolve: {
+			alias: {
+				'three-mesh-ui/examples': path.resolve( __dirname, '../examples/' ),
+				'three-mesh-ui': path.resolve( __dirname, '../src/three-mesh-ui.js' ),
+			},
+		},
+
+		optimization: {
+			moduleIds: 'named',
+			chunkIds: 'named',
+			splitChunks: {
+				cacheGroups: {
+					vendors: {
+						name: 'chunk_vendors',
+						priority: 10,
+						test: /[\\/]node_modules[\\/]three[\\/]/,
+						chunks: 'all',
+						reuseExistingChunk: true
+					},
+					threemeshui: {
+						name: 'chunk_three-mesh-ui',
+						priority: 11,
+						test: /[\\/]src/,
+						chunks: 'all',
+						reuseExistingChunk: true
+					},
+					importedassets: {
+						name: 'chunk_imported-assets',
+						priority: 12,
+						test: /(.)*\.json/,
+						chunks: 'all',
+						reuseExistingChunk: true
+					},
+				}
+			}
+		},
 
 		devServer: {
 			hot: false,
