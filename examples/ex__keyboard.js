@@ -13,16 +13,16 @@ import { VRButton } from 'three/examples/jsm/webxr/VRButton.js';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import { BoxLineGeometry } from 'three/examples/jsm/geometries/BoxLineGeometry.js';
 
-import ThreeMeshUI from '../src/three-mesh-ui.js';
+import ThreeMeshUI from 'three-mesh-ui';
 import VRControl from './utils/VRControl.js';
 import ShadowedLight from './utils/ShadowedLight.js';
 
-import FontJSON from './assets/Roboto-msdf.json';
-import FontImage from './assets/Roboto-msdf.png';
+import FontJSON from 'three-mesh-ui/examples/assets/Roboto-msdf.json';
+import FontImage from 'three-mesh-ui/examples/assets/Roboto-msdf.png';
 
-import Backspace from './assets/backspace.png';
-import Enter from './assets/enter.png';
-import Shift from './assets/shift.png';
+import Backspace from 'three-mesh-ui/examples/assets/backspace.png';
+import Enter from 'three-mesh-ui/examples/assets/enter.png';
+import Shift from 'three-mesh-ui/examples/assets/shift.png';
 
 let scene,
 	camera,

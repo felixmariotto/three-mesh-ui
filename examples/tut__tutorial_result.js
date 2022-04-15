@@ -5,7 +5,7 @@ import { VRButton } from "three/examples/jsm/webxr/VRButton.js";
 import { BoxLineGeometry } from "three/examples/jsm/geometries/BoxLineGeometry.js";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 
-import ThreeMeshUI from "../src/three-mesh-ui.js";
+import ThreeMeshUI from "three-mesh-ui";
 
 import SnakeImage from "./assets/spiny_bush_viper.jpg";
 import FontJSON from "./assets/Roboto-msdf.json";

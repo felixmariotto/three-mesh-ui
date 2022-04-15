@@ -5,7 +5,7 @@ import {VRButton} from "three/examples/jsm/webxr/VRButton.js";
 import {BoxLineGeometry} from "three/examples/jsm/geometries/BoxLineGeometry.js";
 import {OrbitControls} from "three/examples/jsm/controls/OrbitControls.js";
 
-import ThreeMeshUI from "../src/three-mesh-ui.js";
+import ThreeMeshUI from "three-mesh-ui";
 
 import FontJSON from "./assets/Roboto-msdf.json";
 import FontImage from "./assets/Roboto-msdf.png";

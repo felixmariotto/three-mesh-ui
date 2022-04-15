@@ -3,11 +3,11 @@ import { VRButton } from 'three/examples/jsm/webxr/VRButton.js';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import { BoxLineGeometry } from 'three/examples/jsm/geometries/BoxLineGeometry.js';
 
-import ThreeMeshUI from '../src/three-mesh-ui.js';
+import ThreeMeshUI from 'three-mesh-ui';
 
-import ThreeIcon from './assets/threejs.png';
-import FontJSON from './assets/Roboto-msdf.json';
-import FontImage from './assets/Roboto-msdf.png';
+import ThreeIcon from 'three-mesh-ui/examples/assets/threejs.png';
+import FontJSON from 'three-mesh-ui/examples/assets/Roboto-msdf.json';
+import FontImage from 'three-mesh-ui/examples/assets/Roboto-msdf.png';
 
 const WIDTH = window.innerWidth;
 const HEIGHT = window.innerHeight;
