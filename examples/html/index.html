@@ -32,6 +32,10 @@
 			font-weight: 600;
 		}
 
+		.version{
+			text-align: right;
+		}
+
 		#page {
 			position: fixed;
 			height: 100%;
@@ -42,7 +46,7 @@
 		#menu {
 			position: relative;
 			height: 100%;
-			min-width: 270px;
+			min-width: 278px;
 			border-right: solid 1px var(--dark-colour);
 			transition: height 0.26s;
 			overflow-y: auto;
@@ -212,6 +216,7 @@
 
 		<div id="examples-container">
 			<h1>three-mesh-ui</h1>
+			<h5 class="version">v<%= htmlWebpackPlugin.options.environment.version %></h5>
 			<a id="github-link-menu" href="https://github.com/felixmariotto/three-mesh-ui" target="_blank">
 				<img id="menu-icon" src="https://felixmariotto.s3.eu-west-3.amazonaws.com/github-white-icon.png">
 				Github page

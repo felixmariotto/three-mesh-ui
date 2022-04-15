@@ -197,23 +197,24 @@ const webpackConfig = env => {
 
 		indexConfig.userOptions.environment.production = true;
 
-		config.optimization = {
-			minimize: true,
-			minimizer: [
-				new TerserPlugin( {
-					test: /\.js(\?.*)?$/i,
-					extractComments: 'some',
-					terserOptions: {
-						format: {
-							comments: /@license/i,
-						},
-						compress: {
-							drop_console: true,
-						},
-					}
-				} ),
-			],
-		};
+		config.optimization.minimize = true;
+
+		config.optimization.minimizer = [
+			new TerserPlugin( {
+				test: /\.js(\?.*)?$/i,
+				extractComments: 'some',
+				terserOptions: {
+					format: {
+						comments: /@license/i,
+					},
+					compress: {
+
+						// remove console.logs while leaving other console outputs
+						pure_funcs: [ 'console.log' ],
+					},
+				}
+			} ),
+		];
 	}
 
 	return config;
