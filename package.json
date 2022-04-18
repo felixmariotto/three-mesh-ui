@@ -1,12 +1,12 @@
 {
   "name": "three-mesh-ui",
-  "version": "6.4.1",
+  "version": "6.4.2",
   "description": "a library on top of three.js to help in creating 3D user interfaces",
   "engines": {
     "node": "x.x.x"
   },
   "main": "build/three-mesh-ui.min.js",
-  "module": "build/three-mesh-ui.module.min.js",
+  "module": "build/three-mesh-ui.module.js",
   "types": "src/types.d.ts",
   "scripts": {
     "test": "echo \"No test specified yet\"",

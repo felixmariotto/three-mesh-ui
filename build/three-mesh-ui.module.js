@@ -36,18 +36,57 @@ var __webpack_exports__ = {};
 
 // EXPORTS
 __webpack_require__.d(__webpack_exports__, {
+  "g1": () => (/* reexport */ AlignItems_namespaceObject),
   "gO": () => (/* reexport */ Block),
+  "km": () => (/* reexport */ ContentDirection_namespaceObject),
   "zV": () => (/* reexport */ core_FontLibrary),
   "ol": () => (/* reexport */ InlineBlock),
+  "uM": () => (/* reexport */ JustifyContent_namespaceObject),
   "N1": () => (/* reexport */ Keyboard),
   "xv": () => (/* reexport */ Text),
+  "PH": () => (/* reexport */ TextAlign_namespaceObject),
+  "UH": () => (/* reexport */ Whitespace_namespaceObject),
   "ZP": () => (/* binding */ three_mesh_ui),
-  "yd": () => (/* reexport */ TextAlign_namespaceObject),
-  "Vx": () => (/* binding */ update),
-  "d8": () => (/* reexport */ Whitespace_namespaceObject)
+  "Vx": () => (/* binding */ update)
 });
 
-// NAMESPACE OBJECT: ./src/utils/Whitespace.js
+// NAMESPACE OBJECT: ./src/utils/block-layout/ContentDirection.js
+var ContentDirection_namespaceObject = {};
+__webpack_require__.r(ContentDirection_namespaceObject);
+__webpack_require__.d(ContentDirection_namespaceObject, {
+  "COLUMN": () => (COLUMN),
+  "COLUMN_REVERSE": () => (COLUMN_REVERSE),
+  "ROW": () => (ROW),
+  "ROW_REVERSE": () => (ROW_REVERSE),
+  "contentDirection": () => (contentDirection)
+});
+
+// NAMESPACE OBJECT: ./src/utils/block-layout/AlignItems.js
+var AlignItems_namespaceObject = {};
+__webpack_require__.r(AlignItems_namespaceObject);
+__webpack_require__.d(AlignItems_namespaceObject, {
+  "CENTER": () => (CENTER),
+  "END": () => (END),
+  "START": () => (START),
+  "STRETCH": () => (STRETCH),
+  "alignItems": () => (alignItems),
+  "warnAboutDeprecatedAlignItems": () => (warnAboutDeprecatedAlignItems)
+});
+
+// NAMESPACE OBJECT: ./src/utils/block-layout/JustifyContent.js
+var JustifyContent_namespaceObject = {};
+__webpack_require__.r(JustifyContent_namespaceObject);
+__webpack_require__.d(JustifyContent_namespaceObject, {
+  "CENTER": () => (JustifyContent_CENTER),
+  "END": () => (JustifyContent_END),
+  "SPACE_AROUND": () => (SPACE_AROUND),
+  "SPACE_BETWEEN": () => (SPACE_BETWEEN),
+  "SPACE_EVENLY": () => (SPACE_EVENLY),
+  "START": () => (JustifyContent_START),
+  "justifyContent": () => (justifyContent)
+});
+
+// NAMESPACE OBJECT: ./src/utils/inline-layout/Whitespace.js
 var Whitespace_namespaceObject = {};
 __webpack_require__.r(Whitespace_namespaceObject);
 __webpack_require__.d(Whitespace_namespaceObject, {
@@ -63,24 +102,328 @@ __webpack_require__.d(Whitespace_namespaceObject, {
   "shouldBreak": () => (Whitespace_shouldBreak)
 });
 
-// NAMESPACE OBJECT: ./src/utils/TextAlign.js
+// NAMESPACE OBJECT: ./src/utils/inline-layout/TextAlign.js
 var TextAlign_namespaceObject = {};
 __webpack_require__.r(TextAlign_namespaceObject);
 __webpack_require__.d(TextAlign_namespaceObject, {
-  "CENTER": () => (CENTER),
+  "CENTER": () => (TextAlign_CENTER),
   "JUSTIFY": () => (JUSTIFY),
   "JUSTIFY_CENTER": () => (JUSTIFY_CENTER),
   "JUSTIFY_LEFT": () => (JUSTIFY_LEFT),
   "JUSTIFY_RIGHT": () => (JUSTIFY_RIGHT),
   "LEFT": () => (LEFT),
   "RIGHT": () => (RIGHT),
-  "alignLines": () => (alignLines)
+  "textAlign": () => (textAlign)
 });
 
 ;// CONCATENATED MODULE: external "three"
 var x = y => { var x = {}; __webpack_require__.d(x, y); return x; }
 var y = x => () => x
 const external_three_namespaceObject = x({ ["BufferAttribute"]: () => __WEBPACK_EXTERNAL_MODULE_three__.BufferAttribute, ["BufferGeometry"]: () => __WEBPACK_EXTERNAL_MODULE_three__.BufferGeometry, ["CanvasTexture"]: () => __WEBPACK_EXTERNAL_MODULE_three__.CanvasTexture, ["Color"]: () => __WEBPACK_EXTERNAL_MODULE_three__.Color, ["FileLoader"]: () => __WEBPACK_EXTERNAL_MODULE_three__.FileLoader, ["LinearFilter"]: () => __WEBPACK_EXTERNAL_MODULE_three__.LinearFilter, ["Mesh"]: () => __WEBPACK_EXTERNAL_MODULE_three__.Mesh, ["Object3D"]: () => __WEBPACK_EXTERNAL_MODULE_three__.Object3D, ["Plane"]: () => __WEBPACK_EXTERNAL_MODULE_three__.Plane, ["PlaneBufferGeometry"]: () => __WEBPACK_EXTERNAL_MODULE_three__.PlaneBufferGeometry, ["PlaneGeometry"]: () => __WEBPACK_EXTERNAL_MODULE_three__.PlaneGeometry, ["ShaderMaterial"]: () => __WEBPACK_EXTERNAL_MODULE_three__.ShaderMaterial, ["TextureLoader"]: () => __WEBPACK_EXTERNAL_MODULE_three__.TextureLoader, ["Vector2"]: () => __WEBPACK_EXTERNAL_MODULE_three__.Vector2, ["Vector3"]: () => __WEBPACK_EXTERNAL_MODULE_three__.Vector3 });
+;// CONCATENATED MODULE: ./src/utils/block-layout/ContentDirection.js
+const ROW = "row";
+const ROW_REVERSE = "row-reverse";
+const COLUMN = "column";
+const COLUMN_REVERSE = "column-reverse";
+
+function contentDirection( container, DIRECTION, startPos, REVERSE ){
+
+	// end to end children
+	let accu = startPos;
+
+	let childGetSize = "getWidth";
+	let axisPrimary = "x";
+	let axisSecondary = "y";
+
+	if( DIRECTION.indexOf( COLUMN ) === 0 ){
+
+		childGetSize = "getHeight";
+		axisPrimary = "y";
+		axisSecondary = "x";
+
+	}
+
+	// Refactor reduce into fori in order to get rid of this keyword
+	for ( let i = 0; i < container.childrenBoxes.length; i++ ) {
+
+		const child = container.childrenBoxes[ i ];
+
+		const CHILD_ID = child.id;
+		const CHILD_SIZE = child[childGetSize]();
+		const CHILD_MARGIN = child.margin || 0;
+
+		accu += CHILD_MARGIN * REVERSE;
+
+		container.childrenPos[ CHILD_ID ] = {
+			[axisPrimary]: accu + ( ( CHILD_SIZE / 2 ) * REVERSE ),
+			[axisSecondary]: 0
+		};
+
+		// update accu for next children
+		accu += ( REVERSE * ( CHILD_SIZE + CHILD_MARGIN ) );
+
+	}
+
+}
+
+;// CONCATENATED MODULE: ./src/utils/block-layout/AlignItems.js
+
+
+
+const START = "start";
+const CENTER = "center";
+const END = "end";
+const STRETCH = "stretch"; // Still bit experimental
+
+function alignItems( boxComponent, DIRECTION){
+
+	const ALIGNMENT = boxComponent.getAlignItems();
+	if( AVAILABLE_ALIGN_ITEMS.indexOf(ALIGNMENT) === -1 ){
+
+		console.warn( `alignItems === '${ALIGNMENT}' is not supported` );
+
+	}
+
+	let getSizeMethod = "getWidth";
+	let axis = "x";
+	if( DIRECTION.indexOf( ROW ) === 0 ){
+
+		getSizeMethod = "getHeight";
+		axis = "y";
+
+	}
+	const AXIS_TARGET = ( boxComponent[getSizeMethod]() / 2 ) - ( boxComponent.padding || 0 );
+
+	boxComponent.childrenBoxes.forEach( ( child ) => {
+
+		let offset;
+
+		switch ( ALIGNMENT ){
+
+			case END:
+			case 'right': // @TODO : Deprecated and will be remove upon 7.x.x
+			case 'bottom': // @TODO : Deprecated and will be remove upon 7.x.x
+				if( DIRECTION.indexOf( ROW ) === 0 ){
+
+					offset = - AXIS_TARGET + ( child[getSizeMethod]() / 2 ) + ( child.margin || 0 );
+
+				}else{
+
+					offset = AXIS_TARGET - ( child[getSizeMethod]() / 2 ) - ( child.margin || 0 );
+
+				}
+
+				break;
+
+			case START:
+			case 'left': // @TODO : Deprecated and will be remove upon 7.x.x
+			case 'top': // @TODO : Deprecated and will be remove upon 7.x.x
+				if( DIRECTION.indexOf( ROW ) === 0 ){
+
+					offset = AXIS_TARGET - ( child[getSizeMethod]() / 2 ) - ( child.margin || 0 );
+
+				}else{
+
+					offset = - AXIS_TARGET + ( child[getSizeMethod]() / 2 ) + ( child.margin || 0 );
+
+				}
+
+				break;
+		}
+
+		boxComponent.childrenPos[ child.id ][axis] = offset || 0;
+
+	} );
+
+}
+
+/**
+ * @deprecated
+ * // @TODO: Be remove upon 7.x.x
+ * @param alignment
+ */
+function warnAboutDeprecatedAlignItems( alignment ){
+
+	if( DEPRECATED_ALIGN_ITEMS.indexOf(alignment) !== - 1){
+
+		console.warn(`alignItems === '${alignment}' is deprecated and will be remove in 7.x.x. Fallback are 'start'|'end'`)
+
+	}
+
+}
+
+const AVAILABLE_ALIGN_ITEMS = [
+	START,
+	CENTER,
+	END,
+	STRETCH,
+	'top', // @TODO: Be remove upon 7.x.x
+	'right', // @TODO: Be remove upon 7.x.x
+	'bottom', // @TODO: Be remove upon 7.x.x
+	'left' // @TODO: Be remove upon 7.x.x
+];
+
+// @TODO: Be remove upon 7.x.x
+const DEPRECATED_ALIGN_ITEMS = [
+	'top',
+	'right',
+	'bottom',
+	'left'
+];
+
+
+;// CONCATENATED MODULE: ./src/utils/block-layout/JustifyContent.js
+const JustifyContent_START = "start";
+const JustifyContent_CENTER = "center";
+const JustifyContent_END = "end";
+const SPACE_AROUND = 'space-around';
+const SPACE_BETWEEN = 'space-between';
+const SPACE_EVENLY = 'space-evenly';
+
+function justifyContent( boxComponent, direction, startPos, REVERSE){
+
+	const JUSTIFICATION = boxComponent.getJustifyContent();
+	if ( AVAILABLE_JUSTIFICATIONS.indexOf( JUSTIFICATION ) === -1 ) {
+
+		console.warn( `justifyContent === '${ JUSTIFICATION }' is not supported` );
+
+	}
+
+	const side = direction.indexOf('row') === 0 ? 'width' : 'height'
+	const usedDirectionSpace = boxComponent.getChildrenSideSum( side );
+
+	const INNER_SIZE = side === 'width' ? boxComponent.getInnerWidth() : boxComponent.getInnerHeight();
+	const remainingSpace = INNER_SIZE - usedDirectionSpace;
+
+	// Items Offset
+	const axisOffset = ( startPos * 2 ) - ( usedDirectionSpace * Math.sign( startPos ) );
+	// const axisOffset = ( startPos * 2 ) - ( usedDirectionSpace * REVERSE );
+	const justificationOffset = _getJustificationOffset( JUSTIFICATION, axisOffset );
+
+	// Items margin
+	const justificationMargins = _getJustificationMargin( boxComponent.childrenBoxes, remainingSpace, JUSTIFICATION, REVERSE );
+
+	// Apply
+	const axis = direction.indexOf( 'row' ) === 0 ? "x" : "y"
+	boxComponent.childrenBoxes.forEach( ( child , childIndex ) => {
+
+		boxComponent.childrenPos[ child.id ][axis] -= justificationOffset - justificationMargins[childIndex];
+
+	} );
+}
+
+const AVAILABLE_JUSTIFICATIONS = [
+	JustifyContent_START,
+	JustifyContent_CENTER,
+	JustifyContent_END,
+	SPACE_AROUND,
+	SPACE_BETWEEN,
+	SPACE_EVENLY
+];
+
+/**
+ *
+ * @param {string} justification
+ * @param {number} axisOffset
+ * @returns {number}
+ */
+function _getJustificationOffset( justification, axisOffset ){
+
+	// Only end and center have justification offset
+	switch ( justification ){
+
+		case JustifyContent_END:
+			return axisOffset;
+
+		case JustifyContent_CENTER:
+			return axisOffset / 2;
+	}
+
+	return 0;
+}
+
+/**
+ *
+ * @param items
+ * @param spaceToDistribute
+ * @param justification
+ * @param reverse
+ * @returns {any[]}
+ */
+function _getJustificationMargin( items, spaceToDistribute, justification, reverse ){
+
+	const justificationMargins = Array( items.length ).fill( 0 );
+
+	if ( spaceToDistribute > 0 ) {
+
+		// Only space-*  have justification margin betweem items
+		switch ( justification ) {
+
+			case SPACE_BETWEEN:
+				// only one children would act as start
+				if ( items.length > 1 ) {
+
+					const margin = spaceToDistribute / ( items.length - 1 ) * reverse;
+					// set this margin for any children
+
+					// except for first child
+					justificationMargins[ 0 ] = 0;
+
+					for ( let i = 1; i < items.length; i++ ) {
+
+						justificationMargins[ i ] = margin * i;
+
+					}
+
+				}
+
+				break;
+
+			case SPACE_EVENLY:
+				// only one children would act as start
+				if ( items.length > 1 ) {
+
+					const margin = spaceToDistribute / ( items.length + 1 ) * reverse;
+
+					// set this margin for any children
+					for ( let i = 0; i < items.length; i++ ) {
+
+						justificationMargins[ i ] = margin * ( i + 1 );
+
+					}
+
+				}
+
+				break;
+
+			case SPACE_AROUND:
+				// only one children would act as start
+				if ( items.length > 1 ) {
+
+					const margin = spaceToDistribute / ( items.length ) * reverse;
+
+					const start = margin / 2;
+					justificationMargins[ 0 ] = start;
+
+					// set this margin for any children
+					for ( let i = 1; i < items.length; i++ ) {
+
+						justificationMargins[ i ] = start + margin * i;
+
+					}
+
+				}
+
+				break;
+
+		}
+
+	}
+
+	return justificationMargins;
+
+}
+
 ;// CONCATENATED MODULE: ./src/components/core/BoxComponent.js
 /**
 
@@ -94,8 +437,9 @@ as children, or only inline components (Text, InlineBlock).
 
  */
 
-// @TODO : Fix the camelcase issue by refactoring
-/* eslint-disable camelcase */
+
+
+
 
 function BoxComponent( Base ) {
 
@@ -160,9 +504,7 @@ function BoxComponent( Base ) {
 		/** Return the sum of all this component's children sides + their margin */
 		getChildrenSideSum( dimension ) {
 
-			return this.children.reduce( ( accu, child ) => {
-
-				if ( !child.isBoxComponent ) return accu;
+			return this.childrenBoxes.reduce( ( accu, child ) => {
 
 				const margin = ( child.margin * 2 ) || 0;
 
@@ -179,10 +521,10 @@ function BoxComponent( Base ) {
 		/** Look in parent record what is the instructed position for this component, then set its position */
 		setPosFromParentRecords() {
 
-			if ( this.getUIParent() && this.getUIParent().childrenPos[ this.id ] ) {
+			if ( this.parentUI && this.parentUI.childrenPos[ this.id ] ) {
 
-				this.position.x = ( this.getUIParent().childrenPos[ this.id ].x );
-				this.position.y = ( this.getUIParent().childrenPos[ this.id ].y );
+				this.position.x = ( this.parentUI.childrenPos[ this.id ].x );
+				this.position.y = ( this.parentUI.childrenPos[ this.id ].y );
 
 			}
 
@@ -194,349 +536,34 @@ function BoxComponent( Base ) {
 			if ( this.children.length > 0 ) {
 
 				const DIRECTION = this.getContentDirection();
-				let X_START, Y_START;
+				let directionalOffset;
 
 				switch ( DIRECTION ) {
 
-					case 'row' :
-
-						// start position of the children positioning inside this component
-						X_START = this.getInnerWidth() / 2;
-
-						this.setChildrenXPos( -X_START );
-
-						this.alignChildrenOnY();
-
+					case ROW :
+						directionalOffset = - this.getInnerWidth() / 2;
 						break;
 
-					case 'row-reverse' :
-
-						// start position of the children positioning inside this component
-						X_START = this.getInnerWidth() / 2;
-
-						this.setChildrenXPos( X_START );
-
-						this.alignChildrenOnY();
-
+					case ROW_REVERSE :
+						directionalOffset = this.getInnerWidth() / 2;
 						break;
 
-					case 'column' :
-
-						// start position of the children positioning inside this component
-						Y_START = this.getInnerHeight() / 2;
-
-						this.setChildrenYPos( Y_START );
-
-						this.alignChildrenOnX();
-
+					case COLUMN :
+						directionalOffset = this.getInnerHeight() / 2;
 						break;
 
-					case 'column-reverse' :
-
-						// start position of the children positioning inside this component
-						Y_START = this.getInnerHeight() / 2;
-
-						this.setChildrenYPos( -Y_START );
-
-						this.alignChildrenOnX();
-
+					case COLUMN_REVERSE :
+						directionalOffset = - this.getInnerHeight() / 2;
 						break;
 
 				}
 
+				const REVERSE = - Math.sign( directionalOffset );
+
+				contentDirection(this, DIRECTION, directionalOffset, REVERSE );
+				justifyContent(this, DIRECTION, directionalOffset, REVERSE );
+				alignItems( this, DIRECTION );
 			}
-
-		}
-
-		/**
-		 * Place child end to end and accumulate (ROW)
-		 * @param accu
-		 * @param child
-		 * @returns {*}
-		 */
-		direction__rowEndToEndChildren = ( accu, child ) => {
-
-			const CHILD_ID = child.id;
-			const CHILD_WIDTH = child.getWidth();
-			const CHILD_MARGIN = child.margin || 0;
-			const INVERTER = this.signInvertor;
-
-			accu += CHILD_MARGIN * INVERTER;
-
-			this.childrenPos[ CHILD_ID ] = {
-				x: accu + ( ( CHILD_WIDTH / 2 ) * INVERTER ),
-				y: 0
-			};
-
-			return accu + ( INVERTER * ( CHILD_WIDTH + CHILD_MARGIN ) );
-
-		}
-
-		/**
-		 * Place child end to end and accumulate (COLUMN)
-		 * @param accu
-		 * @param child
-		 * @returns {*}
-		 */
-		direction__columnEndToEndChildren = ( accu, child ) => {
-
-			const CHILD_ID = child.id;
-			const CHILD_HEIGHT = child.getHeight();
-			const CHILD_MARGIN = child.margin || 0;
-			const INVERTER = this.signInvertor;
-
-			accu += CHILD_MARGIN * INVERTER;
-
-			this.childrenPos[ CHILD_ID ] = {
-				x: 0,
-				y: accu + ( ( CHILD_HEIGHT / 2 ) * INVERTER )
-			};
-
-			return accu + ( INVERTER * ( CHILD_HEIGHT + CHILD_MARGIN ) );
-
-		}
-
-		/**
-		 *
-		 * @param {string} justification
-		 * @param {number} axisOffset
-		 * @returns {number}
-		 */
-		justification__getJustificationOffset( justification, axisOffset ){
-
-			// Only end and center have justification offset
-			switch ( justification ){
-
-				case "end":
-					return axisOffset;
-
-				case "center":
-					return axisOffset / 2;
-			}
-
-			return 0;
-		}
-
-		/**
-		 *
-		 * @param items
-		 * @param spaceToDistribute
-		 * @param justification
-		 * @returns {any[]}
-		 */
-		justification__getJustificationMargin( items, spaceToDistribute, justification ){
-			const justificationMargins = Array( items.length ).fill( 0 );
-
-			if ( spaceToDistribute > 0 ) {
-
-				// Only space-*  have justification margin betweem items
-				switch ( justification ) {
-
-					case "space-between":
-						// only one children would act as start
-						if ( items.length > 1 ) {
-
-							const margin = spaceToDistribute / ( items.length - 1 ) * this.signInvertor;
-							// set this margin for any children
-
-							// except for first child
-							justificationMargins[ 0 ] = 0;
-
-							for ( let i = 1; i < items.length; i++ ) {
-
-								justificationMargins[ i ] = margin * i;
-
-							}
-
-						}
-
-						break;
-
-					case "space-evenly":
-						// only one children would act as start
-						if ( items.length > 1 ) {
-
-							const margin = spaceToDistribute / ( items.length + 1 ) * this.signInvertor;
-
-							// set this margin for any children
-							for ( let i = 0; i < items.length; i++ ) {
-
-								justificationMargins[ i ] = margin * ( i + 1 );
-
-							}
-
-						}
-
-						break;
-
-					case "space-around":
-						// only one children would act as start
-						if ( items.length > 1 ) {
-
-							const margin = spaceToDistribute / ( items.length ) * this.signInvertor;
-
-							const start = margin / 2;
-							justificationMargins[ 0 ] = start;
-
-							// set this margin for any children
-							for ( let i = 1; i < items.length; i++ ) {
-
-								justificationMargins[ i ] = start + margin * i;
-
-							}
-
-						}
-
-						break;
-
-				}
-
-			}
-
-			return justificationMargins;
-
-		}
-
-		/** Set children X position according to this component dimension and attributes */
-		setChildrenXPos( startPos ) {
-
-			const JUSTIFICATION = this.getJustifyContent();
-			if ( AVAILABLE_JUSTIFICATIONS.indexOf( JUSTIFICATION ) === -1 ) {
-
-				console.warn( `justifyContent === '${ JUSTIFICATION }' is not supported` );
-
-			}
-
-			// only work on boxChildren
-			const boxChildren = this.children.filter( _boxChildrenFilter );
-
-			// end to end children
-			this.signInvertor = - Math.sign( startPos );
-			boxChildren.reduce( this.direction__rowEndToEndChildren , startPos );
-
-
-			const usedDirectionSpace = this.getChildrenSideSum( 'width' );
-			const remainingSpace = this.getInnerWidth() - usedDirectionSpace;
-
-			// Items Offset
-			const axisOffset = ( startPos * 2 ) - ( usedDirectionSpace * Math.sign( startPos ) );
-			const justificationOffset = this.justification__getJustificationOffset( JUSTIFICATION, axisOffset );
-
-			// Items margin
-			const justificationMargins = this.justification__getJustificationMargin( boxChildren, remainingSpace, JUSTIFICATION );
-
-			// Apply
-			boxChildren.forEach( ( child , childIndex ) => {
-
-				this.childrenPos[ child.id ].x -= justificationOffset - justificationMargins[childIndex];
-
-			} );
-
-		}
-
-		/** Set children Y position according to this component dimension and attributes */
-		setChildrenYPos( startPos ) {
-
-			const JUSTIFICATION = this.getJustifyContent();
-			if ( AVAILABLE_JUSTIFICATIONS.indexOf(JUSTIFICATION) === -1 ){
-
-				console.warn( `justifyContent === '${ JUSTIFICATION }' is not supported` );
-
-			}
-
-			// only process on boxChildren
-			const boxChildren = this.children.filter( _boxChildrenFilter );
-
-			// end to end children
-			this.signInvertor = - Math.sign( startPos );
-			boxChildren.reduce( this.direction__columnEndToEndChildren , startPos );
-
-			//
-			const usedDirectionSpace = this.getChildrenSideSum( 'height' );
-			const remainingSpace = this.getInnerHeight() - usedDirectionSpace;
-
-			// Items Offset
-			const axisOffset = ( startPos * 2 ) - ( usedDirectionSpace * Math.sign( startPos ) );
-			const justificationOffset = this.justification__getJustificationOffset( JUSTIFICATION, axisOffset);
-
-			// Items margin
-			const justificationMargins = this.justification__getJustificationMargin( boxChildren, remainingSpace, JUSTIFICATION);
-
-			// Apply
-			boxChildren.forEach( ( child, childIndex ) => {
-
-				this.childrenPos[ child.id ].y -= justificationOffset - justificationMargins[childIndex];
-
-			} );
-
-		}
-
-		/** called if justifyContent is 'column' or 'column-reverse', it align the content horizontally */
-		alignChildrenOnX() {
-
-			const ALIGNMENT = this.getAlignItems();
-			const X_TARGET = ( this.getWidth() / 2 ) - ( this.padding || 0 );
-
-			if( AVAILABLE_ALIGN_ITEMS.indexOf(ALIGNMENT) === -1 ){
-
-				console.warn( `alignItems === '${ALIGNMENT}' is not supported` );
-
-			}
-
-			this.children.forEach( ( child ) => {
-
-				if ( !child.isBoxComponent ) return;
-
-				let offset;
-
-				if ( ALIGNMENT === 'right' || ALIGNMENT === 'end' ) {
-
-					offset = X_TARGET - ( child.getWidth() / 2 ) - ( child.margin || 0 );
-
-				} else if ( ALIGNMENT === 'left' || ALIGNMENT === 'start' ) {
-
-					offset = -X_TARGET + ( child.getWidth() / 2 ) + ( child.margin || 0 );
-
-				}
-
-				this.childrenPos[ child.id ].x = offset || 0;
-
-			} );
-
-		}
-
-		/** called if justifyContent is 'row' or 'row-reverse', it align the content vertically */
-		alignChildrenOnY() {
-
-			const ALIGNMENT = this.getAlignItems();
-			const Y_TARGET = ( this.getHeight() / 2 ) - ( this.padding || 0 );
-
-			if( AVAILABLE_ALIGN_ITEMS.indexOf(ALIGNMENT) === -1 ){
-
-				console.warn( `alignItems === '${ALIGNMENT}' is not supported` );
-
-			}
-
-
-			this.children.forEach( ( child ) => {
-
-				if ( !child.isBoxComponent ) return;
-
-				let offset;
-
-				if ( ALIGNMENT === 'top' || ALIGNMENT === 'start' ) {
-
-					offset = Y_TARGET - ( child.getHeight() / 2 ) - ( child.margin || 0 );
-
-				} else if ( ALIGNMENT === 'bottom' || ALIGNMENT === 'end' ) {
-
-					offset = -Y_TARGET + ( child.getHeight() / 2 ) + ( child.margin || 0 );
-
-				}
-
-				this.childrenPos[ child.id ].y = offset || 0;
-
-			} );
 
 		}
 
@@ -546,9 +573,7 @@ function BoxComponent( Base ) {
 		 */
 		getHighestChildSizeOn( direction ) {
 
-			return this.children.reduce( ( accu, child ) => {
-
-				if ( !child.isBoxComponent ) return accu;
+			return this.childrenBoxes.reduce( ( accu, child ) => {
 
 				const margin = child.margin || 0;
 				const maxSize = direction === 'width' ?
@@ -570,11 +595,11 @@ function BoxComponent( Base ) {
 
 			// This is for stretch alignment
 			// @TODO : Conceive a better performant way
-			if( this.parent && this.parent.isUI && this.parent.getAlignItems() === 'stretch' ){
+			if( this.parentUI && this.parentUI.getAlignItems() === 'stretch' ){
 
-				if( this.parent.getContentDirection().indexOf('column') !== -1 ){
+				if( this.parentUI.getContentDirection().indexOf('column') !== -1 ){
 
-					return this.parent.getWidth() -  ( this.parent.padding * 2 || 0 );
+					return this.parentUI.getWidth() -  ( this.parentUI.padding * 2 || 0 );
 
 				}
 
@@ -593,11 +618,11 @@ function BoxComponent( Base ) {
 
 			// This is for stretch alignment
 			// @TODO : Conceive a better performant way
-			if( this.parent && this.parent.isUI && this.parent.getAlignItems() === 'stretch' ){
+			if( this.parentUI && this.parentUI.getAlignItems() === 'stretch' ){
 
-				if( this.parent.getContentDirection().indexOf('row') !== -1 ){
+				if( this.parentUI.getContentDirection().indexOf('row') !== -1 ){
 
-					return this.parent.getHeight() - ( this.parent.padding * 2 || 0 );
+					return this.parentUI.getHeight() - ( this.parentUI.padding * 2 || 0 );
 
 				}
 
@@ -612,31 +637,7 @@ function BoxComponent( Base ) {
 }
 
 
-const AVAILABLE_JUSTIFICATIONS = [
-	'start',
-	'center',
-	'end',
-	'space-around',
-	'space-between',
-	'space-evenly'
-];
-
-const AVAILABLE_ALIGN_ITEMS = [
-	'start',
-	'center',
-	'end',
-	'stretch',
-	'top', // @TODO: Be remove upon 7.x.x
-	'right', // @TODO: Be remove upon 7.x.x
-	'bottom', // @TODO: Be remove upon 7.x.x
-	'left' // @TODO: Be remove upon 7.x.x
-];
-
-const _boxChildrenFilter = c => c.isBoxComponent;
-
-/* eslint-enable camelcase */
-
-;// CONCATENATED MODULE: ./src/utils/Whitespace.js
+;// CONCATENATED MODULE: ./src/utils/inline-layout/Whitespace.js
 /**
  * @see https://developer.mozilla.org/en-US/docs/Web/API/Document_Object_Model/Whitespace#whitespace_helper_functions
  *
@@ -948,16 +949,16 @@ function _shouldFriendlyBreak( prevChar, lastInlineOffset, nextBreak, options ) 
 
 }
 
-;// CONCATENATED MODULE: ./src/utils/TextAlign.js
+;// CONCATENATED MODULE: ./src/utils/inline-layout/TextAlign.js
 const LEFT = 'left';
 const RIGHT = 'right';
-const CENTER = 'center';
+const TextAlign_CENTER = 'center';
 const JUSTIFY = 'justify';
 const JUSTIFY_LEFT = 'justify-left';
 const JUSTIFY_RIGHT = 'justify-right';
 const JUSTIFY_CENTER = 'justify-center';
 
-function alignLines( lines, ALIGNMENT, INNER_WIDTH ) {
+function textAlign( lines, ALIGNMENT, INNER_WIDTH ) {
 
 	// Start the alignment by sticking to directions : left, right, center
 	for ( let i = 0; i < lines.length; i++ ) {
@@ -965,7 +966,7 @@ function alignLines( lines, ALIGNMENT, INNER_WIDTH ) {
 		const line = lines[ i ];
 
 		// compute the alignment offset of the line
-		const offsetX = computeLineOffset( line, ALIGNMENT, INNER_WIDTH, i === lines.length - 1 );
+		const offsetX = _computeLineOffset( line, ALIGNMENT, INNER_WIDTH, i === lines.length - 1 );
 
 		// apply the offset to each characters of the line
 		for ( let j = 0; j < line.length; j++ ) {
@@ -1038,7 +1039,7 @@ function alignLines( lines, ALIGNMENT, INNER_WIDTH ) {
 }
 
 
-const computeLineOffset = ( line, ALIGNMENT, INNER_WIDTH, lastLine ) => {
+const _computeLineOffset = ( line, ALIGNMENT, INNER_WIDTH, lastLine ) => {
 
 	switch ( ALIGNMENT ) {
 
@@ -1052,7 +1053,7 @@ const computeLineOffset = ( line, ALIGNMENT, INNER_WIDTH, lastLine ) => {
 			return -line.width + ( INNER_WIDTH / 2 );
 
 
-		case CENTER:
+		case TextAlign_CENTER:
 			return -line.width / 2;
 
 		case JUSTIFY_CENTER:
@@ -1089,7 +1090,6 @@ in order to create a line break when necessary. It's Text that merge the various
 in its own updateLayout function.
 
  */
-
 
 
 
@@ -1169,7 +1169,7 @@ function InlineManager( Base ) {
 			} );
 
 			// Horizontal positioning
-			alignLines( lines, ALIGNMENT, INNER_WIDTH );
+			textAlign( lines, ALIGNMENT, INNER_WIDTH );
 
 
 			// Make lines accessible to provide helpful informations
@@ -1180,36 +1180,30 @@ function InlineManager( Base ) {
 
 		calculateBestFit( bestFit ) {
 
-			const inlineChildren = this.children.filter( ( child ) => {
-
-				return child.isInline ? true : false;
-
-			} );
-
-			if ( inlineChildren.length === 0 ) return;
+			if ( this.childrenInlines.length === 0 ) return;
 
 			switch ( bestFit ) {
 				case 'grow':
-					this.calculateGrowFit( inlineChildren );
+					this.calculateGrowFit();
 					break;
 				case 'shrink':
-					this.calculateShrinkFit( inlineChildren );
+					this.calculateShrinkFit();
 					break;
 				case 'auto':
-					this.calculateAutoFit( inlineChildren );
+					this.calculateAutoFit();
 					break;
 			}
 
 		}
 
-		calculateGrowFit( inlineChildren ) {
+		calculateGrowFit() {
 
 			const INNER_HEIGHT = this.getHeight() - ( this.padding * 2 || 0 );
 
 			//Iterative method to find a fontSize of text children that text will fit into container
 			let iterations = 1;
 			const heightTolerance = 0.075;
-			const firstText = inlineChildren.find( inlineComponent => inlineComponent.isText );
+			const firstText = this.childrenInlines.find( inlineComponent => inlineComponent.isText );
 
 			let minFontMultiplier = 1;
 			let maxFontMultiplier = 2;
@@ -1218,13 +1212,13 @@ function InlineManager( Base ) {
 
 			do {
 
-				textHeight = this.calculateHeight( inlineChildren, fontMultiplier );
+				textHeight = this.calculateHeight( fontMultiplier );
 
 				if ( textHeight > INNER_HEIGHT ) {
 
 					if ( fontMultiplier <= minFontMultiplier ) { // can't shrink text
 
-						inlineChildren.forEach( inlineComponent => {
+						this.childrenInlines.forEach( inlineComponent => {
 
 							if ( inlineComponent.isInlineBlock ) return;
 
@@ -1255,14 +1249,14 @@ function InlineManager( Base ) {
 
 		}
 
-		calculateShrinkFit( inlineChildren ) {
+		calculateShrinkFit() {
 
 			const INNER_HEIGHT = this.getHeight() - ( this.padding * 2 || 0 );
 
 			// Iterative method to find a fontSize of text children that text will fit into container
 			let iterations = 1;
 			const heightTolerance = 0.075;
-			const firstText = inlineChildren.find( inlineComponent => inlineComponent.isText );
+			const firstText = this.childrenInlines.find( inlineComponent => inlineComponent.isText );
 
 			let minFontMultiplier = 0;
 			let maxFontMultiplier = 1;
@@ -1271,7 +1265,7 @@ function InlineManager( Base ) {
 
 			do {
 
-				textHeight = this.calculateHeight( inlineChildren, fontMultiplier );
+				textHeight = this.calculateHeight( fontMultiplier );
 
 				if ( textHeight > INNER_HEIGHT ) {
 
@@ -1282,7 +1276,7 @@ function InlineManager( Base ) {
 
 					if ( fontMultiplier >= maxFontMultiplier ) { // can't grow text
 
-						inlineChildren.forEach( inlineComponent => {
+						this.childrenInlines.forEach( inlineComponent => {
 
 							if ( inlineComponent.isInlineBlock ) return;
 
@@ -1305,14 +1299,14 @@ function InlineManager( Base ) {
 			} while ( ++iterations <= 10 );
 		}
 
-		calculateAutoFit( inlineChildren ) {
+		calculateAutoFit()  {
 
 			const INNER_HEIGHT = this.getHeight() - ( this.padding * 2 || 0 );
 
 			//Iterative method to find a fontSize of text children that text will fit into container
 			let iterations = 1;
 			const heightTolerance = 0.075;
-			const firstText = inlineChildren.find( inlineComponent => inlineComponent.isText );
+			const firstText = this.childrenInlines.find( inlineComponent => inlineComponent.isText );
 
 			let minFontMultiplier = 0;
 			let maxFontMultiplier = 2;
@@ -1321,7 +1315,7 @@ function InlineManager( Base ) {
 
 			do {
 
-				textHeight = this.calculateHeight( inlineChildren, fontMultiplier );
+				textHeight = this.calculateHeight( fontMultiplier );
 
 				if ( textHeight > INNER_HEIGHT ) {
 
@@ -1355,12 +1349,7 @@ function InlineManager( Base ) {
 			// correct lines position before to merge
 			const lines = [ [] ];
 
-			this.children.filter( ( child ) => {
-
-				return child.isInline ? true : false;
-
-			} )
-				.reduce( ( lastInlineOffset, inlineComponent ) => {
+			this.childrenInlines.reduce( ( lastInlineOffset, inlineComponent ) => {
 
 					// Abort condition
 
@@ -1473,9 +1462,9 @@ function InlineManager( Base ) {
 			return lines;
 		}
 
-		calculateHeight( inlineChildren, fontMultiplier ) {
+		calculateHeight( fontMultiplier ) {
 
-			inlineChildren.forEach( inlineComponent => {
+			this.childrenInlines.forEach( inlineComponent => {
 
 				if ( inlineComponent.isInlineBlock ) return;
 
@@ -1510,7 +1499,8 @@ function InlineManager( Base ) {
 
 			const lastInline = line[ line.length - 1 ];
 
-			return Math.abs( firstInline.offsetX - ( lastInline.offsetX + lastInline.width ) );
+			// Right + Left ( left is negative )
+			return (lastInline.offsetX + lastInline.width) + firstInline.offsetX;
 
 		}
 
@@ -1632,9 +1622,9 @@ function getFontOf( component ) {
 
 	const record = records[ component.id ];
 
-	if ( !record && component.getUIParent() ) {
+	if ( !record && component.parentUI ) {
 
-		return getFontOf( component.getUIParent() );
+		return getFontOf( component.parentUI );
 
 	}
 
@@ -1847,7 +1837,7 @@ class UpdateManager {
 
 			const roots = this.components.filter( ( component ) => {
 
-				return !component.getUIParent();
+				return !component.parentUI;
 
 			} );
 
@@ -1874,7 +1864,7 @@ class UpdateManager {
 
 		}
 
-		component.getUIChildren().forEach( child => this.traverseParsing( child ) );
+		component.childrenUIs.forEach( child => this.traverseParsing( child ) );
 
 	}
 
@@ -1911,8 +1901,7 @@ class UpdateManager {
 
 
 		// Update any child
-
-		component.getUIChildren().forEach( ( childUI ) => {
+		component.childrenUIs.forEach( ( childUI ) => {
 
 			this.traverseUpdates( childUI );
 
@@ -1941,6 +1930,9 @@ UpdateManager.requestedUpdates = {};
 
 
 
+
+
+
 /** List the default values of the lib components */
 /* harmony default export */ const Defaults = ({
 	container: null,
@@ -1952,11 +1944,11 @@ UpdateManager.requestedUpdates = {};
 	interLine: 0.01,
 	breakOn: '- ,.:?!\n',// added '\n' to also acts as friendly breaks when white-space:normal
 	whiteSpace: PRE_LINE,
-	contentDirection: 'column',
-	alignItems: 'center',
-	justifyContent: 'start',
+	contentDirection: COLUMN,
+	alignItems: CENTER,
+	justifyContent: JustifyContent_START,
 	fontTexture: null,
-	textAlign: CENTER,
+	textAlign: TextAlign_CENTER,
 	textType: 'MSDF',
 	fontColor: new external_three_namespaceObject.Color( 0xffffff ),
 	fontOpacity: 1,
@@ -2007,6 +1999,7 @@ function makeBackgroundTexture() {
 
 
 
+
 /**
 
 Job:
@@ -2031,6 +2024,17 @@ function MeshUIComponent( Base ) {
 			this.isUI = true;
 			this.autoLayout = true;
 
+			// children
+			this.childrenUIs = [];
+			this.childrenBoxes = [];
+			this.childrenTexts = [];
+			this.childrenInlines = [];
+
+			// parents
+			this.parentUI = null;
+			// update parentUI when this component will be added or removed
+			this.addEventListener( 'added', this._rebuildParentUI );
+			this.addEventListener( 'removed', this._rebuildParentUI );
 		}
 
 		/////////////
@@ -2041,12 +2045,12 @@ function MeshUIComponent( Base ) {
 
 			const planes = [];
 
-			if ( this.parent && this.parent.isUI ) {
+			if ( this.parentUI ) {
 
-				if ( this.isBlock && this.parent.getHiddenOverflow() ) {
+				if ( this.isBlock && this.parentUI.getHiddenOverflow() ) {
 
-					const yLimit = ( this.parent.getHeight() / 2 ) - ( this.parent.padding || 0 );
-					const xLimit = ( this.parent.getWidth() / 2 ) - ( this.parent.padding || 0 );
+					const yLimit = ( this.parentUI.getHeight() / 2 ) - ( this.parentUI.padding || 0 );
+					const xLimit = ( this.parentUI.getWidth() / 2 ) - ( this.parentUI.padding || 0 );
 
 					const newPlanes = [
 						new external_three_namespaceObject.Plane( new external_three_namespaceObject.Vector3( 0, 1, 0 ), yLimit ),
@@ -2065,9 +2069,9 @@ function MeshUIComponent( Base ) {
 
 				}
 
-				if ( this.parent.parent && this.parent.parent.isUI ) {
+				if ( this.parentUI.parentUI ) {
 
-					planes.push( ...this.parent.getClippingPlanes() );
+					planes.push( ...this.parentUI.getClippingPlanes() );
 
 				}
 
@@ -2077,37 +2081,10 @@ function MeshUIComponent( Base ) {
 
 		}
 
-		//
-
-		getUIChildren() {
-
-			return this.children.filter( ( child ) => {
-
-				return child.isUI;
-
-			} );
-
-		}
-
-		//
-
-		getUIParent() {
-
-			if ( this.parent && this.parent.isUI ) {
-
-				return this.parent;
-
-			}
-
-			return null;
-
-
-		}
-
 		/** Get the highest parent of this component (the parent that has no parent on top of it) */
 		getHighestParent() {
 
-			if ( !this.getUIParent() ) {
+			if ( !this.parentUI ) {
 
 				return this;
 
@@ -2124,7 +2101,7 @@ function MeshUIComponent( Base ) {
 		 */
 		_getProperty( propName ) {
 
-			if ( this[ propName ] === undefined && this.getUIParent() ) {
+			if ( this[ propName ] === undefined && this.parentUI ) {
 
 				return this.parent._getProperty( propName );
 
@@ -2268,9 +2245,9 @@ function MeshUIComponent( Base ) {
 
 			i = i || 0;
 
-			if ( this.getUIParent() ) {
+			if ( this.parentUI ) {
 
-				return this.parent.getParentsNumber( i + 1 );
+				return this.parentUI.getParentsNumber( i + 1 );
 
 			}
 
@@ -2364,6 +2341,43 @@ function MeshUIComponent( Base ) {
 		///////////////
 
 		/**
+		 * Filters children in order to compute only one times children lists
+		 * @private
+		 */
+		_rebuildChildrenLists() {
+
+			// Stores all children that are ui
+			this.childrenUIs = this.children.filter( child => child.isUI );
+
+			// Stores all children that are box
+			this.childrenBoxes = this.children.filter( child => child.isBoxComponent );
+
+			// Stores all children that are inline
+			this.childrenInlines = this.children.filter( child => child.isInline );
+
+			// Stores all children that are text
+			this.childrenTexts = this.children.filter( child => child.isText );
+		}
+
+		/**
+		 * Try to retrieve parentUI after each structural change
+		 * @private
+		 */
+		_rebuildParentUI = ( ) => {
+
+			if ( this.parent && this.parent.isUI ) {
+
+				this.parentUI = this.parent;
+
+			} else {
+
+				this.parentUI = null;
+
+			}
+
+		};
+
+		/**
 		 * When the user calls component.add, it registers for updates,
 		 * then call THREE.Object3D.add.
 		 */
@@ -2376,7 +2390,11 @@ function MeshUIComponent( Base ) {
 
 			}
 
-			return super.add( ...arguments );
+			const result = super.add( ...arguments );
+
+			this._rebuildChildrenLists();
+
+			return result;
 
 		}
 
@@ -2393,7 +2411,11 @@ function MeshUIComponent( Base ) {
 
 			}
 
-			return super.remove( ...arguments );
+			const result = super.remove( ...arguments );
+
+			this._rebuildChildrenLists();
+
+			return result;
 
 		}
 
@@ -2577,12 +2599,12 @@ function MeshUIComponent( Base ) {
 			}
 
 			// if font kerning changes for a child of a block with Best Fit enabled, we need to trigger parsing for the parent as well.
-			const parent = this.getUIParent();
-			if ( parent && parent.getBestFit() != 'none' ) parent.update( true, true, false );
+			if ( this.parentUI && this.parentUI.getBestFit() != 'none' ) this.parentUI.update( true, true, false );
 
 			// Call component update
 
 			this.update( parsingNeedsUpdate, layoutNeedsUpdate, innerNeedsUpdate );
+
 
 			if ( layoutNeedsUpdate ) this.getHighestParent().update( false, true, false );
 
@@ -2637,29 +2659,6 @@ function MeshUIComponent( Base ) {
 
 		}
 	};
-
-}
-
-// @TODO: Be remove upon 7.x.x
-const DEPRECATED_ALIGN_ITEMS = [
-	'top',
-	'right',
-	'bottom',
-	'left'
-]
-
-/**
- * @deprecated
- * // @TODO: Be remove upon 7.x.x
- * @param alignment
- */
-function warnAboutDeprecatedAlignItems( alignment ){
-
-	if( DEPRECATED_ALIGN_ITEMS.indexOf(alignment) !== - 1){
-
-		console.warn(`alignItems === '${alignment}' is deprecated and will be remove in 7.x.x. Fallback are 'start'|'end'`)
-
-	}
 
 }
 
@@ -3242,17 +3241,13 @@ class Block extends mix.withBase( external_three_namespaceObject.Object3D )(
 
 		const bestFit = this.getBestFit();
 
-		if ( bestFit != 'none' && ( this.children.find( child => child.isText ) ) ) {
+		if ( bestFit != 'none' && this.childrenTexts.length ) {
 
 			this.calculateBestFit( bestFit );
 
 		} else {
 
-			this.children.filter( child => {
-
-				return child.isText;
-
-			} ).forEach( child => {
+			this.childrenTexts.forEach( child => {
 
 				child._fitFontSize = undefined;
 
@@ -3294,7 +3289,7 @@ class Block extends mix.withBase( external_three_namespaceObject.Object3D )(
 		// Position inner elements according to dimensions and layout parameters.
 		// Delegate to BoxComponent.
 
-		if ( this.children.find( child => child.isInline ) ) {
+		if ( this.childrenInlines.length ) {
 
 			this.computeInlinesPosition();
 
@@ -3305,7 +3300,7 @@ class Block extends mix.withBase( external_three_namespaceObject.Object3D )(
 		// We check if this block is the root component,
 		// because most of the time the user wants to set the
 		// root component's z position themselves
-		if ( this.getUIParent() ) {
+		if ( this.parentUI ) {
 
 			this.position.z = this.getOffset();
 
@@ -3320,7 +3315,7 @@ class Block extends mix.withBase( external_three_namespaceObject.Object3D )(
 		// We check if this block is the root component,
 		// because most of the time the user wants to set the
 		// root component's z position themselves
-		if ( this.getUIParent() ) {
+		if ( this.parentUI ) {
 
 			this.position.z = this.getOffset();
 
@@ -4987,7 +4982,7 @@ class InlineBlock extends mix.withBase( external_three_namespaceObject.Object3D 
 		// Position inner elements according to dimensions and layout parameters.
 		// Delegate to BoxComponent.
 
-		if ( this.children.find( child => child.isInline ) ) {
+		if ( this.childrenInlines.length ) {
 
 			this.computeInlinesPosition();
 
@@ -6024,9 +6019,9 @@ class Keyboard extends mix.withBase( external_three_namespaceObject.Object3D )( 
 
 			const newContent = this.isLowerCase || !char.upperCase ? char.lowerCase : char.upperCase;
 
-			const textComponent = key.children.find( child => child.isText );
+			if ( !key.childrenTexts.length ) return;
 
-			if ( !textComponent ) return;
+			const textComponent = key.childrenTexts[0];
 
 			key.info.input = newContent;
 
@@ -6051,9 +6046,9 @@ class Keyboard extends mix.withBase( external_three_namespaceObject.Object3D )( 
 
 			const newContent = this.isLowerCase || !char.upperCase ? char.lowerCase : char.upperCase;
 
-			const textComponent = key.children.find( child => child.isText );
+			if ( !key.childrenTexts.length ) return;
 
-			if ( !textComponent ) return;
+			const textComponent = key.childrenTexts[0];
 
 			key.info.input = newContent;
 
@@ -6094,6 +6089,9 @@ class Keyboard extends mix.withBase( external_three_namespaceObject.Object3D )( 
 
 
 
+
+
+
 const update = () => UpdateManager.update();
 
 const ThreeMeshUI = {
@@ -6103,8 +6101,11 @@ const ThreeMeshUI = {
 	Keyboard: Keyboard,
 	FontLibrary: core_FontLibrary,
 	update,
-	textAlign: TextAlign_namespaceObject,
-	whiteSpace: Whitespace_namespaceObject,
+	TextAlign: TextAlign_namespaceObject,
+	Whitespace: Whitespace_namespaceObject,
+	JustifyContent: JustifyContent_namespaceObject,
+	AlignItems: AlignItems_namespaceObject,
+	ContentDirection: ContentDirection_namespaceObject
 };
 
 if ( typeof global !== 'undefined' ) global.ThreeMeshUI = ThreeMeshUI;
@@ -6118,15 +6119,21 @@ if ( typeof global !== 'undefined' ) global.ThreeMeshUI = ThreeMeshUI;
 
 
 
+
+
+
 /* harmony default export */ const three_mesh_ui = (ThreeMeshUI);
 
+var __webpack_exports__AlignItems = __webpack_exports__.g1;
 var __webpack_exports__Block = __webpack_exports__.gO;
+var __webpack_exports__ContentDirection = __webpack_exports__.km;
 var __webpack_exports__FontLibrary = __webpack_exports__.zV;
 var __webpack_exports__InlineBlock = __webpack_exports__.ol;
+var __webpack_exports__JustifyContent = __webpack_exports__.uM;
 var __webpack_exports__Keyboard = __webpack_exports__.N1;
 var __webpack_exports__Text = __webpack_exports__.xv;
+var __webpack_exports__TextAlign = __webpack_exports__.PH;
+var __webpack_exports__Whitespace = __webpack_exports__.UH;
 var __webpack_exports__default = __webpack_exports__.ZP;
-var __webpack_exports__textAlign = __webpack_exports__.yd;
 var __webpack_exports__update = __webpack_exports__.Vx;
-var __webpack_exports__whiteSpace = __webpack_exports__.d8;
-export { __webpack_exports__Block as Block, __webpack_exports__FontLibrary as FontLibrary, __webpack_exports__InlineBlock as InlineBlock, __webpack_exports__Keyboard as Keyboard, __webpack_exports__Text as Text, __webpack_exports__default as default, __webpack_exports__textAlign as textAlign, __webpack_exports__update as update, __webpack_exports__whiteSpace as whiteSpace };
+export { __webpack_exports__AlignItems as AlignItems, __webpack_exports__Block as Block, __webpack_exports__ContentDirection as ContentDirection, __webpack_exports__FontLibrary as FontLibrary, __webpack_exports__InlineBlock as InlineBlock, __webpack_exports__JustifyContent as JustifyContent, __webpack_exports__Keyboard as Keyboard, __webpack_exports__Text as Text, __webpack_exports__TextAlign as TextAlign, __webpack_exports__Whitespace as Whitespace, __webpack_exports__default as default, __webpack_exports__update as update };
