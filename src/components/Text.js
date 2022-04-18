@@ -1,14 +1,17 @@
-import { Object3D } from 'three';
+import { Mesh, Object3D } from 'three';
 
 import InlineComponent from './core/InlineComponent.js';
 import MeshUIComponent from './core/MeshUIComponent.js';
 import FontLibrary from './core/FontLibrary.js';
-import TextManager from './core/TextManager.js';
 import MaterialManager from './core/MaterialManager.js';
 
 import deepDelete from '../utils/deepDelete.js';
 import { mix } from '../utils/mix.js';
 import * as Whitespace from '../utils/inline-layout/Whitespace';
+import * as FontWeight from '../utils/font/FontWeight';
+import * as FontStyle from '../utils/font/FontStyle';
+import FontFamily from '../font/FontFamily';
+import { mergeBufferGeometries } from 'three/examples/jsm/utils/BufferGeometryUtils';
 
 /**
 
@@ -24,18 +27,179 @@ Knows:
  */
 export default class Text extends mix.withBase( Object3D )(
 	InlineComponent,
-	TextManager,
 	MaterialManager,
 	MeshUIComponent
 ) {
 
 	constructor( options ) {
 
-		super( options );
+		super();
 
 		this.isText = true;
 
+		// adds internal properties
+		/**
+		 *
+		 * @type {string[]}
+		 * @private
+		 */
+		this._textContent = null;
+
+		/**
+		 *
+		 * @type {MSDFTypographyCharacter[]}
+		 * @private
+		 */
+		this._textContentGlyphs = null;
+
+		/**
+		 *
+		 * @type {MSDFInlineCharacter[]}
+		 * @private
+		 */
+		this._textContentInlines = null;
+
 		this.set( options );
+
+		this.addEventListener( 'added', this._acquireFont );
+
+	}
+
+	/**
+	 * Temporary code
+	 * @param {FontVariant} value
+	 */
+	set font( value ) {
+
+		// if a previous font isset, be sure not event remains
+		if ( this._font && !this._font.isReady ) {
+
+			this._font.removeEventListener( 'ready', this._handleFontVariantReady );
+
+		}
+
+		this._font = value;
+
+		// new font, means rebuild inlines, now or soon
+		if ( !this._font.isReady ) {
+
+			this.inlines = null;
+			this._font.addEventListener( 'ready', this._handleFontVariantReady );
+
+		} else {
+
+			this._handleFontVariantReady();
+
+		}
+
+	}
+
+	/**
+	 *
+	 * @private
+	 */
+	_handleFontVariantReady = () => {
+
+		// request parse update and parent layout
+		this.update( true, true, false );
+		this.getHighestParent().update( false, true, false );
+
+		// remove the listener
+		this._font.removeEventListener( 'ready', this._handleFontVariantReady );
+
+	};
+
+	_acquireFont = () => {
+
+		if( !this._font ) {
+
+			let fontFamily = this.getFontFamily();
+			if ( fontFamily ) {
+
+				if ( fontFamily instanceof FontFamily ) {
+
+					this.font = fontFamily.getVariant( this.getFontWeight(), this.getFontStyle() );
+
+				} else {
+
+					// Set from old way, check if that family is already registered
+					const fontName = fontFamily.pages ? fontFamily.info.face : fontFamily;
+					fontFamily = FontLibrary.getFontFamily( fontName );
+					if ( fontFamily ) {
+
+						this.font = fontFamily.getVariant( this.getFontWeight(), this.getFontStyle() );
+
+					}
+
+				}
+
+			}
+
+		}
+
+	}
+
+	_onBeforeRender = () => {
+
+			if ( this.updateClippingPlanes ) {
+
+				this.updateClippingPlanes();
+
+			}
+
+	}
+
+	/**
+	 *
+	 * @returns {FontVariant}
+	 */
+	get font() {
+		return this._font;
+	}
+
+	/*******************************************************************************************************************
+	 * GETTERS - SETTERS
+	 ******************************************************************************************************************/
+
+	// get whiteSpace(){
+	//
+	// 	// initialisation can look on parents
+	// 	if( !this._whiteSpace ) this._whiteSpace = this.getWhiteSpace();
+	//
+	// 	return this._whiteSpace;
+	//
+	// }
+	//
+	// set whiteSpace( value ) {
+	//
+	// 	if( this._whiteSpace === value ) return;
+	//
+	// 	value = Whitespace.isValid( value );
+	//
+	// 	this._whiteSpace = value;
+	//
+	// 	// request parse and layout
+	// 	this.update( true, true, false );
+	//
+	// }
+
+
+	_buildContentKernings(){
+
+		// apply kerning
+		if ( this.getFontKerning() !== 'none' ) {
+
+			// First character won't be kerned with its void lefthanded peer
+			for ( let i = 1; i < this._textContent.length; i++ ) {
+
+				const glyphPair = this._textContent[ i - 1 ] + this._textContent[ i ];
+
+				// retrieve the kerning from the font
+				// as set it on the characterInline
+				this._textContentInlines[ i ].kerning = this._font.getKerningAmount( glyphPair );
+
+			}
+		}
 
 	}
 
@@ -51,6 +215,29 @@ export default class Text extends mix.withBase( Object3D )(
 	 */
 	parseParams() {
 
+		this._acquireFont();
+
+		// won't parse without font or unready font
+		if( !this._font || !this._font.isReady ) return;
+
+		// Apply whitespace on string characters themselves.
+		// Will possibly :
+		//  - l/r trim whitespace
+		//  - collapse whitespace sequences
+		//  - remove newlines / tabulations
+		this._textContent = Whitespace.collapseWhitespaceOnString( this.content, this.getWhiteSpace() );
+
+		// Now that we know exactly which characters will be printed
+		// Store the character description ( typographic properties )
+		this._textContentGlyphs = this._textContent.split( '' ).map( ( char ) => this._font.getCharacterDescription( char ) );
+
+		// And from the descriptions ( which are static/freezed per character per font )
+		// Build the inline
+		this._textContentInlines = this._textContentGlyphs.map( ( glyphBox ) => glyphBox.asCharacterInline() );
+		this.inlines = this._textContentInlines;
+
+
+		// this.calculateInlines( this._fitFontSize || this.getFontSize() );
 		this.calculateInlines( this._fitFontSize || this.getFontSize() );
 
 	}
@@ -68,8 +255,21 @@ export default class Text extends mix.withBase( Object3D )(
 
 		if ( this.inlines ) {
 
-			// happening in TextManager
-			this.textContent = this.createText();
+			const charactersAsGeometries = this.inlines.map(
+				inline =>
+					this._font.getCharacterGeometry( inline )
+						.translate( inline.offsetX, inline.offsetY, 0 )
+
+			);
+
+			const mergedGeom = mergeBufferGeometries( charactersAsGeometries );
+
+			this.textContent = new Mesh( mergedGeom, this.getFontMaterial() );
+
+			this.textContent.renderOrder = Infinity;
+
+			// This is for hiddenOverflow to work
+			this.textContent.onBeforeRender = this._onBeforeRender
 
 			this.updateTextMaterial();
 
@@ -91,112 +291,55 @@ export default class Text extends mix.withBase( Object3D )(
 
 	calculateInlines( fontSize ) {
 
-		const content = this.content;
-		const font = this.getFontFamily();
-		const breakChars = this.getBreakOn();
-		const textType = this.getTextType();
+		// Abort conditions
+		if ( !this._font || !this._font.isReady ) return;
+		if ( !this._textContent) return;
+
 		const whiteSpace = this.getWhiteSpace();
+		const newLineBreakability = Whitespace.newlineBreakability( whiteSpace )
 
-		// Abort condition
+		const breakChars = this.getBreakOn();
 
-		if ( !font || typeof font === 'string' ) {
+		const SCALE_MULT = fontSize / this._font.typographic.size;
 
-			if ( !FontLibrary.getFontOf( this ) ) console.warn( 'no font was found' );
-			return;
+		// update inlines properties before inline placements in lines
+		for ( let i = 0; i < this._textContent.length; i++ ) {
 
-		}
+			const char = this._textContent[ i ];
 
-		if ( !this.content ) {
+			/**
+			 *
+			 * @type {MSDFInlineCharacter}
+			 */
+			const inline = this._textContentInlines[ i ];
 
-			this.inlines = null;
-			return;
+			inline.resetOffsets();
 
-		}
-
-		if ( !textType ) {
-
-			console.error( `You must provide a 'textType' attribute so three-mesh-ui knows how to render your text.\n See https://github.com/felixmariotto/three-mesh-ui/wiki/Using-a-custom-text-type` );
-			return;
-
-		}
-
-		// collapse whitespace for white-space normal
-		const whitespaceProcessedContent = Whitespace.collapseWhitespaceOnString( content, whiteSpace );
-		const chars = Array.from ? Array.from( whitespaceProcessedContent ) : String( whitespaceProcessedContent ).split( '' );
-
-
-		// Compute glyphs sizes
-
-		const SCALE_MULT = fontSize / font.info.size;
-		const lineHeight = font.common.lineHeight * SCALE_MULT;
-		const lineBase = font.common.base * SCALE_MULT;
-
-		const glyphInfos = chars.map( ( glyph ) => {
-
-			// Get height, width, and anchor point of this glyph
-			const dimensions = this.getGlyphDimensions( {
-				textType,
-				glyph,
-				font,
-				fontSize
-			} );
-
-			//
-
+			// Whitespace Breakability ---------------------------------------------------------------------------------------
 			let lineBreak = null;
+			if ( whiteSpace !== Whitespace.NOWRAP ) {
 
-			if( whiteSpace !== Whitespace.NOWRAP ) {
-
-				if ( breakChars.includes( glyph ) || glyph.match( /\s/g ) ) lineBreak = 'possible';
-
-			}
-
-
-			if ( glyph.match( /\n/g ) ) {
-
-				lineBreak = Whitespace.newlineBreakability( whiteSpace );
+				if ( breakChars.includes( char ) || char.match( /\s/g ) ) lineBreak = 'possible';
 
 			}
 
-			//
+			if ( char.match( /\n/g ) ) {
 
-			return {
-				height: dimensions.height,
-				width: dimensions.width,
-				anchor: dimensions.anchor,
-				xadvance: dimensions.xadvance,
-				xoffset: dimensions.xoffset,
-				lineBreak,
-				glyph,
-				fontSize,
-				lineHeight,
-				lineBase
-			};
-
-		} );
-
-		// apply kerning
-		if ( this.getFontKerning() !== 'none' ) {
-
-			// First character won't be kerned with its void lefthanded peer
-			for ( let i = 1; i < glyphInfos.length; i++ ) {
-
-				const glyphInfo = glyphInfos[ i ];
-				const glyphPair = glyphInfos[ i - 1 ].glyph + glyphInfos[ i ].glyph;
-
-				// retrieve the kerning from the font
-				const kerning = this.getGlyphPairKerning( textType, font, glyphPair );
-
-				// compute the final kerning value according to requested fontSize
-				glyphInfo[ 'kerning' ] = kerning * ( fontSize / font.info.size );
+				lineBreak = newLineBreakability;
 
 			}
+
+			inline.lineBreak = lineBreak;
+
+			// --------------------------------------------------------------------------------------  Whitespace Breakability
+
+			inline.fontSize = fontSize;
+
+			inline.fontFactor = SCALE_MULT;
+
+
 		}
 
-
-		// Update 'inlines' property, so that the parent can compute each glyph position
-
-		this.inlines = glyphInfos;
 	}
 
 }

@@ -18,6 +18,28 @@ export const PRE = 'pre';
 export const PRE_LINE = 'pre-line';
 export const PRE_WRAP = 'pre-wrap';
 
+const AVAILABLE_VALUES = [ NORMAL, NOWRAP, PRE, PRE_LINE, PRE_WRAP ];
+
+/**
+ * Check the validity of a whitespace
+ * @param value
+ * @returns {string}
+ */
+export function isValid ( value ){
+
+	if( AVAILABLE_VALUES.indexOf(value) === -1 ){
+
+		console.warn(`Whitespace::isValid() The provided white-space value ('${value}') is not valid !`);
+		console.warn(`    - Automatic fallback to ('${PRE_LINE}')`);
+
+		value = PRE_LINE;
+
+	}
+
+	return value;
+
+}
+
 /**
  * Collapse whitespaces and sequence of whitespaces on string
  *
@@ -52,7 +74,7 @@ export const collapseWhitespaceOnString = function ( textContent, whiteSpace ) {
  * Get the breakability of a newline character according to white-space property
  *
  * @param whiteSpace
- * @returns {string}
+ * @returns {string|null}
  */
 export const newlineBreakability = function ( whiteSpace ) {
 
@@ -62,13 +84,13 @@ export const newlineBreakability = function ( whiteSpace ) {
 		case PRE_WRAP:
 		case PRE_LINE:
 			return 'mandatory';
-
-		case NOWRAP:
-		case NORMAL:
-		default:
-		// do not automatically break on newline
-
 	}
+
+	// case NOWRAP:
+	// case NORMAL:
+	// default:
+
+	return null;
 
 };
 
@@ -93,13 +115,15 @@ export const shouldBreak = function( inlines, i, lastInlineOffset, options){
 			// prevent additional computation if line break is mandatory
 			if( inline.lineBreak === 'mandatory' ) return true;
 
+			// Part of inline now
+			// const kerning = inline.kerning ? inline.kerning : 0;
+			// const xoffset = inline.xoffset ? inline.xoffset : 0;
+			// const xadvance = inline.xadvance ? inline.xadvance : inline.width;
 
-			const kerning = inline.kerning ? inline.kerning : 0;
-			const xoffset = inline.xoffset ? inline.xoffset : 0;
-			const xadvance = inline.xadvance ? inline.xadvance : inline.width;
 
+			// ?? Missing letterSpacing ?
 			// prevent additional computation if this character already exceed the available size
-			if( lastInlineOffset + xadvance + xoffset + kerning > options.INNER_WIDTH ) return true;
+			if( lastInlineOffset + inline.xadvance + inline.xoffset + inline.kerning > options.INNER_WIDTH ) return true;
 
 
 			const nextBreak = _distanceToNextBreak( inlines, i, options );
@@ -135,14 +159,14 @@ export const collapseWhitespaceOnInlines = function ( line, whiteSpace ) {
 		case PRE_WRAP:
 			// only process whiteChars glyphs inlines
 			// if( firstInline.glyph && whiteChars[firstInline.glyph] && line.length > 1 ){
-			if ( firstInline.glyph && firstInline.glyph === '\n' && line.length > 1 ) {
+			if ( firstInline.char && firstInline.char === '\n' && line.length > 1 ) {
 
 				_collapseLeftInlines( [ firstInline ], line[ 1 ] );
 
 			}
 
 			// if( lastInline.glyph && whiteChars[lastInline.glyph] && line.length > 1 ){
-			if ( lastInline.glyph && lastInline.glyph === '\n' && line.length > 1 ) {
+			if ( lastInline.char && lastInline.char === '\n' && line.length > 1 ) {
 
 				_collapseRightInlines( [ lastInline ], line[ line.length - 2 ] );
 
@@ -161,7 +185,7 @@ export const collapseWhitespaceOnInlines = function ( line, whiteSpace ) {
 
 				const inline = line[ i ];
 
-				if ( inline.glyph && WHITE_CHARS[ inline.glyph ] && line.length > i ) {
+				if ( inline.char && WHITE_CHARS[ inline.char ] && line.length > i ) {
 
 					inlinesToCollapse.push( inline );
 					collapsingTarget = line[ i + 1 ];
@@ -182,7 +206,7 @@ export const collapseWhitespaceOnInlines = function ( line, whiteSpace ) {
 			for ( let i = line.length - 1; i > 0; i-- ) {
 
 				const inline = line[ i ];
-				if ( inline.glyph && WHITE_CHARS[ inline.glyph ] && i > 0 ) {
+				if ( inline.char && WHITE_CHARS[ inline.char ] && i > 0 ) {
 
 					inlinesToCollapse.push( inline );
 					collapsingTarget = line[ i - 1 ];
@@ -231,8 +255,9 @@ function _collapseRightInlines( inlines, targetInline ) {
 
 		const inline = inlines[ i ];
 
-		inline.width = 0;
-		inline.height = 0;
+		// inline.width = 0;
+		// inline.height = 0;
+		inline.fontFactor = 0;
 		inline.offsetX = targetInline.offsetX + targetInline.width;
 
 	}
@@ -253,8 +278,9 @@ function _collapseLeftInlines( inlines, targetInline ) {
 
 		const inline = inlines[ i ];
 
-		inline.width = 0;
-		inline.height = 0;
+		// inline.width = 0;
+		// inline.height = 0;
+		inline.fontFactor = 0;
 		inline.offsetX = targetInline.offsetX;
 
 	}
@@ -274,19 +300,20 @@ function _distanceToNextBreak( inlines, currentIdx, options, accu ) {
 	if ( !inlines[ currentIdx ] ) return accu;
 
 	const inline = inlines[ currentIdx ];
-	const kerning = inline.kerning ? inline.kerning : 0;
-	const xoffset = inline.xoffset ? inline.xoffset : 0;
-	const xadvance = inline.xadvance ? inline.xadvance : inline.width;
+
+	// const kerning = inline.kerning ? inline.kerning : 0;
+	// const xoffset = inline.xoffset ? inline.xoffset : 0;
+	// const xadvance = inline.xadvance ? inline.xadvance : inline.width;
 
 	// if inline.lineBreak is set, it is 'mandatory' or 'possible'
-	if ( inline.lineBreak ) return accu + xadvance;
+	if ( inline.lineBreak ) return accu + inline.xadvance;
 
 	// no line break is possible on this character
 	return _distanceToNextBreak(
 		inlines,
 		currentIdx + 1,
 		options,
-		accu + xadvance + options.LETTERSPACING + xoffset + kerning
+		accu + inline.xadvance + inline.xoffset + inline.kerning + options.LETTERSPACING
 	);
 
 }
@@ -299,12 +326,12 @@ function _distanceToNextBreak( inlines, currentIdx, options, accu ) {
 function _shouldFriendlyBreak( prevChar, lastInlineOffset, nextBreak, options ) {
 
 	// We can't check if last glyph is break-line-friendly it does not exist
-	if ( !prevChar || !prevChar.glyph ) return false;
+	if ( !prevChar || !prevChar.char ) return false;
 
 	// Next break-line-friendly glyph is inside boundary
 	if ( lastInlineOffset + nextBreak < options.INNER_WIDTH ) return false;
 
 	// Previous glyph was break-line-friendly
-	return options.BREAKON.indexOf( prevChar.glyph ) > -1;
+	return options.BREAKON.indexOf( prevChar.char ) > -1;
 
 }

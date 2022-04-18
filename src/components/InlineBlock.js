@@ -68,12 +68,22 @@ export default class InlineBlock extends mix.withBase( Object3D )(
 		if ( !this.width ) console.warn( 'inlineBlock has no width. Set to 0.3 by default' );
 		if ( !this.height ) console.warn( 'inlineBlock has no height. Set to 0.3 by default' );
 
+
+		// Add an object that can be seen and CharacterInline
 		this.inlines = [ {
-			height: this.height || 0.3,
+			lineBreak : 'possible',
+			kerning : 0,
+      offsetX : 0,
+			offsetY : 0,
 			width: this.width || 0.3,
-			anchor: 0,
-			lineBreak: 'possible'
-		} ];
+			height: this.height || 0.3,
+			anchor: 0, // @TODO: Could be useful
+			xadvance: this.width || 0.3,
+			xoffset: 0,
+			yoffset: 0,
+			lineHeight : this.height || 0.3,
+			lineBase: this.height || 0.3
+		}];
 
 	}
 
@@ -103,6 +113,8 @@ export default class InlineBlock extends mix.withBase( Object3D )(
 			// translation required by inlineManager to position this component inline
 			this.position.x += options.offsetX;
 			this.position.y += options.offsetY;
+
+			this.position.y += options.anchor;
 
 		}
 

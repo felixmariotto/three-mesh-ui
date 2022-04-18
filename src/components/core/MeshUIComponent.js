@@ -6,6 +6,9 @@ import UpdateManager from './UpdateManager.js';
 
 import DEFAULTS from '../../utils/Defaults.js';
 import { warnAboutDeprecatedAlignItems } from '../../utils/block-layout/AlignItems';
+import FontFamily from '../../font/FontFamily';
+import * as FontWeight from '../../utils/font/FontWeight';
+import * as FontStyle from '../../utils/font/FontStyle';
 
 /**
 
@@ -136,6 +139,18 @@ export default function MeshUIComponent( Base ) {
 
 		}
 
+		getFontStyle() {
+
+			return this._getProperty( 'fontStyle' );
+
+		}
+
+		getFontWeight() {
+
+			return this._getProperty( 'fontWeight' );
+
+		}
+
 		getLetterSpacing() {
 
 			return this._getProperty( 'letterSpacing' );
@@ -143,6 +158,12 @@ export default function MeshUIComponent( Base ) {
 		}
 
 		getFontTexture() {
+
+			if( this._font && this._font.isReady ){
+
+				return this._font.texture;
+
+			}
 
 			return this._getProperty( 'fontTexture' );
 
@@ -169,12 +190,6 @@ export default function MeshUIComponent( Base ) {
 		getTextAlign() {
 
 			return this._getProperty( 'textAlign' );
-
-		}
-
-		getTextType() {
-
-			return this._getProperty( 'textType' );
 
 		}
 
@@ -370,7 +385,7 @@ export default function MeshUIComponent( Base ) {
 		 * Try to retrieve parentUI after each structural change
 		 * @private
 		 */
-		_rebuildParentUI = ( ) => {
+		_rebuildParentUI = () => {
 
 			if ( this.parent && this.parent.isUI ) {
 
@@ -439,34 +454,6 @@ export default function MeshUIComponent( Base ) {
 		}
 
 		/**
-		 * Called by FontLibrary when the font requested for the current component is ready.
-		 * Trigger an update for the component whose font is now available.
-		 * @private - "package protected"
-		 */
-		_updateFontFamily( font ) {
-
-			this.fontFamily = font;
-
-			this.traverse( ( child ) => {
-
-				if ( child.isUI ) child.update( true, true, false );
-
-			} );
-
-			this.getHighestParent().update( false, true, false );
-
-		}
-
-		/** @private - "package protected" */
-		_updateFontTexture( texture ) {
-
-			this.fontTexture = texture;
-
-			this.getHighestParent().update( false, true, false );
-
-		}
-
-		/**
 		 * Set this component's passed parameters.
 		 * If necessary, take special actions.
 		 * Update this component unless otherwise specified.
@@ -486,26 +473,26 @@ export default function MeshUIComponent( Base ) {
 			// DEPRECATION Warnings until -------------------------------------- 7.x.x ---------------------------------------
 
 			// Align content has been removed
-			if( options["alignContent"] ){
+			if ( options[ 'alignContent' ] ) {
 
-				options["alignItems"] = options["alignContent"];
+				options[ 'alignItems' ] = options[ 'alignContent' ];
 
-				if( !options["textAlign"] ){
+				if ( !options[ 'textAlign' ] ) {
 
-					options["textAlign"] = options["alignContent"];
+					options[ 'textAlign' ] = options[ 'alignContent' ];
 
 				}
 
-				console.warn("`alignContent` property has been deprecated, please rely on `alignItems` and `textAlign` instead.")
+				console.warn( '`alignContent` property has been deprecated, please rely on `alignItems` and `textAlign` instead.' );
 
-				delete options["alignContent"];
+				delete options[ 'alignContent' ];
 
 			}
 
 			// Align items left top bottom right will be removed
-			if( options['alignItems'] ){
+			if ( options[ 'alignItems' ] ) {
 
-				warnAboutDeprecatedAlignItems( options['alignItems'] );
+				warnAboutDeprecatedAlignItems( options[ 'alignItems' ] );
 
 			}
 
@@ -522,11 +509,18 @@ export default function MeshUIComponent( Base ) {
 					switch ( prop ) {
 
 						case 'content' :
+						case 'fontWeight' :
+						case 'fontStyle' :
+						case 'whiteSpace': // @TODO : Whitespace could also just be layouting
+							if ( this.isText ) parsingNeedsUpdate = true;
+							layoutNeedsUpdate = true;
+							this[ prop ] = options[ prop ];
+							break;
+
+						// Only layout now - Not anymore parsing
 						case 'fontSize' :
 						case 'fontKerning' :
 						case 'breakOn':
-						case 'whiteSpace':
-							if ( this.isText ) parsingNeedsUpdate = true;
 							layoutNeedsUpdate = true;
 							this[ prop ] = options[ prop ];
 							break;
@@ -542,6 +536,7 @@ export default function MeshUIComponent( Base ) {
 						case 'width' :
 						case 'height' :
 						case 'padding' :
+							// @TODO: I don't think this is true anymore
 							if ( this.isInlineBlock || ( this.isBlock && this.getBestFit() != 'none' ) ) parsingNeedsUpdate = true;
 							layoutNeedsUpdate = true;
 							this[ prop ] = options[ prop ];
@@ -549,6 +544,7 @@ export default function MeshUIComponent( Base ) {
 
 						case 'letterSpacing' :
 						case 'interLine' :
+							// @TODO: I don't think this is true anymore
 							if ( this.isBlock && this.getBestFit() != 'none' ) parsingNeedsUpdate = true;
 							layoutNeedsUpdate = true;
 							this[ prop ] = options[ prop ];
@@ -591,17 +587,50 @@ export default function MeshUIComponent( Base ) {
 
 			}
 
+
 			// special cases, this.update() must be called only when some files finished loading
 
-			if ( options.fontFamily ) {
+			// Selection of fontFamily and font property
+			// 1. Preferred way, give a {FontFamily} property
+			if ( options.fontFamily instanceof FontFamily ) {
 
-				FontLibrary.setFontFamily( this, options.fontFamily );
+				this.fontFamily = options.fontFamily;
+				this.font = options.fontFamily.getVariant( FontWeight.NORMAL, FontStyle.NORMAL );
 
 			}
 
-			if ( options.fontTexture ) {
+			// 1.1 Preferred way, a bit annoying to check options.fontTexture ( retro-compatibility )
+			else if( typeof options.fontFamily === 'string' && !options.fontTexture ) {
 
-				FontLibrary.setFontTexture( this, options.fontTexture );
+				const fontFamily = FontLibrary.getFontFamily( options.fontFamily );
+
+				if( fontFamily ){
+
+					this.fontFamily = fontFamily;
+					this.font = fontFamily.getVariant( FontWeight.NORMAL, FontStyle.NORMAL );
+
+				}
+
+			}
+			// 2. < v7.x.x way
+			else if ( options.fontFamily && options.fontTexture ) {
+
+				// Set from old way, check if that family is already registered
+				const fontName = options.fontFamily.pages ? options.fontFamily.info.face : options.fontFamily;
+
+				let fontFamily = FontLibrary.getFontFamily( fontName );
+
+				if ( !fontFamily ) {
+
+					fontFamily = FontLibrary.addFontFamily( fontName )
+						.addVariant( FontWeight.NORMAL, FontStyle.NORMAL, options.fontFamily, options.fontTexture );
+
+				}
+
+				this.fontFamily = fontFamily;
+
+				// @TODO: Add more variant selection
+				this.font = fontFamily.getVariant( FontWeight.NORMAL, FontStyle.NORMAL );
 
 			}
 
@@ -665,6 +694,7 @@ export default function MeshUIComponent( Base ) {
 			} );
 
 		}
+
 	};
 
 }

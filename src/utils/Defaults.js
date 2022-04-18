@@ -5,6 +5,8 @@ import { CENTER as alignItems } from "./block-layout/AlignItems";
 import { COLUMN as contentDirection } from './block-layout/ContentDirection';
 import { CENTER as textAlign } from './inline-layout/TextAlign';
 import { PRE_LINE as whiteSpace } from './inline-layout/Whitespace';
+import { NORMAL as fontWeight } from './font/FontWeight';
+import { NORMAL as fontStyle } from './font/FontStyle';
 
 
 /** List the default values of the lib components */
@@ -13,6 +15,8 @@ export default {
 	fontFamily: null,
 	fontSize: 0.05,
 	fontKerning: 'normal', // FontKerning would act like css : "none"|"normal"|"auto"("auto" not yet implemented)
+	fontStyle,
+	fontWeight,
 	bestFit: 'none',
 	offset: 0.01,
 	interLine: 0.01,
@@ -23,7 +27,6 @@ export default {
 	justifyContent,
 	fontTexture: null,
 	textAlign,
-	textType: 'MSDF',
 	fontColor: new Color( 0xffffff ),
 	fontOpacity: 1,
 	fontPXRange: 4,
