@@ -4,6 +4,7 @@ const path = require( 'path' );
 const HtmlWebpackPlugin = require( 'html-webpack-plugin' );
 const TerserPlugin = require( 'terser-webpack-plugin' );
 const ESLintPlugin = require( 'eslint-webpack-plugin' );
+const CopyPlugin = require("copy-webpack-plugin");
 
 // data in format [ JS file name => demo title in examples page ]
 const pages = [
@@ -110,6 +111,11 @@ const webpackConfig = env => {
 
 		plugins: [
 			new ESLintPlugin( { overrideConfigFile: './config/codestyle/.eslintrc', } ),
+			new CopyPlugin({
+				patterns: [
+					{ from: "./examples/assets", to: "./assets" },
+				],
+			}),
 			...pagesConfig
 		],
 
@@ -154,7 +160,7 @@ const webpackConfig = env => {
 			hot: false,
 			// The static directory of assets
 			static: {
-				directory: path.join( __dirname, 'dist' ),
+				directory: path.join( __dirname, '../dist' ),
 				publicPath: '/'
 			},
 
