@@ -6,8 +6,9 @@ import { BoxLineGeometry } from "three/examples/jsm/geometries/BoxLineGeometry.j
 import ThreeMeshUI from "three-mesh-ui";
 
 import SnakeImage from "./assets/spiny_bush_viper.jpg";
-import FontJSON from "./assets/Roboto-msdf.json";
-import FontImage from "./assets/Roboto-msdf.png";
+
+import FontJSON from 'three-mesh-ui/examples/assets/fonts/msdf/roboto/regular.json';
+import FontImage from 'three-mesh-ui/examples/assets/fonts/msdf/roboto/regular.png';
 
 const WIDTH = window.innerWidth;
 const HEIGHT = window.innerHeight;

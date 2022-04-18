@@ -8,8 +8,8 @@ import ThreeMeshUI from 'three-mesh-ui';
 // assets URLs
 
 import UVImage from 'three-mesh-ui/examples/assets/uv_grid.jpg';
-import FontJSON from 'three-mesh-ui/examples/assets/Roboto-msdf.json';
-import FontImage from 'three-mesh-ui/examples/assets/Roboto-msdf.png';
+import FontJSON from 'three-mesh-ui/examples/assets/fonts/msdf/roboto/regular.json';
+import FontImage from 'three-mesh-ui/examples/assets/fonts/msdf/roboto/regular.png';
 
 const WIDTH = window.innerWidth;
 const HEIGHT = window.innerHeight;

@@ -6,13 +6,13 @@ import { BoxLineGeometry } from 'three/examples/jsm/geometries/BoxLineGeometry.j
 import ThreeMeshUI from 'three-mesh-ui';
 
 import ThreeIcon from 'three-mesh-ui/examples/assets/threejs.png';
-import FontJSON from 'three-mesh-ui/examples/assets/Roboto-msdf.json';
-import FontImage from 'three-mesh-ui/examples/assets/Roboto-msdf.png';
+import FontJSON from 'three-mesh-ui/examples/assets/fonts/msdf/roboto/regular.json';
+import FontImage from 'three-mesh-ui/examples/assets/fonts/msdf/roboto/regular.png';
 
 const WIDTH = window.innerWidth;
 const HEIGHT = window.innerHeight;
 
-let scene, camera, renderer, controls;
+let scene, camera, renderer, controls, container;
 
 window.addEventListener( 'load', init );
 window.addEventListener( 'resize', onWindowResize );
