@@ -6,7 +6,7 @@
     "node": "x.x.x"
   },
   "main": "build/three-mesh-ui.min.js",
-  "module": "build/three-mesh-ui.module.min.js",
+  "module": "build/three-mesh-ui.module.js",
   "types": "src/types.d.ts",
   "scripts": {
     "test": "echo \"No test specified yet\"",
