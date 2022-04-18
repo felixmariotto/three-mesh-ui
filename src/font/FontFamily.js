@@ -1,5 +1,5 @@
 import { EventDispatcher } from 'three';
-import MSDFFontVariant from './implementations/msdf/MSDFFontVariant';
+import MSDFFontVariant from './msdf/MSDFFontVariant';
 
 export default class FontFamily extends EventDispatcher {
 

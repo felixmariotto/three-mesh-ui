@@ -1,4 +1,4 @@
-import TypographyCharacter from '../../TypographyCharacter';
+import TypographyCharacter from '../TypographyCharacter';
 import MSDFInlineCharacter from './MSDFInlineCharacter';
 
 export default class MSDFTypographyCharacter extends TypographyCharacter {

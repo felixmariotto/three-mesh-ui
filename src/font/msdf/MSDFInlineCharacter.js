@@ -1,4 +1,4 @@
-import InlineCharacter from '../../InlineCharacter';
+import InlineCharacter from '../InlineCharacter';
 
 export default class MSDFInlineCharacter extends InlineCharacter{
 

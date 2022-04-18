@@ -1,5 +1,5 @@
 import { FileLoader, LinearFilter, Texture, TextureLoader } from 'three';
-import FontVariant from '../../FontVariant';
+import FontVariant from '../FontVariant';
 import MSDFTypographyFont from './MSDFTypographyFont';
 import MSDFTypographyCharacter from './MSDFTypographyCharacter';
 import MSDFGeometryCharacter from './MSDFGeometryCharacter';

@@ -1,4 +1,4 @@
-import TypographyFont from '../../TypographyFont';
+import TypographyFont from '../TypographyFont';
 
 export default class MSDFTypographyFont extends TypographyFont{
 
