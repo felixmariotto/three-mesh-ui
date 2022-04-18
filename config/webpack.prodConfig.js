@@ -30,6 +30,7 @@ const pages = [
 	[ 'ex__inline_block', 'Inline Block' ],
 	[ 'ex__onafterupdate', 'On after Update' ],
 	[ 'ex__keyboard', 'Keyboard' ],
+	[ 'dev__baseline', 'Character Alignment' ],
 	[ 'dev__justification', 'Justification' ],
 	[ 'dev__whitespace', 'WhiteSpace' ],
 ];
@@ -104,6 +105,7 @@ const webpackConfig = env => {
 			ex__inline_block: './examples/ex__inline_block.js',
 			ex__onafterupdate: './examples/ex__onafterupdate.js',
 			ex__keyboard: './examples/ex__keyboard.js',
+			dev__baseline: './examples/dev__baseline.js',
 			dev__justification: './examples/dev__justification.js',
 			dev__whitespace: './examples/dev__whitespace.js',
 
