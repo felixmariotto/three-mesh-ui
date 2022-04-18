@@ -81,7 +81,7 @@ function init() {
 	container = makeUI();
 	scene.add( container );
 
- 	const cont2 = makeUI(false);
+	const cont2 = makeUI(false);
 	scene.add( cont2 );
 	//
 
@@ -96,7 +96,7 @@ function init() {
  * @return {Block}
  */
 function makeUI(fixed = true ) {
-	let container = new ThreeMeshUI.Block( {
+	const container = new ThreeMeshUI.Block( {
 		height: 0.55,
 		width: 0.85,
 		justifyContent: 'center',
@@ -126,7 +126,7 @@ function makeUI(fixed = true ) {
 
 	// const textContent = FontLibrary.getFontFamily("Roboto").getVariant('400',"normal").typographic.charset;
 	const textContent = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
-	let _text = new ThreeMeshUI.Text( {
+	const _text = new ThreeMeshUI.Text( {
 		fontSize: 0.06,
 		content: textContent,
 	} );

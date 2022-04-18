@@ -8,8 +8,6 @@ import MaterialManager from './core/MaterialManager.js';
 import deepDelete from '../utils/deepDelete.js';
 import { mix } from '../utils/mix.js';
 import * as Whitespace from '../utils/inline-layout/Whitespace';
-import * as FontWeight from '../utils/font/FontWeight';
-import * as FontStyle from '../utils/font/FontStyle';
 import FontFamily from '../font/FontFamily';
 import { mergeBufferGeometries } from 'three/examples/jsm/utils/BufferGeometryUtils';
 
