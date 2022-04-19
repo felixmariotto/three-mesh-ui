@@ -1,3 +1,6 @@
+/**
+ * @abstract
+ */
 export default class TypographyCharacter {
 
 	/**
@@ -78,7 +81,7 @@ export default class TypographyCharacter {
 	 * @abstract
 	 * @returns {InlineCharacter}
 	 */
-	asCharacterInline() {
+	asInlineCharacter() {
 
 		throw new Error("Abstract... Need to be implemented")
 

@@ -83,7 +83,7 @@ export default class MSDFFontVariant extends FontVariant {
 	 * @param {MSDFInlineCharacter} inline
 	 * @returns {MSDFGeometryCharacter}
 	 */
-	getCharacterGeometry( inline ) {
+	getGeometryCharacter( inline ) {
 
 		return new MSDFGeometryCharacter( inline );
 

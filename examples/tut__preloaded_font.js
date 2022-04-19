@@ -25,7 +25,7 @@ async function preload() {
 	// Fighting FOIT
 	// https://css-tricks.com/fighting-foit-and-fout-together/
 
-	await FontLibrary.load(
+	await FontLibrary.prepare(
 
 			FontLibrary
 				.addFontFamily("Roboto")
@@ -40,10 +40,10 @@ async function preload() {
 	// adjust fonts
 	// @see TODO:Documentation
 	const FF = FontLibrary.getFontFamily("Roboto");
-	FF.getVariant('700','normal').adjustCharactersDescription( ROBOTO_ADJUSTMENT );
-	FF.getVariant('700','italic').adjustCharactersDescription( ROBOTO_ADJUSTMENT );
-	FF.getVariant('400','italic').adjustCharactersDescription( ROBOTO_ADJUSTMENT );
-	FF.getVariant('400','normal').adjustCharactersDescription( ROBOTO_ADJUSTMENT );
+	FF.getVariant('700','normal').adjustTypographyCharacters( ROBOTO_ADJUSTMENT );
+	FF.getVariant('700','italic').adjustTypographyCharacters( ROBOTO_ADJUSTMENT );
+	FF.getVariant('400','italic').adjustTypographyCharacters( ROBOTO_ADJUSTMENT );
+	FF.getVariant('400','normal').adjustTypographyCharacters( ROBOTO_ADJUSTMENT );
 
 	init();
 

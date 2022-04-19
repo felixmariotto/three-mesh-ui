@@ -26,7 +26,7 @@ let scene, camera, renderer, controls, text, container;
 
 window.addEventListener( 'load', () => {
 
-	FontLibrary.load(
+	FontLibrary.prepare(
 		FontLibrary
 			.addFontFamily( 'Roboto' )
 			.addVariant( '400', 'normal', './assets/fonts/msdf/roboto/regular.json', './assets/fonts/msdf/roboto/regular.png' ),
@@ -204,7 +204,7 @@ function buildGUI() {
 	}
 
 	const fontVariant = FontLibrary.getFontFamily( 'Roboto' ).getVariant( '400', 'normal' );
-	let charDesc = fontVariant.getCharacterDescription( 'a' );
+	let charDesc = fontVariant.getTypographyCharacter( 'a' );
 	const p = {
 		letter: 'a',
 		yoffset: charDesc.yoffset,
@@ -212,7 +212,7 @@ function buildGUI() {
 
 	gui.add( p, 'letter', letters ).onChange( v => {
 
-		charDesc = fontVariant.getCharacterDescription( v );
+		charDesc = fontVariant.getTypographyCharacter( v );
 		p.yoffset = charDesc.yoffset;
 
 		yoffsetController.updateDisplay();

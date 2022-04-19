@@ -1,4 +1,4 @@
-import FontFamily from '../../font/FontFamily';
+import FontFamily from './FontFamily';
 
 const _fontFamilies = {};
 
@@ -9,7 +9,7 @@ const _fontFamilies = {};
  * @param {FontFamily} fontFamily
  * @returns {Promise<unknown>}
  */
-function load( fontFamily ) {
+function prepare( fontFamily ) {
 
 	/**
 	 *
@@ -22,7 +22,7 @@ function load( fontFamily ) {
 
 		if( !(f instanceof FontFamily) ) {
 
-			throw new Error(`FontLibrary::load() - One of the provided parameter is not a FontFamily. Instead ${typeof f} given.`);
+			throw new Error(`FontLibrary::prepare() - One of the provided parameter is not a FontFamily. Instead ${typeof f} given.`);
 
 		}
 
@@ -80,7 +80,7 @@ function load( fontFamily ) {
 
 /**
  *
- * @param name
+ * @param {string} name
  * @returns {FontFamily}
  */
 function addFontFamily( name ) {
@@ -97,7 +97,7 @@ function addFontFamily( name ) {
 
 /**
  *
- * @param name
+ * @param {string} name
  * @returns {FontFamily}
  */
 function getFontFamily( name ) {
@@ -109,7 +109,7 @@ function getFontFamily( name ) {
 
 /**
  *
- * @param handler
+ * @param { (fontVariant:FontVariant, character:string ) => string|null } handler
  */
 function setMissingCharacterHandler( handler ) {
 
@@ -122,7 +122,7 @@ function setMissingCharacterHandler( handler ) {
 const FontLibrary = {
 	addFontFamily,
 	getFontFamily,
-	load,
+	prepare,
 	setMissingCharacterHandler,
 	missingCharacter
 };
@@ -131,9 +131,7 @@ export default FontLibrary;
 
 /**
  *
- * @param {FontVariant} fontVariant
- * @param {string} character
- * @returns {string}
+ * @type { (fontVariant:FontVariant, character:string ) => string|null }
  * @private
  */
 let _missingCharacterHandler = function ( fontVariant, character ) {

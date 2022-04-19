@@ -1,7 +1,10 @@
 import { EventDispatcher } from 'three';
-import FontLibrary from '../components/core/FontLibrary';
+import FontLibrary from './FontLibrary';
 
 
+/**
+ * @abstract
+ */
 export default class FontVariant extends EventDispatcher {
 
 	constructor( weight, style ) {
@@ -65,22 +68,22 @@ export default class FontVariant extends EventDispatcher {
 	 * @param {string} character
 	 * @returns {MSDFTypographyCharacter}
 	 */
-	getCharacterDescription( character ) {
+	getTypographyCharacter( character ) {
 
-		let glyphBox = this._chars[ character ];
-		if ( glyphBox ) return glyphBox;
+		let typographyCharacter = this._chars[ character ];
+		if ( typographyCharacter ) return typographyCharacter;
 
 		if ( character.match( /\s/ ) ) return this._chars[ " " ];
 
 		const fallbackCharacter = FontLibrary.missingCharacter( this, character );
 		if( fallbackCharacter ) {
 
-			glyphBox = this._chars[ fallbackCharacter ];
-			if ( glyphBox ) return glyphBox;
+			typographyCharacter = this._chars[ fallbackCharacter ];
+			if ( typographyCharacter ) return typographyCharacter;
 
 		}
 
-		throw Error( `FontVariant('${this.id}')::getCharacterDescription() - character('${character}') and/or fallback character were not found in provided msdf charset.` );
+		throw Error( `FontVariant('${this.id}')::getTypographyCharacter() - character('${character}') and/or fallback character were not found in provided msdf charset.` );
 	}
 
 	/* eslint-disable no-unused-vars */
@@ -89,12 +92,13 @@ export default class FontVariant extends EventDispatcher {
 	/**
 	 * Convert an InlineCharacter to a geometry
 	 *
+	 * @abstract
 	 * @param {InlineCharacter} inline
-	 * @returns {THREE.BufferGeometry}
+	 * @returns {THREE.BufferGeometry|Array.<THREE.BufferGeometry>}
 	 */
-	getCharacterGeometry( inline ) {
+	getGeometryCharacter( inline ) {
 
-		throw new Error(`FontVariant(${typeof this})::getCharacterGeometry() is abstract and should therefore be overridden.`);
+		throw new Error(`FontVariant(${typeof this})::getGeometryCharacter() is abstract and should therefore be overridden.`);
 
 	}
 
@@ -118,11 +122,11 @@ export default class FontVariant extends EventDispatcher {
 	 * Perform some changes on the character description of this font
 	 * @param {Object} adjustmentObject
 	 */
-	adjustCharactersDescription( adjustmentObject ){
+	adjustTypographyCharacters( adjustmentObject ){
 
 		for ( const char in adjustmentObject ) {
 
-			const desc = this.getCharacterDescription( char );
+			const desc = this.getTypographyCharacter( char );
 			const characterAdjustment = adjustmentObject[ char ];
 			for ( const propertyToAdjust in characterAdjustment ) {
 

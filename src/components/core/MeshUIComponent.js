@@ -1,7 +1,7 @@
 import { Plane } from 'three';
 import { Vector3 } from 'three';
 
-import FontLibrary from './FontLibrary.js';
+import FontLibrary from '../../font/FontLibrary.js';
 import UpdateManager from './UpdateManager.js';
 
 import DEFAULTS from '../../utils/Defaults.js';

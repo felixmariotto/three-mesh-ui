@@ -99,8 +99,6 @@ export default class FontFamily extends EventDispatcher {
 	 */
 	getVariant( weight, style ){
 
-		console.log( weight, style );
-		console.log( this._variants );
 		return this._variants.find( fontVariant => fontVariant.weight === weight && fontVariant.style === style );
 
 	}

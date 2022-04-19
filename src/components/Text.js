@@ -2,7 +2,7 @@ import { Mesh, Object3D } from 'three';
 
 import InlineComponent from './core/InlineComponent.js';
 import MeshUIComponent from './core/MeshUIComponent.js';
-import FontLibrary from './core/FontLibrary.js';
+import FontLibrary from '../font/FontLibrary.js';
 import MaterialManager from './core/MaterialManager.js';
 
 import deepDelete from '../utils/deepDelete.js';
@@ -227,11 +227,11 @@ export default class Text extends mix.withBase( Object3D )(
 
 		// Now that we know exactly which characters will be printed
 		// Store the character description ( typographic properties )
-		this._textContentGlyphs = this._textContent.split( '' ).map( ( char ) => this._font.getCharacterDescription( char ) );
+		this._textContentGlyphs = this._textContent.split( '' ).map( ( char ) => this._font.getTypographyCharacter( char ) );
 
 		// And from the descriptions ( which are static/freezed per character per font )
 		// Build the inline
-		this._textContentInlines = this._textContentGlyphs.map( ( glyphBox ) => glyphBox.asCharacterInline() );
+		this._textContentInlines = this._textContentGlyphs.map( ( glyphBox ) => glyphBox.asInlineCharacter() );
 		this.inlines = this._textContentInlines;
 
 
@@ -255,7 +255,7 @@ export default class Text extends mix.withBase( Object3D )(
 
 			const charactersAsGeometries = this.inlines.map(
 				inline =>
-					this._font.getCharacterGeometry( inline )
+					this._font.getGeometryCharacter( inline )
 						.translate( inline.offsetX, inline.offsetY, 0 )
 
 			);

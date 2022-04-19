@@ -49,7 +49,7 @@ export default class MSDFTypographyCharacter extends TypographyCharacter {
 	 *
 	 * @returns {MSDFInlineCharacter}
 	 */
-	asCharacterInline() {
+	asInlineCharacter() {
 
 		return new MSDFInlineCharacter( this );
 
