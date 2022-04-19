@@ -1,3 +1,8 @@
+//JSDoc Related Imports
+/* eslint-disable no-unused-vars */
+import TypographyCharacter from "./TypographyCharacter";
+/* eslint-enable no-unused-vars */
+
 export default class InlineCharacter {
 
 	/**

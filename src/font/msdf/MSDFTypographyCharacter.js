@@ -1,5 +1,10 @@
 import TypographyCharacter from '../TypographyCharacter';
 import MSDFInlineCharacter from './MSDFInlineCharacter';
+//JSDoc Related Imports
+/* eslint-disable no-unused-vars */
+import MSDFTypographyFont from './MSDFTypographyFont';
+import { MSDFJsonChar } from '../FontVariant';
+/* eslint-enable no-unused-vars */
 
 export default class MSDFTypographyCharacter extends TypographyCharacter {
 

@@ -10,6 +10,11 @@ import { mix } from '../utils/mix.js';
 import * as Whitespace from '../utils/inline-layout/Whitespace';
 import FontFamily from '../font/FontFamily';
 import { mergeBufferGeometries } from 'three/examples/jsm/utils/BufferGeometryUtils';
+//JSDoc Related Imports
+/* eslint-disable no-unused-vars */
+import FontVariant from '../font/FontVariant.js'; 
+import MSDFInlineCharacter from '../font/msdf/MSDFInlineCharacter.js';
+/* eslint-enable no-unused-vars */
 
 /**
 

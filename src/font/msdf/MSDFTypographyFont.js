@@ -1,4 +1,8 @@
 import TypographyFont from '../TypographyFont';
+//JSDoc Related Imports
+/* eslint-disable no-unused-vars */
+import { MSDFJson } from '../FontVariant';
+/* eslint-enable no-unused-vars */
 
 export default class MSDFTypographyFont extends TypographyFont{
 

@@ -1,5 +1,11 @@
 import { EventDispatcher } from 'three';
 import FontLibrary from './FontLibrary';
+//JSDoc Related Imports
+/* eslint-disable no-unused-vars */
+import TypographyFont from './TypographyFont';
+import MSDFTypographyCharacter from './msdf/MSDFTypographyCharacter';
+import InlineCharacter from './InlineCharacter';
+/* eslint-enable no-unused-vars */
 
 
 /**

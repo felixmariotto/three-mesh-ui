@@ -1,4 +1,8 @@
 import FontFamily from './FontFamily';
+//JSDoc Related Imports
+/* eslint-disable no-unused-vars */
+import FontVariant from './FontVariant';
+/* eslint-enable no-unused-vars */
 
 const _fontFamilies = {};
 

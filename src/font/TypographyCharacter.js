@@ -1,3 +1,9 @@
+//JSDoc Related Imports
+/* eslint-disable no-unused-vars */
+import TypographyFont from "./TypographyFont";
+import InlineCharacter from "./InlineCharacter";
+/* eslint-enable no-unused-vars */
+
 /**
  * @abstract
  */

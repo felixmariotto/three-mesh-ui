@@ -3,7 +3,10 @@ import FontVariant from '../FontVariant';
 import MSDFTypographyFont from './MSDFTypographyFont';
 import MSDFTypographyCharacter from './MSDFTypographyCharacter';
 import MSDFGeometryCharacter from './MSDFGeometryCharacter';
-
+//JSDoc Related Imports
+/* eslint-disable no-unused-vars */
+import MSDFInlineCharacter from './MSDFInlineCharacter';
+/* eslint-enable no-unused-vars */
 
 export default class MSDFFontVariant extends FontVariant {
 

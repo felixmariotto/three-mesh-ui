@@ -1,3 +1,8 @@
+//JSDoc Related Imports
+/* eslint-disable no-unused-vars */
+import InlineCharacter from "../../font/InlineCharacter";
+/* eslint-enable no-unused-vars */
+
 export const LEFT = 'left';
 export const RIGHT = 'right';
 export const CENTER = 'center';

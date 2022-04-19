@@ -1,4 +1,8 @@
 import { PlaneBufferGeometry } from 'three';
+//JSDoc Related Imports
+/* eslint-disable no-unused-vars */
+import MSDFInlineCharacter from './MSDFInlineCharacter';
+/* eslint-enable no-unused-vars */
 
 export default class MSDFGeometryCharacter extends PlaneBufferGeometry {
 

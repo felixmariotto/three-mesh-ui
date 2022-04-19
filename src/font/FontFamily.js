@@ -1,5 +1,9 @@
 import { EventDispatcher } from 'three';
 import MSDFFontVariant from './msdf/MSDFFontVariant';
+//JSDoc Related Imports
+/* eslint-disable no-unused-vars */
+import FontVariant from './FontVariant';
+/* eslint-enable no-unused-vars */
 
 export default class FontFamily extends EventDispatcher {
 
