@@ -215,6 +215,8 @@ export default class Text extends mix.withBase( Object3D )(
 
 		this._acquireFont();
 
+		if( !this.content || this.content.length === 0 ) return;
+
 		// won't parse without font or unready font
 		if( !this._font || !this._font.isReady ) return;
 
