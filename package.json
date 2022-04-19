@@ -6,8 +6,8 @@
     "node": "x.x.x"
   },
   "main": "build/three-mesh-ui.min.js",
-  "module": "build/three-mesh-ui.module.min.js",
-  "types": "src/types.d.ts",
+  "module": "build/three-mesh-ui.module.js",
+  "types": "build/types/three-mesh-ui.d.ts",
   "scripts": {
     "test": "echo \"No test specified yet\"",
     "lint": "eslint -c config/codestyle/.eslintrc src examples",
