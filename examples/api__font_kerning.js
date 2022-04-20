@@ -3,11 +3,11 @@ import { VRButton } from 'three/examples/jsm/webxr/VRButton.js';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import { BoxLineGeometry } from 'three/examples/jsm/geometries/BoxLineGeometry.js';
 
-import ThreeMeshUI from '../src/three-mesh-ui.js';
+import ThreeMeshUI from 'three-mesh-ui';
 
-import FontJSON from './assets/Roboto-msdf.json';
-import FontImage from './assets/Roboto-msdf.png';
-import { Object3D } from 'three';
+import FontJSON from 'three-mesh-ui/examples/assets/Roboto-msdf.json';
+import FontImage from 'three-mesh-ui/examples/assets/Roboto-msdf.png';
+import { Color } from 'three';
 
 const WIDTH = window.innerWidth;
 const HEIGHT = window.innerHeight;
@@ -26,9 +26,7 @@ function init() {
 
 	camera = new THREE.PerspectiveCamera( 60, WIDTH / HEIGHT, 0.1, 100 );
 
-	renderer = new THREE.WebGLRenderer( {
-		antialias: true
-	} );
+	renderer = new THREE.WebGLRenderer( { antialias: true } );
 	renderer.setPixelRatio( window.devicePixelRatio );
 	renderer.setSize( WIDTH, HEIGHT );
 	renderer.xr.enabled = true;
@@ -36,8 +34,8 @@ function init() {
 	document.body.appendChild( renderer.domElement );
 
 	controls = new OrbitControls( camera, renderer.domElement );
-	camera.position.set( 0, 1.6, 0.75 );
-	controls.target = new THREE.Vector3( 0, 1.5, -1.8 );
+	camera.position.set( 0, 1.6, 0 );
+	controls.target = new THREE.Vector3( 0, 1, -1.8 );
 	controls.update();
 
 	// ROOM
@@ -50,19 +48,8 @@ function init() {
 	scene.add( room );
 
 	// TEXT PANEL
-	const whitespaces = [
-		'normal', 		// 'normal' or ThreeMeshUI.Whitespace.NORMAL
-		'pre-line', 	// 'pre-line' or ThreeMeshUI.Whitespace.PRE_LINE
-		'pre-wrap', 	// 'pre-wrap' or ThreeMeshUI.Whitespace.PRE_WRAP
-		'pre', 				// 'pre' or ThreeMeshUI.Whitespace.PRE
-		'nowrap', 		// 'nowrap' or ThreeMeshUI.Whitespace.NOWRAP
-	];
 
-	for ( let i = 0; i < whitespaces.length; i++ ) {
-		const whitespace = whitespaces[ i ];
-		makeTextPanel(i, whitespace, i=== whitespaces.length-1);
-	}
-
+	makeTextPanel();
 
 	//
 
@@ -72,71 +59,96 @@ function init() {
 
 //
 
-function makeTextPanel( index, whitespace, last = false) {
-
-
-	const group = new Object3D();
-
-	const title = new ThreeMeshUI.Block( {
-		width: 1.15,
-		height: 0.15,
-		padding: 0.05,
-		backgroundColor: new THREE.Color(0xff9900),
-		justifyContent: 'center',
-		fontFamily: FontJSON,
-		fontTexture: FontImage
-	} );
-
-	const titleText = new ThreeMeshUI.Text( {
-			content: '.set({whiteSpace: "'+whitespace+'"})',
-			fontSize: 0.075
-		} );
-
-	title.add(
-		titleText
-	);
-	title.position.set( 0, 0.55, 0 );
-	group.add( title );
+function makeTextPanel() {
 
 	const container = new ThreeMeshUI.Block( {
-		width: 0.91,
-		height: 0.85,
+		width: 2,
+		height: 0.3,
 		padding: 0.05,
 		justifyContent: 'center',
-		alignItems: 'start',
 		textAlign: 'left',
-		whiteSpace: whitespace,
 		fontFamily: FontJSON,
-		fontTexture: FontImage
+		fontTexture: FontImage,
+		backgroundOpacity: 0,
 	} );
 
-	// container.rotation.x = -0.25;
-	group.add( container );
+	container.position.set( 0, 1, -1.8 );
+	container.rotation.x = -0.25;
+	scene.add( container );
 
 	//
 
-	container.add(
-		new ThreeMeshUI.Text( {
-			content: `But ere she from the church-door stepped
-     She smiled and told us why:
-'It was a wicked woman's curse,'
-     Quoth she, 'and what care I?'
+	const infoBox = new ThreeMeshUI.Block( {
+		width: 2,
+		height: 0.1,
+		margin: 0.01,
+		padding: 0.025,
+		textAlign: 'center'
+	} );
 
-She smiled, and smiled, and passed it off
-     Ere from the door she stept. -`,
-			fontSize: 0.055
+	infoBox.add( new ThreeMeshUI.Text( {
+		content: '.fontKerning adds spaces between pairs of characters that are defined in font files.\n',
+	} ) );
+
+	container.add( infoBox );
+
+	container.add( makeKernedContainer( 'normal' ) );
+	container.add( makeKernedContainer( 'none' ) );
+
+}
+
+function makeKernedContainer( kerning ) {
+
+	const container = new ThreeMeshUI.Block( {
+		width: 1.8,
+		height: 0.12,
+		padding: 0.05,
+		contentDirection: "row",
+		justifyContent: 'center',
+		textAlign: 'left',
+		fontFamily: FontJSON,
+		fontTexture: FontImage,
+		backgroundOpacity: 0
+	} );
+
+	const titleBox = new ThreeMeshUI.Block( {
+		width: 0.8,
+		height: 0.1,
+		margin: 0.01,
+		padding: 0.025,
+		justifyContent: 'center',
+		backgroundColor: new Color( 0xff9900 ),
+		textAlign: 'left'
+	} );
+
+	const title = new ThreeMeshUI.Text( {
+		content: `.set({fontKerning: "${kerning}"})`,
+		fontSize: 0.055
+	} );
+
+	titleBox.add( title );
+
+	const textBox = new ThreeMeshUI.Block( {
+		width: 1.4,
+		height: 0.1,
+		margin: 0.01,
+		padding: 0.02,
+		justifyContent: 'center',
+		fontSize: 0.055,
+	} );
+
+	textBox.add(
+		new ThreeMeshUI.Text( {
+			content: '"LYON F. to ATLANTA GA. Via ALTOONA PA."',
+			fontKerning: kerning,
 		} )
 	);
 
-	group.position.set( -1.35 + index%3 * 1.35 , 2.15 + Math.floor(index / 3) * -1.15 , -2);
+	container.add( titleBox );
+	container.add( textBox );
 
-	if( last ){
+	return container;
 
-		group.position.x = 0;
-
-	}
-
-	scene.add( group );
 
 }
 

@@ -3,10 +3,10 @@ import { VRButton } from 'three/examples/jsm/webxr/VRButton.js';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import { BoxLineGeometry } from 'three/examples/jsm/geometries/BoxLineGeometry.js';
 
-import ThreeMeshUI from '../src/three-mesh-ui.js';
+import ThreeMeshUI from 'three-mesh-ui';
 
-import FontJSON from './assets/Roboto-msdf.json';
-import FontImage from './assets/Roboto-msdf.png';
+import FontJSON from 'three-mesh-ui/examples/assets/Roboto-msdf.json';
+import FontImage from 'three-mesh-ui/examples/assets/Roboto-msdf.png';
 import { Object3D } from 'three';
 
 const WIDTH = window.innerWidth;
@@ -50,19 +50,16 @@ function init() {
 	scene.add( room );
 
 	// TEXT PANEL
-	const textAligns = [
-		'left',						// 'left' or ThreeMeshUI.TextAlign.LEFT,
-		'center',					// 'center' or ThreeMeshUI.TextAlign.CENTER,
-		'right',					// 'right' or ThreeMeshUI.TextAlign.RIGHT,
-		'justify-left',		// 'justify-left' or ThreeMeshUI.TextAlign.JUSTIFY_LEFT,
-		'justify',				// 'justify' or ThreeMeshUI.TextAlign.JUSTIFY,
-		'justify-right',	// 'justify-right' or ThreeMeshUI.TextAlign.JUSTIFY_RIGHT,
-		'justify-center'	// 'justify-center' or ThreeMeshUI.TextAlign.JUSTIFY_CENTER
+	const contentDirections = [
+		'row',						// 'row' or ThreeMeshUI.ContentDirection.ROW,
+		'row-reverse',		// 'row-reverse' or ThreeMeshUI.ContentDirection.ROW_REVERSE,
+		'column',					// 'column' or ThreeMeshUI.ContentDirection.COLUMN,
+		'column-reverse'	// 'column-reverse' or ThreeMeshUI.ContentDirection.COLUMN_REVERSE,
 	];
 
-	for ( let i = 0; i < textAligns.length; i++ ) {
-		const textAlign = textAligns[ i ];
-		makeTextPanel( i, textAlign, i === textAligns.length - 1 );
+	for ( let i = 0; i < contentDirections.length; i++ ) {
+		const contentDirection = contentDirections[ i ];
+		makeTextPanel( i, contentDirection );
 	}
 
 
@@ -74,13 +71,13 @@ function init() {
 
 //
 
-function makeTextPanel( index, textAlign, last = false ) {
+function makeTextPanel( index, contentDirection ) {
 
 
 	const group = new Object3D();
 
 	const title = new ThreeMeshUI.Block( {
-		width: 1.15,
+		width: 1.5,
 		height: 0.15,
 		padding: 0.05,
 		backgroundColor: new THREE.Color( 0xff9900 ),
@@ -90,46 +87,56 @@ function makeTextPanel( index, textAlign, last = false ) {
 	} );
 
 	const titleText = new ThreeMeshUI.Text( {
-		content: '.set({textAlign: "' + textAlign + '"})',
+		content: '.set({contentDirection: "' + contentDirection + '"})',
 		fontSize: 0.075
 	} );
 
-	title.add(
-		titleText
-	);
-	title.position.set( 0, 0.35, 0 );
+	title.add( titleText );
+	title.position.set( 0, 0.6, 0 );
 	group.add( title );
 
 	const container = new ThreeMeshUI.Block( {
-		width: 1.3,
-		height: 0.5,
+		width: 1,
+		height: 1,
 		padding: 0.05,
 		justifyContent: 'center',
-		alignItems: 'start',
-		textAlign,
+		alignItems: 'center',
+		contentDirection: contentDirection,
 		fontFamily: FontJSON,
 		fontTexture: FontImage
 	} );
 
+	const letters = 'ABCDEF';
+	const colors = [ 0xff9900, 0xff0099, 0x00ff99, 0x99ff00, 0x9900ff, 0x0099ff ];
+
+	for ( let i = 0; i < letters.length; i ++ ) {
+
+		const blockText = new ThreeMeshUI.Block( {
+			width: 0.125,
+			height: 0.125,
+			margin: 0.01,
+			borderRadius: 0.02,
+			backgroundColor: new THREE.Color(colors[i]),
+			justifyContent: 'center',
+			alignItems: 'center',
+			offset:0.001
+		} );
+
+
+
+		const text = new ThreeMeshUI.Text( {
+			content: letters[ i ]
+		} );
+
+		blockText.add( text );
+		container.add( blockText );
+
+	}
+
 	// container.rotation.x = -0.25;
 	group.add( container );
 
-	//
-
-	container.add(
-		new ThreeMeshUI.Text( {
-			content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
-			fontSize: 0.055
-		} )
-	);
-
-	group.position.set( -1.35 + index % 3 * 1.35, 2.25 + Math.floor( index / 3 ) * -0.8, -2 );
-
-	if ( last ) {
-
-		group.position.x = 0;
-
-	}
+	group.position.set( -0.85 + (index%2 ) * 1.7 , 2.15 + Math.floor( index / 2 ) * -1.25, -2 );
 
 	scene.add( group );
 

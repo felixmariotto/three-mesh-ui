@@ -3,10 +3,10 @@ import { VRButton } from 'three/examples/jsm/webxr/VRButton.js';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import { BoxLineGeometry } from 'three/examples/jsm/geometries/BoxLineGeometry.js';
 
-import ThreeMeshUI from '../src/three-mesh-ui.js';
+import ThreeMeshUI from 'three-mesh-ui';
 
-import FontJSON from './assets/Roboto-msdf.json';
-import FontImage from './assets/Roboto-msdf.png';
+import FontJSON from 'three-mesh-ui/examples/assets/Roboto-msdf.json';
+import FontImage from 'three-mesh-ui/examples/assets/Roboto-msdf.png';
 import { Object3D } from 'three';
 
 const WIDTH = window.innerWidth;
@@ -50,19 +50,17 @@ function init() {
 	scene.add( room );
 
 	// TEXT PANEL
-	const justifications = [
-		'start',					// 'start' or ThreeMeshUI.JustifyContent.START,
-		'end',						// 'end' or ThreeMeshUI.JustifyContent.END,
-		'center',					// 'center' or ThreeMeshUI.JustifyContent.CENTER,
-		'space-around',		// 'space-around' or ThreeMeshUI.JustifyContent.SPACE_AROUND,
-		'space-between',	// 'space-between' or ThreeMeshUI.JustifyContent.SPACE_BETWEEN,
-		'space-evenly'		// 'space-evenly' or ThreeMeshUI.JustifyContent.SPACE_EVENLY
+	const alignItems = [
+		'start',					// 'start' or ThreeMeshUI.AlignItems.START,
+		'end',						// 'end' or ThreeMeshUI.AlignItems.END,
+		'center',					// 'center' or ThreeMeshUI.AlignItems.CENTER,
+		'stretch',		// 'space-around' or ThreeMeshUI.AlignItems.STRETCH
 	];
 
-	for ( let i = 0; i < justifications.length; i++ ) {
-		const contentDirection = justifications[ i ];
-		makeTextPanelColumn( i, contentDirection );
-		makeTextPanelRow( i, contentDirection );
+	for ( let i = 0; i < alignItems.length; i++ ) {
+		const alignItem = alignItems[ i ];
+		makeTextPanelColumn( i, alignItem );
+		makeTextPanelRow( i, alignItem );
 	}
 
 	//
@@ -100,9 +98,9 @@ function makeTextPanelColumn( index, contentDirection ) {
 	const container = new ThreeMeshUI.Block( {
 		width: 0.7,
 		height: 1,
-		padding: 0.05,
-		justifyContent: contentDirection,
-		alignItems: 'center',
+		padding: 0.01,
+		justifyContent: "space-evenly",
+		alignItems: contentDirection,
 		contentDirection: 'column',
 		fontFamily: FontJSON,
 		fontTexture: FontImage
@@ -116,7 +114,6 @@ function makeTextPanelColumn( index, contentDirection ) {
 		const blockText = new ThreeMeshUI.Block( {
 			width: 0.125,
 			height: 0.125,
-			margin: 0.01,
 			borderRadius: 0.02,
 			backgroundColor: new THREE.Color(colors[i]),
 			justifyContent: 'center',
@@ -138,7 +135,7 @@ function makeTextPanelColumn( index, contentDirection ) {
 	// container.rotation.x = -0.25;
 	group.add( container );
 
-	group.position.set( -0.4 * 5  + (index%6 ) * 0.8 , 2.15 + Math.floor( index / 6 ) * -1.25, -2 );
+	group.position.set( -0.4 * 3  + (index%6 ) * 0.8 , 2.15 + Math.floor( index / 6 ) * -1.25, -2 );
 
 	scene.add( group );
 
@@ -171,10 +168,10 @@ function makeTextPanelRow( index, contentDirection ) {
 
 	const container = new ThreeMeshUI.Block( {
 		width: 3,
-		height: 0.2,
-		padding: 0.05,
-		justifyContent: contentDirection,
-		alignItems: 'center',
+		height: 0.3,
+		padding: 0.01,
+		justifyContent: "space-evenly",
+		alignItems: contentDirection,
 		contentDirection: 'row',
 		fontFamily: FontJSON,
 		fontTexture: FontImage
@@ -188,7 +185,6 @@ function makeTextPanelRow( index, contentDirection ) {
 		const blockText = new ThreeMeshUI.Block( {
 			width: 0.125,
 			height: 0.125,
-			margin: 0.01,
 			borderRadius: 0.02,
 			backgroundColor: new THREE.Color(colors[i]),
 			justifyContent: 'center',
@@ -211,7 +207,7 @@ function makeTextPanelRow( index, contentDirection ) {
 	group.add( container );
 
 	// group.position.set( -0.4 * 5  + (index%6 ) * 0.8 , 2.15 + Math.floor( index / 6 ) * -1.25, -2 );
-	group.position.set( 0.7 ,1.35 + (index%6 ) * -0.225, -2 );
+	group.position.set( 0.7 ,1.35 + (index%6 ) * -0.325, -2 );
 
 	scene.add( group );
 

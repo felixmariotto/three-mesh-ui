@@ -3,16 +3,16 @@ import { VRButton } from 'three/examples/jsm/webxr/VRButton.js';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import { BoxLineGeometry } from 'three/examples/jsm/geometries/BoxLineGeometry.js';
 
-import ThreeMeshUI from '../src/three-mesh-ui.js';
+import ThreeMeshUI from 'three-mesh-ui';
 
-import ThreeIcon from './assets/threejs.png';
-import FontJSON from './assets/Roboto-msdf.json';
-import FontImage from './assets/Roboto-msdf.png';
+import FontJSON from 'three-mesh-ui/examples/assets/Roboto-msdf.json';
+import FontImage from 'three-mesh-ui/examples/assets/Roboto-msdf.png';
 
 const WIDTH = window.innerWidth;
 const HEIGHT = window.innerHeight;
 
 let scene, camera, renderer, controls;
+let autoMoveCam = true;
 
 window.addEventListener( 'load', init );
 window.addEventListener( 'resize', onWindowResize );
@@ -24,7 +24,8 @@ function init() {
 	scene = new THREE.Scene();
 	scene.background = new THREE.Color( 0x505050 );
 
-	camera = new THREE.PerspectiveCamera( 60, WIDTH / HEIGHT, 0.1, 100 );
+	camera = new THREE.PerspectiveCamera( 60, WIDTH / HEIGHT, 0.1, 500 );
+	camera.position.set( 0, 1.5, 0 );
 
 	renderer = new THREE.WebGLRenderer( { antialias: true } );
 	renderer.setPixelRatio( window.devicePixelRatio );
@@ -34,14 +35,12 @@ function init() {
 	document.body.appendChild( renderer.domElement );
 
 	controls = new OrbitControls( camera, renderer.domElement );
-	camera.position.set( 0, 1.6, 0 );
-	controls.target = new THREE.Vector3( 0, 1, -1.8 );
-	controls.update();
+	controls.addEventListener( 'start', () => autoMoveCam = false );
 
 	// ROOM
 
 	const room = new THREE.LineSegments(
-		new BoxLineGeometry( 6, 6, 6, 10, 10, 10 ).translate( 0, 3, 0 ),
+		new BoxLineGeometry( 6, 6, 12, 10, 10, 20 ).translate( 0, 3, 0 ),
 		new THREE.LineBasicMaterial( { color: 0x808080 } )
 	);
 
@@ -49,7 +48,10 @@ function init() {
 
 	// TEXT PANEL
 
-	makeTextPanel();
+	// attempt to have a pixel-perfect match to the reference MSDF implementation
+
+	makeTextPanel( 0.6, 0, 0, 0, true );
+	makeTextPanel( -0.6, 0, 0, 0, false );
 
 	//
 
@@ -59,66 +61,43 @@ function init() {
 
 //
 
-function makeTextPanel() {
+function makeTextPanel( x, rotX, rotY, rotZ, supersample ) {
+
+	const textContent = `
+  fontSupersampling: ${supersample}
+
+  Three-mesh-ui uses rotated-grid-super-sampling (RGSS) to smooth out the rendering of small characters on low res displays.
+
+  This is especially important in VR. However you can improve performance slightly by disabling it, especially if you only render big texts.`;
 
 	const container = new ThreeMeshUI.Block( {
-		width: 1.7,
-		height: 0.95,
+		width: 1,
+		height: 0.9,
 		padding: 0.05,
+		borderRadius: 0.05,
 		justifyContent: 'center',
-		textAlign: 'left',
+		alignItems: 'start',
 		fontFamily: FontJSON,
 		fontTexture: FontImage,
-		fontSize: 0.05,
-		interLine: 0.05
+		fontColor: new THREE.Color( 0xffffff ),
+		backgroundOpacity: 1,
+		backgroundColor: new THREE.Color( 0x000000 ),
+		fontSupersampling: supersample,
 	} );
 
-	container.position.set( 0, 1, -1.8 );
-	container.rotation.x = -0.55;
 	scene.add( container );
+	container.position.set( x, 1.5, -4 );
+	container.rotation.set( rotX, rotY, rotZ );
 
-	//
+	container.add(
+		new ThreeMeshUI.Text( {
+			content: textContent,
+			fontKerning: 'normal',
+			fontSize: 0.045,
+		} )
+	);
 
-	const loader = new THREE.TextureLoader();
-
-	loader.load( ThreeIcon, ( texture ) => {
-
-		container.add(
-			new ThreeMeshUI.Text( {
-				fontSize: 0.09,
-				content: 'three-mesh-ui supports inline blocks\n'
-			} ),
-
-			new ThreeMeshUI.Text( {
-				fontSize: 0.07,
-				content: 'This is an InlineBlock : ',
-				fontColor: new THREE.Color( 0xffc654 )
-			} ),
-
-			new ThreeMeshUI.InlineBlock( {
-				height: 0.2,
-				width: 0.4,
-				backgroundTexture: texture
-			} ),
-
-			new ThreeMeshUI.Text( {
-				fontSize: 0.07,
-				content: '\nwith modified color and opacity : ',
-				fontColor: new THREE.Color( 0xffc654 )
-			} ),
-
-			new ThreeMeshUI.InlineBlock( {
-				height: 0.2,
-				width: 0.4,
-				backgroundTexture: texture,
-				backgroundColor: new THREE.Color( 0x00ff00 ),
-				backgroundOpacity: 0.3
-			} ),
-
-			new ThreeMeshUI.Text( { content: `\nIt works like a Block component, but can be positioned among inline components like text. Perfect for icons and emojis.` } )
-		);
-
-	} );
+	return container;
 
 }
 
@@ -140,6 +119,17 @@ function loop() {
 	// This has been introduced in version 3.0.0 in order
 	// to improve performance
 	ThreeMeshUI.update();
+
+	// swinging motion to see motion aliasing better
+	if ( autoMoveCam ) {
+
+		controls.target.set(
+			Math.sin( Date.now() / 3000 ) * 0.3,
+			Math.cos( Date.now() / 3000 ) * 0.3 + 1.5,
+			-4
+		);
+
+	}
 
 	controls.update();
 	renderer.render( scene, camera );

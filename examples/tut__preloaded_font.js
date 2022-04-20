@@ -2,19 +2,37 @@ import * as THREE from 'three';
 import { VRButton } from 'three/examples/jsm/webxr/VRButton.js';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import { BoxLineGeometry } from 'three/examples/jsm/geometries/BoxLineGeometry.js';
+import { TextureLoader } from 'three/src/loaders/TextureLoader.js';
 
-import ThreeMeshUI from '../src/three-mesh-ui.js';
+import ThreeMeshUI from 'three-mesh-ui';
 
-import FontJSON from './assets/Roboto-msdf.json';
-import FontImage from './assets/Roboto-msdf.png';
+import FontJSON from 'three-mesh-ui/examples/assets/Roboto-msdf.json';
+import FontImage from 'three-mesh-ui/examples/assets/Roboto-msdf.png';
 
 const WIDTH = window.innerWidth;
 const HEIGHT = window.innerHeight;
 
 let scene, camera, renderer, controls;
+const fontName = 'Roboto';
 
-window.addEventListener( 'load', init );
+window.addEventListener( 'load', preload );
 window.addEventListener( 'resize', onWindowResize );
+
+//
+
+function preload() {
+	const textureLoader = new TextureLoader();
+
+	// JSON may be preloaded as well
+
+	textureLoader.load( FontImage, ( texture ) => {
+
+		ThreeMeshUI.FontLibrary.addFont( fontName, FontJSON, texture );
+
+		init();
+
+	} );
+}
 
 //
 
@@ -62,51 +80,38 @@ function init() {
 
 function makeTextPanel() {
 
-	let count = 0;
-
-	//
-
 	const container = new ThreeMeshUI.Block( {
 		width: 1.2,
 		height: 0.5,
+		padding: 0.05,
 		justifyContent: 'center',
-		fontFamily: FontJSON,
-		fontTexture: FontImage
+		textAlign: 'left',
+		fontFamily: fontName,
+		fontTexture: fontName
 	} );
 
 	container.position.set( 0, 1, -1.8 );
 	container.rotation.x = -0.55;
 	scene.add( container );
 
-	// onAfterUpdate can be set on any component ( Text, Block... ),
-	// and get called after any update to the component.
-
-	container.onAfterUpdate = function () {
-		this.frame.layers.set( count % 2 );
-	};
-
 	//
 
-	const text = new ThreeMeshUI.Text( {
-		content: 'onAfterUpdate get called after any update.\n\n',
-		fontSize: 0.055
-	} );
+	container.add(
+		new ThreeMeshUI.Text( {
+			content: 'This example shows how to use pre-loaded font files',
+			fontSize: 0.08
+		} ),
 
-	const counter = new ThreeMeshUI.Text( {
-		content: '0',
-		fontSize: 0.08
-	} );
+		new ThreeMeshUI.Text( {
+			content: '\nYou can preload font or font and texture, and add it to FontLibrary !',
+			fontSize: 0.05
+		} ),
 
-	container.add( text, counter );
-
-	// triggers updates to the component to test onAfterUpdate
-
-	setInterval( () => {
-
-		count++;
-		counter.set( { content: String( count ) } );
-
-	}, 500 );
+		new ThreeMeshUI.Text( {
+			content: '\nAfter that, all added text of this font will be displayed with no loading delays !',
+			fontSize: 0.05
+		} )
+	);
 
 }
 
@@ -124,8 +129,9 @@ function onWindowResize() {
 
 function loop() {
 
-	// ThreeMeshUI.update only execute code if you set new attributes
-	// to your components, so it's safe to call it every frame.
+	// Don't forget, ThreeMeshUI must be updated manually.
+	// This has been introduced in version 3.0.0 in order
+	// to improve performance
 	ThreeMeshUI.update();
 
 	controls.update();

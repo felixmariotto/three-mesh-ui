@@ -3,15 +3,16 @@ import { VRButton } from 'three/examples/jsm/webxr/VRButton.js';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import { BoxLineGeometry } from 'three/examples/jsm/geometries/BoxLineGeometry.js';
 
-import ThreeMeshUI from '../src/three-mesh-ui.js';
+import ThreeMeshUI from 'three-mesh-ui';
 
-import FontJSON from './assets/Roboto-msdf.json';
-import FontImage from './assets/Roboto-msdf.png';
+import ThreeIcon from 'three-mesh-ui/examples/assets/threejs.png';
+import FontJSON from 'three-mesh-ui/examples/assets/Roboto-msdf.json';
+import FontImage from 'three-mesh-ui/examples/assets/Roboto-msdf.png';
 
 const WIDTH = window.innerWidth;
 const HEIGHT = window.innerHeight;
 
-let scene, camera, renderer, controls, panel;
+let scene, camera, renderer, controls;
 
 window.addEventListener( 'load', init );
 window.addEventListener( 'resize', onWindowResize );
@@ -25,9 +26,7 @@ function init() {
 
 	camera = new THREE.PerspectiveCamera( 60, WIDTH / HEIGHT, 0.1, 100 );
 
-	renderer = new THREE.WebGLRenderer( {
-		antialias: true
-	} );
+	renderer = new THREE.WebGLRenderer( { antialias: true } );
 	renderer.setPixelRatio( window.devicePixelRatio );
 	renderer.setSize( WIDTH, HEIGHT );
 	renderer.xr.enabled = true;
@@ -62,27 +61,64 @@ function init() {
 
 function makeTextPanel() {
 
-	panel = new ThreeMeshUI.Block( {
-		width: 1,
-		height: 0.8,
-		fontSize: 0.055,
+	const container = new ThreeMeshUI.Block( {
+		width: 1.7,
+		height: 0.95,
+		padding: 0.05,
 		justifyContent: 'center',
-		textAlign: 'center',
+		textAlign: 'left',
 		fontFamily: FontJSON,
-		fontTexture: FontImage
+		fontTexture: FontImage,
+		fontSize: 0.05,
+		interLine: 0.05
 	} );
 
-	panel.position.set( 0, 1, -1.8 );
-	panel.rotation.x = -0.55;
-	scene.add( panel );
+	container.position.set( 0, 1, -1.8 );
+	container.rotation.x = -0.55;
+	scene.add( container );
 
 	//
 
-	panel.add(
-		new ThreeMeshUI.Text( {
-			content: `Block.borderRadius\n\nBlock.borderWidth\n\nBlock.borderColor\n\nBlock.borderOpacity`,
-		} )
-	);
+	const loader = new THREE.TextureLoader();
+
+	loader.load( ThreeIcon, ( texture ) => {
+
+		container.add(
+			new ThreeMeshUI.Text( {
+				fontSize: 0.09,
+				content: 'three-mesh-ui supports inline blocks\n'
+			} ),
+
+			new ThreeMeshUI.Text( {
+				fontSize: 0.07,
+				content: 'This is an InlineBlock : ',
+				fontColor: new THREE.Color( 0xffc654 )
+			} ),
+
+			new ThreeMeshUI.InlineBlock( {
+				height: 0.2,
+				width: 0.4,
+				backgroundTexture: texture
+			} ),
+
+			new ThreeMeshUI.Text( {
+				fontSize: 0.07,
+				content: '\nwith modified color and opacity : ',
+				fontColor: new THREE.Color( 0xffc654 )
+			} ),
+
+			new ThreeMeshUI.InlineBlock( {
+				height: 0.2,
+				width: 0.4,
+				backgroundTexture: texture,
+				backgroundColor: new THREE.Color( 0x00ff00 ),
+				backgroundOpacity: 0.3
+			} ),
+
+			new ThreeMeshUI.Text( { content: `\nIt works like a Block component, but can be positioned among inline components like text. Perfect for icons and emojis.` } )
+		);
+
+	} );
 
 }
 
@@ -99,13 +135,6 @@ function onWindowResize() {
 //
 
 function loop() {
-
-	panel.set( {
-		borderRadius: [ 0, 0.2 + 0.2 * Math.sin( Date.now() / 500 ), 0, 0 ],
-		borderWidth: 0.05 - 0.06 * Math.sin( Date.now() / 500 ),
-		borderColor: new THREE.Color( 0.5 + 0.5 * Math.sin( Date.now() / 500 ), 0.5, 1 ),
-		borderOpacity: 1
-	} );
 
 	// Don't forget, ThreeMeshUI must be updated manually.
 	// This has been introduced in version 3.0.0 in order

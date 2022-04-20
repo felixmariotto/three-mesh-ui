@@ -3,15 +3,15 @@ import { VRButton } from 'three/examples/jsm/webxr/VRButton.js';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import { BoxLineGeometry } from 'three/examples/jsm/geometries/BoxLineGeometry.js';
 
-import ThreeMeshUI from '../src/three-mesh-ui.js';
+import ThreeMeshUI from 'three-mesh-ui';
 
-import FontJSON from './assets/Roboto-msdf.json';
-import FontImage from './assets/Roboto-msdf.png';
+import FontJSON from 'three-mesh-ui/examples/assets/Roboto-msdf.json';
+import FontImage from 'three-mesh-ui/examples/assets/Roboto-msdf.png';
 
 const WIDTH = window.innerWidth;
 const HEIGHT = window.innerHeight;
 
-let scene, camera, renderer, controls;
+let scene, camera, renderer, controls, panel;
 
 window.addEventListener( 'load', init );
 window.addEventListener( 'resize', onWindowResize );
@@ -62,31 +62,25 @@ function init() {
 
 function makeTextPanel() {
 
-	const container = new ThreeMeshUI.Block( {
-		width: 1.2,
-		height: 0.5,
-		padding: 0.05,
+	panel = new ThreeMeshUI.Block( {
+		width: 1,
+		height: 0.8,
+		fontSize: 0.055,
 		justifyContent: 'center',
-		textAlign: 'left',
+		textAlign: 'center',
 		fontFamily: FontJSON,
 		fontTexture: FontImage
 	} );
 
-	container.position.set( 0, 1, -1.8 );
-	container.rotation.x = -0.55;
-	scene.add( container );
+	panel.position.set( 0, 1, -1.8 );
+	panel.rotation.x = -0.55;
+	scene.add( panel );
 
 	//
 
-	container.add(
+	panel.add(
 		new ThreeMeshUI.Text( {
-			content: 'This library supports line-break-friendly-characters,',
-			fontSize: 0.055
-		} ),
-
-		new ThreeMeshUI.Text( {
-			content: ' As well as multi-font-size lines with consistent vertical spacing.',
-			fontSize: 0.08
+			content: `Block.borderRadius\n\nBlock.borderWidth\n\nBlock.borderColor\n\nBlock.borderOpacity`,
 		} )
 	);
 
@@ -105,6 +99,13 @@ function onWindowResize() {
 //
 
 function loop() {
+
+	panel.set( {
+		borderRadius: [ 0, 0.2 + 0.2 * Math.sin( Date.now() / 500 ), 0, 0 ],
+		borderWidth: 0.05 - 0.06 * Math.sin( Date.now() / 500 ),
+		borderColor: new THREE.Color( 0.5 + 0.5 * Math.sin( Date.now() / 500 ), 0.5, 1 ),
+		borderOpacity: 1
+	} );
 
 	// Don't forget, ThreeMeshUI must be updated manually.
 	// This has been introduced in version 3.0.0 in order

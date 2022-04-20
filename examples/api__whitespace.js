@@ -3,10 +3,10 @@ import { VRButton } from 'three/examples/jsm/webxr/VRButton.js';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import { BoxLineGeometry } from 'three/examples/jsm/geometries/BoxLineGeometry.js';
 
-import ThreeMeshUI from '../src/three-mesh-ui.js';
+import ThreeMeshUI from 'three-mesh-ui';
 
-import FontJSON from './assets/Roboto-msdf.json';
-import FontImage from './assets/Roboto-msdf.png';
+import FontJSON from 'three-mesh-ui/examples/assets/Roboto-msdf.json';
+import FontImage from 'three-mesh-ui/examples/assets/Roboto-msdf.png';
 import { Object3D } from 'three';
 
 const WIDTH = window.innerWidth;
@@ -50,16 +50,17 @@ function init() {
 	scene.add( room );
 
 	// TEXT PANEL
-	const contentDirections = [
-		'row',						// 'row' or ThreeMeshUI.ContentDirection.ROW,
-		'row-reverse',		// 'row-reverse' or ThreeMeshUI.ContentDirection.ROW_REVERSE,
-		'column',					// 'column' or ThreeMeshUI.ContentDirection.COLUMN,
-		'column-reverse'	// 'column-reverse' or ThreeMeshUI.ContentDirection.COLUMN_REVERSE,
+	const whitespaces = [
+		'normal', 		// 'normal' or ThreeMeshUI.Whitespace.NORMAL
+		'pre-line', 	// 'pre-line' or ThreeMeshUI.Whitespace.PRE_LINE
+		'pre-wrap', 	// 'pre-wrap' or ThreeMeshUI.Whitespace.PRE_WRAP
+		'pre', 				// 'pre' or ThreeMeshUI.Whitespace.PRE
+		'nowrap', 		// 'nowrap' or ThreeMeshUI.Whitespace.NOWRAP
 	];
 
-	for ( let i = 0; i < contentDirections.length; i++ ) {
-		const contentDirection = contentDirections[ i ];
-		makeTextPanel( i, contentDirection );
+	for ( let i = 0; i < whitespaces.length; i++ ) {
+		const whitespace = whitespaces[ i ];
+		makeTextPanel(i, whitespace, i=== whitespaces.length-1);
 	}
 
 
@@ -71,72 +72,69 @@ function init() {
 
 //
 
-function makeTextPanel( index, contentDirection ) {
+function makeTextPanel( index, whitespace, last = false) {
 
 
 	const group = new Object3D();
 
 	const title = new ThreeMeshUI.Block( {
-		width: 1.5,
+		width: 1.15,
 		height: 0.15,
 		padding: 0.05,
-		backgroundColor: new THREE.Color( 0xff9900 ),
+		backgroundColor: new THREE.Color(0xff9900),
 		justifyContent: 'center',
 		fontFamily: FontJSON,
 		fontTexture: FontImage
 	} );
 
 	const titleText = new ThreeMeshUI.Text( {
-		content: '.set({contentDirection: "' + contentDirection + '"})',
-		fontSize: 0.075
-	} );
+			content: '.set({whiteSpace: "'+whitespace+'"})',
+			fontSize: 0.075
+		} );
 
-	title.add( titleText );
-	title.position.set( 0, 0.6, 0 );
+	title.add(
+		titleText
+	);
+	title.position.set( 0, 0.55, 0 );
 	group.add( title );
 
 	const container = new ThreeMeshUI.Block( {
-		width: 1,
-		height: 1,
+		width: 0.91,
+		height: 0.85,
 		padding: 0.05,
 		justifyContent: 'center',
-		alignItems: 'center',
-		contentDirection: contentDirection,
+		alignItems: 'start',
+		textAlign: 'left',
+		whiteSpace: whitespace,
 		fontFamily: FontJSON,
 		fontTexture: FontImage
 	} );
 
-	const letters = 'ABCDEF';
-	const colors = [ 0xff9900, 0xff0099, 0x00ff99, 0x99ff00, 0x9900ff, 0x0099ff ];
-
-	for ( let i = 0; i < letters.length; i ++ ) {
-
-		const blockText = new ThreeMeshUI.Block( {
-			width: 0.125,
-			height: 0.125,
-			margin: 0.01,
-			borderRadius: 0.02,
-			backgroundColor: new THREE.Color(colors[i]),
-			justifyContent: 'center',
-			alignItems: 'center',
-			offset:0.001
-		} );
-
-
-
-		const text = new ThreeMeshUI.Text( {
-			content: letters[ i ]
-		} );
-
-		blockText.add( text );
-		container.add( blockText );
-
-	}
-
 	// container.rotation.x = -0.25;
 	group.add( container );
 
-	group.position.set( -0.85 + (index%2 ) * 1.7 , 2.15 + Math.floor( index / 2 ) * -1.25, -2 );
+	//
+
+	container.add(
+		new ThreeMeshUI.Text( {
+			content: `But ere she from the church-door stepped
+     She smiled and told us why:
+'It was a wicked woman's curse,'
+     Quoth she, 'and what care I?'
+
+She smiled, and smiled, and passed it off
+     Ere from the door she stept. -`,
+			fontSize: 0.055
+		} )
+	);
+
+	group.position.set( -1.35 + index%3 * 1.35 , 2.15 + Math.floor(index / 3) * -1.15 , -2);
+
+	if( last ){
+
+		group.position.x = 0;
+
+	}
 
 	scene.add( group );
 

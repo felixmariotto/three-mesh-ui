@@ -3,16 +3,15 @@ import { VRButton } from 'three/examples/jsm/webxr/VRButton.js';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import { BoxLineGeometry } from 'three/examples/jsm/geometries/BoxLineGeometry.js';
 
-import ThreeMeshUI from '../src/three-mesh-ui.js';
+import ThreeMeshUI from 'three-mesh-ui';
 
-import FontJSON from './assets/Roboto-msdf.json';
-import FontImage from './assets/Roboto-msdf.png';
+import FontJSON from 'three-mesh-ui/examples/assets/Roboto-msdf.json';
+import FontImage from 'three-mesh-ui/examples/assets/Roboto-msdf.png';
 
 const WIDTH = window.innerWidth;
 const HEIGHT = window.innerHeight;
 
 let scene, camera, renderer, controls;
-let autoMoveCam = true;
 
 window.addEventListener( 'load', init );
 window.addEventListener( 'resize', onWindowResize );
@@ -24,10 +23,11 @@ function init() {
 	scene = new THREE.Scene();
 	scene.background = new THREE.Color( 0x505050 );
 
-	camera = new THREE.PerspectiveCamera( 60, WIDTH / HEIGHT, 0.1, 500 );
-	camera.position.set( 0, 1.5, 0 );
+	camera = new THREE.PerspectiveCamera( 60, WIDTH / HEIGHT, 0.1, 100 );
 
-	renderer = new THREE.WebGLRenderer( { antialias: true } );
+	renderer = new THREE.WebGLRenderer( {
+		antialias: true
+	} );
 	renderer.setPixelRatio( window.devicePixelRatio );
 	renderer.setSize( WIDTH, HEIGHT );
 	renderer.xr.enabled = true;
@@ -35,12 +35,14 @@ function init() {
 	document.body.appendChild( renderer.domElement );
 
 	controls = new OrbitControls( camera, renderer.domElement );
-	controls.addEventListener( 'start', () => autoMoveCam = false );
+	camera.position.set( 0, 1.6, 0 );
+	controls.target = new THREE.Vector3( 0, 1, -1.8 );
+	controls.update();
 
 	// ROOM
 
 	const room = new THREE.LineSegments(
-		new BoxLineGeometry( 6, 6, 12, 10, 10, 20 ).translate( 0, 3, 0 ),
+		new BoxLineGeometry( 6, 6, 6, 10, 10, 10 ).translate( 0, 3, 0 ),
 		new THREE.LineBasicMaterial( { color: 0x808080 } )
 	);
 
@@ -48,10 +50,7 @@ function init() {
 
 	// TEXT PANEL
 
-	// attempt to have a pixel-perfect match to the reference MSDF implementation
-
-	makeTextPanel( 0.6, 0, 0, 0, true );
-	makeTextPanel( -0.6, 0, 0, 0, false );
+	makeTextPanel();
 
 	//
 
@@ -61,43 +60,35 @@ function init() {
 
 //
 
-function makeTextPanel( x, rotX, rotY, rotZ, supersample ) {
-
-	const textContent = `
-  fontSupersampling: ${supersample}
-
-  Three-mesh-ui uses rotated-grid-super-sampling (RGSS) to smooth out the rendering of small characters on low res displays.
-
-  This is especially important in VR. However you can improve performance slightly by disabling it, especially if you only render big texts.`;
+function makeTextPanel() {
 
 	const container = new ThreeMeshUI.Block( {
-		width: 1,
-		height: 0.9,
+		width: 1.2,
+		height: 0.5,
 		padding: 0.05,
-		borderRadius: 0.05,
 		justifyContent: 'center',
-		alignItems: 'start',
+		textAlign: 'left',
 		fontFamily: FontJSON,
-		fontTexture: FontImage,
-		fontColor: new THREE.Color( 0xffffff ),
-		backgroundOpacity: 1,
-		backgroundColor: new THREE.Color( 0x000000 ),
-		fontSupersampling: supersample,
+		fontTexture: FontImage
 	} );
 
+	container.position.set( 0, 1, -1.8 );
+	container.rotation.x = -0.55;
 	scene.add( container );
-	container.position.set( x, 1.5, -4 );
-	container.rotation.set( rotX, rotY, rotZ );
+
+	//
 
 	container.add(
 		new ThreeMeshUI.Text( {
-			content: textContent,
-			fontKerning: 'normal',
-			fontSize: 0.045,
+			content: 'This library supports line-break-friendly-characters,',
+			fontSize: 0.055
+		} ),
+
+		new ThreeMeshUI.Text( {
+			content: ' As well as multi-font-size lines with consistent vertical spacing.',
+			fontSize: 0.08
 		} )
 	);
-
-	return container;
 
 }
 
@@ -119,17 +110,6 @@ function loop() {
 	// This has been introduced in version 3.0.0 in order
 	// to improve performance
 	ThreeMeshUI.update();
-
-	// swinging motion to see motion aliasing better
-	if ( autoMoveCam ) {
-
-		controls.target.set(
-			Math.sin( Date.now() / 3000 ) * 0.3,
-			Math.cos( Date.now() / 3000 ) * 0.3 + 1.5,
-			-4
-		);
-
-	}
 
 	controls.update();
 	renderer.render( scene, camera );

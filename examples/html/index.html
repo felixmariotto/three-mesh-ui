@@ -1,6 +1,4 @@
-<!DOCTYPE html>
-<html>
-<head>
+<html><head>
 	<title>three-mesh-ui | examples</title>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
@@ -34,6 +32,10 @@
 			font-weight: 600;
 		}
 
+		.version{
+			text-align: right;
+		}
+
 		#page {
 			position: fixed;
 			height: 100%;
@@ -44,7 +46,7 @@
 		#menu {
 			position: relative;
 			height: 100%;
-			min-width: 270px;
+			min-width: 278px;
 			border-right: solid 1px var(--dark-colour);
 			transition: height 0.26s;
 			overflow-y: auto;
@@ -57,15 +59,15 @@
 			border-radius: 3px;
 		}
 
-			li:hover {
-				cursor: pointer;
-				background-color: #e6e6e6;
-			}
+		li:hover {
+			cursor: pointer;
+			background-color: #e6e6e6;
+		}
 
-			li.selected-view {
-				background-color: var(--dark-colour);
-				color: #ffffff;
-			}
+		li.selected-view {
+			background-color: var(--dark-colour);
+			color: #ffffff;
+		}
 
 		ul {
 			margin-top: 10px;
@@ -73,10 +75,10 @@
 			list-style-type: none;
 		}
 
-			#example-code-icon {
-				width: 25px;
-				margin-right: 10px;
-			}
+		#example-code-icon {
+			width: 25px;
+			margin-right: 10px;
+		}
 
 		#github-link-menu {
 			display: flex;
@@ -91,10 +93,10 @@
 			border-radius: 3px;
 		}
 
-			#menu-icon {
-				width: 28px;
-				margin-right: 10px;
-			}
+		#menu-icon {
+			width: 28px;
+			margin-right: 10px;
+		}
 
 		#iframe-container {
 			position: relative;
@@ -103,41 +105,41 @@
 			background-color: grey;
 		}
 
-			#iframe-container>iframe {
-				position: relative;
-				height: 100%;
-				width: 100%;
-				z-index: 1;
-			}
+		#iframe-container>iframe {
+			position: relative;
+			height: 100%;
+			width: 100%;
+			z-index: 1;
+		}
 
-			#iframe-container>img {
-				position: absolute;
-				height: 50px;
-				width: 50px;
-				top: 50%;
-				left: 50%;
-				transform: translate(-50%, -50%);
-			}
+		#iframe-container>img {
+			position: absolute;
+			height: 50px;
+			width: 50px;
+			top: 50%;
+			left: 50%;
+			transform: translate(-50%, -50%);
+		}
 
-			#iframe-container>a {
-				position: absolute;
-				display: flex;
-				align-items: center;
-				right: var(--github-btn-offset);
-				bottom: 20px;
-				z-index: 2;
-				color: white;
-				background-color: var(--dark-colour);
-				text-decoration: none;
-				padding: 5px 10px;
-				font-size: 1.1em;
-				box-shadow: 1px 1px 3px rgba(0,0,0,0.8);
-				border-radius: 3px;
-			}
+		#iframe-container>a {
+			position: absolute;
+			display: flex;
+			align-items: center;
+			right: var(--github-btn-offset);
+			bottom: 20px;
+			z-index: 2;
+			color: white;
+			background-color: var(--dark-colour);
+			text-decoration: none;
+			padding: 5px 10px;
+			font-size: 1.1em;
+			box-shadow: 1px 1px 3px rgba(0,0,0,0.8);
+			border-radius: 3px;
+		}
 
-				#iframe-container>a:hover {
-					background-color: #424242;
-				}
+		#iframe-container>a:hover {
+			background-color: #424242;
+		}
 
 		#examples-container {
 			padding: 20px;
@@ -169,9 +171,9 @@
 			transition: box-shadow 0.12s;
 		}
 
-			button:active {
-				box-shadow: none;
-			}
+		button:active {
+			box-shadow: none;
+		}
 
 		@media screen and (max-width: 768px) {
 
@@ -202,151 +204,159 @@
 
 <body>
 
-	<div id="page">
+<div id="page">
 
-		<div id="menu">
+	<div id="menu">
 
-			<div id="navbar-container">
-				<button id="toggle-btn" onclick="toggleNavbar()">
-					more examples ▼
-				</button>
-			</div>
-
-			<div id="examples-container">
-				<h1>three-mesh-ui</h1>
-				<a
-				id="github-link-menu"
-				href="https://github.com/felixmariotto/three-mesh-ui"
-				target="_blank"
-				>
-					<img id="menu-icon" src="https://felixmariotto.s3.eu-west-3.amazonaws.com/github-white-icon.png">
-					Github page
-				</a>
-
-				<h2>examples</h2>
-				<ul>
-					<%= htmlWebpackPlugin.options.pages %>
-				</ul>
-			</div>
-
+		<div id="navbar-container">
+			<button id="toggle-btn" onclick="toggleNavbar()">
+				more examples ▼
+			</button>
 		</div>
 
-		<div id="iframe-container">
-
-			<iframe
-			src="./basic_setup.html"
-			allowfullscreen
-			allowvr
-			frameBorder="0"
-			></iframe>
-
-			<img src="https://felixmariotto.s3.eu-west-3.amazonaws.com/loading-three-mesh-ui.gif">
-
-			<a
-			id="github-link"
-			href=""
-			target="_blank"
-			>
-				<img id="example-code-icon" src="https://felixmariotto.s3.eu-west-3.amazonaws.com/github-white-icon.png">
-				code on Github
+		<div id="examples-container">
+			<h1>three-mesh-ui</h1>
+			<h5 class="version">v<%= htmlWebpackPlugin.options.environment.version %></h5>
+			<a id="github-link-menu" href="https://github.com/felixmariotto/three-mesh-ui" target="_blank">
+				<img id="menu-icon" src="https://felixmariotto.s3.eu-west-3.amazonaws.com/github-white-icon.png">
+				Github page
 			</a>
+
+			<% if(!htmlWebpackPlugin.options.environment.production){ %>
+				<!-- workbenches are only available during development -->
+				<h2> Workbenches </h2>
+				<ul>
+					<%= htmlWebpackPlugin.options.pages.dev %>
+				</ul>
+			<% } %>
+
+			<h2>Get Started</h2>
+			<ul>
+				<%= htmlWebpackPlugin.options.pages.tutorials %>
+			</ul>
+
+			<h2>Api properties</h2>
+			<ul>
+				<%= htmlWebpackPlugin.options.pages.api %>
+			</ul>
+
+			<h2>Examples</h2>
+			<ul>
+				<%= htmlWebpackPlugin.options.pages.examples %>
+			</ul>
 
 		</div>
 
 	</div>
 
-	<script>
+	<div id="iframe-container">
 
-		const root = document.documentElement;
-		const btn = document.getElementById('toggle-btn');
-		const link = document.getElementById('github-link');
-		const iframe = document.querySelector('iframe');
+		<iframe src="./tut__basic_setup.html" allowfullscreen="" allowvr="" frameborder="0"></iframe>
 
-		let navbarIsClosed = true;
+		<img src="https://felixmariotto.s3.eu-west-3.amazonaws.com/loading-three-mesh-ui.gif">
 
-		const hash = window.location.hash.substr(1);
+		<a id="github-link" href="" target="_blank">
+			<img id="example-code-icon" src="https://felixmariotto.s3.eu-west-3.amazonaws.com/github-white-icon.png">
+			code on Github
+		</a>
 
-		if ( hash === "" ) window.location.hash = "basic_setup";
+	</div>
 
-		// let hash = window.location.hash.substring(1);
-		//console.log( hash )
-		
-		function toggleNavbar() {
+</div>
 
-			if ( navbarIsClosed ) {
+<script>
 
-				root.style.setProperty('--navbar-height', '100%');
-				root.style.setProperty('--github-btn-offset', '-300px');
-				btn.innerHTML = "hide examples ▲";
+	const root = document.documentElement;
+	const btn = document.getElementById('toggle-btn');
+	const link = document.getElementById('github-link');
+	const iframe = document.querySelector('iframe');
 
-			} else {
+	let navbarIsClosed = true;
 
-				root.style.setProperty('--navbar-height', '60px');
-				root.style.setProperty('--github-btn-offset', '20px');
-				btn.innerHTML = "more examples ▼";
+	const hash = window.location.hash.substr(1);
 
-			};
+	if ( hash === "" ) window.location.hash = "tut__basic_setup";
 
-			navbarIsClosed = !navbarIsClosed
+	// let hash = window.location.hash.substring(1);
+	//console.log( hash )
+
+	function toggleNavbar() {
+
+		if ( navbarIsClosed ) {
+
+			root.style.setProperty('--navbar-height', '100%');
+			root.style.setProperty('--github-btn-offset', '-300px');
+			btn.innerHTML = "hide examples ▲";
+
+		} else {
+
+			root.style.setProperty('--navbar-height', '60px');
+			root.style.setProperty('--github-btn-offset', '20px');
+			btn.innerHTML = "more examples ▼";
 
 		};
 
-		//
+		navbarIsClosed = !navbarIsClosed
+
+	};
+
+	//
+
+	document.querySelectorAll('li').forEach( (node)=> {
+
+		if ( node.title === hash ) selectView( node );
+
+		node.onclick = ()=> {
+
+			selectView( node );
+
+			if ( !navbarIsClosed ) {
+				toggleNavbar();
+			};
+
+		};
+
+	});
+
+	//
+
+	window.addEventListener('popstate', () => {
+
+		let hash = window.location.hash.substring(1);
+
+		iframe.src = `./${ hash }.html`;
+
+		link.href = `https://github.com/felixmariotto/three-mesh-ui/blob/master/examples/${ hash }.js`
+
+	})
+
+	//
+
+	function selectView( listItem ) {
+
+		iframe.src = `./${ listItem.title }.html`;
+		link.href = `https://github.com/felixmariotto/three-mesh-ui/blob/master/examples/${ listItem.title }.js`
+
+		window.location.hash = listItem.title;
 
 		document.querySelectorAll('li').forEach( (node)=> {
 
-			if ( node.title === hash ) selectView( node );
+			if ( node === listItem ) {
 
-			node.onclick = ()=> {
+				node.classList.add('selected-view');
 
-				selectView( node );
+			} else {
 
-				if ( !navbarIsClosed ) {
-					toggleNavbar();
-				};
+				node.classList.remove('selected-view');
 
 			};
 
 		});
 
-		//
+	};
 
-		window.addEventListener('popstate', () => {
+</script>
 
-			let hash = window.location.hash.substring(1);
 
-			iframe.src = `./${ hash }.html`;
 
-			link.href = `https://github.com/felixmariotto/three-mesh-ui/blob/master/examples/${ hash }.js`
-
-		})
-
-		//
-
-		function selectView( listItem ) {
-
-			iframe.src = `./${ listItem.title }.html`;
-			link.href = `https://github.com/felixmariotto/three-mesh-ui/blob/master/examples/${ listItem.title }.js`
-
-			window.location.hash = listItem.title;
-	
-			document.querySelectorAll('li').forEach( (node)=> {
-
-				if ( node === listItem ) {
-
-					node.classList.add('selected-view');
-
-				} else {
-
-					node.classList.remove('selected-view');
-
-				};
-
-			});
-
-		};
-
-	</script>
-
-</body>
-</html>
+</body></html>
