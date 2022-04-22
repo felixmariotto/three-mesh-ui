@@ -109,13 +109,15 @@ function makeTextPanel() {
 	scene.add( container );
 
 	//
-
-	container.add(
-		new ThreeMeshUI.Text( {
+	const text1 = new ThreeMeshUI.Text( {
 			content: 'three-mesh-ui and font variants',
 			fontWeight: '700',
 			fontSize: 0.08
-		} ),
+		} );
+
+	container.add(
+
+		text1,
 
 		new ThreeMeshUI.Text( {
 			content: '\nYou can preload fonts with multiple variant definitions :',
@@ -171,6 +173,17 @@ function makeTextPanel() {
 		} )
 
 	);
+
+
+	text1.onAfterUpdate = function(){
+
+		if( text1.children.length ) {
+
+			console.log( "Chjild 1 ", text1.children[0].material );
+
+		}
+
+	}
 
 }
 
