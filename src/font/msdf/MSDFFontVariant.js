@@ -3,8 +3,12 @@ import FontVariant from '../FontVariant';
 import MSDFTypographyFont from './MSDFTypographyFont';
 import MSDFTypographyCharacter from './MSDFTypographyCharacter';
 import MSDFGeometryCharacter from './MSDFGeometryCharacter';
+import MSDFFontMaterial from './materials/MSDFFontMaterial';
 
 
+/**
+ * @extends {FontVariant}
+ */
 export default class MSDFFontVariant extends FontVariant {
 
 	constructor( weight, style, json, texture ) {
@@ -44,6 +48,14 @@ export default class MSDFFontVariant extends FontVariant {
 
 	/**
 	 *
+	 * @returns {MSDFFontMaterial.constructor}
+	 */
+	get fontMaterial() {
+		return MSDFFontMaterial;
+	}
+
+	/**
+	 *
 	 * @param {MSDFJson} json
 	 * @private
 	 */
@@ -68,8 +80,6 @@ export default class MSDFFontVariant extends FontVariant {
 	 */
 	_buildTexture( texture ) {
 
-		this._texture = texture;
-
 		texture.generateMipmaps = false;
 		texture.minFilter = LinearFilter;
 		texture.magFilter = LinearFilter;
@@ -83,9 +93,9 @@ export default class MSDFFontVariant extends FontVariant {
 	 * @param {MSDFInlineCharacter} inline
 	 * @returns {MSDFGeometryCharacter}
 	 */
-	getGeometryCharacter( inline ) {
+	getGeometryCharacter( inline, segments = 1 ) {
 
-		return new MSDFGeometryCharacter( inline );
+		return new MSDFGeometryCharacter( inline, segments );
 
 	}
 
@@ -204,7 +214,7 @@ function _loadJson( fontVariant, jsonUrl ) {
  */
 function _loadTexture( fontVariant, textureUrl ) {
 
-	new TextureLoader().load( textureUrl, ( texture ) => {
+	fontVariant._texture = new TextureLoader().load( textureUrl, ( texture ) => {
 
 		fontVariant._buildTexture( texture );
 		fontVariant._checkReadiness();

@@ -1,4 +1,4 @@
-import { PlaneBufferGeometry } from 'three';
+import { BufferAttribute, PlaneBufferGeometry } from 'three';
 
 export default class MSDFGeometryCharacter extends PlaneBufferGeometry {
 
@@ -6,9 +6,19 @@ export default class MSDFGeometryCharacter extends PlaneBufferGeometry {
 	 *
 	 * @param {MSDFInlineCharacter} inline
 	 */
-	constructor( inline ) {
+	constructor( inline, segments = 1 ) {
 
-		super( inline.width, inline.height );
+
+		// default w & h segments
+		let wS = 1, hS=1;
+
+		// If charOBJ, try to distribute segments proportionally
+		const typographicFontSize = inline.typographic.font.size;
+
+		wS = Math.ceil((inline.typographic.width / typographicFontSize) * segments);
+		hS = Math.ceil((inline.typographic.height / typographicFontSize) * segments);
+
+		super( inline.width, inline.height, wS, hS );
 
 		// If inline has UVs
 		if ( inline.uv ) {
@@ -37,50 +47,41 @@ export default class MSDFGeometryCharacter extends PlaneBufferGeometry {
 	 */
 	mapUVs( inline ) {
 
-		const uvAttribute = this.attributes.uv;
 
-		for ( let i = 0; i < uvAttribute.count; i++ ) {
+		const width = inline.uv.right - inline.uv.left;
+		const height = inline.uv.bottom - inline.uv.top;
 
-			let u = uvAttribute.getX( i );
-			let v = uvAttribute.getY( i );
+		const originalUvArray = this.getAttribute('uv').array.slice()
 
-			[ u, v ] = ( () => {
+		const uvGlyph = [];
+		for (let i = 0; i < originalUvArray.length; i += 2) {
+			const u = originalUvArray[i];
+			const v = originalUvArray[i + 1];
 
-				switch ( i ) {
-
-					case 0 :
-						// return [ xMin, yMax ];
-						return [ inline.uv.left, inline.uv.bottom ];
-					case 1 :
-						// return [ xMax, yMax ];
-						return [ inline.uv.right, inline.uv.bottom ];
-					case 2 :
-						// return [ xMin, yMin ];
-						return [ inline.uv.left, inline.uv.top ];
-					case 3 :
-						// return [ xMax, yMin ];
-						return [ inline.uv.right, inline.uv.top ];
-
-				}
-
-			} )();
-
-			uvAttribute.setXY( i, u, v );
-
+			uvGlyph.push(inline.uv.left + width * u);
+			uvGlyph.push(inline.uv.top + height * v);
 		}
+		this.setAttribute('uvG', new BufferAttribute(new Float32Array(uvGlyph), 2));
 
 	}
 
 	/** Set all UVs to 0, so that none of the glyphs on the texture will appear */
 	nullifyUVs() {
 
-		const uvAttribute = this.attributes.uv;
+		// const uvAttribute = this.attributes.uv;
+		//
+		// for ( let i = 0; i < uvAttribute.count; i++ ) {
+		//
+		// 	uvAttribute.setXY( i, 0, 0 );
+		//
+		// }
 
-		for ( let i = 0; i < uvAttribute.count; i++ ) {
-
-			uvAttribute.setXY( i, 0, 0 );
-
+		const uvGlyph = [];
+		const length = this.getAttribute('uv').array.length;
+		for ( let i = 0; i < length; i++ ) {
+			uvGlyph.push(0);
 		}
+		this.setAttribute('uvG', new BufferAttribute(new Float32Array(uvGlyph), 2));
 
 	}
 

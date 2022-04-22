@@ -133,6 +133,12 @@ export default function MeshUIComponent( Base ) {
 
 		}
 
+		getSegments() {
+
+			return this.segments || 1;
+
+		}
+
 		getFontKerning() {
 
 			return this._getProperty( 'fontKerning' );
@@ -521,6 +527,7 @@ export default function MeshUIComponent( Base ) {
 						case 'fontSize' :
 						case 'fontKerning' :
 						case 'breakOn':
+						case 'segments':
 							layoutNeedsUpdate = true;
 							this[ prop ] = options[ prop ];
 							break;
