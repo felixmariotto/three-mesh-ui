@@ -1,41 +1,43 @@
-import { Color, ShaderMaterial } from 'three';
-import { vertexShader, fragmentShader } from "../renderers/ShaderLib/msdf-fontmaterial.glsl";
-
 // JSDoc import
 /* eslint-disable no-unused-vars */
-import { Texture, Material } from 'three';
-import MSDFFontMaterialUtils from '../utils/MSDFFontMaterialUtils';
+import { Material, ShaderMaterial, Texture, Color, Vector2 } from 'three';
 /* eslint-enable no-unused-vars */
+
+import { fragmentShader, vertexShader } from '../renderers/ShaderLib/msdf-fontmaterial.glsl';
+import MSDFFontMaterialUtils from '../utils/MSDFFontMaterialUtils';
 
 export const ALPHA_TEST = 0.02;
 export const PX_RANGE = 4;
 
 
-
-
+/**
+ * This material implements the msdf rendering shader
+ */
 export default class MSDFFontMaterial extends ShaderMaterial {
 
-
 	/**
-	 *
-	 * @abstract
+	 * This static method is mandatory for extending ThreeMeshUI.MSDFFontMaterial
+	 * It will provide a transfer description for properties from ThreeMeshUI.Text to THREE.Material
+	 * @see {MSDFFontMaterialUtils.fontMaterialProperties}
+	 * @override
 	 * @returns {Object.<{m:string, t?:(fontMaterial:Material|ShaderMaterial, materialProperty:string, value:any) => void}>}
 	 */
 	static get fontMaterialProperties() {
+
 		return MSDFFontMaterialUtils.fontMaterialProperties;
+
 	}
 
 	constructor( materialOptions = {} ) {
 
 		super( {
 
-			// @TODO: Uniformize names
 			uniforms: {
-				'glyphMap': { value: null },
-				'diffuse': { value: null },
-				'opacity': { value: 0 },
-				'u_pxRange': { value: 4.0 },
-				'alphaTest':{ value: 0.02 },
+				'glyphMap': { value: null }, // texture
+				'diffuse': { value: null }, // vec3
+				'opacity': { value: 1 },
+				'unitRange': { value: new Vector2(0,0) }, // vec2
+				'alphaTest': { value: ALPHA_TEST },
 			},
 			transparent: true,
 			clipping: true,
@@ -46,25 +48,34 @@ export default class MSDFFontMaterial extends ShaderMaterial {
 			},
 		} );
 
-		this.defines["NO_RGSS"] = '';
-		this.defines["USE_ALPHATEST"] = "";
+		// webgl preprocessor AlphaTest set by default
+		this.defines[ 'USE_ALPHATEST' ] = '';
 
 		this.needsUpdate = true;
 
 		// initiate additional properties
 		this.noRGSS = materialOptions.noRGSS || false;
+
 	}
 
 	/**
 	 * The color will be the diffuse uniform
-	 * @returns {*}
+	 * @returns {Color}
 	 */
 	get color() {
+
 		return this.uniforms.diffuse.value;
+
 	}
 
+	/**
+	 *
+	 * @param {Color} v
+	 */
 	set color( v ) {
+
 		this.uniforms.diffuse.value = v;
+
 	}
 
 	/**
@@ -72,10 +83,35 @@ export default class MSDFFontMaterial extends ShaderMaterial {
 	 * @param v
 	 */
 	set opacity( v ) {
-		if( this.uniforms )
+
+		if ( this.uniforms ) {
+
 			this.uniforms.opacity.value = v;
+
+		}
+
 	}
 
+
+	/**
+	 * The color will be the diffuse uniform
+	 * @returns {Vector2}
+	 */
+	get unitRange() {
+
+		return this.uniforms.unitRange.value;
+
+	}
+
+	/**
+	 *
+	 * @param {Vector2} v
+	 */
+	set unitRange( v ) {
+
+		this.uniforms.unitRange.value.copy( v );
+
+	}
 
 	/**
 	 *
@@ -107,8 +143,20 @@ export default class MSDFFontMaterial extends ShaderMaterial {
 
 	}
 
-	get isCompatible() {
-		return false;
+	/**
+	 *
+	 * @returns {number}
+	 */
+	get alphaTest() {
+		return this.uniforms.alphaTest.value;
+	}
+
+	/**
+	 *
+	 * @param {number} v
+	 */
+	set alphaTest( v ) {
+		this.uniforms.alphaTest.value = v;
 	}
 
 }

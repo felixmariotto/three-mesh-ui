@@ -19,6 +19,7 @@ window.addEventListener( 'resize', onWindowResize );
 //
 
 import ROBOTO_ADJUSTMENT from 'three-mesh-ui/examples/assets/fonts/msdf/roboto/adjustment';
+import MSDFDepthMaterial from '../src/font/msdf/materials/MSDFDepthMaterial';
 
 async function preload() {
 
@@ -36,10 +37,17 @@ async function preload() {
 
 	);
 
-
-	// adjust fonts
-	// @see TODO:Documentation
+	// Adjusting font variants
 	const FF = FontLibrary.getFontFamily("Roboto");
+
+	// adjust material
+	// @see TODO: FontVariant Documentation
+	// Each component using that variant, will automatically use the defined material
+	// Here is Bold Texts
+
+	FF.getVariant('700','normal').fontMaterial = MSDFDepthMaterial;
+	// adjust fonts
+	// @see TODO:adjustDocumentation
 	FF.getVariant('700','normal').adjustTypographyCharacters( ROBOTO_ADJUSTMENT );
 	FF.getVariant('700','italic').adjustTypographyCharacters( ROBOTO_ADJUSTMENT );
 	FF.getVariant('400','italic').adjustTypographyCharacters( ROBOTO_ADJUSTMENT );
