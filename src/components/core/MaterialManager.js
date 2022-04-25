@@ -422,6 +422,8 @@ vec4 sampleTexture() {
 
 void main() {
 
+	if( u_opacity <= 0.02 ) discard;
+
 	float edgeDist = getEdgeDist();
 	float change = fwidth( edgeDist );
 

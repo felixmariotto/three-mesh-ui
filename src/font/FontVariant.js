@@ -60,6 +60,14 @@ export default class FontVariant extends EventDispatcher {
 	}
 
 	/**
+	 * @param {Material|ShaderMaterial} v
+	 * @abstract
+	 */
+	set fontMaterial( v ) {
+		throw Error( `FontVariant('${this.id}')::fontMaterial - is abstract.` );
+	}
+
+	/**
 	 * @return {Class}
 	 * @abstract
 	 */

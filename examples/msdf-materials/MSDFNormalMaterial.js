@@ -1,60 +1,45 @@
 import { MeshNormalMaterial } from 'three';
-import MSDFFontMaterialUtils from '../../src/font/msdf/utils/MSDFFontMaterialUtils';
-import msdfAlphaglyphParsVertexGlsl from '../../src/font/msdf/renderers/ShaderChunks/msdf-alphaglyph.pars.vertex.glsl';
-import msdfAlphaglyphVertexGlsl from '../../src/font/msdf/renderers/ShaderChunks/msdf-alphaglyph.vertex.glsl';
-import msdfOffsetglyphVertexGlsl from '../../src/font/msdf/renderers/ShaderChunks/msdf-offsetglyph.vertex.glsl';
-import msdfAlphaglyphParsFragmentGlsl from '../../src/font/msdf/renderers/ShaderChunks/msdf-alphaglyph.pars.fragment.glsl';
-import msdfAlphaglyphFragmentGlsl from '../../src/font/msdf/renderers/ShaderChunks/msdf-alphaglyph.fragment.glsl';
+import * as ThreeMeshUI from 'three-mesh-ui';
 
+/**
+ * Example of enabling MeshNormalMaterial to render ThreeMeshUI MSDF Texts
+ */
 export default class MSDFNormalMaterial extends MeshNormalMaterial{
 
 
 	/**
-	 *
-	 * @abstract
+	 * This static method is mandatory for extending ThreeMeshUI.MSDFFontMaterial
+	 * It will provide a transfer description for properties from ThreeMeshUI.Text to THREE.Material
+	 * @see {MSDFFontMaterialUtils.fontMaterialProperties}
+	 * @override
 	 * @returns {Object.<{m:string, t?:(fontMaterial:Material|ShaderMaterial, materialProperty:string, value:any) => void}>}
 	 */
 	static get fontMaterialProperties() {
-		return MSDFFontMaterialUtils.fontMaterialProperties;
+
+		return ThreeMeshUI.MSDFFontMaterialUtils.fontMaterialProperties;
+
 	}
 
-	constructor(options = {}) {
+	constructor( options = {} ) {
 
-		// default options
-		options.transparent = true;
-		options.alphaTest = options.alphaTest || 0.02;
+		ThreeMeshUI.MSDFFontMaterialUtils.ensureMaterialOptions( options );
 
+		super( options );
 
-		super(options);
+		ThreeMeshUI.MSDFFontMaterialUtils.ensureDefines( this );
 
-		MSDFFontMaterialUtils.ensureDefines(this);
-
-		this.userData.glyphMap = {value: options.glyphMap};
-		this.userData.u_pxRange = {value: options.u_pxRange || 4};
+		ThreeMeshUI.MSDFFontMaterialUtils.ensureUserData( this, options );
 
 		this.onBeforeCompile = shader => {
 
-			shader.uniforms.glyphMap = this.userData.glyphMap;
-			shader.uniforms.u_pxRange = this.userData.u_pxRange;
+			ThreeMeshUI.MSDFFontMaterialUtils.bindUniformsWithUserData( shader, this );
+
+			ThreeMeshUI.MSDFFontMaterialUtils.injectVertexShaderChunks( shader );
 
 
-			// vertex pars
-			shader.vertexShader = shader.vertexShader.replace(
-				'#include <uv_pars_vertex>',
-				'#include <uv_pars_vertex>\n'+ msdfAlphaglyphParsVertexGlsl
-			);
-
-			// vertex chunks
-			shader.vertexShader = shader.vertexShader.replace(
-				'#include <uv_vertex>',
-				'#include <uv_vertex>\n'+ msdfAlphaglyphVertexGlsl
-			)
-
-			shader.vertexShader = shader.vertexShader.replace(
-				'#include <project_vertex>',
-				'#include <project_vertex>\n'+ msdfOffsetglyphVertexGlsl
-			)
-
+			// Manually add fragments chunks
+			// MeshNormalMaterial differ from other materials,
+			// so MSDFFontMaterialUtils.injectFragmentShaderChunks() won't apply here
 
 			//fragment pars
 			shader.fragmentShader = shader.fragmentShader.replace(
@@ -62,22 +47,26 @@ export default class MSDFNormalMaterial extends MeshNormalMaterial{
 				`#include <normalmap_pars_fragment>
 vec4 diffuseColor;
 uniform float alphaTest;
-${msdfAlphaglyphParsFragmentGlsl}`
+${ThreeMeshUI.ShaderChunk.msdf_alphaglyph_pars_fragment}`
 			);
 
-			// fragment chunks
+			// fragment
 			shader.fragmentShader = shader.fragmentShader.replace(
 				'#include <normal_fragment_maps>',
 				`#include <normal_fragment_maps>
 diffuseColor = vec4( packNormalToRGB( normal ), opacity );
-${msdfAlphaglyphFragmentGlsl}`
+${ThreeMeshUI.ShaderChunk.msdf_alphaglyph_fragment}`
 			);
 
+			// output
 			shader.fragmentShader = shader.fragmentShader.replace(
 				'gl_FragColor = vec4( packNormalToRGB( normal ), opacity );',
 				`if( diffuseColor.a < alphaTest ) discard;
                 gl_FragColor = diffuseColor;`
 			)
+
 		}
+
 	}
+
 }

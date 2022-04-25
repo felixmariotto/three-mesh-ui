@@ -1,4 +1,5 @@
 import * as THREE from 'three';
+import { DoubleSide, Mesh, MeshStandardMaterial, PlaneBufferGeometry, PointLight, SpotLight, SpotLightHelper } from 'three';
 import { VRButton } from 'three/examples/jsm/webxr/VRButton.js';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import { BoxLineGeometry } from 'three/examples/jsm/geometries/BoxLineGeometry.js';
@@ -9,24 +10,17 @@ import FontJSON from 'three-mesh-ui/examples/assets/fonts/msdf/roboto/bold.json'
 import FontImage from 'three-mesh-ui/examples/assets/fonts/msdf/roboto/bold.png';
 
 import Stats from 'three/examples/jsm/libs/stats.module.js';
-import { AlwaysDepth, BoxGeometry, BufferAttribute, DoubleSide, EqualDepth, Mesh, MeshDepthMaterial, MeshLambertMaterial, MeshStandardMaterial, Object3D, PlaneBufferGeometry, PointLight, PointLightHelper, RGBADepthPacking, SpotLight, SpotLightHelper, TextureLoader, Vector3 } from 'three';
 
-import MSDFStandardMaterial from 'three-mesh-ui/examples/msdf-materials/MSDFStandardMaterial'
-import MSDFPhysicalMaterial from 'three-mesh-ui/examples/msdf-materials/MSDFPhysicalMaterial';
-import MSDFLambertMaterial from 'three-mesh-ui/examples/msdf-materials/MSDFLambertMaterial';
-import MSDFNormalMaterial from 'three-mesh-ui/examples/msdf-materials/MSDFNormalMaterial';
-import MSDFVertexMaterialExample from 'three-mesh-ui/examples/msdf-materials/MSDFVertexMaterialExample';
-import MSDFFontMaterialUtils from '../src/font/msdf/utils/MSDFFontMaterialUtils';
+import MSDFStandardMaterial from 'three-mesh-ui/examples/msdf-materials/MSDFStandardMaterial';
 import MSDFDepthMaterial from '../src/font/msdf/materials/MSDFDepthMaterial';
 
 
 const WIDTH = window.innerWidth;
 const HEIGHT = window.innerHeight;
 
-let cube, scene, camera, renderer, controls, stats;
-let light, lightContainer, lightHelper;
-let outerContainer, innerContainer;
-let vertexMaterial;
+let scene, camera, renderer, controls, stats;
+let light, lightHelper;
+let outerContainer;
 
 window.addEventListener('load', init );
 window.addEventListener('resize', onWindowResize );
@@ -40,6 +34,7 @@ function init() {
 	scene.background = new THREE.Color( 0x505050 );
 
 	camera = new THREE.PerspectiveCamera( 60, WIDTH / HEIGHT, 0.1, 100 );
+
 
 	renderer = new THREE.WebGLRenderer({
 		antialias: true
@@ -58,8 +53,14 @@ function init() {
 	document.body.appendChild( stats.dom );
 
 	controls = new OrbitControls( camera, renderer.domElement );
-	camera.position.set( 0, 1.6, 0 );
+	// camera.position.set( 0, 1.6, 0 );
+	camera.position.set( -1.879175122304695,  0.40789135911811525, -4.003052293517432 );
+
+
+
 	controls.target = new THREE.Vector3( 0, 1, -1.8 );
+	controls.target = new THREE.Vector3( -0.11631162548590937, -0.14189791309117597, -1.932889854781583 );
+
 	controls.update();
 
 	// ROOM
@@ -84,7 +85,7 @@ function init() {
 	scene.add(floor);
 
 
-	light = new SpotLight(0xffffff,3, 8, Math.PI / 6, 1.0, 1.0);
+	light = new SpotLight(0xffffff,1, 8, Math.PI / 6, 1.0, 1.0);
 	light.position.set(0,2,0.75);
 	light.castShadow = true;
 
@@ -102,6 +103,11 @@ function init() {
 
 	light.target.position.set(0,0.75,-2);
 
+	const plight = new PointLight( 0xffffff, 1, 8, 1.0);
+	plight.position.set(0,2, -2)
+
+	scene.add(plight)
+
 
 	// TEXT PANEL
 
@@ -111,7 +117,7 @@ function init() {
 
 	renderer.setAnimationLoop( loop );
 
-};
+}
 
 //
 
@@ -125,7 +131,7 @@ function makeTextPanel() {
 		backgroundOpacity: 0,
 		interLine:0,
 		justifyContent: 'center',
-		alignContent: 'center',
+		alignItems: 'center',
 		// fontColor: new THREE.Color( 0xFF9900 ),
 		fontFamily: FontJSON,
 		fontTexture: FontImage,
@@ -134,16 +140,25 @@ function makeTextPanel() {
 
 	outerContainer.position.set( 0, 0.75, -1.8 );
 	// outerContainer.rotation.x = -0.35;
+	outerContainer.rotation.y = Math.PI;
 	scene.add( outerContainer );
 
+	// making sure background is not casting shadows too
+	outerContainer.frame.visible = false;
 
-	let defaultText = new ThreeMeshUI.Text({content:"FontMaterial(default)\n", fontColor: new THREE.Color(0x0099ff)});
-	let defaultTextInverted = new ThreeMeshUI.Text({content:"FontMaterial(default)\n", fontColor: new THREE.Color(0x0099ff)});
+	// outerContainer.onAfterUpdate = function( ) {
+	//
+	// 	outerContainer.frame.visible = false;
+	//
+	// }
 
-	let standardText = new ThreeMeshUI.Text({content:"MSDFStandardMaterial\n", fontColor: new THREE.Color(0x0099ff).convertSRGBToLinear()});
+	const defaultText = new ThreeMeshUI.Text({content:"FontMaterial(default)\n", fontColor: new THREE.Color(0x0099ff)});
+	const defaultTextInverted = new ThreeMeshUI.Text({content:"FontMaterial(default)\n", fontColor: new THREE.Color(0x0099ff)});
+
+	const standardText = new ThreeMeshUI.Text({content:"MSDFStandardMaterial\n", fontColor: new THREE.Color(0x0099ff).convertSRGBToLinear()});
 	standardText.fontMaterial = new MSDFStandardMaterial({});
 
-	let standardTextInverted = new ThreeMeshUI.Text({content:"MSDFStandardMaterial\n", fontColor: new THREE.Color(0x99ff00).convertSRGBToLinear()});
+	const standardTextInverted = new ThreeMeshUI.Text({content:"MSDFStandardMaterial\n", fontColor: new THREE.Color(0x99ff00).convertSRGBToLinear()});
 	standardTextInverted.fontMaterial = new MSDFStandardMaterial();
 	standardTextInverted.fontMaterial.defines['INVERT_ALPHA'] = '';
 
@@ -156,8 +171,14 @@ function makeTextPanel() {
 			standardText.children[0].castShadow = true;
 			standardText.children[0].material.side = DoubleSide;
 
-			let depthMat = new MSDFDepthMaterial();
-			depthMat.userData.glyphMap.value = standardText.children[0].material.userData.glyphMap.value;
+			const depthMat = new MSDFDepthMaterial();
+
+			if( standardText.children[0].material.isDefault ) {
+				depthMat.userData.glyphMap.value = standardText.children[0].material.glyphMap;
+			} else {
+				depthMat.userData.glyphMap.value = standardText.children[0].material.userData.glyphMap.value;
+			}
+
 			standardText.children[0].customDepthMaterial = depthMat;
 
 		}
@@ -171,15 +192,45 @@ function makeTextPanel() {
 			standardTextInverted.children[0].castShadow = true;
 			standardTextInverted.children[0].material.side = DoubleSide;
 
-			let depthMat = new MSDFDepthMaterial();
-			depthMat.userData.glyphMap.value = standardTextInverted.children[0].material.userData.glyphMap.value;
+			const depthMat = new MSDFDepthMaterial();
+
+			// ! Retrieving glyphMap on the default material is
+			//     defaultMsdfMaterial.glyphMap;
+			// instead of
+			//     customMsdfMaterial.userData.glyphMap.value
+			if( standardTextInverted.children[0].material.isDefault ) {
+				depthMat.userData.glyphMap.value = standardTextInverted.children[0].material.glyphMap;
+			} else {
+				depthMat.userData.glyphMap.value = standardTextInverted.children[0].material.userData.glyphMap.value;
+			}
+			// depthMat.userData.glyphMap.value = standardTextInverted.children[0].material.userData.glyphMap.value;
 			depthMat.defines['INVERT_ALPHA'] = ''
 			standardTextInverted.children[0].customDepthMaterial = depthMat;
 		}
 
 	}
 
-};
+	defaultTextInverted.onAfterUpdate = function() {
+
+		if( defaultTextInverted.children.length ){
+
+			defaultTextInverted.children[0].castShadow = true;
+			defaultTextInverted.children[0].material.side = DoubleSide;
+
+			const depthMat = new MSDFDepthMaterial();
+			if( defaultTextInverted.children[0].material.isDefault ) {
+				depthMat.userData.glyphMap.value = defaultTextInverted.children[0].material.glyphMap;
+			} else {
+				depthMat.userData.glyphMap.value = defaultTextInverted.children[0].material.userData.glyphMap.value;
+			}
+
+			depthMat.defines['INVERT_ALPHA'] = ''
+			defaultTextInverted.children[0].customDepthMaterial = depthMat;
+		}
+
+	}
+
+}
 
 
 // handles resizing the renderer when the viewport is resized
@@ -188,7 +239,7 @@ function onWindowResize() {
 	camera.aspect = window.innerWidth / window.innerHeight;
 	camera.updateProjectionMatrix();
 	renderer.setSize( window.innerWidth, window.innerHeight );
-};
+}
 
 
 

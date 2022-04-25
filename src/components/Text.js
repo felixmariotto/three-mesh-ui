@@ -1,4 +1,4 @@
-import { Mesh, MeshBasicMaterial, Object3D } from 'three';
+import { Mesh, Object3D } from 'three';
 
 import InlineComponent from './core/InlineComponent.js';
 import MeshUIComponent from './core/MeshUIComponent.js';
@@ -269,7 +269,11 @@ export default class Text extends mix.withBase( Object3D )(
 				if( value === undefined ){
 
 					const upperCaseProperty = fontMaterialProperty[0].toUpperCase() + fontMaterialProperty.substring(1)
-					value = this["get"+upperCaseProperty]();
+					if( this["get"+upperCaseProperty] ) {
+
+						value = this["get"+upperCaseProperty]();
+
+					}
 
 				}
 
@@ -299,6 +303,28 @@ export default class Text extends mix.withBase( Object3D )(
 			}
 
 		}
+	}
+
+
+	/**
+	 * @TODO : This is already present in MaterialManager
+	 * Update a component's materials clipping planes.
+	 * Called every frame.
+	 */
+	updateClippingPlanes( value ) {
+
+		const newClippingPlanes = value !== undefined ? value : this.getClippingPlanes();
+
+		if ( JSON.stringify( newClippingPlanes ) !== JSON.stringify( this.clippingPlanes ) ) {
+
+			this.clippingPlanes = newClippingPlanes;
+
+			if ( this.fontMaterial ) this.fontMaterial.clippingPlanes = this.clippingPlanes;
+
+			// if ( this.backgroundMaterial ) this.backgroundMaterial.clippingPlanes = this.clippingPlanes;
+
+		}
+
 	}
 
 
@@ -369,7 +395,6 @@ export default class Text extends mix.withBase( Object3D )(
 
 			this.textContent = new Mesh( mergedGeom, this._fontMaterial );
 			// this.textContent = new Mesh( mergedGeom, new MeshBasicMaterial({color:0x99ff00}) );
-			console.log( this._fontMaterial.glyphMap );
 
 			this.textContent.renderOrder = Infinity;
 

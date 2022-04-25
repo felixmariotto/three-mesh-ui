@@ -1,22 +1,21 @@
 import * as THREE from 'three';
+import { MeshLambertMaterial, MeshStandardMaterial, Object3D, PointLight, PointLightHelper } from 'three';
 import { VRButton } from 'three/examples/jsm/webxr/VRButton.js';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import { BoxLineGeometry } from 'three/examples/jsm/geometries/BoxLineGeometry.js';
 
-import ThreeMeshUI from 'three-mesh-ui';
+import * as ThreeMeshUI from 'three-mesh-ui';
 
 import FontJSON from 'three-mesh-ui/examples/assets/fonts/msdf/roboto/bold.json';
 import FontImage from 'three-mesh-ui/examples/assets/fonts/msdf/roboto/bold.png';
 
 import Stats from 'three/examples/jsm/libs/stats.module.js';
-import { BoxGeometry, Mesh, MeshLambertMaterial, MeshStandardMaterial, Object3D, PointLight, PointLightHelper } from "three";
 
-import MSDFStandardMaterial from 'three-mesh-ui/examples/msdf-materials/MSDFStandardMaterial'
+import MSDFStandardMaterial from 'three-mesh-ui/examples/msdf-materials/MSDFStandardMaterial';
 import MSDFPhysicalMaterial from 'three-mesh-ui/examples/msdf-materials/MSDFPhysicalMaterial';
 import MSDFLambertMaterial from 'three-mesh-ui/examples/msdf-materials/MSDFLambertMaterial';
 import MSDFNormalMaterial from 'three-mesh-ui/examples/msdf-materials/MSDFNormalMaterial';
 import MSDFVertexMaterialExample from 'three-mesh-ui/examples/msdf-materials/MSDFVertexMaterialExample';
-import MSDFFontMaterialUtils from '../src/font/msdf/utils/MSDFFontMaterialUtils';
 
 
 const WIDTH = window.innerWidth;
@@ -24,7 +23,7 @@ const HEIGHT = window.innerHeight;
 
 let cube, scene, camera, renderer, controls, stats;
 let light, lightContainer, lightHelper;
-let outerContainer, innerContainer;
+let outerContainer;
 let vertexMaterial;
 
 window.addEventListener('load', init );
@@ -97,7 +96,7 @@ function init() {
 
 	renderer.setAnimationLoop( loop );
 
-};
+}
 
 //
 
@@ -111,7 +110,7 @@ function makeTextPanel() {
 		backgroundOpacity: 0,
 		interLine:-0.05,
 		justifyContent: 'center',
-		alignContent: 'center',
+		alignItems: 'center',
 		// fontColor: new THREE.Color( 0xFF9900 ),
 		fontFamily: FontJSON,
 		fontTexture: FontImage,
@@ -123,14 +122,14 @@ function makeTextPanel() {
 	scene.add( outerContainer );
 
 
-	let defaultText = new ThreeMeshUI.Text({content:"FontMaterial(default)\n", fontColor: new THREE.Color(0x0099ff)});
+	const defaultText = new ThreeMeshUI.Text({content:"FontMaterial(default)\n", fontColor: new THREE.Color(0x0099ff)});
 
-	let standardText = new ThreeMeshUI.Text({content:"MSDFStandardMaterial\n", fontColor: new THREE.Color(0x0099ff).convertSRGBToLinear()});
-	let standardMaterial = new MSDFStandardMaterial();
+	const standardText = new ThreeMeshUI.Text({content:"MSDFStandardMaterial\n", fontColor: new THREE.Color(0x0099ff).convertSRGBToLinear()});
+	const standardMaterial = new MSDFStandardMaterial();
 	standardText.fontMaterial = standardMaterial;
 
-	let physicalText = new ThreeMeshUI.Text({content:"MSDFPhysicalMaterial\n"});
-	let physicalMaterial = new MSDFPhysicalMaterial({color: 0xffffff,
+	const physicalText = new ThreeMeshUI.Text({content:"MSDFPhysicalMaterial\n"});
+	const physicalMaterial = new MSDFPhysicalMaterial({color: 0xffffff,
 		transmission: 1,
 		opacity: 1,
 		metalness: 0,
@@ -138,72 +137,39 @@ function makeTextPanel() {
 		ior: 2,
 		thickness: 0.1,
 		specularIntensity: 1,
-		specularColor: 0xffffff,
 		envMapIntensity: 1});
 	physicalText.fontMaterial = physicalMaterial;
 
-	let lambertText = new ThreeMeshUI.Text({content:"MSDFLambertMaterial\n", fontColor:new THREE.Color(0x0099ff).convertSRGBToLinear()});
-	let lambertMaterial = new MSDFLambertMaterial({});
+	const lambertText = new ThreeMeshUI.Text({content:"MSDFLambertMaterial\n", fontColor:new THREE.Color(0x0099ff).convertSRGBToLinear()});
+	const lambertMaterial = new MSDFLambertMaterial({});
 	lambertText.fontMaterial = lambertMaterial;
 
-	let normalText = new ThreeMeshUI.Text({content:"MSDFNormalMaterial\n", fontColor:new THREE.Color(0x0099ff).convertSRGBToLinear()});
-	let normalMaterial = new MSDFNormalMaterial({});
+	const normalText = new ThreeMeshUI.Text({content:"MSDFNormalMaterial\n", fontColor:new THREE.Color(0x0099ff).convertSRGBToLinear()});
+	const normalMaterial = new MSDFNormalMaterial({});
 	normalText.fontMaterial = normalMaterial;
 
-	let wireText = new ThreeMeshUI.Text({content:"WireframeProperty\n", fontColor:new THREE.Color(0x0099ff), segments:12});
-	let wireMaterial = new MSDFStandardMaterial({wireframe:true});
-	wireText.fontMaterial = wireMaterial;
+	const wireText = new ThreeMeshUI.Text({content:"WireframeProperty\n", fontColor:new THREE.Color(0x0099ff), segments:12});
+	wireText.fontMaterial = new MSDFStandardMaterial({wireframe:true});
 
-	let vertexText = new ThreeMeshUI.Text({content:"VertexShaderExample\n", fontColor:new THREE.Color(0x0099ff), segments:12});
+	const vertexText = new ThreeMeshUI.Text({content:"VertexShaderExample\n", fontColor:new THREE.Color(0x0099ff), segments:12});
 	vertexMaterial = new MSDFVertexMaterialExample();
 	vertexText.fontMaterial = vertexMaterial;
 
-	let mixedText = new ThreeMeshUI.Text({content:"CustomMaterial .from()",fontColor:new THREE.Color(0x99ff00)});
+	const mixedText = new ThreeMeshUI.Text({content:"CustomMaterial .from()",fontColor:new THREE.Color(0x99ff00)});
 
 	// Mix a threejs material to obtain an TMU Font Material
-	const mixedMaterial = MSDFFontMaterialUtils.from(MeshStandardMaterial);
-	mixedText.fontMaterial = new mixedMaterial();
+	const customMaterialClass = ThreeMeshUI.MSDFFontMaterialUtils.from(MeshStandardMaterial);
+	mixedText.fontMaterial = new customMaterialClass();
+
 
 	mixedText.fontMaterial.onBeforeCompile = (shader) => {
 		// custom user code
+		console.log( "this is the shader you can customize", shader);
+		console.log( "it already has the msdf chunks applyied on it");
 	}
 
-
-	setInterval(()=>{
-
-
-		// vertexMaterial.wireframe = !vertexMaterial.wireframe;
-
-		// setting segments, could only replace the text geometry
-		// currently any other inline components on the same levels are rebuilt
-		// which is a performance issue
-		// its also recompile any existing material
-		// geometryNeedUpdate = true ? Overkill? Could gather splitChars and splitLines
-
-
-		//vertexText.set({segments:Math.ceil(Math.random()*24)})
-
-
-
-	}, 500)
-
-	// setInterval( ()=>{
-	//
-	//     let color = new THREE.Color(Math.random(),Math.random(),Math.random());
-	//     text.set({fontColor: color, fontOpacity:Math.random()});
-	//
-	// },2500);
-	//
-	//
-	// change segments
-	// setInterval( ()=>{
-	//     text.set({segments: Math.ceil(Math.random()*15 ) });
-	//
-	// },500);
-
 	outerContainer.add( defaultText, standardText , lambertText, physicalText, normalText, wireText, vertexText , mixedText );
-
-};
+}
 
 
 // handles resizing the renderer when the viewport is resized
@@ -212,7 +178,7 @@ function onWindowResize() {
 	camera.aspect = window.innerWidth / window.innerHeight;
 	camera.updateProjectionMatrix();
 	renderer.setSize( window.innerWidth, window.innerHeight );
-};
+}
 
 
 
@@ -247,4 +213,4 @@ function loop() {
 	controls.update();
 	renderer.render( scene, camera );
 	stats.update()
-};
+}

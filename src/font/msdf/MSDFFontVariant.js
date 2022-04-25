@@ -1,4 +1,4 @@
-import { FileLoader, LinearFilter, Texture, TextureLoader } from 'three';
+import { FileLoader, LinearFilter, Texture, TextureLoader, Vector2 } from 'three';
 import FontVariant from '../FontVariant';
 import MSDFTypographyFont from './MSDFTypographyFont';
 import MSDFTypographyCharacter from './MSDFTypographyCharacter';
@@ -35,6 +35,8 @@ export default class MSDFFontVariant extends FontVariant {
 
 		}
 
+		this._defaultMaterialClass = MSDFFontMaterial;
+
 		this._checkReadiness();
 
 	}
@@ -46,12 +48,31 @@ export default class MSDFFontVariant extends FontVariant {
 
 	}
 
+	get unitRange() {
+
+		return this._unitRange;
+
+	}
+
+	/**
+	 * @param {Class} v
+	 * @override
+	 */
+	set fontMaterial( v ) {
+
+		this._defaultMaterialClass = v;
+
+	}
+
 	/**
 	 *
-	 * @returns {MSDFFontMaterial.constructor}
+	 * @override
+	 * @returns {Class}
 	 */
 	get fontMaterial() {
-		return MSDFFontMaterial;
+
+		return this._defaultMaterialClass;
+
 	}
 
 	/**
@@ -71,6 +92,13 @@ export default class MSDFFontVariant extends FontVariant {
 		this._lineHeight = json.common.lineHeight;
 		this._lineBase = json.common.base;
 
+		this._distanceRange = json.distanceField.distanceRange;
+
+		// precompute the unit range as recommended by chlumsky
+		// @see https://github.com/Chlumsky/msdfgen
+		// "I would suggest precomputing unitRange as a uniform variable instead of pxRange for better performance."
+		this._unitRange = new Vector2(this._distanceRange, this._distanceRange).divide( new Vector2( json.common.scaleW, json.common.scaleH ) );
+		console.log( this._unitRange );
 	}
 
 	/**
@@ -231,6 +259,7 @@ function _loadTexture( fontVariant, textureUrl ) {
  * @property {MSDFJsonCommon} common
  * @property {Array.<MSDFJsonPage>} pages
  * @property {Array.<MSDFJsonChar>} chars
+ * @property {{fieldType:string, distanceRange:number}} distanceField
  * @property {Array.<MSDFJsonKerning>} kernings
  */
 

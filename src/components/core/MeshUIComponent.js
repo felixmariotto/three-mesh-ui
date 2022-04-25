@@ -139,6 +139,12 @@ export default function MeshUIComponent( Base ) {
 
 		}
 
+		getAlphaTest() {
+
+			return this.alphaTest || 0.02;
+
+		}
+
 		getFontKerning() {
 
 			return this._getProperty( 'fontKerning' );
@@ -414,7 +420,8 @@ export default function MeshUIComponent( Base ) {
 			for ( const id of Object.keys( arguments ) ) {
 
 				// An inline component relies on its parent for positioning
-				if ( arguments[ id ].isInline ) this.update( null, true );
+				if ( arguments[ id ].isUI ) this.update( null, true );
+				// if ( arguments[ id ].isInline ) this.update( null, true );
 
 			}
 
@@ -588,12 +595,13 @@ export default function MeshUIComponent( Base ) {
 							this[ prop ] = options[ prop ];
 							break;
 
+						default:
+							this[ prop ] = options[ prop ];
 					}
 
 				}
 
 			}
-
 
 			// special cases, this.update() must be called only when some files finished loading
 
@@ -651,6 +659,12 @@ export default function MeshUIComponent( Base ) {
 
 			if ( layoutNeedsUpdate ) this.getHighestParent().update( false, true, false );
 
+
+			//
+			this._transferToFontMaterial( options );
+
+
+
 		}
 
 		/////////////////////
@@ -701,6 +715,17 @@ export default function MeshUIComponent( Base ) {
 			} );
 
 		}
+
+		/**
+		 *
+		 * @abstract
+		 * @protected
+		 */
+		/* eslint-disable no-unused-vars */
+		_transferToFontMaterial( options = null ){
+
+		}
+		/* eslint-enable no-unused-vars */
 
 	};
 

@@ -1,14 +1,16 @@
 export default /* glsl */`
 varying vec2 vUvG;
 uniform sampler2D glyphMap;
-uniform float u_pxRange;
+uniform vec2 unitRange;
 // functions from the original msdf repo:
 // https://github.com/Chlumsky/msdfgen#using-a-multi-channel-distance-field
 float median(float r, float g, float b) {
 	return max(min(r, g), min(max(r, g), b));
 }
 float screenPxRange() {
-	vec2 unitRange = vec2(u_pxRange)/vec2(textureSize(glyphMap, 0));
+
+	// precomputed unitRange as recommended by Chlumsky
+	// vec2 unitRange = vec2(pxRange)/vec2(textureSize(glyphMap, 0));
 	vec2 screenTexSize = vec2(1.0)/fwidth(vUvG);
 	return max(0.5*dot(unitRange, screenTexSize), 1.0);
 }
