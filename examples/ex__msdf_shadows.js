@@ -175,8 +175,10 @@ function makeTextPanel() {
 
 			if( standardText.children[0].material.isDefault ) {
 				depthMat.userData.glyphMap.value = standardText.children[0].material.glyphMap;
+				depthMat.userData.unitRange.value = standardText.children[0].material.unitRange;
 			} else {
 				depthMat.userData.glyphMap.value = standardText.children[0].material.userData.glyphMap.value;
+				depthMat.userData.unitRange.value = standardText.children[0].material.userData.unitRange.value;
 			}
 
 			standardText.children[0].customDepthMaterial = depthMat;
@@ -200,8 +202,10 @@ function makeTextPanel() {
 			//     customMsdfMaterial.userData.glyphMap.value
 			if( standardTextInverted.children[0].material.isDefault ) {
 				depthMat.userData.glyphMap.value = standardTextInverted.children[0].material.glyphMap;
+				depthMat.userData.unitRange.value = standardTextInverted.children[0].material.unitRange;
 			} else {
 				depthMat.userData.glyphMap.value = standardTextInverted.children[0].material.userData.glyphMap.value;
+				depthMat.userData.unitRange.value = standardTextInverted.children[0].material.userData.unitRange.value;
 			}
 			// depthMat.userData.glyphMap.value = standardTextInverted.children[0].material.userData.glyphMap.value;
 			depthMat.defines['INVERT_ALPHA'] = ''
@@ -220,8 +224,10 @@ function makeTextPanel() {
 			const depthMat = new MSDFDepthMaterial();
 			if( defaultTextInverted.children[0].material.isDefault ) {
 				depthMat.userData.glyphMap.value = defaultTextInverted.children[0].material.glyphMap;
+				depthMat.userData.unitRange.value = defaultTextInverted.children[0].material.unitRange;
 			} else {
 				depthMat.userData.glyphMap.value = defaultTextInverted.children[0].material.userData.glyphMap.value;
+				depthMat.userData.unitRange.value = defaultTextInverted.children[0].material.userData.unitRange.value;
 			}
 
 			depthMat.defines['INVERT_ALPHA'] = ''
