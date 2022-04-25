@@ -7,8 +7,8 @@ import {OrbitControls} from "three/examples/jsm/controls/OrbitControls.js";
 
 import ThreeMeshUI from "three-mesh-ui";
 
-import FontJSON from "./assets/Roboto-msdf.json";
-import FontImage from "./assets/Roboto-msdf.png";
+import FontJSON from 'three-mesh-ui/examples/assets/fonts/msdf/roboto/regular.json';
+import FontImage from 'three-mesh-ui/examples/assets/fonts/msdf/roboto/regular.png';
 
 
 import {Mesh, MeshBasicMaterial, PlaneBufferGeometry, ShaderMaterial, UniformsUtils} from "three";

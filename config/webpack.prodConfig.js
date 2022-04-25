@@ -4,6 +4,7 @@ const path = require( 'path' );
 const HtmlWebpackPlugin = require( 'html-webpack-plugin' );
 const TerserPlugin = require( 'terser-webpack-plugin' );
 const ESLintPlugin = require( 'eslint-webpack-plugin' );
+const CopyPlugin = require("copy-webpack-plugin");
 
 // data in format [ JS file name => demo title in examples page ]
 const pages = [
@@ -29,6 +30,7 @@ const pages = [
 	[ 'ex__inline_block', 'Inline Block' ],
 	[ 'ex__onafterupdate', 'On after Update' ],
 	[ 'ex__keyboard', 'Keyboard' ],
+	[ 'dev__baseline', 'Character Alignment' ],
 	[ 'dev__justification', 'Justification' ],
 	[ 'dev__whitespace', 'WhiteSpace' ],
 ];
@@ -103,6 +105,7 @@ const webpackConfig = env => {
 			ex__inline_block: './examples/ex__inline_block.js',
 			ex__onafterupdate: './examples/ex__onafterupdate.js',
 			ex__keyboard: './examples/ex__keyboard.js',
+			dev__baseline: './examples/dev__baseline.js',
 			dev__justification: './examples/dev__justification.js',
 			dev__whitespace: './examples/dev__whitespace.js',
 
@@ -110,6 +113,11 @@ const webpackConfig = env => {
 
 		plugins: [
 			new ESLintPlugin( { overrideConfigFile: './config/codestyle/.eslintrc', } ),
+			new CopyPlugin({
+				patterns: [
+					{ from: "./examples/assets", to: "./assets" },
+				],
+			}),
 			...pagesConfig
 		],
 
@@ -154,7 +162,7 @@ const webpackConfig = env => {
 			hot: false,
 			// The static directory of assets
 			static: {
-				directory: path.join( __dirname, 'dist' ),
+				directory: path.join( __dirname, '../dist' ),
 				publicPath: '/'
 			},
 

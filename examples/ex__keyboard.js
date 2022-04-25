@@ -17,8 +17,8 @@ import ThreeMeshUI from 'three-mesh-ui';
 import VRControl from './utils/VRControl.js';
 import ShadowedLight from './utils/ShadowedLight.js';
 
-import FontJSON from 'three-mesh-ui/examples/assets/Roboto-msdf.json';
-import FontImage from 'three-mesh-ui/examples/assets/Roboto-msdf.png';
+import FontJSON from 'three-mesh-ui/examples/assets/fonts/msdf/roboto/regular.json';
+import FontImage from 'three-mesh-ui/examples/assets/fonts/msdf/roboto/regular.png';
 
 import Backspace from 'three-mesh-ui/examples/assets/backspace.png';
 import Enter from 'three-mesh-ui/examples/assets/enter.png';

@@ -5,8 +5,8 @@ import { BoxLineGeometry } from 'three/examples/jsm/geometries/BoxLineGeometry.j
 
 import ThreeMeshUI from 'three-mesh-ui';
 
-import FontJSON from 'three-mesh-ui/examples/assets/Roboto-msdf.json';
-import FontImage from 'three-mesh-ui/examples/assets/Roboto-msdf.png';
+import FontJSON from 'three-mesh-ui/examples/assets/fonts/msdf/roboto/regular.json';
+import FontImage from 'three-mesh-ui/examples/assets/fonts/msdf/roboto/regular.png';
 import { Object3D } from 'three';
 
 const WIDTH = window.innerWidth;

@@ -5,7 +5,7 @@ import Text from './components/Text.js';
 import InlineBlock from './components/InlineBlock.js';
 import Keyboard from './components/Keyboard.js';
 import UpdateManager from './components/core/UpdateManager.js';
-import FontLibrary from './components/core/FontLibrary.js';
+import FontLibrary from './font/FontLibrary.js';
 import * as TextAlign from './utils/inline-layout/TextAlign';
 import * as Whitespace from './utils/inline-layout/Whitespace';
 import * as JustifyContent from './utils/block-layout/JustifyContent';

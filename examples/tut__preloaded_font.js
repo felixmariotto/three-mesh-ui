@@ -2,36 +2,51 @@ import * as THREE from 'three';
 import { VRButton } from 'three/examples/jsm/webxr/VRButton.js';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import { BoxLineGeometry } from 'three/examples/jsm/geometries/BoxLineGeometry.js';
-import { TextureLoader } from 'three/src/loaders/TextureLoader.js';
 
-import ThreeMeshUI from 'three-mesh-ui';
+import ThreeMeshUI, { FontLibrary } from 'three-mesh-ui';
 
-import FontJSON from 'three-mesh-ui/examples/assets/Roboto-msdf.json';
-import FontImage from 'three-mesh-ui/examples/assets/Roboto-msdf.png';
+import * as FontWeight from '../src/utils/font/FontWeight';
+import * as FontStyle from '../src/utils/font/FontStyle';
 
 const WIDTH = window.innerWidth;
 const HEIGHT = window.innerHeight;
 
 let scene, camera, renderer, controls;
-const fontName = 'Roboto';
 
 window.addEventListener( 'load', preload );
 window.addEventListener( 'resize', onWindowResize );
 
 //
 
-function preload() {
-	const textureLoader = new TextureLoader();
+import ROBOTO_ADJUSTMENT from 'three-mesh-ui/examples/assets/fonts/msdf/roboto/adjustment';
 
-	// JSON may be preloaded as well
+async function preload() {
 
-	textureLoader.load( FontImage, ( texture ) => {
+	// Fighting FOIT
+	// https://css-tricks.com/fighting-foit-and-fout-together/
 
-		ThreeMeshUI.FontLibrary.addFont( fontName, FontJSON, texture );
+	await FontLibrary.prepare(
 
-		init();
+			FontLibrary
+				.addFontFamily("Roboto")
+					.addVariant(FontWeight.NORMAL, FontStyle.NORMAL, "./assets/fonts/msdf/roboto/regular.json", "./assets/fonts/msdf/roboto/regular.png" )
+					.addVariant(FontWeight.BOLD, FontStyle.ITALIC, "./assets/fonts/msdf/roboto/bold-italic.json", "./assets/fonts/msdf/roboto/bold-italic.png" )
+					.addVariant(FontWeight.BOLD, FontStyle.NORMAL, "./assets/fonts/msdf/roboto/bold.json", "./assets/fonts/msdf/roboto/bold.png" )
+					.addVariant(FontWeight.NORMAL, FontStyle.ITALIC, "./assets/fonts/msdf/roboto/italic.json", "./assets/fonts/msdf/roboto/italic.png" )
 
-	} );
+	);
+
+
+	// adjust fonts
+	// @see TODO:Documentation
+	const FF = FontLibrary.getFontFamily("Roboto");
+	FF.getVariant('700','normal').adjustTypographyCharacters( ROBOTO_ADJUSTMENT );
+	FF.getVariant('700','italic').adjustTypographyCharacters( ROBOTO_ADJUSTMENT );
+	FF.getVariant('400','italic').adjustTypographyCharacters( ROBOTO_ADJUSTMENT );
+	FF.getVariant('400','normal').adjustTypographyCharacters( ROBOTO_ADJUSTMENT );
+
+	init();
+
 }
 
 //
@@ -81,13 +96,12 @@ function init() {
 function makeTextPanel() {
 
 	const container = new ThreeMeshUI.Block( {
-		width: 1.2,
+		width: 1.75,
 		height: 0.5,
 		padding: 0.05,
 		justifyContent: 'center',
 		textAlign: 'left',
-		fontFamily: fontName,
-		fontTexture: fontName
+		fontFamily: "Roboto"
 	} );
 
 	container.position.set( 0, 1, -1.8 );
@@ -98,19 +112,64 @@ function makeTextPanel() {
 
 	container.add(
 		new ThreeMeshUI.Text( {
-			content: 'This example shows how to use pre-loaded font files',
+			content: 'three-mesh-ui and font variants',
+			fontWeight: '700',
 			fontSize: 0.08
 		} ),
 
 		new ThreeMeshUI.Text( {
-			content: '\nYou can preload font or font and texture, and add it to FontLibrary !',
+			content: '\nYou can preload fonts with multiple variant definitions :',
 			fontSize: 0.05
 		} ),
 
 		new ThreeMeshUI.Text( {
-			content: '\nAfter that, all added text of this font will be displayed with no loading delays !',
+			content: '\n\nRegular',
 			fontSize: 0.05
+		} ),
+
+		new ThreeMeshUI.Text( {
+			content: ' Bold',
+			fontWeight: '700',
+			fontSize: 0.05
+		} ),
+
+		new ThreeMeshUI.Text( {
+			content: ' Italic',
+			fontStyle: 'italic',
+			fontSize: 0.05
+		} ),
+
+		new ThreeMeshUI.Text( {
+			content: ' Bold+Italic',
+			fontWeight: '700',
+			fontStyle: 'italic',
+			fontSize: 0.05
+		} ),
+
+		new ThreeMeshUI.Text( {
+			content: '\n\nPreloading fonts will display texts with no loading delays and no FOIT*!',
+			fontSize: 0.05
+		} ),
+
+		new ThreeMeshUI.Text( {
+			content: '\n* : ',
+			fontStyle: 'italic',
+			fontSize: 0.03
+		} ),
+
+		new ThreeMeshUI.Text( {
+			content: 'FOIT',
+			fontStyle: 'italic',
+			fontWeight: '700',
+			fontSize: 0.03
+		} ),
+
+		new ThreeMeshUI.Text( {
+			content: ' means Flash-Of-Invisible-Text and is a web annoyment!',
+			fontStyle: 'italic',
+			fontSize: 0.03
 		} )
+
 	);
 
 }

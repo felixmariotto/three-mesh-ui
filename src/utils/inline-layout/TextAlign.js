@@ -6,6 +6,12 @@ export const JUSTIFY_LEFT = 'justify-left';
 export const JUSTIFY_RIGHT = 'justify-right';
 export const JUSTIFY_CENTER = 'justify-center';
 
+/**
+ *
+ * @param {Array.<Array.<InlineCharacter>>} lines
+ * @param ALIGNMENT
+ * @param INNER_WIDTH
+ */
 export function textAlign( lines, ALIGNMENT, INNER_WIDTH ) {
 
 	// Start the alignment by sticking to directions : left, right, center
@@ -45,7 +51,7 @@ export function textAlign( lines, ALIGNMENT, INNER_WIDTH ) {
 			let validSpaces = 0;
 			for ( let j = 1; j < line.length - 1; j++ ) {
 
-				validSpaces += line[ j ].glyph === ' ' ? 1 : 0;
+				validSpaces += line[ j ].char === ' ' ? 1 : 0;
 
 			}
 			const additionalSpace = REMAINING_SPACE / validSpaces;
@@ -66,11 +72,11 @@ export function textAlign( lines, ALIGNMENT, INNER_WIDTH ) {
 			for ( let j = 1; j <= line.length - 1; j++ ) {
 
 				// apply offset on each char
-				const char = line[ j ];
-				char.offsetX += incrementalOffsetX * inverter;
+				const inlineCharacter = line[ j ];
+				inlineCharacter.offsetX += incrementalOffsetX * inverter;
 
 				// and increase it when space
-				incrementalOffsetX += char.glyph === ' ' ? additionalSpace : 0;
+				incrementalOffsetX += inlineCharacter.char === ' ' ? additionalSpace : 0;
 
 			}
 

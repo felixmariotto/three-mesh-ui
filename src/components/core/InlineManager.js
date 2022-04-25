@@ -296,10 +296,6 @@ export default function InlineManager( Base ) {
 
 					const currentInlineInfo = inlineComponent.inlines.reduce( ( lastInlineOffset, inline, i, inlines ) => {
 
-						const kerning = inline.kerning ? inline.kerning : 0;
-						const xoffset = inline.xoffset ? inline.xoffset : 0;
-						const xadvance = inline.xadvance ? inline.xadvance : inline.width;
-
 						// Line break
 						const shouldBreak = Whitespace.shouldBreak(inlines,i,lastInlineOffset, whiteSpaceOptions );
 
@@ -307,7 +303,7 @@ export default function InlineManager( Base ) {
 
 							lines.push( [ inline ] );
 
-							inline.offsetX = xoffset;
+							inline.offsetX = inline.xoffset;
 
 							// restart the lastInlineOffset as zero.
 							if ( inline.width === 0 ) return 0;
@@ -315,15 +311,15 @@ export default function InlineManager( Base ) {
 							// compute lastInlineOffset normally
 							// except for kerning which won't apply
 							// as there is visually no lefthanded glyph to kern with
-							return xadvance + LETTERSPACING;
+							return inline.xadvance + LETTERSPACING;
 
 						}
 
 						lines[ lines.length - 1 ].push( inline );
 
-						inline.offsetX = lastInlineOffset + xoffset + kerning;
+						inline.offsetX = lastInlineOffset + inline.xoffset + inline.kerning;
 
-						return lastInlineOffset + xadvance + kerning + LETTERSPACING;
+						return lastInlineOffset + inline.xadvance + inline.kerning + LETTERSPACING;
 
 					}, lastInlineOffset );
 
@@ -342,6 +338,7 @@ export default function InlineManager( Base ) {
 				line.lineHeight = line.reduce( ( height, inline ) => {
 
 					const charHeight = inline.lineHeight !== undefined ? inline.lineHeight : inline.height;
+					// const charHeight = inline.height;
 
 					return Math.max( height, charHeight );
 
@@ -352,6 +349,7 @@ export default function InlineManager( Base ) {
 				line.lineBase = line.reduce( ( lineBase, inline ) => {
 
 					const newLineBase = inline.lineBase !== undefined ? inline.lineBase : inline.height;
+					// const newLineBase = inline.height;
 
 					return Math.max( lineBase, newLineBase );
 
