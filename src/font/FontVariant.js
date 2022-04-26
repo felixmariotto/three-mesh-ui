@@ -1,6 +1,14 @@
 import { EventDispatcher } from 'three';
 import FontLibrary from './FontLibrary';
 
+// JSDoc related imports
+/* eslint-disable no-unused-vars */
+import TypographicFont from './TypographicFont';
+import InlineGlyph from './InlineGlyph';
+import MSDFTypographicGlyph from './msdf/MSDFTypographicGlyph';
+import { BufferGeometry, Material, ShaderMaterial, Texture } from 'three';
+/* eslint-enable no-unused-vars */
+
 
 /**
  * @abstract
@@ -11,19 +19,19 @@ export default class FontVariant extends EventDispatcher {
 
 		super();
 
-		this._isReady = false;
+		/** @private */ this._isReady = false;
 
-		this._weight = weight;
-		this._style = style;
+		/** @protected */ this._weight = weight;
+		/** @protected */ this._style = style;
 
-		this._size = 42;
-		this._lineHeight = 42;
-		this._lineBase = 42;
+		/** @protected */ this._size = 42;
+		/** @protected */ this._lineHeight = 42;
+		/** @protected */ this._lineBase = 42;
 
 		/**
 		 *
-		 * @type {TypographyFont}
-		 * @private
+		 * @type {TypographicFont}
+		 * @protected
 		 */
 		this._font = null;
 
@@ -31,28 +39,44 @@ export default class FontVariant extends EventDispatcher {
 
 	/**
 	 *
-	 * @returns {TypographyFont}
+	 * @returns {TypographicFont}
 	 */
 	get typographic() { return this._font; }
 
+	/**
+	 *
+	 * @returns {boolean}
+	 */
 	get isReady() {
 
 		return this._isReady;
 
 	}
 
+	/**
+	 *
+	 * @returns {string}
+	 */
 	get weight() {
 
 		return this._weight;
 
 	}
 
+	/**
+	 *
+	 * @returns {string}
+	 */
 	get style() {
 
 		return this._style;
 
 	}
 
+	/**
+	 *
+	 * @returns {Texture}
+	 */
 	get texture() {
 
 		return this._texture;
@@ -60,7 +84,7 @@ export default class FontVariant extends EventDispatcher {
 	}
 
 	/**
-	 * @param {Material|ShaderMaterial} v
+	 * @param {Function.<ShaderMaterial|Material>} v
 	 * @abstract
 	 */
 	set fontMaterial( v ) {
@@ -68,13 +92,17 @@ export default class FontVariant extends EventDispatcher {
 	}
 
 	/**
-	 * @return {Class}
+	 * @return {Function.<ShaderMaterial|Material>}
 	 * @abstract
 	 */
 	get fontMaterial() {
 		throw Error( `FontVariant('${this.id}')::fontMaterial - is abstract.` );
 	}
 
+	/**
+	 *
+	 * @returns {string}
+	 */
 	get id(){
 		return `${this._name}(w:${this.weight},s:${this.style})`;
 	}
@@ -82,24 +110,24 @@ export default class FontVariant extends EventDispatcher {
 	/**
 	 *
 	 * @param {string} character
-	 * @returns {MSDFTypographyCharacter}
+	 * @returns {MSDFTypographicGlyph}
 	 */
-	getTypographyCharacter( character ) {
+	getTypographicGlyph( character ) {
 
-		let typographyCharacter = this._chars[ character ];
-		if ( typographyCharacter ) return typographyCharacter;
+		let typographicGlyph = this._chars[ character ];
+		if ( typographicGlyph ) return typographicGlyph;
 
 		if ( character.match( /\s/ ) ) return this._chars[ " " ];
 
 		const fallbackCharacter = FontLibrary.missingCharacter( this, character );
 		if( fallbackCharacter ) {
 
-			typographyCharacter = this._chars[ fallbackCharacter ];
-			if ( typographyCharacter ) return typographyCharacter;
+			typographicGlyph = this._chars[ fallbackCharacter ];
+			if ( typographicGlyph ) return typographicGlyph;
 
 		}
 
-		throw Error( `FontVariant('${this.id}')::getTypographyCharacter() - character('${character}') and/or fallback character were not found in provided msdf charset.` );
+		throw Error( `FontVariant('${this.id}')::getTypographicGlyph() - character('${character}') and/or fallback character were not found in provided msdf charset.` );
 	}
 
 	/* eslint-disable no-unused-vars */
@@ -109,10 +137,10 @@ export default class FontVariant extends EventDispatcher {
 	 * Convert an InlineCharacter to a geometry
 	 *
 	 * @abstract
-	 * @param {InlineCharacter} inline
-	 * @returns {THREE.BufferGeometry|Array.<THREE.BufferGeometry>}
+	 * @param {InlineGlyph} inline
+	 * @returns {BufferGeometry|Array.<BufferGeometry>}
 	 */
-	getGeometryCharacter( inline, segments = 1 ) {
+	getGeometricGlyph( inline, segments = 1 ) {
 
 		throw new Error(`FontVariant(${typeof this})::getGeometryCharacter() is abstract and should therefore be overridden.`);
 
@@ -136,17 +164,17 @@ export default class FontVariant extends EventDispatcher {
 
 	/**
 	 * Perform some changes on the character description of this font
-	 * @param {Object} adjustmentObject
+	 * @param {Object.<string,{property:string,value:any}>} adjustmentObject
 	 */
-	adjustTypographyCharacters( adjustmentObject ){
+	adjustTypographicGlyphs( adjustmentObject ){
 
 		for ( const char in adjustmentObject ) {
 
-			const desc = this.getTypographyCharacter( char );
-			const characterAdjustment = adjustmentObject[ char ];
-			for ( const propertyToAdjust in characterAdjustment ) {
+			const typographicGlyph = this.getTypographicGlyph( char );
+			const glyphAdjustment = adjustmentObject[ char ];
+			for ( const propertyToAdjust in glyphAdjustment ) {
 
-				desc["_"+propertyToAdjust] = adjustmentObject[char][propertyToAdjust];
+				typographicGlyph["_"+propertyToAdjust] = adjustmentObject[char][propertyToAdjust];
 
 			}
 
@@ -194,7 +222,7 @@ const _readyEvent = { type: 'ready' };
 
 /**
  * Set the ready status of a fontVariant
- * @param fontVariant
+ * @param {FontVariant} fontVariant
  * @private
  */
 function _setReady( fontVariant ) {

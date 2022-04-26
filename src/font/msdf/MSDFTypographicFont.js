@@ -1,10 +1,10 @@
-import TypographyFont from '../TypographyFont';
+import TypographicFont from '../TypographicFont';
 
-export default class MSDFTypographyFont extends TypographyFont{
+export default class MSDFTypographicFont extends TypographicFont{
 
 	/**
 	 *
-	 * @param {MSDFJson} json
+	 * @param {import('./MSDFFontVariant').MSDFJson} json
 	 */
 	constructor( json ) {
 
@@ -25,8 +25,16 @@ export default class MSDFTypographyFont extends TypographyFont{
 
 	}
 
+	/**
+	 *
+	 * @returns {number}
+	 */
 	get textureWidth() { return this._textureWidth; }
 
+	/**
+	 *
+	 * @returns {number}
+	 */
 	get textureHeight() { return this._textureHeight; }
 
 }

@@ -10,6 +10,14 @@ import * as Whitespace from '../utils/inline-layout/Whitespace';
 import FontFamily from '../font/FontFamily';
 import { mergeBufferGeometries } from 'three/examples/jsm/utils/BufferGeometryUtils';
 
+
+//JSDoc related imports
+/* eslint-disable no-unused-vars */
+import MSDFTypographicGlyph from '../font/msdf/MSDFTypographicGlyph';
+import MSDFInlineGlyph from '../font/msdf/MSDFInlineGlyph';
+import FontVariant from '../font/FontVariant';
+/* eslint-enable no-unused-vars */
+
 /**
 
 Job:
@@ -54,14 +62,14 @@ export default class Text extends mix.withBase( Object3D )(
 
 		/**
 		 *
-		 * @type {MSDFTypographyCharacter[]}
+		 * @type {MSDFTypographicGlyph[]}
 		 * @private
 		 */
 		this._textContentGlyphs = null;
 
 		/**
 		 *
-		 * @type {MSDFInlineCharacter[]}
+		 * @type {MSDFInlineGlyph[]}
 		 * @private
 		 */
 		this._textContentInlines = null;
@@ -356,11 +364,11 @@ export default class Text extends mix.withBase( Object3D )(
 
 		// Now that we know exactly which characters will be printed
 		// Store the character description ( typographic properties )
-		this._textContentGlyphs = this._textContent.split( '' ).map( ( char ) => this._font.getTypographyCharacter( char ) );
+		this._textContentGlyphs = this._textContent.split( '' ).map( ( char ) => this._font.getTypographicGlyph( char ) );
 
 		// And from the descriptions ( which are static/freezed per character per font )
 		// Build the inline
-		this._textContentInlines = this._textContentGlyphs.map( ( glyphBox ) => glyphBox.asInlineCharacter() );
+		this._textContentInlines = this._textContentGlyphs.map( ( glyphBox ) => glyphBox.asInlineGlyph() );
 		this._buildContentKernings();
 
 		this.inlines = this._textContentInlines;
@@ -386,7 +394,7 @@ export default class Text extends mix.withBase( Object3D )(
 
 			const charactersAsGeometries = this.inlines.map(
 				inline =>
-					this._font.getGeometryCharacter( inline, this.getSegments() )
+					this._font.getGeometricGlyph( inline, this.getSegments() )
 						.translate( inline.offsetX, inline.offsetY, 0 )
 
 			);
@@ -437,7 +445,7 @@ export default class Text extends mix.withBase( Object3D )(
 
 			/**
 			 *
-			 * @type {MSDFInlineCharacter}
+			 * @type {MSDFInlineGlyph}
 			 */
 			const inline = this._textContentInlines[ i ];
 

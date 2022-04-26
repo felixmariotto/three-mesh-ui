@@ -29,8 +29,9 @@ const ThreeMeshUI = {
 	AlignItems,
 	ContentDirection,
 	MSDFFontMaterialUtils,
-	ShaderChunk
+	ShaderChunk,
 };
+
 
 if ( typeof global !== 'undefined' ) global.ThreeMeshUI = ThreeMeshUI;
 

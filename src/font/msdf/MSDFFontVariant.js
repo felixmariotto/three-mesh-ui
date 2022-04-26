@@ -1,10 +1,14 @@
 import { FileLoader, LinearFilter, Texture, TextureLoader, Vector2 } from 'three';
 import FontVariant from '../FontVariant';
-import MSDFTypographyFont from './MSDFTypographyFont';
-import MSDFTypographyCharacter from './MSDFTypographyCharacter';
-import MSDFGeometryCharacter from './MSDFGeometryCharacter';
+import MSDFTypographicFont from './MSDFTypographicFont';
+import MSDFTypographicGlyph from './MSDFTypographicGlyph';
+import MSDFGeometricGlyph from './MSDFGeometricGlyph';
 import MSDFFontMaterial from './materials/MSDFFontMaterial';
 
+//JSDoc related imports
+/* eslint-disable no-unused-vars */
+import MSDFInlineGlyph from './MSDFInlineGlyph';
+/* eslint-enable no-unused-vars */
 
 /**
  * @extends {FontVariant}
@@ -55,7 +59,7 @@ export default class MSDFFontVariant extends FontVariant {
 	}
 
 	/**
-	 * @param {Class} v
+	 * @param {Function.<Material|ShaderMaterial>} v
 	 * @override
 	 */
 	set fontMaterial( v ) {
@@ -67,7 +71,7 @@ export default class MSDFFontVariant extends FontVariant {
 	/**
 	 *
 	 * @override
-	 * @returns {Class}
+	 * @returns {Function.<Material|ShaderMaterial>}
 	 */
 	get fontMaterial() {
 
@@ -82,7 +86,7 @@ export default class MSDFFontVariant extends FontVariant {
 	 */
 	_buildData( json ) {
 
-		this._font = new MSDFTypographyFont( json );
+		this._font = new MSDFTypographicFont( json );
 
 		this._kernings = this._buildKerningPairs( json );
 		this._chars = this._buildCharacters( json );
@@ -97,8 +101,8 @@ export default class MSDFFontVariant extends FontVariant {
 		// precompute the unit range as recommended by chlumsky
 		// @see https://github.com/Chlumsky/msdfgen
 		// "I would suggest precomputing unitRange as a uniform variable instead of pxRange for better performance."
-		this._unitRange = new Vector2(this._distanceRange, this._distanceRange).divide( new Vector2( json.common.scaleW, json.common.scaleH ) );
-		console.log( this._unitRange );
+		this._unitRange = new Vector2(this._distanceRange, this._distanceRange)
+			.divide( new Vector2( json.common.scaleW, json.common.scaleH ) );
 	}
 
 	/**
@@ -118,12 +122,12 @@ export default class MSDFFontVariant extends FontVariant {
 
 	/**
 	 *
-	 * @param {MSDFInlineCharacter} inline
-	 * @returns {MSDFGeometryCharacter}
+	 * @param {MSDFInlineGlyph} inline
+	 * @returns {MSDFGeometricGlyph}
 	 */
-	getGeometryCharacter( inline, segments = 1 ) {
+	getGeometricGlyph( inline, segments = 1 ) {
 
-		return new MSDFGeometryCharacter( inline, segments );
+		return new MSDFGeometricGlyph( inline, segments );
 
 	}
 
@@ -186,7 +190,7 @@ export default class MSDFFontVariant extends FontVariant {
 		for ( let i = 0; i < json.chars.length; i++ ) {
 			const charOBJ = json.chars[ i ];
 
-			friendlyChars[ charOBJ.char ] = new MSDFTypographyCharacter( this._font, charOBJ );
+			friendlyChars[ charOBJ.char ] = new MSDFTypographicGlyph( this._font, charOBJ );
 
 		}
 
@@ -200,7 +204,7 @@ export default class MSDFFontVariant extends FontVariant {
 	 * @private
 	 */
 	_buildCharacterWhite( json ) {
-		return new MSDFTypographyCharacter( this._font,
+		return new MSDFTypographicGlyph( this._font,
 			{
 				char: ' ',
 				width: json.info.size / 3,
@@ -251,9 +255,14 @@ function _loadTexture( fontVariant, textureUrl ) {
 
 }
 
+/***********************************************************************************************************************
+ * MSDF FILE FORMAT DESCRIPTION
+ * @see https://www.angelcode.com/products/bmfont/doc/file_format.html
+ **********************************************************************************************************************/
+
+
 /**
  * @typedef {Object} MSDFJson
- * @see https://www.angelcode.com/products/bmfont/doc/file_format.html
  *
  * @property {MSDFJsonInfo} info
  * @property {MSDFJsonCommon} common
@@ -266,7 +275,6 @@ function _loadTexture( fontVariant, textureUrl ) {
 /**
  *
  * @typedef {Object} MSDFJsonInfo
- * @see https://www.angelcode.com/products/bmfont/doc/file_format.html
  *
  * @property {string} face This is the name of the true type font.
  * @property {number} size The size of the true type font.
@@ -285,7 +293,6 @@ function _loadTexture( fontVariant, textureUrl ) {
 /**
  *
  * @typedef {Object} MSDFJsonCommon
- * @see https://www.angelcode.com/products/bmfont/doc/file_format.html
  *
  * @property {number} lineHeight This is the distance in pixels between each line of text.
  * @property {number} base The number of pixels from the absolute top of the line to the base of the characters.
@@ -300,9 +307,7 @@ function _loadTexture( fontVariant, textureUrl ) {
  */
 
 /**
- *
  * @typedef {Object} MSDFJsonPage
- * @see https://www.angelcode.com/products/bmfont/doc/file_format.html
  *
  * @property {string} id The page id.
  * @property {string} file The texture file name.
@@ -311,7 +316,6 @@ function _loadTexture( fontVariant, textureUrl ) {
 /**
  *
  * @typedef {Object} MSDFJsonChar
- * @see https://www.angelcode.com/products/bmfont/doc/file_format.html
  *
  * @property {number} id The character id.
  * @property {number} index The character index.
@@ -332,7 +336,6 @@ function _loadTexture( fontVariant, textureUrl ) {
 /**
  *
  * @typedef {Object} MSDFJsonKerning
- * @see https://www.angelcode.com/products/bmfont/doc/file_format.html
  *
  * @property {number} first The first character id.
  * @property {number} second The second character id.

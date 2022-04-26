@@ -204,7 +204,7 @@ function buildGUI() {
 	}
 
 	const fontVariant = FontLibrary.getFontFamily( 'Roboto' ).getVariant( '400', 'normal' );
-	let charDesc = fontVariant.getTypographyCharacter( 'a' );
+	let charDesc = fontVariant.getTypographicGlyph( 'a' );
 	const p = {
 		letter: 'a',
 		yoffset: charDesc.yoffset,
@@ -212,7 +212,7 @@ function buildGUI() {
 
 	gui.add( p, 'letter', letters ).onChange( v => {
 
-		charDesc = fontVariant.getTypographyCharacter( v );
+		charDesc = fontVariant.getTypographicGlyph( v );
 		p.yoffset = charDesc.yoffset;
 
 		yoffsetController.updateDisplay();

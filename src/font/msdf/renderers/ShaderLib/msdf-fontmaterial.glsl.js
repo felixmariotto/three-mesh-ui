@@ -1,14 +1,13 @@
-/* eslint-disable camelcase */
-
-/* eslint-disable camelcase */
-
-
 import msdfAlphaglyphParsVertexGlsl from '../ShaderChunks/msdf-alphaglyph.pars.vertex.glsl';
 import msdfOffsetglyphVertexGlsl from '../ShaderChunks/msdf-offsetglyph.vertex.glsl';
 import msdfAlphaglyphParsFragmentGlsl from '../ShaderChunks/msdf-alphaglyph.pars.fragment.glsl';
 import msdfAlphaglyphFragmentGlsl from '../ShaderChunks/msdf-alphaglyph.fragment.glsl';
 import msdfAlphaglyphVertexGlsl from '../ShaderChunks/msdf-alphaglyph.vertex.glsl';
 
+/**
+ *
+ * @type {string}
+ */
 export const vertexShader = /* glsl */`
 ${msdfAlphaglyphParsVertexGlsl}
 #include <clipping_planes_pars_vertex>
@@ -21,6 +20,10 @@ void main() {
 }
 `
 
+/**
+ *
+ * @type {string}
+ */
 export const fragmentShader = /* glsl */`
 uniform vec3 diffuse;
 uniform float opacity;

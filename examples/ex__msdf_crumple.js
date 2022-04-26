@@ -50,10 +50,10 @@ async function preload() {
 	const boldVariant = FF.getVariant('700', 'normal');
 
 	// Store is default geometry factory function
-	const defaultGeometry = boldVariant.getGeometryCharacter;
+	const defaultGeometry = boldVariant.getGeometricGlyph;
 
 	// And let's re define what will happend when running its factory method
-	boldVariant.getGeometryCharacter = function ( inline, segments = 1 ) {
+	boldVariant.getGeometricGlyph = function ( inline, segments = 1 ) {
 
 		// let's get the default geometry
 		const characterGeometry = defaultGeometry( inline, segments );
@@ -92,10 +92,10 @@ async function preload() {
 	// adjust fonts
 	// @see TODO:adjustDocumentation
 	FF = FontLibrary.getFontFamily("Roboto");
-	FF.getVariant('700','normal').adjustTypographyCharacters( ROBOTO_ADJUSTMENT );
-	FF.getVariant('700','italic').adjustTypographyCharacters( ROBOTO_ADJUSTMENT );
-	FF.getVariant('400','italic').adjustTypographyCharacters( ROBOTO_ADJUSTMENT );
-	FF.getVariant('400','normal').adjustTypographyCharacters( ROBOTO_ADJUSTMENT );
+	FF.getVariant('700','normal').adjustTypographicGlyphs( ROBOTO_ADJUSTMENT );
+	FF.getVariant('700','italic').adjustTypographicGlyphs( ROBOTO_ADJUSTMENT );
+	FF.getVariant('400','italic').adjustTypographicGlyphs( ROBOTO_ADJUSTMENT );
+	FF.getVariant('400','normal').adjustTypographicGlyphs( ROBOTO_ADJUSTMENT );
 
 	init();
 
@@ -209,8 +209,9 @@ function makeTextPanel() {
 			content: 'Geometry',
 			fontWeight: '700',
 			fontColor: new Color(0x00ff99),
-			fontSize: 0.5,
+			fontSize: 0.75,
 			segments: 4,
+			letterSpacing: -0.15
 		} );
 
 	container.add(

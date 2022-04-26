@@ -1,3 +1,6 @@
+/**
+ * @type {Object.<string,{property:string,value:any}>}
+ */
 export default {
 	h:{yoffset:2},
 	k:{yoffset:2},

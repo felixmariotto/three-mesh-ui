@@ -1,10 +1,15 @@
 import { BufferAttribute, PlaneBufferGeometry } from 'three';
 
-export default class MSDFGeometryCharacter extends PlaneBufferGeometry {
+//JSDoc related imports
+/* eslint-disable no-unused-vars */
+import MSDFInlineGlyph from './MSDFInlineGlyph';
+/* eslint-enable no-unused-vars */
+
+export default class MSDFGeometricGlyph extends PlaneBufferGeometry {
 
 	/**
 	 *
-	 * @param {MSDFInlineCharacter} inline
+	 * @param {MSDFInlineGlyph} inline
 	 */
 	constructor( inline, segments = 1 ) {
 
@@ -23,14 +28,14 @@ export default class MSDFGeometryCharacter extends PlaneBufferGeometry {
 		// If inline has UVs
 		if ( inline.uv ) {
 
-			this.mapUVs( inline );
+			this._mapUVs( inline );
 
-			this.transformGeometry( inline );
+			this._transformGeometry( inline );
 
 			// White spaces (we don't want our plane geometry to have a visual width nor a height)
 		} else {
 
-			this.nullifyUVs();
+			this._nullifyUVs();
 
 			this.scale( 0, 0, 1 );
 
@@ -43,9 +48,10 @@ export default class MSDFGeometryCharacter extends PlaneBufferGeometry {
 	/**
 	 * Compute the right UVs that will map the MSDF texture so that the passed character
 	 * will appear centered in full size
+	 * @param {MSDFInlineGlyph} inline
 	 * @private
 	 */
-	mapUVs( inline ) {
+	_mapUVs( inline ) {
 
 
 		const width = inline.uv.right - inline.uv.left;
@@ -65,8 +71,11 @@ export default class MSDFGeometryCharacter extends PlaneBufferGeometry {
 
 	}
 
-	/** Set all UVs to 0, so that none of the glyphs on the texture will appear */
-	nullifyUVs() {
+	/**
+	 * Set all UVs to 0, so that none of the glyphs on the texture will appear
+	 * @private
+	 * */
+	_nullifyUVs() {
 
 		// const uvAttribute = this.attributes.uv;
 		//
@@ -89,9 +98,10 @@ export default class MSDFGeometryCharacter extends PlaneBufferGeometry {
 	 *
 	 * @TODO: Apply pivot properties when splitText isset
 	 * Gives the previously computed scale and offset to the geometry
-	 * @param {MSDFInlineCharacter} inline
+	 * @param {MSDFInlineGlyph} inline
+	 * @private
 	 */
-	transformGeometry( inline ) {
+	_transformGeometry( inline ) {
 
 		//
 

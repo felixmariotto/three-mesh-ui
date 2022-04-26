@@ -44,10 +44,10 @@ function init() {
 	// adjust fonts
 	// @see TODO:adjustDocumentation
 	const FF = FontLibrary.getFontFamily("Roboto");
-	FF.getVariant('700','normal').adjustTypographyCharacters( ROBOTO_ADJUSTMENT );
-	FF.getVariant('700','italic').adjustTypographyCharacters( ROBOTO_ADJUSTMENT );
-	FF.getVariant('400','italic').adjustTypographyCharacters( ROBOTO_ADJUSTMENT );
-	FF.getVariant('400','normal').adjustTypographyCharacters( ROBOTO_ADJUSTMENT );
+	FF.getVariant('700','normal').adjustTypographicGlyphs( ROBOTO_ADJUSTMENT );
+	FF.getVariant('700','italic').adjustTypographicGlyphs( ROBOTO_ADJUSTMENT );
+	FF.getVariant('400','italic').adjustTypographicGlyphs( ROBOTO_ADJUSTMENT );
+	FF.getVariant('400','normal').adjustTypographicGlyphs( ROBOTO_ADJUSTMENT );
 
 	// Build three
 

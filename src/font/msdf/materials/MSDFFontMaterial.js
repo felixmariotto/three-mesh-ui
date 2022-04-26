@@ -1,13 +1,13 @@
-// JSDoc import
+import { ShaderMaterial, Vector2 } from 'three';
+import MSDFFontMaterialUtils from '../utils/MSDFFontMaterialUtils';
+import { vertexShader, fragmentShader } from '../renderers/ShaderLib/msdf-fontmaterial.glsl';
+
+// JSDoc related import
 /* eslint-disable no-unused-vars */
-import { Material, ShaderMaterial, Texture, Color, Vector2 } from 'three';
+import { Material, Texture, Color } from 'three';
 /* eslint-enable no-unused-vars */
 
-import { fragmentShader, vertexShader } from '../renderers/ShaderLib/msdf-fontmaterial.glsl';
-import MSDFFontMaterialUtils from '../utils/MSDFFontMaterialUtils';
-
 export const ALPHA_TEST = 0.02;
-export const PX_RANGE = 4;
 
 
 /**
@@ -19,7 +19,6 @@ export default class MSDFFontMaterial extends ShaderMaterial {
 	 * This static method is mandatory for extending ThreeMeshUI.MSDFFontMaterial
 	 * It will provide a transfer description for properties from ThreeMeshUI.Text to THREE.Material
 	 * @see {MSDFFontMaterialUtils.fontMaterialProperties}
-	 * @override
 	 * @returns {Object.<{m:string, t?:(fontMaterial:Material|ShaderMaterial, materialProperty:string, value:any) => void}>}
 	 */
 	static get fontMaterialProperties() {
@@ -75,20 +74,6 @@ export default class MSDFFontMaterial extends ShaderMaterial {
 	set color( v ) {
 
 		this.uniforms.diffuse.value = v;
-
-	}
-
-	/**
-	 * Opacity stays opacity uniform
-	 * @param v
-	 */
-	set opacity( v ) {
-
-		if ( this.uniforms ) {
-
-			this.uniforms.opacity.value = v;
-
-		}
 
 	}
 

@@ -48,10 +48,10 @@ async function preload() {
 	FF.getVariant('700','normal').fontMaterial = MSDFDepthMaterial;
 	// adjust fonts
 	// @see TODO:adjustDocumentation
-	FF.getVariant('700','normal').adjustTypographyCharacters( ROBOTO_ADJUSTMENT );
-	FF.getVariant('700','italic').adjustTypographyCharacters( ROBOTO_ADJUSTMENT );
-	FF.getVariant('400','italic').adjustTypographyCharacters( ROBOTO_ADJUSTMENT );
-	FF.getVariant('400','normal').adjustTypographyCharacters( ROBOTO_ADJUSTMENT );
+	FF.getVariant('700','normal').adjustTypographicGlyphs( ROBOTO_ADJUSTMENT );
+	FF.getVariant('700','italic').adjustTypographicGlyphs( ROBOTO_ADJUSTMENT );
+	FF.getVariant('400','italic').adjustTypographicGlyphs( ROBOTO_ADJUSTMENT );
+	FF.getVariant('400','normal').adjustTypographicGlyphs( ROBOTO_ADJUSTMENT );
 
 	init();
 
