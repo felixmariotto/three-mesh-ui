@@ -1,8 +1,3 @@
-/**
- * MSDFFontMaterialUtils provides utilities
- * for customizing other threejs or custom materials
- * into a three-mesh-ui MSDFFontMaterial
- */
 import msdfAlphaglyphParsVertexGlsl from '../renderers/ShaderChunks/msdf-alphaglyph.pars.vertex.glsl';
 import msdfAlphaglyphVertexGlsl from '../renderers/ShaderChunks/msdf-alphaglyph.vertex.glsl';
 import msdfOffsetglyphVertexGlsl from '../renderers/ShaderChunks/msdf-offsetglyph.vertex.glsl';
@@ -10,7 +5,15 @@ import msdfAlphaglyphParsFragmentGlsl from '../renderers/ShaderChunks/msdf-alpha
 import msdfAlphaglyphFragmentGlsl from '../renderers/ShaderChunks/msdf-alphaglyph.fragment.glsl';
 import { Vector2 } from 'three';
 
+/* eslint-disable no-unused-vars */
+import { Material, ShaderMaterial } from 'three';
+/* eslint-enable no-unused-vars */
 
+/**
+ * MSDFFontMaterialUtils provides utilities
+ * for customizing other threejs or custom materials
+ * into a three-mesh-ui MSDFFontMaterial
+ */
 export default class MSDFFontMaterialUtils {
 
 	/**
@@ -45,7 +48,7 @@ export default class MSDFFontMaterialUtils {
 
 	/**
 	 *
-	 * @param {*} shader
+	 * @param {any} shader
 	 * @param {Material|ShaderMaterial} threeMaterial
 	 */
 	static bindUniformsWithUserData( shader, threeMaterial ) {
@@ -106,8 +109,8 @@ export default class MSDFFontMaterialUtils {
 
 	/**
 	 * Mix a threejs Material into a three-mesh-ui FontMaterial
-	 * @param {Class} materialClass
-	 * @returns {Class}
+	 * @param {typeof Material|ShaderMaterial} materialClass
+	 * @returns {typeof Material|ShaderMaterial}
 	 */
 	static from( materialClass ) {
 
@@ -267,7 +270,7 @@ const USE_ALPHATEST = "USE_ALPHATEST";
  * @type {(fontMaterial:Material|ShaderMaterial, materialProperty:string, value:any) => void }
  * @private
  */
-export const _alphaTestTransformer = function( fontMaterial, materialProperty, value) {
+const _alphaTestTransformer = function( fontMaterial, materialProperty, value) {
 
 
 	fontMaterial.alphaTest = value;
@@ -296,20 +299,20 @@ export const _alphaTestTransformer = function( fontMaterial, materialProperty, v
  * @type {(fontMaterial:Material|ShaderMaterial, materialProperty:string, value:any) => void }
  * @private
  */
-const _toUserData = function( fontMaterial, materialProperty, value ) {
-
-	if( fontMaterial[materialProperty] !== undefined ) {
-
-		fontMaterial[materialProperty] = value;
-		return;
-	}
-
-	if( fontMaterial.userData && fontMaterial.userData[materialProperty] ) {
-
-		fontMaterial.userData[materialProperty].value = value;
-
-	}
-}
+// const _toUserData = function( fontMaterial, materialProperty, value ) {
+//
+// 	if( fontMaterial[materialProperty] !== undefined ) {
+//
+// 		fontMaterial[materialProperty] = value;
+// 		return;
+// 	}
+//
+// 	if( fontMaterial.userData && fontMaterial.userData[materialProperty] ) {
+//
+// 		fontMaterial.userData[materialProperty].value = value;
+//
+// 	}
+// }
 
 /**
  *

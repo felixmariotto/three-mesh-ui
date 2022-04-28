@@ -157,7 +157,7 @@ export default class UpdateManager {
 		// before sending onAfterUpdate
 		if ( request && request.needCallback ) {
 
-			component.onAfterUpdate();
+			component.performAfterUpdate();
 
 		}
 

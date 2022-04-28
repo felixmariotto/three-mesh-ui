@@ -45,6 +45,10 @@ export default function MeshUIComponent( Base ) {
 			// update parentUI when this component will be added or removed
 			this.addEventListener( 'added', this._rebuildParentUI );
 			this.addEventListener( 'removed', this._rebuildParentUI );
+
+			// hooks
+			this._onAfterUpdates = [];
+
 		}
 
 		/////////////
@@ -462,7 +466,30 @@ export default function MeshUIComponent( Base ) {
 
 		}
 
-		onAfterUpdate() {
+		performAfterUpdate() {
+
+			for ( let i = 0; i < this._onAfterUpdates.length; i++ ) {
+
+				this._onAfterUpdates[ i ]();
+
+			}
+
+		}
+
+		/**
+		 *
+		 * @param func
+		 */
+		set onAfterUpdate( func ) {
+
+			console.warn( '`onAfterUpdate` property has been deprecated, please rely on `addAfterUpdate` instead.' );
+			this.addAfterUpdate( func );
+
+		}
+
+		addAfterUpdate( func ) {
+
+			this._onAfterUpdates.push( func );
 
 		}
 
@@ -551,7 +578,7 @@ export default function MeshUIComponent( Base ) {
 						case 'height' :
 						case 'padding' :
 							// @TODO: I don't think this is true anymore
-							if ( this.isInlineBlock || ( this.isBlock && this.getBestFit() != 'none' ) ) parsingNeedsUpdate = true;
+							if ( this.isInlineBlock || ( this.isBlock ) ) parsingNeedsUpdate = true;
 							layoutNeedsUpdate = true;
 							this[ prop ] = options[ prop ];
 							break;
@@ -559,7 +586,7 @@ export default function MeshUIComponent( Base ) {
 						case 'letterSpacing' :
 						case 'interLine' :
 							// @TODO: I don't think this is true anymore
-							if ( this.isBlock && this.getBestFit() != 'none' ) parsingNeedsUpdate = true;
+							if ( this.isBlock ) parsingNeedsUpdate = true;
 							layoutNeedsUpdate = true;
 							this[ prop ] = options[ prop ];
 							break;

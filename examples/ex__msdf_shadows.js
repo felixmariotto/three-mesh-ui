@@ -146,21 +146,17 @@ function makeTextPanel() {
 	// making sure background is not casting shadows too
 	outerContainer.frame.visible = false;
 
-	// outerContainer.onAfterUpdate = function( ) {
-	//
-	// 	outerContainer.frame.visible = false;
-	//
-	// }
 
 	const defaultText = new ThreeMeshUI.Text({content:"FontMaterial(default)\n", fontColor: new THREE.Color(0x0099ff)});
 	const defaultTextInverted = new ThreeMeshUI.Text({content:"FontMaterial(default)\n", fontColor: new THREE.Color(0x0099ff)});
 
 	const standardText = new ThreeMeshUI.Text({content:"MSDFStandardMaterial\n", fontColor: new THREE.Color(0x0099ff).convertSRGBToLinear()});
 	standardText.fontMaterial = new MSDFStandardMaterial({});
+	standardText.customDepthMaterial = new MSDFDepthMaterial({});
 
-	const standardTextInverted = new ThreeMeshUI.Text({content:"MSDFStandardMaterial\n", fontColor: new THREE.Color(0x99ff00).convertSRGBToLinear()});
+	const standardTextInverted = new ThreeMeshUI.Text({content:"MSDFStandardMaterial\n", fontColor: new THREE.Color(0x99ff00).convertSRGBToLinear(), invertAlpha: true});
 	standardTextInverted.fontMaterial = new MSDFStandardMaterial();
-	standardTextInverted.fontMaterial.defines['INVERT_ALPHA'] = '';
+	standardTextInverted.customDepthMaterial = new MSDFDepthMaterial({});
 
 	outerContainer.add( defaultText, defaultTextInverted, standardText, standardTextInverted );
 
@@ -170,18 +166,6 @@ function makeTextPanel() {
 
 			standardText.children[0].castShadow = true;
 			standardText.children[0].material.side = DoubleSide;
-
-			const depthMat = new MSDFDepthMaterial();
-
-			if( standardText.children[0].material.isDefault ) {
-				depthMat.userData.glyphMap.value = standardText.children[0].material.glyphMap;
-				depthMat.userData.unitRange.value = standardText.children[0].material.unitRange;
-			} else {
-				depthMat.userData.glyphMap.value = standardText.children[0].material.userData.glyphMap.value;
-				depthMat.userData.unitRange.value = standardText.children[0].material.userData.unitRange.value;
-			}
-
-			standardText.children[0].customDepthMaterial = depthMat;
 
 		}
 
@@ -194,22 +178,6 @@ function makeTextPanel() {
 			standardTextInverted.children[0].castShadow = true;
 			standardTextInverted.children[0].material.side = DoubleSide;
 
-			const depthMat = new MSDFDepthMaterial();
-
-			// ! Retrieving glyphMap on the default material is
-			//     defaultMsdfMaterial.glyphMap;
-			// instead of
-			//     customMsdfMaterial.userData.glyphMap.value
-			if( standardTextInverted.children[0].material.isDefault ) {
-				depthMat.userData.glyphMap.value = standardTextInverted.children[0].material.glyphMap;
-				depthMat.userData.unitRange.value = standardTextInverted.children[0].material.unitRange;
-			} else {
-				depthMat.userData.glyphMap.value = standardTextInverted.children[0].material.userData.glyphMap.value;
-				depthMat.userData.unitRange.value = standardTextInverted.children[0].material.userData.unitRange.value;
-			}
-			// depthMat.userData.glyphMap.value = standardTextInverted.children[0].material.userData.glyphMap.value;
-			depthMat.defines['INVERT_ALPHA'] = ''
-			standardTextInverted.children[0].customDepthMaterial = depthMat;
 		}
 
 	}
@@ -221,17 +189,6 @@ function makeTextPanel() {
 			defaultTextInverted.children[0].castShadow = true;
 			defaultTextInverted.children[0].material.side = DoubleSide;
 
-			const depthMat = new MSDFDepthMaterial();
-			if( defaultTextInverted.children[0].material.isDefault ) {
-				depthMat.userData.glyphMap.value = defaultTextInverted.children[0].material.glyphMap;
-				depthMat.userData.unitRange.value = defaultTextInverted.children[0].material.unitRange;
-			} else {
-				depthMat.userData.glyphMap.value = defaultTextInverted.children[0].material.userData.glyphMap.value;
-				depthMat.userData.unitRange.value = defaultTextInverted.children[0].material.userData.unitRange.value;
-			}
-
-			depthMat.defines['INVERT_ALPHA'] = ''
-			defaultTextInverted.children[0].customDepthMaterial = depthMat;
 		}
 
 	}

@@ -188,7 +188,7 @@ function init() {
 function makeTextPanel() {
 
 	const container = new ThreeMeshUI.Block( {
-		width: 2.6,
+		width: 3,
 		height: 0.5,
 		padding: 0.05,
 		justifyContent: 'center',
@@ -209,10 +209,11 @@ function makeTextPanel() {
 			content: 'Geometry',
 			fontWeight: '700',
 			fontColor: new Color(0x00ff99),
-			fontSize: 0.75,
+			fontSize: 0.7,
 			segments: 4,
-			letterSpacing: -0.15
+			letterSpacing: -0.08
 		} );
+	text1.customDepthMaterial = new MSDFDepthMaterial();
 
 	container.add(
 
@@ -227,16 +228,6 @@ function makeTextPanel() {
 			text1.children[0].castShadow = true;
 			text1.children[0].material.side = DoubleSide;
 
-			const depthMat = new MSDFDepthMaterial();
-			if( text1.children[0].material.isDefault ) {
-				depthMat.userData.glyphMap.value = text1.children[0].material.glyphMap;
-				depthMat.userData.unitRange.value = text1.children[0].material.unitRange;
-			} else {
-				depthMat.userData.glyphMap.value = text1.children[0].material.userData.glyphMap.value;
-				depthMat.userData.unitRange.value = text1.children[0].material.userData.unitRange.value;
-			}
-
-			text1.children[0].customDepthMaterial = depthMat;
 		}
 
 	}

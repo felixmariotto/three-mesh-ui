@@ -9,6 +9,7 @@ import FontJSON from 'three-mesh-ui/examples/assets/fonts/msdf/roboto/regular.js
 import FontImage from 'three-mesh-ui/examples/assets/fonts/msdf/roboto/regular.png';
 
 import Stats from 'three/examples/jsm/libs/stats.module.js';
+import BestFitBehavior from 'three-mesh-ui/examples/behaviors/size/BestFitBehavior';
 
 /*
 
@@ -191,8 +192,10 @@ function makeTextPanel() {
 			padding: 0.05,
 			backgroundColor: new THREE.Color( 0xffffff ),
 			backgroundOpacity: 0.5,
-			bestFit: bestFit
+			// bestFit: bestFit
 		} );
+
+		new BestFitBehavior(innerContainer, bestFit);
 
 		outerContainer.add( innerContainer );
 		innerContainers.push( innerContainer );

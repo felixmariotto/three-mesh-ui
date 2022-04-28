@@ -16,6 +16,7 @@ import { mergeBufferGeometries } from 'three/examples/jsm/utils/BufferGeometryUt
 import MSDFTypographicGlyph from '../font/msdf/MSDFTypographicGlyph';
 import MSDFInlineGlyph from '../font/msdf/MSDFInlineGlyph';
 import FontVariant from '../font/FontVariant';
+import { Material } from 'three';
 /* eslint-enable no-unused-vars */
 
 /**
@@ -239,6 +240,34 @@ export default class Text extends mix.withBase( Object3D )(
 		}
 	}
 
+	/**
+	 *
+	 * @param {Material} fontMaterial
+	 */
+	set customDepthMaterial( fontMaterial ) {
+
+		this._customDepthMaterial = fontMaterial;
+
+		if( this._font ) {
+
+			this._transferToFontMaterial();
+
+			if ( this.textContent ) {
+
+				this.textContent.customDepthMaterial = this._customDepthMaterial;
+
+			}
+
+		}
+
+	}
+
+	get customDepthMaterial() {
+
+		return this._customDepthMaterial;
+
+	}
+
 
 	_buildContentKernings(){
 
@@ -307,6 +336,13 @@ export default class Text extends mix.withBase( Object3D )(
 				 */
 				const transferTransformer = transferDefinition.t ? transferDefinition.t : _directTransfertPropertyToMaterial;
 				transferTransformer( this._fontMaterial, transferDefinition.m, options[fontMaterialProperty] );
+
+				// Also transfert to customDepthMat
+				if( this._customDepthMaterial ) {
+
+					transferTransformer( this._customDepthMaterial, transferDefinition.m, options[fontMaterialProperty] );
+
+				}
 
 			}
 
@@ -401,7 +437,14 @@ export default class Text extends mix.withBase( Object3D )(
 
 			const mergedGeom = mergeBufferGeometries( charactersAsGeometries );
 
+			// console.log(this.uuid);
+
 			this.textContent = new Mesh( mergedGeom, this._fontMaterial );
+			if( this._customDepthMaterial ){
+
+				this.textContent.customDepthMaterial = this._customDepthMaterial;
+
+			}
 			// this.textContent = new Mesh( mergedGeom, new MeshBasicMaterial({color:0x99ff00}) );
 
 			this.textContent.renderOrder = Infinity;
