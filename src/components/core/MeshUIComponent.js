@@ -515,6 +515,7 @@ export default function MeshUIComponent( Base ) {
 
 				console.error(`MeshUIComponent::hook() - The provided type('${type}') is not valid on ${typeof this} component`);
 				return;
+
 			}
 
 			if ( !(newHook instanceof Behavior) ){
