@@ -7,7 +7,7 @@
   },
   "main": "build/three-mesh-ui.min.js",
   "module": "build/three-mesh-ui.module.js",
-  "types": "build/types/three-mesh-ui.d.ts",
+  "types": "src/types.d.ts",
   "scripts": {
     "test": "echo \"No test specified yet\"",
     "lint": "eslint -c config/codestyle/.eslintrc src examples",
