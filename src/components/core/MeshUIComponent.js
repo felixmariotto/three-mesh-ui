@@ -9,6 +9,7 @@ import { warnAboutDeprecatedAlignItems } from '../../utils/block-layout/AlignIte
 import FontFamily from '../../font/FontFamily';
 import * as FontWeight from '../../utils/font/FontWeight';
 import * as FontStyle from '../../utils/font/FontStyle';
+import Behavior from '../../behaviors/Behavior';
 
 /**
 
@@ -46,7 +47,15 @@ export default function MeshUIComponent( Base ) {
 			this.addEventListener( 'added', this._rebuildParentUI );
 			this.addEventListener( 'removed', this._rebuildParentUI );
 
+			/**
+			 *
+			 * @type {Mesh|null}
+			 * @private
+			 */
+			this._main = null;
+
 			// hooks
+			this._hooks = {};
 			this._onAfterUpdates = [];
 
 		}
@@ -494,6 +503,82 @@ export default function MeshUIComponent( Base ) {
 		}
 
 		/**
+		 *
+		 * @TODO: Adding a new hook should no be direct, but delayed before or after performing the hookLoop
+		 * @param {string} type
+		 * @param {function|Behavior} newHook
+		 * @param {number} priority
+		 */
+		hook( type, newHook, priority = 10) {
+
+			if ( !this._hooks[ type ] ) {
+
+				console.error(`MeshUIComponent::hook() - The provided type('${type}') is not valid on ${typeof this} component`);
+				return;
+			}
+
+			if ( !(newHook instanceof Behavior) ){
+
+				newHook = { priority, act: newHook };
+
+			}
+
+			if( this._hooks[type].find( h => h.act === newHook.act ) ) {
+
+				console.error(`MeshUIComponent::hook() - The provided func('${newHook.act}') is already registered in hooks. Aborted`);
+				return;
+
+			}
+
+			type._hooks[type].push( newHook );
+			type._hooks[type].sort( ( a, b ) => {
+				if( a.priority < b.priority ) return - 1;
+				if( a.priority > b.priority ) return 1;
+				return 0;
+			});
+
+		}
+
+		/**
+		 *
+		 * @param {string} type
+		 * @param {function|Behavior} hookToRemove
+		 */
+		unhook( type, hookToRemove ) {
+
+			if ( !this._hooks[ type ] ) {
+
+				console.error(`MeshUIComponent::unhook() - The provided type('${type}') is not valid on ${typeof this} component`);
+				return;
+
+			}
+
+			if ( !(hookToRemove instanceof Behavior) ) {
+
+				hookToRemove = { act: hookToRemove };
+
+			}
+
+			let indexToRemove = this._hooks[type].findIndex( h => h.act === hookToRemove.act )
+			if( indexToRemove !== -1 ) {
+
+				this._hooks[type].splice( i, 1 );
+
+			}
+
+		}
+
+		performHooks( hooks , alterable = null ) {
+
+			for ( let i = 0; i < hooks.length; i++ ) {
+
+				hooks[ i ]( alterable );
+
+			}
+
+		}
+
+		/**
 		 * Set this component's passed parameters.
 		 * If necessary, take special actions.
 		 * Update this component unless otherwise specified.
@@ -688,7 +773,7 @@ export default function MeshUIComponent( Base ) {
 
 
 			//
-			this._transferToFontMaterial( options );
+			this._transferToMaterial( options );
 
 
 
@@ -743,17 +828,130 @@ export default function MeshUIComponent( Base ) {
 
 		}
 
+		/***********************************************************************************************************************
+		 * TO MATERIAL HOLDER
+		 **********************************************************************************************************************/
+
+		get material() {
+			return this._material;
+		}
+
 		/**
 		 *
-		 * @abstract
-		 * @protected
+		 * @param {MSDFFontMaterial|Material} fontMaterial
 		 */
-		/* eslint-disable no-unused-vars */
-		_transferToFontMaterial( options = null ){
+		set material( fontMaterial ) {
+
+			this._material = fontMaterial;
+
+			// Update the fontMaterialProperties that need to be transferred to
+			this._materialProperties = {...fontMaterial.constructor.fontMaterialProperties }
+
+			// transfer all the properties to material
+			this._transferToMaterial();
 
 		}
-		/* eslint-enable no-unused-vars */
+
+		/**
+		 *
+		 * @param {Material} fontMaterial
+		 */
+		set customDepthMaterial( fontMaterial ) {
+
+			this._customDepthMaterial = fontMaterial;
+
+				this._transferToMaterial();
+
+				if ( this._main ) {
+
+					this._main.customDepthMaterial = this._customDepthMaterial;
+
+				}
+
+		}
+
+		get customDepthMaterial() {
+
+			return this._customDepthMaterial;
+
+		}
+
+		/**
+		 * According to the list of materialProperties
+		 * some properties are sent to material
+		 * @private
+		 */
+		_transferToMaterial( options = null ) {
+
+			if( !this._material ) return;
+
+			if( !options ){
+
+				options = {};
+				for ( const materialProperty in this._materialProperties ) {
+
+					let value = this[materialProperty];
+					if( value === undefined ){
+
+						const upperCaseProperty = materialProperty[0].toUpperCase() + materialProperty.substring(1)
+						if( this["get"+upperCaseProperty] ) {
+
+							value = this["get"+upperCaseProperty]();
+
+						}
+
+					}
+
+					if( value !== undefined ) {
+
+						options[materialProperty] = value;
+
+					}
+
+				}
+
+			}
+
+			// Transfer properties to material
+			for ( const materialProperty in this._materialProperties ) {
+				const transferDefinition = this._materialProperties[materialProperty];
+
+				if ( options[materialProperty] !== undefined ) {
+
+					/**
+					 * The transformer method to pass a MeshUIProperty to a MaterialProperty
+					 * @type {(fontMaterial:Material|ShaderMaterial, materialProperty:string, value:any) => void }
+					 */
+					const transferTransformer = transferDefinition.t ? transferDefinition.t : _directTransfertPropertyToMaterial;
+					transferTransformer( this._material, transferDefinition.m, options[materialProperty] );
+
+					// Also transfert to customDepthMat
+					if( this._customDepthMaterial ) {
+
+						transferTransformer( this._customDepthMaterial, transferDefinition.m, options[materialProperty] );
+
+					}
+
+				}
+
+			}
+
+		}
 
 	};
+
+}
+
+/**
+ *
+ * @param {Material|ShaderMaterial} material
+ * @param {string} propertyName The property to be set on that Material
+ * @param {any} value The value to transfer to Material
+ *
+ * @private
+ */
+const _directTransfertPropertyToMaterial = function( material, propertyName, value) {
+
+	material[propertyName] = value;
 
 }

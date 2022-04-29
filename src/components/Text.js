@@ -31,16 +31,6 @@ Knows:
 - Parent block
  */
 
-/**
- *
- * @type {Object.<{m:string, t?:(value:any) => any}>}
- * @private
- */
-const _fontMaterialProperties = {
-	// fontColor : { m: 'color', t: null }, // the property fontColor goes to material.color
-	// fontOpacity: { m: 'opacity' },
-	// alphaTest: {},
-}
 
 export default class Text extends mix.withBase( Object3D )(
 	InlineComponent,
@@ -87,7 +77,7 @@ export default class Text extends mix.withBase( Object3D )(
 		 * @type {Object.<{m:string, t?:(value:any) => any}>}
 		 * @private
 		 */
-		this._fontMaterialProperties = {..._fontMaterialProperties};
+		this._materialProperties = {};
 
 		this.set( options );
 
@@ -186,9 +176,9 @@ export default class Text extends mix.withBase( Object3D )(
 		}
 
 		// update font material according to font variant
-		if( !this._fontMaterial ) {
+		if( !this._material ) {
 
-			this.fontMaterial = new this._font.fontMaterial();
+			this.material = new this._font.fontMaterial();
 
 		} else {
 
@@ -196,14 +186,14 @@ export default class Text extends mix.withBase( Object3D )(
 
 			// @TODO :	Only recreate a material instance if needed,
 			//  				prevent user that its custom material may no longer be compatible with update fontVariant implementation
-			const isDefaultMaterial = this._fontMaterial.isDefault && this._fontMaterial.isDefault();
-			if( isDefaultMaterial && !(this._fontMaterial instanceof this._font.fontMaterial) ) {
+			const isDefaultMaterial = this._material.isDefault && this._material.isDefault();
+			if( isDefaultMaterial && !(this._material instanceof this._font.fontMaterial) ) {
 
-				this.fontMaterial = new this._font.fontMaterial();
+				this.material = new this._font.fontMaterial();
 
 			} else {
 
-				this._transferToFontMaterial();
+				this._transferToMaterial();
 
 			}
 
@@ -217,55 +207,6 @@ export default class Text extends mix.withBase( Object3D )(
 	 */
 	get font() {
 		return this._font;
-	}
-
-	get fontMaterial() {
-		return this._fontMaterial;
-	}
-
-	/**
-	 *
-	 * @param {MSDFFontMaterial|Material} fontMaterial
-	 */
-	set fontMaterial( fontMaterial ) {
-
-		this._fontMaterial = fontMaterial;
-
-		// Update the fontMaterialProperties that need to be transferred to
-		this._fontMaterialProperties = {..._fontMaterialProperties,...fontMaterial.constructor.fontMaterialProperties }
-
-		if( this._font ) {
-			// transfer all the properties to material
-			this._transferToFontMaterial();
-		}
-	}
-
-	/**
-	 *
-	 * @param {Material} fontMaterial
-	 */
-	set customDepthMaterial( fontMaterial ) {
-
-		this._customDepthMaterial = fontMaterial;
-
-		if( this._font ) {
-
-			this._transferToFontMaterial();
-
-			if ( this.textContent ) {
-
-				this.textContent.customDepthMaterial = this._customDepthMaterial;
-
-			}
-
-		}
-
-	}
-
-	get customDepthMaterial() {
-
-		return this._customDepthMaterial;
-
 	}
 
 
@@ -288,66 +229,7 @@ export default class Text extends mix.withBase( Object3D )(
 
 	}
 
-	/**
-	 * According to the list of materialProperties
-	 * some properties are sent to material
-	 * @private
-	 */
-	_transferToFontMaterial( options = null ) {
 
-		if( !this._fontMaterial ) return;
-
-		if( !options ){
-
-			options = {};
-			for ( const fontMaterialProperty in this._fontMaterialProperties ) {
-
-				let value = this[fontMaterialProperty];
-				if( value === undefined ){
-
-					const upperCaseProperty = fontMaterialProperty[0].toUpperCase() + fontMaterialProperty.substring(1)
-					if( this["get"+upperCaseProperty] ) {
-
-						value = this["get"+upperCaseProperty]();
-
-					}
-
-				}
-
-				if( value !== undefined ) {
-
-					options[fontMaterialProperty] = value;
-
-				}
-
-			}
-
-		}
-
-		// Transfer properties to material
-		for ( const fontMaterialProperty in this._fontMaterialProperties ) {
-			const transferDefinition = this._fontMaterialProperties[fontMaterialProperty];
-
-			if ( options[fontMaterialProperty] !== undefined ) {
-
-				/**
-				 * The transformer method to pass a TextProperty to a MaterialProperty
-				 * @type {(fontMaterial:Material|ShaderMaterial, materialProperty:string, value:any) => void }
-				 */
-				const transferTransformer = transferDefinition.t ? transferDefinition.t : _directTransfertPropertyToMaterial;
-				transferTransformer( this._fontMaterial, transferDefinition.m, options[fontMaterialProperty] );
-
-				// Also transfert to customDepthMat
-				if( this._customDepthMaterial ) {
-
-					transferTransformer( this._customDepthMaterial, transferDefinition.m, options[fontMaterialProperty] );
-
-				}
-
-			}
-
-		}
-	}
 
 
 	/**
@@ -363,7 +245,7 @@ export default class Text extends mix.withBase( Object3D )(
 
 			this.clippingPlanes = newClippingPlanes;
 
-			if ( this.fontMaterial ) this.fontMaterial.clippingPlanes = this.clippingPlanes;
+			if ( this.material ) this.material.clippingPlanes = this.clippingPlanes;
 
 			// if ( this.backgroundMaterial ) this.backgroundMaterial.clippingPlanes = this.clippingPlanes;
 
@@ -439,20 +321,20 @@ export default class Text extends mix.withBase( Object3D )(
 
 			// console.log(this.uuid);
 
-			this.textContent = new Mesh( mergedGeom, this._fontMaterial );
+			this._main = new Mesh( mergedGeom, this._material );
 			if( this._customDepthMaterial ){
 
-				this.textContent.customDepthMaterial = this._customDepthMaterial;
+				this._main.customDepthMaterial = this._customDepthMaterial;
 
 			}
-			// this.textContent = new Mesh( mergedGeom, new MeshBasicMaterial({color:0x99ff00}) );
+			// this._main = new Mesh( mergedGeom, new MeshBasicMaterial({color:0x99ff00}) );
 
-			this.textContent.renderOrder = Infinity;
+			this._main.renderOrder = Infinity;
 
 			// This is for hiddenOverflow to work
-			this.textContent.onBeforeRender = this._onBeforeRender
+			this._main.onBeforeRender = this._onBeforeRender
 
-			this.add( this.textContent );
+			this.add( this._main );
 
 		}
 
@@ -464,7 +346,7 @@ export default class Text extends mix.withBase( Object3D )(
 
 		this.position.z = this.getOffset();
 
-		// if ( this.textContent ) this.updateTextMaterial();
+		// if ( this._main ) this.updateTextMaterial();
 
 	}
 
@@ -520,19 +402,5 @@ export default class Text extends mix.withBase( Object3D )(
 		}
 
 	}
-
-}
-
-/**
- *
- * @param {Material|ShaderMaterial} fontMaterial
- * @param {string} propertyName The property to be set on that fontMaterial
- * @param {any} value The value to transfert to fontMaterial
- *
- * @private
- */
-const _directTransfertPropertyToMaterial = function( fontMaterial, propertyName, value) {
-
-	fontMaterial[propertyName] = value;
 
 }

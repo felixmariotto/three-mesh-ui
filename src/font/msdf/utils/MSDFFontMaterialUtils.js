@@ -247,17 +247,20 @@ const _RGSSTransformer = function( fontMaterial, materialProperty, value){
  */
 const _fontToGlyphMapTransformer = function( fontMaterial, materialProperty, value) {
 
+	const texture = value ? value.texture : null;
+	const unitRange = value ? value.unitRange : new Vector2();
+
 	if( fontMaterial[materialProperty] !== undefined ) {
 
-		fontMaterial.glyphMap = value.texture;
-		fontMaterial.unitRange = value.unitRange;
+		fontMaterial.glyphMap = texture;
+		fontMaterial.unitRange = unitRange;
 		return;
 	}
 
 	if( fontMaterial.userData && fontMaterial.userData.glyphMap ) {
 
-		fontMaterial.userData.glyphMap.value = value.texture;
-		fontMaterial.userData.unitRange.value = value.unitRange;
+		fontMaterial.userData.glyphMap.value = texture;
+		fontMaterial.userData.unitRange.value = unitRange;
 
 	}
 

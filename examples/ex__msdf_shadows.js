@@ -151,11 +151,11 @@ function makeTextPanel() {
 	const defaultTextInverted = new ThreeMeshUI.Text({content:"FontMaterial(default)\n", fontColor: new THREE.Color(0x0099ff)});
 
 	const standardText = new ThreeMeshUI.Text({content:"MSDFStandardMaterial\n", fontColor: new THREE.Color(0x0099ff).convertSRGBToLinear()});
-	standardText.fontMaterial = new MSDFStandardMaterial({});
+	standardText.material = new MSDFStandardMaterial({});
 	standardText.customDepthMaterial = new MSDFDepthMaterial({});
 
 	const standardTextInverted = new ThreeMeshUI.Text({content:"MSDFStandardMaterial\n", fontColor: new THREE.Color(0x99ff00).convertSRGBToLinear(), invertAlpha: true});
-	standardTextInverted.fontMaterial = new MSDFStandardMaterial();
+	standardTextInverted.material = new MSDFStandardMaterial();
 	standardTextInverted.customDepthMaterial = new MSDFDepthMaterial({});
 
 	outerContainer.add( defaultText, defaultTextInverted, standardText, standardTextInverted );

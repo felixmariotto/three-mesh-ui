@@ -126,7 +126,7 @@ function makeTextPanel() {
 
 	const standardText = new ThreeMeshUI.Text({content:"MSDFStandardMaterial\n", fontColor: new THREE.Color(0x0099ff).convertSRGBToLinear()});
 	const standardMaterial = new MSDFStandardMaterial();
-	standardText.fontMaterial = standardMaterial;
+	standardText.material = standardMaterial;
 
 	const physicalText = new ThreeMeshUI.Text({content:"MSDFPhysicalMaterial\n"});
 	const physicalMaterial = new MSDFPhysicalMaterial({color: 0xffffff,
@@ -138,31 +138,31 @@ function makeTextPanel() {
 		thickness: 0.1,
 		specularIntensity: 1,
 		envMapIntensity: 1});
-	physicalText.fontMaterial = physicalMaterial;
+	physicalText.material = physicalMaterial;
 
 	const lambertText = new ThreeMeshUI.Text({content:"MSDFLambertMaterial\n", fontColor:new THREE.Color(0x0099ff).convertSRGBToLinear()});
 	const lambertMaterial = new MSDFLambertMaterial({});
-	lambertText.fontMaterial = lambertMaterial;
+	lambertText.material = lambertMaterial;
 
 	const normalText = new ThreeMeshUI.Text({content:"MSDFNormalMaterial\n", fontColor:new THREE.Color(0x0099ff).convertSRGBToLinear()});
 	const normalMaterial = new MSDFNormalMaterial({});
-	normalText.fontMaterial = normalMaterial;
+	normalText.material = normalMaterial;
 
 	const wireText = new ThreeMeshUI.Text({content:"WireframeProperty\n", fontColor:new THREE.Color(0x0099ff), segments:12});
-	wireText.fontMaterial = new MSDFStandardMaterial({wireframe:true});
+	wireText.material = new MSDFStandardMaterial({wireframe:true});
 
 	const vertexText = new ThreeMeshUI.Text({content:"VertexShaderExample\n", fontColor:new THREE.Color(0x0099ff), segments:12});
 	vertexMaterial = new MSDFVertexMaterialExample();
-	vertexText.fontMaterial = vertexMaterial;
+	vertexText.material = vertexMaterial;
 
 	const mixedText = new ThreeMeshUI.Text({content:"CustomMaterial .from()",fontColor:new THREE.Color(0x99ff00)});
 
 	// Mix a threejs material to obtain an TMU Font Material
 	const customMaterialClass = ThreeMeshUI.MSDFFontMaterialUtils.from(MeshStandardMaterial);
-	mixedText.fontMaterial = new customMaterialClass();
+	mixedText.material = new customMaterialClass();
 
 
-	mixedText.fontMaterial.onBeforeCompile = (shader) => {
+	mixedText.material.onBeforeCompile = ( shader) => {
 		// custom user code
 		console.log( "this is the shader you can customize", shader);
 		console.log( "it already has the msdf chunks applyied on it");
