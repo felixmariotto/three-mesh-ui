@@ -7,13 +7,12 @@ import ThreeMeshUI from '../src/three-mesh-ui.js';
 
 import FontJSON from './assets/Roboto-msdf.json';
 import FontImage from './assets/Roboto-msdf.png';
+import { Color } from 'three';
 
 const WIDTH = window.innerWidth;
 const HEIGHT = window.innerHeight;
 
 let scene, camera, renderer, controls;
-
-const textContent = `LYON F. to ATLANTA GA. Via ALTOONA PA.`;
 
 window.addEventListener( 'load', init );
 window.addEventListener( 'resize', onWindowResize );
@@ -63,31 +62,93 @@ function init() {
 function makeTextPanel() {
 
 	const container = new ThreeMeshUI.Block( {
-		width: 1.8,
+		width: 2,
 		height: 0.3,
 		padding: 0.05,
 		justifyContent: 'center',
-		alignContent: 'left',
+		textAlign: 'left',
 		fontFamily: FontJSON,
-		fontTexture: FontImage
+		fontTexture: FontImage,
+		backgroundOpacity: 0,
 	} );
 
 	container.position.set( 0, 1, -1.8 );
-	container.rotation.x = -0.55;
+	container.rotation.x = -0.25;
 	scene.add( container );
 
 	//
 
-	container.add(
+	const infoBox = new ThreeMeshUI.Block( {
+		width: 2,
+		height: 0.1,
+		margin: 0.01,
+		padding: 0.025,
+		textAlign: 'center'
+	} );
+
+	infoBox.add( new ThreeMeshUI.Text( {
+		content: '.fontKerning adds spaces between pairs of characters that are defined in font files.\n',
+	} ) );
+
+	container.add( infoBox );
+
+	container.add( makeKernedContainer( 'normal' ) );
+	container.add( makeKernedContainer( 'none' ) );
+
+}
+
+function makeKernedContainer( kerning ) {
+
+	const container = new ThreeMeshUI.Block( {
+		width: 1.8,
+		height: 0.12,
+		padding: 0.05,
+		contentDirection: "row",
+		justifyContent: 'center',
+		textAlign: 'left',
+		fontFamily: FontJSON,
+		fontTexture: FontImage,
+		backgroundOpacity: 0
+	} );
+
+	const titleBox = new ThreeMeshUI.Block( {
+		width: 0.8,
+		height: 0.1,
+		margin: 0.01,
+		padding: 0.025,
+		justifyContent: 'center',
+		backgroundColor: new Color( 0xff9900 ),
+		textAlign: 'left'
+	} );
+
+	const title = new ThreeMeshUI.Text( {
+		content: `.set({fontKerning: "${kerning}"})`,
+		fontSize: 0.055
+	} );
+
+	titleBox.add( title );
+
+	const textBox = new ThreeMeshUI.Block( {
+		width: 1.4,
+		height: 0.1,
+		margin: 0.01,
+		padding: 0.02,
+		justifyContent: 'center',
+		fontSize: 0.055,
+	} );
+
+	textBox.add(
 		new ThreeMeshUI.Text( {
-			content: textContent + ` - (fontKerning: "normal")\n`,
-			fontKerning: 'normal'
-		} ),
-		new ThreeMeshUI.Text( {
-			content: textContent + ' - (fontKerning:"none")',
-			fontKerning: 'none'
+			content: '"LYON F. to ATLANTA GA. Via ALTOONA PA."',
+			fontKerning: kerning,
 		} )
 	);
+
+	container.add( titleBox );
+	container.add( textBox );
+
+	return container;
+
 
 }
 

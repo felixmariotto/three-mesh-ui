@@ -76,7 +76,7 @@ function makeTextPanel( x, rotX, rotY, rotZ, supersample ) {
 		padding: 0.05,
 		borderRadius: 0.05,
 		justifyContent: 'center',
-		alignContent: 'left',
+		alignItems: 'start',
 		fontFamily: FontJSON,
 		fontTexture: FontImage,
 		fontColor: new THREE.Color( 0xffffff ),

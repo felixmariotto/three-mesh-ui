@@ -171,7 +171,7 @@ function makeTextPanel() {
 			borderOpacity: 1,
 			borderColor: new THREE.Color( 0x333333 ),
 			justifyContent: 'end',
-			alignContent: 'right',
+			alignItems: 'end',
 			fontColor: new THREE.Color( 0x111111 ),
 			fontFamily: FontJSON,
 			fontTexture: FontImage,
@@ -199,7 +199,7 @@ function makeTextPanel() {
 
 		const firstTextBlock = new ThreeMeshUI.Text( {
 			content: TEXT1[ i ],
-			fontSize: 0.066
+			fontSize: 0.085
 		} );
 
 		innerContainer.add( firstTextBlock );

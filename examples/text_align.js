@@ -7,6 +7,7 @@ import ThreeMeshUI from '../src/three-mesh-ui.js';
 
 import FontJSON from './assets/Roboto-msdf.json';
 import FontImage from './assets/Roboto-msdf.png';
+import { Object3D } from 'three';
 
 const WIDTH = window.innerWidth;
 const HEIGHT = window.innerHeight;
@@ -35,8 +36,8 @@ function init() {
 	document.body.appendChild( renderer.domElement );
 
 	controls = new OrbitControls( camera, renderer.domElement );
-	camera.position.set( 0, 1.6, 0 );
-	controls.target = new THREE.Vector3( 0, 1, -1.8 );
+	camera.position.set( 0, 1.6, 0.75 );
+	controls.target = new THREE.Vector3( 0, 1.5, -1.8 );
 	controls.update();
 
 	// ROOM
@@ -49,8 +50,21 @@ function init() {
 	scene.add( room );
 
 	// TEXT PANEL
+	const textAligns = [
+		'left',						// 'left' or ThreeMeshUI.TextAlign.LEFT,
+		'center',					// 'center' or ThreeMeshUI.TextAlign.CENTER,
+		'right',					// 'right' or ThreeMeshUI.TextAlign.RIGHT,
+		'justify-left',		// 'justify-left' or ThreeMeshUI.TextAlign.JUSTIFY_LEFT,
+		'justify',				// 'justify' or ThreeMeshUI.TextAlign.JUSTIFY,
+		'justify-right',	// 'justify-right' or ThreeMeshUI.TextAlign.JUSTIFY_RIGHT,
+		'justify-center'	// 'justify-center' or ThreeMeshUI.TextAlign.JUSTIFY_CENTER
+	];
 
-	makeTextPanel();
+	for ( let i = 0; i < textAligns.length; i++ ) {
+		const textAlign = textAligns[ i ];
+		makeTextPanel( i, textAlign, i === textAligns.length - 1 );
+	}
+
 
 	//
 
@@ -60,35 +74,64 @@ function init() {
 
 //
 
-function makeTextPanel() {
+function makeTextPanel( index, textAlign, last = false ) {
 
-	const container = new ThreeMeshUI.Block( {
-		width: 1.2,
-		height: 0.5,
+
+	const group = new Object3D();
+
+	const title = new ThreeMeshUI.Block( {
+		width: 1.15,
+		height: 0.15,
 		padding: 0.05,
+		backgroundColor: new THREE.Color( 0xff9900 ),
 		justifyContent: 'center',
-		textAlign: 'left',
 		fontFamily: FontJSON,
 		fontTexture: FontImage
 	} );
 
-	container.position.set( 0, 1, -1.8 );
-	container.rotation.x = -0.55;
-	scene.add( container );
+	const titleText = new ThreeMeshUI.Text( {
+		content: '.set({textAlign: "' + textAlign + '"})',
+		fontSize: 0.075
+	} );
+
+	title.add(
+		titleText
+	);
+	title.position.set( 0, 0.35, 0 );
+	group.add( title );
+
+	const container = new ThreeMeshUI.Block( {
+		width: 1.3,
+		height: 0.5,
+		padding: 0.05,
+		justifyContent: 'center',
+		alignItems: 'start',
+		textAlign,
+		fontFamily: FontJSON,
+		fontTexture: FontImage
+	} );
+
+	// container.rotation.x = -0.25;
+	group.add( container );
 
 	//
 
 	container.add(
 		new ThreeMeshUI.Text( {
-			content: 'This library supports line-break-friendly-characters,',
+			content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
 			fontSize: 0.055
-		} ),
-
-		new ThreeMeshUI.Text( {
-			content: ' As well as multi-font-size lines with consistent vertical spacing.',
-			fontSize: 0.08
 		} )
 	);
+
+	group.position.set( -1.35 + index % 3 * 1.35, 2.25 + Math.floor( index / 3 ) * -0.8, -2 );
+
+	if ( last ) {
+
+		group.position.x = 0;
+
+	}
+
+	scene.add( group );
 
 }
 

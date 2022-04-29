@@ -7,6 +7,7 @@ import ThreeMeshUI from '../src/three-mesh-ui.js';
 
 import FontJSON from './assets/Roboto-msdf.json';
 import FontImage from './assets/Roboto-msdf.png';
+import { Object3D } from 'three';
 
 const WIDTH = window.innerWidth;
 const HEIGHT = window.innerHeight;
@@ -35,8 +36,8 @@ function init() {
 	document.body.appendChild( renderer.domElement );
 
 	controls = new OrbitControls( camera, renderer.domElement );
-	camera.position.set( 0, 1.6, 0 );
-	controls.target = new THREE.Vector3( 0, 1, -1.8 );
+	camera.position.set( 0, 1.6, 0.75 );
+	controls.target = new THREE.Vector3( 0, 1.5, -1.8 );
 	controls.update();
 
 	// ROOM
@@ -49,8 +50,18 @@ function init() {
 	scene.add( room );
 
 	// TEXT PANEL
+	const contentDirections = [
+		'row',						// 'row' or ThreeMeshUI.ContentDirection.ROW,
+		'row-reverse',		// 'row-reverse' or ThreeMeshUI.ContentDirection.ROW_REVERSE,
+		'column',					// 'column' or ThreeMeshUI.ContentDirection.COLUMN,
+		'column-reverse'	// 'column-reverse' or ThreeMeshUI.ContentDirection.COLUMN_REVERSE,
+	];
 
-	makeTextPanel();
+	for ( let i = 0; i < contentDirections.length; i++ ) {
+		const contentDirection = contentDirections[ i ];
+		makeTextPanel( i, contentDirection );
+	}
+
 
 	//
 
@@ -60,35 +71,74 @@ function init() {
 
 //
 
-function makeTextPanel() {
+function makeTextPanel( index, contentDirection ) {
 
-	const container = new ThreeMeshUI.Block( {
-		width: 1.2,
-		height: 0.5,
+
+	const group = new Object3D();
+
+	const title = new ThreeMeshUI.Block( {
+		width: 1.5,
+		height: 0.15,
 		padding: 0.05,
+		backgroundColor: new THREE.Color( 0xff9900 ),
 		justifyContent: 'center',
-		textAlign: 'left',
 		fontFamily: FontJSON,
 		fontTexture: FontImage
 	} );
 
-	container.position.set( 0, 1, -1.8 );
-	container.rotation.x = -0.55;
-	scene.add( container );
+	const titleText = new ThreeMeshUI.Text( {
+		content: '.set({contentDirection: "' + contentDirection + '"})',
+		fontSize: 0.075
+	} );
 
-	//
+	title.add( titleText );
+	title.position.set( 0, 0.6, 0 );
+	group.add( title );
 
-	container.add(
-		new ThreeMeshUI.Text( {
-			content: 'This library supports line-break-friendly-characters,',
-			fontSize: 0.055
-		} ),
+	const container = new ThreeMeshUI.Block( {
+		width: 1,
+		height: 1,
+		padding: 0.05,
+		justifyContent: 'center',
+		alignItems: 'center',
+		contentDirection: contentDirection,
+		fontFamily: FontJSON,
+		fontTexture: FontImage
+	} );
 
-		new ThreeMeshUI.Text( {
-			content: ' As well as multi-font-size lines with consistent vertical spacing.',
-			fontSize: 0.08
-		} )
-	);
+	const letters = 'ABCDEF';
+	const colors = [ 0xff9900, 0xff0099, 0x00ff99, 0x99ff00, 0x9900ff, 0x0099ff ];
+
+	for ( let i = 0; i < letters.length; i ++ ) {
+
+		const blockText = new ThreeMeshUI.Block( {
+			width: 0.125,
+			height: 0.125,
+			margin: 0.01,
+			borderRadius: 0.02,
+			backgroundColor: new THREE.Color(colors[i]),
+			justifyContent: 'center',
+			alignItems: 'center',
+			offset:0.001
+		} );
+
+
+
+		const text = new ThreeMeshUI.Text( {
+			content: letters[ i ]
+		} );
+
+		blockText.add( text );
+		container.add( blockText );
+
+	}
+
+	// container.rotation.x = -0.25;
+	group.add( container );
+
+	group.position.set( -0.85 + (index%2 ) * 1.7 , 2.15 + Math.floor( index / 2 ) * -1.25, -2 );
+
+	scene.add( group );
 
 }
 

@@ -83,7 +83,7 @@ function makeTextPanel() {
 		width: 1.5,
 		height: 1.2,
 		justifyContent: 'center',
-		alignContent: 'left',
+		textAlign: 'left',
 		backgroundOpacity: 0
 	} );
 

@@ -7,6 +7,7 @@ import ThreeMeshUI from '../src/three-mesh-ui.js';
 
 import FontJSON from './assets/Roboto-msdf.json';
 import FontImage from './assets/Roboto-msdf.png';
+import { Object3D } from 'three';
 
 const WIDTH = window.innerWidth;
 const HEIGHT = window.innerHeight;
@@ -35,8 +36,8 @@ function init() {
 	document.body.appendChild( renderer.domElement );
 
 	controls = new OrbitControls( camera, renderer.domElement );
-	camera.position.set( 0, 1.6, 0 );
-	controls.target = new THREE.Vector3( 0, 1, -1.8 );
+	camera.position.set( 0, 1.6, 0.75 );
+	controls.target = new THREE.Vector3( 0, 1.5, -1.8 );
 	controls.update();
 
 	// ROOM
@@ -49,8 +50,19 @@ function init() {
 	scene.add( room );
 
 	// TEXT PANEL
+	const whitespaces = [
+		'normal', 		// 'normal' or ThreeMeshUI.Whitespace.NORMAL
+		'pre-line', 	// 'pre-line' or ThreeMeshUI.Whitespace.PRE_LINE
+		'pre-wrap', 	// 'pre-wrap' or ThreeMeshUI.Whitespace.PRE_WRAP
+		'pre', 				// 'pre' or ThreeMeshUI.Whitespace.PRE
+		'nowrap', 		// 'nowrap' or ThreeMeshUI.Whitespace.NOWRAP
+	];
 
-	makeTextPanel();
+	for ( let i = 0; i < whitespaces.length; i++ ) {
+		const whitespace = whitespaces[ i ];
+		makeTextPanel(i, whitespace, i=== whitespaces.length-1);
+	}
+
 
 	//
 
@@ -60,35 +72,71 @@ function init() {
 
 //
 
-function makeTextPanel() {
+function makeTextPanel( index, whitespace, last = false) {
 
-	const container = new ThreeMeshUI.Block( {
-		width: 1.2,
-		height: 0.5,
+
+	const group = new Object3D();
+
+	const title = new ThreeMeshUI.Block( {
+		width: 1.15,
+		height: 0.15,
 		padding: 0.05,
+		backgroundColor: new THREE.Color(0xff9900),
 		justifyContent: 'center',
-		textAlign: 'left',
 		fontFamily: FontJSON,
 		fontTexture: FontImage
 	} );
 
-	container.position.set( 0, 1, -1.8 );
-	container.rotation.x = -0.55;
-	scene.add( container );
+	const titleText = new ThreeMeshUI.Text( {
+			content: '.set({whiteSpace: "'+whitespace+'"})',
+			fontSize: 0.075
+		} );
+
+	title.add(
+		titleText
+	);
+	title.position.set( 0, 0.55, 0 );
+	group.add( title );
+
+	const container = new ThreeMeshUI.Block( {
+		width: 0.91,
+		height: 0.85,
+		padding: 0.05,
+		justifyContent: 'center',
+		alignItems: 'start',
+		textAlign: 'left',
+		whiteSpace: whitespace,
+		fontFamily: FontJSON,
+		fontTexture: FontImage
+	} );
+
+	// container.rotation.x = -0.25;
+	group.add( container );
 
 	//
 
 	container.add(
 		new ThreeMeshUI.Text( {
-			content: 'This library supports line-break-friendly-characters,',
-			fontSize: 0.055
-		} ),
+			content: `But ere she from the church-door stepped
+     She smiled and told us why:
+'It was a wicked woman's curse,'
+     Quoth she, 'and what care I?'
 
-		new ThreeMeshUI.Text( {
-			content: ' As well as multi-font-size lines with consistent vertical spacing.',
-			fontSize: 0.08
+She smiled, and smiled, and passed it off
+     Ere from the door she stept. -`,
+			fontSize: 0.055
 		} )
 	);
+
+	group.position.set( -1.35 + index%3 * 1.35 , 2.15 + Math.floor(index / 3) * -1.15 , -2);
+
+	if( last ){
+
+		group.position.x = 0;
+
+	}
+
+	scene.add( group );
 
 }
 

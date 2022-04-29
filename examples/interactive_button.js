@@ -202,7 +202,6 @@ function makePanel() {
 
 	const container = new ThreeMeshUI.Block( {
 		justifyContent: 'center',
-		alignContent: 'center',
 		contentDirection: 'row-reverse',
 		fontFamily: FontJSON,
 		fontTexture: FontImage,
@@ -224,7 +223,6 @@ function makePanel() {
 		width: 0.4,
 		height: 0.15,
 		justifyContent: 'center',
-		alignContent: 'center',
 		offset: 0.05,
 		margin: 0.02,
 		borderRadius: 0.075

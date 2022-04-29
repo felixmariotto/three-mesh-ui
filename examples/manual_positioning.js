@@ -89,7 +89,7 @@ function makeTextPanel() {
 		backgroundColor: new THREE.Color( 0xd9d9d9 ),
 		backgroundOpacity: 0.5,
 		justifyContent: 'end',
-		alignContent: 'right',
+		alignItems: 'end',
 		fontColor: new THREE.Color( 0x333333 ),
 		fontFamily: FontJSON,
 		fontTexture: FontImage

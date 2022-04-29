@@ -84,7 +84,7 @@ export default class UpdateManager {
 
 			const roots = this.components.filter( ( component ) => {
 
-				return !component.getUIParent();
+				return !component.parentUI;
 
 			} );
 
@@ -111,7 +111,7 @@ export default class UpdateManager {
 
 		}
 
-		component.getUIChildren().forEach( child => this.traverseParsing( child ) );
+		component.childrenUIs.forEach( child => this.traverseParsing( child ) );
 
 	}
 
@@ -122,6 +122,9 @@ export default class UpdateManager {
 	static traverseUpdates( component ) {
 
 		const request = this.requestedUpdates[ component.id ];
+		// instant remove the requested update,
+		// allowing code below ( especially onAfterUpdate ) to add it without being directly remove
+		delete this.requestedUpdates[ component.id ];
 
 		//
 
@@ -143,25 +146,20 @@ export default class UpdateManager {
 
 		}
 
-		//
 
+		// Update any child
+		component.childrenUIs.forEach( ( childUI ) => {
+
+			this.traverseUpdates( childUI );
+
+		} );
+
+		// before sending onAfterUpdate
 		if ( request && request.needCallback ) {
 
 			component.onAfterUpdate();
 
 		}
-
-		//
-
-		delete this.requestedUpdates[ component.id ];
-
-		//
-
-		component.getUIChildren().forEach( ( childUI ) => {
-
-			this.traverseUpdates( childUI );
-
-		} );
 
 	}
 

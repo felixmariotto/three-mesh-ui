@@ -9,6 +9,11 @@ its children position. A Block can only have either only box components (Block)
 as children, or only inline components (Text, InlineBlock).
 
  */
+
+import { COLUMN, COLUMN_REVERSE, contentDirection, ROW, ROW_REVERSE } from '../../utils/block-layout/ContentDirection';
+import { alignItems } from '../../utils/block-layout/AlignItems';
+import { justifyContent } from '../../utils/block-layout/JustifyContent';
+
 export default function BoxComponent( Base ) {
 
 	return class BoxComponent extends Base {
@@ -72,9 +77,7 @@ export default function BoxComponent( Base ) {
 		/** Return the sum of all this component's children sides + their margin */
 		getChildrenSideSum( dimension ) {
 
-			return this.children.reduce( ( accu, child ) => {
-
-				if ( !child.isBoxComponent ) return accu;
+			return this.childrenBoxes.reduce( ( accu, child ) => {
 
 				const margin = ( child.margin * 2 ) || 0;
 
@@ -91,10 +94,10 @@ export default function BoxComponent( Base ) {
 		/** Look in parent record what is the instructed position for this component, then set its position */
 		setPosFromParentRecords() {
 
-			if ( this.getUIParent() && this.getUIParent().childrenPos[ this.id ] ) {
+			if ( this.parentUI && this.parentUI.childrenPos[ this.id ] ) {
 
-				this.position.x = ( this.getUIParent().childrenPos[ this.id ].x );
-				this.position.y = ( this.getUIParent().childrenPos[ this.id ].y );
+				this.position.x = ( this.parentUI.childrenPos[ this.id ].x );
+				this.position.y = ( this.parentUI.childrenPos[ this.id ].y );
 
 			}
 
@@ -106,213 +109,34 @@ export default function BoxComponent( Base ) {
 			if ( this.children.length > 0 ) {
 
 				const DIRECTION = this.getContentDirection();
-				let X_START, Y_START;
+				let directionalOffset;
 
 				switch ( DIRECTION ) {
 
-					case 'row' :
-
-						// start position of the children positioning inside this component
-						X_START = this.getInnerWidth() / 2;
-
-						this.setChildrenXPos( -X_START );
-
-						this.alignChildrenOnY();
-
+					case ROW :
+						directionalOffset = - this.getInnerWidth() / 2;
 						break;
 
-					case 'row-reverse' :
-
-						// start position of the children positioning inside this component
-						X_START = this.getInnerWidth() / 2;
-
-						this.setChildrenXPos( X_START );
-
-						this.alignChildrenOnY();
-
+					case ROW_REVERSE :
+						directionalOffset = this.getInnerWidth() / 2;
 						break;
 
-					case 'column' :
-
-						// start position of the children positioning inside this component
-						Y_START = this.getInnerHeight() / 2;
-
-						this.setChildrenYPos( Y_START );
-
-						this.alignChildrenOnX();
-
+					case COLUMN :
+						directionalOffset = this.getInnerHeight() / 2;
 						break;
 
-					case 'column-reverse' :
-
-						// start position of the children positioning inside this component
-						Y_START = this.getInnerHeight() / 2;
-
-						this.setChildrenYPos( -Y_START );
-
-						this.alignChildrenOnX();
-
+					case COLUMN_REVERSE :
+						directionalOffset = - this.getInnerHeight() / 2;
 						break;
 
 				}
 
+				const REVERSE = - Math.sign( directionalOffset );
+
+				contentDirection(this, DIRECTION, directionalOffset, REVERSE );
+				justifyContent(this, DIRECTION, directionalOffset, REVERSE );
+				alignItems( this, DIRECTION );
 			}
-
-		}
-
-		/** Set children X position according to this component dimension and attributes */
-		setChildrenXPos( startPos ) {
-
-			const JUSTIFICATION = this.getJustifyContent();
-
-			if ( JUSTIFICATION !== 'center' && JUSTIFICATION !== 'start' && JUSTIFICATION !== 'end' ) {
-				console.warn( `justifiyContent === '${JUSTIFICATION}' is not supported` );
-			}
-
-			this.children.reduce( ( accu, child ) => {
-
-				if ( !child.isBoxComponent ) return accu;
-
-				const CHILD_ID = child.id;
-				const CHILD_WIDTH = child.getWidth();
-				const CHILD_MARGIN = child.margin || 0;
-
-				accu += CHILD_MARGIN * -Math.sign( startPos );
-
-				this.childrenPos[ CHILD_ID ] = {
-					x: accu + ( ( CHILD_WIDTH / 2 ) * -Math.sign( startPos ) ),
-					y: 0
-				};
-
-				return accu + ( -Math.sign( startPos ) * ( CHILD_WIDTH + CHILD_MARGIN ) );
-
-			}, startPos );
-
-			//
-
-			if ( JUSTIFICATION === 'end' || JUSTIFICATION === 'center' ) {
-
-				let offset = ( startPos * 2 ) - ( this.getChildrenSideSum( 'width' ) * Math.sign( startPos ) );
-
-				if ( JUSTIFICATION === 'center' ) offset /= 2;
-
-				this.children.forEach( ( child ) => {
-
-					if ( !child.isBoxComponent ) return;
-
-					this.childrenPos[ child.id ].x -= offset;
-
-				} );
-
-			}
-
-		}
-
-		/** Set children Y position according to this component dimension and attributes */
-		setChildrenYPos( startPos ) {
-
-			const JUSTIFICATION = this.getJustifyContent();
-
-			this.children.reduce( ( accu, child ) => {
-
-				if ( !child.isBoxComponent ) return accu;
-
-				const CHILD_ID = child.id;
-				const CHILD_HEIGHT = child.getHeight();
-				const CHILD_MARGIN = child.margin || 0;
-
-				accu += CHILD_MARGIN * -Math.sign( startPos );
-
-				this.childrenPos[ CHILD_ID ] = {
-					x: 0,
-					y: accu + ( ( CHILD_HEIGHT / 2 ) * -Math.sign( startPos ) )
-				};
-
-				return accu + ( -Math.sign( startPos ) * ( CHILD_HEIGHT + CHILD_MARGIN ) );
-
-			}, startPos );
-
-			//
-
-			if ( JUSTIFICATION === 'end' || JUSTIFICATION === 'center' ) {
-
-				let offset = ( startPos * 2 ) - ( this.getChildrenSideSum( 'height' ) * Math.sign( startPos ) );
-
-				if ( JUSTIFICATION === 'center' ) offset /= 2;
-
-				this.children.forEach( ( child ) => {
-
-					if ( !child.isBoxComponent ) return;
-
-					this.childrenPos[ child.id ].y -= offset;
-
-				} );
-
-			}
-
-		}
-
-		/** called if justifyContent is 'column' or 'column-reverse', it align the content horizontally */
-		alignChildrenOnX() {
-
-			const ALIGNMENT = this.getAlignContent();
-			const X_TARGET = ( this.getWidth() / 2 ) - ( this.padding || 0 );
-
-			if ( ALIGNMENT !== 'center' && ALIGNMENT !== 'right' && ALIGNMENT !== 'left' ) {
-				console.warn( `alignContent === '${ALIGNMENT}' is not supported on this direction.` );
-			}
-
-			this.children.forEach( ( child ) => {
-
-				if ( !child.isBoxComponent ) return;
-
-				let offset;
-
-				if ( ALIGNMENT === 'right' ) {
-
-					offset = X_TARGET - ( child.getWidth() / 2 ) - ( child.margin || 0 );
-
-				} else if ( ALIGNMENT === 'left' ) {
-
-					offset = -X_TARGET + ( child.getWidth() / 2 ) + ( child.margin || 0 );
-
-				}
-
-				this.childrenPos[ child.id ].x = offset || 0;
-
-			} );
-
-		}
-
-		/** called if justifyContent is 'row' or 'row-reverse', it align the content vertically */
-		alignChildrenOnY() {
-
-			const ALIGNMENT = this.getAlignContent();
-			const Y_TARGET = ( this.getHeight() / 2 ) - ( this.padding || 0 );
-
-			if ( ALIGNMENT !== 'center' && ALIGNMENT !== 'top' && ALIGNMENT !== 'bottom' ) {
-				console.warn( `alignContent === '${ALIGNMENT}' is not supported on this direction.` );
-			}
-
-			this.children.forEach( ( child ) => {
-
-				if ( !child.isBoxComponent ) return;
-
-				let offset;
-
-				if ( ALIGNMENT === 'top' ) {
-
-					offset = Y_TARGET - ( child.getHeight() / 2 ) - ( child.margin || 0 );
-
-				} else if ( ALIGNMENT === 'bottom' ) {
-
-					offset = -Y_TARGET + ( child.getHeight() / 2 ) + ( child.margin || 0 );
-
-				}
-
-				this.childrenPos[ child.id ].y = offset || 0;
-
-			} );
 
 		}
 
@@ -322,9 +146,7 @@ export default function BoxComponent( Base ) {
 		 */
 		getHighestChildSizeOn( direction ) {
 
-			return this.children.reduce( ( accu, child ) => {
-
-				if ( !child.isBoxComponent ) return accu;
+			return this.childrenBoxes.reduce( ( accu, child ) => {
 
 				const margin = child.margin || 0;
 				const maxSize = direction === 'width' ?
@@ -343,6 +165,20 @@ export default function BoxComponent( Base ) {
 		 */
 		getWidth() {
 
+
+			// This is for stretch alignment
+			// @TODO : Conceive a better performant way
+			if( this.parentUI && this.parentUI.getAlignItems() === 'stretch' ){
+
+				if( this.parentUI.getContentDirection().indexOf('column') !== -1 ){
+
+					return this.parentUI.getWidth() -  ( this.parentUI.padding * 2 || 0 );
+
+				}
+
+			}
+
+
 			return this.width || this.getInnerWidth() + ( this.padding * 2 || 0 );
 
 		}
@@ -353,6 +189,18 @@ export default function BoxComponent( Base ) {
 		 */
 		getHeight() {
 
+			// This is for stretch alignment
+			// @TODO : Conceive a better performant way
+			if( this.parentUI && this.parentUI.getAlignItems() === 'stretch' ){
+
+				if( this.parentUI.getContentDirection().indexOf('row') !== -1 ){
+
+					return this.parentUI.getHeight() - ( this.parentUI.padding * 2 || 0 );
+
+				}
+
+			}
+
 			return this.height || this.getInnerHeight() + ( this.padding * 2 || 0 );
 
 		}
@@ -360,3 +208,4 @@ export default function BoxComponent( Base ) {
 	};
 
 }
+
