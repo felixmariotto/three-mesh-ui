@@ -1,3 +1,8 @@
+//JSDoc related import
+/* eslint-disable no-unused-vars */
+import InlineGlyph from '../../font/InlineGlyph';
+/* eslint-enable no-unused-vars */
+
 export const LEFT = 'left';
 export const RIGHT = 'right';
 export const CENTER = 'center';
@@ -8,7 +13,7 @@ export const JUSTIFY_CENTER = 'justify-center';
 
 /**
  *
- * @param {Array.<Array.<InlineCharacter>>} lines
+ * @param {Array.<Array.<InlineGlyph>>} lines
  * @param ALIGNMENT
  * @param INNER_WIDTH
  */

@@ -1,11 +1,17 @@
-import TypographyCharacter from '../TypographyCharacter';
-import MSDFInlineCharacter from './MSDFInlineCharacter';
+import TypographicGlyph from '../TypographicGlyph';
+import MSDFInlineGlyph from './MSDFInlineGlyph';
 
-export default class MSDFTypographyCharacter extends TypographyCharacter {
+//JSDoc related imports
+/* eslint-disable no-unused-vars */
+import MSDFTypographicFont from './MSDFTypographicFont';
+/* eslint-enable no-unused-vars */
+
+
+export default class MSDFTypographicGlyph extends TypographicGlyph {
 
 	/**
-	 * @param {MSDFTypographyFont} fontDescription
-	 * @param {MSDFJsonChar} characterData
+	 * @param {MSDFTypographicFont} fontDescription
+	 * @param {import('./MSDFFontVariant').MSDFJsonChar} characterData
 	 */
 	constructor( fontDescription, characterData ) {
 
@@ -45,13 +51,12 @@ export default class MSDFTypographyCharacter extends TypographyCharacter {
 	}
 
 	/**
-	 * Abstraction
-	 *
-	 * @returns {MSDFInlineCharacter}
+	 * @override
+	 * @returns {MSDFInlineGlyph}
 	 */
-	asInlineCharacter() {
+	asInlineGlyph() {
 
-		return new MSDFInlineCharacter( this );
+		return new MSDFInlineGlyph( this );
 
 	}
 

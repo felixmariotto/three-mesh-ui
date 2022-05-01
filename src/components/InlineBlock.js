@@ -125,17 +125,6 @@ export default class InlineBlock extends mix.withBase( Object3D )(
 
 		this.frame.renderOrder = this.getParentsNumber();
 
-		// Position inner elements according to dimensions and layout parameters.
-		// Delegate to BoxComponent.
-
-		if ( this.childrenInlines.length ) {
-
-			this.computeInlinesPosition();
-
-		}
-
-		this.computeChildrenPosition();
-
 		this.position.z = this.getOffset();
 
 	}

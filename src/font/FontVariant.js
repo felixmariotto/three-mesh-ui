@@ -1,6 +1,14 @@
 import { EventDispatcher } from 'three';
 import FontLibrary from './FontLibrary';
 
+// JSDoc related imports
+/* eslint-disable no-unused-vars */
+import TypographicFont from './TypographicFont';
+import InlineGlyph from './InlineGlyph';
+import MSDFTypographicGlyph from './msdf/MSDFTypographicGlyph';
+import { BufferGeometry, Material, ShaderMaterial, Texture } from 'three';
+/* eslint-enable no-unused-vars */
+
 
 /**
  * @abstract
@@ -11,19 +19,19 @@ export default class FontVariant extends EventDispatcher {
 
 		super();
 
-		this._isReady = false;
+		/** @private */ this._isReady = false;
 
-		this._weight = weight;
-		this._style = style;
+		/** @protected */ this._weight = weight;
+		/** @protected */ this._style = style;
 
-		this._size = 42;
-		this._lineHeight = 42;
-		this._lineBase = 42;
+		/** @protected */ this._size = 42;
+		/** @protected */ this._lineHeight = 42;
+		/** @protected */ this._lineBase = 42;
 
 		/**
 		 *
-		 * @type {TypographyFont}
-		 * @private
+		 * @type {TypographicFont}
+		 * @protected
 		 */
 		this._font = null;
 
@@ -31,34 +39,70 @@ export default class FontVariant extends EventDispatcher {
 
 	/**
 	 *
-	 * @returns {TypographyFont}
+	 * @returns {TypographicFont}
 	 */
 	get typographic() { return this._font; }
 
+	/**
+	 *
+	 * @returns {boolean}
+	 */
 	get isReady() {
 
 		return this._isReady;
 
 	}
 
+	/**
+	 *
+	 * @returns {string}
+	 */
 	get weight() {
 
 		return this._weight;
 
 	}
 
+	/**
+	 *
+	 * @returns {string}
+	 */
 	get style() {
 
 		return this._style;
 
 	}
 
+	/**
+	 *
+	 * @returns {Texture}
+	 */
 	get texture() {
 
 		return this._texture;
 
 	}
 
+	/**
+	 * @param {Function.<ShaderMaterial|Material>} v
+	 * @abstract
+	 */
+	set fontMaterial( v ) {
+		throw Error( `FontVariant('${this.id}')::fontMaterial - is abstract.` );
+	}
+
+	/**
+	 * @return {Function.<ShaderMaterial|Material>}
+	 * @abstract
+	 */
+	get fontMaterial() {
+		throw Error( `FontVariant('${this.id}')::fontMaterial - is abstract.` );
+	}
+
+	/**
+	 *
+	 * @returns {string}
+	 */
 	get id(){
 		return `${this._name}(w:${this.weight},s:${this.style})`;
 	}
@@ -66,24 +110,24 @@ export default class FontVariant extends EventDispatcher {
 	/**
 	 *
 	 * @param {string} character
-	 * @returns {MSDFTypographyCharacter}
+	 * @returns {MSDFTypographicGlyph}
 	 */
-	getTypographyCharacter( character ) {
+	getTypographicGlyph( character ) {
 
-		let typographyCharacter = this._chars[ character ];
-		if ( typographyCharacter ) return typographyCharacter;
+		let typographicGlyph = this._chars[ character ];
+		if ( typographicGlyph ) return typographicGlyph;
 
 		if ( character.match( /\s/ ) ) return this._chars[ " " ];
 
 		const fallbackCharacter = FontLibrary.missingCharacter( this, character );
 		if( fallbackCharacter ) {
 
-			typographyCharacter = this._chars[ fallbackCharacter ];
-			if ( typographyCharacter ) return typographyCharacter;
+			typographicGlyph = this._chars[ fallbackCharacter ];
+			if ( typographicGlyph ) return typographicGlyph;
 
 		}
 
-		throw Error( `FontVariant('${this.id}')::getTypographyCharacter() - character('${character}') and/or fallback character were not found in provided msdf charset.` );
+		throw Error( `FontVariant('${this.id}')::getTypographicGlyph() - character('${character}') and/or fallback character were not found in provided msdf charset.` );
 	}
 
 	/* eslint-disable no-unused-vars */
@@ -93,10 +137,10 @@ export default class FontVariant extends EventDispatcher {
 	 * Convert an InlineCharacter to a geometry
 	 *
 	 * @abstract
-	 * @param {InlineCharacter} inline
-	 * @returns {THREE.BufferGeometry|Array.<THREE.BufferGeometry>}
+	 * @param {InlineGlyph} inline
+	 * @returns {BufferGeometry|Array.<BufferGeometry>}
 	 */
-	getGeometryCharacter( inline ) {
+	getGeometricGlyph( inline, segments = 1 ) {
 
 		throw new Error(`FontVariant(${typeof this})::getGeometryCharacter() is abstract and should therefore be overridden.`);
 
@@ -120,17 +164,17 @@ export default class FontVariant extends EventDispatcher {
 
 	/**
 	 * Perform some changes on the character description of this font
-	 * @param {Object} adjustmentObject
+	 * @param {Object.<string,{property:string,value:any}>} adjustmentObject
 	 */
-	adjustTypographyCharacters( adjustmentObject ){
+	adjustTypographicGlyphs( adjustmentObject ){
 
 		for ( const char in adjustmentObject ) {
 
-			const desc = this.getTypographyCharacter( char );
-			const characterAdjustment = adjustmentObject[ char ];
-			for ( const propertyToAdjust in characterAdjustment ) {
+			const typographicGlyph = this.getTypographicGlyph( char );
+			const glyphAdjustment = adjustmentObject[ char ];
+			for ( const propertyToAdjust in glyphAdjustment ) {
 
-				desc["_"+propertyToAdjust] = adjustmentObject[char][propertyToAdjust];
+				typographicGlyph["_"+propertyToAdjust] = adjustmentObject[char][propertyToAdjust];
 
 			}
 
@@ -161,7 +205,7 @@ export default class FontVariant extends EventDispatcher {
 	_readyCondition () {
 
 		// ie: MSDFFontVariant
-		// Must have chards and a texture
+		// Must have chars and a texture
 		// return this._chars && this._texture
 
 		throw new Error(`FontVariant(${typeof this})::_readyCondition() is abstract and should therefore be overridden.`);
@@ -178,7 +222,7 @@ const _readyEvent = { type: 'ready' };
 
 /**
  * Set the ready status of a fontVariant
- * @param fontVariant
+ * @param {FontVariant} fontVariant
  * @private
  */
 function _setReady( fontVariant ) {
@@ -188,90 +232,3 @@ function _setReady( fontVariant ) {
 
 }
 
-/**
- * @typedef {Object} MSDFJson
- * @see https://www.angelcode.com/products/bmfont/doc/file_format.html
- *
- * @property {MSDFJsonInfo} info
- * @property {MSDFJsonCommon} common
- * @property {Array.<MSDFJsonPage>} pages
- * @property {Array.<MSDFJsonChar>} chars
- * @property {Array.<MSDFJsonKerning>} kernings
- */
-
-/**
- *
- * @typedef {Object} MSDFJsonInfo
- * @see https://www.angelcode.com/products/bmfont/doc/file_format.html
- *
- * @property {string} face This is the name of the true type font.
- * @property {number} size The size of the true type font.
- * @property {boolean} bold The font is bold.
- * @property {boolean} italic The font is italic.
- * @property {string[]} charset The name of the OEM charset used (when not unicode).
- * @property {boolean} unicode 	Set to 1 if it is the unicode charset.
- * @property {number} stretchH The font height stretch in percentage. 100% means no stretch.
- * @property {number} smooth Set to 1 if smoothing was turned on.
- * @property {number} aa The supersampling level used. 1 means no supersampling was used.
- * @property {Array.<number>} padding TThe padding for each character (up, right, down, left).
- * @property {Array.<number>} spacing The spacing for each character (horizontal, vertical).
- * @property {number} outline (not found) The outline thickness for the characters.
- */
-
-/**
- *
- * @typedef {Object} MSDFJsonCommon
- * @see https://www.angelcode.com/products/bmfont/doc/file_format.html
- *
- * @property {number} lineHeight This is the distance in pixels between each line of text.
- * @property {number} base The number of pixels from the absolute top of the line to the base of the characters.
- * @property {number} scaleW The width of the texture, normally used to scale the x pos of the character image.
- * @property {number} scaleH The height of the texture, normally used to scale the y pos of the character image.
- * @property {number} pages The number of texture pages included in the font.
- * @property {boolean} packed
- * @property {number} alphaChnl
- * @property {number} redChnl
- * @property {number} greenChnl
- * @property {number[]} blueChnl
- */
-
-/**
- *
- * @typedef {Object} MSDFJsonPage
- * @see https://www.angelcode.com/products/bmfont/doc/file_format.html
- *
- * @property {string} id The page id.
- * @property {string} file The texture file name.
- */
-
-/**
- *
- * @typedef {Object} MSDFJsonChar
- * @see https://www.angelcode.com/products/bmfont/doc/file_format.html
- *
- * @property {number} id The character id.
- * @property {number} index The character index.
- * @property {string} char The character.
- * @property {number} x The left position of the character image in the texture.
- * @property {number} y The top position of the character image in the texture.
- * @property {number} width The width of the character image in the texture.
- * @property {number} height The height of the character image in the texture.
- * @property {number} xoffset How much the current position should be offset when copying the image from the texture to the screen.
- * @property {number} yoffset How much the current position should be offset when copying the image from the texture to the screen.
- * @property {number} xadvance How much the current position should be advanced after drawing the character.
- * @property {string} page The texture page where the character image is found.
- * @property {number} chnl The texture channel where the character image is found (1 = blue, 2 = green, 4 = red, 8 = alpha, 15 = all channels).
- */
-
-
-
-/**
- *
- * @typedef {Object} MSDFJsonKerning
- * @see https://www.angelcode.com/products/bmfont/doc/file_format.html
- *
- * @property {number} first The first character id.
- * @property {number} second The second character id.
- * @property {number} amount How much the x position should be adjusted when drawing the second character immediately following the first.
- *
- */

@@ -45,6 +45,10 @@ export default function MeshUIComponent( Base ) {
 			// update parentUI when this component will be added or removed
 			this.addEventListener( 'added', this._rebuildParentUI );
 			this.addEventListener( 'removed', this._rebuildParentUI );
+
+			// hooks
+			this._onAfterUpdates = [];
+
 		}
 
 		/////////////
@@ -130,6 +134,18 @@ export default function MeshUIComponent( Base ) {
 		getFontSize() {
 
 			return this._getProperty( 'fontSize' );
+
+		}
+
+		getSegments() {
+
+			return this.segments || 1;
+
+		}
+
+		getAlphaTest() {
+
+			return this.alphaTest || 0.02;
 
 		}
 
@@ -408,7 +424,8 @@ export default function MeshUIComponent( Base ) {
 			for ( const id of Object.keys( arguments ) ) {
 
 				// An inline component relies on its parent for positioning
-				if ( arguments[ id ].isInline ) this.update( null, true );
+				if ( arguments[ id ].isUI ) this.update( null, true );
+				// if ( arguments[ id ].isInline ) this.update( null, true );
 
 			}
 
@@ -449,7 +466,30 @@ export default function MeshUIComponent( Base ) {
 
 		}
 
-		onAfterUpdate() {
+		performAfterUpdate() {
+
+			for ( let i = 0; i < this._onAfterUpdates.length; i++ ) {
+
+				this._onAfterUpdates[ i ]();
+
+			}
+
+		}
+
+		/**
+		 *
+		 * @param func
+		 */
+		set onAfterUpdate( func ) {
+
+			console.warn( '`onAfterUpdate` property has been deprecated, please rely on `addAfterUpdate` instead.' );
+			this.addAfterUpdate( func );
+
+		}
+
+		addAfterUpdate( func ) {
+
+			this._onAfterUpdates.push( func );
 
 		}
 
@@ -521,6 +561,7 @@ export default function MeshUIComponent( Base ) {
 						case 'fontSize' :
 						case 'fontKerning' :
 						case 'breakOn':
+						case 'segments':
 							layoutNeedsUpdate = true;
 							this[ prop ] = options[ prop ];
 							break;
@@ -537,7 +578,7 @@ export default function MeshUIComponent( Base ) {
 						case 'height' :
 						case 'padding' :
 							// @TODO: I don't think this is true anymore
-							if ( this.isInlineBlock || ( this.isBlock && this.getBestFit() != 'none' ) ) parsingNeedsUpdate = true;
+							if ( this.isInlineBlock || ( this.isBlock ) ) parsingNeedsUpdate = true;
 							layoutNeedsUpdate = true;
 							this[ prop ] = options[ prop ];
 							break;
@@ -545,7 +586,7 @@ export default function MeshUIComponent( Base ) {
 						case 'letterSpacing' :
 						case 'interLine' :
 							// @TODO: I don't think this is true anymore
-							if ( this.isBlock && this.getBestFit() != 'none' ) parsingNeedsUpdate = true;
+							if ( this.isBlock ) parsingNeedsUpdate = true;
 							layoutNeedsUpdate = true;
 							this[ prop ] = options[ prop ];
 							break;
@@ -581,12 +622,13 @@ export default function MeshUIComponent( Base ) {
 							this[ prop ] = options[ prop ];
 							break;
 
+						default:
+							this[ prop ] = options[ prop ];
 					}
 
 				}
 
 			}
-
 
 			// special cases, this.update() must be called only when some files finished loading
 
@@ -644,6 +686,12 @@ export default function MeshUIComponent( Base ) {
 
 			if ( layoutNeedsUpdate ) this.getHighestParent().update( false, true, false );
 
+
+			//
+			this._transferToFontMaterial( options );
+
+
+
 		}
 
 		/////////////////////
@@ -694,6 +742,17 @@ export default function MeshUIComponent( Base ) {
 			} );
 
 		}
+
+		/**
+		 *
+		 * @abstract
+		 * @protected
+		 */
+		/* eslint-disable no-unused-vars */
+		_transferToFontMaterial( options = null ){
+
+		}
+		/* eslint-enable no-unused-vars */
 
 	};
 

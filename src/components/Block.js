@@ -59,23 +59,7 @@ export default class Block extends mix.withBase( Object3D )(
 	//  UPDATE
 	////////////
 
-	parseParams() {
-
-		const bestFit = this.getBestFit();
-
-		if ( bestFit != 'none' && this.childrenTexts.length ) {
-
-			this.calculateBestFit( bestFit );
-
-		} else {
-
-			this.childrenTexts.forEach( child => {
-
-				child._fitFontSize = undefined;
-
-			} );
-		}
-	}
+	parseParams() {}
 
 	updateLayout() {
 

@@ -11,6 +11,8 @@ import * as Whitespace from './utils/inline-layout/Whitespace';
 import * as JustifyContent from './utils/block-layout/JustifyContent';
 import * as AlignItems from './utils/block-layout/AlignItems';
 import * as ContentDirection from './utils/block-layout/ContentDirection';
+import MSDFFontMaterialUtils from './font/msdf/utils/MSDFFontMaterialUtils';
+import { ShaderChunk } from './renderers/shaders/ShaderChunk';
 
 const update = () => UpdateManager.update();
 
@@ -25,8 +27,11 @@ const ThreeMeshUI = {
 	Whitespace,
 	JustifyContent,
 	AlignItems,
-	ContentDirection
+	ContentDirection,
+	MSDFFontMaterialUtils,
+	ShaderChunk,
 };
+
 
 if ( typeof global !== 'undefined' ) global.ThreeMeshUI = ThreeMeshUI;
 
@@ -41,5 +46,7 @@ export { Whitespace };
 export { JustifyContent};
 export { AlignItems };
 export { ContentDirection };
+export { ShaderChunk };
+export { MSDFFontMaterialUtils };
 
 export default ThreeMeshUI;

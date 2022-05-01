@@ -19,6 +19,7 @@ window.addEventListener( 'resize', onWindowResize );
 //
 
 import ROBOTO_ADJUSTMENT from 'three-mesh-ui/examples/assets/fonts/msdf/roboto/adjustment';
+import MSDFDepthMaterial from '../src/font/msdf/materials/MSDFDepthMaterial';
 
 async function preload() {
 
@@ -36,14 +37,21 @@ async function preload() {
 
 	);
 
-
-	// adjust fonts
-	// @see TODO:Documentation
+	// Adjusting font variants
 	const FF = FontLibrary.getFontFamily("Roboto");
-	FF.getVariant('700','normal').adjustTypographyCharacters( ROBOTO_ADJUSTMENT );
-	FF.getVariant('700','italic').adjustTypographyCharacters( ROBOTO_ADJUSTMENT );
-	FF.getVariant('400','italic').adjustTypographyCharacters( ROBOTO_ADJUSTMENT );
-	FF.getVariant('400','normal').adjustTypographyCharacters( ROBOTO_ADJUSTMENT );
+
+	// adjust material
+	// @see TODO: FontVariant Documentation
+	// Each component using that variant, will automatically use the defined material
+	// Here is Bold Texts
+
+	FF.getVariant('700','normal').fontMaterial = MSDFDepthMaterial;
+	// adjust fonts
+	// @see TODO:adjustDocumentation
+	FF.getVariant('700','normal').adjustTypographicGlyphs( ROBOTO_ADJUSTMENT );
+	FF.getVariant('700','italic').adjustTypographicGlyphs( ROBOTO_ADJUSTMENT );
+	FF.getVariant('400','italic').adjustTypographicGlyphs( ROBOTO_ADJUSTMENT );
+	FF.getVariant('400','normal').adjustTypographicGlyphs( ROBOTO_ADJUSTMENT );
 
 	init();
 
@@ -109,13 +117,15 @@ function makeTextPanel() {
 	scene.add( container );
 
 	//
-
-	container.add(
-		new ThreeMeshUI.Text( {
+	const text1 = new ThreeMeshUI.Text( {
 			content: 'three-mesh-ui and font variants',
 			fontWeight: '700',
 			fontSize: 0.08
-		} ),
+		} );
+
+	container.add(
+
+		text1,
 
 		new ThreeMeshUI.Text( {
 			content: '\nYou can preload fonts with multiple variant definitions :',
@@ -171,6 +181,17 @@ function makeTextPanel() {
 		} )
 
 	);
+
+
+	text1.onAfterUpdate = function(){
+
+		if( text1.children.length ) {
+
+			console.log( "Chjild 1 ", text1.children[0].material );
+
+		}
+
+	}
 
 }
 
