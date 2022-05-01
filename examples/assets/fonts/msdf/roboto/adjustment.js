@@ -1,5 +1,5 @@
 /**
- * @type {Object.<string,{property:string,value:any}>}
+ * @type {Object.<string,Object.<string,number|string>>} adjustmentObject
  */
 export default {
 	h:{yoffset:2},

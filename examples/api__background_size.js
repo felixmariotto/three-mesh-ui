@@ -1,4 +1,5 @@
 import * as THREE from 'three';
+import { TextureLoader } from 'three';
 import { VRButton } from 'three/examples/jsm/webxr/VRButton.js';
 import { BoxLineGeometry } from 'three/examples/jsm/geometries/BoxLineGeometry.js';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
@@ -6,13 +7,9 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import ThreeMeshUI from 'three-mesh-ui';
 
 // assets URLs
-
 import UVImage from 'three-mesh-ui/examples/assets/uv_grid.jpg';
 import FontJSON from 'three-mesh-ui/examples/assets/fonts/msdf/roboto/regular.json';
 import FontImage from 'three-mesh-ui/examples/assets/fonts/msdf/roboto/regular.png';
-import { MeshPhysicalMaterial, TextureLoader } from 'three';
-import FramePhysicalMaterial from 'three-mesh-ui/examples/frame-materials/FramePhysicalMaterial';
-import FrameStandardMaterial from 'three-mesh-ui/examples/frame-materials/FrameStandardMaterial';
 import FrameBasicMaterial from 'three-mesh-ui/examples/frame-materials/FrameBasicMaterial';
 
 const WIDTH = window.innerWidth;

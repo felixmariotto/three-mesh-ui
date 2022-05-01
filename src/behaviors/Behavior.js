@@ -25,6 +25,7 @@ export default class Behavior {
 	}
 
 	/**
+	 * @param {any|null} [alterable=null]
 	 * @abstract
 	 */
 	act( alterable = null ) {
