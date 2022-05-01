@@ -1,5 +1,4 @@
-import { Color } from 'three';
-import { CanvasTexture } from 'three';
+import { Color, Vector4 } from 'three';
 import { START as justifyContent } from "./block-layout/JustifyContent";
 import { CENTER as alignItems } from "./block-layout/AlignItems";
 import { COLUMN as contentDirection } from './block-layout/ContentDirection';
@@ -31,8 +30,8 @@ export default {
 	fontOpacity: 1,
 	fontPXRange: 4,
 	fontSupersampling: true,
-	borderRadius: 0.01,
-	borderWidth: 0,
+	borderRadius: new Vector4( 0.01,0.01,0.01, 0.01 ),
+	borderWidth: new Vector4( 0, 0, 0, 0 ),
 	borderColor: new Color( 'black' ),
 	borderOpacity: 1,
 	backgroundSize: "cover",
@@ -41,28 +40,8 @@ export default {
 	backgroundOpacity: 0.8,
 	backgroundOpaqueOpacity: 1.0,
 	// this default value is a function to avoid initialization issues (see issue #126)
-	backgroundTexture: makeBackgroundTexture,
+	// backgroundTexture: makeBackgroundTexture,
+	backgroundTexture: null,
 	hiddenOverflow: false,
 	letterSpacing: 0
 };
-
-//
-let defaultBgTexture;
-
-function makeBackgroundTexture() {
-
-	if ( !defaultBgTexture ) {
-
-		const ctx = document.createElement( 'canvas' ).getContext( '2d' );
-		ctx.canvas.width = 1;
-		ctx.canvas.height = 1;
-		ctx.fillStyle = '#ffffff';
-		ctx.fillRect( 0, 0, 1, 1 );
-		defaultBgTexture = new CanvasTexture( ctx.canvas );
-		defaultBgTexture.isDefault = true;
-
-	}
-
-	return defaultBgTexture;
-
-}

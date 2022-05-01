@@ -72,13 +72,6 @@ export default class Text extends mix.withBase( Object3D )(
 		 */
 		this._font = null;
 
-		/**
-		 *
-		 * @type {Object.<{m:string, t?:(value:any) => any}>}
-		 * @private
-		 */
-		this._materialProperties = {};
-
 		this.set( options );
 
 		this.addEventListener( 'added', this._acquireFont );
@@ -338,15 +331,9 @@ export default class Text extends mix.withBase( Object3D )(
 
 		}
 
-		this.position.z = this.getOffset();
-
 	}
 
 	updateInner() {
-
-		this.position.z = this.getOffset();
-
-		// if ( this._main ) this.updateTextMaterial();
 
 	}
 

@@ -1,13 +1,14 @@
-import { Object3D, Vector2 } from 'three';
+import { Color, Object3D, Vector2 } from 'three';
 
 import InlineComponent from './core/InlineComponent.js';
 import BoxComponent from './core/BoxComponent.js';
 import InlineManager from './core/InlineManager.js';
 import MeshUIComponent from './core/MeshUIComponent.js';
-import MaterialManager from './core/MaterialManager.js';
 
-import Frame from '../content/Frame.js';
+import Frame from '../frame/Frame.js';
 import { mix } from '../utils/mix.js';
+import FrameMaterial from '../frame/materials/FrameMaterial';
+import FrameMaterialUtils from '../frame/utils/FrameMaterialUtils';
 
 /**
  * Job:
@@ -22,7 +23,6 @@ export default class InlineBlock extends mix.withBase( Object3D )(
 	InlineComponent,
 	BoxComponent,
 	InlineManager,
-	MaterialManager,
 	MeshUIComponent
 ) {
 
@@ -36,10 +36,13 @@ export default class InlineBlock extends mix.withBase( Object3D )(
 
 		this.size = new Vector2( 1, 1 );
 
-		this.frame = new Frame( this.getBackgroundMaterial() );
+		this._material = new FrameMaterial();
+		this._main = new Frame( this._material );
+
+		this._materialProperties = { ...FrameMaterialUtils.frameMaterialProperties };
 
 		// This is for hiddenOverflow to work
-		this.frame.onBeforeRender = () => {
+		this._main.onBeforeRender = () => {
 
 			if ( this.updateClippingPlanes ) {
 
@@ -49,11 +52,29 @@ export default class InlineBlock extends mix.withBase( Object3D )(
 
 		};
 
-		this.add( this.frame );
+		this.add( this._main );
 
 		// Lastly set the options parameters to this object, which will trigger an update
 
+		if( options.backgroundOpacity === undefined ){
+
+			options.backgroundOpacity = 1.0
+
+		}
+
+		if( options.backgroundColor === undefined && options.backgroundTexture ) {
+
+			options.backgroundColor = new Color(0xffffff);
+
+		}
+
 		this.set( options );
+
+		// console.log(this.position.z);
+		// this.position.z = this.getOffset();
+		// console.log(this.position.z);
+
+		this._transferToMaterial();
 
 	}
 
@@ -119,23 +140,24 @@ export default class InlineBlock extends mix.withBase( Object3D )(
 		}
 
 		this.size.set( WIDTH, HEIGHT );
-		this.frame.scale.set( WIDTH, HEIGHT, 1 );
+		this._main.scale.set( WIDTH, HEIGHT, 1 );
 
-		if ( this.frame ) this.updateBackgroundMaterial();
+		// if ( this.frame ) this.updateBackgroundMaterial();
 
-		this.frame.renderOrder = this.getParentsNumber();
+		this._main.renderOrder = this.getParentsNumber();
 
+		// console.log( this.position.z );
 		this.position.z = this.getOffset();
-
+		// console.log( this.position.z );
 	}
 
 	//
 
 	updateInner() {
 
-		this.position.z = this.getOffset();
+		// this.position.z = this.getOffset();
 
-		if ( this.frame ) this.updateBackgroundMaterial();
+		// if ( this.frame ) this.updateBackgroundMaterial();
 
 	}
 
