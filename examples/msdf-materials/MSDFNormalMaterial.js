@@ -47,7 +47,7 @@ export default class MSDFNormalMaterial extends MeshNormalMaterial{
 				`#include <normalmap_pars_fragment>
 vec4 diffuseColor;
 uniform float alphaTest;
-${ThreeMeshUI.ShaderChunk.msdf_alphaglyph_pars_fragment}`
+${ThreeMeshUI.ShaderChunkUI.msdf_alphaglyph_pars_fragment}`
 			);
 
 			// fragment
@@ -55,7 +55,7 @@ ${ThreeMeshUI.ShaderChunk.msdf_alphaglyph_pars_fragment}`
 				'#include <normal_fragment_maps>',
 				`#include <normal_fragment_maps>
 diffuseColor = vec4( packNormalToRGB( normal ), opacity );
-${ThreeMeshUI.ShaderChunk.msdf_alphaglyph_fragment}`
+${ThreeMeshUI.ShaderChunkUI.msdf_alphaglyph_fragment}`
 			);
 
 			// output

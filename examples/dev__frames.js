@@ -15,7 +15,7 @@ import FramePhysicalMaterial from 'three-mesh-ui/examples/frame-materials/FrameP
 const WIDTH = window.innerWidth;
 const HEIGHT = window.innerHeight;
 
-let scene, camera, renderer, controls, panel, panelScale, lightHelper, stats;
+let scene, camera, renderer, controls, panel, panelScale, lightHelper, stats, topLeft, topMiddleRight, topRight;
 
 window.addEventListener( 'load', init );
 window.addEventListener( 'resize', onWindowResize );
@@ -107,16 +107,16 @@ function init() {
 	const top = makeRow();
 	container.add( top );
 	top.frame.visible = false;
-	const topLeft = makeBoxForBorder('borderTopLeft');
-	topLeft.set({borderRadiusTopLeft:0.1});
+	topLeft = makeBoxForBorder('borderTopLeft');
+	topLeft.set({borderRadiusTopLeft:0.1, borderWidth:0.05, borderColor: new Color(0xff0000)});
 	const topMiddleLeft = makeBoxForBorder('TopMiddleLeft?');
 	topMiddleLeft.set({borderRadius:'0.05 0.25'})
 	const topMiddle = makeBoxForBorder('borderTop');
 	topMiddle.set({borderRadiusTop: 0.05})
-	const topMiddleRight = makeBoxForBorder('TopMiddleRight?');
+	topMiddleRight = makeBoxForBorder('TopMiddleRight?');
 	topMiddleRight.set({borderRadius: [0.25, 0.05], borderColor: new Color(0xff9900), borderWidth: 0.02});
-	const topRight = makeBoxForBorder('BorderTopRight');
-	topRight.set({borderRadiusTopRight:0.1})
+	topRight = makeBoxForBorder('BorderTopRight');
+	topRight.set({borderRadius:0.2, borderWidth:0.05, borderColor: new Color(0x99ff99)});
 	top.add( topLeft, topMiddleLeft, topMiddle, topMiddleRight, topRight)
 	//
 
@@ -130,9 +130,9 @@ function init() {
 	const middleMiddle = makeBoxForBorder('borderMiddle');
 	panel = middleMiddle;
 	const middleMiddleRight = makeBoxForBorder('MiddleMiddleRight?');
-	middleMiddleRight.set({borderRadiusRight:0.5, borderWidth:'0 0 0 0.1', borderColor: new Color(0x99ff00)});
+	middleMiddleRight.set({borderRadiusRight:1, borderWidth:'0 0 0 0.25', borderColor: new Color(0x99ff00)});
 	const middleRight = makeBoxForBorder('BorderMiddleRight');
-	middleRight.set({borderRadiusRight:0.1});
+	middleRight.set({borderRadiusRight:0.3});
 	middle.add( middleLeft, middleMiddleLeft, middleMiddle, middleMiddleRight, middleRight)
 
 	const bottom = makeRow();
@@ -156,11 +156,11 @@ function init() {
 	const bottomMiddle = makeBoxForBorder('borderBottom');
 	bottomMiddle.set({borderRadiusBottom:0.1})
 	const bottomMiddleRight = makeBoxForBorder('BottomMiddleRight?');
-	bottomMiddleRight.set({borderRadius:0.25});
 	panelScale = bottomMiddleRight;
 	// bottomMiddleRight.frame.material = new MeshDepthMaterial();
 	const bottomRight = makeBoxForBorder('BorderBottomRight');
-	middleRight.set({borderRadiusBottomRight:0.1});
+	bottomRight.set({borderWidth:'0.1 0.2 0.3 0.05', borderColor: new Color(0x99ffff)});
+	// middleRight.set({borderRadiusBottomRight:0.1});
 	bottom.add( bottomLeft, bottomMiddleLeft, bottomMiddle, bottomMiddleRight, bottomRight)
 	console.log( bottom.frame.customDepthMaterial );
 
@@ -247,6 +247,10 @@ function loop() {
 		borderColor: new THREE.Color( 0.5 + 0.5 * Math.sin( Date.now() / 500 ), 0.5, 1 ),
 		borderOpacity: 1
 	} );
+
+	topMiddleRight.set({ borderWidth: Math.abs( 0.25 * Math.sin( Date.now() / 500 ) ) })
+
+	topLeft.set({borderRadiusTopLeft: Math.abs( 0.5 * Math.sin( Date.now() / 500 ) )  })
 
 	const size = 0.25 + Math.abs(0.25 * Math.sin( Date.now() / 500 ) );
 	panelScale.set( {width: size, height: size});
