@@ -6,9 +6,7 @@ import msdfOffsetglyphVertexGlsl from '../../font/msdf/renderers/ShaderChunks/ms
 import frameBorderParsVertexGlsl from '../../frame/renderers/ShaderChunk/frame-border.pars.vertex.glsl';
 import frameBorderVertexGlsl from '../../frame/renderers/ShaderChunk/frame-border.vertex.glsl';
 import frameBorderParsFragmentGlsl from '../../frame/renderers/ShaderChunk/frame-border.pars.fragment.glsl';
-// import frameBorderParsFragmentGlsl from '../../frame/renderers/ShaderChunk/frame-border.pars.fragment2.glsl';
 import frameBorderFragmentGlsl from '../../frame/renderers/ShaderChunk/frame-border.fragment.glsl';
-// import frameBorderFragmentGlsl from '../../frame/renderers/ShaderChunk/frame-border.fragment2.glsl';
 import frameCommonParsFragmentGlsl from '../../frame/renderers/ShaderChunk/frame-common.pars.fragment.glsl';
 import frameBackgroundParsFragmentGlsl from '../../frame/renderers/ShaderChunk/frame-background.pars.fragment.glsl';
 import frameBackgroundFragmentGlsl from '../../frame/renderers/ShaderChunk/frame-background.fragment.glsl';
