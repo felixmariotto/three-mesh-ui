@@ -127,6 +127,27 @@ export default function MeshUIComponent( Base ) {
 
 		}
 
+		/**
+		 * @TODO : This is already present in MaterialManager
+		 * Update a component's materials clipping planes.
+		 * Called every frame.
+		 */
+		updateClippingPlanes( value ) {
+
+			const newClippingPlanes = value !== undefined ? value : this.getClippingPlanes();
+
+			if ( JSON.stringify( newClippingPlanes ) !== JSON.stringify( this.clippingPlanes ) ) {
+
+				this.clippingPlanes = newClippingPlanes;
+
+				if ( this.material ) this.material.clippingPlanes = this.clippingPlanes;
+
+				// if ( this.backgroundMaterial ) this.backgroundMaterial.clippingPlanes = this.clippingPlanes;
+
+			}
+
+		}
+		
 		/** Get the highest parent of this component (the parent that has no parent on top of it) */
 		getHighestParent() {
 
