@@ -637,7 +637,7 @@ export default function MeshUIComponent( Base ) {
 			const savedState = this.states[ state ];
 
 			if ( !savedState ) {
-				console.warn( `state "${state}" does not exist within this component` );
+				console.warn( `state "${state}" does not exist within this component:`, this.name );
 				return;
 			}
 
