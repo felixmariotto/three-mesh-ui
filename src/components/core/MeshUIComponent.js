@@ -124,10 +124,11 @@ export default function MeshUIComponent( Base ) {
 			this._tagName = identity.replace(/[#:\.]+(.)+/,"");
 			/* eslint-enable no-useless-escape */
 
+
+			// for output
 			let classes = "";
 			for ( let i = 0; i < this._classes.length; i++ ) {
 				classes += "."+this._classes[ i ];
-
 			}
 
 			let states = "";

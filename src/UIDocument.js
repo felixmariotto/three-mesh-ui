@@ -1,3 +1,8 @@
+/**
+ * Stores any Block that doesn't have MeshUIComponent parent
+ * @type {MeshUIComponent[]}
+ * @private
+ */
 const _roots = [];
 
 /* eslint-disable no-useless-escape */
@@ -13,6 +18,10 @@ const CSS_ATTRIBUTE_COMPONENTS_MATCH_REGEX = /([A-z09_-]+)(([*~$]?={1,2})(.*))?/
 // const CSS_ATTRIBUTE_COMPONENTS_MATCH_REGEX = /([A-z09_-]+)(([*~$]?=)(.*))?/;
 /* eslint-enable no-useless-escape */
 
+/**
+ * Add a MeshUIComponent has being a root, not having MeshUIComponent parent
+ * @param {MeshUIComponent} block
+ */
 function addRoot( block ){
 
 	if( _roots.indexOf( block) === -1 ){
@@ -21,6 +30,10 @@ function addRoot( block ){
 
 }
 
+/**
+ * Remove a MeshUIComponent has being a root
+ * @param block
+ */
 function removeRoot( block ){
 
 	const index = _roots.indexOf(block);
@@ -33,48 +46,73 @@ function removeRoot( block ){
 }
 
 /**
- * querySelectorAll is an entrypoint,
- * logic will deviate to internal _querySelectorAll
+ * @typedef AttributeCondition
+ * @property {string} attribute
+ * @property {string} operator
+ * @property {string} value
+ */
+
+/**
+ * @typedef QuerySegment
+ * @property {string} query
+ * @property {string} operator
+ * @property {Array.<{type:string,value:string|Array.<AttributeCondition>}>} conditions
+ */
+
+
+/**
+ * querySelectorAll is an entrypoint, logic are deviate to internal _querySelectorAll
  * @param queryString
  * @param {MeshUIComponent|Array.<MeshUIComponent>} [context]
  * @return {Array.<MeshUIComponent>}
  */
 function querySelectorAll( queryString , context = null ){
 
-	const queryStringLevels = _splitQueryLevels( queryString );
+	// split the query by segments
+	// ie : div#foo .bar > [data-bar="foo"]
+	//	0		div#foo
+	//	1		.bar
+	//	2		>[data-bar="foo"]
+	const querySegments = _splitQueryBySegments( queryString );
 
 	const queryList = [];
-	for (const match of queryStringLevels) {
+	for (const segment of querySegments) {
 
-		// const operator = match.match(CSS_COMBINATORS_MATCH_REGEX);
-		const operator = match.match(CSS_COMBINATORS_REPLACE_REGEX);
+		// find the css combinator of the segment
+		const operator = segment.match(CSS_COMBINATORS_REPLACE_REGEX);
 
 		queryList.push({
-			query: match,
+			query: segment,
 			operator: operator ? operator[0].trim() : null,
 			conditions: _buildQueryConditions(
 				// css combinator should not be processed as condition
-				match.replace(CSS_COMBINATORS_REPLACE_REGEX, "")
+				segment.replace(CSS_COMBINATORS_REPLACE_REGEX, "")
 			)
 		});
 	}
 
-	let results = [];
 
+
+	// if no lookup context is provided, use any root MeshUIComponent
 	if( !context ) {
 		context = _roots;
 	}
+
+	// Be sure the provided lookup context is an Array
 	if( !Array.isArray(context) ){
 		context = [context];
 	}
 
+
+	let results = [];
+	// Run the internal logic on any context
 	for ( let i = 0; i < context.length; i++ ) {
 
 		results = results.concat( _querySelectorAll( context[ i ], queryList ) );
 
 	}
 
-	// only bring one referenced object
+	// The same MeshUIComponent could be found multiple times, be sure they are only output once
 	for ( let i = results.length - 1; i >= 0; i-- ) {
 
 		let firstIndexOf = results.indexOf( results[i] );
@@ -90,12 +128,21 @@ function querySelectorAll( queryString , context = null ){
 
 }
 
+/**
+ * Internal logic for querySelectorAll
+ * @param {MeshUIComponent} target
+ * @param {Array.<QuerySegment>} queryList
+ * @param {boolean} [recursive=true] Traverse all children to process query
+ * @return {Array.<MeshUIComponent>}
+ * @private
+ */
 function _querySelectorAll( target, queryList, recursive = true ) {
 
 	let results = [];
 
+	// propagate the query selection to any children
 	if( recursive ) {
-		// propagate the while query to children
+
 		for ( let i = 0; i < target.childrenUIs.length; i++ ) {
 
 			results = results.concat( _querySelectorAll( target.childrenUIs[ i ], queryList ) );
@@ -108,7 +155,7 @@ function _querySelectorAll( target, queryList, recursive = true ) {
 	if( _queryMatch( target, queryList[0]) ) {
 
 
-		// push the target as result if last query segment
+		// push the target as result if there is no more segments in the query
 		if( queryList.length === 1 ){
 			results.push( target );
 			return results;
@@ -116,60 +163,60 @@ function _querySelectorAll( target, queryList, recursive = true ) {
 
 
 		// Or check children and sibling to complete further segments
-			const subQuery = queryList.slice( 1 );
+		const subQuery = queryList.slice( 1 );
 
 		// check which css combinator to apply
-			if ( subQuery && subQuery !== "" ) {
+		if ( subQuery && subQuery !== "" ) {
 
-				// Descendant combinator, looks in any children, recursively
-				if( !subQuery[0].operator || subQuery[0].operator === "" )
-				{
-					for ( let i = 0; i < target.childrenUIs.length; i++ ) {
+			// Descendant combinator, looks in any children, recursively
+			if( !subQuery[0].operator || subQuery[0].operator === "" )
+			{
+				for ( let i = 0; i < target.childrenUIs.length; i++ ) {
 
-						results = results.concat( _querySelectorAll( target.childrenUIs[ i ], subQuery ) );
-					}
-
-				}
-				// direct child combinator, only look in direct children, not recursively
-				else if( subQuery[0].operator === ">") {
-
-					for ( let i = 0; i < target.childrenUIs.length; i++ ) {
-
-						results = results.concat( _querySelectorAll( target.childrenUIs[ i ], subQuery, false ) );
-
-					}
+					results = results.concat( _querySelectorAll( target.childrenUIs[ i ], subQuery ) );
 				}
 
-				// siblings combinator
-				else if( target.parentUI && (subQuery[0].operator === "~" || subQuery[0].operator === "+" ) ) {
+			}
+			// direct child combinator, only look in direct children, not recursively
+			else if( subQuery[0].operator === ">") {
 
-					// retrieve the childIndex of the current target
-					const currentIndex = target.parentUI.childrenUIs.indexOf(target);
+				for ( let i = 0; i < target.childrenUIs.length; i++ ) {
 
-					// build the siblings list to check
-					let adjacentSiblings;
-
-					// General sibling, next query segments apply on any further children
-					if( subQuery[0].operator === '~' ){
-						adjacentSiblings = target.parentUI.childrenUIs.slice( currentIndex + 1 );
-					}else{
-						// adjacent sibling, next query segment apply only to next sibling
-						adjacentSiblings = target.parentUI.childrenUIs.slice(currentIndex+1,currentIndex+2);
-					}
-
-					// Looks to siblings, not recursively
-					for ( let i = 0; i < adjacentSiblings.length; i++ ) {
-
-						results = results.concat( _querySelectorAll( adjacentSiblings[ i ], subQuery, false ) );
-
-					}
-
-				} else {
-
-					throw new Error(`UIDocument::querySelectorAll() - The proivided css combinator('${subQuery[0].operator}') is not implemented`);
+					results = results.concat( _querySelectorAll( target.childrenUIs[ i ], subQuery, false ) );
 
 				}
 			}
+
+			// siblings combinator
+			else if( target.parentUI && (subQuery[0].operator === "~" || subQuery[0].operator === "+" ) ) {
+
+				// retrieve the childIndex of the current target
+				const currentIndex = target.parentUI.childrenUIs.indexOf(target);
+
+				// build the siblings list to check
+				let adjacentSiblings;
+
+				// General sibling, next query segments apply on any further children
+				if( subQuery[0].operator === '~' ){
+					adjacentSiblings = target.parentUI.childrenUIs.slice( currentIndex + 1 );
+				}else{
+					// adjacent sibling, next query segment apply only to next sibling
+					adjacentSiblings = target.parentUI.childrenUIs.slice(currentIndex+1,currentIndex+2);
+				}
+
+				// Looks to siblings, not recursively
+				for ( let i = 0; i < adjacentSiblings.length; i++ ) {
+
+					results = results.concat( _querySelectorAll( adjacentSiblings[ i ], subQuery, false ) );
+
+				}
+
+			} else {
+
+				throw new Error(`UIDocument::querySelectorAll() - The provided css combinator('${subQuery[0].operator}') is not implemented`);
+
+			}
+		}
 
 	}
 
@@ -213,6 +260,12 @@ function _specificity( queryList ) {
 
 }
 
+/**
+ * Convert a querySegment to conditions list
+ * @param queryString
+ * @return {Array.<{type:string,value:string|Array.<AttributeCondition>}>}
+ * @private
+ */
 function _buildQueryConditions( queryString ) {
 
 	const conditions = [];
@@ -373,17 +426,14 @@ function _cleanAttributeValue ( value ){
 
 }
 
+/**
+ * Check if a UIComponent match a query
+ * @param {MeshUIComponent} target
+ * @param {QuerySegment} queryLevel
+ * @return {boolean}
+ * @private
+ */
 function _queryMatch( target, queryLevel ) {
-
-	//console.log( queryLevel, target._identity );
-
-	// for ( let i = 0; i < queryLevel.conditions.length; i++ ) {
-	// 	const condition = queryLevel.conditions[ i ];
-	//
-	//
-	//
-	// }
-
 
 	return queryLevel.conditions.every( ( condition )=>{
 
@@ -421,7 +471,7 @@ function _queryMatch( target, queryLevel ) {
  * @return {Array.<string>}
  * @private
  */
-function _splitQueryLevels( queryString ) {
+function _splitQueryBySegments( queryString ) {
 
 	// Match all strings segments to be ignored
 	const stringSegmentsMatch = queryString.matchAll( STRING_SEGMENTS_REGEX );

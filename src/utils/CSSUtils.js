@@ -1,12 +1,15 @@
-
-function loadSheets(){
+/**
+ * Retrieve any inline of linked stylesheets leading to vr
+ */
+function acquireStyleSheets( media = "vr" ){
 
 	if( document && document.styleSheets ){
 
 		for ( let i = 0; i < document.styleSheets.length; i++ ) {
 			const styleSheet = document.styleSheets[ i ];
 
-			if( styleSheet.media.mediaText === 'vr') {
+			//
+			if( styleSheet.media.mediaText === media) {
 
 				console.log( "vr stylesheet found", styleSheet);
 
@@ -19,7 +22,7 @@ function loadSheets(){
 }
 
 /**
- * Retrieve the specificity of a query
+ * Retrieve the specificity of a css query
  * @param {Array.<CSSQuery>|string}query
  * @return {number}
  */
@@ -147,6 +150,11 @@ function queryConditions( queryString ) {
 
 }
 
+/**
+ * Discompose a css query by its combinators levels
+ * @param {string} queryString
+ * @return {*[]}
+ */
 function queryLevels( queryString ) {
 
 		// Match all strings segments to be ignored
@@ -186,7 +194,6 @@ function queryLevels( queryString ) {
 		}
 
 		return segments;
-
 
 }
 
