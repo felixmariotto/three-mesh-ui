@@ -13,6 +13,23 @@
         overflow: hidden;
       }
     </style>
+	<style media="vr">
+		div#toto .class > p{
+			background-color : #ff9900;
+			color : #000;
+			border-color: rgba(124,124,124,0.3);
+			hidden-overflow: 'hidden';
+			-vr-font-opacity: 0.5;
+			--prop-a: "bizounours"
+		}
+
+		@media (orientation: landscape) {
+			body {
+				flex-direction: row;
+			}
+		}
+
+	</style>
   </head>
   <body>
   </body>

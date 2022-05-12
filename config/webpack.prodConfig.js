@@ -38,6 +38,7 @@ const pages = [
 	[ 'dev__baseline', 'Character Alignment' ],
 	[ 'dev__frames', 'Frames' ],
 	[ 'dev__justification', 'Justification' ],
+	[ 'dev__queryselector', 'QuerySelector' ],
 	[ 'dev__whitespace', 'WhiteSpace' ],
 ];
 
@@ -119,6 +120,7 @@ const webpackConfig = env => {
 			dev__baseline: './examples/dev__baseline.js',
 			dev__frames: './examples/dev__frames.js',
 			dev__justification: './examples/dev__justification.js',
+			dev__queryselector: './examples/dev__queryselector.js',
 			dev__whitespace: './examples/dev__whitespace.js',
 
 		},

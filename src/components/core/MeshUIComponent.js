@@ -10,6 +10,7 @@ import FontFamily from '../../font/FontFamily';
 import * as FontWeight from '../../utils/font/FontWeight';
 import * as FontStyle from '../../utils/font/FontStyle';
 import Behavior from '../../behaviors/Behavior';
+import { querySelectorAll } from 'three-mesh-ui';
 
 /**
 
@@ -81,6 +82,73 @@ export default function MeshUIComponent( Base ) {
 			 */
 			this._borderWidth = new Vector4().copy( DEFAULTS.borderWidth );
 
+
+			this._id = "";
+			this._classes = [];
+			this._tagName = "";
+			this._states = [];
+
+		}
+
+		setIdentity( identity ){
+
+			let idMatches = identity.match(/(#)([A-z0-9\-_]*)/);
+			if( idMatches ){
+				this._id = idMatches[2];
+			}
+
+			let classMatches = identity.match(/(\.)([A-z0-9\-_]*)/g);
+			this._classes = [];
+			if( classMatches ) {
+
+				for ( let i = 0; i < classMatches.length; i++ ) {
+					this._classes.push( classMatches[ i ].substring(1) );
+
+				}
+
+			}
+
+			let statesMatches = identity.match(/(::)([A-z0-9\-_]*)/g);
+			this._states = [];
+			if( statesMatches ) {
+
+				for ( let i = 0; i < statesMatches.length; i++ ) {
+
+					this._states.push( statesMatches[ i ].substring(2) );
+
+				}
+
+			}
+
+			/* eslint-disable no-useless-escape */
+			this._tagName = identity.replace(/[#:\.]+(.)+/,"");
+			/* eslint-enable no-useless-escape */
+
+			let classes = "";
+			for ( let i = 0; i < this._classes.length; i++ ) {
+				classes += "."+this._classes[ i ];
+
+			}
+
+			let states = "";
+			for ( let i = 0; i < this._states.length; i++ ) {
+				classes += "::"+this._states[ i ];
+
+			}
+
+			// @TODO: Attributes
+
+			this._identity = this._tagName + this._id + classes + states;
+			console.log('Identity : ', this._tagName + this._id + classes + states);
+
+			return this;
+
+		}
+
+		querySelectorAll( query ) {
+
+			return querySelectorAll( query, this );
+
 		}
 
 		/////////////
@@ -147,7 +215,7 @@ export default function MeshUIComponent( Base ) {
 			}
 
 		}
-		
+
 		/** Get the highest parent of this component (the parent that has no parent on top of it) */
 		getHighestParent() {
 
@@ -467,6 +535,14 @@ export default function MeshUIComponent( Base ) {
 				this.parentUI = null;
 
 			}
+
+			// set elements as root
+			if( this.isBlock && !this.parentUI ){
+				ThreeMeshUI.addRoot( this );
+			}else {
+				ThreeMeshUI.removeRoot( this );
+			}
+
 
 		};
 

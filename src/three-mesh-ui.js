@@ -13,8 +13,11 @@ import * as AlignItems from './utils/block-layout/AlignItems';
 import * as ContentDirection from './utils/block-layout/ContentDirection';
 import MSDFFontMaterialUtils from './font/msdf/utils/MSDFFontMaterialUtils';
 import { ShaderChunkUI } from './renderers/shaders/ShaderChunkUI';
+import { addRoot, querySelectorAll, removeRoot, loadSheets } from './UIDocument';
 
 const update = () => UpdateManager.update();
+
+
 
 const ThreeMeshUI = {
 	Block,
@@ -30,6 +33,10 @@ const ThreeMeshUI = {
 	ContentDirection,
 	MSDFFontMaterialUtils,
 	ShaderChunkUI,
+	addRoot,
+	removeRoot,
+	querySelectorAll,
+	loadSheets,
 };
 
 
@@ -48,5 +55,10 @@ export { AlignItems };
 export { ContentDirection };
 export { ShaderChunkUI };
 export { MSDFFontMaterialUtils };
+export { loadSheets }
+export { addRoot }
+export { removeRoot }
+export { querySelectorAll }
 
 export default ThreeMeshUI;
+
