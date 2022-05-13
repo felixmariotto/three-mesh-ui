@@ -19,6 +19,9 @@ export default class MSDFFontVariant extends FontVariant {
 
 		super(weight, style);
 
+		// provide default values
+		this._unitRange = new Vector2( 1, 1 );
+
 		if ( json.pages ) {
 
 			this._buildData( json );
@@ -40,6 +43,7 @@ export default class MSDFFontVariant extends FontVariant {
 		}
 
 		this._defaultMaterialClass = MSDFFontMaterial;
+
 
 		this._checkReadiness();
 

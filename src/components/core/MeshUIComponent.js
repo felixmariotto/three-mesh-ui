@@ -147,7 +147,7 @@ export default function MeshUIComponent( Base ) {
 			}
 
 		}
-		
+
 		/** Get the highest parent of this component (the parent that has no parent on top of it) */
 		getHighestParent() {
 
@@ -828,7 +828,7 @@ export default function MeshUIComponent( Base ) {
 			if ( options.fontFamily instanceof FontFamily ) {
 
 				this.fontFamily = options.fontFamily;
-				this.font = options.fontFamily.getVariant( FontWeight.NORMAL, FontStyle.NORMAL );
+				this.font = options.fontFamily.getVariant( this.getFontWeight(), this.getFontStyle() );
 
 			}
 
@@ -840,7 +840,7 @@ export default function MeshUIComponent( Base ) {
 				if( fontFamily ){
 
 					this.fontFamily = fontFamily;
-					this.font = fontFamily.getVariant( FontWeight.NORMAL, FontStyle.NORMAL );
+					this.font = fontFamily.getVariant( this.getFontWeight(), this.getFontStyle() );
 
 				}
 

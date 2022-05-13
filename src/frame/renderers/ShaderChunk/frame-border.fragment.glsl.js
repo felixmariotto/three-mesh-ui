@@ -6,8 +6,6 @@ float change = fwidth( edgeDist );
 float alpha = smoothstep( change, 0.0, edgeDist );
 diffuseColor.a *= alpha;
 
-if( diffuseColor.a <= 0.02 ) discard;
-
 // if the length square is not zerp
 if( borderWidth.x * borderWidth.x + borderWidth.y * borderWidth.y + borderWidth.z * borderWidth.z + borderWidth.w * borderWidth.w  > 0.0 )
 {
@@ -23,8 +21,6 @@ if( borderWidth.x * borderWidth.x + borderWidth.y * borderWidth.y + borderWidth.
 	//	diffuseColor.rgb = borderColor.rgb;
 
 	//}
-
-	if( diffuseColor.a <= 0.02 ) discard;
 
 	diffuseColor = mix( diffuseColor, borderColor, stp );
 

@@ -169,8 +169,8 @@ function makeTextPanel() {
 	})
 	outerContainer.add( effectContainer );
 
-	effectContainer.add( buildEffectContainer('without BoundsUVBehavior', 'Each glyph will have the full [0,0-1,1] uv', null ) );
-	effectContainer.add( buildEffectContainer('BoundsUVBehavior from itself', 'UVs are spread from firstChar to lastChar', "self" ) );
+	effectContainer.add( buildEffectContainer('without BoundsUVBehavior', 'Texture is stretched on each glyph', null ) );
+	effectContainer.add( buildEffectContainer('BoundsUVBehavior from itself', 'Texture is stretched from first to last glyph', "self" ) );
 	effectContainer.add( buildEffectContainer('BoundsUVBehavior from object', 'Here UVs are computed from the red box behind', boundingContainer ) );
 
 

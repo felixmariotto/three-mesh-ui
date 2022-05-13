@@ -13,8 +13,11 @@ import * as AlignItems from './utils/block-layout/AlignItems';
 import * as ContentDirection from './utils/block-layout/ContentDirection';
 import MSDFFontMaterialUtils from './font/msdf/utils/MSDFFontMaterialUtils';
 import { ShaderChunkUI } from './renderers/shaders/ShaderChunkUI';
+import * as FontWeight from './utils/font/FontWeight';
+import * as FontStyle from './utils/font/FontStyle';
 
 const update = () => UpdateManager.update();
+
 
 const ThreeMeshUI = {
 	Block,
@@ -22,6 +25,8 @@ const ThreeMeshUI = {
 	InlineBlock,
 	Keyboard,
 	FontLibrary,
+	FontStyle,
+	FontWeight,
 	update,
 	TextAlign,
 	Whitespace,
@@ -40,6 +45,8 @@ export { Text };
 export { InlineBlock };
 export { Keyboard };
 export { FontLibrary };
+export { FontStyle };
+export { FontWeight };
 export { update };
 export { TextAlign };
 export { Whitespace };
