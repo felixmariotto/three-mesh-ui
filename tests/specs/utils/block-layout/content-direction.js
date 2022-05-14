@@ -1,51 +1,28 @@
-/* global THREE, ThreeMeshUI, scene, camera, renderer, controls */
+import { buildThreeSetup } from '../../../utils/TestThree.js' ;
+import { preloadFonts } from '../../../utils/TestFonts.js';
+import { fiveBlockContainer } from '../../../utils/TestStructure.js';
+
 
 describe("ContentDirection", function () {
 
 	let scene, camera, renderer, render;
+	let fontFamily;
 
 	before(function (done) {
 
-		scene = new THREE.Scene();
-
-		const WIDTH = window.innerWidth;
-		const HEIGHT = window.innerHeight;
-		camera = new THREE.PerspectiveCamera( 60, WIDTH / HEIGHT, 0.1, 100 );
-
-		renderer = new THREE.WebGLRenderer();
-		renderer.setPixelRatio( window.devicePixelRatio );
-		renderer.setSize( WIDTH, HEIGHT );
-
-		document.body.appendChild( renderer.domElement );
-
-		camera.position.set( 0, 1.6, 0 );
-
-		render = () => {
-			ThreeMeshUI.update();
-			renderer.render( scene, camera );
-		}
-
-		// load fonts
-		ThreeMeshUI.FontLibrary.prepare(
-			ThreeMeshUI.FontLibrary
-				.addFontFamily("Roboto")
-				.addVariant('400','normal', "/base/examples/assets/fonts/msdf/roboto/regular.json", "/base/examples/assets/fonts/msdf/roboto/regular.png")
-		).then( done );
+		({scene, camera, renderer, render} = buildThreeSetup());
+		fontFamily = preloadFonts( done );
 
 	});
 
-	let block, child1, child2;
+	let container, child1, child2;
 
 	before(function () {
 
-		console.log("sublevel before");
-
-		//build a container with 2 children blocks
-		block = new ThreeMeshUI.Block({ width: 1, height:1 });
-		child1 = new ThreeMeshUI.Block({ width: 0.25, height: 0.25 });
-		child2 = new ThreeMeshUI.Block({ width: 0.45, height: 0.45 });
-		block.add( child1, child2 );
-		scene.add( block );
+		//build a container with 5 children blocks
+		( {container,child1,child2} = fiveBlockContainer(scene) );
+		// change the size of child2
+		child2.set({width: 0.45, height: 0.45});
 		render();
 
 	});
@@ -54,7 +31,7 @@ describe("ContentDirection", function () {
 	describe(".COLUMN", function() {
 
 		before( () => {
-			block.set({contentDirection: 'column'});
+			container.set({contentDirection: 'column'});
 			render();
 		})
 
@@ -90,7 +67,7 @@ describe("ContentDirection", function () {
 	describe(".COLUMN_REVERSE", function() {
 
 		before( () => {
-			block.set({contentDirection: 'column-reverse'});
+			container.set({contentDirection: 'column-reverse'});
 			child1.set({margin:0});
 			render();
 		})
@@ -129,7 +106,7 @@ describe("ContentDirection", function () {
 	describe(".ROW", function() {
 
 		before( () => {
-			block.set({contentDirection: 'row'});
+			container.set({contentDirection: 'row'});
 			child1.set({margin:0});
 			render();
 		})
@@ -167,7 +144,7 @@ describe("ContentDirection", function () {
 	describe(".ROW_REVERSE", function() {
 
 		before( () => {
-			block.set({contentDirection: 'row-reverse'});
+			container.set({contentDirection: 'row-reverse'});
 			child1.set({margin:0});
 			render();
 		})
