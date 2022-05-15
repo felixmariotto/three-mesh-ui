@@ -1,59 +1,79 @@
 /* Import everything we need from Three.js */
 
-import * as THREE from "three";
-import {VRButton} from "three/examples/jsm/webxr/VRButton.js";
-import {BoxLineGeometry} from "three/examples/jsm/geometries/BoxLineGeometry.js";
-import {OrbitControls} from "three/examples/jsm/controls/OrbitControls.js";
+import * as THREE from 'three';
+import { VRButton } from 'three/examples/jsm/webxr/VRButton.js';
+import { BoxLineGeometry } from 'three/examples/jsm/geometries/BoxLineGeometry.js';
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 
-import ThreeMeshUI from "three-mesh-ui";
-
-import FontJSON from 'three-mesh-ui/examples/assets/fonts/msdf/roboto/regular.json';
-import FontImage from 'three-mesh-ui/examples/assets/fonts/msdf/roboto/regular.png';
+import ThreeMeshUI, { FontLibrary, MSDFFontMaterialUtils, ShaderChunkUI } from 'three-mesh-ui';
 
 
-import {Mesh, MeshBasicMaterial, PlaneBufferGeometry, ShaderMaterial, UniformsUtils} from "three";
+import { Mesh, MeshBasicMaterial, PlaneBufferGeometry, ShaderMaterial, UniformsUtils } from 'three';
+import * as FontWeight from '../src/utils/font/FontWeight';
+import * as FontStyle from '../src/utils/font/FontStyle';
+import ROBOTO_ADJUSTMENT from 'three-mesh-ui/examples/assets/fonts/msdf/roboto/adjustment';
 
 const WIDTH = window.innerWidth;
 const HEIGHT = window.innerHeight;
 
 let scene, camera, renderer, controls;
 
-window.addEventListener("load", init);
-window.addEventListener("resize", onWindowResize);
+window.addEventListener( 'load', preloadFonts );
+window.addEventListener( 'resize', onWindowResize );
+
+function preloadFonts(){
+	FontLibrary.prepare(
+
+		FontLibrary
+			.addFontFamily("Roboto")
+			.addVariant(FontWeight.NORMAL, FontStyle.NORMAL, "./assets/fonts/msdf/roboto/regular.json", "./assets/fonts/msdf/roboto/regular.png" )
+
+	).then( () => {
+
+		// Adjusting font variants
+		const FF = FontLibrary.getFontFamily("Roboto");
+		FF.getVariant('400','normal').adjustTypographicGlyphs( ROBOTO_ADJUSTMENT );
+
+		init();
+
+	});
+
+
+}
 
 //
 
 function init() {
 	scene = new THREE.Scene();
-	scene.background = new THREE.Color(0x505050);
+	scene.background = new THREE.Color( 0x505050 );
 
 	// use of orthgraphic camera to increase matching
-	camera = new THREE.OrthographicCamera( WIDTH / - 2, WIDTH / 2, HEIGHT / 2, HEIGHT / - 2, 1, 1000 );
+	camera = new THREE.OrthographicCamera( WIDTH / -2, WIDTH / 2, HEIGHT / 2, HEIGHT / -2, 1, 1000 );
 
-	renderer = new THREE.WebGLRenderer({antialias: true});
-	renderer.setPixelRatio(window.devicePixelRatio);
-	renderer.setSize(WIDTH, HEIGHT);
+	renderer = new THREE.WebGLRenderer( { antialias: true } );
+	renderer.setPixelRatio( window.devicePixelRatio );
+	renderer.setSize( WIDTH, HEIGHT );
 	renderer.xr.enabled = true;
-	document.body.appendChild(VRButton.createButton(renderer));
-	document.body.appendChild(renderer.domElement);
+	document.body.appendChild( VRButton.createButton( renderer ) );
+	document.body.appendChild( renderer.domElement );
 
-	controls = new OrbitControls(camera, renderer.domElement);
-	camera.position.set(0, 0.925, 0);
+	controls = new OrbitControls( camera, renderer.domElement );
+	camera.position.set( 0, 0.925, 0 );
 
 	camera.zoom = 1275;
 	camera.updateProjectionMatrix();
 
-	controls.target = new THREE.Vector3(0, 1, -1.8);
+	controls.target = new THREE.Vector3( 0, 1, -1.8 );
 	controls.update();
 
 	// ROOM
 
 	const room = new THREE.LineSegments(
-		new BoxLineGeometry(6, 6, 6, 10, 10, 10).translate(0, 3, 0),
-		new THREE.LineBasicMaterial({color: 0x808080})
+		new BoxLineGeometry( 6, 6, 6, 10, 10, 10 ).translate( 0, 3, 0 ),
+		new THREE.LineBasicMaterial( { color: 0x808080 } )
 	);
 
-	scene.add(room);
+	scene.add( room );
 
 	// TEXT PANEL
 
@@ -61,113 +81,147 @@ function init() {
 
 	//
 
-	renderer.setAnimationLoop(loop);
+	renderer.setAnimationLoop( loop );
 }
 
 //
 
 function makeUI() {
-	const container = new ThreeMeshUI.Block({
+	const container = new ThreeMeshUI.Block( {
 		height: 1.5,
 		width: 0.55,
-		justifyContent: "center",
-		alignContent: "center",
+		justifyContent: 'center',
+		alignItems: 'center',
 		backgroundOpacity: 0,
-	});
+	} );
 
-	container.position.set(0, 0.925, -1.8);
+	container.position.set( 0, 0.925, -1.8 );
 	// container.rotation.x = -0.55;
-	scene.add(container);
+	scene.add( container );
 
 	//
 
-	const textBlock = new ThreeMeshUI.Block({
+	const textBlock = new ThreeMeshUI.Block( {
 		height: 0.4,
 		width: 0.73,
 		margin: 0.05,
-		alignContent: "right",
-		justifyContent: "center",
-		padding: 0.03,
-		interLine: -0.01,
-		letterSpacing: 0
-	});
+		textAlign: 'right',
+		justifyContent: 'center',
+		padding: 0.025,
+		interLine: 0.01,
+		letterSpacing: 0,
+		breakOn: "- \n"
+	} );
 
-	container.add(textBlock);
+	container.add( textBlock );
 
 	//
 
-	container.set({
-		fontFamily: FontJSON,
-		fontTexture: FontImage,
-	});
+	container.set( {
+		fontFamily: "Roboto"
+	} );
 
-	const textContent = "The spiny bush viper is known for its extremely keeled dorsal scales.";
-	const text = new ThreeMeshUI.Text({
+	const textContent = 'The spiny bush viper is known for its extremely keeled dorsal scales.';
+	// const textContent = 'The spiny bush viper is';
+	const text = new ThreeMeshUI.Text( {
 		fontSize: 0.06,
 		fontOpacity: 0.75,
 		content: textContent,
-	});
+	} );
 
+	const text2 = new ThreeMeshUI.Text( {
+		fontSize: 0.015,
+		fontOpacity: 0.75,
+		content: 'The spiny bush viper is known for its extremely keeled dorsal scales.',
+	} );
+
+	text.material = new FontMaterialDebugger();
 
 	// Lines properties. Lines are planes manually added behind each text lines
 	// in order to perceive and validate line width
 
-	const lineMat = new MeshBasicMaterial({color:0xff9900,opacity:0.5});
+	const lineMat = new MeshBasicMaterial( { color: 0x696969, opacity: 0.5 } );
+	const baseMat = new MeshBasicMaterial( { color: 0xff00ff } );
+	const medianMat = new MeshBasicMaterial( { color: 0x99ff00 } );
 	let lines = [];
 
-	text.onAfterUpdate = function () {
+	text.addAfterUpdate( function () {
 
-		if (!(text.material instanceof FontMaterialDebugger) ) {
+		// remove all lines previously added
+		for ( let i = 0; i < lines.length; i++ ) {
+			const lineMesh = lines[ i ];
+			text.remove( lineMesh );
+		}
+		lines = [];
 
-			// remove all lines previously added
-			for (let i = 0; i < lines.length; i++) {
-				const line = lines[i];
-				container.remove(line);
-			}
-			lines = [];
 
-			// only process when texts are not empty
-			if( text.children.length == 0 ) return;
+		// retrieve all lines sent by InlineManager for the textBlock
+		for ( let i = 0; i < textBlock.lines.length; i++ ) {
 
-			// replace the default fontMaterial with a debugging one
-			// which shows quad in opposite font color
-			text.children[0].material = new FontMaterialDebugger(text.material);
-			text.children[0].material.uniforms.u_texture.value = text.material.uniforms.u_texture.value;
-			text.children[0].material.uniforms.u_opacity.value = text.material.uniforms.u_opacity.value;
+			const line = textBlock.lines[ i ];
 
-			// retrieve all lines sent by InlineManager for the textBlock
-			for (let i = 0; i < textBlock.lines.length; i++) {
+			if ( !line[ 0 ] ) continue;
 
-				const lineProperty = textBlock.lines[i];
+			const lineHeight = line.lineHeight;
+			const lineBase = line.lineBase;
 
-				if( !lineProperty[0] ) continue;
+			const deltaLine = lineHeight - lineBase;
 
-				// ( I was unable to quickly match lineHeight )
-				// lineHeight doesn't fit
-				const lineHeight = lineProperty.lineHeight/4;
+			// TextBackground
+			const lineGeo = new PlaneBufferGeometry( line.width, lineHeight );
+			const lineMesh = new Mesh( lineGeo, lineMat );
 
-				// create a mesh for each line
-				const lineGeo = new PlaneBufferGeometry(lineProperty.width, lineHeight );
-				const lineMesh = new Mesh( lineGeo, lineMat);
+			lineMesh.position.x = line[ 0 ].offsetX + ( line.width / 2 );
+			lineMesh.position.y = line.y + lineHeight/2 - deltaLine/4; // Background
 
-				lineMesh.position.x = lineProperty[0].offsetX + (lineProperty.width/2);
-				lineMesh.position.y = lineProperty[0].offsetY + (lineHeight/2);
 
-				lineMesh.position.z = 0.018;
+			lines.push( lineMesh );
+			text.add( lineMesh );
 
-				lines.push(lineMesh);
-				container.add(lineMesh);
-			}
+			// baseline
+			const baselineMesh = new Mesh( new PlaneBufferGeometry( line.width, 0.001 ), baseMat );
+			baselineMesh.position.x = line[ 0 ].offsetX + ( line.width / 2 );
+			baselineMesh.position.y = line.y + lineBase/2 - (lineHeight-lineBase) + 0.0005; // Baseline
+
+			lines.push( baselineMesh );
+			text.add( baselineMesh );
+
+
+			// Median
+			const medianMesh = new Mesh( new PlaneBufferGeometry( line.width, 0.001 ), medianMat );
+
+			medianMesh.position.x = line[ 0 ].offsetX + ( line.width / 2 );
+
+			const delta = baselineMesh.position.y - lineMesh.position.y;
+
+
+			medianMesh.position.y =  lineMesh.position.y - delta - 0.0005; // Baseline
+			lines.push( medianMesh );
+			text.add( medianMesh );
+
+			baselineMesh.position.z = medianMesh.position.z = text.children[0].position.z + 0.006;
+
 
 		}
-	}
 
-	textBlock.add(text);
+
+		//
+		// const heightMesh = new Mesh( new PlaneBufferGeometry( 0.5, textBlock.lines.height ),
+		// 	new MeshBasicMaterial({color:0xff0000}));
+		//
+		// lines.push( heightMesh );
+		// text.add( heightMesh );
+
+
+
+	});
+
+	textBlock.add( text , text2 );
 
 
 	//build html overlay for comparison and selection
-	const overlay = document.createElement('div');
-	overlay.classList.add('overlay');
+	const overlay = document.createElement( 'div' );
+	overlay.classList.add( 'overlay' );
 
 	overlay.innerHTML = `
     <div style="flex-grow: 1; display: flex; flex-direction: column">
@@ -206,49 +260,49 @@ function makeUI() {
     </div>`;
 
 	//
-	const tA = overlay.querySelector('textarea');
+	const tA = overlay.querySelector( 'textarea' );
 	tA.value = textContent;
 
-	const paragraphs = overlay.querySelectorAll("p");
-	for (let i = 0; i < paragraphs.length; i++) {
-		paragraphs[i].textContent = textContent;
-		paragraphs[i].addEventListener("click", (e) => {
+	const paragraphs = overlay.querySelectorAll( 'p' );
+	for ( let i = 0; i < paragraphs.length; i++ ) {
+		paragraphs[ i ].textContent = textContent;
+		paragraphs[ i ].addEventListener( 'click', ( e ) => {
 
-			for (let j = 0; j < paragraphs.length; j++) {
-				paragraphs[j].classList.remove('selected');
+			for ( let j = 0; j < paragraphs.length; j++ ) {
+				paragraphs[ j ].classList.remove( 'selected' );
 			}
 
 			const selectedParagraph = e.currentTarget;
-			selectedParagraph.classList.add('selected');
+			selectedParagraph.classList.add( 'selected' );
 
-			const align = selectedParagraph.getAttribute('data-a');
-			const whiteSpace = selectedParagraph.parentElement.getAttribute("data-ws");
+			const align = selectedParagraph.getAttribute( 'data-a' );
+			const whiteSpace = selectedParagraph.parentElement.getAttribute( 'data-ws' );
 
 			// Block whitespace will helps to compute size and collapsing whitespace chars
-			textBlock.set({
-				alignContent: align,
+			textBlock.set( {
+				textAlign: align,
 				whiteSpace: whiteSpace,// but this is not propagated to children
-			});
+			} );
 
 			// so setting Text whitespace is required to know whitespace behaviour of \n ;
 			// lineBreak : mandatory|possible ( done in Text );
-			text.set({whiteSpace:whiteSpace});
-		})
+			text.set( { whiteSpace: whiteSpace } );
+		} );
 	}
 
 	// preset content buttons interactions
-	const textButtons = overlay.querySelectorAll("button");
-	for (let i = 0; i < textButtons.length; i++) {
-		textButtons[i].addEventListener('click',(e)=>{
+	const textButtons = overlay.querySelectorAll( 'button' );
+	for ( let i = 0; i < textButtons.length; i++ ) {
+		textButtons[ i ].addEventListener( 'click', ( e ) => {
 			const buttonClicked = e.currentTarget;
-			tA.value = buttonClicked.getAttribute('data-tc');
-			tA.dispatchEvent(new Event('input'));
-		});
+			tA.value = buttonClicked.getAttribute( 'data-tc' );
+			tA.dispatchEvent( new Event( 'input' ) );
+		} );
 	}
 
 
 	// inject styles
-	const style = document.createElement('style');
+	const style = document.createElement( 'style' );
 	style.textContent = `
         @import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
         .overlay { position:fixed; top:20px; right:20px; display:flex; width:95% }
@@ -265,21 +319,21 @@ function makeUI() {
         [data-a="center"] { text-align: center; }
         [data-a="right"] { text-align: right; }
     `;
-	document.head.appendChild(style);
-	document.body.appendChild(overlay);
+	document.head.appendChild( style );
+	document.body.appendChild( overlay );
 
 
 	// update texts as soon textarea changes
-	tA.addEventListener('input', () => {
+	tA.addEventListener( 'input', () => {
 		const tc = tA.value;
 
 		// update html paragraph
-		for (let i = 0; i < paragraphs.length; i++) {
-			paragraphs[i].textContent = tc;
+		for ( let i = 0; i < paragraphs.length; i++ ) {
+			paragraphs[ i ].textContent = tc;
 		}
 		// and threemeshui text
-		text.set({content: tc});
-	});
+		text.set( { content: tc } );
+	} );
 
 }
 
@@ -293,13 +347,13 @@ function onWindowResize() {
 	const aspect = W / H;
 	// camera.aspectRatio = aspect;
 
-	camera.left = W *aspect/ - 2;
-	camera.right = W *aspect/ 2;
-	camera.top = H * aspect/ 2;
-	camera.bottom = - H * aspect/ 2;
+	camera.left = W * aspect / -2;
+	camera.right = W * aspect / 2;
+	camera.top = H * aspect / 2;
+	camera.bottom = -H * aspect / 2;
 
 	camera.updateProjectionMatrix();
-	renderer.setSize(window.innerWidth, window.innerHeight);
+	renderer.setSize( window.innerWidth, window.innerHeight );
 }
 
 // Render loop (called ~60 times/second, or more in VR)
@@ -311,79 +365,66 @@ function loop() {
 	ThreeMeshUI.update();
 
 	controls.update();
-	renderer.render(scene, camera);
+	renderer.render( scene, camera );
 }
 
-/**
- *
- */
-class FontMaterialDebugger extends ShaderMaterial {
+class FontMaterialDebugger extends MeshBasicMaterial {
 
 	/**
-	 *
-	 * @param {ShaderMaterial} fontMaterial
+	 * This static method is mandatory for extending ThreeMeshUI.MSDFFontMaterial
+	 * It will provide a transfer description for properties from ThreeMeshUI.Text to THREE.Material
+	 * @see {MSDFFontMaterialUtils.fontMaterialProperties}
+	 * @override
+	 * @returns {Object.<{m:string, t?:(fontMaterial:Material|ShaderMaterial, materialProperty:string, value:any) => void}>}
 	 */
-	constructor( fontMaterial ) {
+	static get fontMaterialProperties() {
 
-		super({
-			uniforms: UniformsUtils.clone(fontMaterial.uniforms),
-			transparent: true,
-			clipping: true,
-			vertexShader: textVertex,
-			fragmentShader: textFragment,
-			extensions: {
-				derivatives: true
-			}
-		});
+		return MSDFFontMaterialUtils.fontMaterialProperties;
+
 	}
+
+
+	constructor( options = {} ) {
+
+		// be sure transparent and alphaTest are set
+		MSDFFontMaterialUtils.ensureMaterialOptions( options );
+
+		// build this material
+		super( options );
+
+		// ensure this material support webgl preprocessors
+		MSDFFontMaterialUtils.ensureDefines( this );
+
+		// ensure this material has the proper userData properties (api for uniforms)
+		MSDFFontMaterialUtils.ensureUserData( this, options );
+
+		// override the shaders
+		this.onBeforeCompile = shader => {
+
+			// links this material userDatas with its uniforms
+			MSDFFontMaterialUtils.bindUniformsWithUserData( shader, this );
+
+			// default vertex shader
+			MSDFFontMaterialUtils.injectVertexShaderChunks( shader );
+
+			shader.fragmentShader = shader.fragmentShader.replace(
+				'#include <uv_pars_fragment>',
+				'#include <uv_pars_fragment>\n' + ShaderChunkUI.msdf_alphaglyph_pars_fragment
+			);
+
+			// fragment chunks
+			shader.fragmentShader = shader.fragmentShader.replace(
+				'#include <alphamap_fragment>',
+				ShaderChunkUI.msdf_alphaglyph_fragment + `
+				if( diffuseColor.a <= 0.02 ) {
+					diffuseColor = vec4(0.,0.,0.,0.75);
+				}
+				#include <alphamap_fragment>
+`
+			);
+
+		};
+
+	}
+
 }
-
-const textVertex = `
-	varying vec2 vUv;
-
-	#include <clipping_planes_pars_vertex>
-
-	void main() {
-
-		vUv = uv;
-		vec4 mvPosition = modelViewMatrix * vec4( position, 1.0 );
-		gl_Position = projectionMatrix * mvPosition;
-		gl_Position.z -= 0.00001;
-
-		#include <clipping_planes_vertex>
-
-	}
-`;
-
-//
-
-const textFragment = `
-	uniform sampler2D u_texture;
-	uniform vec3 u_color;
-	uniform float u_opacity;
-
-	varying vec2 vUv;
-
-	#include <clipping_planes_pars_fragment>
-
-	float median(float r, float g, float b) {
-		return max(min(r, g), min(max(r, g), b));
-	}
-
-	void main() {
-
-		vec3 textureSample = texture2D( u_texture, vUv ).rgb;
-		float sigDist = median( textureSample.r, textureSample.g, textureSample.b ) - 0.5;
-		float alpha = clamp( sigDist / fwidth( sigDist ) + 0.5, 0.0, 1.0 );
-		alpha = min( alpha, u_opacity );
-
-		if( alpha < 0.02) {
-		    gl_FragColor = vec4( vec3(1.)-u_color, 1.0 );
-		}else{
-            gl_FragColor = vec4( u_color, u_opacity );
-         }
-
-		#include <clipping_planes_fragment>
-
-	}
-`;
