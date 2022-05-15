@@ -31,8 +31,6 @@ export default function InlineManager( Base ) {
 			const JUSTIFICATION = this.getJustifyContent();
 			const ALIGNMENT = this.getTextAlign();
 
-			const INTERLINE = this.getInterLine();
-
 			// Compute lines
 			const lines = this.computeLines();
 
@@ -42,23 +40,8 @@ export default function InlineManager( Base ) {
 
 			// individual vertical offset
 
-			let textHeight = lines.reduce( ( offsetY, line, i, arr ) => {
+			const textHeight = Math.abs( lines.height );
 
-				const charAlignement = line.lineHeight - line.lineBase;
-
-				line.forEach( ( inline ) => {
-
-					inline.offsetY = offsetY - line.lineHeight + charAlignement + arr[ 0 ].lineHeight;
-
-				} );
-
-				return offsetY - line.lineHeight - INTERLINE;
-
-			}, 0 ) + INTERLINE;
-
-			//
-
-			textHeight = Math.abs( textHeight );
 
 			// Line vertical positioning
 
@@ -67,22 +50,28 @@ export default function InlineManager( Base ) {
 
 					case 'start':
 						return ( INNER_HEIGHT / 2 ) - lines[ 0 ].lineHeight;
+
 					case 'end':
 						return textHeight - lines[ 0 ].lineHeight - ( INNER_HEIGHT / 2 ) + ( lines[ lines.length - 1 ].lineHeight - lines[ lines.length - 1 ].lineHeight );
+
+					case 'space-around':
+					case 'space-between':
+					case 'space-evenly':
 					case 'center':
 						return ( textHeight / 2 ) - lines[ 0 ].lineHeight;
+
 					default:
 						console.warn( `justifyContent: '${JUSTIFICATION}' is not valid` );
 
 				}
 			} )();
 
-			// const justificationOffset = 0;
 
 			//
 
 			lines.forEach( ( line ) => {
 
+				line.y += justificationOffset;
 				line.forEach( ( inline ) => {
 
 					inline.offsetY += justificationOffset;
@@ -108,12 +97,14 @@ export default function InlineManager( Base ) {
 
 			// computed by BoxComponent
 			const INNER_WIDTH = this.getWidth() - ( this.padding * 2 || 0 );
+			const INTERLINE = this.getInterLine();
 
 			// Will stock the characters of each line, so that we can
 			// correct lines position before to merge
 			const lines = [ [] ];
 
-			this.childrenInlines.reduce( ( lastInlineOffset, inlineComponent ) => {
+			let lastInlineOffset = 0;
+			this.childrenInlines.forEach( ( inlineComponent ) => {
 
 					// Abort condition
 
@@ -135,8 +126,9 @@ export default function InlineManager( Base ) {
 						INNER_WIDTH
 					}
 
-					const currentInlineInfo = inlineComponent.inlines.reduce( ( lastInlineOffset, inline, i, inlines ) => {
+					inlineComponent.inlines.forEach( ( inline, i, inlines ) => {
 
+						const line = lines[lines.length - 1];
 						// Line break
 						const shouldBreak = Whitespace.shouldBreak(inlines,i,lastInlineOffset, whiteSpaceOptions );
 
@@ -147,81 +139,106 @@ export default function InlineManager( Base ) {
 							inline.offsetX = inline.xoffset;
 
 							// restart the lastInlineOffset as zero.
-							if ( inline.width === 0 ) return 0;
+							if ( inline.width === 0 ) {
+								lastInlineOffset = 0;
+								return;
+							}
 
 							// compute lastInlineOffset normally
 							// except for kerning which won't apply
 							// as there is visually no lefthanded glyph to kern with
-							return inline.xadvance + LETTERSPACING;
+							lastInlineOffset = inline.xadvance + LETTERSPACING;
+							return;
 
 						}
 
 						lines[ lines.length - 1 ].push( inline );
-
 						inline.offsetX = lastInlineOffset + inline.xoffset + inline.kerning;
 
-						return lastInlineOffset + inline.xadvance + inline.kerning + LETTERSPACING;
+						lastInlineOffset += inline.xadvance + inline.kerning + LETTERSPACING;
 
-					}, lastInlineOffset );
+						// in case of lineBreak mandatory
+						if( line.length-1 === 1) {
 
-					//
+							if ( line[ line.length - 2 ].width === 0 ) {
 
-					return currentInlineInfo;
+								// remove the offset of the character following the newline
+								inline.offsetX -= inline.xoffset;
+								lastInlineOffset -= inline.xoffset;
 
-				}, 0 );
+							}
+						}
 
-			// Compute lines dimensions
+					} );
 
-			lines.forEach( ( line ) => {
+			} );
+
+			// Compute single line and combined lines dimensions
+			const WHITESPACE = this.getWhiteSpace();
+
+			let lineOffsetY = 0;
+			lines[0].y = 0;
+
+			lines.forEach( ( line, i ) => {
+
+				// starts by processing whitespace, it will return a collapsed left offset
+				const whiteSpaceOffset = Whitespace.collapseWhitespaceOnInlines( line, WHITESPACE );
 
 				//
+				let lineHeight = 0;
+				let lineBase = 0;
 
-				line.lineHeight = line.reduce( ( height, inline ) => {
+				line.forEach( ( inline ) => {
 
-					const charHeight = inline.lineHeight !== undefined ? inline.lineHeight : inline.height;
-					// const charHeight = inline.height;
+					lineHeight = Math.max( lineHeight, inline.lineHeight );
+					lineBase = Math.max( lineBase, inline.lineBase );
 
-					return Math.max( height, charHeight );
+					inline.offsetX -= whiteSpaceOffset;
 
-				}, 0 );
+				});
 
-				//
+				line.lineHeight = lineHeight;
+				line.lineBase = lineBase;
 
-				line.lineBase = line.reduce( ( lineBase, inline ) => {
+				const baseLineDelta = lineHeight - lineBase;
 
-					const newLineBase = inline.lineBase !== undefined ? inline.lineBase : inline.height;
-					// const newLineBase = inline.height;
+				// process yoffset
+				line.forEach( ( inline ) => {
 
-					return Math.max( lineBase, newLineBase );
+					inline.offsetY = lineOffsetY - line.lineHeight + baseLineDelta + lines[ 0 ].lineHeight;
 
-				}, 0 );
+				});
+
+				if( i !== 0 ){
+
+					// get the previousLine y and increase
+					line.y =  lines[i-1].y - line.lineHeight - INTERLINE;
+
+				}
+
+				lineOffsetY = lineOffsetY - line.lineHeight - INTERLINE
 
 				//
 
 				line.width = 0;
-				const lineHasInlines = line[ 0 ];
-
-				if ( lineHasInlines ) {
-
-					// starts by processing whitespace, it will return a collapsed left offset
-					const WHITESPACE = this.getWhiteSpace();
-					const whiteSpaceOffset = Whitespace.collapseWhitespaceOnInlines( line, WHITESPACE );
-
-					// apply the collapsed left offset to ensure the starting offset is 0
-					line.forEach( ( inline ) => {
-
-						inline.offsetX -= whiteSpaceOffset;
-
-					} );
+				// if this line have inlines
+				if ( line[ 0 ] ) {
 
 					// compute its width: length from firstInline:LEFT to lastInline:RIGHT
-					line.width = this.computeLineWidth( line );
+					// only by the length of its extremities
+					const lastInline = line[ line.length - 1 ];
+
+					// Right + Left ( left is negative )
+					line.width = (lastInline.offsetX + lastInline.width) + line[ 0 ].offsetX;
 
 				}
 
 			} );
 
+			lines.height = Math.abs(lineOffsetY + INTERLINE );
+
 			return lines;
+
 		}
 
 		calculateHeight( fontMultiplier ) {
@@ -238,32 +255,7 @@ export default function InlineManager( Base ) {
 
 			const lines = this.computeLines();
 
-			const INTERLINE = this.getInterLine();
-
-			const textHeight = lines.reduce( ( offsetY, line ) => {
-
-				return offsetY - line.lineHeight - INTERLINE;
-
-			}, 0 ) + INTERLINE;
-
-			return Math.abs( textHeight );
-		}
-
-		/**
-		 * Compute the width of a line
-		 * @param line
-		 * @returns {number}
-		 */
-		computeLineWidth( line ) {
-
-			// only by the length of its extremities
-			const firstInline = line[ 0 ];
-
-			const lastInline = line[ line.length - 1 ];
-
-			// Right + Left ( left is negative )
-			return (lastInline.offsetX + lastInline.width) + firstInline.offsetX;
-
+			return lines.height;
 		}
 
 	};
