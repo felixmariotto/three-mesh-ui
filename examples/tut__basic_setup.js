@@ -5,20 +5,18 @@ import { BoxLineGeometry } from 'three/examples/jsm/geometries/BoxLineGeometry.j
 
 import ThreeMeshUI from 'three-mesh-ui';
 
-import FontJSON from 'three-mesh-ui/examples/assets/fonts/msdf/roboto/regular.json';
-import FontImage from 'three-mesh-ui/examples/assets/fonts/msdf/roboto/regular.png';
-
 const WIDTH = window.innerWidth;
 const HEIGHT = window.innerHeight;
 
 let scene, camera, renderer, controls;
 
-window.addEventListener( 'load', init );
+window.addEventListener( 'load', buildThreeJSElements );
 window.addEventListener( 'resize', onWindowResize );
 
-//
 
-function init() {
+// three-mesh-ui requires working threejs setup
+// We usually build the threejs stuff prior three-mesh-ui
+function buildThreeJSElements() {
 
 	scene = new THREE.Scene();
 	scene.background = new THREE.Color( 0x505050 );
@@ -48,52 +46,92 @@ function init() {
 
 	scene.add( room );
 
-	// TEXT PANEL
+	// Now that we have the threejs stuff up and running, we can build our three-mesh-ui stuff
+	buildThreeMeshUIElements();
 
-	makeTextPanel();
-
-	//
-
+	// three-mesh-ui requires to be updated prior each threejs render, let's go see what is in loop()
 	renderer.setAnimationLoop( loop );
 
 }
 
 //
+function buildThreeMeshUIElements() {
 
-function makeTextPanel() {
+	// If we are going to display ThreeMeshUI Text elements
+	// It is important to know that a Text MUST have a Block as parent
+	// Using three-mesh-ui, we would usually have one or more rootBlock elements
+	const rootBlock = new ThreeMeshUI.Block( {
 
-	const container = new ThreeMeshUI.Block( {
+		// A Block must define its "box-sizing" properties
 		width: 1.2,
 		height: 0.5,
 		padding: 0.05,
+
+		// A Block can define its "layout" properties
 		justifyContent: 'center',
 		textAlign: 'left',
-		fontFamily: FontJSON,
-		fontTexture: FontImage,
+
+		// A Block can also define "text" properties that will propagate to any of its Text children
+		fontSize: 0.055,
+		fontFamily: '/assets/fonts/msdf/roboto/regular.json',
+		fontTexture: '/assets/fonts/msdf/roboto/regular.png',
+		// @Note: setting fontFamily
+		// This looks very easy, but this isn't the best way for handling fonts
+		// However it is perfect for a first glance on how to get started with three-mesh-ui
+		// Be sure you next step will be `Getting started - Preload fonts`
+
 	} );
 
-	container.position.set( 0, 1, -1.8 );
-	container.rotation.x = -0.55;
-	scene.add( container );
+	// three-mesh-ui root elements must be added on threejs display stack
+	// In the scene, or in another Object3D of our choice
+	scene.add( rootBlock );
 
-	//
+	// three-mesh-ui Block are Object3D agreemented with three-mesh-ui capabilities
+	// so you can use any existing Object3D methods and properties
+	rootBlock.position.set( 0, 1, -1.8 );
+	rootBlock.rotation.x = -0.55;
 
-	container.add(
+
+	// Now that we have a three-mesh-ui Block, we can add three-mesh-ui Text's in it
+	rootBlock.add(
+
+
 		new ThreeMeshUI.Text( {
+			// three-mesh-ui Text should defined their content to display
 			content: 'This library supports line-break-friendly-characters,',
-			fontSize: 0.055
+
+			// if a Text is going to use the exact same Text properties as defined in its parent
+			// there is no need to set those properties again
+			// fontSize: 0.055,
+			// fontFamily: '/assets/fonts/msdf/roboto/regular.json',
+			// fontTexture: '/assets/fonts/msdf/roboto/regular.png',
+
+		} ),
+
+
+		new ThreeMeshUI.Text( {
+			content: ' As well as multi-font-size lines with consistent vertical',
+
+			// If a Text must have different Text properties as defined in its parent
+			// We just have to define it on a specific Text
+			fontSize: 0.08,
+			fontFamily: '/assets/fonts/msdf/roboto/italic.json',
+			fontTexture: '/assets/fonts/msdf/roboto/italic.png',
 		} ),
 
 		new ThreeMeshUI.Text( {
-			content: ' As well as multi-font-size lines with consistent vertical spacing.',
-			fontSize: 0.08
+			content: ' spacing!',
+			fontSize: 0.08,
+			fontFamily: '/assets/fonts/msdf/roboto/bold-italic.json',
+			fontTexture: '/assets/fonts/msdf/roboto/bold-italic.png',
 		} )
+
 	);
 
 }
 
 // handles resizing the renderer when the viewport is resized
-
+// common threejs stuff
 function onWindowResize() {
 
 	camera.aspect = window.innerWidth / window.innerHeight;
@@ -103,7 +141,6 @@ function onWindowResize() {
 }
 
 //
-
 function loop() {
 
 	// Don't forget, ThreeMeshUI must be updated manually.

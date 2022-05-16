@@ -19,47 +19,85 @@ window.addEventListener( 'resize', onWindowResize );
 //
 
 import ROBOTO_ADJUSTMENT from 'three-mesh-ui/examples/assets/fonts/msdf/roboto/adjustment';
-import MSDFDepthMaterial from '../src/font/msdf/materials/MSDFDepthMaterial';
+import MSDFNormalMaterial from 'three-mesh-ui/examples/msdf-materials/MSDFNormalMaterial';
 
 async function preload() {
 
 	// Fighting FOIT
 	// https://css-tricks.com/fighting-foit-and-fout-together/
 
+
+	// Using `ThreeMeshUI.FontLibrary.prepare( fontFamily, [...fontFamily] )
+	// We can ensure any fontFamily and theirs variants are properly loaded and setup
 	await FontLibrary.prepare(
 
 			FontLibrary
+				// Registering a fontFamily called "Roboto", the name is up to us.
 				.addFontFamily("Roboto")
-					.addVariant(FontWeight.NORMAL, FontStyle.NORMAL, "./assets/fonts/msdf/roboto/regular.json", "./assets/fonts/msdf/roboto/regular.png" )
+					// On the fontFamily added, lets add a variant
+				  // a font variant usually requires 4 parameters
+					.addVariant(
+						// The weight of the variant '100'|'200'|'300'|'400'|'600'|'700'|'800'|'900'
+						//														LIGHTER					NORMAL			BOLD				BOLDER
+						FontWeight.NORMAL,
+
+						// The style of the variant 'normal'|'italic'|'oblique'|'oblique(x deg)'
+						FontStyle.NORMAL,
+
+						// The json definition of the msdf font 'urlToLoad'|loadedObject
+						"./assets/fonts/msdf/roboto/regular.json",
+
+						// The texture of the msdf font 'urlToLoad'|Texture
+						"./assets/fonts/msdf/roboto/regular.png"
+					)
+
+					// Registerind additional variants
 					.addVariant(FontWeight.BOLD, FontStyle.ITALIC, "./assets/fonts/msdf/roboto/bold-italic.json", "./assets/fonts/msdf/roboto/bold-italic.png" )
 					.addVariant(FontWeight.BOLD, FontStyle.NORMAL, "./assets/fonts/msdf/roboto/bold.json", "./assets/fonts/msdf/roboto/bold.png" )
 					.addVariant(FontWeight.NORMAL, FontStyle.ITALIC, "./assets/fonts/msdf/roboto/italic.json", "./assets/fonts/msdf/roboto/italic.png" )
 
 	);
 
-	// Adjusting font variants
-	const FF = FontLibrary.getFontFamily("Roboto");
+	// Once font are registered, we can get the font family
+	const RobotoFamily = FontLibrary.getFontFamily("Roboto");
 
-	// adjust material
-	// @see TODO: FontVariant Documentation
-	// Each component using that variant, will automatically use the defined material
-	// Here is Bold Texts
+	// And then retrieve a fontVariant defined in this Family
+	const RobotoRegular = RobotoFamily.getVariant('400','normal');
 
-	FF.getVariant('700','normal').fontMaterial = MSDFDepthMaterial;
-	// adjust fonts
-	// @see TODO:adjustDocumentation
-	FF.getVariant('700','normal').adjustTypographicGlyphs( ROBOTO_ADJUSTMENT );
-	FF.getVariant('700','italic').adjustTypographicGlyphs( ROBOTO_ADJUSTMENT );
-	FF.getVariant('400','italic').adjustTypographicGlyphs( ROBOTO_ADJUSTMENT );
-	FF.getVariant('400','normal').adjustTypographicGlyphs( ROBOTO_ADJUSTMENT );
+	// Having font variant allows us to perform some modifications
+	// 1. Adjustments
+	// If you look closely the `Getting started - Basic Setup` you may have noticed that :
+	// 		- the `h` character is slightly below the baseline
+	// This can be adjusted per fontVariant
+	RobotoRegular.adjustTypographicGlyphs( {
+		// 'h' character must change some of its properties defined in the json
+		h: {
+			// the yoffset property should be 2 (instead of 4 in the json)
+			yoffset: 2
+		}
+	} );
+	// Once adjusted, any three-mesh-ui Text using this font variant will use the adjusted properties
 
-	init();
+	// 1. Material
+	// Instead of assigning custom materials to Text one by one
+	// We can assign a Material(class) to a font variant (Here the bold one)
+	RobotoFamily.getVariant('700','normal').fontMaterial = MSDFNormalMaterial;
+	// Once set, any three-mesh-ui Text using this font variant will use the defined material
+
+	// We may encounter the following lines in other examples,
+	// they are adjusting font variants to display a nice baseline
+	RobotoFamily.getVariant('700','normal').adjustTypographicGlyphs( ROBOTO_ADJUSTMENT );
+	RobotoFamily.getVariant('700','italic').adjustTypographicGlyphs( ROBOTO_ADJUSTMENT );
+	RobotoFamily.getVariant('400','italic').adjustTypographicGlyphs( ROBOTO_ADJUSTMENT );
+
+	// Now that the font are loaded and adjusted,
+	buildThreeJSElements();
 
 }
 
 //
 
-function init() {
+function buildThreeJSElements() {
 
 	scene = new THREE.Scene();
 	scene.background = new THREE.Color( 0x505050 );
@@ -91,7 +129,7 @@ function init() {
 
 	// TEXT PANEL
 
-	makeTextPanel();
+	buildThreeMeshUIElements();
 
 	//
 
@@ -101,98 +139,93 @@ function init() {
 
 //
 
-function makeTextPanel() {
+function buildThreeMeshUIElements() {
+
+	// Retrieve font families defined
+	const RobotoFamily = FontLibrary.getFontFamily("Roboto");
 
 	const container = new ThreeMeshUI.Block( {
-		width: 1.75,
-		height: 0.5,
+		// box sizing properties
+		width: 1.65,
+		height: 0.62,
 		padding: 0.05,
+
+		// layout properties
 		justifyContent: 'center',
 		textAlign: 'left',
-		fontFamily: "Roboto"
+
+		// text properties
+		fontSize: 0.05,
+		// As we have prepare our fonts we can now use them
+		fontFamily: RobotoFamily
+		// We could also have chosen to use the font family name instead of the FontFamily
+		//fontFamily: "Roboto"
 	} );
 
 	container.position.set( 0, 1, -1.8 );
 	container.rotation.x = -0.55;
 	scene.add( container );
 
-	//
+
+	// Lets build a first text that would be in bold, and use a MSDFNormalMaterial
 	const text1 = new ThreeMeshUI.Text( {
-			content: 'three-mesh-ui and font variants',
+			content: 'Managing fonts in three-mesh-ui',
 			fontWeight: '700',
 			fontSize: 0.08
 		} );
+
+	// as text1 explicitely requires the font variant `fontWeight:'700'`
+	// and that we have set that font variant to use the MSDFNormalMaterial
+	// there is no more need to manually set its material to MSDFNormalMaterial
+	// text1.material = new MSDFNormalMaterial({});
+
 
 	container.add(
 
 		text1,
 
 		new ThreeMeshUI.Text( {
-			content: '\nYou can preload fonts with multiple variant definitions :',
-			fontSize: 0.05
+			// content: '\nYou can preload fonts with multiple variant definitions :',
+			content: '\nIn this examples, 4 variants of the "Roboto" font are registered.',
 		} ),
 
 		new ThreeMeshUI.Text( {
 			content: '\n\nRegular',
-			fontSize: 0.05,
-			fontOpacity: 0.5,
 		} ),
 
 		new ThreeMeshUI.Text( {
 			content: ' Bold',
 			fontWeight: '700',
-			fontSize: 0.05
 		} ),
 
 		new ThreeMeshUI.Text( {
 			content: ' Italic',
 			fontStyle: 'italic',
-			fontSize: 0.05
 		} ),
 
 		new ThreeMeshUI.Text( {
 			content: ' Bold+Italic',
 			fontWeight: '700',
 			fontStyle: 'italic',
-			fontSize: 0.05
 		} ),
 
 		new ThreeMeshUI.Text( {
-			content: '\n\nPreloading fonts will display texts with no loading delays and no FOIT*!',
-			fontSize: 0.05
+			// content: '\nYou can preload fonts with multiple variant definitions :',
+			content: '\n\nThe registered bold variant in this example, will automatically set the material of a Text to use ',
 		} ),
 
 		new ThreeMeshUI.Text( {
-			content: '\n* : ',
-			fontStyle: 'italic',
-			fontSize: 0.03
-		} ),
-
-		new ThreeMeshUI.Text( {
-			content: 'FOIT',
-			fontStyle: 'italic',
+			content: 'MSDFNormalMaterial.',
 			fontWeight: '700',
-			fontSize: 0.03
 		} ),
 
 		new ThreeMeshUI.Text( {
-			content: ' means Flash-Of-Invisible-Text and is a web annoyment!',
+			content: '\n\n* Managing and preloading fonts can display Text with no additional delays.',
 			fontStyle: 'italic',
-			fontSize: 0.03
+			fontSize: 0.035
 		} )
 
 	);
-
-
-	text1.onAfterUpdate = function(){
-
-		if( text1.children.length ) {
-
-			console.log( "Chjild 1 ", text1.children[0].material );
-
-		}
-
-	}
 
 }
 
