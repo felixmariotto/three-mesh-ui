@@ -1,4 +1,5 @@
 import * as THREE from 'three';
+import { TextureLoader } from 'three';
 import { VRButton } from 'three/examples/jsm/webxr/VRButton.js';
 import { BoxLineGeometry } from 'three/examples/jsm/geometries/BoxLineGeometry.js';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
@@ -6,15 +7,15 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import ThreeMeshUI from 'three-mesh-ui';
 
 // assets URLs
-
 import UVImage from 'three-mesh-ui/examples/assets/uv_grid.jpg';
 import FontJSON from 'three-mesh-ui/examples/assets/fonts/msdf/roboto/regular.json';
 import FontImage from 'three-mesh-ui/examples/assets/fonts/msdf/roboto/regular.png';
+import FrameBasicMaterial from 'three-mesh-ui/examples/frame-materials/FrameBasicMaterial';
 
 const WIDTH = window.innerWidth;
 const HEIGHT = window.innerHeight;
 
-let scene, camera, renderer, controls;
+let scene, camera, renderer, controls, snakeTexture;
 const imageBlocks = [];
 
 window.addEventListener( 'load', init );
@@ -88,6 +89,10 @@ function makePanels() {
 		texture.wrapS = THREE.RepeatWrapping;
 		texture.wrapT = THREE.RepeatWrapping;
 
+		texture.needsUpdate = true;
+
+		texture.matrixAutoUpdate = true;
+
 		const stretchSection = makeSection(
 			texture,
 			'stretch',
@@ -113,6 +118,15 @@ function makePanels() {
 
 	} );
 
+
+	snakeTexture = new TextureLoader().load('./assets/spiny_bush_viper.jpg');
+	setTimeout( () => {
+		for ( let i = 0; i < imageBlocks.length; i++ ) {
+			const imageBlock = imageBlocks[ i ];
+			imageBlock.set({backgroundTexture:snakeTexture});
+		}
+	}, 3000 );
+
 }
 
 //
@@ -126,16 +140,30 @@ function makeSection( texture, backgroundSize, text1, text2 ) {
 		backgroundOpacity: 0
 	} );
 
+	const imageHBlock = new ThreeMeshUI.Block( {
+		height: 0.4,
+		width: 0.6,
+		borderRadius: 0.05,
+		margin: 0.05,
+		backgroundTexture: texture,
+		backgroundOpacity: 1,
+		backgroundColor: new THREE.Color(0xffffff),
+		backgroundSize
+	} );
+
+
 	const imageBlock = new ThreeMeshUI.Block( {
-		height: 1.1,
+		height: 0.9,
 		width: 0.6,
 		borderRadius: 0.05,
 		backgroundTexture: texture,
 		backgroundOpacity: 1,
+		backgroundColor: new THREE.Color(0xffffff),
 		backgroundSize
 	} );
 
-	imageBlocks.push( imageBlock );
+	imageBlock.material = new FrameBasicMaterial();
+	imageBlocks.push( imageHBlock, imageBlock );
 
 	const textBlock = new ThreeMeshUI.Block( {
 		height: 0.45,
@@ -160,7 +188,7 @@ function makeSection( texture, backgroundSize, text1, text2 ) {
 		} )
 	);
 
-	block.add( imageBlock, textBlock );
+	block.add( imageHBlock, imageBlock, textBlock );
 
 	return block;
 

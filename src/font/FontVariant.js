@@ -164,7 +164,7 @@ export default class FontVariant extends EventDispatcher {
 
 	/**
 	 * Perform some changes on the character description of this font
-	 * @param {Object.<string,{property:string,value:any}>} adjustmentObject
+	 * @param {Object.<string,Object.<string,number|string>>} adjustmentObject
 	 */
 	adjustTypographicGlyphs( adjustmentObject ){
 

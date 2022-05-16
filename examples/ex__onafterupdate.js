@@ -82,7 +82,7 @@ function makeTextPanel() {
 	// and get called after any update to the component.
 
 	container.onAfterUpdate = function () {
-		this.frame.layers.set( count % 2 );
+		container.frame.layers.set( count % 2 );
 	};
 
 	//

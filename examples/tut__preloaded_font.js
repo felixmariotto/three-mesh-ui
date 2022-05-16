@@ -134,7 +134,8 @@ function makeTextPanel() {
 
 		new ThreeMeshUI.Text( {
 			content: '\n\nRegular',
-			fontSize: 0.05
+			fontSize: 0.05,
+			fontOpacity: 0.5,
 		} ),
 
 		new ThreeMeshUI.Text( {

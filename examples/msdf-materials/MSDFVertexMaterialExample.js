@@ -56,19 +56,19 @@ export default class MSDFVertexMaterialExample extends MeshStandardMaterial{
 			// ThreeMeshUI msdf vertex pars
 			shader.vertexShader = shader.vertexShader.replace(
 				'#include <uv_pars_vertex>',
-				'#include <uv_pars_vertex>\n'+ ThreeMeshUI.ShaderChunk.msdf_alphaglyph_pars_vertex
+				'#include <uv_pars_vertex>\n'+ ThreeMeshUI.ShaderChunkUI.msdf_alphaglyph_pars_vertex
 			);
 
 			// ThreeMeshUI msdf vertex chunks
 			shader.vertexShader = shader.vertexShader.replace(
 				'#include <uv_vertex>',
-				'#include <uv_vertex>\n'+ ThreeMeshUI.ShaderChunk.msdf_alphaglyph_vertex
+				'#include <uv_vertex>\n'+ ThreeMeshUI.ShaderChunkUI.msdf_alphaglyph_vertex
 			)
 
 			// Custom shader part before vertex projection
 			shader.vertexShader = shader.vertexShader.replace(
 				'#include <project_vertex>',
-				ThreeMeshUI.ShaderChunk.msdf_offset_vertex + `
+				ThreeMeshUI.ShaderChunkUI.msdf_offset_vertex + `
 // add a custom vertex shader chunks to modify vertex position
 if( uv.y >= progress )
 {

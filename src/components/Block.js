@@ -3,10 +3,11 @@ import { Object3D, Vector2 } from 'three';
 import BoxComponent from './core/BoxComponent.js';
 import InlineManager from './core/InlineManager.js';
 import MeshUIComponent from './core/MeshUIComponent.js';
-import MaterialManager from './core/MaterialManager.js';
 
-import Frame from '../content/Frame.js';
+import Frame from '../frame/Frame.js';
 import { mix } from '../utils/mix.js';
+import FrameMaterial from '../frame/materials/FrameMaterial';
+import FrameMaterialUtils from '../frame/utils/FrameMaterialUtils';
 
 /**
 
@@ -15,12 +16,13 @@ Job:
 - Calls BoxComponent's API to position its children box components
 - Calls InlineManager's API to position its children inline components
 - Call creation and update functions of its background planes
-
  */
+
+
+
 export default class Block extends mix.withBase( Object3D )(
 	BoxComponent,
 	InlineManager,
-	MaterialManager,
 	MeshUIComponent
 ) {
 
@@ -34,10 +36,14 @@ export default class Block extends mix.withBase( Object3D )(
 
 		this.size = new Vector2( 1, 1 );
 
-		this.frame = new Frame( this.getBackgroundMaterial() );
+		// this._main = new Frame( this.getBackgroundMaterial() );
+		this._material = new FrameMaterial();
+		this._main = new Frame( this._material );
+
+		this._materialProperties = { ...FrameMaterialUtils.frameMaterialProperties };
 
 		// This is for hiddenOverflow to work
-		this.frame.onBeforeRender = () => {
+		this._main.onBeforeRender = () => {
 
 			if ( this.updateClippingPlanes ) {
 
@@ -47,14 +53,17 @@ export default class Block extends mix.withBase( Object3D )(
 
 		};
 
-		this.add( this.frame );
+		this.add( this._main );
 
 		// Lastly set the options parameters to this object, which will trigger an update
 
 		this.set( options );
 
+		this._transferToMaterial();
+
 	}
 
+	get frame() { return this._main; }
 	////////////
 	//  UPDATE
 	////////////
@@ -77,11 +86,11 @@ export default class Block extends mix.withBase( Object3D )(
 		}
 
 		this.size.set( WIDTH, HEIGHT );
-		this.frame.scale.set( WIDTH, HEIGHT, 1 );
+		this._main.scale.set( WIDTH, HEIGHT, 1 );
 
-		if ( this.frame ) this.updateBackgroundMaterial();
+		// if ( this._main ) this.updateBackgroundMaterial();
 
-		this.frame.renderOrder = this.getParentsNumber();
+		this._main.renderOrder = this.getParentsNumber();
 
 		// Position this element according to earlier parent computation.
 		// Delegate to BoxComponent.
@@ -106,11 +115,11 @@ export default class Block extends mix.withBase( Object3D )(
 		// We check if this block is the root component,
 		// because most of the time the user wants to set the
 		// root component's z position themselves
-		if ( this.parentUI ) {
-
-			this.position.z = this.getOffset();
-
-		}
+		// if ( this.parentUI ) {
+		//
+		// 	this.position.z = this.getOffset();
+		//
+		// }
 
 	}
 
@@ -121,13 +130,13 @@ export default class Block extends mix.withBase( Object3D )(
 		// We check if this block is the root component,
 		// because most of the time the user wants to set the
 		// root component's z position themselves
-		if ( this.parentUI ) {
+		// if ( this.parentUI ) {
+		//
+		// 	this.position.z = this.getOffset();
+		//
+		// }
 
-			this.position.z = this.getOffset();
-
-		}
-
-		if ( this.frame ) this.updateBackgroundMaterial();
+		// if ( this._main ) this.updateBackgroundMaterial();
 
 	}
 

@@ -49,7 +49,6 @@ export default class MSDFFontMaterial extends ShaderMaterial {
 
 		// webgl preprocessor AlphaTest set by default
 		this.defines[ 'USE_ALPHATEST' ] = '';
-
 		this.needsUpdate = true;
 
 		// initiate additional properties
@@ -76,6 +75,29 @@ export default class MSDFFontMaterial extends ShaderMaterial {
 		this.uniforms.diffuse.value = v;
 
 	}
+
+	/**
+	 *
+	 * @param {number} v
+	 */
+	set opacity( v ) {
+
+		if( this.uniforms )
+			this.uniforms.opacity.value = v;
+
+	}
+
+	/**
+	 * The color will be the diffuse uniform
+	 * @returns {number}
+	 */
+	get opacity() {
+
+		return this.uniforms.opacity.value;
+
+	}
+
+
 
 
 	/**

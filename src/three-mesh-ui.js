@@ -12,9 +12,12 @@ import * as JustifyContent from './utils/block-layout/JustifyContent';
 import * as AlignItems from './utils/block-layout/AlignItems';
 import * as ContentDirection from './utils/block-layout/ContentDirection';
 import MSDFFontMaterialUtils from './font/msdf/utils/MSDFFontMaterialUtils';
-import { ShaderChunk } from './renderers/shaders/ShaderChunk';
+import { ShaderChunkUI } from './renderers/shaders/ShaderChunkUI';
+import * as FontWeight from './utils/font/FontWeight';
+import * as FontStyle from './utils/font/FontStyle';
 
 const update = () => UpdateManager.update();
+
 
 const ThreeMeshUI = {
 	Block,
@@ -22,6 +25,8 @@ const ThreeMeshUI = {
 	InlineBlock,
 	Keyboard,
 	FontLibrary,
+	FontStyle,
+	FontWeight,
 	update,
 	TextAlign,
 	Whitespace,
@@ -29,7 +34,7 @@ const ThreeMeshUI = {
 	AlignItems,
 	ContentDirection,
 	MSDFFontMaterialUtils,
-	ShaderChunk,
+	ShaderChunkUI,
 };
 
 
@@ -40,13 +45,15 @@ export { Text };
 export { InlineBlock };
 export { Keyboard };
 export { FontLibrary };
+export { FontStyle };
+export { FontWeight };
 export { update };
 export { TextAlign };
 export { Whitespace };
 export { JustifyContent};
 export { AlignItems };
 export { ContentDirection };
-export { ShaderChunk };
+export { ShaderChunkUI };
 export { MSDFFontMaterialUtils };
 
 export default ThreeMeshUI;

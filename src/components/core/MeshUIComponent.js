@@ -1,4 +1,4 @@
-import { Plane } from 'three';
+import { Plane, Vector4 } from 'three';
 import { Vector3 } from 'three';
 
 import FontLibrary from '../../font/FontLibrary.js';
@@ -9,6 +9,7 @@ import { warnAboutDeprecatedAlignItems } from '../../utils/block-layout/AlignIte
 import FontFamily from '../../font/FontFamily';
 import * as FontWeight from '../../utils/font/FontWeight';
 import * as FontStyle from '../../utils/font/FontStyle';
+import Behavior from '../../behaviors/Behavior';
 
 /**
 
@@ -46,8 +47,39 @@ export default function MeshUIComponent( Base ) {
 			this.addEventListener( 'added', this._rebuildParentUI );
 			this.addEventListener( 'removed', this._rebuildParentUI );
 
+			/**
+			 *
+			 * @type {Mesh|null}
+			 * @private
+			 */
+			this._main = null;
+
 			// hooks
+			this._hooks = {};
 			this._onAfterUpdates = [];
+
+			this.position.z = this.getOffset();
+
+			/**
+			 *
+			 * @type {Object.<{m:string, t?:(value:any) => any}>}
+			 * @private
+			 */
+			this._materialProperties = {};
+
+			/**
+			 *
+			 * @type {Vector4}
+			 * @private
+			 */
+			this._borderRadius = new Vector4().copy( DEFAULTS.borderRadius );
+
+			/**
+			 *
+			 * @type {Vector4}
+			 * @private
+			 */
+			this._borderWidth = new Vector4().copy( DEFAULTS.borderWidth );
 
 		}
 
@@ -92,6 +124,27 @@ export default function MeshUIComponent( Base ) {
 			}
 
 			return planes;
+
+		}
+
+		/**
+		 * @TODO : This is already present in MaterialManager
+		 * Update a component's materials clipping planes.
+		 * Called every frame.
+		 */
+		updateClippingPlanes( value ) {
+
+			const newClippingPlanes = value !== undefined ? value : this.getClippingPlanes();
+
+			if ( JSON.stringify( newClippingPlanes ) !== JSON.stringify( this.clippingPlanes ) ) {
+
+				this.clippingPlanes = newClippingPlanes;
+
+				if ( this.material ) this.material.clippingPlanes = this.clippingPlanes;
+
+				// if ( this.backgroundMaterial ) this.backgroundMaterial.clippingPlanes = this.clippingPlanes;
+
+			}
 
 		}
 
@@ -312,7 +365,8 @@ export default function MeshUIComponent( Base ) {
 
 		getBackgroundTexture() {
 
-			return this.backgroundTexture || DEFAULTS.backgroundTexture();
+			// return this.backgroundTexture || DEFAULTS.backgroundTexture();
+			return this.backgroundTexture || DEFAULTS.backgroundTexture;
 
 		}
 
@@ -406,6 +460,7 @@ export default function MeshUIComponent( Base ) {
 			if ( this.parent && this.parent.isUI ) {
 
 				this.parentUI = this.parent;
+				this.position.z = this.getOffset();
 
 			} else {
 
@@ -494,6 +549,83 @@ export default function MeshUIComponent( Base ) {
 		}
 
 		/**
+		 *
+		 * @TODO: Adding a new hook should no be direct, but delayed before or after performing the hookLoop
+		 * @param {string} type
+		 * @param {function|Behavior} newHook
+		 * @param {number} priority
+		 */
+		hook( type, newHook, priority = 10) {
+
+			if ( !this._hooks[ type ] ) {
+
+				console.error(`MeshUIComponent::hook() - The provided type('${type}') is not valid on ${typeof this} component`);
+				return;
+
+			}
+
+			if ( !(newHook instanceof Behavior) ){
+
+				newHook = { priority, act: newHook };
+
+			}
+
+			if( this._hooks[type].find( h => h.act === newHook.act ) ) {
+
+				console.error(`MeshUIComponent::hook() - The provided func('${newHook.act}') is already registered in hooks. Aborted`);
+				return;
+
+			}
+
+			type._hooks[type].push( newHook );
+			type._hooks[type].sort( ( a, b ) => {
+				if( a.priority < b.priority ) return - 1;
+				if( a.priority > b.priority ) return 1;
+				return 0;
+			});
+
+		}
+
+		/**
+		 *
+		 * @param {string} type
+		 * @param {function|Behavior} hookToRemove
+		 */
+		unhook( type, hookToRemove ) {
+
+			if ( !this._hooks[ type ] ) {
+
+				console.error(`MeshUIComponent::unhook() - The provided type('${type}') is not valid on ${typeof this} component`);
+				return;
+
+			}
+
+			if ( !(hookToRemove instanceof Behavior) ) {
+
+				hookToRemove = { act: hookToRemove };
+
+			}
+
+			const indexToRemove = this._hooks[type].findIndex( h => h.act === hookToRemove.act )
+			if( indexToRemove !== -1 ) {
+
+				this._hooks[type].splice( indexToRemove, 1 );
+
+			}
+
+		}
+
+		performHooks( hooks , alterable = null ) {
+
+			for ( let i = 0; i < hooks.length; i++ ) {
+
+				hooks[ i ]( alterable );
+
+			}
+
+		}
+
+		/**
 		 * Set this component's passed parameters.
 		 * If necessary, take special actions.
 		 * Update this component unless otherwise specified.
@@ -546,6 +678,8 @@ export default function MeshUIComponent( Base ) {
 
 				if ( this[ prop ] != options[ prop ] ) {
 
+					const value = options[ prop ];
+
 					switch ( prop ) {
 
 						case 'content' :
@@ -554,7 +688,7 @@ export default function MeshUIComponent( Base ) {
 						case 'whiteSpace': // @TODO : Whitespace could also just be layouting
 							if ( this.isText ) parsingNeedsUpdate = true;
 							layoutNeedsUpdate = true;
-							this[ prop ] = options[ prop ];
+							this[ prop ] = value;
 							break;
 
 						// Only layout now - Not anymore parsing
@@ -563,7 +697,7 @@ export default function MeshUIComponent( Base ) {
 						case 'breakOn':
 						case 'segments':
 							layoutNeedsUpdate = true;
-							this[ prop ] = options[ prop ];
+							this[ prop ] = value;
 							break;
 
 						case 'bestFit' :
@@ -571,7 +705,7 @@ export default function MeshUIComponent( Base ) {
 								parsingNeedsUpdate = true;
 								layoutNeedsUpdate = true;
 							}
-							this[ prop ] = options[ prop ];
+							this[ prop ] = value;
 							break;
 
 						case 'width' :
@@ -580,7 +714,7 @@ export default function MeshUIComponent( Base ) {
 							// @TODO: I don't think this is true anymore
 							if ( this.isInlineBlock || ( this.isBlock ) ) parsingNeedsUpdate = true;
 							layoutNeedsUpdate = true;
-							this[ prop ] = options[ prop ];
+							this[ prop ] = value;
 							break;
 
 						case 'letterSpacing' :
@@ -588,7 +722,7 @@ export default function MeshUIComponent( Base ) {
 							// @TODO: I don't think this is true anymore
 							if ( this.isBlock ) parsingNeedsUpdate = true;
 							layoutNeedsUpdate = true;
-							this[ prop ] = options[ prop ];
+							this[ prop ] = value;
 							break;
 
 						case 'margin' :
@@ -599,31 +733,88 @@ export default function MeshUIComponent( Base ) {
 						case 'textAlign' :
 						case 'textType' :
 							layoutNeedsUpdate = true;
-							this[ prop ] = options[ prop ];
+							this[ prop ] = value;
 							break;
 
 						case 'fontColor' :
 						case 'fontOpacity' :
 						case 'fontSupersampling' :
-						case 'offset' :
 						case 'backgroundColor' :
 						case 'backgroundOpacity' :
 						case 'backgroundTexture' :
 						case 'backgroundSize' :
-						case 'borderRadius' :
-						case 'borderWidth' :
 						case 'borderColor' :
 						case 'borderOpacity' :
 							innerNeedsUpdate = true;
-							this[ prop ] = options[ prop ];
+							this[ prop ] = value;
 							break;
 
 						case 'hiddenOverflow' :
-							this[ prop ] = options[ prop ];
+							this[ prop ] = value;
+							break;
+
+						case 'offset':
+							console.log('offset', value);
+							if( !this.isBlock || this.parentUI ){
+
+								this[ prop ] = value;
+								this.position.z = value;
+
+							}
+							break;
+
+						// abstracted properties, those properties don't need to be store as this[prop] = value
+						case 'borderRadius' :
+							this._fourDimensionsValueSetter( this._borderRadius, value);
+							break;
+						case 'borderRadiusTopLeft':
+							this._borderRadius.x = value;
+							break;
+						case 'borderRadiusTopRight':
+							this._borderRadius.y = value;
+							break;
+						case 'borderRadiusBottomRight':
+							this._borderRadius.z = value;
+							break;
+						case 'borderRadiusBottomLeft':
+							this._borderRadius.w = value;
+							break;
+						case 'borderRadiusTop':
+							this._borderRadius.x = value;
+							this._borderRadius.y = value;
+							break;
+						case 'borderRadiusRight':
+							this._borderRadius.y = value;
+							this._borderRadius.z = value;
+							break;
+						case 'borderRadiusLeft':
+							this._borderRadius.x = value;
+							this._borderRadius.w = value;
+							break
+						case 'borderRadiusBottom':
+							this._borderRadius.z = value;
+							this._borderRadius.w = value;
+							break;
+
+
+						case 'borderWidth' :
+							this._fourDimensionsValueSetter( this._borderWidth, value);
+							break;
+						case 'borderWidthTop':
+							this._borderWidth.x = value;
+							break;
+						case 'borderWidthRight':
+							this._borderWidth.y = value;
+							break;
+						case 'borderWidthBottom':
+							this._borderWidth.z = value;
+							break;
+						case 'borderWidthLeft':
+							this._borderWidth.w = value;
 							break;
 
 						default:
-							this[ prop ] = options[ prop ];
+							this[ prop ] = value;
 					}
 
 				}
@@ -637,7 +828,7 @@ export default function MeshUIComponent( Base ) {
 			if ( options.fontFamily instanceof FontFamily ) {
 
 				this.fontFamily = options.fontFamily;
-				this.font = options.fontFamily.getVariant( FontWeight.NORMAL, FontStyle.NORMAL );
+				this.font = options.fontFamily.getVariant( this.getFontWeight(), this.getFontStyle() );
 
 			}
 
@@ -649,7 +840,7 @@ export default function MeshUIComponent( Base ) {
 				if( fontFamily ){
 
 					this.fontFamily = fontFamily;
-					this.font = fontFamily.getVariant( FontWeight.NORMAL, FontStyle.NORMAL );
+					this.font = fontFamily.getVariant( this.getFontWeight(), this.getFontStyle() );
 
 				}
 
@@ -688,7 +879,7 @@ export default function MeshUIComponent( Base ) {
 
 
 			//
-			this._transferToFontMaterial( options );
+			this._transferToMaterial( options );
 
 
 
@@ -743,17 +934,207 @@ export default function MeshUIComponent( Base ) {
 
 		}
 
+		/***********************************************************************************************************************
+		 * TO MATERIAL HOLDER
+		 **********************************************************************************************************************/
+
+		get material() {
+			return this._material;
+		}
+
 		/**
 		 *
-		 * @abstract
-		 * @protected
+		 * @param {Material|ShaderMaterial} material
 		 */
-		/* eslint-disable no-unused-vars */
-		_transferToFontMaterial( options = null ){
+		set material( material ) {
+
+			this._material = material;
+
+			// Update the fontMaterialProperties that need to be transferred to
+			this._materialProperties = {...material.constructor.fontMaterialProperties }
+
+			// transfer all the properties to material
+			this._transferToMaterial();
+
+			if( this._main ) {
+
+				this._main.material = this._material;
+
+			}
 
 		}
-		/* eslint-enable no-unused-vars */
+
+		/**
+		 *
+		 * @param {Material|ShaderMaterial} fontMaterial
+		 */
+		set customDepthMaterial( fontMaterial ) {
+
+			this._customDepthMaterial = fontMaterial;
+
+			this._transferToMaterial();
+
+			if ( this._main ) {
+
+				this._main.customDepthMaterial = this._customDepthMaterial;
+
+			}
+
+		}
+
+		/**
+		 *
+		 * @return {Material|ShaderMaterial}
+		 */
+		get customDepthMaterial() {
+
+			return this._customDepthMaterial;
+
+		}
+
+		/**
+		 * According to the list of materialProperties
+		 * some properties are sent to material
+		 * @private
+		 */
+		_transferToMaterial( options = null ) {
+
+			if( !this._material ) return;
+
+			if( !options ){
+
+				options = {};
+				for ( const materialProperty in this._materialProperties ) {
+
+					let value = this[materialProperty];
+					if( value === undefined ){
+
+						const upperCaseProperty = materialProperty[0].toUpperCase() + materialProperty.substring(1)
+						if( this["get"+upperCaseProperty] ) {
+
+							value = this["get"+upperCaseProperty]();
+
+						}
+
+					}
+
+					if( value !== undefined ) {
+
+						options[materialProperty] = value;
+
+					}
+
+				}
+
+			}
+
+			// Transfer properties to material
+			for ( const materialProperty in this._materialProperties ) {
+				const transferDefinition = this._materialProperties[materialProperty];
+
+				if ( options[materialProperty] !== undefined ) {
+
+					/**
+					 * The transformer method to pass a MeshUIProperty to a MaterialProperty
+					 * @type {(fontMaterial:Material|ShaderMaterial, materialProperty:string, value:any) => void }
+					 */
+					const transferTransformer = transferDefinition.t ? transferDefinition.t : _directTransfertPropertyToMaterial;
+					transferTransformer( this._material, transferDefinition.m, options[materialProperty] );
+
+					// Also transfert to customDepthMat
+					if( this._customDepthMaterial ) {
+
+						transferTransformer( this._customDepthMaterial, transferDefinition.m, options[materialProperty] );
+
+					}
+
+				}
+
+			}
+
+		}
+
+		/**
+		 *
+		 * @param {Vector4} vector4
+		 * @param {string|number|Array.<string|number>} value
+		 * @private
+		 */
+		_fourDimensionsValueSetter( vector4, value ) {
+
+			if( value instanceof Vector4 ) {
+
+				vector4.copy( value );
+				return ;
+
+			}
+
+			if (typeof value === 'string' || value instanceof String) {
+
+				value = value.split(" ");
+
+			}
+
+			if( Array.isArray( value ) ) {
+
+				value = value.map( v => parseFloat(v) );
+
+				switch ( value.length ) {
+
+					case 1:
+						vector4.setScalar( value[0] );
+						return;
+
+					case 2:
+						vector4.x = vector4.z = value[0];
+						vector4.y = vector4.w = value[1];
+						return;
+
+					case 3:
+						vector4.x = value[0];
+						vector4.y = value[1];
+						vector4.z = value[2];
+						return;
+
+					case 4:
+						vector4.x = value[0];
+						vector4.y = value[1];
+						vector4.z = value[2];
+						vector4.w = value[3];
+						return;
+
+					default:
+						console.error("Four Dimension property has more than four values");
+						return;
+
+				}
+
+			}
+
+			if( !isNaN(value) ) {
+
+				vector4.setScalar( value );
+
+			}
+
+		}
 
 	};
+
+}
+
+
+
+/**
+ *
+ * @param {Material|ShaderMaterial} material
+ * @param {string} propertyName The property to be set on that Material
+ * @param {any} value The value to transfer to Material
+ *
+ * @private
+ */
+const _directTransfertPropertyToMaterial = function( material, propertyName, value) {
+
+	material[propertyName] = value;
 
 }

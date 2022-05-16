@@ -169,8 +169,8 @@ function makeTextPanel() {
 	})
 	outerContainer.add( effectContainer );
 
-	effectContainer.add( buildEffectContainer('without BoundsUVBehavior', 'Each glyph will have the full [0,0-1,1] uv', null ) );
-	effectContainer.add( buildEffectContainer('BoundsUVBehavior from itself', 'UVs are spread from firstChar to lastChar', "self" ) );
+	effectContainer.add( buildEffectContainer('without BoundsUVBehavior', 'Texture is stretched on each glyph', null ) );
+	effectContainer.add( buildEffectContainer('BoundsUVBehavior from itself', 'Texture is stretched from first to last glyph', "self" ) );
 	effectContainer.add( buildEffectContainer('BoundsUVBehavior from object', 'Here UVs are computed from the red box behind', boundingContainer ) );
 
 
@@ -213,7 +213,7 @@ function buildEffectContainer( title, subtitle, bindedTo) {
 		content:"map",
 		fontColor: new THREE.Color(0xffffff)
 	});
-	defaultText.fontMaterial = new ExampleBoundsUVMaterial({map:snakeTexture});
+	defaultText.material = new ExampleBoundsUVMaterial({map:snakeTexture});
 
 	let textBlock = new ThreeMeshUI.Block({width:0.75,height:0.3, backgroundOpacity:0});
 	textBlock.add( defaultText );
@@ -223,7 +223,7 @@ function buildEffectContainer( title, subtitle, bindedTo) {
 		content:"alpha",
 		fontColor: new THREE.Color(0xFFFFFF)
 	});
-	alphaText.fontMaterial = new ExampleBoundsUVMaterial({alphaMap:smokeTexture});
+	alphaText.material = new ExampleBoundsUVMaterial({alphaMap:smokeTexture});
 	textBlock = new ThreeMeshUI.Block({width:0.75,height:0.3, backgroundOpacity:0});
 	textBlock.add( alphaText );
 	effectContainer.add( textBlock );
@@ -232,7 +232,7 @@ function buildEffectContainer( title, subtitle, bindedTo) {
 		content: "Both",
 		fontColor: new THREE.Color(0xffffff)
 	});
-	bothText.fontMaterial = new ExampleBoundsUVMaterial({
+	bothText.material = new ExampleBoundsUVMaterial({
 		map: snakeTexture,
 		alphaMap:smokeTexture
 	});

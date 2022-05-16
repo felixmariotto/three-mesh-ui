@@ -117,7 +117,7 @@ function makeUI() {
 
 	text.onAfterUpdate = function () {
 
-		if (!(text.fontMaterial instanceof FontMaterialDebugger) ) {
+		if (!(text.material instanceof FontMaterialDebugger) ) {
 
 			// remove all lines previously added
 			for (let i = 0; i < lines.length; i++) {
@@ -131,9 +131,9 @@ function makeUI() {
 
 			// replace the default fontMaterial with a debugging one
 			// which shows quad in opposite font color
-			text.children[0].material = new FontMaterialDebugger(text.fontMaterial);
-			text.children[0].material.uniforms.u_texture.value = text.fontMaterial.uniforms.u_texture.value;
-			text.children[0].material.uniforms.u_opacity.value = text.fontMaterial.uniforms.u_opacity.value;
+			text.children[0].material = new FontMaterialDebugger(text.material);
+			text.children[0].material.uniforms.u_texture.value = text.material.uniforms.u_texture.value;
+			text.children[0].material.uniforms.u_opacity.value = text.material.uniforms.u_opacity.value;
 
 			// retrieve all lines sent by InlineManager for the textBlock
 			for (let i = 0; i < textBlock.lines.length; i++) {

@@ -1,4 +1,4 @@
-import { DataTexture, LuminanceFormat, MeshToonMaterial } from 'three';
+import { DataTexture, MeshToonMaterial, RedFormat } from 'three';
 import { MSDFFontMaterialUtils } from 'three-mesh-ui';
 
 /**
@@ -25,17 +25,27 @@ export default class MSDFToonMaterial extends MeshToonMaterial {
 		// be sure transparent and alphaTest are set
 		MSDFFontMaterialUtils.ensureMaterialOptions( options );
 
-		const format = LuminanceFormat;
+		// Automatically generate a gradient map if not provided
+		if( !options.gradientMap ) {
 
-		const granularity = 8;
-		const colors = new Uint8Array( granularity );
-		for ( let c = 0; c <= colors.length; c ++ ) {
-			colors[ c ] = ( c / colors.length ) * 256;
+			// Use the webgl2 format, unless format is defined
+			const format = options.format ? options.format : RedFormat;
+
+			const granularity = options.tones ? options.tones : 8;
+
+			const colors = new Uint8Array( granularity );
+			for ( let c = 0; c <= colors.length; c++ ) {
+
+				colors[ c ] = ( c / colors.length ) * 256;
+
+			}
+
+			const gradientMap = new DataTexture( colors, colors.length, 1, format );
+			gradientMap.needsUpdate = true;
+
+			options.gradientMap = gradientMap;
+
 		}
-		const gradientMap = new DataTexture( colors, colors.length, 1, format );
-		gradientMap.needsUpdate = true;
-
-		options.gradientMap = gradientMap;
 
 		// build this material
 		super( options );
