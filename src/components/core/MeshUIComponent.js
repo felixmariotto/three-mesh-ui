@@ -10,6 +10,7 @@ import FontFamily from '../../font/FontFamily';
 import * as FontWeight from '../../utils/font/FontWeight';
 import * as FontStyle from '../../utils/font/FontStyle';
 import Behavior from '../../behaviors/Behavior';
+import Lines from './Lines';
 
 /**
 
@@ -80,6 +81,12 @@ export default function MeshUIComponent( Base ) {
 			 * @private
 			 */
 			this._borderWidth = new Vector4().copy( DEFAULTS.borderWidth );
+
+			/**
+			 * @Todo: Probably only for boxComponents
+			 * @type {Lines}
+			 */
+			this.lines = new Lines();
 
 		}
 

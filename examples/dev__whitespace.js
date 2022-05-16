@@ -8,7 +8,7 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import ThreeMeshUI, { FontLibrary, MSDFFontMaterialUtils, ShaderChunkUI } from 'three-mesh-ui';
 
 
-import { Mesh, MeshBasicMaterial, PlaneBufferGeometry, ShaderMaterial, UniformsUtils } from 'three';
+import { Mesh, MeshBasicMaterial, PlaneBufferGeometry } from 'three';
 import * as FontWeight from '../src/utils/font/FontWeight';
 import * as FontStyle from '../src/utils/font/FontStyle';
 import ROBOTO_ADJUSTMENT from 'three-mesh-ui/examples/assets/fonts/msdf/roboto/adjustment';
@@ -154,6 +154,7 @@ function makeUI() {
 		}
 		lines = [];
 
+		console.log(textBlock.lines);
 
 		// retrieve all lines sent by InlineManager for the textBlock
 		for ( let i = 0; i < textBlock.lines.length; i++ ) {

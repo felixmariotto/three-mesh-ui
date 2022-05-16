@@ -16,6 +16,8 @@ in its own updateLayout function.
 import * as Whitespace from '../../utils/inline-layout/Whitespace';
 import * as TextAlign from '../../utils/inline-layout/TextAlign';
 import * as InlineJustification from '../../utils/inline-layout/InlineJustification';
+import Line from './Line';
+import Lines from './Lines';
 
 export default function InlineManager( Base ) {
 
@@ -63,7 +65,7 @@ export default function InlineManager( Base ) {
 
 			// Will stock the characters of each line, so that we can
 			// correct lines position before to merge
-			const lines = [ [] ];
+			const lines = new Lines( new Line() );
 
 			let lastInlineOffset = 0;
 			this.childrenInlines.forEach( ( inlineComponent ) => {
@@ -96,7 +98,7 @@ export default function InlineManager( Base ) {
 
 						if ( shouldBreak ) {
 
-							lines.push( [ inline ] );
+							lines.push( new Line( inline ) );
 
 							inline.offsetX = inline.xoffset;
 
@@ -138,6 +140,7 @@ export default function InlineManager( Base ) {
 			// Compute single line and combined lines dimensions
 			const WHITESPACE = this.getWhiteSpace();
 
+			let width = 0;
 			let lineOffsetY = 0;
 			lines[0].y = 0;
 
@@ -193,11 +196,13 @@ export default function InlineManager( Base ) {
 					// Right + Left ( left is negative )
 					line.width = (lastInline.offsetX + lastInline.width) + line[ 0 ].offsetX;
 
+					width = Math.max( width, line.width);
 				}
 
 			} );
 
 			lines.height = Math.abs(lineOffsetY + INTERLINE );
+			lines.width = width;
 
 			return lines;
 
