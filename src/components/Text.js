@@ -84,6 +84,8 @@ export default class Text extends mix.withBase( Object3D )(
 	 */
 	_handleFontVariantReady = () => {
 
+		this._transferToMaterial();
+
 		// request parse update and parent layout
 		this.update( true, true, false );
 		this.getHighestParent().update( false, true, false );
