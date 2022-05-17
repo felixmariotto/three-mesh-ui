@@ -146,6 +146,8 @@ export const shouldBreak = function( inlines, i, lastInlineOffset, options){
  */
 export const collapseWhitespaceOnInlines = function ( line, whiteSpace ) {
 
+	if( !line[0] ) return 0;
+
 	const firstInline = line[ 0 ];
 	const lastInline = line[ line.length - 1 ];
 
