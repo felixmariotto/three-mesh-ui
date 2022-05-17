@@ -18,10 +18,15 @@ import * as TextAlign from '../../utils/inline-layout/TextAlign';
 import * as InlineJustification from '../../utils/inline-layout/InlineJustification';
 import Line from './Line';
 import Lines from './Lines';
+import MeshUIComponent from './MeshUIComponent';
 
-export default function InlineManager( Base ) {
+export default class InlineManager extends MeshUIComponent{
 
-	return class InlineManager extends Base {
+		constructor(options) {
+
+			super(options);
+
+		}
 
 		/** Compute children .inlines objects position, according to their pre-computed dimensions */
 		computeInlinesPosition() {
@@ -208,23 +213,5 @@ export default function InlineManager( Base ) {
 
 		}
 
-		calculateHeight( fontMultiplier ) {
-
-			this.childrenInlines.forEach( inlineComponent => {
-
-				if ( inlineComponent.isInlineBlock ) return;
-
-				// Set font size and recalculate dimensions
-				inlineComponent._fitFontSize = inlineComponent.getFontSize() * fontMultiplier;
-				inlineComponent.calculateInlines( inlineComponent._fitFontSize );
-
-			} );
-
-			const lines = this.computeLines();
-
-			return lines.height;
-		}
-
-	};
 
 }

@@ -1,11 +1,8 @@
-import { Object3D, Vector2 } from 'three';
+import { Vector2 } from 'three';
 
 import BoxComponent from './core/BoxComponent.js';
-import InlineManager from './core/InlineManager.js';
-import MeshUIComponent from './core/MeshUIComponent.js';
 
 import Frame from '../frame/Frame.js';
-import { mix } from '../utils/mix.js';
 import FrameMaterial from '../frame/materials/FrameMaterial';
 import FrameMaterialUtils from '../frame/utils/FrameMaterialUtils';
 
@@ -20,11 +17,7 @@ Job:
 
 
 
-export default class Block extends mix.withBase( Object3D )(
-	BoxComponent,
-	InlineManager,
-	MeshUIComponent
-) {
+export default class Block extends BoxComponent {
 
 	constructor( options ) {
 
@@ -38,6 +31,12 @@ export default class Block extends mix.withBase( Object3D )(
 
 		// this._main = new Frame( this.getBackgroundMaterial() );
 		this._material = new FrameMaterial();
+
+		/**
+		 *
+		 * @type {Frame}
+		 * @protected
+		 */
 		this._main = new Frame( this._material );
 
 		this._materialProperties = { ...FrameMaterialUtils.frameMaterialProperties };

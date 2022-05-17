@@ -323,7 +323,7 @@ const _alphaTestTransformer = function( fontMaterial, materialProperty, value) {
  */
 const _msdfMaterialProperties = {
 	alphaTest: { m: 'alphaTest', t: _alphaTestTransformer },
-	font: { m: "glyphMap", t: _fontToGlyphMapTransformer },
+	_font: { m: "glyphMap", t: _fontToGlyphMapTransformer },
 	fontColor: { m: 'color' },
 	fontOpacity: { m: 'opacity' },
 	fontSupersampling: { m: 'NO_RGSS', t: _RGSSTransformer },

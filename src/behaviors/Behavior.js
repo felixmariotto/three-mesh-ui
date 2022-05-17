@@ -24,6 +24,7 @@ export default class Behavior {
 
 	}
 
+	/* eslint-disable no-unused-vars */
 	/**
 	 * @param {any|null} [alterable=null]
 	 * @abstract
@@ -33,6 +34,7 @@ export default class Behavior {
 		throw new Error(`Behavior::act() - Is abstract and therefore should be overridden in ${this.constructor.name}`);
 
 	}
+	/* eslint-enable no-unused-vars */
 
 	/**
 	 *

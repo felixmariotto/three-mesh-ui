@@ -1,10 +1,10 @@
 
 import Stats from 'three/examples/jsm/libs/stats.module';
-import { OrbitControls } from 'three/examples/jsm/controls/experimental/CameraControls';
 import { BoxLineGeometry } from 'three/examples/jsm/geometries/BoxLineGeometry.js';
 import * as ThreeMeshUI from 'three-mesh-ui';
 import { Color, LineBasicMaterial, LineSegments, PerspectiveCamera, Scene, Vector3, WebGLRenderer } from 'three';
 import { VRButton } from 'three/examples/jsm/webxr/VRButton.js';
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 
 
 const _updater = [];

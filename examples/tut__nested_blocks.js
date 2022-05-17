@@ -180,6 +180,8 @@ function makeTextPanel() {
 
   new THREE.TextureLoader().load(SnakeImage, (texture) => {
     leftSubBlock.set({
+			backgroundColor: new THREE.Color(0xffffff),
+			backgroundOpacity: 1,
       backgroundTexture: texture,
     });
   });

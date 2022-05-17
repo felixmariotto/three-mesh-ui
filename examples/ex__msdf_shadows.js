@@ -152,15 +152,15 @@ function makeTextPanel() {
 
 	const standardText = new ThreeMeshUI.Text({content:"MSDFStandardMaterial\n", fontColor: new THREE.Color(0x0099ff).convertSRGBToLinear()});
 	standardText.material = new MSDFStandardMaterial({});
-	standardText.customDepthMaterial = new MSDFDepthMaterial({});
+	standardText.setCustomDepthMaterial( new MSDFDepthMaterial({}) );
 
 	const standardTextInverted = new ThreeMeshUI.Text({content:"MSDFStandardMaterial\n", fontColor: new THREE.Color(0x99ff00).convertSRGBToLinear(), invertAlpha: true});
 	standardTextInverted.material = new MSDFStandardMaterial();
-	standardTextInverted.customDepthMaterial = new MSDFDepthMaterial({});
+	standardTextInverted.setCustomDepthMaterial( new MSDFDepthMaterial({}) );
 
 	outerContainer.add( defaultText, defaultTextInverted, standardText, standardTextInverted );
 
-	standardText.onAfterUpdate = function() {
+	standardText.addAfterUpdate( function() {
 
 		if( standardText.children.length ){
 
@@ -169,9 +169,9 @@ function makeTextPanel() {
 
 		}
 
-	}
+	});
 
-	standardTextInverted.onAfterUpdate = function() {
+	standardTextInverted.addAfterUpdate( function() {
 
 		if( standardTextInverted.children.length ){
 
@@ -180,9 +180,9 @@ function makeTextPanel() {
 
 		}
 
-	}
+	});
 
-	defaultTextInverted.onAfterUpdate = function() {
+	defaultTextInverted.addAfterUpdate( function() {
 
 		if( defaultTextInverted.children.length ){
 
@@ -191,7 +191,7 @@ function makeTextPanel() {
 
 		}
 
-	}
+	});
 
 }
 

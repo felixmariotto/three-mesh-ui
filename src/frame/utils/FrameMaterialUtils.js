@@ -42,6 +42,7 @@ export default class FrameMaterialUtils {
 		}
 	}
 
+	/* eslint-disable no-unused-vars */
 	/**
 	 *
 	 * @param {Material|ShaderMaterial} threeMaterial
@@ -56,6 +57,7 @@ export default class FrameMaterialUtils {
 		threeMaterial.userData.textureSize = { value: new Vector2( 1, 1 ) };
 
 	}
+	/* eslint-enable no-unused-vars */
 
 	/**
 	 *

@@ -1,11 +1,8 @@
-import { Mesh, Object3D } from 'three';
+import { Mesh } from 'three';
 
-import InlineComponent from './core/InlineComponent.js';
-import MeshUIComponent from './core/MeshUIComponent.js';
 import FontLibrary from '../font/FontLibrary.js';
 
 import deepDelete from '../utils/deepDelete.js';
-import { mix } from '../utils/mix.js';
 import * as Whitespace from '../utils/inline-layout/Whitespace';
 import FontFamily from '../font/FontFamily';
 import { mergeBufferGeometries } from 'three/examples/jsm/utils/BufferGeometryUtils';
@@ -17,6 +14,7 @@ import MSDFTypographicGlyph from '../font/msdf/MSDFTypographicGlyph';
 import MSDFInlineGlyph from '../font/msdf/MSDFInlineGlyph';
 import FontVariant from '../font/FontVariant';
 import { Material } from 'three';
+import MeshUIComponent from './core/MeshUIComponent';
 /* eslint-enable no-unused-vars */
 
 /**
@@ -32,15 +30,13 @@ Knows:
  */
 
 
-export default class Text extends mix.withBase( Object3D )(
-	InlineComponent,
-	MeshUIComponent
-) {
+export default class Text extends MeshUIComponent {
 
 	constructor( options ) {
 
-		super();
+		super( options );
 
+		this.isInline = true;
 		this.isText = true;
 
 		// adds internal properties
@@ -64,13 +60,6 @@ export default class Text extends mix.withBase( Object3D )(
 		 * @private
 		 */
 		this._textContentInlines = null;
-
-		/**
-		 *
-		 * @type {FontVariant}
-		 * @private
-		 */
-		this._font = null;
 
 		this.set( options );
 
@@ -145,6 +134,7 @@ export default class Text extends mix.withBase( Object3D )(
 	 ******************************************************************************************************************/
 
 	/**
+	 * @override
 	 * @param {FontVariant} value
 	 */
 	set font( value ) {
@@ -194,14 +184,6 @@ export default class Text extends mix.withBase( Object3D )(
 
 		}
 
-	}
-
-	/**
-	 *
-	 * @returns {FontVariant}
-	 */
-	get font() {
-		return this._font;
 	}
 
 
@@ -293,9 +275,9 @@ export default class Text extends mix.withBase( Object3D )(
 			// console.log(this.uuid);
 
 			this._main = new Mesh( mergedGeom, this._material );
-			if( this._customDepthMaterial ){
+			if( this.customDepthMaterial ){
 
-				this._main.customDepthMaterial = this._customDepthMaterial;
+				this._main.customDepthMaterial = this.customDepthMaterial;
 
 			}
 			// this._main = new Mesh( mergedGeom, new MeshBasicMaterial({color:0x99ff00}) );

@@ -1,24 +1,41 @@
 import { EventDispatcher } from 'three';
 import MSDFFontVariant from './msdf/MSDFFontVariant';
-
 //JSDoc related imports
+
 /* eslint-disable no-unused-vars */
 import FontVariant from './FontVariant';
+import { Texture } from 'three';
 /* eslint-enable no-unused-vars */
 
 export default class FontFamily extends EventDispatcher {
 
 	/**
 	 *
-	 * @param name
+	 * @param {string} name
 	 */
 	constructor( name ) {
 
 		super();
 
+		/**
+		 *
+		 * @type {string}
+		 * @private
+		 */
 		this._name = name;
+
+		/**
+		 *
+		 * @type {Array.<FontVariant>}
+		 * @private
+		 */
 		this._variants = [];
 
+		/**
+		 *
+		 * @type {boolean}
+		 * @private
+		 */
 		this._isReady = false;
 
 	}
@@ -27,11 +44,11 @@ export default class FontFamily extends EventDispatcher {
 
 	/**
 	 *
-	 * @param weight
-	 * @param style
-	 * @param json
-	 * @param texture
-	 * @param override
+	 * @param {string} weight
+	 * @param {string} style
+	 * @param {string|Object} json
+	 * @param {string|Texture} texture
+	 * @param {boolean} [override=false]
 	 */
 	addVariant( weight, style, json, texture, override = false){
 
@@ -98,9 +115,9 @@ export default class FontFamily extends EventDispatcher {
 
 	/**
 	 *
-	 * @param weight
-	 * @param style
-	 * @returns {FontVariant}
+	 * @param {string} weight
+	 * @param {string} style
+	 * @returns {FontVariant|null}
 	 */
 	getVariant( weight, style ){
 
@@ -108,6 +125,10 @@ export default class FontFamily extends EventDispatcher {
 
 	}
 
+	/**
+	 *
+	 * @return {string}
+	 */
 	get name(){ return this._name; }
 
 	_checkReadiness = () => {

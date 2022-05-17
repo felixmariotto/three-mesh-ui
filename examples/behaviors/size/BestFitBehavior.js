@@ -15,6 +15,7 @@ export default class BestFitBehavior {
 		}
 
 		algo = algo.bind(parent);
+		parent.calculateHeight = _calculateHeight.bind(parent);
 
 		parent.parseParams = function()
 		{
@@ -174,4 +175,21 @@ export default class BestFitBehavior {
 		} while ( ++iterations <= 10 );
 	}
 
+}
+
+function _calculateHeight( fontMultiplier ) {
+
+	this.childrenInlines.forEach( inlineComponent => {
+
+		if ( inlineComponent.isInlineBlock ) return;
+
+		// Set font size and recalculate dimensions
+		inlineComponent._fitFontSize = inlineComponent.getFontSize() * fontMultiplier;
+		inlineComponent.calculateInlines( inlineComponent._fitFontSize );
+
+	} );
+
+	const lines = this.computeLines();
+
+	return lines.height;
 }

@@ -81,9 +81,9 @@ function makeTextPanel() {
 	// onAfterUpdate can be set on any component ( Text, Block... ),
 	// and get called after any update to the component.
 
-	container.onAfterUpdate = function () {
+	container.addAfterUpdate( function () {
 		container.frame.layers.set( count % 2 );
-	};
+	});
 
 	//
 

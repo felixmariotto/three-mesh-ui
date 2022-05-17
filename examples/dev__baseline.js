@@ -100,7 +100,7 @@ function makeUI(fixed = true ) {
 		height: 0.55,
 		width: 0.85,
 		justifyContent: 'center',
-		alignContent: 'center',
+		alignItems: 'center',
 		fontFamily: fixed ? 'Roboto' : 'Roboto-unfixed',
 		backgroundOpacity: fixed ? 1.0 : 0
 	} );
@@ -113,7 +113,7 @@ function makeUI(fixed = true ) {
 		height: 0.4,
 		width: 0.73,
 		margin: 0.05,
-		alignContent: 'right',
+		textAlign: 'right',
 		justifyContent: 'center',
 		padding: 0.03,
 		interLine: 0.08,
@@ -144,7 +144,7 @@ function makeUI(fixed = true ) {
 	const lineMat = new MeshBasicMaterial( { color: fixed ? 0x0099FF : 0xcacaca, opacity: 0.5 } );
 	let lines = [];
 
-	_text.onAfterUpdate = function () {
+	_text.addAfterUpdate( function () {
 
 
 		// only process when texts are not empty
@@ -183,7 +183,7 @@ function makeUI(fixed = true ) {
 			container.add( lineMesh );
 		}
 
-	};
+	});
 
 	textBlock.add( _text );
 

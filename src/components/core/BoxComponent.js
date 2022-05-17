@@ -13,10 +13,10 @@ as children, or only inline components (Text, InlineBlock).
 import { COLUMN, COLUMN_REVERSE, contentDirection, ROW, ROW_REVERSE } from '../../utils/block-layout/ContentDirection';
 import { alignItems } from '../../utils/block-layout/AlignItems';
 import { justifyContent } from '../../utils/block-layout/JustifyContent';
+import InlineManager from './InlineManager';
 
-export default function BoxComponent( Base ) {
+export default class BoxComponent extends InlineManager {
 
-	return class BoxComponent extends Base {
 
 		constructor( options ) {
 
@@ -204,8 +204,6 @@ export default function BoxComponent( Base ) {
 			return this.height || this.getInnerHeight() + ( this.padding * 2 || 0 );
 
 		}
-
-	};
 
 }
 

@@ -1,4 +1,4 @@
-import { Plane, Vector4 } from 'three';
+import { Object3D, Plane, Vector4 } from 'three';
 import { Vector3 } from 'three';
 
 import FontLibrary from '../../font/FontLibrary.js';
@@ -12,6 +12,13 @@ import * as FontStyle from '../../utils/font/FontStyle';
 import Behavior from '../../behaviors/Behavior';
 import Lines from './Lines';
 
+
+//JSDoc related imports
+/* eslint-disable no-unused-vars */
+import { Mesh, Material } from 'three';
+import FontVariant from '../../font/FontVariant';
+/* eslint-enable no-unused-vars */
+
 /**
 
 Job:
@@ -23,10 +30,13 @@ This is the core module of three-mesh-ui. Every component is composed with it.
 It owns the principal public methods of a component : set, setupState and setState.
 
  */
-export default function MeshUIComponent( Base ) {
 
-	return class MeshUIComponent extends Base {
+export default class MeshUIComponent extends Object3D {
 
+	/**
+	 *
+	 * @param {} options
+	 */
 		constructor( options ) {
 
 			super( options );
@@ -37,13 +47,38 @@ export default function MeshUIComponent( Base ) {
 			this.autoLayout = true;
 
 			// children
+
+			/**
+			 *
+			 * @type {MeshUIComponent[]}
+			 */
 			this.childrenUIs = [];
+
+			/**
+			 *
+			 * @type {MeshUIComponent[]}
+			 */
 			this.childrenBoxes = [];
+
+			/**
+			 *
+			 * @type {MeshUIComponent[]}
+			 */
 			this.childrenTexts = [];
+
+			/**
+			 *
+			 * @type {MeshUIComponent[]}
+			 */
 			this.childrenInlines = [];
 
-			// parents
+
+			/**
+			 * parents
+			 * @type {MeshUIComponent|null}
+			 */
 			this.parentUI = null;
+
 			// update parentUI when this component will be added or removed
 			this.addEventListener( 'added', this._rebuildParentUI );
 			this.addEventListener( 'removed', this._rebuildParentUI );
@@ -51,7 +86,7 @@ export default function MeshUIComponent( Base ) {
 			/**
 			 *
 			 * @type {Mesh|null}
-			 * @private
+			 * @protected
 			 */
 			this._main = null;
 
@@ -64,7 +99,7 @@ export default function MeshUIComponent( Base ) {
 			/**
 			 *
 			 * @type {Object.<{m:string, t?:(value:any) => any}>}
-			 * @private
+			 * @protected
 			 */
 			this._materialProperties = {};
 
@@ -87,6 +122,13 @@ export default function MeshUIComponent( Base ) {
 			 * @type {Lines}
 			 */
 			this.lines = new Lines();
+
+			/**
+			 *
+			 * @type {FontVariant}
+			 * @protected
+			 */
+			this._font = null;
 
 		}
 
@@ -481,7 +523,15 @@ export default function MeshUIComponent( Base ) {
 		 * When the user calls component.add, it registers for updates,
 		 * then call THREE.Object3D.add.
 		 */
-		add() {
+
+	/* eslint-disable no-unused-vars */
+	/**
+	 *
+	 * @override
+	 * @param {...Object3D} object
+	 * @return {this}
+	 */
+	add( object) {
 
 			for ( const id of Object.keys( arguments ) ) {
 
@@ -491,19 +541,23 @@ export default function MeshUIComponent( Base ) {
 
 			}
 
-			const result = super.add( ...arguments );
+			super.add( ...arguments );
 
 			this._rebuildChildrenLists();
 
-			return result;
+			return this;
 
 		}
 
-		/**
-		 * When the user calls component.remove, it registers for updates,
-		 * then call THREE.Object3D.remove.
-		 */
-		remove() {
+
+	/**
+	 * When the user calls component.remove, it registers for updates,
+	 * then call THREE.Object3D.remove.
+	 * @override
+	 * @param {...Object3D} object
+	 * @return {this}
+	 */
+		remove(object) {
 
 			for ( const id of Object.keys( arguments ) ) {
 
@@ -512,13 +566,15 @@ export default function MeshUIComponent( Base ) {
 
 			}
 
-			const result = super.remove( ...arguments );
+			super.remove( ...arguments );
 
 			this._rebuildChildrenLists();
 
-			return result;
+			return this;
 
 		}
+
+	/* eslint-enable no-unused-vars */
 
 		//
 
@@ -761,7 +817,6 @@ export default function MeshUIComponent( Base ) {
 							break;
 
 						case 'offset':
-							console.log('offset', value);
 							if( !this.isBlock || this.parentUI ){
 
 								this[ prop ] = value;
@@ -926,7 +981,11 @@ export default function MeshUIComponent( Base ) {
 
 		}
 
-		/** Get completely rid of this component and its children, also unregister it for updates */
+		/**
+		 * Get completely rid of this component and its children, also unregister it for updates
+		 * @override
+		 * @return {this}
+		 */
 		clear() {
 
 			this.traverse( ( obj ) => {
@@ -939,6 +998,7 @@ export default function MeshUIComponent( Base ) {
 
 			} );
 
+			return this;
 		}
 
 		/***********************************************************************************************************************
@@ -973,29 +1033,19 @@ export default function MeshUIComponent( Base ) {
 
 		/**
 		 *
-		 * @param {Material|ShaderMaterial} fontMaterial
+		 * @param {Material|null} material
 		 */
-		set customDepthMaterial( fontMaterial ) {
+		setCustomDepthMaterial( material ) {
 
-			this._customDepthMaterial = fontMaterial;
+			this.customDepthMaterial = material;
 
 			this._transferToMaterial();
 
 			if ( this._main ) {
 
-				this._main.customDepthMaterial = this._customDepthMaterial;
+				this._main.customDepthMaterial = this.customDepthMaterial;
 
 			}
-
-		}
-
-		/**
-		 *
-		 * @return {Material|ShaderMaterial}
-		 */
-		get customDepthMaterial() {
-
-			return this._customDepthMaterial;
 
 		}
 
@@ -1049,9 +1099,9 @@ export default function MeshUIComponent( Base ) {
 					transferTransformer( this._material, transferDefinition.m, options[materialProperty] );
 
 					// Also transfert to customDepthMat
-					if( this._customDepthMaterial ) {
+					if( this.customDepthMaterial ) {
 
-						transferTransformer( this._customDepthMaterial, transferDefinition.m, options[materialProperty] );
+						transferTransformer( this.customDepthMaterial, transferDefinition.m, options[materialProperty] );
 
 					}
 
@@ -1126,7 +1176,24 @@ export default function MeshUIComponent( Base ) {
 
 		}
 
-	};
+	/**
+	 * @param {FontVariant} value
+	 */
+	set font( value ) {
+
+		this._font = value;
+
+	}
+
+	/**
+	 *
+	 * @returns {FontVariant}
+	 */
+	get font() {
+
+		return this._font;
+
+	}
 
 }
 

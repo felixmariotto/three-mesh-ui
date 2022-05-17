@@ -15,6 +15,11 @@ import { BufferGeometry, Material, ShaderMaterial, Texture } from 'three';
  */
 export default class FontVariant extends EventDispatcher {
 
+	/**
+	 *
+	 * @param {string} weight
+	 * @param {string} style
+	 */
 	constructor( weight, style ) {
 
 		super();

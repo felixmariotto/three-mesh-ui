@@ -1,14 +1,10 @@
-import { Color, Object3D, Vector2 } from 'three';
-
-import InlineComponent from './core/InlineComponent.js';
-import BoxComponent from './core/BoxComponent.js';
-import InlineManager from './core/InlineManager.js';
-import MeshUIComponent from './core/MeshUIComponent.js';
+import { Color, Vector2 } from 'three';
 
 import Frame from '../frame/Frame.js';
-import { mix } from '../utils/mix.js';
 import FrameMaterial from '../frame/materials/FrameMaterial';
 import FrameMaterialUtils from '../frame/utils/FrameMaterialUtils';
+import Inline from './core/Inline';
+import MeshUIComponent from './core/MeshUIComponent';
 
 /**
  * Job:
@@ -19,17 +15,13 @@ import FrameMaterialUtils from '../frame/utils/FrameMaterialUtils';
  * - Its measurements parameter
  * - Parent block
  */
-export default class InlineBlock extends mix.withBase( Object3D )(
-	InlineComponent,
-	BoxComponent,
-	InlineManager,
-	MeshUIComponent
-) {
+export default class InlineBlock extends MeshUIComponent {
 
 	constructor( options ) {
 
 		super( options );
 
+		this.isInline = true;
 		this.isInlineBlock = true;
 
 		//
@@ -68,11 +60,11 @@ export default class InlineBlock extends mix.withBase( Object3D )(
 
 		}
 
-		this.set( options );
+		// Add an object that can be seen and CharacterInline
+		this.inline = new InlineBlockInline(this);
+		this.inlines = [ this.inline ];
 
-		// console.log(this.position.z);
-		// this.position.z = this.getOffset();
-		// console.log(this.position.z);
+		this.set( options );
 
 		this._transferToMaterial();
 
@@ -82,34 +74,9 @@ export default class InlineBlock extends mix.withBase( Object3D )(
 	// UPDATES
 	///////////
 
-	parseParams() {
-
-		// Get image dimensions
-
-		if ( !this.width ) console.warn( 'inlineBlock has no width. Set to 0.3 by default' );
-		if ( !this.height ) console.warn( 'inlineBlock has no height. Set to 0.3 by default' );
-
-
-		// Add an object that can be seen and CharacterInline
-		this.inlines = [ {
-			lineBreak : 'possible',
-			kerning : 0,
-      offsetX : 0,
-			offsetY : 0,
-			width: this.width || 0.3,
-			height: this.height || 0.3,
-			anchor: 0, // @TODO: Could be useful
-			xadvance: this.width || 0.3,
-			xoffset: 0,
-			yoffset: 0,
-			lineHeight : this.height || 0.3,
-			lineBase: this.height || 0.3
-		}];
+	parseParams(){
 
 	}
-
-	//
-
 
 	/**
 	 * Create text content
@@ -121,44 +88,129 @@ export default class InlineBlock extends mix.withBase( Object3D )(
 	 */
 	updateLayout() {
 
-		const WIDTH = this.getWidth();
-		const HEIGHT = this.getHeight();
+		const PADDING = this.padding || 0;
+		const WIDTH = this.inlineWidth;
+		const HEIGHT = this.inlineHeight;
 
-		if ( this.inlines ) {
 
-			const options = this.inlines[ 0 ];
+		// basic translation to put the plane's left bottom corner at the center of its space
+		// this.position.set( WIDTH / 2 , HEIGHT / 2, 0 );
+		this.position.set( (WIDTH + PADDING)/2, HEIGHT / 2, 0 );
 
-			// basic translation to put the plane's left bottom corner at the center of its space
-			this.position.set( options.width / 2, options.height / 2, 0 );
+		// translation required by inlineManager to position this component inline
+		this.position.x += this.inline.offsetX;
+		this.position.y += this.inline.offsetY;
 
-			// translation required by inlineManager to position this component inline
-			this.position.x += options.offsetX;
-			this.position.y += options.offsetY;
-
-			this.position.y += options.anchor;
-
-		}
+		this.position.y += this.inline.anchor;
 
 		this.size.set( WIDTH, HEIGHT );
 		this._main.scale.set( WIDTH, HEIGHT, 1 );
 
-		// if ( this.frame ) this.updateBackgroundMaterial();
-
 		this._main.renderOrder = this.getParentsNumber();
 
-		// console.log( this.position.z );
 		this.position.z = this.getOffset();
-		// console.log( this.position.z );
+
 	}
 
 	//
 
 	updateInner() {
 
-		// this.position.z = this.getOffset();
+	}
 
-		// if ( this.frame ) this.updateBackgroundMaterial();
+	/*********************************************************************************************************************
+	 * POVIDES INLINE SIZING
+	 ********************************************************************************************************************/
+
+	/**
+	 *
+	 * @return {number}
+	 */
+	get inlineXAdvance(){
+
+		const pad = this.padding || 0;
+		return (this.width || 0.3) + pad;
 
 	}
+
+	/**
+	 *
+	 * @return {number}
+	 */
+	get inlineWidth() {
+
+		return this.width || 0.3;
+
+	}
+
+	/**
+	 *
+	 * @return {number}
+	 */
+	get inlineHeight() {
+
+		return this.height || 0.3;
+
+	}
+
+}
+
+/**
+ * InlineBlock has its own Inline implementation
+ */
+class InlineBlockInline extends Inline {
+
+	/**
+	 *
+	 * @param {InlineBlock} parent
+	 */
+	constructor( parent ) {
+
+		super();
+
+		/**
+		 * @TODO: This currently make a circular reference that should ideally be removed
+		 * @type {InlineBlock}
+		 * @private
+		 */
+		this._parent = parent;
+
+	}
+
+	/**
+	 * Rely on the parent for size computation
+	 * @override
+	 * @returns {number}
+	 */
+	get xadvance() { return this._parent.inlineXAdvance; }
+
+	/**
+	 * Rely on the parent for size computation
+	 * @override
+	 * @returns {number}
+	 */
+	get width() { return this._parent.inlineWidth; }
+
+	/**
+	 * Rely on the parent for size computation
+	 * @override
+	 * @returns {number}
+	 */
+	get height() { return this._parent.inlineHeight; }
+
+
+	/**
+	 * Rely on the parent for size computation
+	 * @override
+	 * @returns {number}
+	 */
+	get lineHeight() { return this._parent.inlineHeight; }
+
+	/**
+	 * Rely on the parent for size computation
+	 * @override
+	 * @returns {number}
+	 */
+	get lineBase() { return this._parent.inlineHeight; }
 
 }

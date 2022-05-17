@@ -1,15 +1,12 @@
 import { TextureLoader } from 'three';
-import { Object3D } from 'three';
 
 import BoxComponent from './core/BoxComponent.js';
-import MeshUIComponent from './core/MeshUIComponent.js';
 
 import Block from './Block.js';
 import Text from './Text.js';
 import InlineBlock from './InlineBlock.js';
 
 import keymaps from '../utils/Keymaps.js';
-import { mix } from '../utils/mix.js';
 
 //
 
@@ -20,7 +17,7 @@ const textureLoader = new TextureLoader();
 /**
  * Job: high-level component that returns a keyboard
  */
-export default class Keyboard extends mix.withBase( Object3D )( BoxComponent, MeshUIComponent ) {
+export default class Keyboard extends BoxComponent {
 
 	constructor( options ) {
 

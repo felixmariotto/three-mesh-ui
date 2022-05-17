@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import { Color, Mesh, MeshStandardMaterial, PlaneBufferGeometry, PointLight, SpotLight, SpotLightHelper } from 'three';
+import { Color, DoubleSide, Mesh, MeshStandardMaterial, PlaneBufferGeometry, PointLight, SpotLight, SpotLightHelper } from 'three';
 import { VRButton } from 'three/examples/jsm/webxr/VRButton.js';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import { BoxLineGeometry } from 'three/examples/jsm/geometries/BoxLineGeometry.js';
@@ -11,6 +11,7 @@ import FontImage from 'three-mesh-ui/examples/assets/fonts/msdf/roboto/regular.p
 import Stats from 'three/examples/jsm/libs/stats.module';
 import FrameDepthMaterial from '../src/frame/materials/FrameDepthMaterial';
 import FramePhysicalMaterial from 'three-mesh-ui/examples/frame-materials/FramePhysicalMaterial';
+import FrameBasicMaterial from 'three-mesh-ui/examples/frame-materials/FrameBasicMaterial';
 
 const WIDTH = window.innerWidth;
 const HEIGHT = window.innerHeight;
@@ -144,7 +145,7 @@ function init() {
 	bottomMiddleLeft.backgroundColor = new Color(0xffffff);
 	bottomMiddleLeft.set({borderRadius:'0.2 0.1'})
 	bottomMiddleLeft.material = new FramePhysicalMaterial({
-		// side:DoubleSide,
+		side:DoubleSide,
 		transmission: 1,
 		opacity: 1,
 		metalness: 0,
@@ -156,11 +157,11 @@ function init() {
 	const bottomMiddle = makeBoxForBorder('borderBottom');
 	bottomMiddle.set({borderRadiusBottom:0.1})
 	const bottomMiddleRight = makeBoxForBorder('BottomMiddleRight?');
+	bottomMiddleRight.material = new FrameBasicMaterial({side:DoubleSide});
 	panelScale = bottomMiddleRight;
-	// bottomMiddleRight.frame.material = new MeshDepthMaterial();
 	const bottomRight = makeBoxForBorder('BorderBottomRight');
 	bottomRight.set({borderWidth:'0.1 0.2 0.3 0.05', borderColor: new Color(0x99ffff)});
-	// middleRight.set({borderRadiusBottomRight:0.1});
+
 	bottom.add( bottomLeft, bottomMiddleLeft, bottomMiddle, bottomMiddleRight, bottomRight)
 	console.log( bottom.frame.customDepthMaterial );
 
@@ -208,7 +209,7 @@ function makeBoxForBorder( text ) {
 		} )
 	);
 
-	panel.customDepthMaterial = new FrameDepthMaterial();
+	panel.setCustomDepthMaterial( new FrameDepthMaterial() );
 
 	return panel;
 

@@ -213,7 +213,8 @@ function makeTextPanel() {
 			segments: 4,
 			letterSpacing: -0.08
 		} );
-	text1.customDepthMaterial = new MSDFDepthMaterial();
+
+	text1.setCustomDepthMaterial( new MSDFDepthMaterial() );
 
 	container.add(
 
@@ -221,7 +222,7 @@ function makeTextPanel() {
 
 	);
 
-	text1.onAfterUpdate = function(){
+	text1.addAfterUpdate( function(){
 
 		if( text1.children.length ){
 
@@ -230,7 +231,7 @@ function makeTextPanel() {
 
 		}
 
-	}
+	});
 
 	const container2 = new ThreeMeshUI.Block( {
 		width: 2,

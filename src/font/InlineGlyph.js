@@ -1,9 +1,11 @@
+import Inline from '../components/core/Inline';
+
 //JSDoc related imports
 /* eslint-disable no-unused-vars */
 import TypographicGlyph from './TypographicGlyph';
 /* eslint-enable no-unused-vars */
 
-export default class InlineGlyph {
+export default class InlineGlyph extends Inline {
 
 	/**
 	 *
@@ -11,16 +13,9 @@ export default class InlineGlyph {
 	 */
 	constructor( characterDesc ) {
 
+		super();
+
 		/** @protected */ this._typographic = characterDesc;
-
-		/** @protected */ this._fontFactor = 1;
-		/** @protected */ this._lineBreak = null;
-
-		/** @protected */ this._fontSize = 0;
-		/** @protected */ this._kerning = 0;
-
-		/** @protected */ this._offsetX = 0;
-		/** @protected */ this._offsetY = 0;
 
 	}
 
@@ -34,45 +29,36 @@ export default class InlineGlyph {
 
 	}
 
-	/**
-	 * @returns {void}
-	 */
-	resetOffsets() {
-
-		this._offsetX = this._offsetY = 0;
-
-	}
-
 	/*********************************************************************************************************************
 	 * GETTERS FROM CHARACTER DESCRIPTION
 	 ********************************************************************************************************************/
 
 	/**
-	 *
+	 * @override
 	 * @returns {number}
 	 */
 	get xadvance() { return this._typographic.xadvance * this._fontFactor; }
 
 	/**
-	 *
+	 * @override
 	 * @returns {number}
 	 */
 	get xoffset() { return this._typographic.xoffset * this._fontFactor; }
 
 	/**
-	 *
+	 * @override
 	 * @returns {number}
 	 */
 	get yoffset() { return this._typographic.yoffset * this._fontFactor; }
 
 	/**
-	 *
+	 * @override
 	 * @returns {number}
 	 */
 	get width() { return this._typographic.width * this._fontFactor ; }
 
 	/**
-	 *
+	 * @override
 	 * @returns {number}
 	 */
 	get height() { return this._typographic.height * this._fontFactor; }
@@ -84,23 +70,7 @@ export default class InlineGlyph {
 	get char() { return this._typographic.char; }
 
 	/**
-	 *
-	 * @param {string|null} value
-	 */
-	set lineBreak( value ){
-
-		this._lineBreak = value;
-
-	}
-
-	/**
-	 *
-	 * @returns {string|null}
-	 */
-	get lineBreak() { return this._lineBreak; }
-
-	/**
-	 *
+	 * @override
 	 * @returns {number}
 	 */
 	get anchor() {
@@ -113,89 +83,16 @@ export default class InlineGlyph {
 	}
 
 	/**
-	 *
-	 * @returns {number}
-	 */
-	get kerning() { return this._kerning * this._fontFactor; }
-
-	/**
-	 *
-	 * @param {number} value
-	 */
-	set kerning( value ) {
-
-		this._kerning = value;
-
-	}
-
-	/**
-	 *
-	 * @returns {number}
-	 */
-	get fontSize() { return this._fontSize }
-
-	/**
-	 *
-	 * @param {number} value
-	 */
-	set fontSize( value ) {
-
-		this._fontSize = value;
-
-	}
-
-	/**
-	 *
+	 * @override
 	 * @returns {number}
 	 */
 	get lineHeight() { return this._typographic.font.lineHeight * this._fontFactor; }
 
 	/**
-	 *
-	 * @returns {number}
-	 */
-	get offsetX() { return this._offsetX; }
-
-	/**
-	 *
-	 * @param value
-	 */
-	set offsetX( value ){
-
-		this._offsetX = value;
-
-	}
-
-	/**
-	 *
-	 * @returns {number}
-	 */
-	get offsetY() { return this._offsetY; }
-
-	/**
-	 *
-	 * @param {number} value
-	 */
-	set offsetY( value ){
-
-		this._offsetY = value;
-
-	}
-
-	/**
-	 *
+	 * @override
 	 * @returns {number}
 	 */
 	get lineBase() { return this._typographic.font.lineBase * this._fontFactor; }
 
-	/**
-	 *
-	 * @param {number} value
-	 */
-	set fontFactor( value ){
-
-		this._fontFactor = value;
-
-	}
 
 }

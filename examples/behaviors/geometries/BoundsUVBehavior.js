@@ -16,7 +16,7 @@ export default class BoundsUVBehavior {
 
 		}
 
-		reference.onAfterUpdate = function () {
+		reference.addAfterUpdate( function () {
 
 			if ( reference.children.length > 0 ) {
 
@@ -72,7 +72,7 @@ export default class BoundsUVBehavior {
 
 			}
 
-		};
+		});
 
 	}
 

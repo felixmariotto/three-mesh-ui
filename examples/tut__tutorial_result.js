@@ -91,7 +91,11 @@ function makeUI() {
   const loader = new THREE.TextureLoader();
 
   loader.load(SnakeImage, (texture) => {
-    imageBlock.set({ backgroundTexture: texture });
+    imageBlock.set({
+			backgroundTexture: texture,
+			backgroundOpacity: 1,
+			backgroundColor: new THREE.Color(0xffffff)
+		});
   });
 
   //
