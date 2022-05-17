@@ -35,7 +35,7 @@ async function preload() {
 				// Registering a fontFamily called "Roboto", the name is up to us.
 				.addFontFamily("Roboto")
 					// On the fontFamily added, lets add a variant
-				  // a font variant usually requires 4 parameters
+					// a font variant usually requires 4 parameters
 					.addVariant(
 						// The weight of the variant '100'|'200'|'300'|'400'|'600'|'700'|'800'|'900'
 						//														LIGHTER					NORMAL			BOLD				BOLDER
@@ -144,7 +144,7 @@ function buildThreeMeshUIElements() {
 	// Retrieve font families defined
 	const RobotoFamily = FontLibrary.getFontFamily("Roboto");
 
-	const container = new ThreeMeshUI.Block( {
+	const rootBlock = new ThreeMeshUI.Block( {
 		// box sizing properties
 		width: 1.65,
 		height: 0.62,
@@ -162,9 +162,9 @@ function buildThreeMeshUIElements() {
 		//fontFamily: "Roboto"
 	} );
 
-	container.position.set( 0, 1, -1.8 );
-	container.rotation.x = -0.55;
-	scene.add( container );
+	rootBlock.position.set( 0, 1, -1.8 );
+	rootBlock.rotation.x = -0.55;
+	scene.add( rootBlock );
 
 
 	// Lets build a first text that would be in bold, and use a MSDFNormalMaterial
@@ -180,7 +180,7 @@ function buildThreeMeshUIElements() {
 	// text1.material = new MSDFNormalMaterial({});
 
 
-	container.add(
+	rootBlock.add(
 
 		text1,
 

@@ -1,7 +1,6 @@
 import { FontLibrary } from 'three-mesh-ui';
 import * as FontWeight from '../../src/utils/font/FontWeight';
 import * as FontStyle from '../../src/utils/font/FontStyle';
-import MSDFDepthMaterial from '../../src/font/msdf/materials/MSDFDepthMaterial';
 import ROBOTO_ADJUSTMENT from 'three-mesh-ui/examples/assets/fonts/msdf/roboto/adjustment';
 
 export const ROBOTO_FAMILY = "Roboto";
