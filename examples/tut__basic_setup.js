@@ -10,13 +10,25 @@ const HEIGHT = window.innerHeight;
 
 let scene, camera, renderer, controls;
 
-window.addEventListener( 'load', buildThreeJSElements );
+window.addEventListener( 'load', step1BuildThreeJSElements );
 window.addEventListener( 'resize', onWindowResize );
+
+/***********************************************************************************************************************
+ * THREE-MESH-UI - BASIC SETUP
+ * ---------------------------
+ *
+ * This tutorial is made of 3 steps, split by functions:
+ *    - step1BuildThreeJSElements()
+ *    - step2BuildThreeMeshUIElements()
+ *    - step3AnimationLoop()
+ *
+ * Be sure to read all of their comments, in the proper order before going for another tutorial.
+ **********************************************************************************************************************/
 
 
 // three-mesh-ui requires working threejs setup
 // We usually build the threejs stuff prior three-mesh-ui
-function buildThreeJSElements() {
+function step1BuildThreeJSElements() {
 
 	scene = new THREE.Scene();
 	scene.background = new THREE.Color( 0x505050 );
@@ -38,7 +50,6 @@ function buildThreeJSElements() {
 	controls.update();
 
 	// ROOM
-
 	const room = new THREE.LineSegments(
 		new BoxLineGeometry( 6, 6, 6, 10, 10, 10 ).translate( 0, 3, 0 ),
 		new THREE.LineBasicMaterial( { color: 0x808080 } )
@@ -47,15 +58,16 @@ function buildThreeJSElements() {
 	scene.add( room );
 
 	// Now that we have the threejs stuff up and running, we can build our three-mesh-ui stuff
-	buildThreeMeshUIElements();
+	// Let's read that function
+	step2BuildThreeMeshUIElements();
 
-	// three-mesh-ui requires to be updated prior each threejs render, let's go see what is in loop()
-	renderer.setAnimationLoop( loop );
+	// three-mesh-ui requires to be updated prior each threejs render, let's go see what is in step3AnimationLoop()
+	renderer.setAnimationLoop( step3AnimationLoop );
 
 }
 
 //
-function buildThreeMeshUIElements() {
+function step2BuildThreeMeshUIElements() {
 
 	// If we are going to display ThreeMeshUI Text elements
 	// It is important to know that a Text MUST have a Block as parent
@@ -130,18 +142,8 @@ function buildThreeMeshUIElements() {
 
 }
 
-// handles resizing the renderer when the viewport is resized
-// common threejs stuff
-function onWindowResize() {
-
-	camera.aspect = window.innerWidth / window.innerHeight;
-	camera.updateProjectionMatrix();
-	renderer.setSize( window.innerWidth, window.innerHeight );
-
-}
-
-//
-function loop() {
+// In order to see things, we need to render them, usually on each frame
+function step3AnimationLoop() {
 
 	// Don't forget, ThreeMeshUI must be updated manually.
 	// This has been introduced in version 3.0.0 in order
@@ -152,3 +154,16 @@ function loop() {
 	renderer.render( scene, camera );
 
 }
+
+
+// handles resizing the renderer when the viewport is resized
+// common threejs stuff
+function onWindowResize() {
+
+	camera.aspect = window.innerWidth / window.innerHeight;
+	camera.updateProjectionMatrix();
+	renderer.setSize( window.innerWidth, window.innerHeight );
+
+}
+
+

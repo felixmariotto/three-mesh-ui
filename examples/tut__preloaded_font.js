@@ -5,58 +5,59 @@ import { BoxLineGeometry } from 'three/examples/jsm/geometries/BoxLineGeometry.j
 
 import ThreeMeshUI, { FontLibrary } from 'three-mesh-ui';
 
-import * as FontWeight from '../src/utils/font/FontWeight';
-import * as FontStyle from '../src/utils/font/FontStyle';
-
-const WIDTH = window.innerWidth;
-const HEIGHT = window.innerHeight;
-
-let scene, camera, renderer, controls;
-
-window.addEventListener( 'load', preload );
-window.addEventListener( 'resize', onWindowResize );
-
-//
-
 import ROBOTO_ADJUSTMENT from 'three-mesh-ui/examples/assets/fonts/msdf/roboto/adjustment';
 import MSDFNormalMaterial from 'three-mesh-ui/examples/msdf-materials/MSDFNormalMaterial';
 
-async function preload() {
+import * as FontWeight from '../src/utils/font/FontWeight';
+import * as FontStyle from '../src/utils/font/FontStyle';
 
-	// Fighting FOIT
-	// https://css-tricks.com/fighting-foit-and-fout-together/
+/***********************************************************************************************************************
+ * THREE-MESH-UI - FONT MANAGEMENT
+ * -------------------------------
+ *
+ * This tutorial is made of 4 steps, the first starts just below
+ * 		- FontLibrary.prepare(...)
+ *
+ * And others are split by functions:
+ *    - step1BuildThreeJSElements()
+ *    - step2BuildThreeMeshUIElements()
+ *    - step3AnimationLoop()
+ *
+ * Be sure to read all of their comments, in the proper order before going for another tutorial.
+ **********************************************************************************************************************/
 
 
-	// Using `ThreeMeshUI.FontLibrary.prepare( fontFamily, [...fontFamily] )
-	// We can ensure any fontFamily and theirs variants are properly loaded and setup
-	await FontLibrary.prepare(
+// Using `ThreeMeshUI.FontLibrary.prepare( fontFamily, [...fontFamily] )
+// We can ensure any fontFamily passed in that function and theirs variants are properly loaded and setup
+FontLibrary.prepare(
 
-			FontLibrary
-				// Registering a fontFamily called "Roboto", the name is up to us.
-				.addFontFamily("Roboto")
-					// On the fontFamily added, lets add a variant
-					// a font variant usually requires 4 parameters
-					.addVariant(
-						// The weight of the variant '100'|'200'|'300'|'400'|'600'|'700'|'800'|'900'
-						//														LIGHTER					NORMAL			BOLD				BOLDER
-						FontWeight.NORMAL,
+		FontLibrary
+			// Registering a fontFamily called "Roboto", the name is up to us.
+			.addFontFamily("Roboto")
+				// On the fontFamily added, lets add a variant
+				// a font variant usually requires 4 parameters
+				.addVariant(
+					// The weight of the variant '100'|'200'|'300'|'400'|'600'|'700'|'800'|'900'
+					//														LIGHTER					NORMAL			BOLD				BOLDER
+					FontWeight.NORMAL,
 
-						// The style of the variant 'normal'|'italic'|'oblique'|'oblique(x deg)'
-						FontStyle.NORMAL,
+					// The style of the variant 'normal'|'italic'|'oblique'|'oblique(x deg)'
+					FontStyle.NORMAL,
 
-						// The json definition of the msdf font 'urlToLoad'|loadedObject
-						"./assets/fonts/msdf/roboto/regular.json",
+					// The json definition of the msdf font 'urlToLoad'|loadedObject
+					"./assets/fonts/msdf/roboto/regular.json",
 
-						// The texture of the msdf font 'urlToLoad'|Texture
-						"./assets/fonts/msdf/roboto/regular.png"
-					)
+					// The texture of the msdf font 'urlToLoad'|Texture
+					"./assets/fonts/msdf/roboto/regular.png"
+				)
 
-					// Registerind additional variants
-					.addVariant(FontWeight.BOLD, FontStyle.ITALIC, "./assets/fonts/msdf/roboto/bold-italic.json", "./assets/fonts/msdf/roboto/bold-italic.png" )
-					.addVariant(FontWeight.BOLD, FontStyle.NORMAL, "./assets/fonts/msdf/roboto/bold.json", "./assets/fonts/msdf/roboto/bold.png" )
-					.addVariant(FontWeight.NORMAL, FontStyle.ITALIC, "./assets/fonts/msdf/roboto/italic.json", "./assets/fonts/msdf/roboto/italic.png" )
+				// Registering additional variants
+				.addVariant(FontWeight.BOLD, FontStyle.ITALIC, "./assets/fonts/msdf/roboto/bold-italic.json", "./assets/fonts/msdf/roboto/bold-italic.png" )
+				.addVariant(FontWeight.BOLD, FontStyle.NORMAL, "./assets/fonts/msdf/roboto/bold.json", "./assets/fonts/msdf/roboto/bold.png" )
+				.addVariant(FontWeight.NORMAL, FontStyle.ITALIC, "./assets/fonts/msdf/roboto/italic.json", "./assets/fonts/msdf/roboto/italic.png" )
 
-	);
+// FontLibrary.prepare() returns a Promise, we can therefore add a callback to be executed when all files are loaded
+).then( () => {
 
 	// Once font are registered, we can get the font family
 	const RobotoFamily = FontLibrary.getFontFamily("Roboto");
@@ -91,13 +92,22 @@ async function preload() {
 	RobotoFamily.getVariant('400','italic').adjustTypographicGlyphs( ROBOTO_ADJUSTMENT );
 
 	// Now that the font are loaded and adjusted,
-	buildThreeJSElements();
+	step1BuildThreeJSElements();
 
-}
+
+});
+
+
 
 //
+const WIDTH = window.innerWidth;
+const HEIGHT = window.innerHeight;
 
-function buildThreeJSElements() {
+let scene, camera, renderer, controls;
+
+// three-mesh-ui requires working threejs setup
+// We usually build the threejs stuff prior three-mesh-ui
+function step1BuildThreeJSElements() {
 
 	scene = new THREE.Scene();
 	scene.background = new THREE.Color( 0x505050 );
@@ -127,23 +137,25 @@ function buildThreeJSElements() {
 
 	scene.add( room );
 
-	// TEXT PANEL
 
-	buildThreeMeshUIElements();
+	// Now that we have the threejs stuff up and running, we can build our three-mesh-ui stuff
+	// Let's read that function
+	step2BuildThreeMeshUIElements();
 
-	//
+	// three-mesh-ui requires to be updated prior each threejs render, let's go see what is in step3AnimationLoop()
+	renderer.setAnimationLoop( step3AnimationLoop );
 
-	renderer.setAnimationLoop( loop );
 
+	window.addEventListener( 'resize', onWindowResize );
 }
 
 //
-
-function buildThreeMeshUIElements() {
+function step2BuildThreeMeshUIElements() {
 
 	// Retrieve font families defined
 	const RobotoFamily = FontLibrary.getFontFamily("Roboto");
 
+	// A rootBlock element
 	const rootBlock = new ThreeMeshUI.Block( {
 		// box sizing properties
 		width: 1.65,
@@ -185,7 +197,6 @@ function buildThreeMeshUIElements() {
 		text1,
 
 		new ThreeMeshUI.Text( {
-			// content: '\nYou can preload fonts with multiple variant definitions :',
 			content: '\nIn this examples, 4 variants of the "Roboto" font are registered.',
 		} ),
 
@@ -210,7 +221,6 @@ function buildThreeMeshUIElements() {
 		} ),
 
 		new ThreeMeshUI.Text( {
-			// content: '\nYou can preload fonts with multiple variant definitions :',
 			content: '\n\nThe registered bold variant in this example, will automatically set the material of a Text to use ',
 		} ),
 
@@ -229,19 +239,9 @@ function buildThreeMeshUIElements() {
 
 }
 
-// handles resizing the renderer when the viewport is resized
-
-function onWindowResize() {
-
-	camera.aspect = window.innerWidth / window.innerHeight;
-	camera.updateProjectionMatrix();
-	renderer.setSize( window.innerWidth, window.innerHeight );
-
-}
-
 //
 
-function loop() {
+function step3AnimationLoop() {
 
 	// Don't forget, ThreeMeshUI must be updated manually.
 	// This has been introduced in version 3.0.0 in order
@@ -250,5 +250,14 @@ function loop() {
 
 	controls.update();
 	renderer.render( scene, camera );
+
+}
+
+// handles resizing the renderer when the viewport is resized
+function onWindowResize() {
+
+	camera.aspect = window.innerWidth / window.innerHeight;
+	camera.updateProjectionMatrix();
+	renderer.setSize( window.innerWidth, window.innerHeight );
 
 }
