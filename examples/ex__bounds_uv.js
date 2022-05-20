@@ -12,7 +12,7 @@ import SmokeImage from './assets/smoke-tileable.png';
 
 import Stats from 'three/examples/jsm/libs/stats.module.js';
 import BoundsUVBehavior from 'three-mesh-ui/examples/behaviors/geometries/BoundsUVBehavior';
-import ExampleBoundsUVMaterial from 'three-mesh-ui/examples/msdf-materials/ExampleBoundsUVMaterial';
+import ExampleBoundsUVMaterial from 'three-mesh-ui/examples/materials/msdf/ExampleBoundsUVMaterial';
 import * as FontWeight from '../src/utils/font/FontWeight';
 import * as FontStyle from '../src/utils/font/FontStyle';
 import ROBOTO_ADJUSTMENT from 'three-mesh-ui/examples/assets/fonts/msdf/roboto/adjustment';

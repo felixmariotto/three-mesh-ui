@@ -5,7 +5,6 @@ import FontLibrary from '../../font/FontLibrary.js';
 import UpdateManager from './UpdateManager.js';
 
 import DEFAULTS from '../../utils/Defaults.js';
-import { warnAboutDeprecatedAlignItems } from '../../utils/block-layout/AlignItems';
 import FontFamily from '../../font/FontFamily';
 import * as FontWeight from '../../utils/font/FontWeight';
 import * as FontStyle from '../../utils/font/FontStyle';
@@ -17,6 +16,7 @@ import Lines from './Lines';
 /* eslint-disable no-unused-vars */
 import { Mesh, Material } from 'three';
 import FontVariant from '../../font/FontVariant';
+import Mediator from '../../utils/mediator/Mediator';
 /* eslint-enable no-unused-vars */
 
 /**
@@ -35,7 +35,7 @@ export default class MeshUIComponent extends Object3D {
 
 	/**
 	 *
-	 * @param {} options
+	 * @param {Object.<(string), any>} options
 	 */
 		constructor( options ) {
 
@@ -101,7 +101,7 @@ export default class MeshUIComponent extends Object3D {
 			 * @type {Object.<{m:string, t?:(value:any) => any}>}
 			 * @protected
 			 */
-			this._materialProperties = {};
+			this._materialMediation = {};
 
 			/**
 			 *
@@ -190,8 +190,6 @@ export default class MeshUIComponent extends Object3D {
 				this.clippingPlanes = newClippingPlanes;
 
 				if ( this.material ) this.material.clippingPlanes = this.clippingPlanes;
-
-				// if ( this.backgroundMaterial ) this.backgroundMaterial.clippingPlanes = this.clippingPlanes;
 
 			}
 
@@ -705,33 +703,6 @@ export default class MeshUIComponent extends Object3D {
 
 			if ( !options || JSON.stringify( options ) === JSON.stringify( {} ) ) return;
 
-			// DEPRECATION Warnings until -------------------------------------- 7.x.x ---------------------------------------
-
-			// Align content has been removed
-			if ( options[ 'alignContent' ] ) {
-
-				options[ 'alignItems' ] = options[ 'alignContent' ];
-
-				if ( !options[ 'textAlign' ] ) {
-
-					options[ 'textAlign' ] = options[ 'alignContent' ];
-
-				}
-
-				console.warn( '`alignContent` property has been deprecated, please rely on `alignItems` and `textAlign` instead.' );
-
-				delete options[ 'alignContent' ];
-
-			}
-
-			// Align items left top bottom right will be removed
-			if ( options[ 'alignItems' ] ) {
-
-				warnAboutDeprecatedAlignItems( options[ 'alignItems' ] );
-
-			}
-
-
 			// Set this component parameters according to options, and trigger updates accordingly
 			// The benefit of having two types of updates, is to put everthing that takes time
 			// in one batch, and the rest in the other. This way, efficient animation is possible with
@@ -1018,7 +989,7 @@ export default class MeshUIComponent extends Object3D {
 			this._material = material;
 
 			// Update the fontMaterialProperties that need to be transferred to
-			this._materialProperties = {...material.constructor.fontMaterialProperties }
+			this._materialMediation = {...material.constructor.mediation }
 
 			// transfer all the properties to material
 			this._transferToMaterial();
@@ -1056,58 +1027,7 @@ export default class MeshUIComponent extends Object3D {
 		 */
 		_transferToMaterial( options = null ) {
 
-			if( !this._material ) return;
-
-			if( !options ){
-
-				options = {};
-				for ( const materialProperty in this._materialProperties ) {
-
-					let value = this[materialProperty];
-					if( value === undefined ){
-
-						const upperCaseProperty = materialProperty[0].toUpperCase() + materialProperty.substring(1)
-						if( this["get"+upperCaseProperty] ) {
-
-							value = this["get"+upperCaseProperty]();
-
-						}
-
-					}
-
-					if( value !== undefined ) {
-
-						options[materialProperty] = value;
-
-					}
-
-				}
-
-			}
-
-			// Transfer properties to material
-			for ( const materialProperty in this._materialProperties ) {
-				const transferDefinition = this._materialProperties[materialProperty];
-
-				if ( options[materialProperty] !== undefined ) {
-
-					/**
-					 * The transformer method to pass a MeshUIProperty to a MaterialProperty
-					 * @type {(fontMaterial:Material|ShaderMaterial, materialProperty:string, value:any) => void }
-					 */
-					const transferTransformer = transferDefinition.t ? transferDefinition.t : _directTransfertPropertyToMaterial;
-					transferTransformer( this._material, transferDefinition.m, options[materialProperty] );
-
-					// Also transfert to customDepthMat
-					if( this.customDepthMaterial ) {
-
-						transferTransformer( this.customDepthMaterial, transferDefinition.m, options[materialProperty] );
-
-					}
-
-				}
-
-			}
+			Mediator.mediate(this, this._material, options, this._materialMediation, this.customDepthMaterial);
 
 		}
 
@@ -1194,21 +1114,5 @@ export default class MeshUIComponent extends Object3D {
 		return this._font;
 
 	}
-
-}
-
-
-
-/**
- *
- * @param {Material|ShaderMaterial} material
- * @param {string} propertyName The property to be set on that Material
- * @param {any} value The value to transfer to Material
- *
- * @private
- */
-const _directTransfertPropertyToMaterial = function( material, propertyName, value) {
-
-	material[propertyName] = value;
 
 }

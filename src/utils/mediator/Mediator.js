@@ -1,0 +1,145 @@
+import { directTransfer } from './transformers/CommonTransformers';
+
+/**
+ * An option function to transform value from subject to target
+ * @typedef {(target:any, targetProperty:string, value:any) => void} MediationTransformer
+ *
+ */
+
+/**
+ * @typedef {Object.<{subjectProperty:string, trans?:MediationTransformer}>} MediationDefinition
+ *
+ */
+
+export default class Mediator{
+
+	/**
+	 * @constructor
+	 * @param {MediationDefinition} definition
+	 */
+	constructor( definition ) {
+
+		/**
+		 *
+		 * @type {MediationDefinition}
+		 * @private
+		 */
+		this._definition = definition;
+
+	}
+
+	/**
+	 *
+	 * @param {MediationDefinition} value
+	 */
+	set definition( value ) {
+
+		this._definition = value;
+
+	}
+
+
+	/**
+	 *
+	 * @param {MeshUIComponent} subject
+	 * @param {any} target
+	 * @param {Object.<(string|number), any>} options
+	 * @param {any} [secondTarget=null]
+	 */
+	mediate( subject, target, options, secondTarget = null ) {
+
+		// Mediate each subject properties to material
+		for ( const subjectProperty in this._definition ) {
+			const mediationDefinition = this._definition[subjectProperty];
+
+			if ( options[subjectProperty] !== undefined ) {
+
+				// retrieve the mediation transformer to use for this property
+				const mediationTransformer = mediationDefinition.t ? mediationDefinition.t : directTransfer;
+				mediationTransformer( target, mediationDefinition.m, options[subjectProperty] );
+
+				// Also transfert to second target is isset
+				if( secondTarget ) {
+
+					mediationTransformer( secondTarget, mediationDefinition.m, options[subjectProperty] );
+
+				}
+
+			}
+
+		}
+
+	}
+
+
+	/***********************************************************************************************************************
+	 * STATIC
+	 **********************************************************************************************************************/
+
+	/**
+	 *
+	 * @param {MeshUIComponent} subject
+	 * @param {any} target
+	 * @param {Object.<(string|number), any>} options
+	 * @param {Object.<{subjectProperty:string, trans?:(target:any, targetProperty:string, value:any) => void}>} mediationDefinitions
+	 * @param {any} [secondTarget=null]
+	 */
+	static mediate( subject, target, options, mediationDefinitions, secondTarget = null ) {
+
+		// Cannot mediate if target not defined
+		if( !target ) return;
+
+		// if no options found, retrieve all need options
+		if( !options ){
+
+			options = {};
+			for ( const materialProperty in mediationDefinitions ) {
+
+				let value = subject[materialProperty];
+				if( value === undefined ){
+
+					const upperCaseProperty = materialProperty[0].toUpperCase() + materialProperty.substring(1)
+					if( subject["get"+upperCaseProperty] ) {
+
+						value = subject["get"+upperCaseProperty]();
+
+					}
+
+				}
+
+				if( value !== undefined ) {
+
+					options[materialProperty] = value;
+
+				}
+
+			}
+
+		}
+
+
+		// Mediate each subject properties to material
+		for ( const subjectProperty in mediationDefinitions ) {
+			const definition = mediationDefinitions[subjectProperty];
+
+			if ( options[subjectProperty] !== undefined ) {
+
+				// retrieve the mediation transformer to use for this property
+				const mediationTransformer = definition.t ? definition.t : directTransfer;
+				mediationTransformer( target, definition.m, options[subjectProperty] );
+
+				// Also transfert to second target is isset
+				if( secondTarget ) {
+
+					mediationTransformer( secondTarget, definition.m, options[subjectProperty] );
+
+				}
+
+			}
+
+		}
+
+	}
+
+
+}

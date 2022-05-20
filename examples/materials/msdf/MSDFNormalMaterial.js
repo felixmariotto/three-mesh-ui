@@ -10,13 +10,13 @@ export default class MSDFNormalMaterial extends MeshNormalMaterial{
 	/**
 	 * This static method is mandatory for extending ThreeMeshUI.MSDFFontMaterial
 	 * It will provide a transfer description for properties from ThreeMeshUI.Text to THREE.Material
-	 * @see {MSDFFontMaterialUtils.fontMaterialProperties}
+	 * @see {MSDFFontMaterialUtils.mediation}
 	 * @override
 	 * @returns {Object.<{m:string, t?:(fontMaterial:Material|ShaderMaterial, materialProperty:string, value:any) => void}>}
 	 */
-	static get fontMaterialProperties() {
+	static get mediation() {
 
-		return ThreeMeshUI.MSDFFontMaterialUtils.fontMaterialProperties;
+		return ThreeMeshUI.MSDFFontMaterialUtils.mediation;
 
 	}
 

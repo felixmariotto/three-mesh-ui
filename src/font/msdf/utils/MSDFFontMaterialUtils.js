@@ -7,6 +7,7 @@ import { Vector2 } from 'three';
 
 /* eslint-disable no-unused-vars */
 import { Material, ShaderMaterial } from 'three';
+import { alphaTestTransformer, toPreprocessorTriggerTransformer } from '../../../utils/mediator/transformers/MaterialTransformers';
 /* eslint-enable no-unused-vars */
 
 /**
@@ -122,7 +123,7 @@ export default class MSDFFontMaterialUtils {
 			 * @returns {Object.<{m:string, t?:(fontMaterial:Material|ShaderMaterial, materialProperty:string, value:any) => void}>}
 			 */
 			static get fontMaterialProperties() {
-				return MSDFFontMaterialUtils.fontMaterialProperties;
+				return MSDFFontMaterialUtils.mediation;
 			}
 
 			constructor( options = {} ) {
@@ -190,53 +191,11 @@ export default class MSDFFontMaterialUtils {
 	 *
 	 * @returns {Object<{m: string, t?: (function((Material|ShaderMaterial), string, *): void)}>}
 	 */
-	static get fontMaterialProperties() {
+	static get mediation() {
 
-		return _msdfMaterialProperties;
-
-	}
-
-}
-
-/**
- * @type {(fontMaterial:Material|ShaderMaterial, materialProperty:string, value:any) => void }
- * @private
- */
-const _toWegblPreprocessorTransformer = function( fontMaterial, materialProperty, value){
-
-	if ( value ) {
-
-		fontMaterial.defines[materialProperty] = '';
-
-	} else {
-
-		delete fontMaterial.defines[materialProperty];
+		return mediationDefinitions;
 
 	}
-
-	fontMaterial.needsUpdate = true;
-
-}
-
-
-/**
- *
- * @type {(fontMaterial:Material|ShaderMaterial, materialProperty:string, value:any) => void }
- * @private
- */
-const _RGSSTransformer = function( fontMaterial, materialProperty, value){
-
-	if ( !value ) {
-
-		fontMaterial.defines['NO_RGSS'] = '';
-
-	} else {
-
-		delete fontMaterial.defines['NO_RGSS'];
-
-	}
-
-	fontMaterial.needsUpdate = true;
 
 }
 
@@ -266,66 +225,37 @@ const _fontToGlyphMapTransformer = function( fontMaterial, materialProperty, val
 
 }
 
-const USE_ALPHATEST = "USE_ALPHATEST";
-
 /**
  *
  * @type {(fontMaterial:Material|ShaderMaterial, materialProperty:string, value:any) => void }
  * @private
  */
-const _alphaTestTransformer = function( fontMaterial, materialProperty, value) {
+const _RGSSTransformer = function( fontMaterial, materialProperty, value){
 
+	if ( !value ) {
 
-	fontMaterial.alphaTest = value;
+		fontMaterial.defines['NO_RGSS'] = '';
 
-	const expectedWebglPreProcessor = value === 0 ? '' : null;
-	if( expectedWebglPreProcessor ) {
+	} else {
 
-		if( fontMaterial.defines[USE_ALPHATEST] === undefined ) {
-
-			fontMaterial.defines[USE_ALPHATEST] = ''
-			fontMaterial.needsUpdate = true; // recompile with new preprocessor value
-
-		}
-
-	} else if( fontMaterial.defines[USE_ALPHATEST] !== undefined ) {
-
-		delete fontMaterial.defines[USE_ALPHATEST];
-		fontMaterial.needsUpdate = true; // recompile without existing preprocessor value
+		delete fontMaterial.defines['NO_RGSS'];
 
 	}
 
+	fontMaterial.needsUpdate = true;
+
 }
 
-/**
- * Convert a MeshUIComponent property to a materialUserData one
- * @type {(fontMaterial:Material|ShaderMaterial, materialProperty:string, value:any) => void }
- * @private
- */
-// const _toUserData = function( fontMaterial, materialProperty, value ) {
-//
-// 	if( fontMaterial[materialProperty] !== undefined ) {
-//
-// 		fontMaterial[materialProperty] = value;
-// 		return;
-// 	}
-//
-// 	if( fontMaterial.userData && fontMaterial.userData[materialProperty] ) {
-//
-// 		fontMaterial.userData[materialProperty].value = value;
-//
-// 	}
-// }
 
 /**
  *
  * @type {Object.<{m:string, t?:(fontMaterial:Material|ShaderMaterial, materialProperty:string, value:any) => void}>}
  */
-const _msdfMaterialProperties = {
-	alphaTest: { m: 'alphaTest', t: _alphaTestTransformer },
+const mediationDefinitions = {
+	alphaTest: { m: 'alphaTest', t: alphaTestTransformer },
 	_font: { m: "glyphMap", t: _fontToGlyphMapTransformer },
 	fontColor: { m: 'color' },
 	fontOpacity: { m: 'opacity' },
 	fontSupersampling: { m: 'NO_RGSS', t: _RGSSTransformer },
-	invertAlpha: { m: 'INVERT_ALPHA', t: _toWegblPreprocessorTransformer },
+	invertAlpha: { m: 'INVERT_ALPHA', t: toPreprocessorTriggerTransformer },
 }

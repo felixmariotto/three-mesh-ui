@@ -10,8 +10,8 @@ import FontJSON from 'three-mesh-ui/examples/assets/fonts/msdf/roboto/regular.js
 import FontImage from 'three-mesh-ui/examples/assets/fonts/msdf/roboto/regular.png';
 import Stats from 'three/examples/jsm/libs/stats.module';
 import FrameDepthMaterial from '../src/frame/materials/FrameDepthMaterial';
-import FramePhysicalMaterial from 'three-mesh-ui/examples/frame-materials/FramePhysicalMaterial';
-import FrameBasicMaterial from 'three-mesh-ui/examples/frame-materials/FrameBasicMaterial';
+import FramePhysicalMaterial from 'three-mesh-ui/examples/materials/frame/FramePhysicalMaterial';
+import FrameBasicMaterial from 'three-mesh-ui/examples/materials/frame/FrameBasicMaterial';
 
 const WIDTH = window.innerWidth;
 const HEIGHT = window.innerHeight;

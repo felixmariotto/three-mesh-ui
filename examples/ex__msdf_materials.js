@@ -1,10 +1,10 @@
 import * as THREE from 'three';
 import * as ThreeMeshUI from 'three-mesh-ui';
 
-import MSDFStandardMaterial from 'three-mesh-ui/examples/msdf-materials/MSDFStandardMaterial';
-import MSDFPhysicalMaterial from 'three-mesh-ui/examples/msdf-materials/MSDFPhysicalMaterial';
-import MSDFLambertMaterial from 'three-mesh-ui/examples/msdf-materials/MSDFLambertMaterial';
-import MSDFVertexMaterialExample from 'three-mesh-ui/examples/msdf-materials/MSDFVertexMaterialExample';
+import MSDFStandardMaterial from 'three-mesh-ui/examples/materials/msdf/MSDFStandardMaterial';
+import MSDFPhysicalMaterial from 'three-mesh-ui/examples/materials/msdf/MSDFPhysicalMaterial';
+import MSDFLambertMaterial from 'three-mesh-ui/examples/materials/msdf/MSDFLambertMaterial';
+import MSDFVertexMaterialExample from 'three-mesh-ui/examples/materials/msdf/MSDFVertexMaterialExample';
 
 
 const fontColor = new THREE.Color(0xff9900);

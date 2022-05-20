@@ -9,13 +9,13 @@ export default class MSDFDepthMaterial extends MeshDepthMaterial {
 
 	/**
 	 * This static method is mandatory for extending ThreeMeshUI.MSDFFontMaterial
-	 * It will provide a transfer description for properties from ThreeMeshUI.Text to THREE.Material
-	 * @see {MSDFFontMaterialUtils.fontMaterialProperties}
-	 * @returns {Object.<{m:string, t?:(fontMaterial:Material|ShaderMaterial, materialProperty:string, value:any) => void}>}
+	 * It will provide a mediation for properties from ThreeMeshUI.Text to THREE.Material
+	 * @see {MSDFFontMaterialUtils.mediation}
+	 * @returns {Object.<{m:string, t?:(target:any, targetProperty:string, value:any) => void}>}
 	 */
-	static get fontMaterialProperties() {
+	static get mediation() {
 
-		return MSDFFontMaterialUtils.fontMaterialProperties;
+		return MSDFFontMaterialUtils.mediation;
 
 	}
 
@@ -27,7 +27,7 @@ export default class MSDFDepthMaterial extends MeshDepthMaterial {
 		// some material options to be set as default
 		// in order to work properly
 		MSDFFontMaterialUtils.ensureMaterialOptions( options );
-		delete options['transparent']
+		delete options['transparent'];
 
 		super( options );
 

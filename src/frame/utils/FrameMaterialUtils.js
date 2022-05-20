@@ -4,6 +4,7 @@ import { Vector2, Vector4 } from 'three';
 /* eslint-disable no-unused-vars */
 import { Material, ShaderMaterial } from 'three';
 import { ShaderChunkUI } from 'three-mesh-ui';
+import { alphaTestTransformer, asPreprocessorValueTransformer, uniformOrUserDataTransformer } from '../../utils/mediator/transformers/MaterialTransformers';
 /* eslint-enable no-unused-vars */
 
 
@@ -15,9 +16,9 @@ export default class FrameMaterialUtils {
 	 *
 	 * @returns {Object<{m: string, t?: (function((Material|ShaderMaterial), string, *): void)}>}
 	 */
-	static get frameMaterialProperties() {
+	static get mediation() {
 
-		return _frameMaterialProperties;
+		return _mediationDefinitions;
 
 	}
 
@@ -137,66 +138,10 @@ export default class FrameMaterialUtils {
 
 }
 
-
-const USE_ALPHATEST = "USE_ALPHATEST";
-
-/**
- *
- * @type {(fontMaterial:Material|ShaderMaterial, materialProperty:string, value:any) => void }
- * @private
- */
-const _alphaTestTransformer = function( fontMaterial, materialProperty, value) {
-
-
-	fontMaterial.alphaTest = value;
-
-	const expectedWebglPreProcessor = value === 0 ? '' : null;
-	if( expectedWebglPreProcessor ) {
-
-		if( fontMaterial.defines[USE_ALPHATEST] === undefined ) {
-
-			fontMaterial.defines[USE_ALPHATEST] = ''
-			fontMaterial.needsUpdate = true; // recompile with new preprocessor value
-
-		}
-
-	} else if( fontMaterial.defines[USE_ALPHATEST] !== undefined ) {
-
-		delete fontMaterial.defines[USE_ALPHATEST];
-		fontMaterial.needsUpdate = true; // recompile without existing preprocessor value
-
-	}
-
-}
-
-const _uniformsOrUserData = function( material, property, value ) {
-
-	if( material.userData[property] ) {
-
-		material.userData[property].value = value;
-
-	}else{
-
-		material.uniforms[property].value = value;
-
-	}
-
-}
-
-const _backgroundSizeTransformer = function( material, property, value ) {
+const _backgroundSizeTransformer = function( target, property, value ) {
 
 	value = ['stretch','contain','cover'].indexOf(value);
-	_toDefine(material, 'BACKGROUND_MAPPING', value);
-
-}
-
-const _toDefine = function( material, property, value ) {
-
-	// abort if nothing to update
-	if( material.defines[property] && material.defines[property] === value ) return;
-
-	material.defines[property] = value;
-	material.needsUpdate = true;
+	asPreprocessorValueTransformer(target, 'BACKGROUND_MAPPING', value);
 
 }
 
@@ -204,17 +149,17 @@ const _toDefine = function( material, property, value ) {
  *
  * @type {Object.<{m:string, t?:(fontMaterial:Material|ShaderMaterial, materialProperty:string, value:any) => void}>}
  */
-const _frameMaterialProperties = {
-	alphaTest: { m: 'alphaTest', t: _alphaTestTransformer },
+const _mediationDefinitions = {
+	alphaTest: { m: 'alphaTest', t: alphaTestTransformer },
 	backgroundTexture: { m: 'map' },
 	backgroundColor: { m: 'color' },
 	backgroundOpacity: { m:'opacity' },
 	backgroundSize: { m: 'u_backgroundMapping', t: _backgroundSizeTransformer },
-	_borderWidth: { m: 'borderWidth', t: _uniformsOrUserData },
-	borderColor: { m: 'borderColor', t: _uniformsOrUserData },
-	_borderRadius: { m: 'borderRadius', t: _uniformsOrUserData },
-	borderOpacity: { m: 'borderOpacity', t: _uniformsOrUserData },
-	size: { m: 'frameSize', t: _uniformsOrUserData },
-	tSize: { m: 'textureSize', t: _uniformsOrUserData }
+	_borderWidth: { m: 'borderWidth', t: uniformOrUserDataTransformer },
+	borderColor: { m: 'borderColor', t: uniformOrUserDataTransformer },
+	_borderRadius: { m: 'borderRadius', t: uniformOrUserDataTransformer },
+	borderOpacity: { m: 'borderOpacity', t: uniformOrUserDataTransformer },
+	size: { m: 'frameSize', t: uniformOrUserDataTransformer },
+	tSize: { m: 'textureSize', t: uniformOrUserDataTransformer }
 }
 

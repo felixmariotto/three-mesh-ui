@@ -6,7 +6,7 @@ import { BoxLineGeometry } from 'three/examples/jsm/geometries/BoxLineGeometry.j
 import ThreeMeshUI, { FontLibrary } from 'three-mesh-ui';
 
 import ROBOTO_ADJUSTMENT from 'three-mesh-ui/examples/assets/fonts/msdf/roboto/adjustment';
-import MSDFNormalMaterial from 'three-mesh-ui/examples/msdf-materials/MSDFNormalMaterial';
+import MSDFNormalMaterial from 'three-mesh-ui/examples/materials/msdf/MSDFNormalMaterial';
 
 import * as FontWeight from '../src/utils/font/FontWeight';
 import * as FontStyle from '../src/utils/font/FontStyle';

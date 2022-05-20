@@ -39,7 +39,7 @@ export default class Block extends BoxComponent {
 		 */
 		this._main = new Frame( this._material );
 
-		this._materialProperties = { ...FrameMaterialUtils.frameMaterialProperties };
+		this._materialMediation = { ...FrameMaterialUtils.mediation };
 
 		// This is for hiddenOverflow to work
 		this._main.onBeforeRender = () => {

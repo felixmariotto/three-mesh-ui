@@ -11,7 +11,7 @@ import FontImage from 'three-mesh-ui/examples/assets/fonts/msdf/roboto/bold.png'
 
 import Stats from 'three/examples/jsm/libs/stats.module.js';
 
-import MSDFStandardMaterial from 'three-mesh-ui/examples/msdf-materials/MSDFStandardMaterial';
+import MSDFStandardMaterial from 'three-mesh-ui/examples/materials/msdf/MSDFStandardMaterial';
 import MSDFDepthMaterial from '../src/font/msdf/materials/MSDFDepthMaterial';
 
 

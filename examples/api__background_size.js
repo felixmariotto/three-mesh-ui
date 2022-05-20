@@ -10,7 +10,7 @@ import ThreeMeshUI from 'three-mesh-ui';
 import UVImage from 'three-mesh-ui/examples/assets/uv_grid.jpg';
 import FontJSON from 'three-mesh-ui/examples/assets/fonts/msdf/roboto/regular.json';
 import FontImage from 'three-mesh-ui/examples/assets/fonts/msdf/roboto/regular.png';
-import FrameBasicMaterial from 'three-mesh-ui/examples/frame-materials/FrameBasicMaterial';
+import FrameBasicMaterial from 'three-mesh-ui/examples/materials/frame/FrameBasicMaterial';
 
 const WIDTH = window.innerWidth;
 const HEIGHT = window.innerHeight;

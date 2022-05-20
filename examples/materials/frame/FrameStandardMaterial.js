@@ -1,18 +1,18 @@
-import { MeshBasicMaterial } from 'three';
-import FrameMaterialUtils from '../../src/frame/utils/FrameMaterialUtils';
+import { MeshStandardMaterial } from 'three';
+import FrameMaterialUtils from '../../../src/frame/utils/FrameMaterialUtils';
 
-export default class FrameBasicMaterial extends MeshBasicMaterial {
+export default class FrameStandardMaterial extends MeshStandardMaterial {
 
 
 	/**
 	 * This static method is mandatory for extending ThreeMeshUI.FrameMaterial
 	 * It will provide a transfer description for properties from ThreeMeshUI.Text to THREE.Material
-	 * @see {FrameMaterialUtils.frameMaterialProperties}
+	 * @see {FrameMaterialUtils.mediation}
 	 * @returns {Object.<{m:string, t?:(frameMaterial:Material|ShaderMaterial, materialProperty:string, value:any) => void}>}
 	 */
-	static get fontMaterialProperties() {
+	static get mediation() {
 
-		return FrameMaterialUtils.frameMaterialProperties;
+		return FrameMaterialUtils.mediation;
 
 	}
 

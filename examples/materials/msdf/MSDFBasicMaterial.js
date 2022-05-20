@@ -1,20 +1,21 @@
+import { MSDFFontMaterialUtils } from 'three-mesh-ui';
 import { MeshBasicMaterial } from 'three';
-import { MSDFFontMaterialUtils, ShaderChunkUI } from 'three-mesh-ui';
+
 /**
- * This material is only intended to demonstrate BestFitBehavior within the whole glyph box
+ * Example of enabling MeshLambertMaterial to render ThreeMeshUI MSDF Texts
  */
-export default class ExampleBoundsUVMaterial extends MeshBasicMaterial{
+export default class MSDFBasicMaterial extends MeshBasicMaterial{
 
 	/**
 	 * This static method is mandatory for extending ThreeMeshUI.MSDFFontMaterial
 	 * It will provide a transfer description for properties from ThreeMeshUI.Text to THREE.Material
-	 * @see {MSDFFontMaterialUtils.fontMaterialProperties}
+	 * @see {MSDFFontMaterialUtils.mediation}
 	 * @override
 	 * @returns {Object.<{m:string, t?:(fontMaterial:Material|ShaderMaterial, materialProperty:string, value:any) => void}>}
 	 */
-	static get fontMaterialProperties() {
+	static get mediation() {
 
-		return MSDFFontMaterialUtils.fontMaterialProperties;
+		return MSDFFontMaterialUtils.mediation;
 
 	}
 
@@ -39,24 +40,8 @@ export default class ExampleBoundsUVMaterial extends MeshBasicMaterial{
 			// links this material userDatas with its uniforms
 			MSDFFontMaterialUtils.bindUniformsWithUserData( shader, this );
 
-			// default vertex shader
-			MSDFFontMaterialUtils.injectVertexShaderChunks( shader );
-
-			shader.fragmentShader = shader.fragmentShader.replace(
-				'#include <uv_pars_fragment>',
-				'#include <uv_pars_fragment>\n' + ShaderChunkUI.msdf_alphaglyph_pars_fragment
-			)
-
-			// fragment chunks
-			shader.fragmentShader = shader.fragmentShader.replace(
-				'#include <alphamap_fragment>',
-				ShaderChunkUI.msdf_alphaglyph_fragment + `
-				if( diffuseColor.a <= 0.02 ) {
-					diffuseColor.a = 0.25;
-				}
-				#include <alphamap_fragment>
-`
-			)
+			// inject ThreeMeshUI shaderChunks to provide msdf rendering
+			MSDFFontMaterialUtils.injectShaderChunks( shader );
 
 		}
 

@@ -111,8 +111,8 @@ import { exampleAddUpdate, exampleThreeSetup } from 'three-mesh-ui/examples/_set
 import { exampleThreePointLight, rollPointLightUpdate } from 'three-mesh-ui/examples/_setup/ThreePointLight';
 import { exampleThreeCube, rollCubeUpdate } from 'three-mesh-ui/examples/_setup/ThreeCube';
 import { exampleFontPreloadAll } from 'three-mesh-ui/examples/_setup/RobotoFont';
-import FrameStandardMaterial from 'three-mesh-ui/examples/frame-materials/FrameStandardMaterial';
-import FramePhysicalMaterial from 'three-mesh-ui/examples/frame-materials/FramePhysicalMaterial';
+import FrameStandardMaterial from 'three-mesh-ui/examples/materials/frame/FrameStandardMaterial';
+import FramePhysicalMaterial from 'three-mesh-ui/examples/materials/frame/FramePhysicalMaterial';
 
 /* eslint-disable no-unused-vars */
 
