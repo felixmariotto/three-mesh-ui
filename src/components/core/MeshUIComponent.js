@@ -103,6 +103,12 @@ export default class MeshUIComponent extends Object3D {
 			 */
 			this._materialMediation = {};
 
+			this._meshMediation = {
+				_castShadow:{m:'castShadow'},
+				_receiveShadow:{m:'receiveShadow'},
+				// _renderOrder:{m:'renderOrder'}
+			}
+
 			/**
 			 *
 			 * @type {Vector4}
@@ -486,16 +492,16 @@ export default class MeshUIComponent extends Object3D {
 		_rebuildChildrenLists() {
 
 			// Stores all children that are ui
-			this.childrenUIs = this.children.filter( child => child.isUI );
+			this.childrenUIs = this.children.filter( child => child.isUI && child.visible );
 
 			// Stores all children that are box
-			this.childrenBoxes = this.children.filter( child => child.isBoxComponent );
+			this.childrenBoxes = this.childrenUIs.filter( child => child.isBoxComponent );
 
 			// Stores all children that are inline
-			this.childrenInlines = this.children.filter( child => child.isInline );
+			this.childrenInlines = this.childrenUIs.filter( child => child.isInline );
 
 			// Stores all children that are text
-			this.childrenTexts = this.children.filter( child => child.isText );
+			this.childrenTexts = this.childrenUIs.filter( child => child.isText );
 		}
 
 		/**
@@ -914,6 +920,9 @@ export default class MeshUIComponent extends Object3D {
 			//
 			this._transferToMaterial( options );
 
+			//
+			// this._transferToMesh( options );
+
 
 
 		}
@@ -1006,19 +1015,21 @@ export default class MeshUIComponent extends Object3D {
 		 *
 		 * @param {Material|null} material
 		 */
-		setCustomDepthMaterial( material ) {
+		set customDepthMaterial( material ) {
 
-			this.customDepthMaterial = material;
+			this._customDepthMaterial = material;
 
 			this._transferToMaterial();
 
 			if ( this._main ) {
-
-				this._main.customDepthMaterial = this.customDepthMaterial;
+				// transfer to the main if isset
+				this._main.customDepthMaterial = this._customDepthMaterial;
 
 			}
 
 		}
+
+		get customDepthMaterial() { return this._customDepthMaterial; }
 
 		/**
 		 * According to the list of materialProperties
@@ -1028,6 +1039,12 @@ export default class MeshUIComponent extends Object3D {
 		_transferToMaterial( options = null ) {
 
 			Mediator.mediate(this, this._material, options, this._materialMediation, this.customDepthMaterial);
+
+		}
+
+		_transferToMesh( options = null ) {
+
+			Mediator.mediate( this, this._main, options, this._meshMediation );
 
 		}
 
@@ -1114,5 +1131,117 @@ export default class MeshUIComponent extends Object3D {
 		return this._font;
 
 	}
+
+	/*********************************************************************************************************************
+	 * MESH MEDIATION
+	 ********************************************************************************************************************/
+
+	/**
+	 *
+	 * @param {boolean} value
+	 */
+	set visible( value ) {
+
+		this._visible = value;
+
+		// @TODO: Instead of direct execution of _rebuildChildrenList
+		//				It could be better to "dirtying" the children list and compute it only once on next frame
+		this.parentUI?._rebuildChildrenLists();
+
+	}
+
+	/**
+	 *
+	 * @return {boolean}
+	 */
+	get visible() { return this._visible; }
+
+	/**
+	 *
+	 * @param {boolean} value
+	 */
+	set castShadow( value ) {
+
+		this._castShadow = value;
+
+		if ( this._main ) {
+
+			this._main.castShadow = this._castShadow;
+
+		}
+
+	}
+
+	/**
+	 *
+	 * @return {boolean}
+	 */
+	get castShadow() { return this._castShadow; }
+
+	/**
+	 *
+	 * @param {boolean} value
+	 */
+	set receiveShadow( value ) {
+
+		this._receiveShadow = value;
+
+		if ( this._main ) {
+
+			this._main.receiveShadow = this._receiveShadow;
+
+		}
+
+	}
+
+	/**
+	 *
+	 * @return {boolean}
+	 */
+	get receiveShadow() { return this._receiveShadow; }
+
+	/**
+	 *
+	 * @param {number} value
+	 */
+	set renderOrder( value ) {
+
+		this._renderOrder = value;
+
+		if( this._main ) {
+
+			this._main.renderOrder = this._renderOrder;
+
+		}
+
+	}
+
+	/**
+	 *
+	 * @return {number}
+	 */
+	get renderOrder( ) { return this._renderOrder; }
+
+	/*********************************************************************************************************************
+	 * MATERIAL MEDIATION
+	 ********************************************************************************************************************/
+
+	/**
+	 *
+	 * @param {number} value
+	 */
+	set side( value ) {
+
+		this._side = value;
+
+		if ( this._material ) this._material.side = value;
+
+	}
+
+	/**
+	 *
+	 * @return {number}
+	 */
+	get side() { return this._side; }
 
 }

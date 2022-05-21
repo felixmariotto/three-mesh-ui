@@ -1,4 +1,4 @@
-import { Color, DoubleSide, ShaderMaterial, Vector2, Vector4 } from 'three';
+import { Color, DoubleSide, FrontSide, ShaderMaterial, Vector2, Vector4 } from 'three';
 import { fragmentShader, vertexShader } from '../renderers/ShaderLib/framematerial.glsl';
 import FrameMaterialUtils from '../utils/FrameMaterialUtils';
 
@@ -31,7 +31,7 @@ export default class FrameMaterial extends ShaderMaterial {
 				frameSize: { value: new Vector2( 1, 1 ) },
 				textureSize: { value: new Vector2( 1, 1 ) }
 			},
-			side: DoubleSide,
+			side: FrontSide,
 			transparent: true,
 			clipping: true,
 			vertexShader: vertexShader,

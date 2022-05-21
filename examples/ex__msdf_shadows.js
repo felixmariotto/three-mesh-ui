@@ -144,54 +144,21 @@ function makeTextPanel() {
 	scene.add( outerContainer );
 
 	// making sure background is not casting shadows too
-	outerContainer.frame.visible = false;
+	// outerContainer.frame.visible = false;
 
 
-	const defaultText = new ThreeMeshUI.Text({content:"FontMaterial(default)\n", fontColor: new THREE.Color(0x0099ff)});
-	const defaultTextInverted = new ThreeMeshUI.Text({content:"FontMaterial(default)\n", fontColor: new THREE.Color(0x0099ff)});
+	const defaultText = new ThreeMeshUI.Text({content:"FontMaterial(default)\n", fontColor: new THREE.Color(0x0099ff), castShadow:true, side:DoubleSide});
+	const defaultTextInverted = new ThreeMeshUI.Text({content:"FontMaterial(default)\n", fontColor: new THREE.Color(0x0099ff), castShadow:true, side:DoubleSide});
 
-	const standardText = new ThreeMeshUI.Text({content:"MSDFStandardMaterial\n", fontColor: new THREE.Color(0x0099ff).convertSRGBToLinear()});
+	const standardText = new ThreeMeshUI.Text({content:"MSDFStandardMaterial\n", fontColor: new THREE.Color(0x0099ff).convertSRGBToLinear(), castShadow:true, side:DoubleSide});
 	standardText.material = new MSDFStandardMaterial({});
-	standardText.setCustomDepthMaterial( new MSDFDepthMaterial({}) );
+	standardText.customDepthMaterial =  new MSDFDepthMaterial({});
 
-	const standardTextInverted = new ThreeMeshUI.Text({content:"MSDFStandardMaterial\n", fontColor: new THREE.Color(0x99ff00).convertSRGBToLinear(), invertAlpha: true});
-	standardTextInverted.material = new MSDFStandardMaterial();
-	standardTextInverted.setCustomDepthMaterial( new MSDFDepthMaterial({}) );
+	const standardTextInverted = new ThreeMeshUI.Text({content:"MSDFStandardMaterial\n", fontColor: new THREE.Color(0x99ff00).convertSRGBToLinear(), invertAlpha: true, castShadow:true, side:DoubleSide});
+	standardTextInverted.material = new MSDFStandardMaterial({});
+	standardTextInverted.customDepthMaterial =  new MSDFDepthMaterial({});
 
 	outerContainer.add( defaultText, defaultTextInverted, standardText, standardTextInverted );
-
-	standardText.addAfterUpdate( function() {
-
-		if( standardText.children.length ){
-
-			standardText.children[0].castShadow = true;
-			standardText.children[0].material.side = DoubleSide;
-
-		}
-
-	});
-
-	standardTextInverted.addAfterUpdate( function() {
-
-		if( standardTextInverted.children.length ){
-
-			standardTextInverted.children[0].castShadow = true;
-			standardTextInverted.children[0].material.side = DoubleSide;
-
-		}
-
-	});
-
-	defaultTextInverted.addAfterUpdate( function() {
-
-		if( defaultTextInverted.children.length ){
-
-			defaultTextInverted.children[0].castShadow = true;
-			defaultTextInverted.children[0].material.side = DoubleSide;
-
-		}
-
-	});
 
 }
 

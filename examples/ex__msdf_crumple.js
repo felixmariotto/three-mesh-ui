@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import { AmbientLight, Color, DoubleSide, Mesh, MeshStandardMaterial, PlaneBufferGeometry, SpotLight, SpotLightHelper } from 'three';
+import { AmbientLight, Color, DoubleSide, FrontSide, Mesh, MeshStandardMaterial, PlaneBufferGeometry, SpotLight, SpotLightHelper } from 'three';
 import { VRButton } from 'three/examples/jsm/webxr/VRButton.js';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import { BoxLineGeometry } from 'three/examples/jsm/geometries/BoxLineGeometry.js';
@@ -197,11 +197,9 @@ function makeTextPanel() {
 		backgroundOpacity: 0,
 	} );
 
-	container.frame.castShadow = false;
 	container.frame.visible = false;
 
 	container.position.set( 0, 2, -1.8 );
-	// container.rotation.x = -0.55;
 	scene.add( container );
 
 	//
@@ -211,27 +209,17 @@ function makeTextPanel() {
 			fontColor: new Color(0x00ff99),
 			fontSize: 0.7,
 			segments: 4,
-			letterSpacing: -0.08
+			letterSpacing: -0.08,
+			castShadow: true,
+			customDepthMaterial: new MSDFDepthMaterial({}),
+			side: DoubleSide
 		} );
-
-	text1.setCustomDepthMaterial( new MSDFDepthMaterial() );
 
 	container.add(
 
 		text1,
 
 	);
-
-	text1.addAfterUpdate( function(){
-
-		if( text1.children.length ){
-
-			text1.children[0].castShadow = true;
-			text1.children[0].material.side = DoubleSide;
-
-		}
-
-	});
 
 	const container2 = new ThreeMeshUI.Block( {
 		width: 2,
@@ -255,7 +243,10 @@ function makeTextPanel() {
 		margin: 0.01,
 		padding: 0.025,
 		textAlign: 'center',
+		side: DoubleSide,
+		castShadow: true
 	} );
+
 
 	infoBox.add( new ThreeMeshUI.Text( {
 		content: 'This example shows how to alter glyph ................... from',

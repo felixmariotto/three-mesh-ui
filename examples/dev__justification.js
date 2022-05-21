@@ -142,7 +142,8 @@ function buildJustifiedPanel( id, color, contentDirection ) {
 			backgroundColor: color,
 			justifyContent: 'center',
 			alignItems: 'center',
-			offset:0.001
+			offset:0.001,
+			visible: i !== 2,
 		} );
 		panel.add( blockText );
 

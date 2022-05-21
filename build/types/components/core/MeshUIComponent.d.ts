@@ -10,6 +10,10 @@ It owns the principal public methods of a component : set, setupState and setSta
 
  */
 export default class MeshUIComponent extends Object3D<import("three").Event> {
+    /**
+     *
+     * @param {Object.<(string), any>} options
+     */
     constructor(options: any);
     states: {};
     currentState: any;
@@ -53,7 +57,15 @@ export default class MeshUIComponent extends Object3D<import("three").Event> {
      * @type {Object.<{m:string, t?:(value:any) => any}>}
      * @protected
      */
-    protected _materialProperties: any;
+    protected _materialMediation: any;
+    _meshMediation: {
+        _castShadow: {
+            m: string;
+        };
+        _receiveShadow: {
+            m: string;
+        };
+    };
     /**
      *
      * @type {Vector4}
@@ -220,17 +232,14 @@ export default class MeshUIComponent extends Object3D<import("three").Event> {
      **********************************************************************************************************************/
     get material(): any;
     _material: any;
-    /**
-     *
-     * @param {Material|null} material
-     */
-    setCustomDepthMaterial(material: Material | null): void;
+    _customDepthMaterial: Material;
     /**
      * According to the list of materialProperties
      * some properties are sent to material
      * @private
      */
     private _transferToMaterial;
+    _transferToMesh(options?: any): void;
     /**
      *
      * @param {Vector4} vector4
@@ -238,6 +247,24 @@ export default class MeshUIComponent extends Object3D<import("three").Event> {
      * @private
      */
     private _fourDimensionsValueSetter;
+    _visible: boolean;
+    _castShadow: boolean;
+    _receiveShadow: boolean;
+    _renderOrder: number;
+    /*********************************************************************************************************************
+     * MATERIAL MEDIATION
+     ********************************************************************************************************************/
+    /**
+     *
+     * @param {number} value
+     */
+    set side(arg: number);
+    /**
+     *
+     * @return {number}
+     */
+    get side(): number;
+    _side: number;
     bestFit: any;
     hiddenOverflow: any;
     offset: any;

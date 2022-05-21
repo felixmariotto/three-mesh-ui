@@ -3,7 +3,7 @@ export default class FrameMaterialUtils {
      *
      * @returns {Object<{m: string, t?: (function((Material|ShaderMaterial), string, *): void)}>}
      */
-    static get frameMaterialProperties(): any;
+    static get mediation(): any;
     /**
      * Alter a material options with required fontMaterial options and or default values
      * @param {Object.<string,any>} materialOptions

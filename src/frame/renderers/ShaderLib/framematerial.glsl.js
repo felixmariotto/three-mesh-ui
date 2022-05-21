@@ -56,6 +56,7 @@ void main() {
 
 	${ShaderChunkUI.frame_border_fragment}
 
+	if( diffuseColor.a < 0.02 ) discard;
 
 	// output
 	gl_FragColor = diffuseColor;

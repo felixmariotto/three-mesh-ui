@@ -253,6 +253,8 @@ const _RGSSTransformer = function( fontMaterial, materialProperty, value){
  */
 const mediationDefinitions = {
 	alphaTest: { m: 'alphaTest', t: alphaTestTransformer },
+	_side: { m: 'side' },
+	// side: { m: 'side' },
 	_font: { m: "glyphMap", t: _fontToGlyphMapTransformer },
 	fontColor: { m: 'color' },
 	fontOpacity: { m: 'opacity' },

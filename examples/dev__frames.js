@@ -200,6 +200,9 @@ function makeBoxForBorder( text ) {
 		height: 0.5,
 		justifyContent: 'center',
 		textAlign: 'center',
+		side: DoubleSide,
+		castShadow: true,
+		customDepthMaterial : new FrameDepthMaterial()
 	} );
 
 	//
@@ -208,8 +211,6 @@ function makeBoxForBorder( text ) {
 			content: text,
 		} )
 	);
-
-	panel.setCustomDepthMaterial( new FrameDepthMaterial() );
 
 	return panel;
 

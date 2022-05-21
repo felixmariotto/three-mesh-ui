@@ -10,6 +10,7 @@ Knows:
 - Parent block
  */
 export default class Text extends MeshUIComponent {
+    constructor(options: any);
     isInline: boolean;
     isText: boolean;
     /**

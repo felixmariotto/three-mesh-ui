@@ -280,7 +280,8 @@ export default class Text extends MeshUIComponent {
 				this._main.customDepthMaterial = this.customDepthMaterial;
 
 			}
-			// this._main = new Mesh( mergedGeom, new MeshBasicMaterial({color:0x99ff00}) );
+
+			this._transferToMesh();
 
 			this._main.renderOrder = Infinity;
 

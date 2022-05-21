@@ -25,5 +25,4 @@ if( borderWidth.x * borderWidth.x + borderWidth.y * borderWidth.y + borderWidth.
 	diffuseColor = mix( diffuseColor, borderColor, stp );
 
 }
-
 `

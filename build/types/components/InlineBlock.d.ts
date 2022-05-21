@@ -8,6 +8,7 @@
  * - Parent block
  */
 export default class InlineBlock extends MeshUIComponent {
+    constructor(options: any);
     isInline: boolean;
     isInlineBlock: boolean;
     size: Vector2;

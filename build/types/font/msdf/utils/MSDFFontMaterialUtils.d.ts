@@ -56,7 +56,7 @@ export default class MSDFFontMaterialUtils {
      *
      * @returns {Object<{m: string, t?: (function((Material|ShaderMaterial), string, *): void)}>}
      */
-    static get fontMaterialProperties(): any;
+    static get mediation(): any;
 }
 import { Material } from "three/src/materials/Material";
 import { ShaderMaterial } from "three/src/materials/ShaderMaterial";

@@ -1,4 +1,5 @@
 export default class InlineManager extends MeshUIComponent {
+    constructor(options: any);
     /** Compute children .inlines objects position, according to their pre-computed dimensions */
     computeInlinesPosition(): void;
     /**
@@ -6,6 +7,5 @@ export default class InlineManager extends MeshUIComponent {
      * @private
      */
     private computeLines;
-    calculateHeight(fontMultiplier: any): number;
 }
 import MeshUIComponent from "./MeshUIComponent";
