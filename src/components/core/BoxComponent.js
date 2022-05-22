@@ -28,51 +28,7 @@ export default class BoxComponent extends InlineManager {
 		}
 
 
-		/** Get width of this component minus its padding */
-		getInnerWidth() {
 
-			const DIRECTION = this.getContentDirection();
-
-			switch ( DIRECTION ) {
-
-				case 'row' :
-				case 'row-reverse' :
-					return this.width - ( this.padding * 2 || 0 ) || this.getChildrenSideSum( 'width' );
-
-				case 'column' :
-				case 'column-reverse' :
-					return this.getHighestChildSizeOn( 'width' );
-
-				default :
-					console.error( `Invalid contentDirection : ${DIRECTION}` );
-					break;
-
-			}
-
-		}
-
-		/** Get height of this component minus its padding */
-		getInnerHeight() {
-
-			const DIRECTION = this.getContentDirection();
-
-			switch ( DIRECTION ) {
-
-				case 'row' :
-				case 'row-reverse' :
-					return this.getHighestChildSizeOn( 'height' );
-
-				case 'column' :
-				case 'column-reverse' :
-					return this.height - ( this.padding * 2 || 0 ) || this.getChildrenSideSum( 'height' );
-
-				default :
-					console.error( `Invalid contentDirection : ${DIRECTION}` );
-					break;
-
-			}
-
-		}
 
 		/** Return the sum of all this component's children sides + their margin */
 		getChildrenSideSum( dimension ) {
@@ -106,10 +62,18 @@ export default class BoxComponent extends InlineManager {
 		/** Position inner elements according to dimensions and layout parameters. */
 		computeChildrenPosition() {
 
-			if ( this.children.length > 0 ) {
+			if ( this.childrenUIs.length > 0 ) {
 
 				const DIRECTION = this.getContentDirection();
+				const JUSTIFICATION = this.getJustifyContent();
+				const ALIGNMENT = this.getAlignItems();
+				// if( AVAILABLE_ALIGN_ITEMS.indexOf(ALIGNMENT) === -1 ){
+				//
+				// 	console.warn( `alignItems === '${ALIGNMENT}' is not supported` );
+				//
+				// }
 				let directionalOffset;
+
 
 				switch ( DIRECTION ) {
 
@@ -131,11 +95,95 @@ export default class BoxComponent extends InlineManager {
 
 				}
 
+
+
 				const REVERSE = - Math.sign( directionalOffset );
 
 				contentDirection(this, DIRECTION, directionalOffset, REVERSE );
 				justifyContent(this, DIRECTION, directionalOffset, REVERSE );
-				alignItems( this, DIRECTION );
+				alignItems( this, DIRECTION, ALIGNMENT );
+
+				let snapXon = 'center';
+				let snapYon = 'center';
+
+				if( DIRECTION.indexOf('column') !== -1 ) {
+
+					// if( DIRECTION.indexOf('-reverse') === -1 ) {
+
+						// if ( JUSTIFICATION === 'start' ) {
+						// 	snapYon = 'top';
+						// } else if( JUSTIFICATION === 'end' ) {
+						// 	snapYon = 'bottom';
+						// }
+
+					// } else {
+
+						// if ( JUSTIFICATION === 'end' ) {
+						// 	snapYon = 'top';
+						// } else if( JUSTIFICATION === 'start' ) {
+						// 	snapYon = 'bottom';
+						// }
+
+					// }
+
+					if( ALIGNMENT === 'start' ) {
+						snapXon = 'left';
+					}else if( ALIGNMENT === 'end' ){
+						snapXon ='right';
+					}
+
+				} else {
+
+					// if ( DIRECTION.indexOf('-reverse') === -1 ) {
+
+					// 	if ( JUSTIFICATION === 'start' ) {
+					// 		snapXon = 'left';
+					// 	} else if ( JUSTIFICATION === 'end' ) {
+					// 		snapXon = 'right';
+					// 	}
+					//
+					// } else {
+					//
+					// 	if ( JUSTIFICATION === 'end' ) {
+					// 		snapXon = 'top';
+					// 	} else if ( JUSTIFICATION === 'start' ) {
+					// 		snapXon = 'bottom';
+					// 	}
+					//
+					// }
+
+					if( ALIGNMENT === 'start' ) {
+						snapYon = 'top';
+					}else if( ALIGNMENT === 'end' ){
+						snapYon ='bottom';
+					}
+
+				}
+
+				// apply 4 directional padding
+				let y = -(this._padding.x - this._padding.z) / 2;
+				let x = -(this._padding.y - this._padding.w) / 2;
+				if( snapXon === 'left' ){
+					x = this._padding.w;
+				}else if( snapXon === 'right' ){
+					x = -this._padding.y;
+				}
+
+				if( snapYon === 'top' ){
+					y = -this._padding.x;
+				}else if( snapYon === 'bottom' ){
+					y = this._padding.z;
+				}
+
+
+				this.childrenBoxes.forEach( ( child ) => {
+
+					this.childrenPos[ child.id ]['x'] += x;
+					this.childrenPos[ child.id ]['y'] += y;
+
+				} );
+
+
 			}
 
 		}
@@ -168,18 +216,19 @@ export default class BoxComponent extends InlineManager {
 
 			// This is for stretch alignment
 			// @TODO : Conceive a better performant way
+			// @TODO : SIze according to box sizing
 			if( this.parentUI && this.parentUI.getAlignItems() === 'stretch' ){
 
 				if( this.parentUI.getContentDirection().indexOf('column') !== -1 ){
 
-					return this.parentUI.getWidth() -  ( this.parentUI.padding * 2 || 0 );
+					return this.parentUI.getWidth() -  this.parentUI.getPaddingHorizontal();
 
 				}
 
 			}
 
 
-			return this.width || this.getInnerWidth() + ( this.padding * 2 || 0 );
+			return this.width || this.getInnerWidth() + this.getPaddingHorizontal();
 
 		}
 
@@ -191,19 +240,91 @@ export default class BoxComponent extends InlineManager {
 
 			// This is for stretch alignment
 			// @TODO : Conceive a better performant way
+			// @TODO : SIze according to box sizing
 			if( this.parentUI && this.parentUI.getAlignItems() === 'stretch' ){
 
 				if( this.parentUI.getContentDirection().indexOf('row') !== -1 ){
 
-					return this.parentUI.getHeight() - ( this.parentUI.padding * 2 || 0 );
+					return this.parentUI.getHeight() - this.parentUI.getPaddingVertical();
 
 				}
 
 			}
 
-			return this.height || this.getInnerHeight() + ( this.padding * 2 || 0 );
+			return this.height || this.getInnerHeight() + this.getPaddingVertical();
 
 		}
+
+		getBoxSizing() { return this.boxSizing || 'border-box'; }
+
+	/** Get width of this component minus its padding */
+	getInnerWidth() {
+
+		const DIRECTION = this.getContentDirection();
+
+		switch ( DIRECTION ) {
+
+			case 'row' :
+			case 'row-reverse' :
+				if( this.getBoxSizing() === 'content-box' ) {
+					return this.width || this.getChildrenSideSum( 'width' );
+				}
+				return this.width - this.getPaddingHorizontal() || this.getChildrenSideSum( 'width' );
+
+
+			case 'column' :
+			case 'column-reverse' :
+				return this.width || this.getHighestChildSizeOn( 'width' );
+				// if( this.getBoxSizing() === 'content-box' ) {
+				// 	return this.width || this.getChildrenSideSum( 'width' );
+				// }
+				// return this.width - this.getPaddingHorizontal() || this.getChildrenSideSum( 'width' );
+
+			default :
+				console.error( `Invalid contentDirection : ${DIRECTION}` );
+				break;
+
+		}
+
+	}
+
+	/** Get height of this component minus its padding */
+	getInnerHeight() {
+
+		const DIRECTION = this.getContentDirection();
+
+		switch ( DIRECTION ) {
+
+			case 'row' :
+			case 'row-reverse' :
+				return this.height || this.getHighestChildSizeOn( 'height' );
+
+			case 'column' :
+			case 'column-reverse' :
+				if( this.getBoxSizing() === 'content-box' ) {
+					return this.height || this.getChildrenSideSum( 'height' );
+				}
+				return this.height - this.getPaddingVertical() || this.getChildrenSideSum( 'height' );
+
+			default :
+				console.error( `Invalid contentDirection : ${DIRECTION}` );
+				break;
+
+		}
+
+	}
+
+		/**
+		 *
+		 * @return {number}
+		 */
+		getPaddingHorizontal() { return this._padding.y + this._padding.w; }
+
+		/**
+		 *
+		 * @return {number}
+		 */
+		getPaddingVertical() { return this._padding.x + this._padding.z; }
 
 }
 

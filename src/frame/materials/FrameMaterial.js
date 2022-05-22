@@ -1,4 +1,4 @@
-import { Color, DoubleSide, FrontSide, ShaderMaterial, Vector2, Vector4 } from 'three';
+import { Color, FrontSide, ShaderMaterial, Vector2, Vector4 } from 'three';
 import { fragmentShader, vertexShader } from '../renderers/ShaderLib/framematerial.glsl';
 import FrameMaterialUtils from '../utils/FrameMaterialUtils';
 

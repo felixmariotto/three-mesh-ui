@@ -15,15 +15,15 @@ export function alignItems( boxComponent, DIRECTION){
 
 	}
 
-	let getSizeMethod = "getWidth";
+	let getSizeMethod = "getInnerWidth";
 	let axis = "x";
 	if( DIRECTION.indexOf( ROW ) === 0 ){
 
-		getSizeMethod = "getHeight";
+		getSizeMethod = "getInnerHeight";
 		axis = "y";
 
 	}
-	const AXIS_TARGET = ( boxComponent[getSizeMethod]() / 2 ) - ( boxComponent.padding || 0 );
+	const AXIS_TARGET = ( boxComponent[getSizeMethod]() / 2 );
 
 	boxComponent.childrenBoxes.forEach( ( child ) => {
 

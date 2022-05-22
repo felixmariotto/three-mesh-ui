@@ -32,8 +32,8 @@ export default class InlineManager extends MeshUIComponent{
 		computeInlinesPosition() {
 
 			// computed by BoxComponent
-			const INNER_WIDTH = this.getWidth() - ( this.padding * 2 || 0 );
-			const INNER_HEIGHT = this.getHeight() - ( this.padding * 2 || 0 );
+			const INNER_WIDTH = this.getWidth() - this.getPaddingHorizontal();
+			const INNER_HEIGHT = this.getHeight() - this.getPaddingVertical();
 
 			// got by MeshUIComponent
 			const JUSTIFICATION = this.getJustifyContent();
@@ -47,10 +47,10 @@ export default class InlineManager extends MeshUIComponent{
 			/////////////////////////////////////////////////////////////////
 
 			// Vertical positioning
-			InlineJustification.justifyInlines( lines, JUSTIFICATION, INNER_HEIGHT);
+			InlineJustification.justifyInlines( this, lines, JUSTIFICATION, INNER_HEIGHT);
 
 			// Horizontal positioning
-			TextAlign.textAlign( lines, ALIGNMENT, INNER_WIDTH );
+			TextAlign.textAlign( this, lines, ALIGNMENT, INNER_WIDTH );
 
 
 			// Make lines accessible to provide helpful informations
@@ -65,7 +65,8 @@ export default class InlineManager extends MeshUIComponent{
 		computeLines() {
 
 			// computed by BoxComponent
-			const INNER_WIDTH = this.getWidth() - ( this.padding * 2 || 0 );
+			const INNER_WIDTH = this.getWidth() - this.getPaddingHorizontal();
+			// const INNER_WIDTH = this.getInnerWidth();
 			const INTERLINE = this.getInterLine();
 
 			// Will stock the characters of each line, so that we can

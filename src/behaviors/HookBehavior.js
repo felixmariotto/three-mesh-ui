@@ -23,9 +23,9 @@ export default class HookBehavior extends Behavior{
 
 	}
 
-	// /**
-	//  * @abstract
-	//  */
+	/**
+	 * @abstract
+	 */
 	// act( alterable = null ) {
 	//
 	// 	throw new Error(`Behavior::act() - Is abstract and therefore should be overridden in ${this.constructor.name}`);

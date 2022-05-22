@@ -124,6 +124,13 @@ export default class MeshUIComponent extends Object3D {
 			this._borderWidth = new Vector4().copy( DEFAULTS.borderWidth );
 
 			/**
+			 *
+			 * @type {Vector4}
+			 * @private
+			 */
+			this._padding = new Vector4( 0, 0, 0, 0 );
+
+			/**
 			 * @Todo: Probably only for boxComponents
 			 * @type {Lines}
 			 */
@@ -150,8 +157,8 @@ export default class MeshUIComponent extends Object3D {
 
 				if ( this.isBlock && this.parentUI.getHiddenOverflow() ) {
 
-					const yLimit = ( this.parentUI.getHeight() / 2 ) - ( this.parentUI.padding || 0 );
-					const xLimit = ( this.parentUI.getWidth() / 2 ) - ( this.parentUI.padding || 0 );
+					const yLimit = ( this.parentUI.getHeight() / 2 ) - this.parentUI.getPaddingVertical();
+					const xLimit = ( this.parentUI.getWidth() / 2 ) - this.parentUI.getPaddingHorizontal();
 
 					const newPlanes = [
 						new Plane( new Vector3( 0, 1, 0 ), yLimit ),
@@ -750,11 +757,27 @@ export default class MeshUIComponent extends Object3D {
 
 						case 'width' :
 						case 'height' :
-						case 'padding' :
+						// case 'padding' :
 							// @TODO: I don't think this is true anymore
 							if ( this.isInlineBlock || ( this.isBlock ) ) parsingNeedsUpdate = true;
 							layoutNeedsUpdate = true;
 							this[ prop ] = value;
+							break;
+
+						case 'padding':
+							this._fourDimensionsValueSetter(this._padding, value );
+							break;
+						case 'paddingTop':
+							this._padding.x = value;
+							break;
+						case 'paddingRight':
+							this._padding.y = value;
+							break;
+						case 'paddingBottom':
+							this._padding.z = value;
+							break;
+						case 'paddingLeft':
+							this._padding.w = value;
 							break;
 
 						case 'letterSpacing' :
@@ -785,7 +808,7 @@ export default class MeshUIComponent extends Object3D {
 						case 'backgroundSize' :
 						case 'borderColor' :
 						case 'borderOpacity' :
-							innerNeedsUpdate = true;
+							// innerNeedsUpdate = true;
 							this[ prop ] = value;
 							break;
 
@@ -794,43 +817,43 @@ export default class MeshUIComponent extends Object3D {
 							break;
 
 						case 'offset':
-							if( !this.isBlock || this.parentUI ){
+							// if( !this.isBlock || this.parentUI ){
 
 								this[ prop ] = value;
 								this.position.z = value;
 
-							}
+							// }
 							break;
 
 						// abstracted properties, those properties don't need to be store as this[prop] = value
 						case 'borderRadius' :
 							this._fourDimensionsValueSetter( this._borderRadius, value);
 							break;
-						case 'borderRadiusTopLeft':
+						case 'borderTopLeftRadius':
 							this._borderRadius.x = value;
 							break;
-						case 'borderRadiusTopRight':
+						case 'borderTopRightRadius':
 							this._borderRadius.y = value;
 							break;
-						case 'borderRadiusBottomRight':
+						case 'borderBottomRightRadius':
 							this._borderRadius.z = value;
 							break;
-						case 'borderRadiusBottomLeft':
+						case 'borderBottomLeftRadius':
 							this._borderRadius.w = value;
 							break;
-						case 'borderRadiusTop':
+						case 'borderTopRadius':
 							this._borderRadius.x = value;
 							this._borderRadius.y = value;
 							break;
-						case 'borderRadiusRight':
+						case 'borderRightRadius':
 							this._borderRadius.y = value;
 							this._borderRadius.z = value;
 							break;
-						case 'borderRadiusLeft':
+						case 'borderLeftRadius':
 							this._borderRadius.x = value;
 							this._borderRadius.w = value;
 							break
-						case 'borderRadiusBottom':
+						case 'borderBottomRadius':
 							this._borderRadius.z = value;
 							this._borderRadius.w = value;
 							break;
@@ -839,16 +862,16 @@ export default class MeshUIComponent extends Object3D {
 						case 'borderWidth' :
 							this._fourDimensionsValueSetter( this._borderWidth, value);
 							break;
-						case 'borderWidthTop':
+						case 'borderTopWidth' :
 							this._borderWidth.x = value;
 							break;
-						case 'borderWidthRight':
+						case 'borderRightWidth':
 							this._borderWidth.y = value;
 							break;
-						case 'borderWidthBottom':
+						case 'borderBottomWidth':
 							this._borderWidth.z = value;
 							break;
-						case 'borderWidthLeft':
+						case 'borderLeftWidth':
 							this._borderWidth.w = value;
 							break;
 

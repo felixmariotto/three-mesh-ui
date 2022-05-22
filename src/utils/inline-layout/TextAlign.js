@@ -13,11 +13,12 @@ export const JUSTIFY_CENTER = 'justify-center';
 
 /**
  *
+ * @param boxComponent
  * @param {Array.<Array.<InlineGlyph>>} lines
  * @param ALIGNMENT
  * @param INNER_WIDTH
  */
-export function textAlign( lines, ALIGNMENT, INNER_WIDTH ) {
+export function textAlign( boxComponent, lines, ALIGNMENT, INNER_WIDTH ) {
 
 	// Start the alignment by sticking to directions : left, right, center
 	for ( let i = 0; i < lines.length; i++ ) {
@@ -26,11 +27,13 @@ export function textAlign( lines, ALIGNMENT, INNER_WIDTH ) {
 
 		// compute the alignment offset of the line
 		const offsetX = _computeLineOffset( line, ALIGNMENT, INNER_WIDTH, i === lines.length - 1 );
+		const padding = - ( boxComponent._padding.w / 2 ) + ( boxComponent._padding.y / 2 )
 
 		// apply the offset to each characters of the line
 		for ( let j = 0; j < line.length; j++ ) {
 
-			line[ j ].offsetX += offsetX;
+			line[ j ].offsetX += offsetX - padding;
+			// line[ j ].offsetX += offsetX;
 
 		}
 
