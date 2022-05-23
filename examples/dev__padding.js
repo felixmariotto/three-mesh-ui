@@ -341,6 +341,7 @@ function step2BuildThreeMeshUIElements() {
 
 		backgroundColor: new THREE.Color(0xffffff),
 		backgroundTexture : new TextureLoader().load("./assets/uv_grid.jpg"),
+		backgroundSize: 'stretch',
 
 		// A Block can also define "text" properties that will propagate to any of its Text children
 		fontSize: 0.055,
@@ -359,7 +360,7 @@ function step2BuildThreeMeshUIElements() {
 
 	// three-mesh-ui Block are Object3D agreemented with three-mesh-ui capabilities
 	// so you can use any existing Object3D methods and properties
-	rootBlock3.position.set( 0, -0.5, -1.8 );
+	rootBlock3.position.set( -0.75, -0.5, -1.8 );
 	rootBlock3.rotation.x = -0.55;
 
 

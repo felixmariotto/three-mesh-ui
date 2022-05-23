@@ -78,19 +78,23 @@ export default class BoxComponent extends InlineManager {
 				switch ( DIRECTION ) {
 
 					case ROW :
-						directionalOffset = - this.getInnerWidth() / 2;
+						// directionalOffset = - this.getInnerWidth() / 2;
+						directionalOffset = - this.getInsetWidth() / 2;
 						break;
 
 					case ROW_REVERSE :
-						directionalOffset = this.getInnerWidth() / 2;
+						// directionalOffset = this.getInnerWidth() / 2;
+						directionalOffset = this.getInsetWidth() / 2;
 						break;
 
 					case COLUMN :
-						directionalOffset = this.getInnerHeight() / 2;
+						// directionalOffset = this.getInnerHeight() / 2;
+						directionalOffset = this.getInsetHeight() / 2;
 						break;
 
 					case COLUMN_REVERSE :
-						directionalOffset = - this.getInnerHeight() / 2;
+						// directionalOffset = - this.getInnerHeight() / 2;
+						directionalOffset = - this.getInsetHeight() / 2;
 						break;
 
 				}
@@ -108,24 +112,6 @@ export default class BoxComponent extends InlineManager {
 
 				if( DIRECTION.indexOf('column') !== -1 ) {
 
-					// if( DIRECTION.indexOf('-reverse') === -1 ) {
-
-						// if ( JUSTIFICATION === 'start' ) {
-						// 	snapYon = 'top';
-						// } else if( JUSTIFICATION === 'end' ) {
-						// 	snapYon = 'bottom';
-						// }
-
-					// } else {
-
-						// if ( JUSTIFICATION === 'end' ) {
-						// 	snapYon = 'top';
-						// } else if( JUSTIFICATION === 'start' ) {
-						// 	snapYon = 'bottom';
-						// }
-
-					// }
-
 					if( ALIGNMENT === 'start' ) {
 						snapXon = 'left';
 					}else if( ALIGNMENT === 'end' ){
@@ -133,24 +119,6 @@ export default class BoxComponent extends InlineManager {
 					}
 
 				} else {
-
-					// if ( DIRECTION.indexOf('-reverse') === -1 ) {
-
-					// 	if ( JUSTIFICATION === 'start' ) {
-					// 		snapXon = 'left';
-					// 	} else if ( JUSTIFICATION === 'end' ) {
-					// 		snapXon = 'right';
-					// 	}
-					//
-					// } else {
-					//
-					// 	if ( JUSTIFICATION === 'end' ) {
-					// 		snapXon = 'top';
-					// 	} else if ( JUSTIFICATION === 'start' ) {
-					// 		snapXon = 'bottom';
-					// 	}
-					//
-					// }
 
 					if( ALIGNMENT === 'start' ) {
 						snapYon = 'top';
@@ -219,9 +187,11 @@ export default class BoxComponent extends InlineManager {
 			// @TODO : SIze according to box sizing
 			if( this.parentUI && this.parentUI.getAlignItems() === 'stretch' ){
 
-				if( this.parentUI.getContentDirection().indexOf('column') !== -1 ){
+				console.log("vava", this.parentUI.getContentDirection() )
+				if( this.parentUI.getContentDirection().indexOf('column') !== -1 ) {
 
-					return this.parentUI.getWidth() -  this.parentUI.getPaddingHorizontal();
+					console.log("bob")
+					return this.parentUI.getBoxSizing() === 'content-box' ? this.parentUI.width : this.parentUI.getWidth() -  this.parentUI.getPaddingHorizontal();
 
 				}
 
@@ -231,6 +201,70 @@ export default class BoxComponent extends InlineManager {
 			return this.width || this.getInnerWidth() + this.getPaddingHorizontal();
 
 		}
+
+	/**
+	 * Obtain the outer width according to box-sizing
+	 * @return {*}
+	 */
+		getOffsetWidth() {
+
+			if ( this.getBoxSizing() === 'border-box' ) {
+
+				return this.width || this.getInnerWidth();
+
+			}
+
+			return this.width + this._padding.y + this._padding.w;
+
+		}
+
+	/**
+	 * Obtain the outer height according to box-sizing
+	 * @return {*}
+	 */
+	getOffsetHeight() {
+
+		if ( this.getBoxSizing() === 'border-box' ) {
+
+			return this.height || this.getInnerHeight();
+
+		}
+
+		return this.height + this._padding.x + this._padding.z;
+
+	}
+
+	/**
+	 * Obtain the inner width according to box-sizing
+	 * @return {*}
+	 */
+	getInsetWidth() {
+
+		if ( this.getBoxSizing() === 'border-box' ) {
+
+			return this.width - ( this._padding.y + this._padding.w );
+
+		}
+
+		return this.width;
+
+	}
+
+	/**
+	 * Obtain the inner height according to box-sizing
+	 * @return {*}
+	 */
+	getInsetHeight() {
+
+		if ( this.getBoxSizing() === 'border-box' ) {
+
+			return this.height - (this._padding.x + this._padding.z);
+
+		}
+
+		return this.height;
+
+	}
 
 		/**
 		 * Get height of this element
@@ -243,9 +277,12 @@ export default class BoxComponent extends InlineManager {
 			// @TODO : SIze according to box sizing
 			if( this.parentUI && this.parentUI.getAlignItems() === 'stretch' ){
 
-				if( this.parentUI.getContentDirection().indexOf('row') !== -1 ){
+				console.log("vava", this.parentUI.getContentDirection() )
+				if( this.parentUI.getContentDirection().indexOf('row') !== -1 ) {
 
-					return this.parentUI.getHeight() - this.parentUI.getPaddingVertical();
+					console.log("BOB")
+					return this.parentUI.getBoxSizing() === 'content-box' ? this.parentUI.height * 2 : this.parentUI.height * 2;
+
 
 				}
 
@@ -275,10 +312,10 @@ export default class BoxComponent extends InlineManager {
 			case 'column' :
 			case 'column-reverse' :
 				return this.width || this.getHighestChildSizeOn( 'width' );
-				// if( this.getBoxSizing() === 'content-box' ) {
-				// 	return this.width || this.getChildrenSideSum( 'width' );
-				// }
-				// return this.width - this.getPaddingHorizontal() || this.getChildrenSideSum( 'width' );
+				if( this.getBoxSizing() === 'content-box' ) {
+					return this.width || this.getHighestChildSizeOn( 'width' );
+				}
+				return this.width - this.getPaddingHorizontal() || this.getHighestChildSizeOn( 'width' );
 
 			default :
 				console.error( `Invalid contentDirection : ${DIRECTION}` );
@@ -298,6 +335,11 @@ export default class BoxComponent extends InlineManager {
 			case 'row' :
 			case 'row-reverse' :
 				return this.height || this.getHighestChildSizeOn( 'height' );
+				if( this.getBoxSizing() === 'content-box' ) {
+					return this.height || this.getHighestChildSizeOn( 'height' );
+				}
+				return this.height - this.getPaddingVertical() || this.getHighestChildSizeOn( 'height' );
+
 
 			case 'column' :
 			case 'column-reverse' :

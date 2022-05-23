@@ -21,12 +21,16 @@ export default class BoxLayoutBehavior {
 
 		reference.addAfterUpdate( () => {
 
-			this.overlay.scale.set( reference.width, reference.height, 1);
+			const ratio = {
+				x : reference.width/reference.getOffsetWidth(),
+				y : reference.height/reference.getOffsetHeight(),
+			}
+			this.overlay.scale.set( reference.getOffsetWidth(), reference.getOffsetHeight(), 1);
 			this.overlay.material.userData.padding.value.set(
-				1 - reference._padding.x,
-				1 - reference._padding.y,
-				reference._padding.z,
-				reference._padding.w
+				1 - reference._padding.x * ratio.y,
+				1 - reference._padding.y * ratio.x,
+				reference._padding.z * ratio.y,
+				reference._padding.w * ratio.x
 			);
 
 		});
