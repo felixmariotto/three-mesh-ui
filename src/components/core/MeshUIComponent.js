@@ -157,14 +157,25 @@ export default class MeshUIComponent extends Object3D {
 
 				if ( this.isBlock && this.parentUI.getHiddenOverflow() ) {
 
-					const yLimit = ( this.parentUI.getHeight() / 2 ) - this.parentUI.getPaddingVertical();
-					const xLimit = ( this.parentUI.getWidth() / 2 ) - this.parentUI.getPaddingHorizontal();
+					// console.log(this.uuid);
+
+					const yLimit = ( this.parentUI.getInsetHeight() / 2 );
+					// const yLimit = ( this.parentUI.getHeight() / 2 ) - this.parentUI.getPaddingVertical();
+					// const xLimit = ( this.parentUI.getWidth() / 2 ) - this.parentUI.getPaddingHorizontal();
+					const xLimit = ( this.parentUI.getInsetWidth() / 2 );
+
+					const padX = this._padding.w + this.parentUI._padding.y;
+					// const padX = 0;
+					const padY = this._padding.x + this.parentUI._padding.z;
+					// const padY = 0;
 
 					const newPlanes = [
-						new Plane( new Vector3( 0, 1, 0 ), yLimit ),
-						new Plane( new Vector3( 0, -1, 0 ), yLimit ),
-						new Plane( new Vector3( 1, 0, 0 ), xLimit ),
-						new Plane( new Vector3( -1, 0, 0 ), xLimit )
+						// top
+						new Plane( new Vector3( 0, 1, 0 ), yLimit + padY/8 ),
+						// bottom
+						new Plane( new Vector3( 0, -1, 0 ), yLimit + padY/8 ),
+						new Plane( new Vector3( 1, 0, 0 ), xLimit + padX/8 ),
+						new Plane( new Vector3( -1, 0, 0 ), xLimit + padX/8 )
 					];
 
 					newPlanes.forEach( plane => {

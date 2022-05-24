@@ -17,7 +17,7 @@ export function justifyContent( boxComponent, direction, startPos, REVERSE){
 	const side = direction.indexOf('row') === 0 ? 'width' : 'height'
 	const usedDirectionSpace = boxComponent.getChildrenSideSum( side );
 
-	const INNER_SIZE = side === 'width' ? boxComponent.getInnerWidth() : boxComponent.getInnerHeight();
+	const INNER_SIZE = side === 'width' ? boxComponent.getInsetWidth() : boxComponent.getInsetHeight();
 	const remainingSpace = INNER_SIZE - usedDirectionSpace;
 
 	// Items Offset

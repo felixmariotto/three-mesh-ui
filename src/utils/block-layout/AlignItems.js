@@ -15,11 +15,11 @@ export function alignItems( boxComponent, DIRECTION){
 
 	}
 
-	let getSizeMethod = "getInnerWidth";
+	let getSizeMethod = "getInsetWidth";
 	let axis = "x";
 	if( DIRECTION.indexOf( ROW ) === 0 ){
 
-		getSizeMethod = "getInnerHeight";
+		getSizeMethod = "getInsetHeight";
 		axis = "y";
 
 	}

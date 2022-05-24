@@ -6,6 +6,7 @@ import { BoxLineGeometry } from 'three/examples/jsm/geometries/BoxLineGeometry.j
 import ThreeMeshUI from 'three-mesh-ui';
 import FontJSON from 'three-mesh-ui/examples/assets/fonts/msdf/roboto/regular.json';
 import FontImage from 'three-mesh-ui/examples/assets/fonts/msdf/roboto/regular.png';
+import BoxLayoutBehavior from 'three-mesh-ui/examples/behaviors/helpers/BoxLayoutBehavior';
 
 const WIDTH = window.innerWidth;
 const HEIGHT = window.innerHeight;
@@ -86,7 +87,9 @@ function makeTextPanel() {
 	container = new ThreeMeshUI.Block( {
 		height: 0.7,
 		width: 0.6,
-		padding: 0.05,
+		boxSizing: 'content-box',
+		// padding: '0 0.1 0.2 0',
+		padding: 0.2,
 		justifyContent: 'center',
 		backgroundOpacity: 1,
 		backgroundColor: new THREE.Color( 'grey' )
@@ -131,6 +134,8 @@ function makeTextPanel() {
 	} );
 
 	textContainer.add( text );
+
+	new BoxLayoutBehavior( container );
 
 	setInterval( () => {
 

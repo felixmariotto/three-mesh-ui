@@ -8,13 +8,13 @@ export function contentDirection( container, DIRECTION, startPos, REVERSE ){
 	// end to end children
 	let accu = startPos;
 
-	let childGetSize = "getWidth";
+	let childGetSize = "getOffsetWidth";
 	let axisPrimary = "x";
 	let axisSecondary = "y";
 
 	if( DIRECTION.indexOf( COLUMN ) === 0 ){
 
-		childGetSize = "getHeight";
+		childGetSize = "getOffsetHeight";
 		axisPrimary = "y";
 		axisSecondary = "x";
 

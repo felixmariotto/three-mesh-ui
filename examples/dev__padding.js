@@ -35,7 +35,9 @@ function step1BuildThreeJSElements() {
 	scene = new THREE.Scene();
 	scene.background = new THREE.Color( 0x505050 );
 
-	camera = new THREE.PerspectiveCamera( 60, WIDTH / HEIGHT, 0.1, 100 );
+	// camera = new THREE.PerspectiveCamera( 60, WIDTH / HEIGHT, 0.1, 100 );
+	camera = new THREE.OrthographicCamera( WIDTH / -2, WIDTH / 2, HEIGHT / 2, HEIGHT / -2, 1, 1000 );
+
 
 	renderer = new THREE.WebGLRenderer( {
 		antialias: true
@@ -46,8 +48,15 @@ function step1BuildThreeJSElements() {
 	document.body.appendChild( VRButton.createButton( renderer ) );
 	document.body.appendChild( renderer.domElement );
 
-	controls = new OrbitControls( camera, renderer.domElement );
+
+
 	camera.position.set( 0, 1.6, 0 );
+	camera.zoom = 250;
+	camera.updateProjectionMatrix();
+
+	window.camera = camera;
+
+	controls = new OrbitControls( camera, renderer.domElement );
 	controls.target = new THREE.Vector3( 0, 1, -1.8 );
 	controls.update();
 
@@ -111,8 +120,8 @@ function step2BuildThreeMeshUIElements() {
 
 	// three-mesh-ui Block are Object3D agreemented with three-mesh-ui capabilities
 	// so you can use any existing Object3D methods and properties
-	rootBlock.position.set( 0, 1, -1.8 );
-	rootBlock.rotation.x = -0.55;
+	rootBlock.position.set( -0.5, 1, -1.8 );
+	// rootBlock.rotation.x = -0.55;
 
 
 	// Now that we have a three-mesh-ui Block, we can add three-mesh-ui Text's in it
@@ -294,8 +303,8 @@ function step2BuildThreeMeshUIElements() {
 
 	// three-mesh-ui Block are Object3D agreemented with three-mesh-ui capabilities
 	// so you can use any existing Object3D methods and properties
-	rootBlock2.position.set( 1.25, 1, -1.8 );
-	rootBlock2.rotation.x = -0.55;
+	rootBlock2.position.set( 1.05 - 0.5, 1, -1.8 );
+	// rootBlock2.rotation.x = -0.55;
 
 
 	// Now that we have a three-mesh-ui Block, we can add three-mesh-ui Text's in it
@@ -360,8 +369,8 @@ function step2BuildThreeMeshUIElements() {
 
 	// three-mesh-ui Block are Object3D agreemented with three-mesh-ui capabilities
 	// so you can use any existing Object3D methods and properties
-	rootBlock3.position.set( -0.75, -0.5, -1.8 );
-	rootBlock3.rotation.x = -0.55;
+	rootBlock3.position.set( -1.35 - 0.5, 0.9, -1.8 );
+	// rootBlock3.rotation.x = -0.55;
 
 
 	// Now that we have a three-mesh-ui Block, we can add three-mesh-ui Text's in it
@@ -425,8 +434,8 @@ function step2BuildThreeMeshUIElements() {
 
 	// three-mesh-ui Block are Object3D agreemented with three-mesh-ui capabilities
 	// so you can use any existing Object3D methods and properties
-	rootBlock4.position.set( 1.25, -0.5, -1.8 );
-	rootBlock4.rotation.x = -0.55;
+	rootBlock4.position.set( 2.28 - 0.5, 1.15, -1.8 );
+	// rootBlock4.rotation.x = -0.55;
 
 
 	// Now that we have a three-mesh-ui Block, we can add three-mesh-ui Text's in it
