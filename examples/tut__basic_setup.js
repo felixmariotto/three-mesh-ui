@@ -4,7 +4,6 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import { BoxLineGeometry } from 'three/examples/jsm/geometries/BoxLineGeometry.js';
 
 import ThreeMeshUI from 'three-mesh-ui';
-import { TextureLoader } from 'three';
 
 const WIDTH = window.innerWidth;
 const HEIGHT = window.innerHeight;
@@ -76,18 +75,13 @@ function step2BuildThreeMeshUIElements() {
 	const rootBlock = new ThreeMeshUI.Block( {
 
 		// A Block must define its "box-sizing" properties
-		width: 1,
-		height: 1,
-		// padding: '0 0.225 0 0',
-		padding: '0.1 0 0 0.1',
+		width: 1.2,
+		height: 0.5,
+		padding: 0.05,
 
 		// A Block can define its "layout" properties
-		justifyContent: 'start',
-		alignItems: 'start',
-		textAlign: 'justify',
-
-		backgroundColor: new THREE.Color(0xffffff),
-		backgroundTexture : new TextureLoader().load("./assets/uv_grid.jpg"),
+		justifyContent: 'center',
+		textAlign: 'left',
 
 		// A Block can also define "text" properties that will propagate to any of its Text children
 		fontSize: 0.055,
@@ -116,7 +110,7 @@ function step2BuildThreeMeshUIElements() {
 
 		new ThreeMeshUI.Text( {
 			// three-mesh-ui Text should defined their content to display
-			content: 'this is a text made of small words '.repeat(5),
+			content: 'This library supports line-break-friendly-characters,',
 
 			// if a Text is going to use the exact same Text properties as defined in its parent
 			// there is no need to set those properties again
@@ -125,6 +119,24 @@ function step2BuildThreeMeshUIElements() {
 			// fontTexture: '/assets/fonts/msdf/roboto/regular.png',
 
 		} ),
+
+
+		new ThreeMeshUI.Text( {
+			content: ' As well as multi-font-size lines with consistent vertical',
+
+			// If a Text must have different Text properties as defined in its parent
+			// We just have to define it on a specific Text
+			fontSize: 0.08,
+			fontFamily: '/assets/fonts/msdf/roboto/italic.json',
+			fontTexture: '/assets/fonts/msdf/roboto/italic.png',
+		} ),
+
+		new ThreeMeshUI.Text( {
+			content: ' spacing!',
+			fontSize: 0.08,
+			fontFamily: '/assets/fonts/msdf/roboto/bold-italic.json',
+			fontTexture: '/assets/fonts/msdf/roboto/bold-italic.png',
+		} )
 
 	);
 
