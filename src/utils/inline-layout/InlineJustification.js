@@ -31,7 +31,10 @@ export function justifyInlines( boxComponent, lines, JUSTIFICATION, INNER_HEIGHT
 	} )();
 
 	// Apply padding
-	justificationOffset += - (boxComponent._padding.x / 2) + (boxComponent._padding.z/2);
+	const padding = boxComponent._padding;
+	const border = boxComponent._borderWidth;
+
+	justificationOffset += ( - padding.x + padding.z ) / 2 + ( - border.x + border.z ) / 2;
 
 	//
 

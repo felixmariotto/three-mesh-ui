@@ -100,9 +100,6 @@ function step2BuildThreeMeshUIElements() {
 
 	} );
 
-	console.log( rootBlock.getWidth() );
-	console.log( rootBlock._padding );
-
 	// three-mesh-ui root elements must be added on threejs display stack
 	// In the scene, or in another Object3D of our choice
 	scene.add( rootBlock );

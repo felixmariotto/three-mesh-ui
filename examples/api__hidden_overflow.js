@@ -7,6 +7,7 @@ import ThreeMeshUI from 'three-mesh-ui';
 import FontJSON from 'three-mesh-ui/examples/assets/fonts/msdf/roboto/regular.json';
 import FontImage from 'three-mesh-ui/examples/assets/fonts/msdf/roboto/regular.png';
 import BoxLayoutBehavior from 'three-mesh-ui/examples/behaviors/helpers/BoxLayoutBehavior';
+import { TextureLoader } from 'three';
 
 const WIDTH = window.innerWidth;
 const HEIGHT = window.innerHeight;
@@ -85,14 +86,21 @@ function makeTextPanel() {
 	// forget to enable local clipping with renderer.localClippingEnabled = true;
 
 	container = new ThreeMeshUI.Block( {
-		height: 0.7,
-		width: 0.6,
+		height: 0.6,
+		width: 0.9,
 		boxSizing: 'content-box',
 		// padding: '0 0.1 0.2 0',
-		padding: 0.2,
+		padding: '0.05 0.1 0.2 0.025',
+		// padding: 0.1,
+		// padding: 0.09,
 		justifyContent: 'center',
+		borderOpacity: 1,
+		borderWidth: 0.1,
+		borderColor: new THREE.Color(0xff99ff),
 		backgroundOpacity: 1,
-		backgroundColor: new THREE.Color( 'grey' )
+		backgroundColor: new THREE.Color(0xffffff),
+		backgroundTexture : new TextureLoader().load("./assets/uv_grid.jpg"),
+		backgroundSize: 'stretch'
 	} );
 
 	container.setupState( {
@@ -108,7 +116,7 @@ function makeTextPanel() {
 	container.setState( 'hidden-on' );
 
 	container.position.set( 0, 1, -1.8 );
-	container.rotation.x = -0.55;
+	// container.rotation.x = -0.55;
 	scene.add( container );
 
 	//
@@ -116,7 +124,8 @@ function makeTextPanel() {
 	textContainer = new ThreeMeshUI.Block( {
 		width: 1,
 		height: 1,
-		padding: 0.09,
+		offset: 0.001,
+		// padding: 0.09,
 		backgroundColor: new THREE.Color( 'blue' ),
 		backgroundOpacity: 0.2,
 		justifyContent: 'center'

@@ -27,12 +27,18 @@ export function textAlign( boxComponent, lines, ALIGNMENT, INNER_WIDTH ) {
 
 		// compute the alignment offset of the line
 		const offsetX = _computeLineOffset( line, ALIGNMENT, INNER_WIDTH, i === lines.length - 1 );
-		const padding = - ( boxComponent._padding.w / 2 ) + ( boxComponent._padding.y / 2 )
+
+		const padding = boxComponent._padding;
+		const border = boxComponent._borderWidth;
+
+		// const paddingAmount = - ( padding.w + padding.y ) / 2 - ( border.w + border.y ) / 2;
+		// const paddingAmount = - ( padding.w + padding.y ) / 2;
+		const paddingAmount = ( - padding.w + padding.y ) / 2 + ( - border.w + border.y ) / 2;
 
 		// apply the offset to each characters of the line
 		for ( let j = 0; j < line.length; j++ ) {
 
-			line[ j ].offsetX += offsetX - padding;
+			line[ j ].offsetX += offsetX - paddingAmount;
 			// line[ j ].offsetX += offsetX;
 
 		}

@@ -91,17 +91,21 @@ function step2BuildThreeMeshUIElements() {
 		// padding: '0 0.225 0 0',
 		// padding: '0.25 0 0 0.1',
 		// padding: '0 0 0.1 0.1',
-		padding: '0.1 0.2 0.3 0.4',
+		padding: '0.1 0.2 0.1 0.2',
 
 		// A Block can define its "layout" properties
-		contentDirection: 'row',
-		// contentDirection: 'column-reverse',
-		justifyContent: 'end',
+		// contentDirection: 'row-reverse',
+		contentDirection: 'column',
+		justifyContent: 'start',
 		alignItems: 'start',
 		textAlign: 'justify',
 
 		backgroundColor: new THREE.Color(0xffffff),
 		backgroundTexture : new TextureLoader().load("./assets/uv_grid.jpg"),
+
+		// borderWidth: 0.1,
+		borderWidth: '0 0.2 .05 0.2',
+		borderColor: new THREE.Color(0x000000),
 
 		// A Block can also define "text" properties that will propagate to any of its Text children
 		fontSize: 0.055,
@@ -123,6 +127,7 @@ function step2BuildThreeMeshUIElements() {
 	rootBlock.position.set( -0.5, 1, -1.8 );
 	// rootBlock.rotation.x = -0.55;
 
+	console.log(rootBlock.getInsetHeight())
 
 	// Now that we have a three-mesh-ui Block, we can add three-mesh-ui Text's in it
 	rootBlock.add(
@@ -150,17 +155,17 @@ function step2BuildThreeMeshUIElements() {
 
 		} ),
 
-		// new ThreeMeshUI.Block( {
-		// 	// three-mesh-ui Text should defined their content to display
-		// 	backgroundColor: new THREE.Color(0xffffff),
-		// 	width: 0.1,
-		// 	height: 0.1,
-		// 	margin:0,
-		// 	padding: 0,
-		// 	offset: 0.001,
-		//
-		// } ),
-		//
+		new ThreeMeshUI.Block( {
+			// three-mesh-ui Text should defined their content to display
+			backgroundColor: new THREE.Color(0xffffff),
+			width: 0.1,
+			height: 0.1,
+			margin:0,
+			padding: 0,
+			offset: 0.001,
+
+		} ),
+
 		// new ThreeMeshUI.Block( {
 		// 	// three-mesh-ui Text should defined their content to display
 		// 	backgroundColor: new THREE.Color(0xffffff),
@@ -272,7 +277,7 @@ function step2BuildThreeMeshUIElements() {
 		height: 1,
 		// padding: '0 0.225 0 0',
 		// padding: '0.25 0 0 0.1',
-		padding: '0.4 0.25 0.1 0.1',
+		padding: '0.2 0.25 0.1 0.1',
 		// padding: '0.1 0.2 0.3 0.4',
 
 		// A Block can define its "layout" properties
@@ -286,6 +291,7 @@ function step2BuildThreeMeshUIElements() {
 		backgroundColor: new THREE.Color(0xffffff),
 		backgroundTexture : new TextureLoader().load("./assets/uv_grid.jpg"),
 
+		borderWidth: '0.1 0.05 0.05 0.1',
 		// A Block can also define "text" properties that will propagate to any of its Text children
 		fontSize: 0.055,
 		fontFamily: '/assets/fonts/msdf/roboto/regular.json',

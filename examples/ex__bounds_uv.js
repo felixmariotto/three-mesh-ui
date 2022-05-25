@@ -279,7 +279,7 @@ function loop() {
 	//
 	// }
 
-	let height = boundingContainer.getHeight();
+	let height = boundingContainer.height;
 	height += speed;
 
 	if( height >= 0.6 ) {

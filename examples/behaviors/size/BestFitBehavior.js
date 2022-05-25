@@ -37,7 +37,7 @@ export default class BestFitBehavior {
 
 	calculateGrowFit() {
 
-		const INNER_HEIGHT = this.getHeight() - ( this.padding * 2 || 0 );
+		const INNER_HEIGHT = this.getInsetHeight();
 
 		//Iterative method to find a fontSize of text children that text will fit into container
 		let iterations = 1;
@@ -90,7 +90,7 @@ export default class BestFitBehavior {
 
 	calculateShrinkFit() {
 
-		const INNER_HEIGHT = this.getHeight() - ( this.padding * 2 || 0 );
+		const INNER_HEIGHT = this.getInsetHeight();
 
 		// Iterative method to find a fontSize of text children that text will fit into container
 		let iterations = 1;
@@ -140,7 +140,7 @@ export default class BestFitBehavior {
 
 	calculateAutoFit()  {
 
-		const INNER_HEIGHT = this.getHeight() - ( this.padding * 2 || 0 );
+		const INNER_HEIGHT = this.getInsetHeight();
 
 		//Iterative method to find a fontSize of text children that text will fit into container
 		let iterations = 1;
