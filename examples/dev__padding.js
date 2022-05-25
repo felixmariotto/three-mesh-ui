@@ -354,6 +354,7 @@ function step2BuildThreeMeshUIElements() {
 		textAlign: 'justify',
 		boxSizing: 'content-box',
 
+		borderWidth: '0.1 0 0.1 0.05',
 		backgroundColor: new THREE.Color(0xffffff),
 		backgroundTexture : new TextureLoader().load("./assets/uv_grid.jpg"),
 		backgroundSize: 'stretch',
@@ -420,6 +421,7 @@ function step2BuildThreeMeshUIElements() {
 		textAlign: 'right',
 		boxSizing: 'content-box',
 
+		borderWidth: '0.1 0 0.05 0.1',
 		backgroundColor: new THREE.Color(0xffffff),
 		backgroundTexture : new TextureLoader().load("./assets/uv_grid.jpg"),
 
