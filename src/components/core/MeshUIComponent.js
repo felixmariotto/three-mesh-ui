@@ -161,16 +161,17 @@ export default class MeshUIComponent extends Object3D {
 					const yLimit = this.parentUI.getOffsetHeight();
 					const xLimit = this.parentUI.getOffsetWidth();
 					const padding = this.parentUI._padding;
+					const border = this.parentUI._borderWidth;
 
 					const newPlanes = [
 						// top
-						new Plane( new Vector3( 0, -1, 0 ), yLimit / 2 - padding.x ),
+						new Plane( new Vector3( 0, -1, 0 ), yLimit / 2 - ( padding.x + border.x ) ),
 						// right
-						new Plane( new Vector3( -1, 0, 0 ), xLimit / 2  - padding.y ),
+						new Plane( new Vector3( -1, 0, 0 ), xLimit / 2  - ( padding.y + border.y ) ),
 						// bottom
-						new Plane( new Vector3( 0, 1, 0 ), yLimit / 2 - padding.z ),
+						new Plane( new Vector3( 0, 1, 0 ), yLimit / 2 - ( padding.z + border.z ) ),
 						// left
-						new Plane( new Vector3( 1, 0, 0 ), xLimit / 2 - padding.w ),
+						new Plane( new Vector3( 1, 0, 0 ), xLimit / 2 - ( padding.w + border.w ) ),
 					];
 
 					newPlanes.forEach( plane => {
