@@ -127,8 +127,6 @@ function step2BuildThreeMeshUIElements() {
 	rootBlock.position.set( -0.5, 1, -1.8 );
 	// rootBlock.rotation.x = -0.55;
 
-	console.log(rootBlock.getInsetHeight())
-
 	// Now that we have a three-mesh-ui Block, we can add three-mesh-ui Text's in it
 	rootBlock.add(
 
@@ -347,10 +345,12 @@ function step2BuildThreeMeshUIElements() {
 		padding: '0.1 0.2 0.3 0.4',
 
 		// A Block can define its "layout" properties
-		contentDirection: 'row',
-		// contentDirection: 'column-reverse',
-		justifyContent: 'end',
-		alignItems: 'start',
+		// contentDirection: 'column',
+		contentDirection: 'column-reverse',
+		// contentDirection: 'row',
+		// contentDirection: 'row-reverse',
+		justifyContent: 'start',
+		alignItems: 'end',
 		textAlign: 'justify',
 		boxSizing: 'content-box',
 
@@ -383,6 +383,31 @@ function step2BuildThreeMeshUIElements() {
 	// Now that we have a three-mesh-ui Block, we can add three-mesh-ui Text's in it
 	rootBlock3.add(
 
+
+		new ThreeMeshUI.Block( {
+			// three-mesh-ui Text should defined their content to display
+			backgroundColor: new THREE.Color(0xffffff),
+			width: 0.1,
+			height: 0.1,
+			margin:0,
+			padding: 0,
+			offset: 0.001,
+
+		} ),
+
+		new ThreeMeshUI.Block( {
+			// three-mesh-ui Text should defined their content to display
+			backgroundColor: new THREE.Color(0xff9900),
+			width: 0.1,
+			height: 0.1,
+			margin:'0.1 0.05 0.2 0.1',
+			// margin:'0.2 0 0.1 0',
+			// margin:'0.1 0.1 0.2 0.05',
+			// margin:'0.1',
+			padding: 0,
+			offset: 0.001,
+
+		} ),
 
 		new ThreeMeshUI.Block( {
 			// three-mesh-ui Text should defined their content to display

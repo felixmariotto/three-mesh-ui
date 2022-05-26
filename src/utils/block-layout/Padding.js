@@ -6,6 +6,7 @@
  */
 export const padItems = function( boxComponent, DIRECTION, ALIGNMENT ){
 
+	let snap = 'center';
 	let snapXon = 'center';
 	let snapYon = 'center';
 
@@ -15,18 +16,18 @@ export const padItems = function( boxComponent, DIRECTION, ALIGNMENT ){
 	if( DIRECTION.indexOf('column') !== -1 ) {
 
 		if( ALIGNMENT === 'start' ) {
-			snapXon = 'left';
+			snap = snapXon = 'left';
 		}else if( ALIGNMENT === 'end' ){
-			snapXon ='right';
+			snap = snapXon ='right';
 		}
 
 	} else {
 
 		/* eslint-disable no-lonely-if */
 		if( ALIGNMENT === 'start' ) {
-			snapYon = 'top';
+			snap = snapYon = 'top';
 		}else if( ALIGNMENT === 'end' ){
-			snapYon ='bottom';
+			snap = snapYon ='bottom';
 		}
 		/* eslint-enable no-lonely-if */
 
@@ -60,8 +61,31 @@ export const padItems = function( boxComponent, DIRECTION, ALIGNMENT ){
 
 	boxComponent.childrenBoxes.forEach( ( child ) => {
 
-		boxComponent.childrenPos[ child.id ]['x'] += x;
-		boxComponent.childrenPos[ child.id ]['y'] += y;
+		let marginX = 0;
+		let marginY = 0;
+
+		if( snap === 'top' ) {
+
+			marginY = - child._margin.x;
+
+		} else if( snap === 'bottom' ) {
+
+			marginY = child._margin.z;
+
+		} else if( snap === 'left' ) {
+
+			marginX = child._margin.w;
+
+		} else if( snap === 'right' ) {
+
+			marginX = - child._margin.y;
+
+		}
+
+		boxComponent.childrenPos[ child.id ]['x'] += x + marginX;
+		boxComponent.childrenPos[ child.id ]['y'] += y + marginY;
+
+
 
 	} );
 

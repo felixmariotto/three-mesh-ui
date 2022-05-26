@@ -131,6 +131,13 @@ export default class MeshUIComponent extends Object3D {
 			this._padding = new Vector4( 0, 0, 0, 0 );
 
 			/**
+			 *
+			 * @type {Vector4}
+			 * @private
+			 */
+			this._margin = new Vector4( 0, 0, 0, 0 );
+
+			/**
 			 * @Todo: Probably only for boxComponents
 			 * @type {Lines}
 			 */
@@ -796,6 +803,21 @@ export default class MeshUIComponent extends Object3D {
 							break;
 
 						case 'margin' :
+							this._fourDimensionsValueSetter(this._margin, value );
+							break;
+						case 'marginTop':
+							this._margin.x = value;
+							break;
+						case 'marginRight':
+							this._margin.y = value;
+							break;
+						case 'marginBottom':
+							this._margin.z = value;
+							break;
+						case 'marginLeft':
+							this._margin.w = value;
+							break;
+						// case 'margin':
 						case 'contentDirection' :
 						case 'justifyContent' :
 						case 'alignContent' :

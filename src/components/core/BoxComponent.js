@@ -39,11 +39,11 @@ export default class BoxComponent extends InlineManager {
 
 			return this.childrenBoxes.reduce( ( accu, child ) => {
 
-				const margin = ( child.margin * 2 ) || 0;
+
 
 				const CHILD_SIZE = ( side === 'width' ) ?
-					( child.getOffsetWidth() + margin ) :
-					( child.getOffsetHeight() + margin );
+					( child.getOffsetWidth() + child._margin.y + child._margin.w  ) :
+					( child.getOffsetHeight() + child._margin.x + child._margin.z );
 
 				return accu + CHILD_SIZE;
 
@@ -121,10 +121,9 @@ export default class BoxComponent extends InlineManager {
 
 			return this.childrenBoxes.reduce( ( accu, child ) => {
 
-				const margin = child.margin || 0;
 				const maxSize = direction === 'width' ?
-					child.getOffsetWidth() + ( margin * 2 ) :
-					child.getOffsetHeight() + ( margin * 2 );
+					child.getOffsetWidth() + child._margin.y + child._margin.w :
+					child.getOffsetHeight() + child._margin.x + child._margin.z;
 
 				return Math.max( accu, maxSize );
 
