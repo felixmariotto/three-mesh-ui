@@ -153,16 +153,16 @@ function step2BuildThreeMeshUIElements() {
 
 		} ),
 
-		new ThreeMeshUI.Block( {
-			// three-mesh-ui Text should defined their content to display
-			backgroundColor: new THREE.Color(0xffffff),
-			width: 0.1,
-			height: 0.1,
-			margin:0,
-			padding: 0,
-			offset: 0.001,
-
-		} ),
+		// new ThreeMeshUI.Block( {
+		// 	// three-mesh-ui Text should defined their content to display
+		// 	backgroundColor: new THREE.Color(0xffffff),
+		// 	width: 0.1,
+		// 	height: 0.1,
+		// 	margin:0,
+		// 	padding: 0,
+		// 	offset: 0.001,
+		//
+		// } ),
 
 		// new ThreeMeshUI.Block( {
 		// 	// three-mesh-ui Text should defined their content to display
@@ -177,7 +177,7 @@ function step2BuildThreeMeshUIElements() {
 
 	);
 
-	new BoxLayoutBehavior( rootBlock );
+	new BoxLayoutBehavior( rootBlock ).attach();
 
 	const settings = [
 		//top left -- column
@@ -328,7 +328,7 @@ function step2BuildThreeMeshUIElements() {
 
 	);
 
-	new BoxLayoutBehavior( rootBlock2 );
+	new BoxLayoutBehavior( rootBlock2 ).attach();
 
 
 	// If we are going to display ThreeMeshUI Text elements
@@ -379,6 +379,19 @@ function step2BuildThreeMeshUIElements() {
 	rootBlock3.position.set( -1.35 - 0.5, 0.9, -1.8 );
 	// rootBlock3.rotation.x = -0.55;
 
+	const childWithMargin = new ThreeMeshUI.Block( {
+			// three-mesh-ui Text should defined their content to display
+			backgroundColor: new THREE.Color(0xff9900),
+			width: 0.1,
+			height: 0.1,
+			// margin:'0 0 0.1 0.1',
+			// margin:'0.2 0 0.1 0',
+			margin:'0.1 0.1 0.2 0.05',
+			// margin:'0.1',
+			padding: 0,
+			offset: 0.001,
+
+		} );
 
 	// Now that we have a three-mesh-ui Block, we can add three-mesh-ui Text's in it
 	rootBlock3.add(
@@ -395,19 +408,7 @@ function step2BuildThreeMeshUIElements() {
 
 		} ),
 
-		new ThreeMeshUI.Block( {
-			// three-mesh-ui Text should defined their content to display
-			backgroundColor: new THREE.Color(0xff9900),
-			width: 0.1,
-			height: 0.1,
-			margin:'0.1 0.05 0.2 0.1',
-			// margin:'0.2 0 0.1 0',
-			// margin:'0.1 0.1 0.2 0.05',
-			// margin:'0.1',
-			padding: 0,
-			offset: 0.001,
-
-		} ),
+		childWithMargin,
 
 		new ThreeMeshUI.Block( {
 			// three-mesh-ui Text should defined their content to display
@@ -422,7 +423,8 @@ function step2BuildThreeMeshUIElements() {
 
 	);
 
-	new BoxLayoutBehavior( rootBlock3 );
+	new BoxLayoutBehavior( rootBlock3 ).attach();
+	new BoxLayoutBehavior( childWithMargin ).attach();
 
 
 
@@ -488,7 +490,7 @@ function step2BuildThreeMeshUIElements() {
 
 	);
 
-	new BoxLayoutBehavior( rootBlock4 );
+	new BoxLayoutBehavior( rootBlock4 ).attach();
 
 
 	let settingIndex = -1;
@@ -503,7 +505,7 @@ function step2BuildThreeMeshUIElements() {
 		rootBlock2.set( settings[settingIndex] );
 		rootBlock3.set( settings[settingIndex] );
 		rootBlock4.set( settings[settingIndex] );
-	}, 60)
+	}, 150)
 
 
 }

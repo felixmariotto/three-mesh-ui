@@ -1,14 +1,17 @@
 import { Vector3 } from 'three';
+import Behavior from '../../../src/utils/Behavior';
 
-export default class BoundsUVBehavior {
+export default class BoundsUVBehavior extends Behavior {
 
 	/**
 	 *
-	 * @param {MeshUIComponent} reference
+	 * @param {MeshUIComponent} subject
 	 * @param {Array.<MeshUIComponent|Mesh|Object3D>|MeshUIComponent|Mesh|Object3D} targets
 	 * @param {"uv","uv2","uvG"} uvSet
 	 */
-	constructor( reference, targets, uvSet = 'uv' ) {
+	constructor( subject, targets, uvSet = 'uv' ) {
+
+		super( subject );
 
 		if ( !Array.isArray( targets ) ) {
 
@@ -16,63 +19,79 @@ export default class BoundsUVBehavior {
 
 		}
 
-		reference.addAfterUpdate( function () {
+		this._targets = targets;
 
-			if ( reference.children.length > 0 ) {
+		this._uvSet = uvSet;
 
-				/**
-				 * @Type {Mesh}
-				 */
-				const firstChild = reference.children[ 0 ];
+	}
 
-				// be sure that box is computed before acquiring it
-				// @NOTES : `text.children[0]` can currently work because `mergedGeometries`
-				firstChild.geometry.computeBoundingBox();
+	attach() {
 
-				// this will return a THREE.Box3
-				const bBox = firstChild.geometry.boundingBox;
+		this._subject.addAfterUpdate( this.act );
 
-				// compute the current bounding box with the world matrix
-				bBox.applyMatrix4( firstChild.matrixWorld );
+	}
 
-				// Using the reference THREE.Box3, we can compute
-				// the width and the height of the whole geometry
-				//    optionally the depth, but we don't need it for that sample
-				const geometryW = bBox.max.x - bBox.min.x;
-				const geometryH = bBox.max.y - bBox.min.y;
-				// const depth = bBox.max.z - bBox.min.z;
+	detach() {
 
-				// Apply those uv for each targets
-				for ( let i = 0; i < targets.length; i++ ) {
+		this._subject.removeAfterUpdate( this.act );
 
-					let target = targets[ i ];
-					if ( target.children && target.children.length ) {
+	}
 
-						target = target.children[ 0 ];
+	act = () => {
 
-					}
+		if ( this._subject.children.length > 0 ) {
 
-					if ( target.type !== 'Mesh' ) continue;
+			/**
+			 * @Type {Mesh}
+			 */
+			const firstChild = this._subject.children[ 0 ];
 
-					const positionAttribute = target.geometry.getAttribute( 'position' );
-					const uvAttribute = target.geometry.getAttribute( uvSet );
+			// be sure that box is computed before acquiring it
+			// @NOTES : `text.children[0]` can currently work because `mergedGeometries`
+			firstChild.geometry.computeBoundingBox();
 
-					const vertex = new Vector3();
-					for ( let i = 0; i < positionAttribute.count; i++ ) {
+			// this will return a THREE.Box3
+			const bBox = firstChild.geometry.boundingBox;
 
-						vertex.fromBufferAttribute( positionAttribute, i );
+			// compute the current bounding box with the world matrix
+			bBox.applyMatrix4( firstChild.matrixWorld );
 
-						uvAttribute.setXY( i, ( vertex.x / geometryW ) + 0.5, ( vertex.y / geometryH ) + 0.5 );
+			// Using the subject THREE.Box3, we can compute
+			// the width and the height of the whole geometry
+			//    optionally the depth, but we don't need it for that sample
+			const geometryW = bBox.max.x - bBox.min.x;
+			const geometryH = bBox.max.y - bBox.min.y;
+			// const depth = bBox.max.z - bBox.min.z;
 
-					}
+			// Apply those uv for each targets
+			for ( let i = 0; i < this._targets.length; i++ ) {
 
-					uvAttribute.needsUpdate = true;
+				let target = this._targets[ i ];
+				if ( target.children && target.children.length ) {
+
+					target = target.children[ 0 ];
 
 				}
 
+				if ( target.type !== 'Mesh' ) continue;
+
+				const positionAttribute = target.geometry.getAttribute( 'position' );
+				const uvAttribute = target.geometry.getAttribute( this._uvSet );
+
+				const vertex = new Vector3();
+				for ( let i = 0; i < positionAttribute.count; i++ ) {
+
+					vertex.fromBufferAttribute( positionAttribute, i );
+
+					uvAttribute.setXY( i, ( vertex.x / geometryW ) + 0.5, ( vertex.y / geometryH ) + 0.5 );
+
+				}
+
+				uvAttribute.needsUpdate = true;
+
 			}
 
-		});
+		}
 
 	}
 

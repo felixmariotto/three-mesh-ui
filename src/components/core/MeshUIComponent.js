@@ -8,7 +8,7 @@ import DEFAULTS from '../../utils/Defaults.js';
 import FontFamily from '../../font/FontFamily';
 import * as FontWeight from '../../utils/font/FontWeight';
 import * as FontStyle from '../../utils/font/FontStyle';
-import Behavior from '../../behaviors/Behavior';
+import Behavior from '../../utils/Behavior';
 import Lines from './Lines';
 
 
@@ -609,19 +609,9 @@ export default class MeshUIComponent extends Object3D {
 
 		}
 
-		performAfterUpdate() {
-
-			for ( let i = 0; i < this._onAfterUpdates.length; i++ ) {
-
-				this._onAfterUpdates[ i ]();
-
-			}
-
-		}
-
 		/**
 		 *
-		 * @param func
+		 * @param {Function} func
 		 */
 		set onAfterUpdate( func ) {
 
@@ -630,6 +620,10 @@ export default class MeshUIComponent extends Object3D {
 
 		}
 
+	/**
+	 *
+	 * @param {Function} func
+	 */
 		addAfterUpdate( func ) {
 
 			this._onAfterUpdates.push( func );
@@ -638,76 +632,24 @@ export default class MeshUIComponent extends Object3D {
 
 		/**
 		 *
-		 * @TODO: Adding a new hook should no be direct, but delayed before or after performing the hookLoop
-		 * @param {string} type
-		 * @param {function|Behavior} newHook
-		 * @param {number} priority
+		 * @param {Function} func
 		 */
-		hook( type, newHook, priority = 10) {
+		removeAfterUpdate( func ) {
 
-			if ( !this._hooks[ type ] ) {
+			const index = this._onAfterUpdates.indexOf( func );
+			if( index !== -1 ) {
 
-				console.error(`MeshUIComponent::hook() - The provided type('${type}') is not valid on ${typeof this} component`);
-				return;
-
-			}
-
-			if ( !(newHook instanceof Behavior) ){
-
-				newHook = { priority, act: newHook };
-
-			}
-
-			if( this._hooks[type].find( h => h.act === newHook.act ) ) {
-
-				console.error(`MeshUIComponent::hook() - The provided func('${newHook.act}') is already registered in hooks. Aborted`);
-				return;
-
-			}
-
-			type._hooks[type].push( newHook );
-			type._hooks[type].sort( ( a, b ) => {
-				if( a.priority < b.priority ) return - 1;
-				if( a.priority > b.priority ) return 1;
-				return 0;
-			});
-
-		}
-
-		/**
-		 *
-		 * @param {string} type
-		 * @param {function|Behavior} hookToRemove
-		 */
-		unhook( type, hookToRemove ) {
-
-			if ( !this._hooks[ type ] ) {
-
-				console.error(`MeshUIComponent::unhook() - The provided type('${type}') is not valid on ${typeof this} component`);
-				return;
-
-			}
-
-			if ( !(hookToRemove instanceof Behavior) ) {
-
-				hookToRemove = { act: hookToRemove };
-
-			}
-
-			const indexToRemove = this._hooks[type].findIndex( h => h.act === hookToRemove.act )
-			if( indexToRemove !== -1 ) {
-
-				this._hooks[type].splice( indexToRemove, 1 );
+				this._onAfterUpdates.splice( index, 1 );
 
 			}
 
 		}
 
-		performHooks( hooks , alterable = null ) {
+		performAfterUpdate() {
 
-			for ( let i = 0; i < hooks.length; i++ ) {
+			for ( let i = 0; i < this._onAfterUpdates.length; i++ ) {
 
-				hooks[ i ]( alterable );
+				this._onAfterUpdates[ i ]();
 
 			}
 
