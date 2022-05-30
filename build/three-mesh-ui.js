@@ -47,9 +47,45 @@
 /************************************************************************/
 var __webpack_exports__ = {};
 
-// UNUSED EXPORTS: Block, FontLibrary, InlineBlock, Keyboard, Text, default, textAlign, update, whiteSpace
+// UNUSED EXPORTS: AlignItems, Block, ContentDirection, FontLibrary, InlineBlock, JustifyContent, Keyboard, Text, TextAlign, Whitespace, default, update
 
-// NAMESPACE OBJECT: ./src/utils/Whitespace.js
+// NAMESPACE OBJECT: ./src/utils/block-layout/ContentDirection.js
+var ContentDirection_namespaceObject = {};
+__webpack_require__.r(ContentDirection_namespaceObject);
+__webpack_require__.d(ContentDirection_namespaceObject, {
+  "COLUMN": () => (COLUMN),
+  "COLUMN_REVERSE": () => (COLUMN_REVERSE),
+  "ROW": () => (ROW),
+  "ROW_REVERSE": () => (ROW_REVERSE),
+  "contentDirection": () => (contentDirection)
+});
+
+// NAMESPACE OBJECT: ./src/utils/block-layout/AlignItems.js
+var AlignItems_namespaceObject = {};
+__webpack_require__.r(AlignItems_namespaceObject);
+__webpack_require__.d(AlignItems_namespaceObject, {
+  "CENTER": () => (CENTER),
+  "END": () => (END),
+  "START": () => (START),
+  "STRETCH": () => (STRETCH),
+  "alignItems": () => (alignItems),
+  "warnAboutDeprecatedAlignItems": () => (warnAboutDeprecatedAlignItems)
+});
+
+// NAMESPACE OBJECT: ./src/utils/block-layout/JustifyContent.js
+var JustifyContent_namespaceObject = {};
+__webpack_require__.r(JustifyContent_namespaceObject);
+__webpack_require__.d(JustifyContent_namespaceObject, {
+  "CENTER": () => (JustifyContent_CENTER),
+  "END": () => (JustifyContent_END),
+  "SPACE_AROUND": () => (SPACE_AROUND),
+  "SPACE_BETWEEN": () => (SPACE_BETWEEN),
+  "SPACE_EVENLY": () => (SPACE_EVENLY),
+  "START": () => (JustifyContent_START),
+  "justifyContent": () => (justifyContent)
+});
+
+// NAMESPACE OBJECT: ./src/utils/inline-layout/Whitespace.js
 var Whitespace_namespaceObject = {};
 __webpack_require__.r(Whitespace_namespaceObject);
 __webpack_require__.d(Whitespace_namespaceObject, {
@@ -61,26 +97,331 @@ __webpack_require__.d(Whitespace_namespaceObject, {
   "WHITE_CHARS": () => (WHITE_CHARS),
   "collapseWhitespaceOnInlines": () => (collapseWhitespaceOnInlines),
   "collapseWhitespaceOnString": () => (collapseWhitespaceOnString),
+  "isValid": () => (isValid),
   "newlineBreakability": () => (newlineBreakability),
   "shouldBreak": () => (Whitespace_shouldBreak)
 });
 
-// NAMESPACE OBJECT: ./src/utils/TextAlign.js
+// NAMESPACE OBJECT: ./src/utils/inline-layout/TextAlign.js
 var TextAlign_namespaceObject = {};
 __webpack_require__.r(TextAlign_namespaceObject);
 __webpack_require__.d(TextAlign_namespaceObject, {
-  "CENTER": () => (CENTER),
+  "CENTER": () => (TextAlign_CENTER),
   "JUSTIFY": () => (JUSTIFY),
   "JUSTIFY_CENTER": () => (JUSTIFY_CENTER),
   "JUSTIFY_LEFT": () => (JUSTIFY_LEFT),
   "JUSTIFY_RIGHT": () => (JUSTIFY_RIGHT),
   "LEFT": () => (LEFT),
   "RIGHT": () => (RIGHT),
-  "alignLines": () => (alignLines)
+  "textAlign": () => (textAlign)
 });
 
 ;// CONCATENATED MODULE: external "THREE"
 const external_THREE_namespaceObject = THREE;
+;// CONCATENATED MODULE: ./src/utils/block-layout/ContentDirection.js
+const ROW = "row";
+const ROW_REVERSE = "row-reverse";
+const COLUMN = "column";
+const COLUMN_REVERSE = "column-reverse";
+
+function contentDirection( container, DIRECTION, startPos, REVERSE ){
+
+	// end to end children
+	let accu = startPos;
+
+	let childGetSize = "getWidth";
+	let axisPrimary = "x";
+	let axisSecondary = "y";
+
+	if( DIRECTION.indexOf( COLUMN ) === 0 ){
+
+		childGetSize = "getHeight";
+		axisPrimary = "y";
+		axisSecondary = "x";
+
+	}
+
+	// Refactor reduce into fori in order to get rid of this keyword
+	for ( let i = 0; i < container.childrenBoxes.length; i++ ) {
+
+		const child = container.childrenBoxes[ i ];
+
+		const CHILD_ID = child.id;
+		const CHILD_SIZE = child[childGetSize]();
+		const CHILD_MARGIN = child.margin || 0;
+
+		accu += CHILD_MARGIN * REVERSE;
+
+		container.childrenPos[ CHILD_ID ] = {
+			[axisPrimary]: accu + ( ( CHILD_SIZE / 2 ) * REVERSE ),
+			[axisSecondary]: 0
+		};
+
+		// update accu for next children
+		accu += ( REVERSE * ( CHILD_SIZE + CHILD_MARGIN ) );
+
+	}
+
+}
+
+;// CONCATENATED MODULE: ./src/utils/block-layout/AlignItems.js
+
+
+
+const START = "start";
+const CENTER = "center";
+const END = "end";
+const STRETCH = "stretch"; // Still bit experimental
+
+function alignItems( boxComponent, DIRECTION){
+
+	const ALIGNMENT = boxComponent.getAlignItems();
+	if( AVAILABLE_ALIGN_ITEMS.indexOf(ALIGNMENT) === -1 ){
+
+		console.warn( `alignItems === '${ALIGNMENT}' is not supported` );
+
+	}
+
+	let getSizeMethod = "getWidth";
+	let axis = "x";
+	if( DIRECTION.indexOf( ROW ) === 0 ){
+
+		getSizeMethod = "getHeight";
+		axis = "y";
+
+	}
+	const AXIS_TARGET = ( boxComponent[getSizeMethod]() / 2 ) - ( boxComponent.padding || 0 );
+
+	boxComponent.childrenBoxes.forEach( ( child ) => {
+
+		let offset;
+
+		switch ( ALIGNMENT ){
+
+			case END:
+			case 'right': // @TODO : Deprecated and will be remove upon 7.x.x
+			case 'bottom': // @TODO : Deprecated and will be remove upon 7.x.x
+				if( DIRECTION.indexOf( ROW ) === 0 ){
+
+					offset = - AXIS_TARGET + ( child[getSizeMethod]() / 2 ) + ( child.margin || 0 );
+
+				}else{
+
+					offset = AXIS_TARGET - ( child[getSizeMethod]() / 2 ) - ( child.margin || 0 );
+
+				}
+
+				break;
+
+			case START:
+			case 'left': // @TODO : Deprecated and will be remove upon 7.x.x
+			case 'top': // @TODO : Deprecated and will be remove upon 7.x.x
+				if( DIRECTION.indexOf( ROW ) === 0 ){
+
+					offset = AXIS_TARGET - ( child[getSizeMethod]() / 2 ) - ( child.margin || 0 );
+
+				}else{
+
+					offset = - AXIS_TARGET + ( child[getSizeMethod]() / 2 ) + ( child.margin || 0 );
+
+				}
+
+				break;
+		}
+
+		boxComponent.childrenPos[ child.id ][axis] = offset || 0;
+
+	} );
+
+}
+
+/**
+ * @deprecated
+ * // @TODO: Be remove upon 7.x.x
+ * @param alignment
+ */
+function warnAboutDeprecatedAlignItems( alignment ){
+
+	if( DEPRECATED_ALIGN_ITEMS.indexOf(alignment) !== - 1){
+
+		console.warn(`alignItems === '${alignment}' is deprecated and will be remove in 7.x.x. Fallback are 'start'|'end'`)
+
+	}
+
+}
+
+const AVAILABLE_ALIGN_ITEMS = [
+	START,
+	CENTER,
+	END,
+	STRETCH,
+	'top', // @TODO: Be remove upon 7.x.x
+	'right', // @TODO: Be remove upon 7.x.x
+	'bottom', // @TODO: Be remove upon 7.x.x
+	'left' // @TODO: Be remove upon 7.x.x
+];
+
+// @TODO: Be remove upon 7.x.x
+const DEPRECATED_ALIGN_ITEMS = [
+	'top',
+	'right',
+	'bottom',
+	'left'
+];
+
+
+;// CONCATENATED MODULE: ./src/utils/block-layout/JustifyContent.js
+const JustifyContent_START = "start";
+const JustifyContent_CENTER = "center";
+const JustifyContent_END = "end";
+const SPACE_AROUND = 'space-around';
+const SPACE_BETWEEN = 'space-between';
+const SPACE_EVENLY = 'space-evenly';
+
+function justifyContent( boxComponent, direction, startPos, REVERSE){
+
+	const JUSTIFICATION = boxComponent.getJustifyContent();
+	if ( AVAILABLE_JUSTIFICATIONS.indexOf( JUSTIFICATION ) === -1 ) {
+
+		console.warn( `justifyContent === '${ JUSTIFICATION }' is not supported` );
+
+	}
+
+	const side = direction.indexOf('row') === 0 ? 'width' : 'height'
+	const usedDirectionSpace = boxComponent.getChildrenSideSum( side );
+
+	const INNER_SIZE = side === 'width' ? boxComponent.getInnerWidth() : boxComponent.getInnerHeight();
+	const remainingSpace = INNER_SIZE - usedDirectionSpace;
+
+	// Items Offset
+	const axisOffset = ( startPos * 2 ) - ( usedDirectionSpace * Math.sign( startPos ) );
+	// const axisOffset = ( startPos * 2 ) - ( usedDirectionSpace * REVERSE );
+	const justificationOffset = _getJustificationOffset( JUSTIFICATION, axisOffset );
+
+	// Items margin
+	const justificationMargins = _getJustificationMargin( boxComponent.childrenBoxes, remainingSpace, JUSTIFICATION, REVERSE );
+
+	// Apply
+	const axis = direction.indexOf( 'row' ) === 0 ? "x" : "y"
+	boxComponent.childrenBoxes.forEach( ( child , childIndex ) => {
+
+		boxComponent.childrenPos[ child.id ][axis] -= justificationOffset - justificationMargins[childIndex];
+
+	} );
+}
+
+const AVAILABLE_JUSTIFICATIONS = [
+	JustifyContent_START,
+	JustifyContent_CENTER,
+	JustifyContent_END,
+	SPACE_AROUND,
+	SPACE_BETWEEN,
+	SPACE_EVENLY
+];
+
+/**
+ *
+ * @param {string} justification
+ * @param {number} axisOffset
+ * @returns {number}
+ */
+function _getJustificationOffset( justification, axisOffset ){
+
+	// Only end and center have justification offset
+	switch ( justification ){
+
+		case JustifyContent_END:
+			return axisOffset;
+
+		case JustifyContent_CENTER:
+			return axisOffset / 2;
+	}
+
+	return 0;
+}
+
+/**
+ *
+ * @param items
+ * @param spaceToDistribute
+ * @param justification
+ * @param reverse
+ * @returns {any[]}
+ */
+function _getJustificationMargin( items, spaceToDistribute, justification, reverse ){
+
+	const justificationMargins = Array( items.length ).fill( 0 );
+
+	if ( spaceToDistribute > 0 ) {
+
+		// Only space-*  have justification margin betweem items
+		switch ( justification ) {
+
+			case SPACE_BETWEEN:
+				// only one children would act as start
+				if ( items.length > 1 ) {
+
+					const margin = spaceToDistribute / ( items.length - 1 ) * reverse;
+					// set this margin for any children
+
+					// except for first child
+					justificationMargins[ 0 ] = 0;
+
+					for ( let i = 1; i < items.length; i++ ) {
+
+						justificationMargins[ i ] = margin * i;
+
+					}
+
+				}
+
+				break;
+
+			case SPACE_EVENLY:
+				// only one children would act as start
+				if ( items.length > 1 ) {
+
+					const margin = spaceToDistribute / ( items.length + 1 ) * reverse;
+
+					// set this margin for any children
+					for ( let i = 0; i < items.length; i++ ) {
+
+						justificationMargins[ i ] = margin * ( i + 1 );
+
+					}
+
+				}
+
+				break;
+
+			case SPACE_AROUND:
+				// only one children would act as start
+				if ( items.length > 1 ) {
+
+					const margin = spaceToDistribute / ( items.length ) * reverse;
+
+					const start = margin / 2;
+					justificationMargins[ 0 ] = start;
+
+					// set this margin for any children
+					for ( let i = 1; i < items.length; i++ ) {
+
+						justificationMargins[ i ] = start + margin * i;
+
+					}
+
+				}
+
+				break;
+
+		}
+
+	}
+
+	return justificationMargins;
+
+}
+
 ;// CONCATENATED MODULE: ./src/components/core/BoxComponent.js
 /**
 
@@ -94,8 +435,9 @@ as children, or only inline components (Text, InlineBlock).
 
  */
 
-// @TODO : Fix the camelcase issue by refactoring
-/* eslint-disable camelcase */
+
+
+
 
 function BoxComponent( Base ) {
 
@@ -160,9 +502,7 @@ function BoxComponent( Base ) {
 		/** Return the sum of all this component's children sides + their margin */
 		getChildrenSideSum( dimension ) {
 
-			return this.children.reduce( ( accu, child ) => {
-
-				if ( !child.isBoxComponent ) return accu;
+			return this.childrenBoxes.reduce( ( accu, child ) => {
 
 				const margin = ( child.margin * 2 ) || 0;
 
@@ -179,10 +519,10 @@ function BoxComponent( Base ) {
 		/** Look in parent record what is the instructed position for this component, then set its position */
 		setPosFromParentRecords() {
 
-			if ( this.getUIParent() && this.getUIParent().childrenPos[ this.id ] ) {
+			if ( this.parentUI && this.parentUI.childrenPos[ this.id ] ) {
 
-				this.position.x = ( this.getUIParent().childrenPos[ this.id ].x );
-				this.position.y = ( this.getUIParent().childrenPos[ this.id ].y );
+				this.position.x = ( this.parentUI.childrenPos[ this.id ].x );
+				this.position.y = ( this.parentUI.childrenPos[ this.id ].y );
 
 			}
 
@@ -194,349 +534,34 @@ function BoxComponent( Base ) {
 			if ( this.children.length > 0 ) {
 
 				const DIRECTION = this.getContentDirection();
-				let X_START, Y_START;
+				let directionalOffset;
 
 				switch ( DIRECTION ) {
 
-					case 'row' :
-
-						// start position of the children positioning inside this component
-						X_START = this.getInnerWidth() / 2;
-
-						this.setChildrenXPos( -X_START );
-
-						this.alignChildrenOnY();
-
+					case ROW :
+						directionalOffset = - this.getInnerWidth() / 2;
 						break;
 
-					case 'row-reverse' :
-
-						// start position of the children positioning inside this component
-						X_START = this.getInnerWidth() / 2;
-
-						this.setChildrenXPos( X_START );
-
-						this.alignChildrenOnY();
-
+					case ROW_REVERSE :
+						directionalOffset = this.getInnerWidth() / 2;
 						break;
 
-					case 'column' :
-
-						// start position of the children positioning inside this component
-						Y_START = this.getInnerHeight() / 2;
-
-						this.setChildrenYPos( Y_START );
-
-						this.alignChildrenOnX();
-
+					case COLUMN :
+						directionalOffset = this.getInnerHeight() / 2;
 						break;
 
-					case 'column-reverse' :
-
-						// start position of the children positioning inside this component
-						Y_START = this.getInnerHeight() / 2;
-
-						this.setChildrenYPos( -Y_START );
-
-						this.alignChildrenOnX();
-
+					case COLUMN_REVERSE :
+						directionalOffset = - this.getInnerHeight() / 2;
 						break;
 
 				}
 
+				const REVERSE = - Math.sign( directionalOffset );
+
+				contentDirection(this, DIRECTION, directionalOffset, REVERSE );
+				justifyContent(this, DIRECTION, directionalOffset, REVERSE );
+				alignItems( this, DIRECTION );
 			}
-
-		}
-
-		/**
-		 * Place child end to end and accumulate (ROW)
-		 * @param accu
-		 * @param child
-		 * @returns {*}
-		 */
-		direction__rowEndToEndChildren = ( accu, child ) => {
-
-			const CHILD_ID = child.id;
-			const CHILD_WIDTH = child.getWidth();
-			const CHILD_MARGIN = child.margin || 0;
-			const INVERTER = this.signInvertor;
-
-			accu += CHILD_MARGIN * INVERTER;
-
-			this.childrenPos[ CHILD_ID ] = {
-				x: accu + ( ( CHILD_WIDTH / 2 ) * INVERTER ),
-				y: 0
-			};
-
-			return accu + ( INVERTER * ( CHILD_WIDTH + CHILD_MARGIN ) );
-
-		}
-
-		/**
-		 * Place child end to end and accumulate (COLUMN)
-		 * @param accu
-		 * @param child
-		 * @returns {*}
-		 */
-		direction__columnEndToEndChildren = ( accu, child ) => {
-
-			const CHILD_ID = child.id;
-			const CHILD_HEIGHT = child.getHeight();
-			const CHILD_MARGIN = child.margin || 0;
-			const INVERTER = this.signInvertor;
-
-			accu += CHILD_MARGIN * INVERTER;
-
-			this.childrenPos[ CHILD_ID ] = {
-				x: 0,
-				y: accu + ( ( CHILD_HEIGHT / 2 ) * INVERTER )
-			};
-
-			return accu + ( INVERTER * ( CHILD_HEIGHT + CHILD_MARGIN ) );
-
-		}
-
-		/**
-		 *
-		 * @param {string} justification
-		 * @param {number} axisOffset
-		 * @returns {number}
-		 */
-		justification__getJustificationOffset( justification, axisOffset ){
-
-			// Only end and center have justification offset
-			switch ( justification ){
-
-				case "end":
-					return axisOffset;
-
-				case "center":
-					return axisOffset / 2;
-			}
-
-			return 0;
-		}
-
-		/**
-		 *
-		 * @param items
-		 * @param spaceToDistribute
-		 * @param justification
-		 * @returns {any[]}
-		 */
-		justification__getJustificationMargin( items, spaceToDistribute, justification ){
-			const justificationMargins = Array( items.length ).fill( 0 );
-
-			if ( spaceToDistribute > 0 ) {
-
-				// Only space-*  have justification margin betweem items
-				switch ( justification ) {
-
-					case "space-between":
-						// only one children would act as start
-						if ( items.length > 1 ) {
-
-							const margin = spaceToDistribute / ( items.length - 1 ) * this.signInvertor;
-							// set this margin for any children
-
-							// except for first child
-							justificationMargins[ 0 ] = 0;
-
-							for ( let i = 1; i < items.length; i++ ) {
-
-								justificationMargins[ i ] = margin * i;
-
-							}
-
-						}
-
-						break;
-
-					case "space-evenly":
-						// only one children would act as start
-						if ( items.length > 1 ) {
-
-							const margin = spaceToDistribute / ( items.length + 1 ) * this.signInvertor;
-
-							// set this margin for any children
-							for ( let i = 0; i < items.length; i++ ) {
-
-								justificationMargins[ i ] = margin * ( i + 1 );
-
-							}
-
-						}
-
-						break;
-
-					case "space-around":
-						// only one children would act as start
-						if ( items.length > 1 ) {
-
-							const margin = spaceToDistribute / ( items.length ) * this.signInvertor;
-
-							const start = margin / 2;
-							justificationMargins[ 0 ] = start;
-
-							// set this margin for any children
-							for ( let i = 1; i < items.length; i++ ) {
-
-								justificationMargins[ i ] = start + margin * i;
-
-							}
-
-						}
-
-						break;
-
-				}
-
-			}
-
-			return justificationMargins;
-
-		}
-
-		/** Set children X position according to this component dimension and attributes */
-		setChildrenXPos( startPos ) {
-
-			const JUSTIFICATION = this.getJustifyContent();
-			if ( AVAILABLE_JUSTIFICATIONS.indexOf( JUSTIFICATION ) === -1 ) {
-
-				console.warn( `justifyContent === '${ JUSTIFICATION }' is not supported` );
-
-			}
-
-			// only work on boxChildren
-			const boxChildren = this.children.filter( _boxChildrenFilter );
-
-			// end to end children
-			this.signInvertor = - Math.sign( startPos );
-			boxChildren.reduce( this.direction__rowEndToEndChildren , startPos );
-
-
-			const usedDirectionSpace = this.getChildrenSideSum( 'width' );
-			const remainingSpace = this.getInnerWidth() - usedDirectionSpace;
-
-			// Items Offset
-			const axisOffset = ( startPos * 2 ) - ( usedDirectionSpace * Math.sign( startPos ) );
-			const justificationOffset = this.justification__getJustificationOffset( JUSTIFICATION, axisOffset );
-
-			// Items margin
-			const justificationMargins = this.justification__getJustificationMargin( boxChildren, remainingSpace, JUSTIFICATION );
-
-			// Apply
-			boxChildren.forEach( ( child , childIndex ) => {
-
-				this.childrenPos[ child.id ].x -= justificationOffset - justificationMargins[childIndex];
-
-			} );
-
-		}
-
-		/** Set children Y position according to this component dimension and attributes */
-		setChildrenYPos( startPos ) {
-
-			const JUSTIFICATION = this.getJustifyContent();
-			if ( AVAILABLE_JUSTIFICATIONS.indexOf(JUSTIFICATION) === -1 ){
-
-				console.warn( `justifyContent === '${ JUSTIFICATION }' is not supported` );
-
-			}
-
-			// only process on boxChildren
-			const boxChildren = this.children.filter( _boxChildrenFilter );
-
-			// end to end children
-			this.signInvertor = - Math.sign( startPos );
-			boxChildren.reduce( this.direction__columnEndToEndChildren , startPos );
-
-			//
-			const usedDirectionSpace = this.getChildrenSideSum( 'height' );
-			const remainingSpace = this.getInnerHeight() - usedDirectionSpace;
-
-			// Items Offset
-			const axisOffset = ( startPos * 2 ) - ( usedDirectionSpace * Math.sign( startPos ) );
-			const justificationOffset = this.justification__getJustificationOffset( JUSTIFICATION, axisOffset);
-
-			// Items margin
-			const justificationMargins = this.justification__getJustificationMargin( boxChildren, remainingSpace, JUSTIFICATION);
-
-			// Apply
-			boxChildren.forEach( ( child, childIndex ) => {
-
-				this.childrenPos[ child.id ].y -= justificationOffset - justificationMargins[childIndex];
-
-			} );
-
-		}
-
-		/** called if justifyContent is 'column' or 'column-reverse', it align the content horizontally */
-		alignChildrenOnX() {
-
-			const ALIGNMENT = this.getAlignItems();
-			const X_TARGET = ( this.getWidth() / 2 ) - ( this.padding || 0 );
-
-			if( AVAILABLE_ALIGN_ITEMS.indexOf(ALIGNMENT) === -1 ){
-
-				console.warn( `alignItems === '${ALIGNMENT}' is not supported` );
-
-			}
-
-			this.children.forEach( ( child ) => {
-
-				if ( !child.isBoxComponent ) return;
-
-				let offset;
-
-				if ( ALIGNMENT === 'right' || ALIGNMENT === 'end' ) {
-
-					offset = X_TARGET - ( child.getWidth() / 2 ) - ( child.margin || 0 );
-
-				} else if ( ALIGNMENT === 'left' || ALIGNMENT === 'start' ) {
-
-					offset = -X_TARGET + ( child.getWidth() / 2 ) + ( child.margin || 0 );
-
-				}
-
-				this.childrenPos[ child.id ].x = offset || 0;
-
-			} );
-
-		}
-
-		/** called if justifyContent is 'row' or 'row-reverse', it align the content vertically */
-		alignChildrenOnY() {
-
-			const ALIGNMENT = this.getAlignItems();
-			const Y_TARGET = ( this.getHeight() / 2 ) - ( this.padding || 0 );
-
-			if( AVAILABLE_ALIGN_ITEMS.indexOf(ALIGNMENT) === -1 ){
-
-				console.warn( `alignItems === '${ALIGNMENT}' is not supported` );
-
-			}
-
-
-			this.children.forEach( ( child ) => {
-
-				if ( !child.isBoxComponent ) return;
-
-				let offset;
-
-				if ( ALIGNMENT === 'top' || ALIGNMENT === 'start' ) {
-
-					offset = Y_TARGET - ( child.getHeight() / 2 ) - ( child.margin || 0 );
-
-				} else if ( ALIGNMENT === 'bottom' || ALIGNMENT === 'end' ) {
-
-					offset = -Y_TARGET + ( child.getHeight() / 2 ) + ( child.margin || 0 );
-
-				}
-
-				this.childrenPos[ child.id ].y = offset || 0;
-
-			} );
 
 		}
 
@@ -546,9 +571,7 @@ function BoxComponent( Base ) {
 		 */
 		getHighestChildSizeOn( direction ) {
 
-			return this.children.reduce( ( accu, child ) => {
-
-				if ( !child.isBoxComponent ) return accu;
+			return this.childrenBoxes.reduce( ( accu, child ) => {
 
 				const margin = child.margin || 0;
 				const maxSize = direction === 'width' ?
@@ -570,11 +593,11 @@ function BoxComponent( Base ) {
 
 			// This is for stretch alignment
 			// @TODO : Conceive a better performant way
-			if( this.parent && this.parent.isUI && this.parent.getAlignItems() === 'stretch' ){
+			if( this.parentUI && this.parentUI.getAlignItems() === 'stretch' ){
 
-				if( this.parent.getContentDirection().indexOf('column') !== -1 ){
+				if( this.parentUI.getContentDirection().indexOf('column') !== -1 ){
 
-					return this.parent.getWidth() -  ( this.parent.padding * 2 || 0 );
+					return this.parentUI.getWidth() -  ( this.parentUI.padding * 2 || 0 );
 
 				}
 
@@ -593,11 +616,11 @@ function BoxComponent( Base ) {
 
 			// This is for stretch alignment
 			// @TODO : Conceive a better performant way
-			if( this.parent && this.parent.isUI && this.parent.getAlignItems() === 'stretch' ){
+			if( this.parentUI && this.parentUI.getAlignItems() === 'stretch' ){
 
-				if( this.parent.getContentDirection().indexOf('row') !== -1 ){
+				if( this.parentUI.getContentDirection().indexOf('row') !== -1 ){
 
-					return this.parent.getHeight() - ( this.parent.padding * 2 || 0 );
+					return this.parentUI.getHeight() - ( this.parentUI.padding * 2 || 0 );
 
 				}
 
@@ -612,31 +635,7 @@ function BoxComponent( Base ) {
 }
 
 
-const AVAILABLE_JUSTIFICATIONS = [
-	'start',
-	'center',
-	'end',
-	'space-around',
-	'space-between',
-	'space-evenly'
-];
-
-const AVAILABLE_ALIGN_ITEMS = [
-	'start',
-	'center',
-	'end',
-	'stretch',
-	'top', // @TODO: Be remove upon 7.x.x
-	'right', // @TODO: Be remove upon 7.x.x
-	'bottom', // @TODO: Be remove upon 7.x.x
-	'left' // @TODO: Be remove upon 7.x.x
-];
-
-const _boxChildrenFilter = c => c.isBoxComponent;
-
-/* eslint-enable camelcase */
-
-;// CONCATENATED MODULE: ./src/utils/Whitespace.js
+;// CONCATENATED MODULE: ./src/utils/inline-layout/Whitespace.js
 /**
  * @see https://developer.mozilla.org/en-US/docs/Web/API/Document_Object_Model/Whitespace#whitespace_helper_functions
  *
@@ -656,6 +655,28 @@ const NOWRAP = 'nowrap';
 const PRE = 'pre';
 const PRE_LINE = 'pre-line';
 const PRE_WRAP = 'pre-wrap';
+
+const AVAILABLE_VALUES = [ NORMAL, NOWRAP, PRE, PRE_LINE, PRE_WRAP ];
+
+/**
+ * Check the validity of a whitespace
+ * @param value
+ * @returns {string}
+ */
+function isValid ( value ){
+
+	if( AVAILABLE_VALUES.indexOf(value) === -1 ){
+
+		console.warn(`Whitespace::isValid() The provided white-space value ('${value}') is not valid !`);
+		console.warn(`    - Automatic fallback to ('${PRE_LINE}')`);
+
+		value = PRE_LINE;
+
+	}
+
+	return value;
+
+}
 
 /**
  * Collapse whitespaces and sequence of whitespaces on string
@@ -691,7 +712,7 @@ const collapseWhitespaceOnString = function ( textContent, whiteSpace ) {
  * Get the breakability of a newline character according to white-space property
  *
  * @param whiteSpace
- * @returns {string}
+ * @returns {string|null}
  */
 const newlineBreakability = function ( whiteSpace ) {
 
@@ -701,13 +722,13 @@ const newlineBreakability = function ( whiteSpace ) {
 		case PRE_WRAP:
 		case PRE_LINE:
 			return 'mandatory';
-
-		case NOWRAP:
-		case NORMAL:
-		default:
-		// do not automatically break on newline
-
 	}
+
+	// case NOWRAP:
+	// case NORMAL:
+	// default:
+
+	return null;
 
 };
 
@@ -732,13 +753,15 @@ const Whitespace_shouldBreak = function( inlines, i, lastInlineOffset, options){
 			// prevent additional computation if line break is mandatory
 			if( inline.lineBreak === 'mandatory' ) return true;
 
+			// Part of inline now
+			// const kerning = inline.kerning ? inline.kerning : 0;
+			// const xoffset = inline.xoffset ? inline.xoffset : 0;
+			// const xadvance = inline.xadvance ? inline.xadvance : inline.width;
 
-			const kerning = inline.kerning ? inline.kerning : 0;
-			const xoffset = inline.xoffset ? inline.xoffset : 0;
-			const xadvance = inline.xadvance ? inline.xadvance : inline.width;
 
+			// ?? Missing letterSpacing ?
 			// prevent additional computation if this character already exceed the available size
-			if( lastInlineOffset + xadvance + xoffset + kerning > options.INNER_WIDTH ) return true;
+			if( lastInlineOffset + inline.xadvance + inline.xoffset + inline.kerning > options.INNER_WIDTH ) return true;
 
 
 			const nextBreak = _distanceToNextBreak( inlines, i, options );
@@ -774,14 +797,14 @@ const collapseWhitespaceOnInlines = function ( line, whiteSpace ) {
 		case PRE_WRAP:
 			// only process whiteChars glyphs inlines
 			// if( firstInline.glyph && whiteChars[firstInline.glyph] && line.length > 1 ){
-			if ( firstInline.glyph && firstInline.glyph === '\n' && line.length > 1 ) {
+			if ( firstInline.char && firstInline.char === '\n' && line.length > 1 ) {
 
 				_collapseLeftInlines( [ firstInline ], line[ 1 ] );
 
 			}
 
 			// if( lastInline.glyph && whiteChars[lastInline.glyph] && line.length > 1 ){
-			if ( lastInline.glyph && lastInline.glyph === '\n' && line.length > 1 ) {
+			if ( lastInline.char && lastInline.char === '\n' && line.length > 1 ) {
 
 				_collapseRightInlines( [ lastInline ], line[ line.length - 2 ] );
 
@@ -800,7 +823,7 @@ const collapseWhitespaceOnInlines = function ( line, whiteSpace ) {
 
 				const inline = line[ i ];
 
-				if ( inline.glyph && WHITE_CHARS[ inline.glyph ] && line.length > i ) {
+				if ( inline.char && WHITE_CHARS[ inline.char ] && line.length > i ) {
 
 					inlinesToCollapse.push( inline );
 					collapsingTarget = line[ i + 1 ];
@@ -821,7 +844,7 @@ const collapseWhitespaceOnInlines = function ( line, whiteSpace ) {
 			for ( let i = line.length - 1; i > 0; i-- ) {
 
 				const inline = line[ i ];
-				if ( inline.glyph && WHITE_CHARS[ inline.glyph ] && i > 0 ) {
+				if ( inline.char && WHITE_CHARS[ inline.char ] && i > 0 ) {
 
 					inlinesToCollapse.push( inline );
 					collapsingTarget = line[ i - 1 ];
@@ -870,8 +893,9 @@ function _collapseRightInlines( inlines, targetInline ) {
 
 		const inline = inlines[ i ];
 
-		inline.width = 0;
-		inline.height = 0;
+		// inline.width = 0;
+		// inline.height = 0;
+		inline.fontFactor = 0;
 		inline.offsetX = targetInline.offsetX + targetInline.width;
 
 	}
@@ -892,8 +916,9 @@ function _collapseLeftInlines( inlines, targetInline ) {
 
 		const inline = inlines[ i ];
 
-		inline.width = 0;
-		inline.height = 0;
+		// inline.width = 0;
+		// inline.height = 0;
+		inline.fontFactor = 0;
 		inline.offsetX = targetInline.offsetX;
 
 	}
@@ -913,19 +938,20 @@ function _distanceToNextBreak( inlines, currentIdx, options, accu ) {
 	if ( !inlines[ currentIdx ] ) return accu;
 
 	const inline = inlines[ currentIdx ];
-	const kerning = inline.kerning ? inline.kerning : 0;
-	const xoffset = inline.xoffset ? inline.xoffset : 0;
-	const xadvance = inline.xadvance ? inline.xadvance : inline.width;
+
+	// const kerning = inline.kerning ? inline.kerning : 0;
+	// const xoffset = inline.xoffset ? inline.xoffset : 0;
+	// const xadvance = inline.xadvance ? inline.xadvance : inline.width;
 
 	// if inline.lineBreak is set, it is 'mandatory' or 'possible'
-	if ( inline.lineBreak ) return accu + xadvance;
+	if ( inline.lineBreak ) return accu + inline.xadvance;
 
 	// no line break is possible on this character
 	return _distanceToNextBreak(
 		inlines,
 		currentIdx + 1,
 		options,
-		accu + xadvance + options.LETTERSPACING + xoffset + kerning
+		accu + inline.xadvance + inline.xoffset + inline.kerning + options.LETTERSPACING
 	);
 
 }
@@ -938,26 +964,32 @@ function _distanceToNextBreak( inlines, currentIdx, options, accu ) {
 function _shouldFriendlyBreak( prevChar, lastInlineOffset, nextBreak, options ) {
 
 	// We can't check if last glyph is break-line-friendly it does not exist
-	if ( !prevChar || !prevChar.glyph ) return false;
+	if ( !prevChar || !prevChar.char ) return false;
 
 	// Next break-line-friendly glyph is inside boundary
 	if ( lastInlineOffset + nextBreak < options.INNER_WIDTH ) return false;
 
 	// Previous glyph was break-line-friendly
-	return options.BREAKON.indexOf( prevChar.glyph ) > -1;
+	return options.BREAKON.indexOf( prevChar.char ) > -1;
 
 }
 
-;// CONCATENATED MODULE: ./src/utils/TextAlign.js
+;// CONCATENATED MODULE: ./src/utils/inline-layout/TextAlign.js
 const LEFT = 'left';
 const RIGHT = 'right';
-const CENTER = 'center';
+const TextAlign_CENTER = 'center';
 const JUSTIFY = 'justify';
 const JUSTIFY_LEFT = 'justify-left';
 const JUSTIFY_RIGHT = 'justify-right';
 const JUSTIFY_CENTER = 'justify-center';
 
-function alignLines( lines, ALIGNMENT, INNER_WIDTH ) {
+/**
+ *
+ * @param {Array.<Array.<InlineCharacter>>} lines
+ * @param ALIGNMENT
+ * @param INNER_WIDTH
+ */
+function textAlign( lines, ALIGNMENT, INNER_WIDTH ) {
 
 	// Start the alignment by sticking to directions : left, right, center
 	for ( let i = 0; i < lines.length; i++ ) {
@@ -965,7 +997,7 @@ function alignLines( lines, ALIGNMENT, INNER_WIDTH ) {
 		const line = lines[ i ];
 
 		// compute the alignment offset of the line
-		const offsetX = computeLineOffset( line, ALIGNMENT, INNER_WIDTH, i === lines.length - 1 );
+		const offsetX = _computeLineOffset( line, ALIGNMENT, INNER_WIDTH, i === lines.length - 1 );
 
 		// apply the offset to each characters of the line
 		for ( let j = 0; j < line.length; j++ ) {
@@ -996,7 +1028,7 @@ function alignLines( lines, ALIGNMENT, INNER_WIDTH ) {
 			let validSpaces = 0;
 			for ( let j = 1; j < line.length - 1; j++ ) {
 
-				validSpaces += line[ j ].glyph === ' ' ? 1 : 0;
+				validSpaces += line[ j ].char === ' ' ? 1 : 0;
 
 			}
 			const additionalSpace = REMAINING_SPACE / validSpaces;
@@ -1017,11 +1049,11 @@ function alignLines( lines, ALIGNMENT, INNER_WIDTH ) {
 			for ( let j = 1; j <= line.length - 1; j++ ) {
 
 				// apply offset on each char
-				const char = line[ j ];
-				char.offsetX += incrementalOffsetX * inverter;
+				const inlineCharacter = line[ j ];
+				inlineCharacter.offsetX += incrementalOffsetX * inverter;
 
 				// and increase it when space
-				incrementalOffsetX += char.glyph === ' ' ? additionalSpace : 0;
+				incrementalOffsetX += inlineCharacter.char === ' ' ? additionalSpace : 0;
 
 			}
 
@@ -1038,7 +1070,7 @@ function alignLines( lines, ALIGNMENT, INNER_WIDTH ) {
 }
 
 
-const computeLineOffset = ( line, ALIGNMENT, INNER_WIDTH, lastLine ) => {
+const _computeLineOffset = ( line, ALIGNMENT, INNER_WIDTH, lastLine ) => {
 
 	switch ( ALIGNMENT ) {
 
@@ -1052,7 +1084,7 @@ const computeLineOffset = ( line, ALIGNMENT, INNER_WIDTH, lastLine ) => {
 			return -line.width + ( INNER_WIDTH / 2 );
 
 
-		case CENTER:
+		case TextAlign_CENTER:
 			return -line.width / 2;
 
 		case JUSTIFY_CENTER:
@@ -1089,7 +1121,6 @@ in order to create a line break when necessary. It's Text that merge the various
 in its own updateLayout function.
 
  */
-
 
 
 
@@ -1169,7 +1200,7 @@ function InlineManager( Base ) {
 			} );
 
 			// Horizontal positioning
-			alignLines( lines, ALIGNMENT, INNER_WIDTH );
+			textAlign( lines, ALIGNMENT, INNER_WIDTH );
 
 
 			// Make lines accessible to provide helpful informations
@@ -1180,36 +1211,30 @@ function InlineManager( Base ) {
 
 		calculateBestFit( bestFit ) {
 
-			const inlineChildren = this.children.filter( ( child ) => {
-
-				return child.isInline ? true : false;
-
-			} );
-
-			if ( inlineChildren.length === 0 ) return;
+			if ( this.childrenInlines.length === 0 ) return;
 
 			switch ( bestFit ) {
 				case 'grow':
-					this.calculateGrowFit( inlineChildren );
+					this.calculateGrowFit();
 					break;
 				case 'shrink':
-					this.calculateShrinkFit( inlineChildren );
+					this.calculateShrinkFit();
 					break;
 				case 'auto':
-					this.calculateAutoFit( inlineChildren );
+					this.calculateAutoFit();
 					break;
 			}
 
 		}
 
-		calculateGrowFit( inlineChildren ) {
+		calculateGrowFit() {
 
 			const INNER_HEIGHT = this.getHeight() - ( this.padding * 2 || 0 );
 
 			//Iterative method to find a fontSize of text children that text will fit into container
 			let iterations = 1;
 			const heightTolerance = 0.075;
-			const firstText = inlineChildren.find( inlineComponent => inlineComponent.isText );
+			const firstText = this.childrenInlines.find( inlineComponent => inlineComponent.isText );
 
 			let minFontMultiplier = 1;
 			let maxFontMultiplier = 2;
@@ -1218,13 +1243,13 @@ function InlineManager( Base ) {
 
 			do {
 
-				textHeight = this.calculateHeight( inlineChildren, fontMultiplier );
+				textHeight = this.calculateHeight( fontMultiplier );
 
 				if ( textHeight > INNER_HEIGHT ) {
 
 					if ( fontMultiplier <= minFontMultiplier ) { // can't shrink text
 
-						inlineChildren.forEach( inlineComponent => {
+						this.childrenInlines.forEach( inlineComponent => {
 
 							if ( inlineComponent.isInlineBlock ) return;
 
@@ -1255,14 +1280,14 @@ function InlineManager( Base ) {
 
 		}
 
-		calculateShrinkFit( inlineChildren ) {
+		calculateShrinkFit() {
 
 			const INNER_HEIGHT = this.getHeight() - ( this.padding * 2 || 0 );
 
 			// Iterative method to find a fontSize of text children that text will fit into container
 			let iterations = 1;
 			const heightTolerance = 0.075;
-			const firstText = inlineChildren.find( inlineComponent => inlineComponent.isText );
+			const firstText = this.childrenInlines.find( inlineComponent => inlineComponent.isText );
 
 			let minFontMultiplier = 0;
 			let maxFontMultiplier = 1;
@@ -1271,7 +1296,7 @@ function InlineManager( Base ) {
 
 			do {
 
-				textHeight = this.calculateHeight( inlineChildren, fontMultiplier );
+				textHeight = this.calculateHeight( fontMultiplier );
 
 				if ( textHeight > INNER_HEIGHT ) {
 
@@ -1282,7 +1307,7 @@ function InlineManager( Base ) {
 
 					if ( fontMultiplier >= maxFontMultiplier ) { // can't grow text
 
-						inlineChildren.forEach( inlineComponent => {
+						this.childrenInlines.forEach( inlineComponent => {
 
 							if ( inlineComponent.isInlineBlock ) return;
 
@@ -1305,14 +1330,14 @@ function InlineManager( Base ) {
 			} while ( ++iterations <= 10 );
 		}
 
-		calculateAutoFit( inlineChildren ) {
+		calculateAutoFit()  {
 
 			const INNER_HEIGHT = this.getHeight() - ( this.padding * 2 || 0 );
 
 			//Iterative method to find a fontSize of text children that text will fit into container
 			let iterations = 1;
 			const heightTolerance = 0.075;
-			const firstText = inlineChildren.find( inlineComponent => inlineComponent.isText );
+			const firstText = this.childrenInlines.find( inlineComponent => inlineComponent.isText );
 
 			let minFontMultiplier = 0;
 			let maxFontMultiplier = 2;
@@ -1321,7 +1346,7 @@ function InlineManager( Base ) {
 
 			do {
 
-				textHeight = this.calculateHeight( inlineChildren, fontMultiplier );
+				textHeight = this.calculateHeight( fontMultiplier );
 
 				if ( textHeight > INNER_HEIGHT ) {
 
@@ -1355,12 +1380,7 @@ function InlineManager( Base ) {
 			// correct lines position before to merge
 			const lines = [ [] ];
 
-			this.children.filter( ( child ) => {
-
-				return child.isInline ? true : false;
-
-			} )
-				.reduce( ( lastInlineOffset, inlineComponent ) => {
+			this.childrenInlines.reduce( ( lastInlineOffset, inlineComponent ) => {
 
 					// Abort condition
 
@@ -1384,10 +1404,6 @@ function InlineManager( Base ) {
 
 					const currentInlineInfo = inlineComponent.inlines.reduce( ( lastInlineOffset, inline, i, inlines ) => {
 
-						const kerning = inline.kerning ? inline.kerning : 0;
-						const xoffset = inline.xoffset ? inline.xoffset : 0;
-						const xadvance = inline.xadvance ? inline.xadvance : inline.width;
-
 						// Line break
 						const shouldBreak = Whitespace_shouldBreak(inlines,i,lastInlineOffset, whiteSpaceOptions );
 
@@ -1395,7 +1411,7 @@ function InlineManager( Base ) {
 
 							lines.push( [ inline ] );
 
-							inline.offsetX = xoffset;
+							inline.offsetX = inline.xoffset;
 
 							// restart the lastInlineOffset as zero.
 							if ( inline.width === 0 ) return 0;
@@ -1403,15 +1419,15 @@ function InlineManager( Base ) {
 							// compute lastInlineOffset normally
 							// except for kerning which won't apply
 							// as there is visually no lefthanded glyph to kern with
-							return xadvance + LETTERSPACING;
+							return inline.xadvance + LETTERSPACING;
 
 						}
 
 						lines[ lines.length - 1 ].push( inline );
 
-						inline.offsetX = lastInlineOffset + xoffset + kerning;
+						inline.offsetX = lastInlineOffset + inline.xoffset + inline.kerning;
 
-						return lastInlineOffset + xadvance + kerning + LETTERSPACING;
+						return lastInlineOffset + inline.xadvance + inline.kerning + LETTERSPACING;
 
 					}, lastInlineOffset );
 
@@ -1430,6 +1446,7 @@ function InlineManager( Base ) {
 				line.lineHeight = line.reduce( ( height, inline ) => {
 
 					const charHeight = inline.lineHeight !== undefined ? inline.lineHeight : inline.height;
+					// const charHeight = inline.height;
 
 					return Math.max( height, charHeight );
 
@@ -1440,6 +1457,7 @@ function InlineManager( Base ) {
 				line.lineBase = line.reduce( ( lineBase, inline ) => {
 
 					const newLineBase = inline.lineBase !== undefined ? inline.lineBase : inline.height;
+					// const newLineBase = inline.height;
 
 					return Math.max( lineBase, newLineBase );
 
@@ -1473,9 +1491,9 @@ function InlineManager( Base ) {
 			return lines;
 		}
 
-		calculateHeight( inlineChildren, fontMultiplier ) {
+		calculateHeight( fontMultiplier ) {
 
-			inlineChildren.forEach( inlineComponent => {
+			this.childrenInlines.forEach( inlineComponent => {
 
 				if ( inlineComponent.isInlineBlock ) return;
 
@@ -1510,7 +1528,8 @@ function InlineManager( Base ) {
 
 			const lastInline = line[ line.length - 1 ];
 
-			return Math.abs( firstInline.offsetX - ( lastInline.offsetX + lastInline.width ) );
+			// Right + Left ( left is negative )
+			return (lastInline.offsetX + lastInline.width) + firstInline.offsetX;
 
 		}
 
@@ -1518,247 +1537,1341 @@ function InlineManager( Base ) {
 
 }
 
-;// CONCATENATED MODULE: ./src/components/core/FontLibrary.js
-/*
-
-Job:
-Keeping record of all the loaded fonts, which component use which font,
-and load new fonts if necessary
-
-Knows: Which component use which font, loaded fonts
-
-This is one of the only modules in the 'component' folder that is not used
-for composition (Object.assign). MeshUIComponent is the only module with
-a reference to it, it uses FontLibrary for recording fonts accross components.
-This way, if a component uses the same font as another, FontLibrary will skip
-loading it twice, even if the two component are not in the same parent/child hierarchy
-
-*/
+;// CONCATENATED MODULE: ./src/font/FontVariant.js
 
 
 
-const fileLoader = new external_THREE_namespaceObject.FileLoader();
-const requiredFontFamilies = [];
-const fontFamilies = {};
-
-const textureLoader = new external_THREE_namespaceObject.TextureLoader();
-const requiredFontTextures = [];
-const fontTextures = {};
-
-const records = {};
 
 /**
-
-Called by MeshUIComponent after fontFamily was set
-When done, it calls MeshUIComponent.update, to actually display
-the text with the loaded font.
-
+ * @abstract
  */
-function setFontFamily( component, fontFamily ) {
+class FontVariant extends external_THREE_namespaceObject.EventDispatcher {
 
-	if ( typeof fontFamily === 'string' ) {
+	constructor( weight, style ) {
 
-		loadFontJSON( component, fontFamily );
+		super();
 
-	} else {
+		this._isReady = false;
 
-		// keep record of the font that this component use
-		if ( !records[ component.id ] ) records[ component.id ] = { component };
+		this._weight = weight;
+		this._style = style;
 
-		// Ensure the font json is processed
-		_buildFriendlyKerningValues( fontFamily );
+		this._size = 42;
+		this._lineHeight = 42;
+		this._lineBase = 42;
 
-		records[ component.id ].json = fontFamily;
-
-		component._updateFontFamily( fontFamily );
+		/**
+		 *
+		 * @type {TypographyFont}
+		 * @private
+		 */
+		this._font = null;
 
 	}
 
-}
+	/**
+	 *
+	 * @returns {TypographyFont}
+	 */
+	get typographic() { return this._font; }
 
-/**
+	get isReady() {
 
-Called by MeshUIComponent after fontTexture was set
-When done, it calls MeshUIComponent.update, to actually display
-the text with the loaded font.
+		return this._isReady;
 
- */
-function setFontTexture( component, url ) {
+	}
 
-	// if this font was never asked for, we load it
-	if ( requiredFontTextures.indexOf( url ) === -1 ) {
+	get weight() {
 
-		requiredFontTextures.push( url );
+		return this._weight;
 
-		textureLoader.load( url, ( texture ) => {
+	}
 
-			texture.generateMipmaps = false;
-			texture.minFilter = external_THREE_namespaceObject.LinearFilter;
-			texture.magFilter = external_THREE_namespaceObject.LinearFilter;
+	get style() {
 
-			fontTextures[ url ] = texture;
+		return this._style;
 
-			for ( const recordID of Object.keys( records ) ) {
+	}
 
-				if ( url === records[ recordID ].textureURL ) {
+	get texture() {
 
-					// update all the components that were waiting for this font for an update
-					records[ recordID ].component._updateFontTexture( texture );
+		return this._texture;
 
-				}
+	}
+
+	get id(){
+		return `${this._name}(w:${this.weight},s:${this.style})`;
+	}
+
+	/**
+	 *
+	 * @param {string} character
+	 * @returns {MSDFTypographyCharacter}
+	 */
+	getTypographyCharacter( character ) {
+
+		let typographyCharacter = this._chars[ character ];
+		if ( typographyCharacter ) return typographyCharacter;
+
+		if ( character.match( /\s/ ) ) return this._chars[ " " ];
+
+		const fallbackCharacter = font_FontLibrary.missingCharacter( this, character );
+		if( fallbackCharacter ) {
+
+			typographyCharacter = this._chars[ fallbackCharacter ];
+			if ( typographyCharacter ) return typographyCharacter;
+
+		}
+
+		throw Error( `FontVariant('${this.id}')::getTypographyCharacter() - character('${character}') and/or fallback character were not found in provided msdf charset.` );
+	}
+
+	/* eslint-disable no-unused-vars */
+
+
+	/**
+	 * Convert an InlineCharacter to a geometry
+	 *
+	 * @abstract
+	 * @param {InlineCharacter} inline
+	 * @returns {THREE.BufferGeometry|Array.<THREE.BufferGeometry>}
+	 */
+	getGeometryCharacter( inline ) {
+
+		throw new Error(`FontVariant(${typeof this})::getGeometryCharacter() is abstract and should therefore be overridden.`);
+
+	}
+
+	/* eslint-enable no-unused-vars */
+
+
+	/**
+	 * Obtain the kerning amount of a glyphPair
+	 * @param {string} glyphPair
+	 * @returns {number}
+	 */
+	getKerningAmount( glyphPair ){
+
+		//or zero offset if kerning glyphPais is not defined
+		return this._kernings[ glyphPair ] ? this._kernings[ glyphPair ] : 0;
+
+	}
+
+
+	/**
+	 * Perform some changes on the character description of this font
+	 * @param {Object} adjustmentObject
+	 */
+	adjustTypographyCharacters( adjustmentObject ){
+
+		for ( const char in adjustmentObject ) {
+
+			const desc = this.getTypographyCharacter( char );
+			const characterAdjustment = adjustmentObject[ char ];
+			for ( const propertyToAdjust in characterAdjustment ) {
+
+				desc["_"+propertyToAdjust] = adjustmentObject[char][propertyToAdjust];
 
 			}
 
-		} );
+		}
 
 	}
 
-	// keep record of the font that this component use
-	if ( !records[ component.id ] ) records[ component.id ] = { component };
+	/**
+	 *
+	 * @private
+	 */
+	_checkReadiness() {
 
-	records[ component.id ].textureURL = url;
+		if ( this._readyCondition() ) {
 
-	// update the component, only if the font is already requested and loaded
-	if ( fontTextures[ url ] ) {
+			_setReady( this );
 
-		component._updateFontTexture( fontTextures[ url ] );
-
-	}
-
-}
-
-/** used by Text to know if a warning must be thrown */
-function getFontOf( component ) {
-
-	const record = records[ component.id ];
-
-	if ( !record && component.getUIParent() ) {
-
-		return getFontOf( component.getUIParent() );
+		}
 
 	}
 
-	return record;
+	/**
+	 *
+	 * @abstract
+	 * @returns {boolean}
+	 * @protected
+	 */
+	_readyCondition () {
 
-}
+		// ie: MSDFFontVariant
+		// Must have chards and a texture
+		// return this._chars && this._texture
 
-/** Load JSON file at the url provided by the user at the component attribute 'fontFamily' */
-function loadFontJSON( component, url ) {
-
-	// if this font was never asked for, we load it
-	if ( requiredFontFamilies.indexOf( url ) === -1 ) {
-
-		requiredFontFamilies.push( url );
-
-		fileLoader.load( url, ( text ) => {
-
-			// FileLoader import as  a JSON string
-			const font = JSON.parse( text );
-
-			// Ensure the font json is processed
-			_buildFriendlyKerningValues( font );
-
-			fontFamilies[ url ] = font;
-
-			for ( const recordID of Object.keys( records ) ) {
-
-				if ( url === records[ recordID ].jsonURL ) {
-
-					// update all the components that were waiting for this font for an update
-					records[ recordID ].component._updateFontFamily( font );
-
-				}
-
-			}
-
-		} );
-
-	}
-
-	// keep record of the font that this component use
-	if ( !records[ component.id ] ) records[ component.id ] = { component };
-
-	records[ component.id ].jsonURL = url;
-
-	// update the component, only if the font is already requested and loaded
-	if ( fontFamilies[ url ] ) {
-
-		component._updateFontFamily( fontFamilies[ url ] );
-
+		throw new Error(`FontVariant(${typeof this})::_readyCondition() is abstract and should therefore be overridden.`);
 	}
 
 }
+
+/***********************************************************************************************************************
+ * INTERNAL STUFF
+ **********************************************************************************************************************/
+
+
+const _readyEvent = { type: 'ready' };
 
 /**
- * From the original json font kernings array
- * First  : Reduce the number of values by ignoring any kerning defining an amount of 0
- * Second : Update the data structure of kernings from
- * 			{Array} : [{first: 97, second: 121, amount: 0},{first: 97, second: 122, amount: -1},...]
- * 			to
- * 			{Object}: {"ij":-2,"WA":-3,...}}
- *
+ * Set the ready status of a fontVariant
+ * @param fontVariant
  * @private
  */
-function _buildFriendlyKerningValues( font ) {
+function _setReady( fontVariant ) {
 
-	// As "font registering" can comes from different paths : addFont, loadFontJSON, setFontFamily
-	// Be sure we don't repeat this operation
-	if ( font._kernings ) return;
-
-	const friendlyKernings = {};
-
-	for ( let i = 0; i < font.kernings.length; i++ ) {
-
-		const kerning = font.kernings[ i ];
-
-		// ignore zero kerned glyph pair
-		if ( kerning.amount === 0 ) continue;
-
-		// Build and store the glyph paired characters "ij","WA", ... as keys, referecing their kerning amount
-		const glyphPair = String.fromCharCode( kerning.first, kerning.second );
-		friendlyKernings[ glyphPair ] = kerning.amount;
-
-	}
-
-	// update the font to keep it
-	font._kernings = friendlyKernings;
+	fontVariant._isReady = true;
+	fontVariant.dispatchEvent( _readyEvent );
 
 }
 
-/*
+/**
+ * @typedef {Object} MSDFJson
+ * @see https://www.angelcode.com/products/bmfont/doc/file_format.html
+ *
+ * @property {MSDFJsonInfo} info
+ * @property {MSDFJsonCommon} common
+ * @property {Array.<MSDFJsonPage>} pages
+ * @property {Array.<MSDFJsonChar>} chars
+ * @property {Array.<MSDFJsonKerning>} kernings
+ */
 
-This method is intended for adding manually loaded fonts. Method assumes font hasn't been loaded or requested yet. If it was,
-font with specified name will be overwritten, but components using it won't be updated.
+/**
+ *
+ * @typedef {Object} MSDFJsonInfo
+ * @see https://www.angelcode.com/products/bmfont/doc/file_format.html
+ *
+ * @property {string} face This is the name of the true type font.
+ * @property {number} size The size of the true type font.
+ * @property {boolean} bold The font is bold.
+ * @property {boolean} italic The font is italic.
+ * @property {string[]} charset The name of the OEM charset used (when not unicode).
+ * @property {boolean} unicode 	Set to 1 if it is the unicode charset.
+ * @property {number} stretchH The font height stretch in percentage. 100% means no stretch.
+ * @property {number} smooth Set to 1 if smoothing was turned on.
+ * @property {number} aa The supersampling level used. 1 means no supersampling was used.
+ * @property {Array.<number>} padding TThe padding for each character (up, right, down, left).
+ * @property {Array.<number>} spacing The spacing for each character (horizontal, vertical).
+ * @property {number} outline (not found) The outline thickness for the characters.
+ */
 
-*/
-function addFont( name, json, texture ) {
+/**
+ *
+ * @typedef {Object} MSDFJsonCommon
+ * @see https://www.angelcode.com/products/bmfont/doc/file_format.html
+ *
+ * @property {number} lineHeight This is the distance in pixels between each line of text.
+ * @property {number} base The number of pixels from the absolute top of the line to the base of the characters.
+ * @property {number} scaleW The width of the texture, normally used to scale the x pos of the character image.
+ * @property {number} scaleH The height of the texture, normally used to scale the y pos of the character image.
+ * @property {number} pages The number of texture pages included in the font.
+ * @property {boolean} packed
+ * @property {number} alphaChnl
+ * @property {number} redChnl
+ * @property {number} greenChnl
+ * @property {number[]} blueChnl
+ */
 
-	texture.generateMipmaps = false;
-	texture.minFilter = external_THREE_namespaceObject.LinearFilter;
-	texture.magFilter = external_THREE_namespaceObject.LinearFilter;
+/**
+ *
+ * @typedef {Object} MSDFJsonPage
+ * @see https://www.angelcode.com/products/bmfont/doc/file_format.html
+ *
+ * @property {string} id The page id.
+ * @property {string} file The texture file name.
+ */
 
-	requiredFontFamilies.push( name );
-	fontFamilies[ name ] = json;
+/**
+ *
+ * @typedef {Object} MSDFJsonChar
+ * @see https://www.angelcode.com/products/bmfont/doc/file_format.html
+ *
+ * @property {number} id The character id.
+ * @property {number} index The character index.
+ * @property {string} char The character.
+ * @property {number} x The left position of the character image in the texture.
+ * @property {number} y The top position of the character image in the texture.
+ * @property {number} width The width of the character image in the texture.
+ * @property {number} height The height of the character image in the texture.
+ * @property {number} xoffset How much the current position should be offset when copying the image from the texture to the screen.
+ * @property {number} yoffset How much the current position should be offset when copying the image from the texture to the screen.
+ * @property {number} xadvance How much the current position should be advanced after drawing the character.
+ * @property {string} page The texture page where the character image is found.
+ * @property {number} chnl The texture channel where the character image is found (1 = blue, 2 = green, 4 = red, 8 = alpha, 15 = all channels).
+ */
 
-	// Ensure the font json is processed
-	_buildFriendlyKerningValues( json );
 
-	if ( texture ) {
-		requiredFontTextures.push( name );
-		fontTextures[ name ] = texture;
+
+/**
+ *
+ * @typedef {Object} MSDFJsonKerning
+ * @see https://www.angelcode.com/products/bmfont/doc/file_format.html
+ *
+ * @property {number} first The first character id.
+ * @property {number} second The second character id.
+ * @property {number} amount How much the x position should be adjusted when drawing the second character immediately following the first.
+ *
+ */
+
+;// CONCATENATED MODULE: ./src/font/TypographyFont.js
+class TypographyFont {
+
+	constructor() {
+
+		this._size = 42;
+		this._lineHeight = 42;
+		this._lineBase = 38;
+
+		this._name = "-";
+
+		this._charset = "";
 	}
+
+	get size() { return this._size; }
+
+	get lineHeight() { return this._lineHeight; }
+
+	get lineBase() { return this._lineBase; }
+
+	get name() { return this._name; }
+
+	get charset() { return this._charset; }
+
+}
+
+;// CONCATENATED MODULE: ./src/font/msdf/MSDFTypographyFont.js
+
+
+class MSDFTypographyFont extends TypographyFont{
+
+	/**
+	 *
+	 * @param {MSDFJson} json
+	 */
+	constructor( json ) {
+
+		super();
+
+		// base description
+		this._size = json.info.size;
+		this._lineHeight = json.common.lineHeight;
+		this._lineBase = json.common.base;
+
+		this._name = json.info.face;
+
+		// MSDF
+		this._textureWidth = json.common.scaleW;
+		this._textureHeight = json.common.scaleH;
+
+		this._charset = json.chars.map( char => char.char ).join("");
+
+	}
+
+	get textureWidth() { return this._textureWidth; }
+
+	get textureHeight() { return this._textureHeight; }
+
+}
+
+;// CONCATENATED MODULE: ./src/font/TypographyCharacter.js
+/**
+ * @abstract
+ */
+class TypographyCharacter {
+
+	/**
+	 *
+	 * @param {TypographyFont} typographicFont
+	 */
+	constructor( typographicFont ) {
+
+		this._char = "";
+		this._width = this._heigth = this._xadvance = 1;
+		this._xoffset = this._yoffset = 0;
+
+		/**
+		 *
+		 * @private
+		 */
+		this._font = typographicFont;
+	}
+
+	/**
+	 *
+	 * @returns {TypographyFont}
+	 */
+	get font() {
+
+		return this._font;
+
+	}
+
+	/**
+	 *
+	 * @return {string}
+	 */
+	get char() {
+
+		return this._char;
+
+	}
+
+	get width() {
+
+		return this._width;
+
+	}
+
+	get height() {
+
+		return this._heigth;
+
+	}
+
+	get xadvance() {
+
+		return this._xadvance;
+
+	}
+
+	get xoffset() {
+
+		return this._xoffset;
+
+	}
+
+	get yoffset() {
+
+		return this._yoffset;
+
+	}
+
+	set yoffset( value ) {
+
+		this._yoffset = value;
+
+	}
+
+	/**
+	 *
+	 * @abstract
+	 * @returns {InlineCharacter}
+	 */
+	asInlineCharacter() {
+
+		throw new Error("Abstract... Need to be implemented")
+
+	}
+
+}
+
+;// CONCATENATED MODULE: ./src/font/InlineCharacter.js
+class InlineCharacter {
+
+	/**
+	 *
+	 * @param {TypographyCharacter} characterDesc
+	 */
+	constructor( characterDesc ) {
+
+		this._typographic = characterDesc;
+
+		this._fontFactor = 1;
+		this._lineBreak = null;
+
+		this._fontSize = 0;
+		this._kerning = 0;
+
+		this._offsetX = 0;
+		this._offsetY = 0;
+
+	}
+
+	get typographic(){
+
+		return this._typographic;
+
+	}
+
+	resetOffsets() {
+
+		this._offsetX = this._offsetY = 0;
+
+	}
+
+	/*********************************************************************************************************************
+	 * GETTERS FROM CHARACTER DESCRIPTION
+	 ********************************************************************************************************************/
+
+	get xadvance() { return this._typographic.xadvance * this._fontFactor; }
+
+	get xoffset() { return this._typographic.xoffset * this._fontFactor; }
+
+	get yoffset() { return this._typographic.yoffset * this._fontFactor; }
+
+	get width() { return this._typographic.width * this._fontFactor ; }
+
+	get height() { return this._typographic.height * this._fontFactor; }
+
+	/**
+	 *
+	 * @return {string}
+	 */
+	get char() { return this._typographic.char; }
+
+	set lineBreak( value ){
+
+		this._lineBreak = value;
+
+	}
+
+	get lineBreak() { return this._lineBreak; }
+
+	get anchor() {
+
+		const lineHeight = this._typographic.font.lineHeight;
+		const lineBase = this._typographic.font.lineBase;
+
+		return ( ( this._typographic.yoffset + this._typographic.height - lineBase ) * this._fontSize ) / lineHeight;
+
+	}
+
+	get kerning() { return this._kerning * this._fontFactor; }
+
+	set kerning( value ) {
+
+		this._kerning = value;
+
+	}
+
+	get fontSize() { return this._fontSize }
+
+	set fontSize( value ) {
+
+		this._fontSize = value;
+
+	}
+
+
+
+	get lineHeight() { return this._typographic.font.lineHeight * this._fontFactor; }
+
+	get offsetX() { return this._offsetX; }
+
+	set offsetX( value ){
+
+		this._offsetX = value;
+
+	}
+
+	get offsetY() { return this._offsetY; }
+
+	set offsetY( value ){
+
+		this._offsetY = value;
+
+	}
+
+
+	get lineBase() { return this._typographic.font.lineBase * this._fontFactor; }
+
+	set fontFactor( value ){
+
+		this._fontFactor = value;
+
+	}
+
+}
+
+;// CONCATENATED MODULE: ./src/font/msdf/MSDFInlineCharacter.js
+
+
+class MSDFInlineCharacter extends InlineCharacter{
+
+	/**
+	 *
+	 * @param {MSDFTypographyCharacter} characterDesc
+	 */
+	constructor( characterDesc ) {
+
+		super( characterDesc );
+
+	}
+
+	get uv() { return this.typographic.uv; }
+
+}
+
+;// CONCATENATED MODULE: ./src/font/msdf/MSDFTypographyCharacter.js
+
+
+
+class MSDFTypographyCharacter extends TypographyCharacter {
+
+	/**
+	 * @param {MSDFTypographyFont} fontDescription
+	 * @param {MSDFJsonChar} characterData
+	 */
+	constructor( fontDescription, characterData ) {
+
+		super(fontDescription);
+
+		this._char = characterData.char;
+		this._width = characterData.width;
+		this._heigth = characterData.height;
+
+		this._xadvance = characterData.xadvance ? characterData.xadvance : this._width;
+		this._xoffset = characterData.xoffset ? characterData.xoffset : 0;
+		this._yoffset = characterData.yoffset ? characterData.yoffset : 0;
+
+		// Msdf requires uvs
+		this._uv = null;
+
+		if( !isNaN( characterData.x ) ) {
+			// transform absolute pixel values into uv values [0,1]
+			this._uv = {
+				left: characterData.x / fontDescription.textureWidth,
+				right: ( characterData.x + characterData.width ) / fontDescription.textureWidth,
+				top: 1 - ( ( characterData.y + characterData.height ) / fontDescription.textureHeight ),
+				bottom: 1 - ( characterData.y / fontDescription.textureHeight )
+			};
+		}
+	}
+
+
+	/**
+	 *
+	 * @returns {{left: number, right: number, top: number, bottom: number}|null}
+	 */
+	get uv() {
+
+		return this._uv;
+
+	}
+
+	/**
+	 * Abstraction
+	 *
+	 * @returns {MSDFInlineCharacter}
+	 */
+	asInlineCharacter() {
+
+		return new MSDFInlineCharacter( this );
+
+	}
+
+}
+
+;// CONCATENATED MODULE: ./src/font/msdf/MSDFGeometryCharacter.js
+
+
+class MSDFGeometryCharacter extends external_THREE_namespaceObject.PlaneBufferGeometry {
+
+	/**
+	 *
+	 * @param {MSDFInlineCharacter} inline
+	 */
+	constructor( inline ) {
+
+		super( inline.width, inline.height );
+
+		// If inline has UVs
+		if ( inline.uv ) {
+
+			this.mapUVs( inline );
+
+			this.transformGeometry( inline );
+
+			// White spaces (we don't want our plane geometry to have a visual width nor a height)
+		} else {
+
+			this.nullifyUVs();
+
+			this.scale( 0, 0, 1 );
+
+			this.translate( 0, inline.fontSize / 2, 0 );
+
+		}
+
+	}
+
+	/**
+	 * Compute the right UVs that will map the MSDF texture so that the passed character
+	 * will appear centered in full size
+	 * @private
+	 */
+	mapUVs( inline ) {
+
+		const uvAttribute = this.attributes.uv;
+
+		for ( let i = 0; i < uvAttribute.count; i++ ) {
+
+			let u = uvAttribute.getX( i );
+			let v = uvAttribute.getY( i );
+
+			[ u, v ] = ( () => {
+
+				switch ( i ) {
+
+					case 0 :
+						// return [ xMin, yMax ];
+						return [ inline.uv.left, inline.uv.bottom ];
+					case 1 :
+						// return [ xMax, yMax ];
+						return [ inline.uv.right, inline.uv.bottom ];
+					case 2 :
+						// return [ xMin, yMin ];
+						return [ inline.uv.left, inline.uv.top ];
+					case 3 :
+						// return [ xMax, yMin ];
+						return [ inline.uv.right, inline.uv.top ];
+
+				}
+
+			} )();
+
+			uvAttribute.setXY( i, u, v );
+
+		}
+
+	}
+
+	/** Set all UVs to 0, so that none of the glyphs on the texture will appear */
+	nullifyUVs() {
+
+		const uvAttribute = this.attributes.uv;
+
+		for ( let i = 0; i < uvAttribute.count; i++ ) {
+
+			uvAttribute.setXY( i, 0, 0 );
+
+		}
+
+	}
+
+	/**
+	 *
+	 * @TODO: Apply pivot properties when splitText isset
+	 * Gives the previously computed scale and offset to the geometry
+	 * @param {MSDFInlineCharacter} inline
+	 */
+	transformGeometry( inline ) {
+
+		//
+
+		// @TODO : Evaluate this as being a property. It can wait until splitGeometry
+		this.translate(
+			inline.width / 2,
+			( inline.height / 2 ) - inline.anchor,
+			0
+		);
+
+	}
+
+}
+
+;// CONCATENATED MODULE: ./src/font/msdf/MSDFFontVariant.js
+
+
+
+
+
+
+
+class MSDFFontVariant extends FontVariant {
+
+	constructor( weight, style, json, texture ) {
+
+		super(weight, style);
+
+		if ( json.pages ) {
+
+			this._buildData( json );
+
+		} else {
+
+			_loadJson( this, json );
+
+		}
+
+		if ( texture instanceof external_THREE_namespaceObject.Texture ) {
+
+			this._buildTexture( texture );
+
+		} else {
+
+			_loadTexture( this, texture );
+
+		}
+
+		this._checkReadiness();
+
+	}
+
+
+	get texture() {
+
+		return this._texture;
+
+	}
+
+	/**
+	 *
+	 * @param {MSDFJson} json
+	 * @private
+	 */
+	_buildData( json ) {
+
+		this._font = new MSDFTypographyFont( json );
+
+		this._kernings = this._buildKerningPairs( json );
+		this._chars = this._buildCharacters( json );
+		this._chars[ " " ] = this._buildCharacterWhite( json );
+
+		this._size = json.info.size;
+		this._lineHeight = json.common.lineHeight;
+		this._lineBase = json.common.base;
+
+	}
+
+	/**
+	 *
+	 * @param texture
+	 * @private
+	 */
+	_buildTexture( texture ) {
+
+		this._texture = texture;
+
+		texture.generateMipmaps = false;
+		texture.minFilter = external_THREE_namespaceObject.LinearFilter;
+		texture.magFilter = external_THREE_namespaceObject.LinearFilter;
+
+		texture.needsUpdate = true;
+
+	}
+
+	/**
+	 *
+	 * @param {MSDFInlineCharacter} inline
+	 * @returns {MSDFGeometryCharacter}
+	 */
+	getGeometryCharacter( inline ) {
+
+		return new MSDFGeometryCharacter( inline );
+
+	}
+
+	/**
+	 * Abstraction implementation
+	 *
+	 * @returns {boolean}
+	 * @private
+	 */
+	_readyCondition() {
+
+		return this._chars && this._texture;
+
+	}
+
+	/**
+	 * Ensure that each font variant has its kerning dictionary
+	 * @see src/font/msdf/FontVariantMSDF.js for an implementation
+	 *
+	 * @param {MSDFJson} json
+	 *
+	 * @returns {Object.<string, number>}
+	 * @private
+	 */
+	_buildKerningPairs( json ) {
+
+		const friendlyKernings = {};
+
+		// Loop through each kernings pairs defined in msdf json
+		for ( let i = 0; i < json.kernings.length; i++ ) {
+
+			const kerning = json.kernings[ i ];
+
+			// ignore zero kerned glyph pair
+			if ( kerning.amount === 0 ) continue;
+
+			// Build and store the glyph paired characters "ij","WA", ... as keys, referecing their kerning amount
+			const glyphPair = String.fromCharCode( kerning.first, kerning.second );
+
+			// This would then be available for fast access
+			friendlyKernings[ glyphPair ] = kerning.amount;
+
+		}
+
+		// update the font to keep it
+		return friendlyKernings;
+
+	}
+
+
+	/**
+	 *
+	 * @param {MSDFJson} json
+	 * @private
+	 */
+	_buildCharacters( json ) {
+
+		const friendlyChars = {};
+
+		for ( let i = 0; i < json.chars.length; i++ ) {
+			const charOBJ = json.chars[ i ];
+
+			friendlyChars[ charOBJ.char ] = new MSDFTypographyCharacter( this._font, charOBJ );
+
+		}
+
+		return friendlyChars;
+
+	}
+
+	/**
+	 *
+	 * @param {MSDFJson} json
+	 * @private
+	 */
+	_buildCharacterWhite( json ) {
+		return new MSDFTypographyCharacter( this._font,
+			{
+				char: ' ',
+				width: json.info.size / 3,
+				height: json.info.size * 0.7,
+			});
+	}
+
+}
+
+/***********************************************************************************************************************
+ * INTERNAL STUFF
+ **********************************************************************************************************************/
+
+
+/**
+ * Load a msdf json then build fontVariant data
+ *
+ * @param {FontVariant} fontVariant
+ * @param {string} jsonUrl
+ * @private
+ */
+function _loadJson( fontVariant, jsonUrl ) {
+
+	new external_THREE_namespaceObject.FileLoader().setResponseType( 'json' ) .load( jsonUrl, ( response ) => {
+
+		fontVariant._buildData( response );
+		fontVariant._checkReadiness();
+
+	} );
+
+}
+
+/**
+ * Load a msdf texture then build texture
+ *
+ * @param {FontVariant} fontVariant
+ * @param {string} textureUrl
+ * @private
+ */
+function _loadTexture( fontVariant, textureUrl ) {
+
+	new external_THREE_namespaceObject.TextureLoader().load( textureUrl, ( texture ) => {
+
+		fontVariant._buildTexture( texture );
+		fontVariant._checkReadiness();
+
+	} );
+
+}
+
+/**
+ * @typedef {Object} MSDFJson
+ * @see https://www.angelcode.com/products/bmfont/doc/file_format.html
+ *
+ * @property {MSDFJsonInfo} info
+ * @property {MSDFJsonCommon} common
+ * @property {Array.<MSDFJsonPage>} pages
+ * @property {Array.<MSDFJsonChar>} chars
+ * @property {Array.<MSDFJsonKerning>} kernings
+ */
+
+/**
+ *
+ * @typedef {Object} MSDFJsonInfo
+ * @see https://www.angelcode.com/products/bmfont/doc/file_format.html
+ *
+ * @property {string} face This is the name of the true type font.
+ * @property {number} size The size of the true type font.
+ * @property {boolean} bold The font is bold.
+ * @property {boolean} italic The font is italic.
+ * @property {string[]} charset The name of the OEM charset used (when not unicode).
+ * @property {boolean} unicode 	Set to 1 if it is the unicode charset.
+ * @property {number} stretchH The font height stretch in percentage. 100% means no stretch.
+ * @property {number} smooth Set to 1 if smoothing was turned on.
+ * @property {number} aa The supersampling level used. 1 means no supersampling was used.
+ * @property {Array.<number>} padding TThe padding for each character (up, right, down, left).
+ * @property {Array.<number>} spacing The spacing for each character (horizontal, vertical).
+ * @property {number} outline (not found) The outline thickness for the characters.
+ */
+
+/**
+ *
+ * @typedef {Object} MSDFJsonCommon
+ * @see https://www.angelcode.com/products/bmfont/doc/file_format.html
+ *
+ * @property {number} lineHeight This is the distance in pixels between each line of text.
+ * @property {number} base The number of pixels from the absolute top of the line to the base of the characters.
+ * @property {number} scaleW The width of the texture, normally used to scale the x pos of the character image.
+ * @property {number} scaleH The height of the texture, normally used to scale the y pos of the character image.
+ * @property {number} pages The number of texture pages included in the font.
+ * @property {boolean} packed
+ * @property {number} alphaChnl
+ * @property {number} redChnl
+ * @property {number} greenChnl
+ * @property {number[]} blueChnl
+ */
+
+/**
+ *
+ * @typedef {Object} MSDFJsonPage
+ * @see https://www.angelcode.com/products/bmfont/doc/file_format.html
+ *
+ * @property {string} id The page id.
+ * @property {string} file The texture file name.
+ */
+
+/**
+ *
+ * @typedef {Object} MSDFJsonChar
+ * @see https://www.angelcode.com/products/bmfont/doc/file_format.html
+ *
+ * @property {number} id The character id.
+ * @property {number} index The character index.
+ * @property {string} char The character.
+ * @property {number} x The left position of the character image in the texture.
+ * @property {number} y The top position of the character image in the texture.
+ * @property {number} width The width of the character image in the texture.
+ * @property {number} height The height of the character image in the texture.
+ * @property {number} xoffset How much the current position should be offset when copying the image from the texture to the screen.
+ * @property {number} yoffset How much the current position should be offset when copying the image from the texture to the screen.
+ * @property {number} xadvance How much the current position should be advanced after drawing the character.
+ * @property {string} page The texture page where the character image is found.
+ * @property {number} chnl The texture channel where the character image is found (1 = blue, 2 = green, 4 = red, 8 = alpha, 15 = all channels).
+ */
+
+
+
+/**
+ *
+ * @typedef {Object} MSDFJsonKerning
+ * @see https://www.angelcode.com/products/bmfont/doc/file_format.html
+ *
+ * @property {number} first The first character id.
+ * @property {number} second The second character id.
+ * @property {number} amount How much the x position should be adjusted when drawing the second character immediately following the first.
+ *
+ */
+
+;// CONCATENATED MODULE: ./src/font/FontFamily.js
+
+
+
+class FontFamily extends external_THREE_namespaceObject.EventDispatcher {
+
+	/**
+	 *
+	 * @param name
+	 */
+	constructor( name ) {
+
+		super();
+
+		this._name = name;
+		this._variants = [];
+
+		this._isReady = false;
+
+	}
+
+	get isReady() { return this._isReady; }
+
+	/**
+	 *
+	 * @param weight
+	 * @param style
+	 * @param json
+	 * @param texture
+	 * @param override
+	 */
+	addVariant( weight, style, json, texture, override = false){
+
+		if( override || !this.getVariant( weight, style) ){
+
+			this._isReady = false;
+
+			const newVariant = new MSDFFontVariant( weight, style, json, texture);
+
+			this._variants.push( newVariant );
+
+			if( !newVariant.isReady ){
+
+				newVariant.addEventListener( "ready", this._checkReadiness )
+
+			} else {
+
+				this._checkReadiness();
+
+			}
+
+		} else {
+
+			console.warn(`FontFamily('${this._name}')::addVariant() - Variant(${weight}, ${style}) already exists.`);
+
+		}
+
+		return this;
+
+	}
+
+	/**
+	 *
+	 * @param {FontVariant} variantImplementation
+	 * @param {boolean} [override=false]
+	 */
+	addCustomImplementationVariant( variantImplementation, override = false){
+
+		if( override || !this.getVariant( variantImplementation.weight, variantImplementation.style) ){
+
+			this._isReady = false;
+
+			this._variants.push( variantImplementation );
+
+			if( !variantImplementation.isReady ){
+
+				variantImplementation.addEventListener( "ready", this._checkReadiness )
+
+			} else {
+
+				this._checkReadiness();
+
+			}
+
+		} else {
+
+			console.warn(`FontFamily('${this._name}')::addCustomImplementationVariant() - Variant(${variantImplementation.weight}, ${variantImplementation.style}) already exists.`);
+
+		}
+
+		return this;
+
+	}
+
+	/**
+	 *
+	 * @param weight
+	 * @param style
+	 * @returns {FontVariant}
+	 */
+	getVariant( weight, style ){
+
+		return this._variants.find( fontVariant => fontVariant.weight === weight && fontVariant.style === style );
+
+	}
+
+	get name(){ return this._name; }
+
+	_checkReadiness = () => {
+
+		if( this._variants.every( v => v.isReady ) ) {
+
+			FontFamily_setReady( this );
+
+		}
+
+	}
+
+}
+
+const FontFamily_readyEvent = { type: 'ready' };
+
+/**
+ * Set the ready status of a fontVariant
+ * @param {FontFamily} fontFamily
+ * @private
+ */
+function FontFamily_setReady( fontFamily ) {
+
+	fontFamily._isReady = true;
+	fontFamily.dispatchEvent( FontFamily_readyEvent );
+
+}
+
+;// CONCATENATED MODULE: ./src/font/FontLibrary.js
+
+
+const _fontFamilies = {};
+
+/* eslint-disable no-unused-vars */
+
+/**
+ *
+ * @param {FontFamily} fontFamily
+ * @returns {Promise<unknown>}
+ */
+function prepare( fontFamily ) {
+
+	/**
+	 *
+	 * @type {FontFamily[]}
+	 */
+	const families = [ ...arguments ];
+
+	// Check all family are right instance
+	families.forEach( f => {
+
+		if( !(f instanceof FontFamily) ) {
+
+			throw new Error(`FontLibrary::prepare() - One of the provided parameter is not a FontFamily. Instead ${typeof f} given.`);
+
+		}
+
+	})
+
+	/**
+	 * Check that all provided families are loaded
+	 * @returns {boolean}
+	 */
+	const areAllLoaded = function() {
+
+		return families.every( f => f.isReady );
+
+	}
+
+	// @TODO: Should handle possible rejection
+	return new Promise((resolve,reject)=>{
+
+		// Direct resolve if all loaded
+		if ( areAllLoaded() ){
+
+			resolve();
+
+		} else {
+
+			// Add listener on each family not ready
+			for ( let i = 0; i < families.length; i++ ) {
+
+				const family = families[ i ];
+				if( !family.isReady ){
+
+					family.addEventListener( "ready" , ()=> {
+
+						// Resolve if all other families are loaded
+						if( areAllLoaded() ) {
+
+							resolve();
+
+						}
+
+					});
+
+				}
+
+			}
+
+		}
+
+	});
+
+}
+
+/* eslint-enable no-unused-vars */
+
+
+/**
+ *
+ * @param {string} name
+ * @returns {FontFamily}
+ */
+function addFontFamily( name ) {
+
+	if ( _fontFamilies[ name ] ) {
+		console.error( `FontLibrary::addFontFamily - Font('${name}') is already registered` );
+	}
+
+	_fontFamilies[ name ] = new FontFamily( name );
+
+	return _fontFamilies[ name ];
+
+}
+
+/**
+ *
+ * @param {string} name
+ * @returns {FontFamily}
+ */
+function getFontFamily( name ) {
+
+	return _fontFamilies[ name ];
+
+}
+
+
+/**
+ *
+ * @param { (fontVariant:FontVariant, character:string ) => string|null } handler
+ */
+function setMissingCharacterHandler( handler ) {
+
+	_missingCharacterHandler = handler;
+
 }
 
 //
 
 const FontLibrary = {
-	setFontFamily,
-	setFontTexture,
-	getFontOf,
-	addFont
+	addFontFamily,
+	getFontFamily,
+	prepare,
+	setMissingCharacterHandler,
+	missingCharacter
 };
 
-/* harmony default export */ const core_FontLibrary = (FontLibrary);
+/* harmony default export */ const font_FontLibrary = (FontLibrary);
+
+/**
+ *
+ * @type { (fontVariant:FontVariant, character:string ) => string|null }
+ * @private
+ */
+let _missingCharacterHandler = function ( fontVariant, character ) {
+
+	console.error( `The character '${character}' is not included in the font characters set.` );
+
+	// return a glyph has fallback
+	return " ";
+
+};
+
+/**
+ *
+ * @param {FontVariant} fontVariant
+ * @param {string} character
+ *
+ * @returns {string}
+ */
+function missingCharacter( fontVariant, character ) {
+
+	// Execute the user defined handled
+	return _missingCharacterHandler( fontVariant, character );
+
+}
+
+
 
 ;// CONCATENATED MODULE: ./src/components/core/UpdateManager.js
 /**
@@ -1847,7 +2960,7 @@ class UpdateManager {
 
 			const roots = this.components.filter( ( component ) => {
 
-				return !component.getUIParent();
+				return !component.parentUI;
 
 			} );
 
@@ -1874,7 +2987,7 @@ class UpdateManager {
 
 		}
 
-		component.getUIChildren().forEach( child => this.traverseParsing( child ) );
+		component.childrenUIs.forEach( child => this.traverseParsing( child ) );
 
 	}
 
@@ -1911,8 +3024,7 @@ class UpdateManager {
 
 
 		// Update any child
-
-		component.getUIChildren().forEach( ( childUI ) => {
+		component.childrenUIs.forEach( ( childUI ) => {
 
 			this.traverseUpdates( childUI );
 
@@ -1934,7 +3046,50 @@ class UpdateManager {
 UpdateManager.components = [];
 UpdateManager.requestedUpdates = {};
 
+;// CONCATENATED MODULE: ./src/utils/font/FontWeight.js
+const LIGHTER = '100';
+const _100 = '100';
+const _200 = '200';
+const _300 = '300';
+const FontWeight_NORMAL = '400';
+const _400 = '400';
+const _500 = '500';
+const _600 = '600';
+const BOLD = '700';
+const _700 = '700';
+const _800 = '800';
+const BOLDER = '900';
+const _900 = '900';
+
+
+
+;// CONCATENATED MODULE: ./src/utils/font/FontStyle.js
+const FontStyle_NORMAL = "normal";
+const ITALIC = "italic";
+const OBLIQUE = "oblique";
+
+const MAX_OBLIQUE_ANGLE = 90;
+
+/**
+ * Get the oblique style with custom angle
+ * @param angleInDegree
+ */
+function obliqueCustomAngle( angleInDegree ){
+
+	// Clamp the angle
+	angleInDegree = angleInDegree < - MAX_OBLIQUE_ANGLE ? - MAX_OBLIQUE_ANGLE : angleInDegree > MAX_OBLIQUE_ANGLE ? MAX_OBLIQUE_ANGLE : angleInDegree;
+
+	return `${OBLIQUE} ${angleInDegree}deg`;
+
+}
+
+
 ;// CONCATENATED MODULE: ./src/utils/Defaults.js
+
+
+
+
+
 
 
 
@@ -1947,17 +3102,18 @@ UpdateManager.requestedUpdates = {};
 	fontFamily: null,
 	fontSize: 0.05,
 	fontKerning: 'normal', // FontKerning would act like css : "none"|"normal"|"auto"("auto" not yet implemented)
+	fontStyle: FontStyle_NORMAL,
+	fontWeight: FontWeight_NORMAL,
 	bestFit: 'none',
 	offset: 0.01,
 	interLine: 0.01,
 	breakOn: '- ,.:?!\n',// added '\n' to also acts as friendly breaks when white-space:normal
 	whiteSpace: PRE_LINE,
-	contentDirection: 'column',
-	alignItems: 'center',
-	justifyContent: 'start',
+	contentDirection: COLUMN,
+	alignItems: CENTER,
+	justifyContent: JustifyContent_START,
 	fontTexture: null,
-	textAlign: CENTER,
-	textType: 'MSDF',
+	textAlign: TextAlign_CENTER,
 	fontColor: new external_THREE_namespaceObject.Color( 0xffffff ),
 	fontOpacity: 1,
 	fontPXRange: 4,
@@ -2007,6 +3163,10 @@ function makeBackgroundTexture() {
 
 
 
+
+
+
+
 /**
 
 Job:
@@ -2031,6 +3191,17 @@ function MeshUIComponent( Base ) {
 			this.isUI = true;
 			this.autoLayout = true;
 
+			// children
+			this.childrenUIs = [];
+			this.childrenBoxes = [];
+			this.childrenTexts = [];
+			this.childrenInlines = [];
+
+			// parents
+			this.parentUI = null;
+			// update parentUI when this component will be added or removed
+			this.addEventListener( 'added', this._rebuildParentUI );
+			this.addEventListener( 'removed', this._rebuildParentUI );
 		}
 
 		/////////////
@@ -2041,12 +3212,12 @@ function MeshUIComponent( Base ) {
 
 			const planes = [];
 
-			if ( this.parent && this.parent.isUI ) {
+			if ( this.parentUI ) {
 
-				if ( this.isBlock && this.parent.getHiddenOverflow() ) {
+				if ( this.isBlock && this.parentUI.getHiddenOverflow() ) {
 
-					const yLimit = ( this.parent.getHeight() / 2 ) - ( this.parent.padding || 0 );
-					const xLimit = ( this.parent.getWidth() / 2 ) - ( this.parent.padding || 0 );
+					const yLimit = ( this.parentUI.getHeight() / 2 ) - ( this.parentUI.padding || 0 );
+					const xLimit = ( this.parentUI.getWidth() / 2 ) - ( this.parentUI.padding || 0 );
 
 					const newPlanes = [
 						new external_THREE_namespaceObject.Plane( new external_THREE_namespaceObject.Vector3( 0, 1, 0 ), yLimit ),
@@ -2065,9 +3236,9 @@ function MeshUIComponent( Base ) {
 
 				}
 
-				if ( this.parent.parent && this.parent.parent.isUI ) {
+				if ( this.parentUI.parentUI ) {
 
-					planes.push( ...this.parent.getClippingPlanes() );
+					planes.push( ...this.parentUI.getClippingPlanes() );
 
 				}
 
@@ -2077,37 +3248,10 @@ function MeshUIComponent( Base ) {
 
 		}
 
-		//
-
-		getUIChildren() {
-
-			return this.children.filter( ( child ) => {
-
-				return child.isUI;
-
-			} );
-
-		}
-
-		//
-
-		getUIParent() {
-
-			if ( this.parent && this.parent.isUI ) {
-
-				return this.parent;
-
-			}
-
-			return null;
-
-
-		}
-
 		/** Get the highest parent of this component (the parent that has no parent on top of it) */
 		getHighestParent() {
 
-			if ( !this.getUIParent() ) {
+			if ( !this.parentUI ) {
 
 				return this;
 
@@ -2124,7 +3268,7 @@ function MeshUIComponent( Base ) {
 		 */
 		_getProperty( propName ) {
 
-			if ( this[ propName ] === undefined && this.getUIParent() ) {
+			if ( this[ propName ] === undefined && this.parentUI ) {
 
 				return this.parent._getProperty( propName );
 
@@ -2152,6 +3296,18 @@ function MeshUIComponent( Base ) {
 
 		}
 
+		getFontStyle() {
+
+			return this._getProperty( 'fontStyle' );
+
+		}
+
+		getFontWeight() {
+
+			return this._getProperty( 'fontWeight' );
+
+		}
+
 		getLetterSpacing() {
 
 			return this._getProperty( 'letterSpacing' );
@@ -2159,6 +3315,12 @@ function MeshUIComponent( Base ) {
 		}
 
 		getFontTexture() {
+
+			if( this._font && this._font.isReady ){
+
+				return this._font.texture;
+
+			}
 
 			return this._getProperty( 'fontTexture' );
 
@@ -2185,12 +3347,6 @@ function MeshUIComponent( Base ) {
 		getTextAlign() {
 
 			return this._getProperty( 'textAlign' );
-
-		}
-
-		getTextType() {
-
-			return this._getProperty( 'textType' );
 
 		}
 
@@ -2268,9 +3424,9 @@ function MeshUIComponent( Base ) {
 
 			i = i || 0;
 
-			if ( this.getUIParent() ) {
+			if ( this.parentUI ) {
 
-				return this.parent.getParentsNumber( i + 1 );
+				return this.parentUI.getParentsNumber( i + 1 );
 
 			}
 
@@ -2364,6 +3520,43 @@ function MeshUIComponent( Base ) {
 		///////////////
 
 		/**
+		 * Filters children in order to compute only one times children lists
+		 * @private
+		 */
+		_rebuildChildrenLists() {
+
+			// Stores all children that are ui
+			this.childrenUIs = this.children.filter( child => child.isUI );
+
+			// Stores all children that are box
+			this.childrenBoxes = this.children.filter( child => child.isBoxComponent );
+
+			// Stores all children that are inline
+			this.childrenInlines = this.children.filter( child => child.isInline );
+
+			// Stores all children that are text
+			this.childrenTexts = this.children.filter( child => child.isText );
+		}
+
+		/**
+		 * Try to retrieve parentUI after each structural change
+		 * @private
+		 */
+		_rebuildParentUI = () => {
+
+			if ( this.parent && this.parent.isUI ) {
+
+				this.parentUI = this.parent;
+
+			} else {
+
+				this.parentUI = null;
+
+			}
+
+		};
+
+		/**
 		 * When the user calls component.add, it registers for updates,
 		 * then call THREE.Object3D.add.
 		 */
@@ -2376,7 +3569,11 @@ function MeshUIComponent( Base ) {
 
 			}
 
-			return super.add( ...arguments );
+			const result = super.add( ...arguments );
+
+			this._rebuildChildrenLists();
+
+			return result;
 
 		}
 
@@ -2393,7 +3590,11 @@ function MeshUIComponent( Base ) {
 
 			}
 
-			return super.remove( ...arguments );
+			const result = super.remove( ...arguments );
+
+			this._rebuildChildrenLists();
+
+			return result;
 
 		}
 
@@ -2406,34 +3607,6 @@ function MeshUIComponent( Base ) {
 		}
 
 		onAfterUpdate() {
-
-		}
-
-		/**
-		 * Called by FontLibrary when the font requested for the current component is ready.
-		 * Trigger an update for the component whose font is now available.
-		 * @private - "package protected"
-		 */
-		_updateFontFamily( font ) {
-
-			this.fontFamily = font;
-
-			this.traverse( ( child ) => {
-
-				if ( child.isUI ) child.update( true, true, false );
-
-			} );
-
-			this.getHighestParent().update( false, true, false );
-
-		}
-
-		/** @private - "package protected" */
-		_updateFontTexture( texture ) {
-
-			this.fontTexture = texture;
-
-			this.getHighestParent().update( false, true, false );
 
 		}
 
@@ -2457,26 +3630,26 @@ function MeshUIComponent( Base ) {
 			// DEPRECATION Warnings until -------------------------------------- 7.x.x ---------------------------------------
 
 			// Align content has been removed
-			if( options["alignContent"] ){
+			if ( options[ 'alignContent' ] ) {
 
-				options["alignItems"] = options["alignContent"];
+				options[ 'alignItems' ] = options[ 'alignContent' ];
 
-				if( !options["textAlign"] ){
+				if ( !options[ 'textAlign' ] ) {
 
-					options["textAlign"] = options["alignContent"];
+					options[ 'textAlign' ] = options[ 'alignContent' ];
 
 				}
 
-				console.warn("`alignContent` property has been deprecated, please rely on `alignItems` and `textAlign` instead.")
+				console.warn( '`alignContent` property has been deprecated, please rely on `alignItems` and `textAlign` instead.' );
 
-				delete options["alignContent"];
+				delete options[ 'alignContent' ];
 
 			}
 
 			// Align items left top bottom right will be removed
-			if( options['alignItems'] ){
+			if ( options[ 'alignItems' ] ) {
 
-				warnAboutDeprecatedAlignItems( options['alignItems'] );
+				warnAboutDeprecatedAlignItems( options[ 'alignItems' ] );
 
 			}
 
@@ -2493,11 +3666,18 @@ function MeshUIComponent( Base ) {
 					switch ( prop ) {
 
 						case 'content' :
+						case 'fontWeight' :
+						case 'fontStyle' :
+						case 'whiteSpace': // @TODO : Whitespace could also just be layouting
+							if ( this.isText ) parsingNeedsUpdate = true;
+							layoutNeedsUpdate = true;
+							this[ prop ] = options[ prop ];
+							break;
+
+						// Only layout now - Not anymore parsing
 						case 'fontSize' :
 						case 'fontKerning' :
 						case 'breakOn':
-						case 'whiteSpace':
-							if ( this.isText ) parsingNeedsUpdate = true;
 							layoutNeedsUpdate = true;
 							this[ prop ] = options[ prop ];
 							break;
@@ -2513,6 +3693,7 @@ function MeshUIComponent( Base ) {
 						case 'width' :
 						case 'height' :
 						case 'padding' :
+							// @TODO: I don't think this is true anymore
 							if ( this.isInlineBlock || ( this.isBlock && this.getBestFit() != 'none' ) ) parsingNeedsUpdate = true;
 							layoutNeedsUpdate = true;
 							this[ prop ] = options[ prop ];
@@ -2520,6 +3701,7 @@ function MeshUIComponent( Base ) {
 
 						case 'letterSpacing' :
 						case 'interLine' :
+							// @TODO: I don't think this is true anymore
 							if ( this.isBlock && this.getBestFit() != 'none' ) parsingNeedsUpdate = true;
 							layoutNeedsUpdate = true;
 							this[ prop ] = options[ prop ];
@@ -2562,27 +3744,60 @@ function MeshUIComponent( Base ) {
 
 			}
 
+
 			// special cases, this.update() must be called only when some files finished loading
 
-			if ( options.fontFamily ) {
+			// Selection of fontFamily and font property
+			// 1. Preferred way, give a {FontFamily} property
+			if ( options.fontFamily instanceof FontFamily ) {
 
-				core_FontLibrary.setFontFamily( this, options.fontFamily );
+				this.fontFamily = options.fontFamily;
+				this.font = options.fontFamily.getVariant( FontWeight_NORMAL, FontStyle_NORMAL );
 
 			}
 
-			if ( options.fontTexture ) {
+			// 1.1 Preferred way, a bit annoying to check options.fontTexture ( retro-compatibility )
+			else if( typeof options.fontFamily === 'string' && !options.fontTexture ) {
 
-				core_FontLibrary.setFontTexture( this, options.fontTexture );
+				const fontFamily = font_FontLibrary.getFontFamily( options.fontFamily );
+
+				if( fontFamily ){
+
+					this.fontFamily = fontFamily;
+					this.font = fontFamily.getVariant( FontWeight_NORMAL, FontStyle_NORMAL );
+
+				}
+
+			}
+			// 2. < v7.x.x way
+			else if ( options.fontFamily && options.fontTexture ) {
+
+				// Set from old way, check if that family is already registered
+				const fontName = options.fontFamily.pages ? options.fontFamily.info.face : options.fontFamily;
+
+				let fontFamily = font_FontLibrary.getFontFamily( fontName );
+
+				if ( !fontFamily ) {
+
+					fontFamily = font_FontLibrary.addFontFamily( fontName )
+						.addVariant( FontWeight_NORMAL, FontStyle_NORMAL, options.fontFamily, options.fontTexture );
+
+				}
+
+				this.fontFamily = fontFamily;
+
+				// @TODO: Add more variant selection
+				this.font = fontFamily.getVariant( FontWeight_NORMAL, FontStyle_NORMAL );
 
 			}
 
 			// if font kerning changes for a child of a block with Best Fit enabled, we need to trigger parsing for the parent as well.
-			const parent = this.getUIParent();
-			if ( parent && parent.getBestFit() != 'none' ) parent.update( true, true, false );
+			if ( this.parentUI && this.parentUI.getBestFit() != 'none' ) this.parentUI.update( true, true, false );
 
 			// Call component update
 
 			this.update( parsingNeedsUpdate, layoutNeedsUpdate, innerNeedsUpdate );
+
 
 			if ( layoutNeedsUpdate ) this.getHighestParent().update( false, true, false );
 
@@ -2636,30 +3851,8 @@ function MeshUIComponent( Base ) {
 			} );
 
 		}
+
 	};
-
-}
-
-// @TODO: Be remove upon 7.x.x
-const DEPRECATED_ALIGN_ITEMS = [
-	'top',
-	'right',
-	'bottom',
-	'left'
-]
-
-/**
- * @deprecated
- * // @TODO: Be remove upon 7.x.x
- * @param alignment
- */
-function warnAboutDeprecatedAlignItems( alignment ){
-
-	if( DEPRECATED_ALIGN_ITEMS.indexOf(alignment) !== - 1){
-
-		console.warn(`alignItems === '${alignment}' is deprecated and will be remove in 7.x.x. Fallback are 'start'|'end'`)
-
-	}
 
 }
 
@@ -3242,17 +4435,13 @@ class Block extends mix.withBase( external_THREE_namespaceObject.Object3D )(
 
 		const bestFit = this.getBestFit();
 
-		if ( bestFit != 'none' && ( this.children.find( child => child.isText ) ) ) {
+		if ( bestFit != 'none' && this.childrenTexts.length ) {
 
 			this.calculateBestFit( bestFit );
 
 		} else {
 
-			this.children.filter( child => {
-
-				return child.isText;
-
-			} ).forEach( child => {
+			this.childrenTexts.forEach( child => {
 
 				child._fitFontSize = undefined;
 
@@ -3294,7 +4483,7 @@ class Block extends mix.withBase( external_THREE_namespaceObject.Object3D )(
 		// Position inner elements according to dimensions and layout parameters.
 		// Delegate to BoxComponent.
 
-		if ( this.children.find( child => child.isInline ) ) {
+		if ( this.childrenInlines.length ) {
 
 			this.computeInlinesPosition();
 
@@ -3305,7 +4494,7 @@ class Block extends mix.withBase( external_THREE_namespaceObject.Object3D )(
 		// We check if this block is the root component,
 		// because most of the time the user wants to set the
 		// root component's z position themselves
-		if ( this.getUIParent() ) {
+		if ( this.parentUI ) {
 
 			this.position.z = this.getOffset();
 
@@ -3320,7 +4509,7 @@ class Block extends mix.withBase( external_THREE_namespaceObject.Object3D )(
 		// We check if this block is the root component,
 		// because most of the time the user wants to set the
 		// root component's z position themselves
-		if ( this.getUIParent() ) {
+		if ( this.parentUI ) {
 
 			this.position.z = this.getOffset();
 
@@ -3354,6 +4543,32 @@ function InlineComponent( Base ) {
 
 	};
 }
+
+;// CONCATENATED MODULE: ./src/utils/deepDelete.js
+
+
+/** Recursively erase THE CHILDREN of the passed object */
+function deepDelete( object3D ) {
+
+	object3D.children.forEach( ( child ) => {
+
+		if ( child.children.length > 0 ) deepDelete( child );
+
+		object3D.remove( child );
+
+		UpdateManager.disposeOf( child );
+
+		if ( child.material ) child.material.dispose();
+
+		if ( child.geometry ) child.geometry.dispose();
+
+	} );
+
+	object3D.children = [];
+
+}
+
+/* harmony default export */ const utils_deepDelete = (deepDelete);
 
 ;// CONCATENATED MODULE: ./node_modules/three/examples/jsm/utils/BufferGeometryUtils.js
 
@@ -4281,390 +5496,8 @@ function computeMorphedAttributes( object ) {
 
 
 
-;// CONCATENATED MODULE: ./src/content/MSDFGlyph.js
-
-
-/**
- * Job: create a plane geometry with the right UVs to map the MSDF texture on the wanted glyph.
- *
- * Knows: dimension of the plane to create, specs of the font used, glyph requireed
- */
-class MSDFGlyph extends external_THREE_namespaceObject.PlaneBufferGeometry {
-
-	constructor( inline, font ) {
-
-		const char = inline.glyph;
-		const fontSize = inline.fontSize;
-
-		super( fontSize, fontSize );
-
-		// Misc glyphs
-		if ( char.match( /\s/g ) === null ) {
-
-			if ( font.info.charset.indexOf( char ) === -1 ) console.error( `The character '${char}' is not included in the font characters set.` );
-
-			this.mapUVs( font, char );
-
-			this.transformGeometry( font, fontSize, char, inline );
-
-			// White spaces (we don't want our plane geometry to have a visual width nor a height)
-		} else {
-
-			this.nullifyUVs();
-
-			this.scale( 0, 0, 1 );
-			this.translate( 0, fontSize / 2, 0 );
-
-		}
-
-	}
-
-	/**
-	 * Compute the right UVs that will map the MSDF texture so that the passed character
-	 * will appear centered in full size
-	 * @private
-	 */
-	mapUVs( font, char ) {
-
-		const charOBJ = font.chars.find( charOBJ => charOBJ.char === char );
-
-		const common = font.common;
-
-		const xMin = charOBJ.x / common.scaleW;
-
-		const xMax = ( charOBJ.x + charOBJ.width ) / common.scaleW;
-
-		const yMin = 1 - ( ( charOBJ.y + charOBJ.height ) / common.scaleH );
-
-		const yMax = 1 - ( charOBJ.y / common.scaleH );
-
-		//
-
-		const uvAttribute = this.attributes.uv;
-
-		for ( let i = 0; i < uvAttribute.count; i++ ) {
-
-			let u = uvAttribute.getX( i );
-			let v = uvAttribute.getY( i );
-
-			[ u, v ] = ( () => {
-
-				switch ( i ) {
-
-					case 0 :
-						return [ xMin, yMax ];
-					case 1 :
-						return [ xMax, yMax ];
-					case 2 :
-						return [ xMin, yMin ];
-					case 3 :
-						return [ xMax, yMin ];
-
-				}
-
-			} )();
-
-			uvAttribute.setXY( i, u, v );
-
-		}
-
-	}
-
-	/** Set all UVs to 0, so that none of the glyphs on the texture will appear */
-	nullifyUVs() {
-
-		const uvAttribute = this.attributes.uv;
-
-		for ( let i = 0; i < uvAttribute.count; i++ ) {
-
-			uvAttribute.setXY( i, 0, 0 );
-
-		}
-
-	}
-
-	/** Gives the previously computed scale and offset to the geometry */
-	transformGeometry( font, fontSize, char, inline ) {
-
-		const charOBJ = font.chars.find( charOBJ => charOBJ.char === char );
-
-		const common = font.common;
-
-		const newHeight = charOBJ.height / common.lineHeight;
-		const newWidth = ( charOBJ.width * newHeight ) / charOBJ.height;
-
-		this.scale(
-			newWidth,
-			newHeight,
-			1
-		);
-
-		//
-
-		this.translate(
-			inline.width / 2,
-			( inline.height / 2 ) - inline.anchor,
-			0
-		);
-
-	}
-
-}
-
-;// CONCATENATED MODULE: ./src/content/MSDFText.js
-
-
-
-
-
-/**
-
-Job:
-- Computing glyphs dimensions according to this component's font and content
-- Create the text Mesh (call MSDFGlyph for each letter)
-
-Knows:
-- The Text component for which it creates Meshes
-- The parameters of the text mesh it must return
-
- */
-
-function getGlyphDimensions( options ) {
-
-	const FONT = options.font;
-
-	const FONT_SIZE = options.fontSize;
-
-	const GLYPH = options.glyph;
-
-	const SCALE_MULT = FONT_SIZE / FONT.info.size;
-
-	//
-
-	const charOBJ = FONT.chars.find( charOBJ => charOBJ.char === GLYPH );
-
-	let width = charOBJ ? charOBJ.width * SCALE_MULT : FONT_SIZE / 3;
-
-	let height = charOBJ ? charOBJ.height * SCALE_MULT : 0;
-
-	// handle exported whitespaces
-	if ( width === 0 ) {
-
-		// if this whitespaces in is the charset, use its xadvance value
-		// or fallback to fontSize
-		width = charOBJ ? charOBJ.xadvance * SCALE_MULT : FONT_SIZE;
-
-	}
-
-
-	if ( height === 0 ) height = FONT_SIZE * 0.7;
-
-	if ( GLYPH === '\n' ) width = 0;
-
-	const xadvance = charOBJ ? charOBJ.xadvance * SCALE_MULT : width;
-	const xoffset = charOBJ ? charOBJ.xoffset * SCALE_MULT : 0;
-
-	// world-space length between lowest point and the text cursor position
-	const anchor = charOBJ ? ( ( charOBJ.yoffset + charOBJ.height - FONT.common.base ) * FONT_SIZE ) / FONT.common.lineHeight : 0;
-
-	// const lineHeight = FONT.common.lineHeight * SCALE_MULT;
-
-	// console.log( lineHeight )
-
-	return {
-		// lineHeight,
-		width,
-		height,
-		anchor,
-		xadvance,
-		xoffset
-	};
-
-}
-
-
-/**
- * Try to find the kerning amount of a
- * @param font
- * @param {string} glyphPair
- * @returns {number}
- */
-function getGlyphPairKerning( font, glyphPair ) {
-
-	const KERNINGS = font._kernings;
-	return KERNINGS[ glyphPair ] ? KERNINGS[ glyphPair ] : 0;
-
-}
-
-
-//
-
-/**
- * Creates a THREE.Plane geometry, with UVs carefully positioned to map a particular
- * glyph on the MSDF texture. Then creates a shaderMaterial with the MSDF shaders,
- * creates a THREE.Mesh, returns it.
- * @private
- */
-function buildText() {
-
-	const translatedGeom = [];
-
-	this.inlines.forEach( ( inline, i ) => {
-
-		translatedGeom[ i ] = new MSDFGlyph( inline, this.getFontFamily() );
-
-		translatedGeom[ i ].translate( inline.offsetX, inline.offsetY, 0 );
-
-	} );
-
-	const mergedGeom = mergeBufferGeometries( translatedGeom );
-
-	const mesh = new external_THREE_namespaceObject.Mesh( mergedGeom, this.getFontMaterial() );
-
-	return mesh;
-
-}
-
-//
-
-/* harmony default export */ const MSDFText = ({
-	getGlyphDimensions,
-	getGlyphPairKerning,
-	buildText
-});
-
-;// CONCATENATED MODULE: ./src/components/core/TextManager.js
-
-
-/**
-
-Job:
-- Routing the request for Text dimensions and Text creation depending on Text type.
-
-Knows:
-- this component's textType attribute
-
-Note:
-Only one Text type is natively supported by the library at the moment,
-but the architecture allows you to easily stick in your custom Text type.
-More information here :
-https://github.com/felixmariotto/three-mesh-ui/wiki/Using-a-custom-text-type
-
- */
-function TextManager( Base ) {
-
-	return class TextManager extends Base {
-
-		createText() {
-
-			const component = this;
-
-			const mesh = ( () => {
-
-				switch ( this.getTextType() ) {
-
-					case 'MSDF' :
-						return MSDFText.buildText.call( this );
-
-					default :
-						console.warn( `'${this.getTextType()}' is not a supported text type.\nSee https://github.com/felixmariotto/three-mesh-ui/wiki/Using-a-custom-text-type` );
-						break;
-
-				}
-
-			} )();
-
-			mesh.renderOrder = Infinity;
-
-			// This is for hiddenOverflow to work
-			mesh.onBeforeRender = function () {
-
-				if ( component.updateClippingPlanes ) {
-
-					component.updateClippingPlanes();
-
-				}
-
-			};
-
-			return mesh;
-
-		}
-
-		/**
-		 * Called by Text to get the dimensions of a particular glyph,
-		 * in order for InlineManager to compute its position
-		 */
-		getGlyphDimensions( options ) {
-
-			switch ( options.textType ) {
-
-				case 'MSDF' :
-
-					return MSDFText.getGlyphDimensions( options );
-
-				default :
-					console.warn( `'${options.textType}' is not a supported text type.\nSee https://github.com/felixmariotto/three-mesh-ui/wiki/Using-a-custom-text-type` );
-					break;
-
-			}
-
-		}
-
-
-		/**
-		 * Called by Text to get the amount of kerning for pair of glyph
-		 * @param textType
-		 * @param font
-		 * @param glyphPair
-		 * @returns {number}
-		 */
-		getGlyphPairKerning( textType, font, glyphPair ) {
-
-			switch ( textType ) {
-
-				case 'MSDF' :
-
-					return MSDFText.getGlyphPairKerning( font, glyphPair );
-
-				default :
-					console.warn( `'${textType}' is not a supported text type.\nSee https://github.com/felixmariotto/three-mesh-ui/wiki/Using-a-custom-text-type` );
-					break;
-
-			}
-
-		}
-	};
-
-}
-
-;// CONCATENATED MODULE: ./src/utils/deepDelete.js
-
-
-/** Recursively erase THE CHILDREN of the passed object */
-function deepDelete( object3D ) {
-
-	object3D.children.forEach( ( child ) => {
-
-		if ( child.children.length > 0 ) deepDelete( child );
-
-		object3D.remove( child );
-
-		UpdateManager.disposeOf( child );
-
-		if ( child.material ) child.material.dispose();
-
-		if ( child.geometry ) child.geometry.dispose();
-
-	} );
-
-	object3D.children = [];
-
-}
-
-/* harmony default export */ const utils_deepDelete = (deepDelete);
-
 ;// CONCATENATED MODULE: ./src/components/Text.js
+
 
 
 
@@ -4691,18 +5524,179 @@ Knows:
  */
 class Text extends mix.withBase( external_THREE_namespaceObject.Object3D )(
 	InlineComponent,
-	TextManager,
 	MaterialManager,
 	MeshUIComponent
 ) {
 
 	constructor( options ) {
 
-		super( options );
+		super();
 
 		this.isText = true;
 
+		// adds internal properties
+		/**
+		 *
+		 * @type {string[]}
+		 * @private
+		 */
+		this._textContent = null;
+
+		/**
+		 *
+		 * @type {MSDFTypographyCharacter[]}
+		 * @private
+		 */
+		this._textContentGlyphs = null;
+
+		/**
+		 *
+		 * @type {MSDFInlineCharacter[]}
+		 * @private
+		 */
+		this._textContentInlines = null;
+
 		this.set( options );
+
+		this.addEventListener( 'added', this._acquireFont );
+
+	}
+
+	/**
+	 * Temporary code
+	 * @param {FontVariant} value
+	 */
+	set font( value ) {
+
+		// if a previous font isset, be sure not event remains
+		if ( this._font && !this._font.isReady ) {
+
+			this._font.removeEventListener( 'ready', this._handleFontVariantReady );
+
+		}
+
+		this._font = value;
+
+		// new font, means rebuild inlines, now or soon
+		if ( !this._font.isReady ) {
+
+			this.inlines = null;
+			this._font.addEventListener( 'ready', this._handleFontVariantReady );
+
+		} else {
+
+			this._handleFontVariantReady();
+
+		}
+
+	}
+
+	/**
+	 *
+	 * @private
+	 */
+	_handleFontVariantReady = () => {
+
+		// request parse update and parent layout
+		this.update( true, true, false );
+		this.getHighestParent().update( false, true, false );
+
+		// remove the listener
+		this._font.removeEventListener( 'ready', this._handleFontVariantReady );
+
+	};
+
+	_acquireFont = () => {
+
+		if( !this._font ) {
+
+			let fontFamily = this.getFontFamily();
+			if ( fontFamily ) {
+
+				if ( fontFamily instanceof FontFamily ) {
+
+					this.font = fontFamily.getVariant( this.getFontWeight(), this.getFontStyle() );
+
+				} else {
+
+					// Set from old way, check if that family is already registered
+					const fontName = fontFamily.pages ? fontFamily.info.face : fontFamily;
+					fontFamily = font_FontLibrary.getFontFamily( fontName );
+					if ( fontFamily ) {
+
+						this.font = fontFamily.getVariant( this.getFontWeight(), this.getFontStyle() );
+
+					}
+
+				}
+
+			}
+
+		}
+
+	}
+
+	_onBeforeRender = () => {
+
+			if ( this.updateClippingPlanes ) {
+
+				this.updateClippingPlanes();
+
+			}
+
+	}
+
+	/**
+	 *
+	 * @returns {FontVariant}
+	 */
+	get font() {
+		return this._font;
+	}
+
+	/*******************************************************************************************************************
+	 * GETTERS - SETTERS
+	 ******************************************************************************************************************/
+
+	// get whiteSpace(){
+	//
+	// 	// initialisation can look on parents
+	// 	if( !this._whiteSpace ) this._whiteSpace = this.getWhiteSpace();
+	//
+	// 	return this._whiteSpace;
+	//
+	// }
+	//
+	// set whiteSpace( value ) {
+	//
+	// 	if( this._whiteSpace === value ) return;
+	//
+	// 	value = Whitespace.isValid( value );
+	//
+	// 	this._whiteSpace = value;
+	//
+	// 	// request parse and layout
+	// 	this.update( true, true, false );
+	//
+	// }
+
+
+	_buildContentKernings(){
+
+		// apply kerning
+		if ( this.getFontKerning() !== 'none' ) {
+
+			// First character won't be kerned with its void lefthanded peer
+			for ( let i = 1; i < this._textContent.length; i++ ) {
+
+				const glyphPair = this._textContent[ i - 1 ] + this._textContent[ i ];
+
+				// retrieve the kerning from the font
+				// as set it on the characterInline
+				this._textContentInlines[ i ].kerning = this._font.getKerningAmount( glyphPair );
+
+			}
+		}
 
 	}
 
@@ -4718,6 +5712,31 @@ class Text extends mix.withBase( external_THREE_namespaceObject.Object3D )(
 	 */
 	parseParams() {
 
+		this._acquireFont();
+
+		if( !this.content || this.content.length === 0 ) return;
+
+		// won't parse without font or unready font
+		if( !this._font || !this._font.isReady ) return;
+
+		// Apply whitespace on string characters themselves.
+		// Will possibly :
+		//  - l/r trim whitespace
+		//  - collapse whitespace sequences
+		//  - remove newlines / tabulations
+		this._textContent = collapseWhitespaceOnString( this.content, this.getWhiteSpace() );
+
+		// Now that we know exactly which characters will be printed
+		// Store the character description ( typographic properties )
+		this._textContentGlyphs = this._textContent.split( '' ).map( ( char ) => this._font.getTypographyCharacter( char ) );
+
+		// And from the descriptions ( which are static/freezed per character per font )
+		// Build the inline
+		this._textContentInlines = this._textContentGlyphs.map( ( glyphBox ) => glyphBox.asInlineCharacter() );
+		this.inlines = this._textContentInlines;
+
+
+		// this.calculateInlines( this._fitFontSize || this.getFontSize() );
 		this.calculateInlines( this._fitFontSize || this.getFontSize() );
 
 	}
@@ -4735,8 +5754,21 @@ class Text extends mix.withBase( external_THREE_namespaceObject.Object3D )(
 
 		if ( this.inlines ) {
 
-			// happening in TextManager
-			this.textContent = this.createText();
+			const charactersAsGeometries = this.inlines.map(
+				inline =>
+					this._font.getGeometryCharacter( inline )
+						.translate( inline.offsetX, inline.offsetY, 0 )
+
+			);
+
+			const mergedGeom = mergeBufferGeometries( charactersAsGeometries );
+
+			this.textContent = new external_THREE_namespaceObject.Mesh( mergedGeom, this.getFontMaterial() );
+
+			this.textContent.renderOrder = Infinity;
+
+			// This is for hiddenOverflow to work
+			this.textContent.onBeforeRender = this._onBeforeRender
 
 			this.updateTextMaterial();
 
@@ -4758,112 +5790,55 @@ class Text extends mix.withBase( external_THREE_namespaceObject.Object3D )(
 
 	calculateInlines( fontSize ) {
 
-		const content = this.content;
-		const font = this.getFontFamily();
-		const breakChars = this.getBreakOn();
-		const textType = this.getTextType();
+		// Abort conditions
+		if ( !this._font || !this._font.isReady ) return;
+		if ( !this._textContent) return;
+
 		const whiteSpace = this.getWhiteSpace();
+		const newLineBreakability = newlineBreakability( whiteSpace )
 
-		// Abort condition
+		const breakChars = this.getBreakOn();
 
-		if ( !font || typeof font === 'string' ) {
+		const SCALE_MULT = fontSize / this._font.typographic.size;
 
-			if ( !core_FontLibrary.getFontOf( this ) ) console.warn( 'no font was found' );
-			return;
+		// update inlines properties before inline placements in lines
+		for ( let i = 0; i < this._textContent.length; i++ ) {
 
-		}
+			const char = this._textContent[ i ];
 
-		if ( !this.content ) {
+			/**
+			 *
+			 * @type {MSDFInlineCharacter}
+			 */
+			const inline = this._textContentInlines[ i ];
 
-			this.inlines = null;
-			return;
+			inline.resetOffsets();
 
-		}
-
-		if ( !textType ) {
-
-			console.error( `You must provide a 'textType' attribute so three-mesh-ui knows how to render your text.\n See https://github.com/felixmariotto/three-mesh-ui/wiki/Using-a-custom-text-type` );
-			return;
-
-		}
-
-		// collapse whitespace for white-space normal
-		const whitespaceProcessedContent = collapseWhitespaceOnString( content, whiteSpace );
-		const chars = Array.from ? Array.from( whitespaceProcessedContent ) : String( whitespaceProcessedContent ).split( '' );
-
-
-		// Compute glyphs sizes
-
-		const SCALE_MULT = fontSize / font.info.size;
-		const lineHeight = font.common.lineHeight * SCALE_MULT;
-		const lineBase = font.common.base * SCALE_MULT;
-
-		const glyphInfos = chars.map( ( glyph ) => {
-
-			// Get height, width, and anchor point of this glyph
-			const dimensions = this.getGlyphDimensions( {
-				textType,
-				glyph,
-				font,
-				fontSize
-			} );
-
-			//
-
+			// Whitespace Breakability ---------------------------------------------------------------------------------------
 			let lineBreak = null;
+			if ( whiteSpace !== NOWRAP ) {
 
-			if( whiteSpace !== NOWRAP ) {
-
-				if ( breakChars.includes( glyph ) || glyph.match( /\s/g ) ) lineBreak = 'possible';
-
-			}
-
-
-			if ( glyph.match( /\n/g ) ) {
-
-				lineBreak = newlineBreakability( whiteSpace );
+				if ( breakChars.includes( char ) || char.match( /\s/g ) ) lineBreak = 'possible';
 
 			}
 
-			//
+			if ( char.match( /\n/g ) ) {
 
-			return {
-				height: dimensions.height,
-				width: dimensions.width,
-				anchor: dimensions.anchor,
-				xadvance: dimensions.xadvance,
-				xoffset: dimensions.xoffset,
-				lineBreak,
-				glyph,
-				fontSize,
-				lineHeight,
-				lineBase
-			};
-
-		} );
-
-		// apply kerning
-		if ( this.getFontKerning() !== 'none' ) {
-
-			// First character won't be kerned with its void lefthanded peer
-			for ( let i = 1; i < glyphInfos.length; i++ ) {
-
-				const glyphInfo = glyphInfos[ i ];
-				const glyphPair = glyphInfos[ i - 1 ].glyph + glyphInfos[ i ].glyph;
-
-				// retrieve the kerning from the font
-				const kerning = this.getGlyphPairKerning( textType, font, glyphPair );
-
-				// compute the final kerning value according to requested fontSize
-				glyphInfo[ 'kerning' ] = kerning * ( fontSize / font.info.size );
+				lineBreak = newLineBreakability;
 
 			}
+
+			inline.lineBreak = lineBreak;
+
+			// --------------------------------------------------------------------------------------  Whitespace Breakability
+
+			inline.fontSize = fontSize;
+
+			inline.fontFactor = SCALE_MULT;
+
+
 		}
 
-
-		// Update 'inlines' property, so that the parent can compute each glyph position
-
-		this.inlines = glyphInfos;
 	}
 
 }
@@ -4939,12 +5914,22 @@ class InlineBlock extends mix.withBase( external_THREE_namespaceObject.Object3D 
 		if ( !this.width ) console.warn( 'inlineBlock has no width. Set to 0.3 by default' );
 		if ( !this.height ) console.warn( 'inlineBlock has no height. Set to 0.3 by default' );
 
+
+		// Add an object that can be seen and CharacterInline
 		this.inlines = [ {
-			height: this.height || 0.3,
+			lineBreak : 'possible',
+			kerning : 0,
+      offsetX : 0,
+			offsetY : 0,
 			width: this.width || 0.3,
-			anchor: 0,
-			lineBreak: 'possible'
-		} ];
+			height: this.height || 0.3,
+			anchor: 0, // @TODO: Could be useful
+			xadvance: this.width || 0.3,
+			xoffset: 0,
+			yoffset: 0,
+			lineHeight : this.height || 0.3,
+			lineBase: this.height || 0.3
+		}];
 
 	}
 
@@ -4975,6 +5960,8 @@ class InlineBlock extends mix.withBase( external_THREE_namespaceObject.Object3D 
 			this.position.x += options.offsetX;
 			this.position.y += options.offsetY;
 
+			this.position.y += options.anchor;
+
 		}
 
 		this.size.set( WIDTH, HEIGHT );
@@ -4987,7 +5974,7 @@ class InlineBlock extends mix.withBase( external_THREE_namespaceObject.Object3D 
 		// Position inner elements according to dimensions and layout parameters.
 		// Delegate to BoxComponent.
 
-		if ( this.children.find( child => child.isInline ) ) {
+		if ( this.childrenInlines.length ) {
 
 			this.computeInlinesPosition();
 
@@ -5753,7 +6740,7 @@ and if not passed tries to detect the language. If not found, it uses the basic 
 
 //
 
-const Keyboard_textureLoader = new external_THREE_namespaceObject.TextureLoader();
+const textureLoader = new external_THREE_namespaceObject.TextureLoader();
 
 //
 
@@ -5926,7 +6913,7 @@ class Keyboard extends mix.withBase( external_THREE_namespaceObject.Object3D )( 
 
 						} )();
 
-						Keyboard_textureLoader.load( url, ( texture ) => {
+						textureLoader.load( url, ( texture ) => {
 
 							key.add(
 								new InlineBlock( {
@@ -6024,9 +7011,9 @@ class Keyboard extends mix.withBase( external_THREE_namespaceObject.Object3D )( 
 
 			const newContent = this.isLowerCase || !char.upperCase ? char.lowerCase : char.upperCase;
 
-			const textComponent = key.children.find( child => child.isText );
+			if ( !key.childrenTexts.length ) return;
 
-			if ( !textComponent ) return;
+			const textComponent = key.childrenTexts[0];
 
 			key.info.input = newContent;
 
@@ -6051,9 +7038,9 @@ class Keyboard extends mix.withBase( external_THREE_namespaceObject.Object3D )( 
 
 			const newContent = this.isLowerCase || !char.upperCase ? char.lowerCase : char.upperCase;
 
-			const textComponent = key.children.find( child => child.isText );
+			if ( !key.childrenTexts.length ) return;
 
-			if ( !textComponent ) return;
+			const textComponent = key.childrenTexts[0];
 
 			key.info.input = newContent;
 
@@ -6094,6 +7081,9 @@ class Keyboard extends mix.withBase( external_THREE_namespaceObject.Object3D )( 
 
 
 
+
+
+
 const update = () => UpdateManager.update();
 
 const ThreeMeshUI = {
@@ -6101,13 +7091,19 @@ const ThreeMeshUI = {
 	Text: Text,
 	InlineBlock: InlineBlock,
 	Keyboard: Keyboard,
-	FontLibrary: core_FontLibrary,
+	FontLibrary: font_FontLibrary,
 	update,
-	textAlign: TextAlign_namespaceObject,
-	whiteSpace: Whitespace_namespaceObject,
+	TextAlign: TextAlign_namespaceObject,
+	Whitespace: Whitespace_namespaceObject,
+	JustifyContent: JustifyContent_namespaceObject,
+	AlignItems: AlignItems_namespaceObject,
+	ContentDirection: ContentDirection_namespaceObject
 };
 
 if ( typeof __webpack_require__.g !== 'undefined' ) __webpack_require__.g.ThreeMeshUI = ThreeMeshUI;
+
+
+
 
 
 
