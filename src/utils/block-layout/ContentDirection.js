@@ -3,10 +3,19 @@ export const ROW_REVERSE = "row-reverse";
 export const COLUMN = "column";
 export const COLUMN_REVERSE = "column-reverse";
 
+
+/**
+ * @tests '/test/specs/utils/box-layout/content-direction.js'
+ * @param {BoxComponent} container
+ * @param {string} DIRECTION
+ * @param {number} startPos
+ * @param {number} REVERSE
+ */
 export function contentDirection( container, DIRECTION, startPos, REVERSE ){
 
 	// end to end children
 	let accu = startPos;
+
 
 	let childGetSize = "getOffsetWidth";
 	let axisPrimary = "x";

@@ -19,6 +19,8 @@ export const padItems = function( boxComponent, DIRECTION, ALIGNMENT ){
 			snap = snapXon = 'left';
 		}else if( ALIGNMENT === 'end' ){
 			snap = snapXon ='right';
+		}else {
+			snap = 'centerX';
 		}
 
 	} else {
@@ -28,6 +30,8 @@ export const padItems = function( boxComponent, DIRECTION, ALIGNMENT ){
 			snap = snapYon = 'top';
 		}else if( ALIGNMENT === 'end' ){
 			snap = snapYon ='bottom';
+		}else{
+			snap = 'centerY';
 		}
 		/* eslint-enable no-lonely-if */
 
@@ -63,6 +67,8 @@ export const padItems = function( boxComponent, DIRECTION, ALIGNMENT ){
 
 		let marginX = 0;
 		let marginY = 0;
+		// let marginY = ( -child._margin.x + child._margin.z ) /2;
+		// let marginY = ( -child._margin.x + child._margin.z ) /2;
 
 		if( snap === 'top' ) {
 
@@ -79,6 +85,14 @@ export const padItems = function( boxComponent, DIRECTION, ALIGNMENT ){
 		} else if( snap === 'right' ) {
 
 			marginX = - child._margin.y;
+
+		} else if( snap === 'centerX' ) {
+
+			marginX = ( child._margin.w - child._margin.y ) /2;
+
+		} else if( snap === 'centerY' ) {
+
+			marginY = ( - child._margin.x + child._margin.z ) /2;
 
 		}
 

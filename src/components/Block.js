@@ -72,9 +72,10 @@ export default class Block extends BoxComponent {
 	updateLayout() {
 
 		// Get temporary dimension
+		this.computeBoxProperties();
 
-		const WIDTH = this.getOffsetWidth();
-		const HEIGHT = this.getOffsetHeight();
+		const WIDTH = this.offsetWidth;
+		const HEIGHT = this.offsetHeight;
 
 		if ( !WIDTH || !HEIGHT ) {
 

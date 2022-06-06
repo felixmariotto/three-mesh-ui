@@ -5,6 +5,13 @@ export const SPACE_AROUND = 'space-around';
 export const SPACE_BETWEEN = 'space-between';
 export const SPACE_EVENLY = 'space-evenly';
 
+/**
+ * @tests '/test/specs/utils/box-layout/justify-content.js'
+ * @param {BoxComponent} boxComponent
+ * @param {string} direction
+ * @param {number} startPos
+ * @param {number} REVERSE
+ */
 export function justifyContent( boxComponent, direction, startPos, REVERSE){
 
 	const JUSTIFICATION = boxComponent.getJustifyContent();
@@ -17,7 +24,7 @@ export function justifyContent( boxComponent, direction, startPos, REVERSE){
 	const side = direction.indexOf('row') === 0 ? 'width' : 'height'
 	const usedDirectionSpace = boxComponent.getChildrenSideSum( side );
 
-	const INNER_SIZE = side === 'width' ? boxComponent.getInsetWidth() : boxComponent.getInsetHeight();
+	const INNER_SIZE = side === 'width' ? boxComponent.innerWidth : boxComponent.innerHeight;
 	const remainingSpace = INNER_SIZE - usedDirectionSpace;
 
 	// Items Offset

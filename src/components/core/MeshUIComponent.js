@@ -8,7 +8,6 @@ import DEFAULTS from '../../utils/Defaults.js';
 import FontFamily from '../../font/FontFamily';
 import * as FontWeight from '../../utils/font/FontWeight';
 import * as FontStyle from '../../utils/font/FontStyle';
-import Behavior from '../../utils/Behavior';
 import Lines from './Lines';
 
 
@@ -20,6 +19,7 @@ import Mediator from '../../utils/mediator/Mediator';
 /* eslint-enable no-unused-vars */
 
 /**
+
 
 Job:
 - Set this component attributes and call updates accordingly
@@ -108,6 +108,7 @@ export default class MeshUIComponent extends Object3D {
 				_receiveShadow:{m:'receiveShadow'},
 				// _renderOrder:{m:'renderOrder'}
 			}
+
 
 			/**
 			 *
@@ -722,18 +723,23 @@ export default class MeshUIComponent extends Object3D {
 
 						case 'padding':
 							this._fourDimensionsValueSetter(this._padding, value );
+							layoutNeedsUpdate = true;
 							break;
 						case 'paddingTop':
 							this._padding.x = value;
+							layoutNeedsUpdate = true;
 							break;
 						case 'paddingRight':
 							this._padding.y = value;
+							layoutNeedsUpdate = true;
 							break;
 						case 'paddingBottom':
 							this._padding.z = value;
+							layoutNeedsUpdate = true;
 							break;
 						case 'paddingLeft':
 							this._padding.w = value;
+							layoutNeedsUpdate = true;
 							break;
 
 						case 'letterSpacing' :
@@ -746,18 +752,23 @@ export default class MeshUIComponent extends Object3D {
 
 						case 'margin' :
 							this._fourDimensionsValueSetter(this._margin, value );
+							layoutNeedsUpdate = true;
 							break;
 						case 'marginTop':
 							this._margin.x = value;
+							layoutNeedsUpdate = true;
 							break;
 						case 'marginRight':
 							this._margin.y = value;
+							layoutNeedsUpdate = true;
 							break;
 						case 'marginBottom':
 							this._margin.z = value;
+							layoutNeedsUpdate = true;
 							break;
 						case 'marginLeft':
 							this._margin.w = value;
+							layoutNeedsUpdate = true;
 							break;
 						// case 'margin':
 						case 'contentDirection' :
@@ -832,18 +843,23 @@ export default class MeshUIComponent extends Object3D {
 
 						case 'borderWidth' :
 							this._fourDimensionsValueSetter( this._borderWidth, value);
+							layoutNeedsUpdate = true;
 							break;
 						case 'borderTopWidth' :
 							this._borderWidth.x = value;
+							layoutNeedsUpdate = true;
 							break;
 						case 'borderRightWidth':
 							this._borderWidth.y = value;
+							layoutNeedsUpdate = true;
 							break;
 						case 'borderBottomWidth':
 							this._borderWidth.z = value;
+							layoutNeedsUpdate = true;
 							break;
 						case 'borderLeftWidth':
 							this._borderWidth.w = value;
+							layoutNeedsUpdate = true;
 							break;
 
 						default:

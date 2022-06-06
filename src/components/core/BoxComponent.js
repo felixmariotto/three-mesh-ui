@@ -26,8 +26,32 @@ export default class BoxComponent extends InlineManager {
 			this.isBoxComponent = true;
 			this.childrenPos = {};
 
+			// Box properties only update once per update layout
+			this.offsetWidth = 0;
+			this.offsetHeight = 0;
+			this.innerWidth = 0;
+			this.innerHeight = 0;
+
+			this.centerX = 0;
+			this.centerY = 0;
+
 		}
 
+	/**
+	 *
+	 */
+	computeBoxProperties() {
+
+			this.offsetWidth = this.getOffsetWidth();
+			this.offsetHeight = this.getOffsetHeight();
+
+			this.innerWidth = this.getInnerWidth();
+			this.innerHeight = this.getInnerHeight();
+
+			this.centerX = this.getCenterX();
+			this.centerY = this.getCenterY();
+
+		}
 
 
 	/**
@@ -38,8 +62,6 @@ export default class BoxComponent extends InlineManager {
 		getChildrenSideSum( side ) {
 
 			return this.childrenBoxes.reduce( ( accu, child ) => {
-
-
 
 				const CHILD_SIZE = ( side === 'width' ) ?
 					( child.getOffsetWidth() + child._margin.y + child._margin.w  ) :
@@ -81,19 +103,19 @@ export default class BoxComponent extends InlineManager {
 				switch ( DIRECTION ) {
 
 					case ROW :
-						directionalOffset = -this.getInsetWidth() / 2;
+						directionalOffset = -this.innerWidth / 2;
 						break;
 
 					case ROW_REVERSE :
-						directionalOffset = this.getInsetWidth() / 2;
+						directionalOffset = this.innerWidth / 2;
 						break;
 
 					case COLUMN :
-						directionalOffset = this.getInsetHeight() / 2;
+						directionalOffset = this.innerHeight / 2;
 						break;
 
 					case COLUMN_REVERSE :
-						directionalOffset = -this.getInsetHeight() / 2;
+						directionalOffset = -this.innerHeight / 2;
 						break;
 
 				}
@@ -170,7 +192,7 @@ export default class BoxComponent extends InlineManager {
 	 * Obtain the inner width according to box-sizing
 	 * @return {number}
 	 */
-	getInsetWidth() {
+	getInnerWidth() {
 
 		const base = this.width || this.getAutoWidth();
 
@@ -188,7 +210,7 @@ export default class BoxComponent extends InlineManager {
 	 * Obtain the inner height according to box-sizing
 	 * @return {number}
 	 */
-	getInsetHeight() {
+	getInnerHeight() {
 
 		const base = this.height || this.getAutoHeight();
 
@@ -205,7 +227,27 @@ export default class BoxComponent extends InlineManager {
 
 		getBoxSizing() { return this.boxSizing || 'border-box'; }
 
+	/**
+	 * Retrieve the center X according to box sized dimensions
+	 * @return {number}
+	 */
+	getCenterX() {
+		const leftSide = this._padding.w + this._borderWidth.w;
+		const rightSide = this._padding.y + this._borderWidth.y;
 
+		return (leftSide - rightSide ) / 2;
+	}
+
+	/**
+	 * Retrieve the center Y according to box sized dimensions
+	 * @return {number}
+	 */
+	getCenterY() {
+		const topSide = this._padding.x + this._borderWidth.x;
+		const bottomSide = this._padding.z + this._borderWidth.z;
+
+		return ( bottomSide - topSide ) / 2;
+	}
 
 
 	/**
@@ -270,7 +312,7 @@ export default class BoxComponent extends InlineManager {
 
 		if( this.parentUI && this.parentUI.getAlignItems() === 'stretch' && this.parentUI.getContentDirection().indexOf('row') !== -1 ) {
 
-			return this.parentUI.getInsetHeight();
+			return this.parentUI.getInnerHeight();
 
 		}
 
@@ -285,7 +327,7 @@ export default class BoxComponent extends InlineManager {
 
 		if( this.parentUI && this.parentUI.getAlignItems() === 'stretch' && this.parentUI.getContentDirection().indexOf('column') !== -1 ) {
 
-			return this.parentUI.getInsetWidth();
+			return this.parentUI.getInnerWidth();
 
 		}
 

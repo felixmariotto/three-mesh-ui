@@ -90,7 +90,7 @@ function _calculateHeight( fontMultiplier ) {
 
 function _calculateGrowFit() {
 
-	const INNER_HEIGHT = this.getInsetHeight();
+	const INNER_HEIGHT = this.innerHeight;
 
 	//Iterative method to find a fontSize of text children that text will fit into container
 	let iterations = 1;
@@ -143,7 +143,7 @@ function _calculateGrowFit() {
 
 function _calculateShrinkFit() {
 
-	const INNER_HEIGHT = this.getInsetHeight();
+	const INNER_HEIGHT = this.innerHeight;
 
 	// Iterative method to find a fontSize of text children that text will fit into container
 	let iterations = 1;
@@ -193,7 +193,7 @@ function _calculateShrinkFit() {
 
 function _calculateAutoFit()  {
 
-	const INNER_HEIGHT = this.getInsetHeight();
+	const INNER_HEIGHT = this.innerHeight;
 
 	//Iterative method to find a fontSize of text children that text will fit into container
 	let iterations = 1;

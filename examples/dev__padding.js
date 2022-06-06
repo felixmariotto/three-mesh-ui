@@ -91,11 +91,13 @@ function step2BuildThreeMeshUIElements() {
 		// padding: '0 0.225 0 0',
 		// padding: '0.25 0 0 0.1',
 		// padding: '0 0 0.1 0.1',
-		padding: '0.1 0.2 0.1 0.2',
+		padding: '0.1 0.2 0.1 0',
+		// padding: 0.1,
+		// padding: '0.1 .2 .2 0.1',
 
 		// A Block can define its "layout" properties
 		// contentDirection: 'row-reverse',
-		contentDirection: 'column',
+		contentDirection: 'row',
 		justifyContent: 'start',
 		alignItems: 'start',
 		textAlign: 'justify',
@@ -104,7 +106,7 @@ function step2BuildThreeMeshUIElements() {
 		backgroundTexture : new TextureLoader().load("./assets/uv_grid.jpg"),
 
 		// borderWidth: 0.1,
-		borderWidth: '0 0.2 .05 0.2',
+		borderWidth: '0 0.2 .05 0.1',
 		borderColor: new THREE.Color(0x000000),
 
 		// A Block can also define "text" properties that will propagate to any of its Text children
@@ -144,36 +146,38 @@ function step2BuildThreeMeshUIElements() {
 
 		new ThreeMeshUI.Block( {
 			// three-mesh-ui Text should defined their content to display
-			backgroundColor: new THREE.Color(0xffffff),
+			backgroundColor: new THREE.Color(0x000000),
 			width: 0.1,
 			height: 0.1,
-			margin:0,
+
+			// margin: 0.05,
 			padding: 0,
 			offset: 0.001,
 
 		} ),
 
-		// new ThreeMeshUI.Block( {
-		// 	// three-mesh-ui Text should defined their content to display
-		// 	backgroundColor: new THREE.Color(0xffffff),
-		// 	width: 0.1,
-		// 	height: 0.1,
-		// 	margin:0,
-		// 	padding: 0,
-		// 	offset: 0.001,
-		//
-		// } ),
+		new ThreeMeshUI.Block( {
+			// three-mesh-ui Text should defined their content to display
+			backgroundColor: new THREE.Color(0xffff99),
+			width: 0.1,
+			height: 0.1,
 
-		// new ThreeMeshUI.Block( {
-		// 	// three-mesh-ui Text should defined their content to display
-		// 	backgroundColor: new THREE.Color(0xffffff),
-		// 	width: 0.1,
-		// 	height: 0.1,
-		// 	margin:0,
-		// 	padding: 0,
-		// 	offset: 0.001,
-		//
-		// } ),
+			// margin: 0.05,
+			padding: 0,
+			offset: 0.001,
+
+		} ),
+
+		new ThreeMeshUI.Block( {
+			// three-mesh-ui Text should defined their content to display
+			backgroundColor: new THREE.Color(0xff0000),
+			width: 0.1,
+			height: 0.1,
+			// margin: 0.05,
+			padding: 0,
+			offset: 0.001,
+
+		} ),
 
 	);
 
@@ -505,7 +509,7 @@ function step2BuildThreeMeshUIElements() {
 		rootBlock2.set( settings[settingIndex] );
 		rootBlock3.set( settings[settingIndex] );
 		rootBlock4.set( settings[settingIndex] );
-	}, 150)
+	}, 250)
 
 
 }

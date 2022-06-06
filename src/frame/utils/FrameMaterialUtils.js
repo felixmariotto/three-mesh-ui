@@ -3,7 +3,7 @@ import { Vector2, Vector4 } from 'three';
 //JSDoc related import
 /* eslint-disable no-unused-vars */
 import { Material, ShaderMaterial } from 'three';
-import { ShaderChunkUI } from 'three-mesh-ui';
+import { ShaderChunkUI } from '../../renderers/shaders/ShaderChunkUI';
 import { alphaTestTransformer, asPreprocessorValueTransformer, uniformOrUserDataTransformer } from '../../utils/mediator/transformers/MaterialTransformers';
 /* eslint-enable no-unused-vars */
 

@@ -6,6 +6,11 @@ export const CENTER = "center";
 export const END = "end";
 export const STRETCH = "stretch"; // Still bit experimental
 
+/**
+ * @tests '/test/specs/utils/box-layout/align-items.js'
+ * @param {BoxComponent} boxComponent
+ * @param {string} DIRECTION
+ */
 export function alignItems( boxComponent, DIRECTION){
 
 	const ALIGNMENT = boxComponent.getAlignItems();
@@ -15,11 +20,11 @@ export function alignItems( boxComponent, DIRECTION){
 
 	}
 
-	let getSizeMethod = "getInsetWidth";
+	let getSizeMethod = "getInnerWidth";
 	let axis = "x";
 	if( DIRECTION.indexOf( ROW ) === 0 ){
 
-		getSizeMethod = "getInsetHeight";
+		getSizeMethod = "getInnerHeight";
 		axis = "y";
 
 	}
@@ -27,7 +32,7 @@ export function alignItems( boxComponent, DIRECTION){
 
 	boxComponent.childrenBoxes.forEach( ( child ) => {
 
-		let offset;
+		let offset = 0;
 
 		switch ( ALIGNMENT ){
 
@@ -36,11 +41,11 @@ export function alignItems( boxComponent, DIRECTION){
 			case 'bottom': // @TODO : Deprecated and will be remove upon 7.x.x
 				if( DIRECTION.indexOf( ROW ) === 0 ){
 
-					offset = - AXIS_TARGET + ( child[getSizeMethod]() / 2 ) + ( child.margin || 0 );
+					offset = - AXIS_TARGET + ( child[getSizeMethod]() / 2 );
 
 				}else{
 
-					offset = AXIS_TARGET - ( child[getSizeMethod]() / 2 ) - ( child.margin || 0 );
+					offset = AXIS_TARGET - ( child[getSizeMethod]() / 2 );
 
 				}
 
@@ -51,18 +56,18 @@ export function alignItems( boxComponent, DIRECTION){
 			case 'top': // @TODO : Deprecated and will be remove upon 7.x.x
 				if( DIRECTION.indexOf( ROW ) === 0 ){
 
-					offset = AXIS_TARGET - ( child[getSizeMethod]() / 2 ) - ( child.margin || 0 );
+					offset = AXIS_TARGET - ( child[getSizeMethod]() / 2 );
 
 				}else{
 
-					offset = - AXIS_TARGET + ( child[getSizeMethod]() / 2 ) + ( child.margin || 0 );
+					offset = - AXIS_TARGET + ( child[getSizeMethod]() / 2 );
 
 				}
 
 				break;
 		}
 
-		boxComponent.childrenPos[ child.id ][axis] = offset || 0;
+		boxComponent.childrenPos[ child.id ][axis] = offset;
 
 	} );
 
