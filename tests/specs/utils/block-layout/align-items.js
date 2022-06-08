@@ -509,111 +509,111 @@ describe( 'AlignItems', function () {
 		it( 'Items should fill their parent size', () => {
 
 			// columns -> x snap align
-			expect( child1.getWidth() ).equals( container.width );
-			expect( child2.getWidth() ).equals( container.width );
-			expect( child3.getWidth() ).equals( container.width );
-			expect( child4.getWidth() ).equals( container.width );
-			expect( child5.getWidth() ).equals( container.width );
+			expect( child1.getOffsetWidth() ).equals( container.width );
+			expect( child2.getOffsetWidth() ).equals( container.width );
+			expect( child3.getOffsetWidth() ).equals( container.width );
+			expect( child4.getOffsetWidth() ).equals( container.width );
+			expect( child5.getOffsetWidth() ).equals( container.width );
 
 			container.set( { justifyContent: 'start' } );
 			render();
 
-			expect( child1.getWidth() ).equals( container.width );
-			expect( child2.getWidth() ).equals( container.width );
-			expect( child3.getWidth() ).equals( container.width );
-			expect( child4.getWidth() ).equals( container.width );
-			expect( child5.getWidth() ).equals( container.width );
+			expect( child1.getOffsetWidth() ).equals( container.width );
+			expect( child2.getOffsetWidth() ).equals( container.width );
+			expect( child3.getOffsetWidth() ).equals( container.width );
+			expect( child4.getOffsetWidth() ).equals( container.width );
+			expect( child5.getOffsetWidth() ).equals( container.width );
 
 			container.set( { justifyContent: 'end' } );
 			render();
 
-			expect( child1.getWidth() ).equals( container.width );
-			expect( child2.getWidth() ).equals( container.width );
-			expect( child3.getWidth() ).equals( container.width );
-			expect( child4.getWidth() ).equals( container.width );
-			expect( child5.getWidth() ).equals( container.width );
+			expect( child1.getOffsetWidth() ).equals( container.width );
+			expect( child2.getOffsetWidth() ).equals( container.width );
+			expect( child3.getOffsetWidth() ).equals( container.width );
+			expect( child4.getOffsetWidth() ).equals( container.width );
+			expect( child5.getOffsetWidth() ).equals( container.width );
 
 			container.set( { justifyContent: 'space-around' } );
 			render();
 
-			expect( child1.getWidth() ).equals( container.width );
-			expect( child2.getWidth() ).equals( container.width );
-			expect( child3.getWidth() ).equals( container.width );
-			expect( child4.getWidth() ).equals( container.width );
-			expect( child5.getWidth() ).equals( container.width );
+			expect( child1.getOffsetWidth() ).equals( container.width );
+			expect( child2.getOffsetWidth() ).equals( container.width );
+			expect( child3.getOffsetWidth() ).equals( container.width );
+			expect( child4.getOffsetWidth() ).equals( container.width );
+			expect( child5.getOffsetWidth() ).equals( container.width );
 
 			container.set( { justifyContent: 'space-evenly' } );
 			render();
 
-			expect( child1.getWidth() ).equals( container.width );
-			expect( child2.getWidth() ).equals( container.width );
-			expect( child3.getWidth() ).equals( container.width );
-			expect( child4.getWidth() ).equals( container.width );
-			expect( child5.getWidth() ).equals( container.width );
+			expect( child1.getOffsetWidth() ).equals( container.width );
+			expect( child2.getOffsetWidth() ).equals( container.width );
+			expect( child3.getOffsetWidth() ).equals( container.width );
+			expect( child4.getOffsetWidth() ).equals( container.width );
+			expect( child5.getOffsetWidth() ).equals( container.width );
 
 			container.set( { justifyContent: 'space-between' } );
 			render();
 
-			expect( child1.getWidth() ).equals( container.width );
-			expect( child2.getWidth() ).equals( container.width );
-			expect( child3.getWidth() ).equals( container.width );
-			expect( child4.getWidth() ).equals( container.width );
-			expect( child5.getWidth() ).equals( container.width );
+			expect( child1.getOffsetWidth() ).equals( container.width );
+			expect( child2.getOffsetWidth() ).equals( container.width );
+			expect( child3.getOffsetWidth() ).equals( container.width );
+			expect( child4.getOffsetWidth() ).equals( container.width );
+			expect( child5.getOffsetWidth() ).equals( container.width );
 
 			// row -> y snap align
 			container.set( { contentDirection: 'row', justifyContent: 'center' } );
 			render();
 
-			expect( child1.getHeight() ).equals( container.height );
-			expect( child2.getHeight() ).equals( container.height );
-			expect( child3.getHeight() ).equals( container.height );
-			expect( child4.getHeight() ).equals( container.height );
-			expect( child5.getHeight() ).equals( container.height );
+			expect( child1.getOffsetHeight() ).equals( container.height );
+			expect( child2.getOffsetHeight() ).equals( container.height );
+			expect( child3.getOffsetHeight() ).equals( container.height );
+			expect( child4.getOffsetHeight() ).equals( container.height );
+			expect( child5.getOffsetHeight() ).equals( container.height );
 
 			container.set( { justifyContent: 'start' } );
 			render();
 
-			expect( child1.getHeight() ).equals( container.height );
-			expect( child2.getHeight() ).equals( container.height );
-			expect( child3.getHeight() ).equals( container.height );
-			expect( child4.getHeight() ).equals( container.height );
-			expect( child5.getHeight() ).equals( container.height );
+			expect( child1.getOffsetHeight() ).equals( container.height );
+			expect( child2.getOffsetHeight() ).equals( container.height );
+			expect( child3.getOffsetHeight() ).equals( container.height );
+			expect( child4.getOffsetHeight() ).equals( container.height );
+			expect( child5.getOffsetHeight() ).equals( container.height );
 
 			container.set( { justifyContent: 'end' } );
 			render();
 
-			expect( child1.getHeight() ).equals( container.height );
-			expect( child2.getHeight() ).equals( container.height );
-			expect( child3.getHeight() ).equals( container.height );
-			expect( child4.getHeight() ).equals( container.height );
-			expect( child5.getHeight() ).equals( container.height );
+			expect( child1.getOffsetHeight() ).equals( container.height );
+			expect( child2.getOffsetHeight() ).equals( container.height );
+			expect( child3.getOffsetHeight() ).equals( container.height );
+			expect( child4.getOffsetHeight() ).equals( container.height );
+			expect( child5.getOffsetHeight() ).equals( container.height );
 
 			container.set( { justifyContent: 'space-around' } );
 			render();
 
-			expect( child1.getHeight() ).equals( container.height );
-			expect( child2.getHeight() ).equals( container.height );
-			expect( child3.getHeight() ).equals( container.height );
-			expect( child4.getHeight() ).equals( container.height );
-			expect( child5.getHeight() ).equals( container.height );
+			expect( child1.getOffsetHeight() ).equals( container.height );
+			expect( child2.getOffsetHeight() ).equals( container.height );
+			expect( child3.getOffsetHeight() ).equals( container.height );
+			expect( child4.getOffsetHeight() ).equals( container.height );
+			expect( child5.getOffsetHeight() ).equals( container.height );
 
 			container.set( { justifyContent: 'space-evenly' } );
 			render();
 
-			expect( child1.getHeight() ).equals( container.height );
-			expect( child2.getHeight() ).equals( container.height );
-			expect( child3.getHeight() ).equals( container.height );
-			expect( child4.getHeight() ).equals( container.height );
-			expect( child5.getHeight() ).equals( container.height );
+			expect( child1.getOffsetHeight() ).equals( container.height );
+			expect( child2.getOffsetHeight() ).equals( container.height );
+			expect( child3.getOffsetHeight() ).equals( container.height );
+			expect( child4.getOffsetHeight() ).equals( container.height );
+			expect( child5.getOffsetHeight() ).equals( container.height );
 
 			container.set( { justifyContent: 'space-between' } );
 			render();
 
-			expect( child1.getHeight() ).equals( container.height );
-			expect( child2.getHeight() ).equals( container.height );
-			expect( child3.getHeight() ).equals( container.height );
-			expect( child4.getHeight() ).equals( container.height );
-			expect( child5.getHeight() ).equals( container.height );
+			expect( child1.getOffsetHeight() ).equals( container.height );
+			expect( child2.getOffsetHeight() ).equals( container.height );
+			expect( child3.getOffsetHeight() ).equals( container.height );
+			expect( child4.getOffsetHeight() ).equals( container.height );
+			expect( child5.getOffsetHeight() ).equals( container.height );
 		} );
 
 	} );

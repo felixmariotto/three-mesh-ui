@@ -109,7 +109,7 @@ function init() {
 	container.add( top );
 	top.frame.visible = false;
 	topLeft = makeBoxForBorder('borderTopLeft');
-	topLeft.set({borderRadiusTopLeft:0.1, borderWidth:0.05, borderColor: new Color(0xff0000)});
+	topLeft.set({borderTopLeftRadius:0.1, borderWidth:0.05, borderColor: new Color(0xff0000)});
 	const topMiddleLeft = makeBoxForBorder('TopMiddleLeft?');
 	topMiddleLeft.set({borderRadius:'0.05 0.25'})
 	const topMiddle = makeBoxForBorder('borderTop');
@@ -127,7 +127,7 @@ function init() {
 	const middleLeft = makeBoxForBorder('borderMiddleLeft');
 	middleLeft.set({borderRadiusLeft:0.1});
 	const middleMiddleLeft = makeBoxForBorder('MiddleMiddleLeft?');
-	middleMiddleLeft.set({height: 0.2 ,borderRadiusTopRight: 0.25})
+	middleMiddleLeft.set({height: 0.2 ,borderTopRightRadius: 0.25})
 	const middleMiddle = makeBoxForBorder('borderMiddle');
 	panel = middleMiddle;
 	const middleMiddleRight = makeBoxForBorder('MiddleMiddleRight?');
@@ -140,7 +140,7 @@ function init() {
 	bottom.frame.visible = false;
 	container.add( bottom );
 	const bottomLeft = makeBoxForBorder('borderBottomLeft');
-	bottomLeft.set({borderRadiusBottomLeft:0.1});
+	bottomLeft.set({borderBottomLeftRadius:0.1});
 	const bottomMiddleLeft = makeBoxForBorder('BottomMiddleLeft?');
 	bottomMiddleLeft.backgroundColor = new Color(0xffffff);
 	bottomMiddleLeft.set({borderRadius:'0.2 0.1'})
@@ -155,7 +155,7 @@ function init() {
 		specularIntensity: 1,
 		envMapIntensity: 1});
 	const bottomMiddle = makeBoxForBorder('borderBottom');
-	bottomMiddle.set({borderRadiusBottom:0.1})
+	bottomMiddle.set({borderBottomRadius:0.1})
 	const bottomMiddleRight = makeBoxForBorder('BottomMiddleRight?');
 	bottomMiddleRight.material = new FrameBasicMaterial({side:DoubleSide});
 	panelScale = bottomMiddleRight;
@@ -245,7 +245,7 @@ function loop() {
 	panel.set( {
 		borderRadius: 0.2 * Math.sin( Date.now() / 500 ),
 		// borderRadius: [ 0, 0.2 + 0.2 * Math.sin( Date.now() / 500 ), 0, 0 ],
-		borderWidth: 0.05 - 0.06 * Math.sin( Date.now() / 500 ),
+		borderWidth: 0.08 - 0.06 * Math.sin( Date.now() / 500 ),
 		borderColor: new THREE.Color( 0.5 + 0.5 * Math.sin( Date.now() / 500 ), 0.5, 1 ),
 		borderOpacity: 1
 	} );

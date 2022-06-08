@@ -8,7 +8,6 @@ import DEFAULTS from '../../utils/Defaults.js';
 import FontFamily from '../../font/FontFamily';
 import * as FontWeight from '../../utils/font/FontWeight';
 import * as FontStyle from '../../utils/font/FontStyle';
-import Behavior from '../../behaviors/Behavior';
 import Lines from './Lines';
 
 
@@ -20,6 +19,7 @@ import Mediator from '../../utils/mediator/Mediator';
 /* eslint-enable no-unused-vars */
 
 /**
+
 
 Job:
 - Set this component attributes and call updates accordingly
@@ -109,6 +109,7 @@ export default class MeshUIComponent extends Object3D {
 				// _renderOrder:{m:'renderOrder'}
 			}
 
+
 			/**
 			 *
 			 * @type {Vector4}
@@ -122,6 +123,20 @@ export default class MeshUIComponent extends Object3D {
 			 * @private
 			 */
 			this._borderWidth = new Vector4().copy( DEFAULTS.borderWidth );
+
+			/**
+			 *
+			 * @type {Vector4}
+			 * @private
+			 */
+			this._padding = new Vector4( 0, 0, 0, 0 );
+
+			/**
+			 *
+			 * @type {Vector4}
+			 * @private
+			 */
+			this._margin = new Vector4( 0, 0, 0, 0 );
 
 			/**
 			 * @Todo: Probably only for boxComponents
@@ -150,19 +165,26 @@ export default class MeshUIComponent extends Object3D {
 
 				if ( this.isBlock && this.parentUI.getHiddenOverflow() ) {
 
-					const yLimit = ( this.parentUI.getHeight() / 2 ) - ( this.parentUI.padding || 0 );
-					const xLimit = ( this.parentUI.getWidth() / 2 ) - ( this.parentUI.padding || 0 );
+					// const yLimit = ( this.getInsetHeight() / 2 );
+					const yLimit = this.parentUI.getOffsetHeight();
+					const xLimit = this.parentUI.getOffsetWidth();
+					const padding = this.parentUI._padding;
+					const border = this.parentUI._borderWidth;
 
 					const newPlanes = [
-						new Plane( new Vector3( 0, 1, 0 ), yLimit ),
-						new Plane( new Vector3( 0, -1, 0 ), yLimit ),
-						new Plane( new Vector3( 1, 0, 0 ), xLimit ),
-						new Plane( new Vector3( -1, 0, 0 ), xLimit )
+						// top
+						new Plane( new Vector3( 0, -1, 0 ), yLimit / 2 - ( padding.x + border.x ) ),
+						// right
+						new Plane( new Vector3( -1, 0, 0 ), xLimit / 2  - ( padding.y + border.y ) ),
+						// bottom
+						new Plane( new Vector3( 0, 1, 0 ), yLimit / 2 - ( padding.z + border.z ) ),
+						// left
+						new Plane( new Vector3( 1, 0, 0 ), xLimit / 2 - ( padding.w + border.w ) ),
 					];
 
 					newPlanes.forEach( plane => {
 
-						plane.applyMatrix4( this.parent.matrixWorld );
+						plane.applyMatrix4( this.parentUI.matrixWorld );
 
 					} );
 
@@ -588,19 +610,9 @@ export default class MeshUIComponent extends Object3D {
 
 		}
 
-		performAfterUpdate() {
-
-			for ( let i = 0; i < this._onAfterUpdates.length; i++ ) {
-
-				this._onAfterUpdates[ i ]();
-
-			}
-
-		}
-
 		/**
 		 *
-		 * @param func
+		 * @param {Function} func
 		 */
 		set onAfterUpdate( func ) {
 
@@ -609,6 +621,10 @@ export default class MeshUIComponent extends Object3D {
 
 		}
 
+	/**
+	 *
+	 * @param {Function} func
+	 */
 		addAfterUpdate( func ) {
 
 			this._onAfterUpdates.push( func );
@@ -617,76 +633,24 @@ export default class MeshUIComponent extends Object3D {
 
 		/**
 		 *
-		 * @TODO: Adding a new hook should no be direct, but delayed before or after performing the hookLoop
-		 * @param {string} type
-		 * @param {function|Behavior} newHook
-		 * @param {number} priority
+		 * @param {Function} func
 		 */
-		hook( type, newHook, priority = 10) {
+		removeAfterUpdate( func ) {
 
-			if ( !this._hooks[ type ] ) {
+			const index = this._onAfterUpdates.indexOf( func );
+			if( index !== -1 ) {
 
-				console.error(`MeshUIComponent::hook() - The provided type('${type}') is not valid on ${typeof this} component`);
-				return;
-
-			}
-
-			if ( !(newHook instanceof Behavior) ){
-
-				newHook = { priority, act: newHook };
-
-			}
-
-			if( this._hooks[type].find( h => h.act === newHook.act ) ) {
-
-				console.error(`MeshUIComponent::hook() - The provided func('${newHook.act}') is already registered in hooks. Aborted`);
-				return;
-
-			}
-
-			type._hooks[type].push( newHook );
-			type._hooks[type].sort( ( a, b ) => {
-				if( a.priority < b.priority ) return - 1;
-				if( a.priority > b.priority ) return 1;
-				return 0;
-			});
-
-		}
-
-		/**
-		 *
-		 * @param {string} type
-		 * @param {function|Behavior} hookToRemove
-		 */
-		unhook( type, hookToRemove ) {
-
-			if ( !this._hooks[ type ] ) {
-
-				console.error(`MeshUIComponent::unhook() - The provided type('${type}') is not valid on ${typeof this} component`);
-				return;
-
-			}
-
-			if ( !(hookToRemove instanceof Behavior) ) {
-
-				hookToRemove = { act: hookToRemove };
-
-			}
-
-			const indexToRemove = this._hooks[type].findIndex( h => h.act === hookToRemove.act )
-			if( indexToRemove !== -1 ) {
-
-				this._hooks[type].splice( indexToRemove, 1 );
+				this._onAfterUpdates.splice( index, 1 );
 
 			}
 
 		}
 
-		performHooks( hooks , alterable = null ) {
+		performAfterUpdate() {
 
-			for ( let i = 0; i < hooks.length; i++ ) {
+			for ( let i = 0; i < this._onAfterUpdates.length; i++ ) {
 
-				hooks[ i ]( alterable );
+				this._onAfterUpdates[ i ]();
 
 			}
 
@@ -750,11 +714,32 @@ export default class MeshUIComponent extends Object3D {
 
 						case 'width' :
 						case 'height' :
-						case 'padding' :
+						// case 'padding' :
 							// @TODO: I don't think this is true anymore
 							if ( this.isInlineBlock || ( this.isBlock ) ) parsingNeedsUpdate = true;
 							layoutNeedsUpdate = true;
 							this[ prop ] = value;
+							break;
+
+						case 'padding':
+							this._fourDimensionsValueSetter(this._padding, value );
+							layoutNeedsUpdate = true;
+							break;
+						case 'paddingTop':
+							this._padding.x = value;
+							layoutNeedsUpdate = true;
+							break;
+						case 'paddingRight':
+							this._padding.y = value;
+							layoutNeedsUpdate = true;
+							break;
+						case 'paddingBottom':
+							this._padding.z = value;
+							layoutNeedsUpdate = true;
+							break;
+						case 'paddingLeft':
+							this._padding.w = value;
+							layoutNeedsUpdate = true;
 							break;
 
 						case 'letterSpacing' :
@@ -766,6 +751,26 @@ export default class MeshUIComponent extends Object3D {
 							break;
 
 						case 'margin' :
+							this._fourDimensionsValueSetter(this._margin, value );
+							layoutNeedsUpdate = true;
+							break;
+						case 'marginTop':
+							this._margin.x = value;
+							layoutNeedsUpdate = true;
+							break;
+						case 'marginRight':
+							this._margin.y = value;
+							layoutNeedsUpdate = true;
+							break;
+						case 'marginBottom':
+							this._margin.z = value;
+							layoutNeedsUpdate = true;
+							break;
+						case 'marginLeft':
+							this._margin.w = value;
+							layoutNeedsUpdate = true;
+							break;
+						// case 'margin':
 						case 'contentDirection' :
 						case 'justifyContent' :
 						case 'alignContent' :
@@ -785,7 +790,7 @@ export default class MeshUIComponent extends Object3D {
 						case 'backgroundSize' :
 						case 'borderColor' :
 						case 'borderOpacity' :
-							innerNeedsUpdate = true;
+							// innerNeedsUpdate = true;
 							this[ prop ] = value;
 							break;
 
@@ -794,43 +799,43 @@ export default class MeshUIComponent extends Object3D {
 							break;
 
 						case 'offset':
-							if( !this.isBlock || this.parentUI ){
+							// if( !this.isBlock || this.parentUI ){
 
 								this[ prop ] = value;
 								this.position.z = value;
 
-							}
+							// }
 							break;
 
 						// abstracted properties, those properties don't need to be store as this[prop] = value
 						case 'borderRadius' :
 							this._fourDimensionsValueSetter( this._borderRadius, value);
 							break;
-						case 'borderRadiusTopLeft':
+						case 'borderTopLeftRadius':
 							this._borderRadius.x = value;
 							break;
-						case 'borderRadiusTopRight':
+						case 'borderTopRightRadius':
 							this._borderRadius.y = value;
 							break;
-						case 'borderRadiusBottomRight':
+						case 'borderBottomRightRadius':
 							this._borderRadius.z = value;
 							break;
-						case 'borderRadiusBottomLeft':
+						case 'borderBottomLeftRadius':
 							this._borderRadius.w = value;
 							break;
-						case 'borderRadiusTop':
+						case 'borderTopRadius':
 							this._borderRadius.x = value;
 							this._borderRadius.y = value;
 							break;
-						case 'borderRadiusRight':
+						case 'borderRightRadius':
 							this._borderRadius.y = value;
 							this._borderRadius.z = value;
 							break;
-						case 'borderRadiusLeft':
+						case 'borderLeftRadius':
 							this._borderRadius.x = value;
 							this._borderRadius.w = value;
 							break
-						case 'borderRadiusBottom':
+						case 'borderBottomRadius':
 							this._borderRadius.z = value;
 							this._borderRadius.w = value;
 							break;
@@ -838,18 +843,23 @@ export default class MeshUIComponent extends Object3D {
 
 						case 'borderWidth' :
 							this._fourDimensionsValueSetter( this._borderWidth, value);
+							layoutNeedsUpdate = true;
 							break;
-						case 'borderWidthTop':
+						case 'borderTopWidth' :
 							this._borderWidth.x = value;
+							layoutNeedsUpdate = true;
 							break;
-						case 'borderWidthRight':
+						case 'borderRightWidth':
 							this._borderWidth.y = value;
+							layoutNeedsUpdate = true;
 							break;
-						case 'borderWidthBottom':
+						case 'borderBottomWidth':
 							this._borderWidth.z = value;
+							layoutNeedsUpdate = true;
 							break;
-						case 'borderWidthLeft':
+						case 'borderLeftWidth':
 							this._borderWidth.w = value;
+							layoutNeedsUpdate = true;
 							break;
 
 						default:

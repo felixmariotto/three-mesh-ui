@@ -1,58 +1,44 @@
 export default class Behavior {
 
-	constructor() {
+	/**
+	 *
+	 * @param {MeshUIComponent} subject
+	 */
+	constructor( subject ) {
 
-		this._subject = null;
-
-	}
-
-	setSubject( subject ) {
-
+		/**
+		 *
+		 * @type {MeshUIComponent}
+		 * @protected
+		 */
 		this._subject = subject;
-		return this;
 
 	}
 
 	/**
-	 *
-	 * @returns {Behavior}
+	 * @abstract
 	 */
 	attach() {
 
 		console.error(`Behavior::attach() - Is abstract and therefore should be overridden in ${this.constructor.name}`);
-		return this;
 
 	}
 
-	/* eslint-disable no-unused-vars */
 	/**
-	 * @param {any|null} [alterable=null]
 	 * @abstract
 	 */
-	act( alterable = null ) {
+	act() {
 
 		throw new Error(`Behavior::act() - Is abstract and therefore should be overridden in ${this.constructor.name}`);
 
 	}
-	/* eslint-enable no-unused-vars */
 
 	/**
-	 *
-	 * @returns {Behavior}
+	 * @abstract
 	 */
 	detach() {
 
 		console.error(`Behavior::detach() - Is abstract and therefore should be overridden in ${this.constructor.name}`);
-		return this;
-	}
-
-	/**
-	 *
-	 */
-	dispose() {
-
-		this.detach();
-		this.clear();
 
 	}
 

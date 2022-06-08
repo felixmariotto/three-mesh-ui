@@ -244,13 +244,13 @@ function buildEffectContainer( title, subtitle, bindedTo) {
 
 		if( bindedTo === "self" ) {
 
-			new BoundsUVBehavior( defaultText, defaultText );
-			new BoundsUVBehavior( alphaText, alphaText );
-			new BoundsUVBehavior( bothText, bothText );
+			new BoundsUVBehavior( defaultText, defaultText ).attach();
+			new BoundsUVBehavior( alphaText, alphaText ).attach();
+			new BoundsUVBehavior( bothText, bothText ).attach();
 
 		} else {
 
-			new BoundsUVBehavior( bindedTo, [defaultText, alphaText, bothText] )
+			new BoundsUVBehavior( bindedTo, [defaultText, alphaText, bothText] ).attach()
 
 		}
 
@@ -279,7 +279,7 @@ function loop() {
 	//
 	// }
 
-	let height = boundingContainer.getHeight();
+	let height = boundingContainer.height;
 	height += speed;
 
 	if( height >= 0.6 ) {

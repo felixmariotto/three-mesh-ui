@@ -3,20 +3,42 @@ export const ROW_REVERSE = "row-reverse";
 export const COLUMN = "column";
 export const COLUMN_REVERSE = "column-reverse";
 
+
+/**
+ * @tests '/test/specs/utils/box-layout/content-direction.js'
+ * @param {BoxComponent} container
+ * @param {string} DIRECTION
+ * @param {number} startPos
+ * @param {number} REVERSE
+ */
 export function contentDirection( container, DIRECTION, startPos, REVERSE ){
 
 	// end to end children
 	let accu = startPos;
 
-	let childGetSize = "getWidth";
+
+	let childGetSize = "getOffsetWidth";
 	let axisPrimary = "x";
 	let axisSecondary = "y";
 
+	// left right
+	let margins = ['w','y'];
+
 	if( DIRECTION.indexOf( COLUMN ) === 0 ){
 
-		childGetSize = "getHeight";
+		childGetSize = "getOffsetHeight";
+
 		axisPrimary = "y";
 		axisSecondary = "x";
+
+		// top bttom
+		margins = ['x', 'z'];
+
+	}
+
+	if ( DIRECTION.indexOf('-reverse') !== -1 ) {
+
+		margins.reverse();
 
 	}
 
@@ -27,9 +49,8 @@ export function contentDirection( container, DIRECTION, startPos, REVERSE ){
 
 		const CHILD_ID = child.id;
 		const CHILD_SIZE = child[childGetSize]();
-		const CHILD_MARGIN = child.margin || 0;
 
-		accu += CHILD_MARGIN * REVERSE;
+		accu += child._margin[margins[0]] * REVERSE;
 
 		container.childrenPos[ CHILD_ID ] = {
 			[axisPrimary]: accu + ( ( CHILD_SIZE / 2 ) * REVERSE ),
@@ -37,8 +58,10 @@ export function contentDirection( container, DIRECTION, startPos, REVERSE ){
 		};
 
 		// update accu for next children
-		accu += ( REVERSE * ( CHILD_SIZE + CHILD_MARGIN ) );
+		accu += ( REVERSE * ( CHILD_SIZE + child._margin[margins[1]] ) );
 
 	}
 
 }
+
+

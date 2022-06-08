@@ -88,7 +88,7 @@ export default class InlineBlock extends MeshUIComponent {
 	 */
 	updateLayout() {
 
-		const PADDING = this.padding || 0;
+		const PADDING = this._padding.w + this._padding.y;
 		const WIDTH = this.inlineWidth;
 		const HEIGHT = this.inlineHeight;
 
@@ -128,7 +128,7 @@ export default class InlineBlock extends MeshUIComponent {
 	 */
 	get inlineXAdvance(){
 
-		const pad = this.padding || 0;
+		const pad = this._padding.w + this._padding.y;
 		return (this.width || 0.3) + pad;
 
 	}

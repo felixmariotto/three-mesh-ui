@@ -1,178 +1,72 @@
-export default class BestFitBehavior {
+import Behavior from '../../../src/utils/Behavior';
 
-	constructor( parent, mode = 'auto') {
+export default class BestFitBehavior extends Behavior {
 
-		if( mode === 'none' ) return;
+	constructor( subject, mode = 'auto') {
 
-		let algo = this.calculateAutoFit;
-		switch ( mode ) {
+		super( subject );
+		this.mode = mode;
+
+		this._subject.calculateHeight = _calculateHeight.bind( this._subject);
+
+	}
+
+	set mode( value ) {
+
+		let algo = _calculateAutoFit;
+		switch ( value ) {
 			case 'grow':
-				algo = this.calculateGrowFit;
+				algo = _calculateGrowFit;
 				break;
 			case 'shrink':
-				algo = this.calculateShrinkFit;
+				algo = _calculateShrinkFit;
 				break;
 		}
 
-		algo = algo.bind(parent);
-		parent.calculateHeight = _calculateHeight.bind(parent);
+		this._mode = value;
 
-		parent.parseParams = function()
-		{
-			if ( parent.childrenInlines.length === 0 ) return;
+		this._algo = algo.bind( this._subject );
 
-			algo();
+	}
+
+	get mode() {
+
+		return this._mode;
+
+	}
+
+	attach() {
+
+		this._subject.parseParams = () => {
+			if ( this._subject.childrenInlines.length === 0 ) return;
+
+			this._algo();
 		}
 
-	// when detaching this behaviour
-	// else {
-	//
-	// 		this.childrenTexts.forEach( child => {
-	//
-	// 			child._fitFontSize = undefined;
-	//
-	// 		} );
-	// 	}
-	}
-
-	calculateGrowFit() {
-
-		const INNER_HEIGHT = this.getHeight() - ( this.padding * 2 || 0 );
-
-		//Iterative method to find a fontSize of text children that text will fit into container
-		let iterations = 1;
-		const heightTolerance = 0.075;
-		const firstText = this.childrenInlines.find( inlineComponent => inlineComponent.isText );
-
-		let minFontMultiplier = 1;
-		let maxFontMultiplier = 2;
-		let fontMultiplier = firstText._fitFontSize ? firstText._fitFontSize / firstText.getFontSize() : 1;
-		let textHeight;
-
-		do {
-
-			textHeight = this.calculateHeight( fontMultiplier );
-
-			if ( textHeight > INNER_HEIGHT ) {
-
-				if ( fontMultiplier <= minFontMultiplier ) { // can't shrink text
-
-					this.childrenInlines.forEach( inlineComponent => {
-
-						if ( inlineComponent.isInlineBlock ) return;
-
-						// ensure fontSize does not shrink
-						inlineComponent._fitFontSize = inlineComponent.getFontSize();
-
-					} );
-
-					break;
-
-				}
-
-				maxFontMultiplier = fontMultiplier;
-				fontMultiplier -= ( maxFontMultiplier - minFontMultiplier ) / 2;
-
-			} else {
-
-				if ( Math.abs( INNER_HEIGHT - textHeight ) < heightTolerance ) break;
-
-				if ( Math.abs( fontMultiplier - maxFontMultiplier ) < 5e-10 ) maxFontMultiplier *= 2;
-
-				minFontMultiplier = fontMultiplier;
-				fontMultiplier += ( maxFontMultiplier - minFontMultiplier ) / 2;
-
-			}
-
-		} while ( ++iterations <= 10 );
+		this._subject.update( true, true, false );
 
 	}
 
-	calculateShrinkFit() {
+	detach() {
 
-		const INNER_HEIGHT = this.getHeight() - ( this.padding * 2 || 0 );
+		this._subject.childrenTexts.forEach( child => {
 
-		// Iterative method to find a fontSize of text children that text will fit into container
-		let iterations = 1;
-		const heightTolerance = 0.075;
-		const firstText = this.childrenInlines.find( inlineComponent => inlineComponent.isText );
+			child._fitFontSize = undefined;
 
-		let minFontMultiplier = 0;
-		let maxFontMultiplier = 1;
-		let fontMultiplier = firstText._fitFontSize ? firstText._fitFontSize / firstText.getFontSize() : 1;
-		let textHeight;
+		} );
 
-		do {
+		this._subject.update( true, true, false );
 
-			textHeight = this.calculateHeight( fontMultiplier );
-
-			if ( textHeight > INNER_HEIGHT ) {
-
-				maxFontMultiplier = fontMultiplier;
-				fontMultiplier -= ( maxFontMultiplier - minFontMultiplier ) / 2;
-
-			} else {
-
-				if ( fontMultiplier >= maxFontMultiplier ) { // can't grow text
-
-					this.childrenInlines.forEach( inlineComponent => {
-
-						if ( inlineComponent.isInlineBlock ) return;
-
-						// ensure fontSize does not grow
-						inlineComponent._fitFontSize = inlineComponent.getFontSize();
-
-					} );
-
-					break;
-
-				}
-
-				if ( Math.abs( INNER_HEIGHT - textHeight ) < heightTolerance ) break;
-
-				minFontMultiplier = fontMultiplier;
-				fontMultiplier += ( maxFontMultiplier - minFontMultiplier ) / 2;
-
-			}
-
-		} while ( ++iterations <= 10 );
 	}
 
-	calculateAutoFit()  {
+	act() {
+		// acts doesn't need anything here
+	}
 
-		const INNER_HEIGHT = this.getHeight() - ( this.padding * 2 || 0 );
+	clear() {
 
-		//Iterative method to find a fontSize of text children that text will fit into container
-		let iterations = 1;
-		const heightTolerance = 0.075;
-		const firstText = this.childrenInlines.find( inlineComponent => inlineComponent.isText );
+		delete this._subject.calculateHeight;
 
-		let minFontMultiplier = 0;
-		let maxFontMultiplier = 2;
-		let fontMultiplier = firstText._fitFontSize ? firstText._fitFontSize / firstText.getFontSize() : 1;
-		let textHeight;
-
-		do {
-
-			textHeight = this.calculateHeight( fontMultiplier );
-
-			if ( textHeight > INNER_HEIGHT ) {
-
-				maxFontMultiplier = fontMultiplier;
-				fontMultiplier -= ( maxFontMultiplier - minFontMultiplier ) / 2;
-
-			} else {
-
-				if ( Math.abs( INNER_HEIGHT - textHeight ) < heightTolerance ) break;
-
-				if ( Math.abs( fontMultiplier - maxFontMultiplier ) < 5e-10 ) maxFontMultiplier *= 2;
-
-				minFontMultiplier = fontMultiplier;
-				fontMultiplier += ( maxFontMultiplier - minFontMultiplier ) / 2;
-
-			}
-
-		} while ( ++iterations <= 10 );
 	}
 
 }
@@ -192,4 +86,144 @@ function _calculateHeight( fontMultiplier ) {
 	const lines = this.computeLines();
 
 	return lines.height;
+}
+
+function _calculateGrowFit() {
+
+	const INNER_HEIGHT = this.innerHeight;
+
+	//Iterative method to find a fontSize of text children that text will fit into container
+	let iterations = 1;
+	const heightTolerance = 0.075;
+	const firstText = this.childrenInlines.find( inlineComponent => inlineComponent.isText );
+
+	let minFontMultiplier = 1;
+	let maxFontMultiplier = 2;
+	let fontMultiplier = firstText._fitFontSize ? firstText._fitFontSize / firstText.getFontSize() : 1;
+	let textHeight;
+
+	do {
+
+		textHeight = this.calculateHeight( fontMultiplier );
+
+		if ( textHeight > INNER_HEIGHT ) {
+
+			if ( fontMultiplier <= minFontMultiplier ) { // can't shrink text
+
+				this.childrenInlines.forEach( inlineComponent => {
+
+					if ( inlineComponent.isInlineBlock ) return;
+
+					// ensure fontSize does not shrink
+					inlineComponent._fitFontSize = inlineComponent.getFontSize();
+
+				} );
+
+				break;
+
+			}
+
+			maxFontMultiplier = fontMultiplier;
+			fontMultiplier -= ( maxFontMultiplier - minFontMultiplier ) / 2;
+
+		} else {
+
+			if ( Math.abs( INNER_HEIGHT - textHeight ) < heightTolerance ) break;
+
+			if ( Math.abs( fontMultiplier - maxFontMultiplier ) < 5e-10 ) maxFontMultiplier *= 2;
+
+			minFontMultiplier = fontMultiplier;
+			fontMultiplier += ( maxFontMultiplier - minFontMultiplier ) / 2;
+
+		}
+
+	} while ( ++iterations <= 10 );
+
+}
+
+function _calculateShrinkFit() {
+
+	const INNER_HEIGHT = this.innerHeight;
+
+	// Iterative method to find a fontSize of text children that text will fit into container
+	let iterations = 1;
+	const heightTolerance = 0.075;
+	const firstText = this.childrenInlines.find( inlineComponent => inlineComponent.isText );
+
+	let minFontMultiplier = 0;
+	let maxFontMultiplier = 1;
+	let fontMultiplier = firstText._fitFontSize ? firstText._fitFontSize / firstText.getFontSize() : 1;
+	let textHeight;
+
+	do {
+
+		textHeight = this.calculateHeight( fontMultiplier );
+
+		if ( textHeight > INNER_HEIGHT ) {
+
+			maxFontMultiplier = fontMultiplier;
+			fontMultiplier -= ( maxFontMultiplier - minFontMultiplier ) / 2;
+
+		} else {
+
+			if ( fontMultiplier >= maxFontMultiplier ) { // can't grow text
+
+				this.childrenInlines.forEach( inlineComponent => {
+
+					if ( inlineComponent.isInlineBlock ) return;
+
+					// ensure fontSize does not grow
+					inlineComponent._fitFontSize = inlineComponent.getFontSize();
+
+				} );
+
+				break;
+
+			}
+
+			if ( Math.abs( INNER_HEIGHT - textHeight ) < heightTolerance ) break;
+
+			minFontMultiplier = fontMultiplier;
+			fontMultiplier += ( maxFontMultiplier - minFontMultiplier ) / 2;
+
+		}
+
+	} while ( ++iterations <= 10 );
+}
+
+function _calculateAutoFit()  {
+
+	const INNER_HEIGHT = this.innerHeight;
+
+	//Iterative method to find a fontSize of text children that text will fit into container
+	let iterations = 1;
+	const heightTolerance = 0.075;
+	const firstText = this.childrenInlines.find( inlineComponent => inlineComponent.isText );
+
+	let minFontMultiplier = 0;
+	let maxFontMultiplier = 2;
+	let fontMultiplier = firstText._fitFontSize ? firstText._fitFontSize / firstText.getFontSize() : 1;
+	let textHeight;
+
+	do {
+
+		textHeight = this.calculateHeight( fontMultiplier );
+
+		if ( textHeight > INNER_HEIGHT ) {
+
+			maxFontMultiplier = fontMultiplier;
+			fontMultiplier -= ( maxFontMultiplier - minFontMultiplier ) / 2;
+
+		} else {
+
+			if ( Math.abs( INNER_HEIGHT - textHeight ) < heightTolerance ) break;
+
+			if ( Math.abs( fontMultiplier - maxFontMultiplier ) < 5e-10 ) maxFontMultiplier *= 2;
+
+			minFontMultiplier = fontMultiplier;
+			fontMultiplier += ( maxFontMultiplier - minFontMultiplier ) / 2;
+
+		}
+
+	} while ( ++iterations <= 10 );
 }

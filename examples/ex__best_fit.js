@@ -10,6 +10,7 @@ import FontImage from 'three-mesh-ui/examples/assets/fonts/msdf/roboto/regular.p
 
 import Stats from 'three/examples/jsm/libs/stats.module.js';
 import BestFitBehavior from 'three-mesh-ui/examples/behaviors/size/BestFitBehavior';
+import BoxLayoutBehavior from 'three-mesh-ui/examples/behaviors/helpers/BoxLayoutBehavior';
 
 /*
 
@@ -172,7 +173,7 @@ function makeTextPanel() {
 			borderOpacity: 1,
 			borderColor: new THREE.Color( 0x333333 ),
 			justifyContent: 'end',
-			alignItems: 'end',
+			alignItems: 'center',
 			fontColor: new THREE.Color( 0x111111 ),
 			fontFamily: FontJSON,
 			fontTexture: FontImage,
@@ -184,18 +185,23 @@ function makeTextPanel() {
 		outerContainer.rotation.x = -0.55;
 		scene.add( outerContainer );
 
+		new BoxLayoutBehavior( outerContainer ).attach();
+
 		//
 
 		const innerContainer = new ThreeMeshUI.Block( {
-			width: 1,
+			width: 0.98, // width - padding - border
 			height: 0.7,
 			padding: 0.05,
 			backgroundColor: new THREE.Color( 0xffffff ),
 			backgroundOpacity: 0.5,
+			offset: 0.001
+			// 7.x.x : bestFit as been moved as behavior
 			// bestFit: bestFit
 		} );
 
-		new BestFitBehavior(innerContainer, bestFit);
+		// 7.x.x : Add a behavior on Block that need to process bestFit
+		new BestFitBehavior(innerContainer, bestFit).attach();
 
 		outerContainer.add( innerContainer );
 		innerContainers.push( innerContainer );
@@ -238,7 +244,6 @@ function loop() {
 	innerContainers.forEach( innerContainer => {
 
 		innerContainer.set( {
-			width: Math.sin( now / 1000 ) * 0 + 1,
 			height: Math.sin( now / 500 ) * 0.25 + 0.6
 		} );
 

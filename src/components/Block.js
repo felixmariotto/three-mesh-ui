@@ -72,10 +72,10 @@ export default class Block extends BoxComponent {
 	updateLayout() {
 
 		// Get temporary dimension
+		this.computeBoxProperties();
 
-		const WIDTH = this.getWidth();
-
-		const HEIGHT = this.getHeight();
+		const WIDTH = this.offsetWidth;
+		const HEIGHT = this.offsetHeight;
 
 		if ( !WIDTH || !HEIGHT ) {
 
@@ -114,11 +114,11 @@ export default class Block extends BoxComponent {
 		// We check if this block is the root component,
 		// because most of the time the user wants to set the
 		// root component's z position themselves
-		// if ( this.parentUI ) {
-		//
-		// 	this.position.z = this.getOffset();
-		//
-		// }
+		if ( this.parentUI ) {
+
+			this.position.z = this.getOffset();
+
+		}
 
 	}
 
@@ -129,11 +129,11 @@ export default class Block extends BoxComponent {
 		// We check if this block is the root component,
 		// because most of the time the user wants to set the
 		// root component's z position themselves
-		// if ( this.parentUI ) {
-		//
-		// 	this.position.z = this.getOffset();
-		//
-		// }
+		if ( this.parentUI ) {
+
+			this.position.z = this.getOffset();
+
+		}
 
 		// if ( this._main ) this.updateBackgroundMaterial();
 

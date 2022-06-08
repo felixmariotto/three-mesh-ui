@@ -1,6 +1,7 @@
 import { buildThreeSetup } from '../../../utils/TestThree.js' ;
 import { preloadFonts } from '../../../utils/TestFonts.js';
 import { fiveBlockContainer } from '../../../utils/TestStructure.js';
+import { imprecise } from '../../../utils/TestNumber.js';
 
 
 describe("ContentDirection", function () {
@@ -15,14 +16,12 @@ describe("ContentDirection", function () {
 
 	});
 
-	let container, child1, child2;
+	let container, child1, child2, child3, child4, child5;
 
 	before(function () {
 
 		//build a container with 5 children blocks
-		( {container,child1,child2} = fiveBlockContainer(scene) );
-		// change the size of child2
-		child2.set({width: 0.45, height: 0.45});
+		( {container,child1,child2, child2, child3, child4, child5} = fiveBlockContainer(scene) );
 		render();
 
 	});
@@ -47,8 +46,8 @@ describe("ContentDirection", function () {
 		it("Vertical distance between children should be respected", function () {
 
 			let yDelta = child1.position.y - child2.position.y;
-			let hDelta = ( child1.getHeight() / 2 ) + ( child2.getHeight() / 2 );
-			expect( yDelta ).equals( hDelta );
+			let hDelta = ( child1.getOffsetHeight() / 2 ) + ( child2.getOffsetHeight() / 2 );
+			expect( imprecise( yDelta ) ).equals( hDelta );
 
 		});
 
@@ -59,11 +58,13 @@ describe("ContentDirection", function () {
 			render();
 
 			let yDelta = child1.position.y - child2.position.y;
-			let hDelta = ( child1.getHeight() / 2 ) + ( child2.getHeight() / 2 );
+			let hDelta = ( child1.getOffsetHeight() / 2 ) + ( child2.getOffsetHeight() / 2 );
 
 			expect( yDelta ).equals( hDelta + addedMargin );
 		});
+
 	});
+
 	describe(".COLUMN_REVERSE", function() {
 
 		before( () => {
@@ -84,8 +85,8 @@ describe("ContentDirection", function () {
 		it("Vertical distance between children should be respected", function () {
 
 			let yDelta = child2.position.y - child1.position.y;
-			let hDelta = ( child1.getHeight() / 2 ) + ( child2.getHeight() / 2 );
-			expect( yDelta ).equals( hDelta );
+			let hDelta = ( child1.getOffsetHeight() / 2 ) + ( child2.getOffsetHeight() / 2 );
+			expect( imprecise( yDelta ) ).equals( imprecise( hDelta ) );
 
 		});
 
@@ -96,9 +97,9 @@ describe("ContentDirection", function () {
 			render();
 
 			let yDelta = child2.position.y - child1.position.y;
-			let hDelta = ( child1.getHeight() / 2 ) + ( child2.getHeight() / 2 );
+			let hDelta = ( child1.getOffsetHeight() / 2 ) + ( child2.getOffsetHeight() / 2 );
 
-			expect( yDelta ).equals( hDelta + addedMargin );
+			expect( imprecise( yDelta ) ).equals( hDelta + addedMargin );
 		});
 
 	});
@@ -123,8 +124,8 @@ describe("ContentDirection", function () {
 		it("Horizontal distance between children should be respected", function () {
 
 			let xDelta = child2.position.x - child1.position.x;
-			let wDelta = ( child1.getWidth() / 2 ) + ( child2.getWidth() / 2 );
-			expect( xDelta ).equals( wDelta );
+			let wDelta = ( child1.getOffsetWidth() / 2 ) + ( child2.getOffsetWidth() / 2 );
+			expect( imprecise( xDelta ) ).equals( wDelta );
 
 		});
 
@@ -135,9 +136,9 @@ describe("ContentDirection", function () {
 			render();
 
 			let xDelta = child2.position.x - child1.position.x;
-			let wDelta = ( child1.getWidth() / 2 ) + ( child2.getWidth() / 2 );
+			let wDelta = ( child1.getOffsetWidth() / 2 ) + ( child2.getOffsetWidth() / 2 );
 
-			expect( xDelta ).equals( wDelta + addedMargin );
+			expect( imprecise( xDelta ) ).equals( wDelta + addedMargin );
 		});
 	});
 
@@ -161,8 +162,8 @@ describe("ContentDirection", function () {
 		it("Horizontal distance between children should be respected", function () {
 
 			let xDelta = child1.position.x - child2.position.x;
-			let wDelta = ( child1.getWidth() / 2 ) + ( child2.getWidth() / 2 );
-			expect( xDelta ).equals( wDelta );
+			let wDelta = ( child1.getOffsetWidth() / 2 ) + ( child2.getOffsetWidth() / 2 );
+			expect( imprecise( xDelta ) ).equals( wDelta );
 
 		});
 
@@ -173,9 +174,9 @@ describe("ContentDirection", function () {
 			render();
 
 			let xDelta = child1.position.x - child2.position.x;
-			let wDelta = ( child1.getWidth() / 2 ) + ( child2.getWidth() / 2 );
+			let wDelta = ( child1.getOffsetWidth() / 2 ) + ( child2.getOffsetWidth() / 2 );
 
-			expect( xDelta ).equals( wDelta + addedMargin );
+			expect( imprecise( xDelta ) ).equals( wDelta + addedMargin );
 		});
 	});
 

@@ -260,7 +260,9 @@ function _collapseRightInlines( inlines, targetInline ) {
 		// inline.width = 0;
 		// inline.height = 0;
 		inline.fontFactor = 0;
-		inline.offsetX = targetInline.offsetX + targetInline.width;
+		// inline.offsetX = targetInline.offsetX + targetInline.width;
+		inline.offsetX = targetInline.offsetX + targetInline.cumulativeWidth;
+		// inline.offsetX -= inline.cumulativeWidth;
 
 	}
 
@@ -283,7 +285,8 @@ function _collapseLeftInlines( inlines, targetInline ) {
 		// inline.width = 0;
 		// inline.height = 0;
 		inline.fontFactor = 0;
-		inline.offsetX = targetInline.offsetX;
+		// inline.offsetX = targetInline.offsetX;
+		inline.offsetX += inline.cumulativeWidth;
 
 	}
 

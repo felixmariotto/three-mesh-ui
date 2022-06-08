@@ -16,6 +16,14 @@ export default class Inline {
 		/** @protected */ this._fontFactor = 1;
 		/** @protected */ this._fontSize = 0;
 
+		/** @protected */ this._cumulativeWidth = 0;
+
+		/** @protected */ this._paddingLeft = 0;
+		/** @protected */ this._paddingRight = 0;
+
+		/** @protected */ this._marginLeft = 0;
+		/** @protected */ this._marginRight = 0;
+
 	}
 
 	/**
@@ -24,6 +32,7 @@ export default class Inline {
 	resetOffsets() {
 
 		this._offsetX = this._offsetY = 0;
+		this._cumulativeWidth = 0;
 
 	}
 
@@ -146,6 +155,86 @@ export default class Inline {
 	set offsetY( value ){
 
 		this._offsetY = value;
+
+	}
+
+	/**
+	 *
+	 * @return {number}
+	 */
+	get cumulativeWidth() { return this._cumulativeWidth; }
+
+	/**
+	 *
+	 * @param {number} value
+	 */
+	set cumulativeWidth( value ) {
+
+		this._cumulativeWidth = value;
+
+	}
+
+	/**
+	 *
+	 * @return {number}
+	 */
+	get marginLeft() { return this._marginLeft; }
+
+	/**
+	 *
+	 * @param {number} value
+	 */
+	set marginLeft( value ) {
+
+		this._marginLeft = value;
+
+	}
+
+	/**
+	 *
+	 * @return {number}
+	 */
+	get marginRight() { return this._marginRight; }
+
+	/**
+	 *
+	 * @param {number} value
+	 */
+	set marginRight( value ) {
+
+		this._marginRight = value;
+
+	}
+
+	/**
+	 *
+	 * @return {number}
+	 */
+	get paddingLeft() { return this._paddingLeft; }
+
+	/**
+	 *
+	 * @param {number} value
+	 */
+	set paddingLeft( value ) {
+
+		this._paddingLeft = value;
+
+	}
+
+	/**
+	 *
+	 * @return {number}
+	 */
+	get paddingRight() { return this._paddingRight; }
+
+	/**
+	 *
+	 * @param {number} value
+	 */
+	set paddingRight( value ) {
+
+		this._paddingRight = value;
 
 	}
 

@@ -14,6 +14,7 @@ import { COLUMN, COLUMN_REVERSE, contentDirection, ROW, ROW_REVERSE } from '../.
 import { alignItems } from '../../utils/block-layout/AlignItems';
 import { justifyContent } from '../../utils/block-layout/JustifyContent';
 import InlineManager from './InlineManager';
+import { padItems } from '../../utils/block-layout/Padding';
 
 export default class BoxComponent extends InlineManager {
 
@@ -25,65 +26,46 @@ export default class BoxComponent extends InlineManager {
 			this.isBoxComponent = true;
 			this.childrenPos = {};
 
-		}
+			// Box properties only update once per update layout
+			this.offsetWidth = 0;
+			this.offsetHeight = 0;
+			this.innerWidth = 0;
+			this.innerHeight = 0;
 
-
-		/** Get width of this component minus its padding */
-		getInnerWidth() {
-
-			const DIRECTION = this.getContentDirection();
-
-			switch ( DIRECTION ) {
-
-				case 'row' :
-				case 'row-reverse' :
-					return this.width - ( this.padding * 2 || 0 ) || this.getChildrenSideSum( 'width' );
-
-				case 'column' :
-				case 'column-reverse' :
-					return this.getHighestChildSizeOn( 'width' );
-
-				default :
-					console.error( `Invalid contentDirection : ${DIRECTION}` );
-					break;
-
-			}
+			this.centerX = 0;
+			this.centerY = 0;
 
 		}
 
-		/** Get height of this component minus its padding */
-		getInnerHeight() {
+	/**
+	 *
+	 */
+	computeBoxProperties() {
 
-			const DIRECTION = this.getContentDirection();
+			this.offsetWidth = this.getOffsetWidth();
+			this.offsetHeight = this.getOffsetHeight();
 
-			switch ( DIRECTION ) {
+			this.innerWidth = this.getInnerWidth();
+			this.innerHeight = this.getInnerHeight();
 
-				case 'row' :
-				case 'row-reverse' :
-					return this.getHighestChildSizeOn( 'height' );
-
-				case 'column' :
-				case 'column-reverse' :
-					return this.height - ( this.padding * 2 || 0 ) || this.getChildrenSideSum( 'height' );
-
-				default :
-					console.error( `Invalid contentDirection : ${DIRECTION}` );
-					break;
-
-			}
+			this.centerX = this.getCenterX();
+			this.centerY = this.getCenterY();
 
 		}
 
-		/** Return the sum of all this component's children sides + their margin */
-		getChildrenSideSum( dimension ) {
+
+	/**
+	 * Return the sum of all this component's children sides + their margin
+	 * @param {string} side
+	 * @return {number}
+	 */
+		getChildrenSideSum( side ) {
 
 			return this.childrenBoxes.reduce( ( accu, child ) => {
 
-				const margin = ( child.margin * 2 ) || 0;
-
-				const CHILD_SIZE = ( dimension === 'width' ) ?
-					( child.getWidth() + margin ) :
-					( child.getHeight() + margin );
+				const CHILD_SIZE = ( side === 'width' ) ?
+					( child.getOffsetWidth() + child._margin.y + child._margin.w  ) :
+					( child.getOffsetHeight() + child._margin.x + child._margin.z );
 
 				return accu + CHILD_SIZE;
 
@@ -91,67 +73,79 @@ export default class BoxComponent extends InlineManager {
 
 		}
 
-		/** Look in parent record what is the instructed position for this component, then set its position */
+		/**
+		 * Look in parent record what is the instructed position for this component, then set its position
+		 **/
 		setPosFromParentRecords() {
 
 			if ( this.parentUI && this.parentUI.childrenPos[ this.id ] ) {
 
-				this.position.x = ( this.parentUI.childrenPos[ this.id ].x );
-				this.position.y = ( this.parentUI.childrenPos[ this.id ].y );
+				this.position.x = this.parentUI.childrenPos[ this.id ].x;
+				this.position.y = this.parentUI.childrenPos[ this.id ].y;
 
-			}
-
-		}
-
-		/** Position inner elements according to dimensions and layout parameters. */
-		computeChildrenPosition() {
-
-			if ( this.children.length > 0 ) {
-
-				const DIRECTION = this.getContentDirection();
-				let directionalOffset;
-
-				switch ( DIRECTION ) {
-
-					case ROW :
-						directionalOffset = - this.getInnerWidth() / 2;
-						break;
-
-					case ROW_REVERSE :
-						directionalOffset = this.getInnerWidth() / 2;
-						break;
-
-					case COLUMN :
-						directionalOffset = this.getInnerHeight() / 2;
-						break;
-
-					case COLUMN_REVERSE :
-						directionalOffset = - this.getInnerHeight() / 2;
-						break;
-
-				}
-
-				const REVERSE = - Math.sign( directionalOffset );
-
-				contentDirection(this, DIRECTION, directionalOffset, REVERSE );
-				justifyContent(this, DIRECTION, directionalOffset, REVERSE );
-				alignItems( this, DIRECTION );
 			}
 
 		}
 
 		/**
-		 * Returns the highest linear dimension among all the children of the passed component
-		 * MARGIN INCLUDED
-		 */
+		 * Position inner elements according to dimensions and layout parameters.
+		 * */
+		computeChildrenPosition() {
+
+			if ( this.childrenUIs.length > 0 ) {
+
+				const DIRECTION = this.getContentDirection();
+				const ALIGNMENT = this.getAlignItems();
+
+				let directionalOffset;
+
+
+				switch ( DIRECTION ) {
+
+					case ROW :
+						directionalOffset = -this.innerWidth / 2;
+						break;
+
+					case ROW_REVERSE :
+						directionalOffset = this.innerWidth / 2;
+						break;
+
+					case COLUMN :
+						directionalOffset = this.innerHeight / 2;
+						break;
+
+					case COLUMN_REVERSE :
+						directionalOffset = -this.innerHeight / 2;
+						break;
+
+				}
+
+
+				const REVERSE = -Math.sign( directionalOffset );
+
+				contentDirection( this, DIRECTION, directionalOffset, REVERSE );
+				justifyContent( this, DIRECTION, directionalOffset, REVERSE );
+				alignItems( this, DIRECTION );
+				padItems( this, DIRECTION, ALIGNMENT );
+
+			}
+
+		}
+
+
+	/**
+	 * Returns the highest linear dimension among all the children of the passed component
+	 * MARGIN INCLUDED
+	 * @param {string} direction
+	 * @return {number}
+	 */
 		getHighestChildSizeOn( direction ) {
 
 			return this.childrenBoxes.reduce( ( accu, child ) => {
 
-				const margin = child.margin || 0;
 				const maxSize = direction === 'width' ?
-					child.getWidth() + ( margin * 2 ) :
-					child.getHeight() + ( margin * 2 );
+					child.getOffsetWidth() + child._margin.y + child._margin.w :
+					child.getOffsetHeight() + child._margin.x + child._margin.z;
 
 				return Math.max( accu, maxSize );
 
@@ -159,51 +153,186 @@ export default class BoxComponent extends InlineManager {
 
 		}
 
-		/**
-		 * Get width of this element
-		 * With padding, without margin
-		 */
-		getWidth() {
+	/**
+	 * Obtain the outer width according to box-sizing
+	 * @return {number}
+	 */
+		getOffsetWidth() {
 
+			const base = this.getStretchedWidth() || this.width || this.getAutoWidth();
+			if ( this.getBoxSizing() === 'border-box' ) {
 
-			// This is for stretch alignment
-			// @TODO : Conceive a better performant way
-			if( this.parentUI && this.parentUI.getAlignItems() === 'stretch' ){
-
-				if( this.parentUI.getContentDirection().indexOf('column') !== -1 ){
-
-					return this.parentUI.getWidth() -  ( this.parentUI.padding * 2 || 0 );
-
-				}
+				return base;
 
 			}
 
+			return base + this._padding.y + this._padding.w + this._borderWidth.y + this._borderWidth.w;
 
-			return this.width || this.getInnerWidth() + ( this.padding * 2 || 0 );
+		}
+
+	/**
+	 * Obtain the outer height according to box-sizing
+	 * @return {number}
+	 */
+	getOffsetHeight() {
+
+		const base = this.getStretchedHeight() || this.height || this.getAutoHeight();
+
+		if ( this.getBoxSizing() === 'border-box' ) {
+
+			return base;
 
 		}
 
-		/**
-		 * Get height of this element
-		 * With padding, without margin
-		 */
-		getHeight() {
+		return base + this._padding.x + this._padding.z + this._borderWidth.x + this._borderWidth.z;
 
-			// This is for stretch alignment
-			// @TODO : Conceive a better performant way
-			if( this.parentUI && this.parentUI.getAlignItems() === 'stretch' ){
+	}
 
-				if( this.parentUI.getContentDirection().indexOf('row') !== -1 ){
+	/**
+	 * Obtain the inner width according to box-sizing
+	 * @return {number}
+	 */
+	getInnerWidth() {
 
-					return this.parentUI.getHeight() - ( this.parentUI.padding * 2 || 0 );
+		const base = this.width || this.getAutoWidth();
 
-				}
+		if ( this.getBoxSizing() === 'border-box' ) {
 
-			}
-
-			return this.height || this.getInnerHeight() + ( this.padding * 2 || 0 );
+			return base - ( this._padding.y + this._padding.w + this._borderWidth.y + this._borderWidth.w );
 
 		}
+
+		return base;
+
+	}
+
+	/**
+	 * Obtain the inner height according to box-sizing
+	 * @return {number}
+	 */
+	getInnerHeight() {
+
+		const base = this.height || this.getAutoHeight();
+
+		if ( this.getBoxSizing() === 'border-box' ) {
+
+			return base - (this._padding.x + this._padding.z + this._borderWidth.x + this._borderWidth.z );
+
+		}
+
+		return base;
+
+	}
+
+
+		getBoxSizing() { return this.boxSizing || 'border-box'; }
+
+	/**
+	 * Retrieve the center X according to box sized dimensions
+	 * @return {number}
+	 */
+	getCenterX() {
+		const leftSide = this._padding.w + this._borderWidth.w;
+		const rightSide = this._padding.y + this._borderWidth.y;
+
+		return (leftSide - rightSide ) / 2;
+	}
+
+	/**
+	 * Retrieve the center Y according to box sized dimensions
+	 * @return {number}
+	 */
+	getCenterY() {
+		const topSide = this._padding.x + this._borderWidth.x;
+		const bottomSide = this._padding.z + this._borderWidth.z;
+
+		return ( bottomSide - topSide ) / 2;
+	}
+
+
+	/**
+	 * Retrieve the automatic height from children boxes
+	 * @return {number}
+	 */
+	getAutoHeight() {
+
+		const DIRECTION = this.getContentDirection();
+
+		switch ( DIRECTION ) {
+
+			case 'row' :
+			case 'row-reverse' :
+				return this.getHighestChildSizeOn( 'height' );
+
+
+			case 'column' :
+			case 'column-reverse' :
+				return this.getChildrenSideSum( 'height' );
+
+			default :
+				console.error( `Invalid contentDirection : ${DIRECTION}` );
+				break;
+
+		}
+
+	}
+
+	/**
+	 *
+	 * @return {number}
+	 */
+	getAutoWidth() {
+
+		const DIRECTION = this.getContentDirection();
+
+		switch ( DIRECTION ) {
+
+			case 'row' :
+			case 'row-reverse' :
+				return this.getChildrenSideSum( 'width' );
+
+
+			case 'column' :
+			case 'column-reverse' :
+				return this.getHighestChildSizeOn( 'width' );
+
+			default :
+				console.error( `Invalid contentDirection : ${DIRECTION}` );
+				break;
+
+		}
+
+	}
+
+	/**
+	 *
+	 * @return {number}
+	 */
+	getStretchedHeight(){
+
+		if( this.parentUI && this.parentUI.getAlignItems() === 'stretch' && this.parentUI.getContentDirection().indexOf('row') !== -1 ) {
+
+			return this.parentUI.getInnerHeight();
+
+		}
+
+		return 0;
+	}
+
+	/**
+	 *
+	 * @return {number}
+	 */
+	getStretchedWidth(){
+
+		if( this.parentUI && this.parentUI.getAlignItems() === 'stretch' && this.parentUI.getContentDirection().indexOf('column') !== -1 ) {
+
+			return this.parentUI.getInnerWidth();
+
+		}
+
+		return 0;
+	}
 
 }
 

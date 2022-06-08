@@ -39,6 +39,8 @@ const pages = [
 	[ 'dev__baseline', 'Character Alignment' ],
 	[ 'dev__frames', 'Frames' ],
 	[ 'dev__justification', 'Justification' ],
+	[ 'dev__padding', 'Padding' ],
+	[ 'dev__test_preparation', 'TestPrepa' ],
 	[ 'dev__whitespace', 'WhiteSpace' ],
 ];
 
@@ -121,6 +123,8 @@ const webpackConfig = env => {
 			dev__baseline: './examples/dev__baseline.js',
 			dev__frames: './examples/dev__frames.js',
 			dev__justification: './examples/dev__justification.js',
+			dev__padding: './examples/dev__padding.js',
+			dev__test_preparation: './examples/dev__test_preparation.js',
 			dev__whitespace: './examples/dev__whitespace.js',
 
 		},

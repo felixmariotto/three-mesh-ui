@@ -68,3 +68,9 @@ export const uniformOrUserDataTransformer = function( material, property, value 
 	}
 
 }
+
+export const toUserDataTransformer = function( material, property, value ) {
+
+	material.userData[property].value = value;
+
+}

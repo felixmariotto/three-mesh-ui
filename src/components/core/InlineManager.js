@@ -32,8 +32,10 @@ export default class InlineManager extends MeshUIComponent{
 		computeInlinesPosition() {
 
 			// computed by BoxComponent
-			const INNER_WIDTH = this.getWidth() - ( this.padding * 2 || 0 );
-			const INNER_HEIGHT = this.getHeight() - ( this.padding * 2 || 0 );
+			const INNER_WIDTH = this.innerWidth;
+			// const INNER_WIDTH = this.getInnerWidth();
+			const INNER_HEIGHT = this.innerHeight;
+			// const INNER_HEIGHT = this.getInnerHeight();
 
 			// got by MeshUIComponent
 			const JUSTIFICATION = this.getJustifyContent();
@@ -47,10 +49,10 @@ export default class InlineManager extends MeshUIComponent{
 			/////////////////////////////////////////////////////////////////
 
 			// Vertical positioning
-			InlineJustification.justifyInlines( lines, JUSTIFICATION, INNER_HEIGHT);
+			InlineJustification.justifyInlines( this, lines, JUSTIFICATION, INNER_HEIGHT);
 
 			// Horizontal positioning
-			TextAlign.textAlign( lines, ALIGNMENT, INNER_WIDTH );
+			TextAlign.textAlign( this, lines, ALIGNMENT, INNER_WIDTH );
 
 
 			// Make lines accessible to provide helpful informations
@@ -65,7 +67,7 @@ export default class InlineManager extends MeshUIComponent{
 		computeLines() {
 
 			// computed by BoxComponent
-			const INNER_WIDTH = this.getWidth() - ( this.padding * 2 || 0 );
+			const INNER_WIDTH = this.innerWidth;
 			const INTERLINE = this.getInterLine();
 
 			// Will stock the characters of each line, so that we can
@@ -95,6 +97,8 @@ export default class InlineManager extends MeshUIComponent{
 						INNER_WIDTH
 					}
 
+					lastInlineOffset += inlineComponent._margin.w + inlineComponent._padding.w;
+
 					inlineComponent.inlines.forEach( ( inline, i, inlines ) => {
 
 						const line = lines[lines.length - 1];
@@ -116,7 +120,8 @@ export default class InlineManager extends MeshUIComponent{
 							// compute lastInlineOffset normally
 							// except for kerning which won't apply
 							// as there is visually no lefthanded glyph to kern with
-							lastInlineOffset = inline.xadvance + LETTERSPACING;
+							inline.cumulativeWidth = inline.xadvance + LETTERSPACING;
+							lastInlineOffset = inline.cumulativeWidth;
 							return;
 
 						}
@@ -124,7 +129,8 @@ export default class InlineManager extends MeshUIComponent{
 						lines[ lines.length - 1 ].push( inline );
 						inline.offsetX = lastInlineOffset + inline.xoffset + inline.kerning;
 
-						lastInlineOffset += inline.xadvance + inline.kerning + LETTERSPACING;
+						inline.cumulativeWidth = inline.xadvance + inline.kerning + LETTERSPACING;
+						lastInlineOffset += inline.cumulativeWidth;
 
 						// in case of lineBreak mandatory
 						if( line.length-1 === 1) {
@@ -136,9 +142,12 @@ export default class InlineManager extends MeshUIComponent{
 								lastInlineOffset -= inline.xoffset;
 
 							}
+
 						}
 
 					} );
+
+					lastInlineOffset += inlineComponent._margin.y + inlineComponent._padding.y;
 
 			} );
 
@@ -199,7 +208,7 @@ export default class InlineManager extends MeshUIComponent{
 					const lastInline = line[ line.length - 1 ];
 
 					// Right + Left ( left is negative )
-					line.width = (lastInline.offsetX + lastInline.width) + line[ 0 ].offsetX;
+					line.width = ( lastInline.offsetX + lastInline.cumulativeWidth + lastInline.paddingRight + lastInline.marginRight ) + line[ 0 ].offsetX;
 
 					width = Math.max( width, line.width);
 				}
