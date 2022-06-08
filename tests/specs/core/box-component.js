@@ -37,6 +37,10 @@ describe("BoxComponent", function () {
 	});
 
 
+	/**
+	 * Job:
+	 * Being sure properties that update box sizing work properly
+	 */
 	describe("Computed widths, heights & centers", function() {
 
 		beforeEach( function() {

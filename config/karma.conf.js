@@ -16,19 +16,19 @@ module.exports = function ( config ) {
 			{ pattern: './tests/utils/**/*.js', watched: true, included: false },
 		],
 		basePath: "../",
-		reporters: [ 'mocha' /*, 'coverage-istanbul'*/ ],
+		reporters: [ 'mocha', 'coverage-istanbul' ],
 		preprocessors: {
 			"./build/**/*.js": ["karma-coverage-istanbul-instrumenter"],
 			"./src/**/*.js": ["karma-coverage-istanbul-instrumenter"],
 		},
 
-		// coverageIstanbulInstrumenter: {
-		// 	esModules: true
-		// },
-		//
-		// coverageIstanbulReporter: {
-		// 	reports: [ "text" ],
-		// },
+		coverageIstanbulInstrumenter: {
+			esModules: true
+		},
+
+		coverageIstanbulReporter: {
+			reports: [ "text" ],
+		},
 		port: 9876,  // karma web server port
 		colors: true,
 		// logLevel: config.LOG,
