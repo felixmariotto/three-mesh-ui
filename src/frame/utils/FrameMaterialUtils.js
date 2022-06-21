@@ -52,6 +52,12 @@ export default class FrameMaterialUtils {
 	static ensureUserData( threeMaterial, materialOptions ) {
 		threeMaterial.userData.borderColor = { value: null };
 		threeMaterial.userData.borderRadius = { value: new Vector4(0,0,0,0) };
+		// Store corners based on borderRadiuses
+		threeMaterial.userData.cornerTL = { value : new Vector2(0,0) };
+		threeMaterial.userData.cornerTR = { value : new Vector2(0,0) };
+		threeMaterial.userData.cornerBR = { value : new Vector2(0,0) };
+		threeMaterial.userData.cornerBL = { value : new Vector2(0,0) };
+
 		threeMaterial.userData.borderWidth = { value: new Vector4(0,0,0,0) };
 		threeMaterial.userData.borderOpacity = { value: null };
 		threeMaterial.userData.frameSize = { value: new Vector2( 1, 1 ) };
@@ -68,7 +74,13 @@ export default class FrameMaterialUtils {
 	static bindUniformsWithUserData( shader, threeMaterial ) {
 
 		shader.uniforms.borderColor = threeMaterial.userData.borderColor;
+		// Border radiuses and corners
 		shader.uniforms.borderRadius = threeMaterial.userData.borderRadius;
+		shader.uniforms.cornerTL = threeMaterial.userData.cornerTL;
+		shader.uniforms.cornerTR = threeMaterial.userData.cornerTR;
+		shader.uniforms.cornerBR = threeMaterial.userData.cornerBR;
+		shader.uniforms.cornerBL = threeMaterial.userData.cornerBL;
+
 		shader.uniforms.borderWidth = threeMaterial.userData.borderWidth;
 		shader.uniforms.borderOpacity = threeMaterial.userData.borderOpacity;
 		shader.uniforms.frameSize = threeMaterial.userData.frameSize;
@@ -138,10 +150,113 @@ export default class FrameMaterialUtils {
 
 }
 
+/**
+ *
+ * @param target
+ * @param property
+ * @param value
+ * @private
+ */
 const _backgroundSizeTransformer = function( target, property, value ) {
 
 	value = ['stretch','contain','cover'].indexOf(value);
 	asPreprocessorValueTransformer(target, 'BACKGROUND_MAPPING', value);
+
+}
+
+/**
+ * @TODO: Mediation doens't seem completed. Can be seen when all corners have 1.0
+ * @param value
+ * @returns {Array.<Array<Number>>}
+ * @private
+ */
+const _borderRadiusTransformer = function( value ) {
+
+	const order = ['x', 'y', 'z', 'w'];
+	order.sort( (axisA, axisB) => {
+		if( value[axisA] > value[axisB] ) return -1;
+		if( value[axisA] < value[axisB] ) return 1;
+		return 0;
+	})
+
+	for ( let i = 0; i < order.length; i++ ) {
+		const axis = order[ i ];
+
+		if( axis === 'x' ) {
+
+			if( value.x + value.y > 1.0 || value.x + value.w > 1.0 ) {
+
+				// scale to bigggest value
+				const halfRatio = ( Math.max( value.y, value.w ) / value.x ) / 2;
+				value.y = halfRatio;
+				value.w = halfRatio;
+
+				value.x *= halfRatio;
+
+			}
+
+		}
+
+		if( axis === 'y' ) {
+
+			if( value.y + value.x > 1.0 || value.y + value.z > 1.0 ) {
+
+				// scale to bigggest value
+				const halfRatio = ( Math.max( value.x, value.z ) / value.y ) / 2;
+				value.x = halfRatio;
+				value.z = halfRatio;
+
+				value.y *= halfRatio;
+
+			}
+
+		}
+
+		if( axis === 'z' ) {
+
+			if( value.z + value.y > 1.0 || value.z + value.w > 1.0 ) {
+
+				// scale to bigggest value
+				const halfRatio = ( Math.max( value.y, value.w ) / value.z ) / 2;
+				value.y = halfRatio;
+				value.w = halfRatio;
+
+				value.z *= halfRatio;
+
+			}
+
+		}
+
+		if( axis === 'w' ) {
+
+			if( value.w + value.z > 1.0 || value.w + value.x > 1.0 ) {
+
+				// scale to bigggest value
+				const halfRatio = ( Math.max( value.z, value.x ) / value.z ) / 2;
+				value.z = halfRatio;
+				value.x = halfRatio;
+
+				value.w *= halfRatio;
+
+			}
+
+		}
+
+	}
+
+
+	let topLeft = [ value.x, 1.0 - value.x ];
+	let topRight = [ 1 - value.y, 1 - value.y ];
+	let bottomRight = [ 1 - value.z , value.z ];
+	let bottomLeft = [ value.w, value.w ];
+
+
+	return [
+		[ value.x, 1.0 - value.x ],
+		[ 1 - value.y, 1 - value.y ],
+		[ 1 - value.z , value.z ],
+		[ value.w, value.w ]
+	]
 
 }
 
@@ -157,7 +272,7 @@ const _mediationDefinitions = {
 	backgroundSize: { m: 'u_backgroundMapping', t: _backgroundSizeTransformer },
 	_borderWidth: { m: 'borderWidth', t: uniformOrUserDataTransformer },
 	borderColor: { m: 'borderColor', t: uniformOrUserDataTransformer },
-	_borderRadius: { m: 'borderRadius', t: uniformOrUserDataTransformer },
+	_borderRadius: { m: 'borderRadius', t: _borderRadiusTransformer },
 	borderOpacity: { m: 'borderOpacity', t: uniformOrUserDataTransformer },
 	size: { m: 'frameSize', t: uniformOrUserDataTransformer },
 	tSize: { m: 'textureSize', t: uniformOrUserDataTransformer }

@@ -26,6 +26,12 @@ export default class FrameMaterial extends ShaderMaterial {
 				opacity: { value: 1.0 },
 				borderColor: { value: null },
 				borderRadius: { value: new Vector4(0,0,0,0) },
+				// Corners for customized radius not all starting on center [0.5,0.5];
+				// Corners will be generated from borderRadiuses
+				cornerTL: { value : new Vector2(0,0) },
+				cornerTR: { value : new Vector2(0,0) },
+				cornerBR: { value : new Vector2(0,0) },
+				cornerBL: { value : new Vector2(0,0) },
 				borderWidth: { value: new Vector4(0,0,0,0) },
 				borderOpacity: { value: null },
 				frameSize: { value: new Vector2( 1, 1 ) },

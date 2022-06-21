@@ -6,41 +6,24 @@ uniform vec3 borderColor;
 uniform float borderOpacity;
 uniform vec4 borderRadius;
 
+uniform vec2 cornerTL;
+uniform vec2 cornerTR;
+uniform vec2 cornerBR;
+uniform vec2 cornerBL;
+
 varying vec2 vUvB;
 
-// Borders
-float getEdgeDist() {
+float getEllipticFactor( vec2 uv, vec2 center, float radiusX, float radiusY )
+{
 
-	// This allows to go the uv position in a [-1, 1] referencial system
-	vec2 ndc = vec2( vUvB.x * 2.0 - 1.0, vUvB.y * 2.0 - 1.0 );
+		float edx = uv.x - center.x;
+		float edy = uv.y - center.y;
 
-	//
-	vec2 planeSpaceCoord = vec2( frameSize.x * 0.5 * ndc.x, frameSize.y * 0.5 * ndc.y );
-	vec2 corner = frameSize * 0.5;
-	vec2 offsetCorner = corner - abs( planeSpaceCoord );
+		float ddx = (edx * edx) / (radiusX * radiusX);
+		float ddy = (edy * edy) / (radiusY * radiusY);
 
-	float innerRadDist = min( offsetCorner.x, offsetCorner.y ) * -1.0;
+		return ddx + ddy;
 
-	if (vUvB.x < 0.5 && vUvB.y >= 0.5) {
-		float roundedDist = length( max( abs( planeSpaceCoord ) - frameSize * 0.5 + borderRadius.x, 0.0 ) ) - borderRadius.x;
-		float s = step( innerRadDist * -1.0, borderRadius.x );
-		return mix( innerRadDist, roundedDist, s );
-	}
-	if (vUvB.x >= 0.5 && vUvB.y >= 0.5) {
-		float roundedDist = length( max( abs( planeSpaceCoord ) - frameSize * 0.5 + borderRadius.y, 0.0 ) ) - borderRadius.y;
-		float s = step( innerRadDist * -1.0, borderRadius.y );
-		return mix( innerRadDist, roundedDist, s );
-	}
-	if (vUvB.x >= 0.5 && vUvB.y < 0.5) {
-		float roundedDist = length( max( abs( planeSpaceCoord ) - frameSize * 0.5 + borderRadius.z, 0.0 ) ) - borderRadius.z;
-		float s = step( innerRadDist * -1.0, borderRadius.z );
-		return mix( innerRadDist, roundedDist, s );
-	}
-	if (vUvB.x < 0.5 && vUvB.y < 0.5) {
-		float roundedDist = length( max( abs( planeSpaceCoord ) - frameSize * 0.5 + borderRadius.w, 0.0 ) ) - borderRadius.w;
-		float s = step( innerRadDist * -1.0, borderRadius.w );
-		return mix( innerRadDist, roundedDist, s );
-	}
 }
 
 `
