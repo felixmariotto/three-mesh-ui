@@ -678,6 +678,8 @@ export default class MeshUIComponent extends Object3D {
 			// in one batch, and the rest in the other. This way, efficient animation is possible with
 			// attribute from the light batch.
 
+			const additionalMaterialTransfer = {};
+
 			for ( const prop of Object.keys( options ) ) {
 
 				if ( this[ prop ] != options[ prop ] ) {
@@ -813,31 +815,39 @@ export default class MeshUIComponent extends Object3D {
 							break;
 						case 'borderTopLeftRadius':
 							this._borderRadius.x = value;
+							additionalMaterialTransfer._borderRadius = this._borderRadius;
 							break;
 						case 'borderTopRightRadius':
 							this._borderRadius.y = value;
+							additionalMaterialTransfer._borderRadius = this._borderRadius;
 							break;
 						case 'borderBottomRightRadius':
 							this._borderRadius.z = value;
+							additionalMaterialTransfer._borderRadius = this._borderRadius;
 							break;
 						case 'borderBottomLeftRadius':
 							this._borderRadius.w = value;
+							additionalMaterialTransfer._borderRadius = this._borderRadius;
 							break;
 						case 'borderTopRadius':
 							this._borderRadius.x = value;
 							this._borderRadius.y = value;
+							additionalMaterialTransfer._borderRadius = this._borderRadius;
 							break;
 						case 'borderRightRadius':
 							this._borderRadius.y = value;
 							this._borderRadius.z = value;
+							additionalMaterialTransfer._borderRadius = this._borderRadius;
 							break;
 						case 'borderLeftRadius':
 							this._borderRadius.x = value;
 							this._borderRadius.w = value;
+							additionalMaterialTransfer._borderRadius = this._borderRadius;
 							break
 						case 'borderBottomRadius':
 							this._borderRadius.z = value;
 							this._borderRadius.w = value;
+							additionalMaterialTransfer._borderRadius = this._borderRadius;
 							break;
 
 
@@ -928,7 +938,10 @@ export default class MeshUIComponent extends Object3D {
 
 
 			//
-			this._transferToMaterial( options );
+			// @TODO : Prevent merging those
+			// this._transferToMaterial( options );
+			this._transferToMaterial( { ...options, ...additionalMaterialTransfer } );
+
 
 			//
 			// this._transferToMesh( options );
