@@ -111,7 +111,7 @@ function init() {
 	topLeft = makeBoxForBorder('borderTopLeft');
 	topLeft.set({borderTopLeftRadius:0.1, borderWidth:0.05, borderColor: new Color(0xff0000)});
 	const topMiddleLeft = makeBoxForBorder('TopMiddleLeft?');
-	topMiddleLeft.set({borderRadius:'0.05 0.25'})
+	topMiddleLeft.set({borderRadius:'0.05 0.25', borderLeftWidth:0.1})
 	const topMiddle = makeBoxForBorder('borderTop');
 	topMiddle.set({borderRadiusTop: 0.05})
 	topMiddleRight = makeBoxForBorder('TopMiddleRight?');
@@ -131,7 +131,8 @@ function init() {
 	const middleMiddle = makeBoxForBorder('borderMiddle');
 	panel = middleMiddle;
 	const middleMiddleRight = makeBoxForBorder('MiddleMiddleRight?');
-	middleMiddleRight.set({borderRadiusRight:1, borderWidth:'0 0 0 0.25', borderColor: new Color(0x99ff00)});
+	middleMiddleRight.set({borderRightRadius:0.5, borderWidth:'0 0 0 0.25', borderColor: new Color(0x99ff00)});
+	console.log( middleMiddleRight._borderRadius );
 	const middleRight = makeBoxForBorder('BorderMiddleRight');
 	middleRight.set({borderRadiusRight:0.3});
 	middle.add( middleLeft, middleMiddleLeft, middleMiddle, middleMiddleRight, middleRight)
@@ -157,10 +158,12 @@ function init() {
 	const bottomMiddle = makeBoxForBorder('borderBottom');
 	bottomMiddle.set({borderBottomRadius:0.1})
 	const bottomMiddleRight = makeBoxForBorder('BottomMiddleRight?');
+	bottomMiddleRight.set({borderRadius:0.5,
+		borderBottomWidth:0.1,borderColor:new Color(0xff9900)})
 	bottomMiddleRight.material = new FrameBasicMaterial({side:DoubleSide});
 	panelScale = bottomMiddleRight;
 	const bottomRight = makeBoxForBorder('BorderBottomRight');
-	bottomRight.set({borderWidth:'0.1 0.2 0.3 0.05', borderColor: new Color(0x99ffff)});
+	bottomRight.set({borderWidth:'0.1 0.2 0.3 0.05', borderRadius:0.5, borderColor: new Color(0x99ffff)});
 
 	bottom.add( bottomLeft, bottomMiddleLeft, bottomMiddle, bottomMiddleRight, bottomRight)
 	console.log( bottom.frame.customDepthMaterial );

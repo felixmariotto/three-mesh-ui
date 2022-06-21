@@ -164,13 +164,60 @@ const _backgroundSizeTransformer = function( target, property, value ) {
 
 }
 
+const _borderRadiusTransformer = function( material, property, value ) {
+
+	// console.log( value );
+	const corners = _radiusToCorners(value);
+
+	if( material.userData[property] ) {
+
+		material.userData[property].value.copy( value );
+
+		// convert border radius to corners
+		material.userData.cornerTL.value.x = corners[0][0];
+		material.userData.cornerTL.value.y = corners[0][1];
+
+		material.userData.cornerTR.value.x = corners[1][0];
+		material.userData.cornerTR.value.y = corners[1][1];
+
+		material.userData.cornerBR.value.x = corners[2][0];
+		material.userData.cornerBR.value.y = corners[2][1];
+
+		material.userData.cornerBL.value.x = corners[3][0];
+		material.userData.cornerBL.value.y = corners[3][1];
+
+
+	}else{
+
+		material.uniforms[property].value.copy( value );
+
+		// console.log( material.uniforms.cornerTL.value );
+
+		// convert border radius to corners
+		material.uniforms.cornerTL.value.x = corners[0][0];
+		material.uniforms.cornerTL.value.y = corners[0][1];
+
+		material.uniforms.cornerTR.value.x = corners[1][0];
+		material.uniforms.cornerTR.value.y = corners[1][1];
+
+		material.uniforms.cornerBR.value.x = corners[2][0];
+		material.uniforms.cornerBR.value.y = corners[2][1];
+
+		material.uniforms.cornerBL.value.x = corners[3][0];
+		material.uniforms.cornerBL.value.y = corners[3][1];
+
+	}
+
+}
+
+
 /**
  * @TODO: Mediation doens't seem completed. Can be seen when all corners have 1.0
  * @param value
  * @returns {Array.<Array<Number>>}
  * @private
  */
-const _borderRadiusTransformer = function( value ) {
+const _radiusToCorners = function( value ) {
 
 	const order = ['x', 'y', 'z', 'w'];
 	order.sort( (axisA, axisB) => {

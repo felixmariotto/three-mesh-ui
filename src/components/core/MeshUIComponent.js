@@ -812,6 +812,7 @@ export default class MeshUIComponent extends Object3D {
 						// abstracted properties, those properties don't need to be store as this[prop] = value
 						case 'borderRadius' :
 							this._fourDimensionsValueSetter( this._borderRadius, value);
+							additionalMaterialTransfer._borderRadius = this._borderRadius;
 							break;
 						case 'borderTopLeftRadius':
 							this._borderRadius.x = value;
@@ -853,22 +854,27 @@ export default class MeshUIComponent extends Object3D {
 
 						case 'borderWidth' :
 							this._fourDimensionsValueSetter( this._borderWidth, value);
+							additionalMaterialTransfer._borderWidth = this._borderWidth;
 							layoutNeedsUpdate = true;
 							break;
 						case 'borderTopWidth' :
 							this._borderWidth.x = value;
+							additionalMaterialTransfer._borderWidth = this._borderWidth;
 							layoutNeedsUpdate = true;
 							break;
 						case 'borderRightWidth':
 							this._borderWidth.y = value;
+							additionalMaterialTransfer._borderWidth = this._borderWidth;
 							layoutNeedsUpdate = true;
 							break;
 						case 'borderBottomWidth':
 							this._borderWidth.z = value;
+							additionalMaterialTransfer._borderWidth = this._borderWidth;
 							layoutNeedsUpdate = true;
 							break;
 						case 'borderLeftWidth':
 							this._borderWidth.w = value;
+							additionalMaterialTransfer._borderWidth = this._borderWidth;
 							layoutNeedsUpdate = true;
 							break;
 
