@@ -74,6 +74,11 @@ export default class Block extends BoxComponent {
 		// Get temporary dimension
 		this.computeBoxProperties();
 
+		// as borders are defined as world units but material border are defined in uv units
+		// update the border with newly computed size
+		this._updateBorderWidthUV();
+		this._updateCornersUV();
+
 		const WIDTH = this.offsetWidth;
 		const HEIGHT = this.offsetHeight;
 
@@ -86,6 +91,8 @@ export default class Block extends BoxComponent {
 
 		this.size.set( WIDTH, HEIGHT );
 		this._main.scale.set( WIDTH, HEIGHT, 1 );
+
+
 
 		// if ( this._main ) this.updateBackgroundMaterial();
 

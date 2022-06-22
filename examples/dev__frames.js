@@ -131,7 +131,7 @@ function init() {
 	const middleMiddle = makeBoxForBorder('borderMiddle');
 	panel = middleMiddle;
 	const middleMiddleRight = makeBoxForBorder('MiddleMiddleRight?');
-	middleMiddleRight.set({borderRightRadius:0.5, borderWidth:'0 0 0 0.25', borderColor: new Color(0x99ff00)});
+	middleMiddleRight.set({borderRightRadius:0.5, borderWidth:'0 0 0 0.05', borderColor: new Color(0x99ff00)});
 	console.log( middleMiddleRight._borderRadius );
 	const middleRight = makeBoxForBorder('BorderMiddleRight');
 	middleRight.set({borderRadiusRight:0.3});
@@ -158,7 +158,7 @@ function init() {
 	const bottomMiddle = makeBoxForBorder('borderBottom');
 	bottomMiddle.set({borderBottomRadius:0.1})
 	const bottomMiddleRight = makeBoxForBorder('BottomMiddleRight?');
-	bottomMiddleRight.set({borderRadius:0.5,
+	bottomMiddleRight.set({borderRadius:0.25,
 		borderBottomWidth:0.1,borderColor:new Color(0xff9900)})
 	bottomMiddleRight.material = new FrameBasicMaterial({side:DoubleSide});
 	panelScale = bottomMiddleRight;
@@ -210,9 +210,9 @@ function makeBoxForBorder( text ) {
 
 	//
 	panel.add(
-		new ThreeMeshUI.Text( {
-			content: text,
-		} )
+		// new ThreeMeshUI.Text( {
+		// 	content: text,
+		// } )
 	);
 
 	return panel;

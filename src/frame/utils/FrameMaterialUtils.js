@@ -164,52 +164,6 @@ const _backgroundSizeTransformer = function( target, property, value ) {
 
 }
 
-const _borderRadiusTransformer = function( material, property, value ) {
-
-	// console.log( value );
-	const corners = _radiusToCorners(value);
-
-	if( material.userData[property] ) {
-
-		material.userData[property].value.copy( value );
-
-		// convert border radius to corners
-		material.userData.cornerTL.value.x = corners[0][0];
-		material.userData.cornerTL.value.y = corners[0][1];
-
-		material.userData.cornerTR.value.x = corners[1][0];
-		material.userData.cornerTR.value.y = corners[1][1];
-
-		material.userData.cornerBR.value.x = corners[2][0];
-		material.userData.cornerBR.value.y = corners[2][1];
-
-		material.userData.cornerBL.value.x = corners[3][0];
-		material.userData.cornerBL.value.y = corners[3][1];
-
-
-	}else{
-
-		material.uniforms[property].value.copy( value );
-
-		// console.log( material.uniforms.cornerTL.value );
-
-		// convert border radius to corners
-		material.uniforms.cornerTL.value.x = corners[0][0];
-		material.uniforms.cornerTL.value.y = corners[0][1];
-
-		material.uniforms.cornerTR.value.x = corners[1][0];
-		material.uniforms.cornerTR.value.y = corners[1][1];
-
-		material.uniforms.cornerBR.value.x = corners[2][0];
-		material.uniforms.cornerBR.value.y = corners[2][1];
-
-		material.uniforms.cornerBL.value.x = corners[3][0];
-		material.uniforms.cornerBL.value.y = corners[3][1];
-
-	}
-
-}
-
 
 /**
  * @TODO: Mediation doens't seem completed. Can be seen when all corners have 1.0
@@ -317,9 +271,12 @@ const _mediationDefinitions = {
 	backgroundColor: { m: 'color' },
 	backgroundOpacity: { m:'opacity' },
 	backgroundSize: { m: 'u_backgroundMapping', t: _backgroundSizeTransformer },
-	_borderWidth: { m: 'borderWidth', t: uniformOrUserDataTransformer },
+	_borderWidthUV: { m: 'borderWidth', t: uniformOrUserDataTransformer },
 	borderColor: { m: 'borderColor', t: uniformOrUserDataTransformer },
-	_borderRadius: { m: 'borderRadius', t: _borderRadiusTransformer },
+	_cornerTL: { m: 'cornerTL', t: uniformOrUserDataTransformer },
+	_cornerTR: { m: 'cornerTR', t: uniformOrUserDataTransformer },
+	_cornerBR: { m: 'cornerBR', t: uniformOrUserDataTransformer },
+	_cornerBL: { m: 'cornerBL', t: uniformOrUserDataTransformer },
 	borderOpacity: { m: 'borderOpacity', t: uniformOrUserDataTransformer },
 	size: { m: 'frameSize', t: uniformOrUserDataTransformer },
 	tSize: { m: 'textureSize', t: uniformOrUserDataTransformer }

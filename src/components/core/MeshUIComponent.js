@@ -1,4 +1,4 @@
-import { Object3D, Plane, Vector4 } from 'three';
+import { Object3D, Plane, Vector2, Vector4 } from 'three';
 import { Vector3 } from 'three';
 
 import FontLibrary from '../../font/FontLibrary.js';
@@ -33,10 +33,10 @@ It owns the principal public methods of a component : set, setupState and setSta
 
 export default class MeshUIComponent extends Object3D {
 
-	/**
-	 *
-	 * @param {Object.<(string), any>} options
-	 */
+		/**
+		 *
+		 * @param {Object.<(string), any>} options
+		 */
 		constructor( options ) {
 
 			super( options );
@@ -116,13 +116,24 @@ export default class MeshUIComponent extends Object3D {
 			 * @private
 			 */
 			this._borderRadius = new Vector4().copy( DEFAULTS.borderRadius );
+			this._cornerTL = new Vector2(this._borderRadius.x, 1-this._borderRadius.x);
+			this._cornerTR = new Vector2(1-this._borderRadius.y, 1-this._borderRadius.y);
+			this._cornerBR = new Vector2(1-this._borderRadius.z, this._borderRadius.z);
+			this._cornerBL = new Vector2(this._borderRadius.w, this._borderRadius.w);
 
 			/**
-			 *
+			 * BorderWidth in world units
 			 * @type {Vector4}
 			 * @private
 			 */
 			this._borderWidth = new Vector4().copy( DEFAULTS.borderWidth );
+
+			/**
+			 * BorderWidth in uv units
+			 * @type {Vector4}
+			 * @private
+			 */
+			this._borderWidthUV = new Vector4().copy( DEFAULTS.borderWidth );
 
 			/**
 			 *
@@ -812,69 +823,64 @@ export default class MeshUIComponent extends Object3D {
 						// abstracted properties, those properties don't need to be store as this[prop] = value
 						case 'borderRadius' :
 							this._fourDimensionsValueSetter( this._borderRadius, value);
-							additionalMaterialTransfer._borderRadius = this._borderRadius;
+							this._updateCornersUV();
 							break;
 						case 'borderTopLeftRadius':
 							this._borderRadius.x = value;
-							additionalMaterialTransfer._borderRadius = this._borderRadius;
+							this._updateCornersUV();
 							break;
 						case 'borderTopRightRadius':
 							this._borderRadius.y = value;
-							additionalMaterialTransfer._borderRadius = this._borderRadius;
+							this._updateCornersUV();
 							break;
 						case 'borderBottomRightRadius':
 							this._borderRadius.z = value;
-							additionalMaterialTransfer._borderRadius = this._borderRadius;
+							this._updateCornersUV();
 							break;
 						case 'borderBottomLeftRadius':
 							this._borderRadius.w = value;
-							additionalMaterialTransfer._borderRadius = this._borderRadius;
+							this._updateCornersUV();
 							break;
 						case 'borderTopRadius':
 							this._borderRadius.x = value;
 							this._borderRadius.y = value;
-							additionalMaterialTransfer._borderRadius = this._borderRadius;
+							this._updateCornersUV();
 							break;
 						case 'borderRightRadius':
 							this._borderRadius.y = value;
 							this._borderRadius.z = value;
-							additionalMaterialTransfer._borderRadius = this._borderRadius;
+							this._updateCornersUV();
 							break;
 						case 'borderLeftRadius':
 							this._borderRadius.x = value;
 							this._borderRadius.w = value;
-							additionalMaterialTransfer._borderRadius = this._borderRadius;
+							this._updateCornersUV();
 							break
 						case 'borderBottomRadius':
 							this._borderRadius.z = value;
 							this._borderRadius.w = value;
-							additionalMaterialTransfer._borderRadius = this._borderRadius;
+							this._updateCornersUV();
 							break;
 
 
 						case 'borderWidth' :
 							this._fourDimensionsValueSetter( this._borderWidth, value);
-							additionalMaterialTransfer._borderWidth = this._borderWidth;
 							layoutNeedsUpdate = true;
 							break;
 						case 'borderTopWidth' :
 							this._borderWidth.x = value;
-							additionalMaterialTransfer._borderWidth = this._borderWidth;
 							layoutNeedsUpdate = true;
 							break;
 						case 'borderRightWidth':
 							this._borderWidth.y = value;
-							additionalMaterialTransfer._borderWidth = this._borderWidth;
 							layoutNeedsUpdate = true;
 							break;
 						case 'borderBottomWidth':
 							this._borderWidth.z = value;
-							additionalMaterialTransfer._borderWidth = this._borderWidth;
 							layoutNeedsUpdate = true;
 							break;
 						case 'borderLeftWidth':
 							this._borderWidth.w = value;
-							additionalMaterialTransfer._borderWidth = this._borderWidth;
 							layoutNeedsUpdate = true;
 							break;
 
@@ -1063,6 +1069,7 @@ export default class MeshUIComponent extends Object3D {
 		/**
 		 * According to the list of materialProperties
 		 * some properties are sent to material
+		 * @param {Object} [options=null]
 		 * @private
 		 */
 		_transferToMaterial( options = null ) {
@@ -1071,10 +1078,45 @@ export default class MeshUIComponent extends Object3D {
 
 		}
 
+	/**
+	 * According to the list of meshProperties
+	 * some properties are sent to mesh
+	 * @param {Object} [options=null]
+	 * @private
+	 */
 		_transferToMesh( options = null ) {
 
 			Mediator.mediate( this, this._main, options, this._meshMediation );
 
+		}
+
+		/**
+		 * Convert world units border in uv units border for material
+		 * As vector4 are bounds to material, there is no need to transfer that update to material
+		 * @private
+		 */
+		_updateBorderWidthUV(){
+
+			this._borderWidthUV.w = this._borderWidth.w / this.offsetWidth;
+			this._borderWidthUV.y = this._borderWidth.y / this.offsetWidth;
+
+			this._borderWidthUV.x = this._borderWidth.x / this.offsetHeight;
+			this._borderWidthUV.z = this._borderWidth.z / this.offsetHeight;
+
+		}
+
+		_updateCornersUV(){
+			this._cornerTL.x = this._borderRadius.x / this.offsetWidth;
+			this._cornerTL.y = 1 - (this._borderRadius.x / this.offsetHeight);
+
+			this._cornerTR.x = 1 - (this._borderRadius.y / this.offsetWidth);
+			this._cornerTR.y = 1 - (this._borderRadius.y / this.offsetHeight);
+
+			this._cornerBR.x = 1 - (this._borderRadius.z / this.offsetWidth);
+			this._cornerBR.y = this._borderRadius.z / this.offsetHeight;
+
+			this._cornerBL.x = this._borderRadius.w / this.offsetWidth;
+			this._cornerBL.y = this._borderRadius.w / this.offsetHeight;
 		}
 
 		/**

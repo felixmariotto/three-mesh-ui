@@ -53,6 +53,7 @@ export const asPreprocessorValueTransformer = function ( target, targetProperty,
 
 /**
  * Transform a value as a uniform or userData value
+ * Non primitive values are bounds
  * @type {import('../Mediator').MediationTransformer}
  */
 export const uniformOrUserDataTransformer = function( material, property, value ) {
