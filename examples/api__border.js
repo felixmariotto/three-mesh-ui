@@ -63,7 +63,7 @@ function init() {
 function makeTextPanel() {
 
 	panel = new ThreeMeshUI.Block( {
-		width: 1,
+		width: 3,
 		height: 0.8,
 		fontSize: 0.055,
 		justifyContent: 'center',
@@ -104,9 +104,11 @@ function loop() {
 		borderRadius: [ 0, 0.5 * Math.sin( Date.now() / 500 ), 0, 0 ],
 		borderWidth: 0.05 - 0.06 * Math.sin( Date.now() / 500 ),
 		borderColor: new THREE.Color( 0.5 + 0.5 * Math.sin( Date.now() / 500 ), 0.5, 1 ),
-		borderOpacity: 1
+		borderOpacity: 1,
+		width: 2 + ( Math.sin( Date.now() / 500 ) ),
 	} );
 
+	// console.log( panel.frame.material.uniforms.frameSize.value );
 	// Don't forget, ThreeMeshUI must be updated manually.
 	// This has been introduced in version 3.0.0 in order
 	// to improve performance

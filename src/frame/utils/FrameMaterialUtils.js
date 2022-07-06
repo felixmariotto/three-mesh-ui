@@ -52,6 +52,12 @@ export default class FrameMaterialUtils {
 	static ensureUserData( threeMaterial, materialOptions ) {
 		threeMaterial.userData.borderColor = { value: null };
 		threeMaterial.userData.borderRadius = { value: new Vector4(0,0,0,0) };
+		// Store corners based on borderRadiuses
+		threeMaterial.userData.cornerTL = { value : new Vector2(0,0) };
+		threeMaterial.userData.cornerTR = { value : new Vector2(0,0) };
+		threeMaterial.userData.cornerBR = { value : new Vector2(0,0) };
+		threeMaterial.userData.cornerBL = { value : new Vector2(0,0) };
+
 		threeMaterial.userData.borderWidth = { value: new Vector4(0,0,0,0) };
 		threeMaterial.userData.borderOpacity = { value: null };
 		threeMaterial.userData.frameSize = { value: new Vector2( 1, 1 ) };
@@ -68,7 +74,13 @@ export default class FrameMaterialUtils {
 	static bindUniformsWithUserData( shader, threeMaterial ) {
 
 		shader.uniforms.borderColor = threeMaterial.userData.borderColor;
+		// Border radiuses and corners
 		shader.uniforms.borderRadius = threeMaterial.userData.borderRadius;
+		shader.uniforms.cornerTL = threeMaterial.userData.cornerTL;
+		shader.uniforms.cornerTR = threeMaterial.userData.cornerTR;
+		shader.uniforms.cornerBR = threeMaterial.userData.cornerBR;
+		shader.uniforms.cornerBL = threeMaterial.userData.cornerBL;
+
 		shader.uniforms.borderWidth = threeMaterial.userData.borderWidth;
 		shader.uniforms.borderOpacity = threeMaterial.userData.borderOpacity;
 		shader.uniforms.frameSize = threeMaterial.userData.frameSize;
@@ -138,10 +150,46 @@ export default class FrameMaterialUtils {
 
 }
 
+/**
+ *
+ * @param target
+ * @param property
+ * @param value
+ * @private
+ */
 const _backgroundSizeTransformer = function( target, property, value ) {
 
 	value = ['stretch','contain','cover'].indexOf(value);
 	asPreprocessorValueTransformer(target, 'BACKGROUND_MAPPING', value);
+
+}
+
+/**
+ *
+ * @param {*} target
+ * @param {string} property
+ * @param {*} value
+ * @private
+ */
+const _linkCornersOutput = function( target, property, value ) {
+
+	uniformOrUserDataTransformer(target,'cornerTL', value._cornerTL);
+	uniformOrUserDataTransformer(target,'cornerTR', value._cornerTR);
+	uniformOrUserDataTransformer(target,'cornerBL', value._cornerBL);
+	uniformOrUserDataTransformer(target,'cornerBR', value._cornerBR);
+
+}
+
+/**
+ *
+ * @param {*} target
+ * @param {string} property
+ * @param {*} value
+ * @private
+ */
+const _linkComponentOutput = function( target, property, value ) {
+
+	uniformOrUserDataTransformer(target,property, value.output);
 
 }
 
@@ -155,9 +203,9 @@ const _mediationDefinitions = {
 	backgroundColor: { m: 'color' },
 	backgroundOpacity: { m:'opacity' },
 	backgroundSize: { m: 'u_backgroundMapping', t: _backgroundSizeTransformer },
-	_borderWidth: { m: 'borderWidth', t: uniformOrUserDataTransformer },
+	_borderWidthComponent: { m: 'borderWidth', t: _linkComponentOutput },
 	borderColor: { m: 'borderColor', t: uniformOrUserDataTransformer },
-	_borderRadius: { m: 'borderRadius', t: uniformOrUserDataTransformer },
+	_borderRadiusComponent: { m: 'computedCorners', t: _linkCornersOutput },
 	borderOpacity: { m: 'borderOpacity', t: uniformOrUserDataTransformer },
 	size: { m: 'frameSize', t: uniformOrUserDataTransformer },
 	tSize: { m: 'textureSize', t: uniformOrUserDataTransformer }

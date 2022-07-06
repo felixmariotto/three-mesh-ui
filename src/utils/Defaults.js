@@ -30,7 +30,7 @@ export default {
 	fontOpacity: 1,
 	fontPXRange: 4,
 	fontSupersampling: true,
-	borderRadius: new Vector4( 0.01,0.01,0.01, 0.01 ),
+	borderRadius: new Vector4( 0.025,0.025,0.025, 0.025 ),
 	borderWidth: new Vector4( 0, 0, 0, 0 ),
 	borderColor: new Color( 'black' ),
 	borderOpacity: 1,

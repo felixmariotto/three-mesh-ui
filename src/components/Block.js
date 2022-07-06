@@ -74,6 +74,10 @@ export default class Block extends BoxComponent {
 		// Get temporary dimension
 		this.computeBoxProperties();
 
+		this._borderRadiusComponent.updateValue(null, this.offsetWidth, this.offsetHeight);
+
+		this._borderWidthComponent.updateValue(null, this.offsetWidth, this.offsetHeight);
+
 		const WIDTH = this.offsetWidth;
 		const HEIGHT = this.offsetHeight;
 
@@ -86,6 +90,8 @@ export default class Block extends BoxComponent {
 
 		this.size.set( WIDTH, HEIGHT );
 		this._main.scale.set( WIDTH, HEIGHT, 1 );
+
+
 
 		// if ( this._main ) this.updateBackgroundMaterial();
 
@@ -134,6 +140,11 @@ export default class Block extends BoxComponent {
 			this.position.z = this.getOffset();
 
 		}
+
+		// UV units - proportional
+		const sX = this.offsetWidth > this.offsetHeight ? this.offsetHeight/this.offsetWidth : 1;
+		const sY = this.offsetWidth < this.offsetHeight ? this.offsetWidth/this.offsetHeight : 1;
+		this._borderRadiusComponent.process(sX, sY);
 
 		// if ( this._main ) this.updateBackgroundMaterial();
 
