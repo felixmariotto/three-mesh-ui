@@ -113,7 +113,7 @@ function init() {
 	const topMiddleLeft = makeBoxForBorder('TopMiddleLeft?');
 	topMiddleLeft.set({borderRadius:'0.05 0.25', borderLeftWidth:0.1})
 	const topMiddle = makeBoxForBorder('borderTop');
-	topMiddle.set({borderRadiusTop: 0.05})
+	topMiddle.set({borderTopRadius: 0.05})
 	topMiddleRight = makeBoxForBorder('TopMiddleRight?');
 	topMiddleRight.set({borderRadius: [0.25, 0.05], borderColor: new Color(0xff9900), borderWidth: 0.02});
 	topRight = makeBoxForBorder('BorderTopRight');
@@ -125,14 +125,13 @@ function init() {
 	middle.frame.visible = false;
 	container.add( middle );
 	const middleLeft = makeBoxForBorder('borderMiddleLeft');
-	middleLeft.set({borderRadiusLeft:0.1});
+	middleLeft.set({borderLeftRadius:0.1});
 	const middleMiddleLeft = makeBoxForBorder('MiddleMiddleLeft?');
-	middleMiddleLeft.set({height: 0.2 ,borderTopRightRadius: 0.25})
+	middleMiddleLeft.set({height: 0.2 ,borderTopRightRadius: 1, borderBottomRightRadius:0.05, borderTopLeftRadius: 0.05});
 	const middleMiddle = makeBoxForBorder('borderMiddle');
 	panel = middleMiddle;
 	const middleMiddleRight = makeBoxForBorder('MiddleMiddleRight?');
 	middleMiddleRight.set({borderRightRadius:0.5, borderWidth:'0 0 0 0.05', borderColor: new Color(0x99ff00)});
-	console.log( middleMiddleRight._borderRadius );
 	const middleRight = makeBoxForBorder('BorderMiddleRight');
 	middleRight.set({borderRadiusRight:0.3});
 	middle.add( middleLeft, middleMiddleLeft, middleMiddle, middleMiddleRight, middleRight)
@@ -158,8 +157,8 @@ function init() {
 	const bottomMiddle = makeBoxForBorder('borderBottom');
 	bottomMiddle.set({borderBottomRadius:0.1})
 	const bottomMiddleRight = makeBoxForBorder('BottomMiddleRight?');
-	bottomMiddleRight.set({borderRadius:0.25,
-		borderBottomWidth:0.1,borderColor:new Color(0xff9900)})
+	bottomMiddleRight.set({borderRadius:0.5,
+		borderBottomWidth:0.05,borderColor:new Color(0xff9900)})
 	bottomMiddleRight.material = new FrameBasicMaterial({side:DoubleSide});
 	panelScale = bottomMiddleRight;
 	const bottomRight = makeBoxForBorder('BorderBottomRight');

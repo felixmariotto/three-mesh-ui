@@ -164,100 +164,32 @@ const _backgroundSizeTransformer = function( target, property, value ) {
 
 }
 
-
 /**
- * @TODO: Mediation doens't seem completed. Can be seen when all corners have 1.0
- * @param value
- * @returns {Array.<Array<Number>>}
+ *
+ * @param {*} target
+ * @param {string} property
+ * @param {*} value
  * @private
  */
-const _radiusToCorners = function( value ) {
+const _linkCornersOutput = function( target, property, value ) {
 
-	const order = ['x', 'y', 'z', 'w'];
-	order.sort( (axisA, axisB) => {
-		if( value[axisA] > value[axisB] ) return -1;
-		if( value[axisA] < value[axisB] ) return 1;
-		return 0;
-	})
+	uniformOrUserDataTransformer(target,'cornerTL', value._cornerTL);
+	uniformOrUserDataTransformer(target,'cornerTR', value._cornerTR);
+	uniformOrUserDataTransformer(target,'cornerBL', value._cornerBL);
+	uniformOrUserDataTransformer(target,'cornerBR', value._cornerBR);
 
-	for ( let i = 0; i < order.length; i++ ) {
-		const axis = order[ i ];
+}
 
-		if( axis === 'x' ) {
+/**
+ *
+ * @param {*} target
+ * @param {string} property
+ * @param {*} value
+ * @private
+ */
+const _linkComponentOutput = function( target, property, value ) {
 
-			if( value.x + value.y > 1.0 || value.x + value.w > 1.0 ) {
-
-				// scale to bigggest value
-				const halfRatio = ( Math.max( value.y, value.w ) / value.x ) / 2;
-				value.y = halfRatio;
-				value.w = halfRatio;
-
-				value.x *= halfRatio;
-
-			}
-
-		}
-
-		if( axis === 'y' ) {
-
-			if( value.y + value.x > 1.0 || value.y + value.z > 1.0 ) {
-
-				// scale to bigggest value
-				const halfRatio = ( Math.max( value.x, value.z ) / value.y ) / 2;
-				value.x = halfRatio;
-				value.z = halfRatio;
-
-				value.y *= halfRatio;
-
-			}
-
-		}
-
-		if( axis === 'z' ) {
-
-			if( value.z + value.y > 1.0 || value.z + value.w > 1.0 ) {
-
-				// scale to bigggest value
-				const halfRatio = ( Math.max( value.y, value.w ) / value.z ) / 2;
-				value.y = halfRatio;
-				value.w = halfRatio;
-
-				value.z *= halfRatio;
-
-			}
-
-		}
-
-		if( axis === 'w' ) {
-
-			if( value.w + value.z > 1.0 || value.w + value.x > 1.0 ) {
-
-				// scale to bigggest value
-				const halfRatio = ( Math.max( value.z, value.x ) / value.z ) / 2;
-				value.z = halfRatio;
-				value.x = halfRatio;
-
-				value.w *= halfRatio;
-
-			}
-
-		}
-
-	}
-
-
-	let topLeft = [ value.x, 1.0 - value.x ];
-	let topRight = [ 1 - value.y, 1 - value.y ];
-	let bottomRight = [ 1 - value.z , value.z ];
-	let bottomLeft = [ value.w, value.w ];
-
-
-	return [
-		[ value.x, 1.0 - value.x ],
-		[ 1 - value.y, 1 - value.y ],
-		[ 1 - value.z , value.z ],
-		[ value.w, value.w ]
-	]
+	uniformOrUserDataTransformer(target,property, value.output);
 
 }
 
@@ -271,12 +203,9 @@ const _mediationDefinitions = {
 	backgroundColor: { m: 'color' },
 	backgroundOpacity: { m:'opacity' },
 	backgroundSize: { m: 'u_backgroundMapping', t: _backgroundSizeTransformer },
-	_borderWidthUV: { m: 'borderWidth', t: uniformOrUserDataTransformer },
+	_borderWidthComponent: { m: 'borderWidth', t: _linkComponentOutput },
 	borderColor: { m: 'borderColor', t: uniformOrUserDataTransformer },
-	_cornerTL: { m: 'cornerTL', t: uniformOrUserDataTransformer },
-	_cornerTR: { m: 'cornerTR', t: uniformOrUserDataTransformer },
-	_cornerBR: { m: 'cornerBR', t: uniformOrUserDataTransformer },
-	_cornerBL: { m: 'cornerBL', t: uniformOrUserDataTransformer },
+	_borderRadiusComponent: { m: 'computedCorners', t: _linkCornersOutput },
 	borderOpacity: { m: 'borderOpacity', t: uniformOrUserDataTransformer },
 	size: { m: 'frameSize', t: uniformOrUserDataTransformer },
 	tSize: { m: 'textureSize', t: uniformOrUserDataTransformer }
