@@ -1,4 +1,4 @@
-import { Plane, Vector4 } from 'three';
+import { Color, Plane, Vector4 } from 'three';
 import { Vector3 } from 'three';
 
 import FontLibrary from '../../font/FontLibrary.js';
@@ -11,6 +11,9 @@ import * as FontWeight from '../../utils/font/FontWeight';
 import * as FontStyle from '../../utils/font/FontStyle';
 import Behavior from '../../behaviors/Behavior';
 import { querySelectorAll } from 'three-mesh-ui';
+import TokenList from '../../utils/dom/TokenList';
+import NamedMap from '../../utils/dom/NamedMap';
+import CSSQuerySegment from '../../utils/dom/css/CSSQuerySegment';
 
 /**
 
@@ -83,64 +86,143 @@ export default function MeshUIComponent( Base ) {
 			this._borderWidth = new Vector4().copy( DEFAULTS.borderWidth );
 
 
-			this._id = "";
-			this._classes = [];
-			this._tagName = "";
-			this._states = [];
+			/**
+			 *
+			 * @type {string|null}
+			 * @private
+			 */
+			this._id = null;
+
+			/**
+			 *
+			 * @type {TokenList}
+			 * @private
+			 */
+			this._classList = new TokenList( () => {} );
+
+			/**
+			 *
+			 * @type {TokenList}
+			 * @private
+			 */
+			this._pseudoClassList = new TokenList( () => {} );
+
+			/**
+			 *
+			 * @type {NamedMap}
+			 * @private
+			 */
+			this._attributes = new NamedMap( () => {} );
+
+			/**
+			 *
+			 * @type {string}
+			 * @private
+			 */
+			this._tagName = '';
 
 		}
 
-		setIdentity( identity ){
+		/**
+		 *
+		 * @returns {string}
+		 */
+		get id() { return this._id; }
 
-			let idMatches = identity.match(/(#)([A-z0-9\-_]*)/);
-			if( idMatches ){
-				this._id = idMatches[2];
+		/**
+		 *
+		 * @returns {string}
+		 */
+		get tagName() { return this._tagName; }
+
+		/**
+		 *
+		 * @returns {NamedMap}
+		 */
+		get attributes() { return this._attributes; }
+
+		/**
+		 *
+		 * @returns {TokenList}
+		 */
+		get classList() { return this._classList; }
+
+		/**
+		 *
+		 * @returns {TokenList}
+		 */
+		get pseudoClassList() { return this._pseudoClassList; }
+
+		/**
+		 * ie: `div#id[type="menu"]:disabled`
+		 * @returns {string}
+		 */
+		copyAttributes() {
+
+			let output = this._tagName;
+			if ( this._id ) {
+				output += `#${this._id}`;
 			}
 
-			let classMatches = identity.match(/(\.)([A-z0-9\-_]*)/g);
-			this._classes = [];
-			if( classMatches ) {
+			output += this._classList.toString( '.' );
+			output += this._attributes.toString();
+			output += this._pseudoClassList.toString( ':' );
 
-				for ( let i = 0; i < classMatches.length; i++ ) {
-					this._classes.push( classMatches[ i ].substring(1) );
+			return output;
 
+		}
+
+		/**
+		 *	ie : `div#id[type="menu"]:disabled`
+		 * @param {CSSQuerySegment|string} querySegment
+		 */
+		pasteAttributes( querySegment ) {
+
+			if ( !( querySegment instanceof CSSQuerySegment ) ) {
+				querySegment = new CSSQuerySegment( querySegment );
+			}
+
+			// reset attributes
+			this._id = null;
+			this._classList.clear();
+			this._pseudoClassList.clear();
+			this._attributes.clear();
+
+			for ( let i = 0; i < querySegment.conditions.length; i++ ) {
+				const condition = querySegment.conditions[ i ];
+
+				switch ( condition.type ) {
+
+					case 'tag':
+						if( this._tagName === '' ){
+							this._tagName = condition.value;
+						}
+						continue;
+
+					case 'id':
+						this._id = condition.value;
+						continue;
+
+					case 'class':
+						for ( let j = 0; j < condition.value.length; j++ ) {
+							this._classList.add( condition.value[ j ] );
+						}
+						continue;
+
+					case 'pseudoClass':
+						for ( let j = 0; j < condition.value.length; j++ ) {
+							this._pseudoClassList.add( condition.value[ j ] );
+						}
+						continue;
+
+					case 'attribute':
+						for ( let j = 0; j < condition.value.length; j++ ) {
+							const attrComponent = condition.value[ j ];
+							this._attributes.set( attrComponent.name, attrComponent.value );
+						}
 				}
 
 			}
-
-			let statesMatches = identity.match(/(::)([A-z0-9\-_]*)/g);
-			this._states = [];
-			if( statesMatches ) {
-
-				for ( let i = 0; i < statesMatches.length; i++ ) {
-
-					this._states.push( statesMatches[ i ].substring(2) );
-
-				}
-
-			}
-
-			/* eslint-disable no-useless-escape */
-			this._tagName = identity.replace(/[#:\.]+(.)+/,"");
-			/* eslint-enable no-useless-escape */
-
-
-			// for output
-			let classes = "";
-			for ( let i = 0; i < this._classes.length; i++ ) {
-				classes += "."+this._classes[ i ];
-			}
-
-			let states = "";
-			for ( let i = 0; i < this._states.length; i++ ) {
-				classes += "::"+this._states[ i ];
-
-			}
-
-			// @TODO: Attributes
-
-			this._identity = this._tagName + this._id + classes + states;
-			console.log('Identity : ', this._tagName + this._id + classes + states);
 
 			return this;
 
@@ -297,7 +379,7 @@ export default function MeshUIComponent( Base ) {
 
 		getFontTexture() {
 
-			if( this._font && this._font.isReady ){
+			if ( this._font && this._font.isReady ) {
 
 				return this._font.texture;
 
@@ -538,10 +620,12 @@ export default function MeshUIComponent( Base ) {
 			}
 
 			// set elements as root
-			if( this.isBlock && !this.parentUI ){
+			if ( this.isBlock && !this.parentUI ) {
 				ThreeMeshUI.addRoot( this );
-			}else {
+				this.pseudoClassList.add('root');
+			} else {
 				ThreeMeshUI.removeRoot( this );
+				this.pseudoClassList.remove('root');
 			}
 
 
@@ -632,34 +716,34 @@ export default function MeshUIComponent( Base ) {
 		 * @param {function|Behavior} newHook
 		 * @param {number} priority
 		 */
-		hook( type, newHook, priority = 10) {
+		hook( type, newHook, priority = 10 ) {
 
 			if ( !this._hooks[ type ] ) {
 
-				console.error(`MeshUIComponent::hook() - The provided type('${type}') is not valid on ${typeof this} component`);
+				console.error( `MeshUIComponent::hook() - The provided type('${type}') is not valid on ${typeof this} component` );
 				return;
 
 			}
 
-			if ( !(newHook instanceof Behavior) ){
+			if ( !( newHook instanceof Behavior ) ) {
 
 				newHook = { priority, act: newHook };
 
 			}
 
-			if( this._hooks[type].find( h => h.act === newHook.act ) ) {
+			if ( this._hooks[ type ].find( h => h.act === newHook.act ) ) {
 
-				console.error(`MeshUIComponent::hook() - The provided func('${newHook.act}') is already registered in hooks. Aborted`);
+				console.error( `MeshUIComponent::hook() - The provided func('${newHook.act}') is already registered in hooks. Aborted` );
 				return;
 
 			}
 
-			type._hooks[type].push( newHook );
-			type._hooks[type].sort( ( a, b ) => {
-				if( a.priority < b.priority ) return - 1;
-				if( a.priority > b.priority ) return 1;
+			type._hooks[ type ].push( newHook );
+			type._hooks[ type ].sort( ( a, b ) => {
+				if ( a.priority < b.priority ) return -1;
+				if ( a.priority > b.priority ) return 1;
 				return 0;
-			});
+			} );
 
 		}
 
@@ -672,27 +756,27 @@ export default function MeshUIComponent( Base ) {
 
 			if ( !this._hooks[ type ] ) {
 
-				console.error(`MeshUIComponent::unhook() - The provided type('${type}') is not valid on ${typeof this} component`);
+				console.error( `MeshUIComponent::unhook() - The provided type('${type}') is not valid on ${typeof this} component` );
 				return;
 
 			}
 
-			if ( !(hookToRemove instanceof Behavior) ) {
+			if ( !( hookToRemove instanceof Behavior ) ) {
 
 				hookToRemove = { act: hookToRemove };
 
 			}
 
-			const indexToRemove = this._hooks[type].findIndex( h => h.act === hookToRemove.act )
-			if( indexToRemove !== -1 ) {
+			const indexToRemove = this._hooks[ type ].findIndex( h => h.act === hookToRemove.act );
+			if ( indexToRemove !== -1 ) {
 
-				this._hooks[type].splice( indexToRemove, 1 );
+				this._hooks[ type ].splice( indexToRemove, 1 );
 
 			}
 
 		}
 
-		performHooks( hooks , alterable = null ) {
+		performHooks( hooks, alterable = null ) {
 
 			for ( let i = 0; i < hooks.length; i++ ) {
 
@@ -802,6 +886,11 @@ export default function MeshUIComponent( Base ) {
 							this[ prop ] = value;
 							break;
 
+						case 'flexDirection' :
+							layoutNeedsUpdate = true;
+							this.contentDirection = value;
+							break;
+
 						case 'margin' :
 						case 'contentDirection' :
 						case 'justifyContent' :
@@ -813,15 +902,34 @@ export default function MeshUIComponent( Base ) {
 							this[ prop ] = value;
 							break;
 
+						case 'backgroundColor' :
+							if( !(prop instanceof Color) ){
+
+								if( this[prop] instanceof Color ){
+									this[prop].set( value );
+								} else {
+									this[prop] = new Color( value )
+								}
+							} else {
+								this[prop] = value;
+							}
+
+							console.log(prop,value,this[prop]);
+
+							options[ prop ] = this[prop];
+
+							innerNeedsUpdate = true;
+							break;
+
 						case 'fontColor' :
 						case 'fontOpacity' :
 						case 'fontSupersampling' :
-						case 'backgroundColor' :
+						case 'borderColor' :
 						case 'backgroundOpacity' :
 						case 'backgroundTexture' :
 						case 'backgroundSize' :
-						case 'borderColor' :
 						case 'borderOpacity' :
+
 							innerNeedsUpdate = true;
 							this[ prop ] = value;
 							break;
@@ -831,51 +939,60 @@ export default function MeshUIComponent( Base ) {
 							break;
 
 						case 'offset':
-							console.log('offset', value);
-							if( !this.isBlock || this.parentUI ){
+							console.log( 'offset', value );
+							if ( !this.isBlock || this.parentUI ) {
 
 								this[ prop ] = value;
 								this.position.z = value;
 
 							}
+
 							break;
 
 						// abstracted properties, those properties don't need to be store as this[prop] = value
 						case 'borderRadius' :
-							this._fourDimensionsValueSetter( this._borderRadius, value);
+							this._fourDimensionsValueSetter( this._borderRadius, value );
 							break;
 						case 'borderRadiusTopLeft':
+						case 'borderTopLeftRadius':
 							this._borderRadius.x = value;
 							break;
 						case 'borderRadiusTopRight':
+						case 'borderTopRightRadius':
 							this._borderRadius.y = value;
 							break;
 						case 'borderRadiusBottomRight':
+						case 'borderBottomRightRadius':
 							this._borderRadius.z = value;
 							break;
 						case 'borderRadiusBottomLeft':
+						case 'borderBottomLeftRadius':
 							this._borderRadius.w = value;
 							break;
 						case 'borderRadiusTop':
+						case 'borderTopRadius':
 							this._borderRadius.x = value;
 							this._borderRadius.y = value;
 							break;
 						case 'borderRadiusRight':
+						case 'borderRightRadius':
 							this._borderRadius.y = value;
 							this._borderRadius.z = value;
 							break;
 						case 'borderRadiusLeft':
+						case 'borderLeftRadius':
 							this._borderRadius.x = value;
 							this._borderRadius.w = value;
-							break
+							break;
 						case 'borderRadiusBottom':
+						case 'borderBottomRadius':
 							this._borderRadius.z = value;
 							this._borderRadius.w = value;
 							break;
 
 
 						case 'borderWidth' :
-							this._fourDimensionsValueSetter( this._borderWidth, value);
+							this._fourDimensionsValueSetter( this._borderWidth, value );
 							break;
 						case 'borderWidthTop':
 							this._borderWidth.x = value;
@@ -910,11 +1027,11 @@ export default function MeshUIComponent( Base ) {
 			}
 
 			// 1.1 Preferred way, a bit annoying to check options.fontTexture ( retro-compatibility )
-			else if( typeof options.fontFamily === 'string' && !options.fontTexture ) {
+			else if ( typeof options.fontFamily === 'string' && !options.fontTexture ) {
 
 				const fontFamily = FontLibrary.getFontFamily( options.fontFamily );
 
-				if( fontFamily ){
+				if ( fontFamily ) {
 
 					this.fontFamily = fontFamily;
 					this.font = fontFamily.getVariant( FontWeight.NORMAL, FontStyle.NORMAL );
@@ -957,7 +1074,6 @@ export default function MeshUIComponent( Base ) {
 
 			//
 			this._transferToMaterial( options );
-
 
 
 		}
@@ -1009,6 +1125,12 @@ export default function MeshUIComponent( Base ) {
 
 			} );
 
+			this._pseudoClassList.dispose();
+			this._pseudoClassList = null;
+
+			this._classList.dispose();
+			this._pseudoClassList = null;
+
 		}
 
 		/***********************************************************************************************************************
@@ -1028,12 +1150,12 @@ export default function MeshUIComponent( Base ) {
 			this._material = material;
 
 			// Update the fontMaterialProperties that need to be transferred to
-			this._materialProperties = {...material.constructor.fontMaterialProperties }
+			this._materialProperties = { ...material.constructor.fontMaterialProperties };
 
 			// transfer all the properties to material
 			this._transferToMaterial();
 
-			if( this._main ) {
+			if ( this._main ) {
 
 				this._main.material = this._material;
 
@@ -1076,28 +1198,28 @@ export default function MeshUIComponent( Base ) {
 		 */
 		_transferToMaterial( options = null ) {
 
-			if( !this._material ) return;
+			if ( !this._material ) return;
 
-			if( !options ){
+			if ( !options ) {
 
 				options = {};
 				for ( const materialProperty in this._materialProperties ) {
 
-					let value = this[materialProperty];
-					if( value === undefined ){
+					let value = this[ materialProperty ];
+					if ( value === undefined ) {
 
-						const upperCaseProperty = materialProperty[0].toUpperCase() + materialProperty.substring(1)
-						if( this["get"+upperCaseProperty] ) {
+						const upperCaseProperty = materialProperty[ 0 ].toUpperCase() + materialProperty.substring( 1 );
+						if ( this[ 'get' + upperCaseProperty ] ) {
 
-							value = this["get"+upperCaseProperty]();
+							value = this[ 'get' + upperCaseProperty ]();
 
 						}
 
 					}
 
-					if( value !== undefined ) {
+					if ( value !== undefined ) {
 
-						options[materialProperty] = value;
+						options[ materialProperty ] = value;
 
 					}
 
@@ -1107,21 +1229,21 @@ export default function MeshUIComponent( Base ) {
 
 			// Transfer properties to material
 			for ( const materialProperty in this._materialProperties ) {
-				const transferDefinition = this._materialProperties[materialProperty];
+				const transferDefinition = this._materialProperties[ materialProperty ];
 
-				if ( options[materialProperty] !== undefined ) {
+				if ( options[ materialProperty ] !== undefined ) {
 
 					/**
 					 * The transformer method to pass a MeshUIProperty to a MaterialProperty
 					 * @type {(fontMaterial:Material|ShaderMaterial, materialProperty:string, value:any) => void }
 					 */
 					const transferTransformer = transferDefinition.t ? transferDefinition.t : _directTransfertPropertyToMaterial;
-					transferTransformer( this._material, transferDefinition.m, options[materialProperty] );
+					transferTransformer( this._material, transferDefinition.m, options[ materialProperty ] );
 
 					// Also transfert to customDepthMat
-					if( this._customDepthMaterial ) {
+					if ( this._customDepthMaterial ) {
 
-						transferTransformer( this._customDepthMaterial, transferDefinition.m, options[materialProperty] );
+						transferTransformer( this._customDepthMaterial, transferDefinition.m, options[ materialProperty ] );
 
 					}
 
@@ -1139,56 +1261,56 @@ export default function MeshUIComponent( Base ) {
 		 */
 		_fourDimensionsValueSetter( vector4, value ) {
 
-			if( value instanceof Vector4 ) {
+			if ( value instanceof Vector4 ) {
 
 				vector4.copy( value );
-				return ;
+				return;
 
 			}
 
-			if (typeof value === 'string' || value instanceof String) {
+			if ( typeof value === 'string' || value instanceof String ) {
 
-				value = value.split(" ");
+				value = value.split( ' ' );
 
 			}
 
-			if( Array.isArray( value ) ) {
+			if ( Array.isArray( value ) ) {
 
-				value = value.map( v => parseFloat(v) );
+				value = value.map( v => parseFloat( v ) );
 
 				switch ( value.length ) {
 
 					case 1:
-						vector4.setScalar( value[0] );
+						vector4.setScalar( value[ 0 ] );
 						return;
 
 					case 2:
-						vector4.x = vector4.z = value[0];
-						vector4.y = vector4.w = value[1];
+						vector4.x = vector4.z = value[ 0 ];
+						vector4.y = vector4.w = value[ 1 ];
 						return;
 
 					case 3:
-						vector4.x = value[0];
-						vector4.y = value[1];
-						vector4.z = value[2];
+						vector4.x = value[ 0 ];
+						vector4.y = value[ 1 ];
+						vector4.z = value[ 2 ];
 						return;
 
 					case 4:
-						vector4.x = value[0];
-						vector4.y = value[1];
-						vector4.z = value[2];
-						vector4.w = value[3];
+						vector4.x = value[ 0 ];
+						vector4.y = value[ 1 ];
+						vector4.z = value[ 2 ];
+						vector4.w = value[ 3 ];
 						return;
 
 					default:
-						console.error("Four Dimension property has more than four values");
+						console.error( 'Four Dimension property has more than four values' );
 						return;
 
 				}
 
 			}
 
-			if( !isNaN(value) ) {
+			if ( !isNaN( value ) ) {
 
 				vector4.setScalar( value );
 
@@ -1201,7 +1323,6 @@ export default function MeshUIComponent( Base ) {
 }
 
 
-
 /**
  *
  * @param {Material|ShaderMaterial} material
@@ -1210,8 +1331,8 @@ export default function MeshUIComponent( Base ) {
  *
  * @private
  */
-const _directTransfertPropertyToMaterial = function( material, propertyName, value) {
+const _directTransfertPropertyToMaterial = function ( material, propertyName, value ) {
 
-	material[propertyName] = value;
+	material[ propertyName ] = value;
 
-}
+};

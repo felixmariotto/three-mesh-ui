@@ -15,18 +15,45 @@
     </style>
 	<style media="vr">
 		div#toto .class > p{
-			background-color : #ff9900;
-			color : #000;
-			border-color: rgba(124,124,124,0.3);
-			hidden-overflow: 'hidden';
-			-vr-font-opacity: 0.5;
-			--prop-a: "bizounours"
+			overflow: hidden;
 		}
 
-		@media (orientation: landscape) {
-			body {
-				flex-direction: row;
+		div .class p {
+			color: #999;
+		}
+
+		:root {
+			flex-direction: row;
+			border-radius: 0.05rem;
+			background-color: rgba(255,0,0,0.2);
+		}
+
+		@media (orientation: portrait) {
+			:root {
+				flex-direction: column;
+				border-radius: 0.5rem;
+				/*background-color: darkolivegreen;*/
 			}
+
+			div#toto .class > p{
+				/*background-color : turquoise;*/
+				overflow: hidden;
+			}
+
+			@media screen {
+				div#toto{
+					/*color: hsla(1,10%,1%,0.455);*/
+					background-color: green;
+				}
+			}
+		}
+
+		div .class {
+			/*color: #999;*/
+		}
+
+		div > p {
+			/*color: #999;*/
 		}
 
 	</style>

@@ -13,7 +13,7 @@ import * as AlignItems from './utils/block-layout/AlignItems';
 import * as ContentDirection from './utils/block-layout/ContentDirection';
 import MSDFFontMaterialUtils from './font/msdf/utils/MSDFFontMaterialUtils';
 import { ShaderChunkUI } from './renderers/shaders/ShaderChunkUI';
-import { addRoot, querySelectorAll, removeRoot, loadSheets } from './UIDocument';
+import { addRoot, querySelectorAll, removeRoot, loadSheets } from './utils/dom/VRDocument';
 
 const update = () => UpdateManager.update();
 

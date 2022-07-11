@@ -9,6 +9,7 @@ import SnakeImage from "./assets/spiny_bush_viper.jpg";
 
 import FontJSON from 'three-mesh-ui/examples/assets/fonts/msdf/roboto/regular.json';
 import FontImage from 'three-mesh-ui/examples/assets/fonts/msdf/roboto/regular.png';
+import Stats from 'three/examples/jsm/libs/stats.module';
 
 const WIDTH = window.innerWidth;
 const HEIGHT = window.innerHeight;
@@ -19,11 +20,10 @@ let scene, camera, renderer, controls;
 window.addEventListener("load", init);
 window.addEventListener("resize", onWindowResize);
 
+let container, stats;
 //
 
 function init() {
-
-	ThreeMeshUI.loadSheets();
 
   scene = new THREE.Scene();
   scene.background = new THREE.Color(0x505050);
@@ -36,6 +36,9 @@ function init() {
   renderer.xr.enabled = true;
   document.body.appendChild(VRButton.createButton(renderer));
   document.body.appendChild(renderer.domElement);
+
+	stats = new Stats();
+	document.body.appendChild( stats.dom );
 
   controls = new OrbitControls(camera, renderer.domElement);
   camera.position.set(0, 1.6, 0);
@@ -63,15 +66,16 @@ function init() {
 //
 
 function makeTextPanel() {
-  const container = new ThreeMeshUI.Block({
+  container = new ThreeMeshUI.Block({
     ref: "container",
     padding: 0.025,
     fontFamily: FontJSON,
     fontTexture: FontImage,
     fontColor: new THREE.Color(0xffffff),
-    backgroundOpacity: 0,
+    backgroundOpacity: 1,
   });
 
+	container.set( {'backgroundColor': new THREE.Color(0x00ff99) });
   container.position.set(0, 1, -1.8);
   container.rotation.x = -0.55;
   scene.add(container);
@@ -85,7 +89,7 @@ function makeTextPanel() {
     justifyContent: "center",
     fontSize: 0.09,
   });
-	title.setIdentity("h1.title")
+	title.pasteAttributes("h1.title")
 
   title.add(
     new ThreeMeshUI.Text({
@@ -104,7 +108,8 @@ function makeTextPanel() {
     padding: 0.025,
     textAlign: "left",
     justifyContent: "end",
-  });
+		backgroundOpacity: 1
+	});
 
   const caption = new ThreeMeshUI.Block({
     height: 0.07,
@@ -126,8 +131,10 @@ function makeTextPanel() {
 
   const rightSubBlock = new ThreeMeshUI.Block({
     margin: 0.025,
+		alphaTest : 0.9,
+		backgroundOpacity: 0.8
   });
-	rightSubBlock.setIdentity("div.--right")
+	rightSubBlock.pasteAttributes("div#bob.--right");
 
   const subSubBlock1 = new ThreeMeshUI.Block({
     height: 0.35,
@@ -140,7 +147,7 @@ function makeTextPanel() {
   }).add(
     new ThreeMeshUI.Text({
       content: "Known for its extremely keeled dorsal scales that give it a ",
-    }).setIdentity('.title'),
+    }).pasteAttributes('.title.blob[src="http://bob.com/img.jpg"][alt="une super desciprtion"][disabled]:hover:active'),
 
     new ThreeMeshUI.Text({
       content: "bristly",
@@ -165,11 +172,11 @@ function makeTextPanel() {
     new ThreeMeshUI.Text({
       content:
         "The males of this species grow to maximum total length of 73 cm (29 in): body 58 cm (23 in), tail 15 cm (5.9 in). Females grow to a maximum total length of 58 cm (23 in). The males are surprisingly long and slender compared to the females.\n",
-    }).setIdentity('p'),
+    }).pasteAttributes('p'),
 		new ThreeMeshUI.Text({
 			content: "The head has a short snout, more so in males than in females.\nThe eyes are large and surrounded by 9–16 circumorbital scales. The orbits (eyes) are separated by 7–9 scales."
-		}).setIdentity('p')
-  ).setIdentity('div');
+		}).pasteAttributes('p')
+  ).pasteAttributes('div');
 
   rightSubBlock.add(subSubBlock1, subSubBlock2);
 
@@ -195,15 +202,31 @@ function makeTextPanel() {
 
 
 	setTimeout( ()=>{
-		console.log("coucou")
-		console.log( ThreeMeshUI.querySelectorAll( 'div p[foo][bar*="foo > is bar & nice"]' ) );
-		console.log( ThreeMeshUI.querySelectorAll( 'div > p' ) );
-		console.log( ThreeMeshUI.querySelectorAll( 'p ~ p' ) );
-		console.log( ThreeMeshUI.querySelectorAll( 'p + p' ) );
-		console.log( ThreeMeshUI.querySelectorAll( '#bob p + p' ) );
-		console.log( ThreeMeshUI.querySelectorAll( '#bob.class [table] + input[type="radio"]:checked' ) );
+		ThreeMeshUI.loadSheets(true);
 
-	}, 3000)
+		// console.log( ThreeMeshUI.querySelectorAll( 'div p[foo][bar*="foo > is bar & nice"]' ) );
+		// console.log( ThreeMeshUI.querySelectorAll( 'div > p' ) );
+		// console.log( ThreeMeshUI.querySelectorAll( 'p ~ p' ) );
+		// console.log( ThreeMeshUI.querySelectorAll( 'p + p' ) );
+		// console.log( ThreeMeshUI.querySelectorAll( '#bob p + p' ) );
+		const result = ThreeMeshUI.querySelectorAll( 'div.--right .title.blob[disabled]:hover:active' );
+		// const result = ThreeMeshUI.querySelectorAll( 'div > p' );
+		// const result = ThreeMeshUI.querySelectorAll( '.title' );
+		for ( let i = 0; i < result.length; i++ ) {
+			const resultElement = result[ i ];
+			resultElement.rotation.z = 0.25;
+
+			// resultElement.set({ content: Math.random() + " new text "});
+		}
+
+
+		// container.pasteAttributes(`#myId.myclass.myClass-2[attrName="attrValue"][disabled]:hover:disabled`);
+		// console.log( container.copyAttributes() );
+
+
+		// console.log( ThreeMeshUI.querySelectorAll( '#bob.class [table] + input[type="radio"]:checked' ) );
+
+	}, 1500)
 }
 
 //
@@ -224,4 +247,6 @@ function loop() {
 
   controls.update();
   renderer.render(scene, camera);
+
+	stats.update();
 }
