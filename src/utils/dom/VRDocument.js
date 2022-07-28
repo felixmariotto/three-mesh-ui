@@ -1,5 +1,5 @@
 import CSSQuery from './css/CSSQuery';
-import XSSRule from './css/XSSRule';
+import CSSRuleVR from './css/CSSRuleVR';
 import CSSMediaQuery from './css/CSSMediaQuery';
 
 /**
@@ -117,7 +117,6 @@ function _querySelectorAll( target, query, recursive = true ) {
 			return results;
 		}
 
-
 		// Or check children and sibling to complete further segments
 		const subQuery = query.slice( 1 );
 
@@ -180,7 +179,11 @@ function _querySelectorAll( target, query, recursive = true ) {
 
 }
 
-
+/**
+ *
+ * @type {Array.<CSSRuleVR>}
+ * @private
+ */
 let _rules = null;
 let _conditions = null;
 let _observers = [];
@@ -192,68 +195,23 @@ let _observers = [];
  */
 function loadSheets( listenForChanges = false ) {
 
+	// If it should be reactive and a document isset
 	if( listenForChanges && document ){
 
+		// Starts be removing any previously set MutationObservers
 		for ( let i = 0; i < _observers.length; i++ ) {
-			let observer1 = _observers[ i ];
-			observer1.disconnect();
-			observer1 = null;
+			let previousMutationObserver = _observers[ i ];
+			previousMutationObserver.disconnect();
+			previousMutationObserver = null;
 		}
 
 		_observers = [];
 
+		_addMutationObserverOnContainer( document.documentElement );
 
 		const sheets = document.querySelectorAll('link[media="vr"],style[media="vr"]');
 		for ( let i = 0; i < sheets.length; i++ ) {
-
-
-			const sheet = sheets[ i ];
-
-			// Create an observer instance.
-			var observer = new MutationObserver(function(mutations) {
-				loadSheets(true);
-				console.log( mutations );
-				// console.log(target.innerText);
-			});
-
-			// Pass in the target node, as well as the observer options.
-			observer.observe(sheet, {
-				attributes:    true, //?
-				childList:     true, // ?
-				subtree: true,
-				characterData: true,
-				characterDataOldValue: true
-			});
-
-			_observers.push( observer );
-
-			var parentObserver = new MutationObserver( function(mutations) {
-				console.log( "parent mutation", mutations);
-
-				for ( let j = 0; j < mutations.length; j++ ) {
-					const mutation = mutations[j];
-
-					if( mutation.type === 'childList' ){
-
-						for ( let k = 0; k < mutation.removedNodes.length; k++ ) {
-							const removedNode = mutation.removedNodes[ k ];
-							if( removedNode === sheet ){
-								// remove parentObserver, remove observe, rebuild styles
-								loadSheets(true);
-								break;
-							}
-
-						}
-
-					}
-
-				}
-
-			});
-
-			parentObserver.observe( sheet.parentElement , { childList : true});
-
-			_observers.push( parentObserver );
+			_addMutationObserverOnStyleSheet( sheets[ i ] );
 
 		}
 	}
@@ -295,7 +253,202 @@ function loadSheets( listenForChanges = false ) {
 
 }
 
-function _applyRules(){
+/**
+ *
+ * @param {Array.<MutationRecord>} mutations
+ * @private
+ */
+function _addOrRemoveStylesheetMutation( mutations ){
+	let reload = false;
+	mutations.forEach(function(mutation) {
+
+		for (var i = 0; i < mutation.addedNodes.length; i++){
+			if( _matchVRStyleSheet(mutation.addedNodes[i]) ){
+				reload = true;
+			}
+
+		}
+
+		for ( let i = 0; i < mutation.removedNodes.length; i++ ) {
+
+			if( _matchVRStyleSheet(mutation.removedNodes[ i ]) ){
+				reload = true;
+			}
+
+		}
+
+	})
+
+	if( reload ){
+		loadSheets( true );
+	}
+}
+
+function _matchVRStyleSheet( element ) {
+
+	return element.tagName === 'LINK' || element.tagName === 'STYLE' && element.getAttribute('media') === 'vr';
+
+}
+
+function _addMutationObserverOnContainer( container ){
+
+	const observer = new MutationObserver( _addOrRemoveStylesheetMutation );
+
+	observer.observe( container, { childList: true, subtree: true });
+	_observers.push( observer );
+}
+
+/**
+ *
+ * @param cssStyleSheet
+ * @private
+ */
+function _addMutationObserverOnStyleSheet( cssStyleSheet ){
+
+
+	// observe the stylesheet itself for content changes
+	const observer = new MutationObserver(function(mutations) {
+		loadSheets(true);
+	});
+
+	// Pass in the target node, as well as the observer options.
+	observer.observe( cssStyleSheet, {
+		attributes:    true,
+		childList:     true,
+		subtree: true,
+		characterData: true,
+		characterDataOldValue: true
+	});
+
+	_observers.push( observer );
+
+
+	// // Observe the parent to know if this stylesheet will be removed
+	// const parentObserver = new MutationObserver( function(mutations) {
+	//
+	// 	for ( let j = 0; j < mutations.length; j++ ) {
+	// 		const mutation = mutations[j];
+	//
+	// 		if( mutation.type === 'childList' ){
+	//
+	// 			for ( let k = 0; k < mutation.removedNodes.length; k++ ) {
+	// 				const removedNode = mutation.removedNodes[ k ];
+	//
+	// 				if( removedNode === cssStyleSheet ){
+	// 					// remove parentObserver, remove observe, rebuild styles
+	// 					loadSheets(true);
+	// 					break;
+	// 				}
+	//
+	// 			}
+	//
+	// 		}
+	//
+	// 	}
+	//
+	// });
+	//
+	// parentObserver.observe( cssStyleSheet.parentElement , { childList : true});
+	//
+	// _observers.push( parentObserver );
+}
+
+/**
+ * When an element has changed its identity
+ * 		- ID
+ * 		- ClassList
+ * 		- Attributes & values
+ *
+ * Try to apply any css rules to it and its children
+ * @param {MeshUIComponent} element
+ */
+export function elementChangeIdentity( element ){
+
+	_checkAndApplyCSSRules(element);
+
+	element.traverse( (child) => {
+
+		if( child.isUI ) {
+
+			_checkAndApplyCSSRules(child);
+
+		}
+
+	})
+
+}
+
+/**
+ *
+ * @param {MeshUIComponent} forElement
+ * @private
+ */
+function _checkAndApplyCSSRules( forElement ){
+
+	// to bundle of styles property to set
+	let computedStyles = {};
+	let found = false;
+
+	// Loop through each enabled rules
+	for ( const rule of _rules ) {
+
+		if( !rule.enabled ) continue;
+
+		// If the element match the rule
+		if( rule.query.match( forElement ) ) {
+
+			// append the rules styles properties
+			computedStyles = {...computedStyles,...rule.styles};
+			found = true;
+
+		}
+
+	}
+
+	// If at least one rule has matched
+	if( found ) {
+
+		// Set computed styles
+		forElement.set( computedStyles );
+
+	}
+
+}
+
+
+export function computeStyle( element ){
+	const elements = [];
+	if( element.parentUI ){
+		elements.push( element.parentUI );
+	}
+
+	element.traverse( (child) => {
+		if( child.isUI ) elements.push( child );
+	})
+
+	for ( const elem of elements ) {
+
+		let computedStyles = {};
+		let found = false;
+		for ( const rule of _rules ) {
+
+			if( !rule.enabled ) continue;
+
+			if( rule.query.match(elem) ) {
+				computedStyles = {...computedStyles,...rule.styles};
+				found = true;
+			}
+
+		}
+
+		if( found ) elem.set( computedStyles );
+	}
+
+}
+
+
+export function _applyRules(){
+
 	for ( const rule of _rules ) {
 
 		if( !rule.enabled ) continue;
@@ -308,6 +461,15 @@ function _applyRules(){
 	}
 }
 
+/**
+ * Sort the rules by specificity and order
+ * Making it sure any overrides is justified
+ *
+ * @param {CSSRuleVR} a
+ * @param {CSSRuleVR} b
+ * @returns {number}
+ * @private
+ */
 function  _sortXSSRules( a, b ){
 
 	if( a.specificity < b.specificity ){
@@ -355,7 +517,7 @@ function _importSheet( rulesList, condition = null ) {
 
 		if ( rule.selectorText ) {
 
-			const newRule = new XSSRule( rule.selectorText, rule.style );
+			const newRule = new CSSRuleVR( rule.selectorText, rule.style );
 			rules.push( newRule );
 
 			if( mediaQ ){

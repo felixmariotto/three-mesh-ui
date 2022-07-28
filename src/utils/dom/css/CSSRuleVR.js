@@ -1,7 +1,7 @@
 import CSSQuery from './CSSQuery';
 import CSSSpecificity from './CSSSpecificity';
 
-export default class XSSRule {
+export default class CSSRuleVR {
 
 	/**
 	 *
@@ -24,6 +24,12 @@ export default class XSSRule {
 		 */
 		this._specificity = CSSSpecificity( this._query );
 
+		/**
+		 *
+		 * @type {number}
+		 * @private
+		 */
+		this._order = 0;
 
 		this._styles = {};
 
@@ -55,6 +61,9 @@ export default class XSSRule {
 							this._styles[_camelize(alphaProperty)] = parseFloat( colorComponents[3] );
 						}
 					}
+
+					value = `rgb(${colorComponents[0]},${colorComponents[1]},${colorComponents[2]})`;
+
 				}
 			}
 
@@ -97,6 +106,21 @@ export default class XSSRule {
 	 */
 	get specificity() { return this._specificity; }
 
+	/**
+	 *
+	 * @returns {number}
+	 */
+	get order() { return this._order; }
+
+	/**
+	 *
+	 * @param {number} v
+	 */
+	set order( v ) {
+
+		this._order = v;
+
+	}
 	/**
 	 *
 	 * @returns {Object.<string,any>}

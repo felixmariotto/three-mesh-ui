@@ -10,12 +10,24 @@ import SnakeImage from "./assets/spiny_bush_viper.jpg";
 import FontJSON from 'three-mesh-ui/examples/assets/fonts/msdf/roboto/regular.json';
 import FontImage from 'three-mesh-ui/examples/assets/fonts/msdf/roboto/regular.png';
 import Stats from 'three/examples/jsm/libs/stats.module';
+import CSSQuery from '../src/utils/dom/css/CSSQuery';
+import { _applyRules, computeStyle } from '../src/utils/dom/VRDocument';
 
 const WIDTH = window.innerWidth;
 const HEIGHT = window.innerHeight;
 
 let scene, camera, renderer, controls;
 
+const vrStyleSheet = document.createElement('style');
+vrStyleSheet.setAttribute('media','vr');
+vrStyleSheet.innerText = `
+
+div{
+	background-color: blue;
+}
+
+`;
+document.head.appendChild( vrStyleSheet );
 
 window.addEventListener("load", init);
 window.addEventListener("resize", onWindowResize);
@@ -173,10 +185,14 @@ function makeTextPanel() {
       content:
         "The males of this species grow to maximum total length of 73 cm (29 in): body 58 cm (23 in), tail 15 cm (5.9 in). Females grow to a maximum total length of 58 cm (23 in). The males are surprisingly long and slender compared to the females.\n",
     }).pasteAttributes('p'),
-		new ThreeMeshUI.Text({
-			content: "The head has a short snout, more so in males than in females.\nThe eyes are large and surrounded by 9–16 circumorbital scales. The orbits (eyes) are separated by 7–9 scales."
-		}).pasteAttributes('p')
+
   ).pasteAttributes('div');
+
+	var lastP = new ThreeMeshUI.Text({
+		content: "The head has a short snout, more so in males than in females.\nThe eyes are large and surrounded by 9–16 circumorbital scales. The orbits (eyes) are separated by 7–9 scales."
+	}).pasteAttributes('p');
+
+	subSubBlock2.add( lastP );
 
   rightSubBlock.add(subSubBlock1, subSubBlock2);
 
@@ -187,7 +203,7 @@ function makeTextPanel() {
     padding: 0.02,
     margin: 0.025,
     backgroundOpacity: 0,
-  });
+  }).pasteAttributes(".inner");
 
   contentContainer.add(leftSubBlock, rightSubBlock);
   container.add(contentContainer);
@@ -219,6 +235,27 @@ function makeTextPanel() {
 			// resultElement.set({ content: Math.random() + " new text "});
 		}
 
+		//container :root
+			//rightSubBlock div#bob.--right
+				//div
+					//p
+					//lastP p
+
+		// const cssQ = CSSQuery.build('div > p');
+		// console.warn( cssQ.match(lastP) );
+
+
+		let startTime = Date.now();
+		for ( let i = 0; i < 1000; i++ ) {
+			_applyRules();
+		}
+		console.log( "computeStyle avg: ~" + ( ( Date.now() - startTime) / 1000 ) + " ms");
+
+		startTime = Date.now();
+		for ( let i = 0; i < 1000; i++ ) {
+			computeStyle( container );
+		}
+		console.log( "_applyRules avg: ~" + ( ( Date.now() - startTime) / 1000 ) + " ms");
 
 		// container.pasteAttributes(`#myId.myclass.myClass-2[attrName="attrValue"][disabled]:hover:disabled`);
 		// console.log( container.copyAttributes() );

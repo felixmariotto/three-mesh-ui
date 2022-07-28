@@ -17,7 +17,7 @@ export default class CSSMediaQuery {
 
 		/**
 		 *
-		 * @type {Array.<XSSRule>}
+		 * @type {Array.<CSSRuleVR>}
 		 * @private
 		 */
 		this._rules = [];
@@ -33,7 +33,7 @@ export default class CSSMediaQuery {
 
 	/**
 	 *
-	 * @param {XSSRule} rule
+	 * @param {CSSRuleVR} rule
 	 */
 	addRule( rule ) {
 		this._rules.push( rule );

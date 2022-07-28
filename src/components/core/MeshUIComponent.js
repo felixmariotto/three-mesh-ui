@@ -914,7 +914,7 @@ export default function MeshUIComponent( Base ) {
 								this[prop] = value;
 							}
 
-							console.log(prop,value,this[prop]);
+							// console.log(prop,value,this[prop]);
 
 							options[ prop ] = this[prop];
 
