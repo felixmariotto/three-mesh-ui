@@ -43,6 +43,7 @@ const pages = [
 	[ 'dev__justification', 'Justification' ],
 	[ 'dev__padding', 'Padding' ],
 	[ 'dev__test_preparation', 'TestPrepa' ],
+	[ 'dev__queryselector', 'QuerySelector' ],
 	[ 'dev__whitespace', 'WhiteSpace' ],
 ];
 
@@ -129,6 +130,7 @@ const webpackConfig = env => {
 			dev__justification: './examples/dev__justification.js',
 			dev__padding: './examples/dev__padding.js',
 			dev__test_preparation: './examples/dev__test_preparation.js',
+			dev__queryselector: './examples/dev__queryselector.js',
 			dev__whitespace: './examples/dev__whitespace.js',
 
 		},
