@@ -12,6 +12,7 @@ import FontImage from 'three-mesh-ui/examples/assets/fonts/msdf/roboto/regular.p
 import Stats from 'three/examples/jsm/libs/stats.module';
 import CSSQuery from '../src/utils/dom/css/CSSQuery';
 import { _applyRules, computeStyle } from '../src/utils/dom/VRDocument';
+import { _injectCSS } from 'three-mesh-ui/examples/_setup/Html';
 
 const WIDTH = window.innerWidth;
 const HEIGHT = window.innerHeight;
@@ -28,6 +29,18 @@ div{
 
 `;
 document.head.appendChild( vrStyleSheet );
+
+_injectCSS( `
+:root{
+	flex-direction: row;
+	background-color: yellow;
+}
+
+@media(orientation: portrait) {
+	:root {
+		flex-direction: column;
+	}
+}` );
 
 window.addEventListener("load", init);
 window.addEventListener("resize", onWindowResize);
@@ -226,6 +239,9 @@ function makeTextPanel() {
 		// console.log( ThreeMeshUI.querySelectorAll( 'p + p' ) );
 		// console.log( ThreeMeshUI.querySelectorAll( '#bob p + p' ) );
 		const result = ThreeMeshUI.querySelectorAll( 'div.--right .title.blob[disabled]:hover:active' );
+
+		console.log( ThreeMeshUI.querySelectorAll(':root') );
+
 		// const result = ThreeMeshUI.querySelectorAll( 'div > p' );
 		// const result = ThreeMeshUI.querySelectorAll( '.title' );
 		for ( let i = 0; i < result.length; i++ ) {
