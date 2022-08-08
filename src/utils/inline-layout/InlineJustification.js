@@ -7,6 +7,7 @@ export function justifyInlines( boxComponent, lines, JUSTIFICATION, INNER_HEIGHT
 	// Line vertical positioning
 
 	let justificationOffset = ( () => {
+
 		switch ( JUSTIFICATION ) {
 
 			case 'start':
@@ -41,6 +42,7 @@ export function justifyInlines( boxComponent, lines, JUSTIFICATION, INNER_HEIGHT
 	lines.forEach( ( line ) => {
 
 		line.y += justificationOffset;
+
 		line.forEach( ( inline ) => {
 
 			inline.offsetY += justificationOffset;

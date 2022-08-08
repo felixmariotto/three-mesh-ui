@@ -19,10 +19,10 @@ import { Mesh, Material } from 'three';
 import FontVariant from '../../font/FontVariant';
 /* eslint-enable no-unused-vars */
 
-import { querySelectorAll } from 'three-mesh-ui';
 import TokenList from '../../utils/dom/TokenList';
 import NamedMap from '../../utils/dom/NamedMap';
 import CSSQuerySegment from '../../utils/dom/css/CSSQuerySegment';
+import { querySelectorAll } from '../../utils/dom/VRDocument';
 
 /**
 
@@ -185,7 +185,7 @@ export default class MeshUIComponent extends Object3D {
 		 * @type {string|null}
 		 * @private
 		 */
-		this._id = null;
+		this._elementID = null;
 
 		/**
 		 *
@@ -220,9 +220,18 @@ export default class MeshUIComponent extends Object3D {
 
 	/**
 	 *
+	 * @param v
+	 */
+	set elementID(v) {
+		this._elementID = v;
+		//@TODO : Should rebuild computed styles
+	}
+
+	/**
+	 *
 	 * @returns {string}
 	 */
-	get id() { return this._id; }
+	get elementID() { return this._elementID; }
 
 	/**
 	 *
@@ -236,6 +245,37 @@ export default class MeshUIComponent extends Object3D {
 	 */
 	get attributes() { return this._attributes; }
 
+	/**
+	 *
+	 * @param {string} attributeName
+	 * @param {string|null} [value=null]
+	 */
+	setAttribute( attributeName, value= null ) {
+
+		this._attributes.set( attributeName, value );
+
+	}
+
+	/**
+	 *
+	 * @param {string} attributeName
+	 * @returns {string}
+	 */
+	getAttribute( attributeName ) {
+
+		return this._attributes.get( attributeName );
+
+	}
+
+	/**
+	 *
+	 * @param {string} attributeName
+	 */
+	removeAttribute( attributeName ) {
+
+		this._attributes.remove( attributeName );
+
+	}
 	/**
 	 *
 	 * @returns {TokenList}
@@ -255,8 +295,11 @@ export default class MeshUIComponent extends Object3D {
 	copyAttributes() {
 
 		let output = this._tagName;
-		if ( this._id ) {
-			output += `#${this._id}`;
+
+		if ( this._elementID ) {
+
+			output += `#${this._elementID}`;
+
 		}
 
 		output += this._classList.toString( '.' );
@@ -273,17 +316,22 @@ export default class MeshUIComponent extends Object3D {
 	 */
 	pasteAttributes( querySegment ) {
 
+		// Be sure to work with a querySegment
 		if ( !( querySegment instanceof CSSQuerySegment ) ) {
+
 			querySegment = new CSSQuerySegment( querySegment );
+
 		}
 
-		// reset attributes
-		this._id = null;
+		// reset existing attributes
+		this._elementID = null;
 		this._classList.clear();
 		this._pseudoClassList.clear();
 		this._attributes.clear();
 
+		// loop through each conditions of the query segment
 		for ( let i = 0; i < querySegment.conditions.length; i++ ) {
+
 			const condition = querySegment.conditions[ i ];
 
 			switch ( condition.type ) {
@@ -295,7 +343,7 @@ export default class MeshUIComponent extends Object3D {
 					continue;
 
 				case 'id':
-					this._id = condition.value;
+					this._elementID = condition.value;
 					continue;
 
 				case 'class':
@@ -315,16 +363,19 @@ export default class MeshUIComponent extends Object3D {
 						const attrComponent = condition.value[ j ];
 						this._attributes.set( attrComponent.name, attrComponent.value );
 					}
+
 			}
 
 		}
+
+		// @TODO : Should rebuild computed styles
 
 		return this;
 
 	}
 
 	/**
-	 *
+	 * Query select in children only
 	 * @param {String} query
 	 * @returns {Array<MeshUIComponent>}
 	 */
@@ -699,6 +750,19 @@ export default class MeshUIComponent extends Object3D {
 		} else {
 
 			this.parentUI = null;
+
+		}
+
+		// set elements as root
+		if ( this.isBlock && !this.parentUI ) {
+
+			ThreeMeshUI.addRoot( this );
+			this.pseudoClassList.add('root');
+
+		} else {
+
+			ThreeMeshUI.removeRoot( this );
+			this.pseudoClassList.remove('root');
 
 		}
 
@@ -1115,6 +1179,12 @@ export default class MeshUIComponent extends Object3D {
 			if ( obj.geometry ) obj.geometry.dispose();
 
 		} );
+
+		this._pseudoClassList.dispose();
+		this._pseudoClassList = null;
+
+		this._classList.dispose();
+		this._classList = null;
 
 		return this;
 	}

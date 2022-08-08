@@ -15,7 +15,7 @@ import MSDFFontMaterialUtils from './font/msdf/utils/MSDFFontMaterialUtils';
 import { ShaderChunkUI } from './renderers/shaders/ShaderChunkUI';
 import * as FontWeight from './utils/font/FontWeight';
 import * as FontStyle from './utils/font/FontStyle';
-import { addRoot, querySelectorAll, removeRoot, loadSheets } from './utils/dom/VRDocument';
+import * as VRDocument from './utils/dom/VRDocument';
 
 const update = () => UpdateManager.update();
 
@@ -38,10 +38,11 @@ const ThreeMeshUI = {
 	ContentDirection,
 	MSDFFontMaterialUtils,
 	ShaderChunkUI,
-	addRoot,
-	removeRoot,
-	querySelectorAll,
-	loadSheets,
+	VRDocument,
+	addRoot:VRDocument.addRoot,
+	removeRoot:VRDocument.removeRoot,
+	querySelectorAll:VRDocument.querySelectorAll,
+	loadSheets:VRDocument.loadSheets,
 };
 
 
@@ -62,10 +63,11 @@ export { AlignItems };
 export { ContentDirection };
 export { ShaderChunkUI };
 export { MSDFFontMaterialUtils };
-export { loadSheets }
-export { addRoot }
-export { removeRoot }
-export { querySelectorAll }
+// export { loadSheets }
+// export { addRoot }
+// export { removeRoot }
+// export { querySelectorAll }
+export { VRDocument };
 
 export default ThreeMeshUI;
 

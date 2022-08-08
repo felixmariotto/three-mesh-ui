@@ -211,6 +211,7 @@ function loadSheets( listenForChanges = false ) {
 
 		const sheets = document.querySelectorAll('link[media="vr"],style[media="vr"]');
 		for ( let i = 0; i < sheets.length; i++ ) {
+
 			_addMutationObserverOnStyleSheet( sheets[ i ] );
 
 		}
@@ -228,7 +229,7 @@ function loadSheets( listenForChanges = false ) {
 		for ( const styleSheet of document.styleSheets ) {
 			if ( styleSheet.media.mediaText === 'vr' ) {
 
-				const { rules, conditions } = _importSheet( styleSheet.cssRules);
+				const { rules, conditions } = _importSheet( styleSheet.cssRules );
 
 				_rules = _rules.concat( rules );
 				_conditions = _conditions.concat( conditions );
@@ -262,7 +263,7 @@ function _addOrRemoveStylesheetMutation( mutations ){
 	let reload = false;
 	mutations.forEach(function(mutation) {
 
-		for (var i = 0; i < mutation.addedNodes.length; i++){
+		for (let i = 0; i < mutation.addedNodes.length; i++){
 			if( _matchVRStyleSheet(mutation.addedNodes[i]) ){
 				reload = true;
 			}
@@ -307,9 +308,11 @@ function _addMutationObserverOnStyleSheet( cssStyleSheet ){
 
 
 	// observe the stylesheet itself for content changes
+	/* eslint-disable no-unused-vars */
 	const observer = new MutationObserver(function(mutations) {
 		loadSheets(true);
 	});
+	/* eslint-enable no-unused-vars */
 
 	// Pass in the target node, as well as the observer options.
 	observer.observe( cssStyleSheet, {
@@ -493,6 +496,17 @@ function  _sortXSSRules( a, b ){
 }
 
 /**
+ * @Todo : Try to reduce as much as possible this table by updating meshUIComponent properties to match
+ * 				 as much as possible css valid properties
+ *
+ * @type {Object.<string,string>}
+ * @private
+ */
+const _lookUpTable = {
+	flexDirection: "contentDirection"
+}
+
+/**
  *
  * @param rulesList
  * @param {string|null} [condition=null]
@@ -513,11 +527,13 @@ function _importSheet( rulesList, condition = null ) {
 	}
 
 	for ( let i = 0; i < rulesList.length; i++ ) {
+
 		const rule = rulesList[ i ];
 
 		if ( rule.selectorText ) {
 
-			const newRule = new CSSRuleVR( rule.selectorText, rule.style );
+
+			const newRule = new CSSRuleVR( rule.selectorText, rule.style, _lookUpTable );
 			rules.push( newRule );
 
 			if( mediaQ ){
@@ -545,6 +561,7 @@ function _importSheet( rulesList, condition = null ) {
 	return { rules, conditions };
 
 }
+
 
 export { loadSheets };
 

@@ -8,7 +8,7 @@ export const alphaTestTransformer = function ( target, targetProperty, value) {
 	// set the value in the material
 	target.alphaTest = value;
 
-	toPreprocessorTriggerTransformer(target, 'USE_ALPHATEST', value === 0 ? '' : null );
+	toPreprocessorTriggerTransformer(target, 'USE_ALPHATEST', value > 0 );
 
 }
 

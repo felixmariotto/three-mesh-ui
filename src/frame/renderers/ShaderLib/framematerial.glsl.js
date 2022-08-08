@@ -33,6 +33,10 @@ export const fragmentShader = /* glsl */`
 uniform vec3 diffuse;
 uniform float opacity;
 
+#ifdef USE_ALPHATEST
+	uniform float alphaTest;
+#endif
+
 ${ShaderChunkUI.frame_common_pars}
 
 ${ShaderChunkUI.frame_border_pars_fragment}
@@ -56,7 +60,11 @@ void main() {
 
 	${ShaderChunkUI.frame_border_fragment}
 
-	if( diffuseColor.a < 0.02 ) discard;
+	#ifdef USE_ALPHATEST
+
+	if ( diffuseColor.a < alphaTest ) discard;
+
+	#endif
 
 	// output
 	gl_FragColor = diffuseColor;

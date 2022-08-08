@@ -64,6 +64,16 @@ export default class UpdateManager {
 
 	}
 
+	static register7xx( component ) {
+
+		if ( !this.components7xx.includes( component ) ) {
+
+			this.components7xx.push( component );
+
+		}
+
+	}
+
 	/** Unregister a component (when it's deleted for instance) */
 	static disposeOf( component ) {
 
@@ -90,6 +100,27 @@ export default class UpdateManager {
 
 			roots.forEach( root => this.traverseParsing( root ) );
 			roots.forEach( root => this.traverseUpdates( root ) );
+
+		}
+
+	}
+
+
+	static update7xx() {
+
+		const upd = this.components7xx.filter( element => element.needsUpdate );
+		for ( let i = 0; i < upd.length; i++ ) {
+			const updElement = upd[ i ];
+
+			updElement.update();
+
+		}
+
+		const pro = this.components7xx.filter( element => element.needsProcess );
+		for ( let i = 0; i < pro.length; i++ ) {
+			const updElement = pro[ i ];
+
+			updElement.process();
 
 		}
 
@@ -168,4 +199,5 @@ export default class UpdateManager {
 // TODO move these into the class (Webpack unfortunately doesn't understand
 // `static` property syntax, despite browsers already supporting this)
 UpdateManager.components = [];
+UpdateManager.components7xx = [];
 UpdateManager.requestedUpdates = {};

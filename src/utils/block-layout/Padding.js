@@ -96,8 +96,8 @@ export const padItems = function( boxComponent, DIRECTION, ALIGNMENT ){
 
 		}
 
-		boxComponent.childrenPos[ child.id ]['x'] += x + marginX;
-		boxComponent.childrenPos[ child.id ]['y'] += y + marginY;
+		boxComponent.childrenPos[ child.id ].x += x + marginX;
+		boxComponent.childrenPos[ child.id ].y += y + marginY;
 
 
 

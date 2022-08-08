@@ -10,8 +10,6 @@ import SnakeImage from "./assets/spiny_bush_viper.jpg";
 import FontJSON from 'three-mesh-ui/examples/assets/fonts/msdf/roboto/regular.json';
 import FontImage from 'three-mesh-ui/examples/assets/fonts/msdf/roboto/regular.png';
 import Stats from 'three/examples/jsm/libs/stats.module';
-import CSSQuery from '../src/utils/dom/css/CSSQuery';
-import { _applyRules, computeStyle } from '../src/utils/dom/VRDocument';
 import { _injectCSS } from 'three-mesh-ui/examples/_setup/Html';
 
 const WIDTH = window.innerWidth;
@@ -19,21 +17,37 @@ const HEIGHT = window.innerHeight;
 
 let scene, camera, renderer, controls;
 
-const vrStyleSheet = document.createElement('style');
-vrStyleSheet.setAttribute('media','vr');
-vrStyleSheet.innerText = `
-
-div{
-	background-color: blue;
-}
-
-`;
-document.head.appendChild( vrStyleSheet );
 
 _injectCSS( `
+
+@import url('https://fonts.googleapis.com/css2?family=Alumni+Sans+Inline+One:ital@1&display=swap')
+
+@font-face {
+  font-family: "Open Sans";
+  src: url("./assets/fonts/roboto/regular.ttf") format("ttf");
+}
+
 :root{
+	font-family: 'Alumni Sans Inline One', cursive;
 	flex-direction: row;
-	background-color: yellow;
+
+}
+
+.b1{
+	background-image: url(https://example.com/images/myImg.jpg);
+}
+
+.bg2{
+	background-image: url(data:image/png;base64,iRxVB0…);
+}
+
+.bg3{
+	background-image: url(#IDofSVGpath);
+}
+
+h1.title{
+	font-family: "Open Sans", cursive;
+	border-radius: 0.1em;
 }
 
 @media(orientation: portrait) {
@@ -231,7 +245,7 @@ function makeTextPanel() {
 
 
 	setTimeout( ()=>{
-		ThreeMeshUI.loadSheets(true);
+		ThreeMeshUI.VRDocument.loadSheets(true);
 
 		// console.log( ThreeMeshUI.querySelectorAll( 'div p[foo][bar*="foo > is bar & nice"]' ) );
 		// console.log( ThreeMeshUI.querySelectorAll( 'div > p' ) );
@@ -261,17 +275,17 @@ function makeTextPanel() {
 		// console.warn( cssQ.match(lastP) );
 
 
-		let startTime = Date.now();
-		for ( let i = 0; i < 1000; i++ ) {
-			_applyRules();
-		}
-		console.log( "computeStyle avg: ~" + ( ( Date.now() - startTime) / 1000 ) + " ms");
-
-		startTime = Date.now();
-		for ( let i = 0; i < 1000; i++ ) {
-			computeStyle( container );
-		}
-		console.log( "_applyRules avg: ~" + ( ( Date.now() - startTime) / 1000 ) + " ms");
+		// let startTime = Date.now();
+		// for ( let i = 0; i < 1000; i++ ) {
+		// 	_applyRules();
+		// }
+		// console.log( "computeStyle avg: ~" + ( ( Date.now() - startTime) / 1000 ) + " ms");
+		//
+		// startTime = Date.now();
+		// for ( let i = 0; i < 1000; i++ ) {
+		// 	computeStyle( container );
+		// }
+		// console.log( "_applyRules avg: ~" + ( ( Date.now() - startTime) / 1000 ) + " ms");
 
 		// container.pasteAttributes(`#myId.myclass.myClass-2[attrName="attrValue"][disabled]:hover:disabled`);
 		// console.log( container.copyAttributes() );

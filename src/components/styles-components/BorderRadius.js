@@ -159,7 +159,7 @@ export default class BorderRadius {
 	 */
 	updateValue( target, sX = 1.0, sY = 1.0 ) {
 
-		if( !target ){
+		if( !target ) {
 			target = this._target;
 		}
 

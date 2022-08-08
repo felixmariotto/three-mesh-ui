@@ -7,8 +7,9 @@ export default class CSSRuleVR {
 	 *
 	 * @param {string} queryString
 	 * @param {Object.<string, string>} styles
+	 * @param {Object.<string, string>} [lookupTable=null]
 	 */
-	constructor( queryString, styles ) {
+	constructor( queryString, styles, lookupTable = null ) {
 
 		/**
 		 *
@@ -38,6 +39,8 @@ export default class CSSRuleVR {
 		for ( let k = 0; k < styles.length; k++ ) {
 			const styleProperty = styles[ k ];
 
+			console.log( styleProperty, styles[styleProperty] );
+
 			let value = styles[styleProperty];
 
 			value = value.replace(/rem|px|em/g, '');
@@ -54,20 +57,31 @@ export default class CSSRuleVR {
 
 					// To apply alpha too
 					if( colorComponents.length === 4 ) {
+
 						const alphaProperty = styleProperty.replace('color', 'opacity');
 
 						// If it is not previously defined
 						if( !styles[alphaProperty] || styles[alphaProperty] === "" ){
 							this._styles[_camelize(alphaProperty)] = parseFloat( colorComponents[3] );
 						}
+
 					}
 
 					value = `rgb(${colorComponents[0]},${colorComponents[1]},${colorComponents[2]})`;
 
 				}
+
 			}
 
-			this._styles[_camelize(styleProperty)] = value;
+			// try to update the property according to lookup table
+			let property = _camelize(styleProperty);
+			if( lookupTable && lookupTable[property] ) {
+
+				property = lookupTable[property];
+
+			}
+
+			this._styles[property] = value;
 
 		}
 
@@ -121,11 +135,13 @@ export default class CSSRuleVR {
 		this._order = v;
 
 	}
+
 	/**
 	 *
 	 * @returns {Object.<string,any>}
 	 */
 	get styles() { return this._styles; }
+
 }
 
 /**

@@ -70,7 +70,7 @@ export default class CSSQuerySegment {
 			switch ( condition.type ) {
 
 				case "id":
-					return target.id === condition.value;
+					return target.elementID === condition.value;
 
 				case "class":
 					return target.classList.containsEvery( condition.value );

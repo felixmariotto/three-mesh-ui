@@ -23,6 +23,7 @@ const pages = [
 	[ 'api__whitespace', '.whiteSpace' ],
 	[ 'tut__basic_setup', 'Basic setup' ],
 	[ 'tut__preloaded_font', 'Preload fonts' ],
+	[ 'tut__preloaded_font_7xx', 'Preload fonts 7xx' ],
 	[ 'tut__nested_blocks', 'Nested Blocks' ],
 	[ 'tut__tutorial_result', 'Tutorial result' ],
 	[ 'ex__best_fit', 'BestFit<sup>(behavior)</sup>' ],
@@ -52,7 +53,7 @@ const pagesConfig = pages.map( ( page ) => {
 	return new HtmlWebpackPlugin( {
 		title: page[ 0 ],
 		filename: page[ 0 ] + '.html',
-		template: path.resolve( __dirname, `../examples/html/example_template.html` ),
+		template: path.resolve( __dirname, `../examples/_html/example_template.html` ),
 		chunks: [ page[ 0 ], 'three-mesh-ui' ],
 		inject: true
 	} );
@@ -80,7 +81,7 @@ const indexConfig = new HtmlWebpackPlugin( {
 	},
 
 	filename: 'index.html',
-	template: path.resolve( __dirname, `../examples/html/index.html` ),
+	template: path.resolve( __dirname, `../examples/_html/index.html` ),
 	inject: false
 } );
 
@@ -110,6 +111,7 @@ const webpackConfig = env => {
 			api__whitespace: './examples/api__whitespace.js',
 			tut__basic_setup: './examples/tut__basic_setup.js',
 			tut__preloaded_font: './examples/tut__preloaded_font.js',
+			tut__preloaded_font_7xx: './examples/tut__preloaded_font_7xx.js',
 			tut__nested_blocks: './examples/tut__nested_blocks.js',
 			tut__tutorial_result: './examples/tut__tutorial_result.js',
 			ex__best_fit: './examples/ex__best_fit.js',

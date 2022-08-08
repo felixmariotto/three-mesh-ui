@@ -6,9 +6,9 @@ import { Mesh } from 'three';
  */
 export default class Frame extends Mesh {
 
-	constructor( material ) {
+	constructor( vrElement ) {
 
-		const geometry = new PlaneBufferGeometry();
+		const geometry = new PlaneBufferGeometry( 1, 1, vrElement._segments.value, vrElement._segments.value );
 
 		// Add uv for borders computations by copying uv
 		geometry.setAttribute('uvB', new BufferAttribute(
@@ -16,7 +16,7 @@ export default class Frame extends Mesh {
 				geometry.getAttribute('uv').array
 			), 2)).name = 'uvB';
 
-		super( geometry, material );
+		super( geometry, vrElement.material );
 
 		this.name = 'MeshUI-Frame';
 

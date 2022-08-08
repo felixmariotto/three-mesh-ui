@@ -25,7 +25,7 @@ export default class CSSQuery extends Array {
 		/**
 		 * @type {CSSQuerySegment}
 		 */
-		let lastQuery = this[this.length-1];
+		const lastQuery = this[this.length-1];
 
 		// if the last segment query doesn't match the element, it doesn't match
 		if( !lastQuery.match(tmElement) ) return false;

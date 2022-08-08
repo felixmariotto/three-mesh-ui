@@ -73,6 +73,38 @@ export default class BoxComponent extends InlineManager {
 
 		}
 
+	/**
+	 * Return the sum of all this component's children width
+	 * @return {number}
+	 */
+	getChildrenSideWidth() {
+
+		return this.childrenBoxes.reduce( ( accu, child ) => {
+
+			const CHILD_SIZE = ( child.getOffsetWidth() + child._margin.y + child._margin.w  )
+
+			return accu + CHILD_SIZE;
+
+		}, 0 );
+
+	}
+
+	/**
+	 * Return the sum of all this component's children width
+	 * @return {number}
+	 */
+	getChildrenSideHeight() {
+
+		return this.childrenBoxes.reduce( ( accu, child ) => {
+
+			const CHILD_SIZE = ( child.getOffsetHeight() + child._margin.x + child._margin.z  )
+
+			return accu + CHILD_SIZE;
+
+		}, 0 );
+
+	}
+
 		/**
 		 * Look in parent record what is the instructed position for this component, then set its position
 		 **/

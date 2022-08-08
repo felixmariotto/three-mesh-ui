@@ -31,15 +31,15 @@ export default class StyleComponentVector4 {
 	 *
 	 * @param {Number} v
 	 */
-	set x( v ) {
-		this._input.x = v;
+	set top( v ) {
+		this._inline.x = v;
 	}
 
 	/**
 	 *
 	 * @returns {number}
 	 */
-	get x() { return this._input.x; }
+	get top() { return this._inline.x; }
 
 	/**
 	 *

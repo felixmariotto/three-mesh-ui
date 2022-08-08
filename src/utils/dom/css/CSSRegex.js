@@ -58,5 +58,5 @@ export const CSS_ATTRIBUTES_MATCH_REGEX = /(\[([^\]]*)\])/g;
  * This regex split isolated attributes into its components
  * @type {RegExp}
  */
-export const CSS_ATTRIBUTE_COMPONENTS_MATCH_REGEX = /([^*~$^]+)(([*~$^]?={1,2})(.*))?/;
+export const CSS_ATTRIBUTE_COMPONENTS_MATCH_REGEX = /([^*~$^=]+)(([*~$^]?=)(.*))?/;
 /* eslint-enable no-useless-escape */
