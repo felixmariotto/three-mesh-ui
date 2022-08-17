@@ -25,25 +25,25 @@ export default function MaterialManager( Base ) {
 			super( options );
 
 			this.textUniforms = {
-				u_texture: { value: null },
-				u_color: { value: null },
-				u_opacity: { value: null },
-				u_pxRange: { value: null },
-				u_useRGSS: { value: null },
+				u_texture: { value: this.getFontTexture() },
+				u_color: { value: this.getFontColor() },
+				u_opacity: { value: this.getFontOpacity() },
+				u_pxRange: { value: this.getFontPXRange() },
+				u_useRGSS: { value: this.getFontSupersampling() },
 			};
 
 			this.backgroundUniforms = {
-				u_texture: { value: null },
-				u_color: { value: null },
-				u_opacity: { value: null },
-				u_backgroundMapping: { value: null },
-				u_borderWidth: { value: null },
-				u_borderColor: { value: null },
-				u_borderRadiusTopLeft: { value: null },
-				u_borderRadiusTopRight: { value: null },
-				u_borderRadiusBottomRight: { value: null },
-				u_borderRadiusBottomLeft: { value: null },
-				u_borderOpacity: { value: null },
+				u_texture: { value: this.getBackgroundTexture() },
+				u_color: { value: this.getBackgroundColor() },
+				u_opacity: { value: this.getBackgroundOpacity() },
+				u_backgroundMapping: { value: this.getBackgroundSize() },
+				u_borderWidth: { value: this.getBorderWidth() },
+				u_borderColor: { value: this.getBorderColor() },
+				u_borderRadiusTopLeft: { value: this.getBorderRadius() },
+				u_borderRadiusTopRight: { value: this.getBorderRadius() },
+				u_borderRadiusBottomRight: { value: this.getBorderRadius() },
+				u_borderRadiusBottomLeft: { value: this.getBorderRadius() },
+				u_borderOpacity: { value: this.getBorderOpacity() },
 				u_size: { value: new Vector2( 1, 1 ) },
 				u_tSize: { value: new Vector2( 1, 1 ) }
 			};

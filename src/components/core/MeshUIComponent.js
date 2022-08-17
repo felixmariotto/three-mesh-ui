@@ -144,7 +144,17 @@ export default function MeshUIComponent( Base ) {
 
 		getFontTexture() {
 
-			return this._getProperty( 'fontTexture' );
+			if ( this[ 'fontTexture' ] === undefined && this.parentUI ) {
+
+				return this.parent._getProperty( 'fontTexture' );
+
+			} else if ( this[ 'fontTexture' ] !== undefined ) {
+
+				return this[ 'fontTexture' ];
+
+			}
+
+			return DEFAULTS.getDefaultTexture();
 
 		}
 
@@ -281,7 +291,7 @@ export default function MeshUIComponent( Base ) {
 
 		getBackgroundTexture() {
 
-			return this.backgroundTexture || DEFAULTS.backgroundTexture();
+			return this.backgroundTexture || DEFAULTS.getDefaultTexture();
 
 		}
 
