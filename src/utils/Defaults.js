@@ -21,7 +21,6 @@ export default {
 	contentDirection,
 	alignItems,
 	justifyContent,
-	fontTexture: null,
 	textAlign,
 	textType: 'MSDF',
 	fontColor: new Color( 0xffffff ),
@@ -38,28 +37,29 @@ export default {
 	backgroundOpacity: 0.8,
 	backgroundOpaqueOpacity: 1.0,
 	// this default value is a function to avoid initialization issues (see issue #126)
-	backgroundTexture: makeBackgroundTexture,
+	getDefaultTexture,
 	hiddenOverflow: false,
 	letterSpacing: 0
 };
 
 //
-let defaultBgTexture;
 
-function makeBackgroundTexture() {
+let defaultTexture;
 
-	if ( !defaultBgTexture ) {
+function getDefaultTexture() {
+
+	if ( !defaultTexture ) {
 
 		const ctx = document.createElement( 'canvas' ).getContext( '2d' );
 		ctx.canvas.width = 1;
 		ctx.canvas.height = 1;
 		ctx.fillStyle = '#ffffff';
 		ctx.fillRect( 0, 0, 1, 1 );
-		defaultBgTexture = new CanvasTexture( ctx.canvas );
-		defaultBgTexture.isDefault = true;
+		defaultTexture = new CanvasTexture( ctx.canvas );
+		defaultTexture.isDefault = true;
 
 	}
 
-	return defaultBgTexture;
+	return defaultTexture;
 
 }
