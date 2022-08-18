@@ -89,35 +89,6 @@ export default class Mediator{
 		// Cannot mediate if target not defined
 		if( !target ) return;
 
-		// if no options found, retrieve all need options
-		if( !options ){
-
-			options = {};
-			for ( const materialProperty in mediationDefinitions ) {
-
-				let value = subject[materialProperty];
-				if( value === undefined ){
-
-					const upperCaseProperty = materialProperty[0].toUpperCase() + materialProperty.substring(1)
-					if( subject["get"+upperCaseProperty] ) {
-
-						value = subject["get"+upperCaseProperty]();
-
-					}
-
-				}
-
-				if( value !== undefined ) {
-
-					options[materialProperty] = value;
-
-				}
-
-			}
-
-		}
-
-
 		// Mediate each subject properties to material
 		for ( const subjectProperty in mediationDefinitions ) {
 			const definition = mediationDefinitions[subjectProperty];

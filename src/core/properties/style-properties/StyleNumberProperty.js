@@ -14,10 +14,10 @@ export default class StyleNumberProperty extends SubStyleProperty {
 	}
 
 	/**
-	 *
+	 * @override
 	 * @return {Number}
 	 */
-	get output() { return this._output; }
+	get value() { return this._value; }
 
 }
 

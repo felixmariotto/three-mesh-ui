@@ -2,7 +2,7 @@ import BaseProperty from '../BaseProperty';
 
 //JSDoc related imports
 /* eslint-disable no-unused-vars */
-import ElementVR from '../../elements/ElementVR';
+import MeshUIBaseElement from '../../elements/MeshUIBaseElement';
 /* eslint-enable no-unused-vars */
 
 /* eslint-disable no-unused-vars */
@@ -11,28 +11,37 @@ export default class SubStyleProperty extends BaseProperty{
 	/**
 	 *
 	 * @param {string} propertyId
+	 * @param {boolean} [primitive=true]
 	 * @param {any} defaultValue
 	 */
-	constructor( propertyId, defaultValue ) {
+	constructor( propertyId, defaultValue, primitive = true) {
 
-		super( propertyId, defaultValue );
+		super( propertyId, 'unset', primitive );
 
 		/**
 		 * @type {any}
-		 * @private
+		 * @internal
 		 */
-		this._input = null;
+		this._input = 'inherit';
 
 		/**
+		 *
+		 * @type {boolean}
+		 * @protected
+		 */
+		this._allowsInherit = true;
+
+		/**
+		 * The input value that won't be 'inherit'
 		 * @type {any}
 		 * @protected
 		 */
-		this._output = defaultValue;
+		this._inheritedInput = undefined;
 
 		/**
 		 *
 		 * @type {any}
-		 * @protected
+		 * @internal
 		 */
 		this._inline = undefined;
 
@@ -47,17 +56,18 @@ export default class SubStyleProperty extends BaseProperty{
 
 	/**
 	 *
-	 * @param {ElementVR} vrElement
+	 * @param {MeshUIBaseElement} element
 	 * @param {Object.<string,any> } out
 	 */
-	update( vrElement, out ) {
+	update( element, out ) {
 
+		let updateRequired = true;
 
 		// Inline has priority if set
 		if( this._inline !== undefined && this._inline !== 'unset' ) {
 
 			// do not require an update if the value remains
-			if( this._inline === this._input ) return;
+			if( this._inline === this._input ) updateRequired = false;
 			this._input = this._inline;
 
 		}
@@ -65,46 +75,71 @@ export default class SubStyleProperty extends BaseProperty{
 		else if( this._computed !== undefined ) {
 
 			// do not require an update if the value remains
-			if( this._computed === this._input ) return;
+			if( this._computed === this._input ) updateRequired = false;
 			this._input = this._computed;
 
 		}
 		// or fallback on default value
 		else {
 
-			// // do not require an update if the value remains
-			if( this._value === this._input ) return;
-			this._input = this._value;
+			updateRequired = this._input === 'inherit';
 
 		}
 
-		this.buildOutput( vrElement, out );
+		if( updateRequired ) {
+
+			if( !this._allowsInherit ) {
+
+				this._inheritedInput = this.getInheritedInput( element );
+
+			}
+
+			this.computeOutputValue( element );
+
+			// rebuild same properties on children 'inheritance'
+			for ( const childUIElement of element._children._uis ) {
+
+				childUIElement[`_${this._id}`]._needsUpdate = true;
+
+			}
+
+			this.output( out );
+
+		}
 
 	}
 
 	/**
 	 *
-	 * @param {ElementVR} vrElement
-	 * @param {Object.<string,any>} out
+	 * @param {MeshUIBaseElement} element
 	 */
-	buildOutput( vrElement, out ) {
+	computeOutputValue( element ) {
 
-		this._output = this._input;
+		this._value = this._input;
 
 	}
 
 	/**
 	 *
-	 * @param {ElementVR} vrElement
+	 * @param {MeshUIBaseElement} element
 	 */
-	process( vrElement ) { }
+	_computeFromInherited( element ) {
+
+		this._value = this._inheritedInput;
+
+	}
+
 
 	/**
-	 *
-	 * @return {any}
+	 * @override
+	 * @deprecated
+	 * @param {any} v
 	 */
-	get output() { return this._output; }
+	set value( v ) {
 
+		console.warn(".(style) sub-property cannot be directly set. It must comes from inline or computed setter.")
+
+	}
 
 	/**
 	 *
@@ -165,6 +200,25 @@ export default class SubStyleProperty extends BaseProperty{
 	isValidValue( value ) {
 
 		return true;
+
+	}
+
+	/**
+	 * @override
+	 * @param {MeshUIBaseElement} element
+	 */
+	getInheritedInput ( element ) {
+
+		if( this._input !== 'inherit' ) return this._input;
+
+		const parent = element._parent._input;
+		if( parent ) {
+
+			return parent[`_${this._id}`].getInheritedInput( parent )
+
+		}
+
+		return this.getDefaultValue();
 
 	}
 

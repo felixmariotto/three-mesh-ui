@@ -1,6 +1,6 @@
 import BaseProperty from './BaseProperty';
 
-export default class BooleanProperty extends BaseProperty{
+export default class BooleanProperty extends BaseProperty {
 
 	/**
 	 *
@@ -9,22 +9,26 @@ export default class BooleanProperty extends BaseProperty{
 	 */
 	constructor( propertyId, value = true ) {
 
-		super( propertyId, value);
+		super( propertyId, value, true );
+
+		/**
+		 * @override
+		 * @type {boolean}
+		 * @private
+		 */
+		this._value = value;
 
 	}
 
-	update( vrElement, out ) {
+	/**
+	 *
+	 * @param {boolean} value
+	 */
+	set value( value ) {
 
-	}
+		this._value = value;
 
-	set value( v ) {
-
-		if( this._value !== v ) {
-
-			this._value = v;
-			this._needsUpdate = true;
-
-		}
+		this._needsUpdate = true;
 
 	}
 

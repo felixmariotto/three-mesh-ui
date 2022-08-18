@@ -41,12 +41,12 @@ export default class BoxLayoutBehavior extends Behavior{
 
 	act = () => {
 
-		const margin = this._subject._margin;
-		const border = this._subject._borderWidth;
-		const padding = this._subject._padding;
+		const margin = this._subject._margin._value;
+		const border = this._subject._borderWidth._value;
+		const padding = this._subject._padding._value;
 
-		const offsetWidth = this._subject.getOffsetWidth() + margin.w + margin.y;
-		const offsetHeight = this._subject.getOffsetHeight() + margin.x + margin.z;
+		const offsetWidth = this._subject._bounds._offsetWidth + margin.w + margin.y;
+		const offsetHeight = this._subject._bounds._offsetHeight + margin.x + margin.z;
 
 		this._overlay.scale.set( offsetWidth, offsetHeight, 1);
 

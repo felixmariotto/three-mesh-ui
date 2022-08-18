@@ -66,9 +66,20 @@ export default class UpdateManager {
 
 	static register7xx( component ) {
 
-		if ( !this.components7xx.includes( component ) ) {
+		if ( !this.elements7xx.includes( component ) ) {
 
-			this.components7xx.push( component );
+				this.elements7xx.push( component );
+
+		}
+
+	}
+
+	static remove7xx( component ) {
+
+		const index = this.elements7xx.indexOf( component );
+		if ( index !== -1 ) {
+
+			this.elements7xx.splice( index, 1 );
 
 		}
 
@@ -108,20 +119,16 @@ export default class UpdateManager {
 
 	static update7xx() {
 
-		const upd = this.components7xx.filter( element => element.needsUpdate );
-		for ( let i = 0; i < upd.length; i++ ) {
-			const updElement = upd[ i ];
+		for ( const UIElement of this.elements7xx ) {
+			UIElement.update();
 
-			updElement.update();
+			console.log( 'PROCESS - 1 ------------------------------ ');
+			UIElement.process(); // Natural process
+			console.log( 'PROCESS - 2 ------------------------------ ');
+			UIElement.process(); // Actual process (optional) - For auto size and stretch
 
-		}
-
-		const pro = this.components7xx.filter( element => element.needsProcess );
-		for ( let i = 0; i < pro.length; i++ ) {
-			const updElement = pro[ i ];
-
-			updElement.process();
-
+			console.log( 'RENDER - --------------------------------- ');
+			UIElement.render();
 		}
 
 	}
@@ -199,5 +206,5 @@ export default class UpdateManager {
 // TODO move these into the class (Webpack unfortunately doesn't understand
 // `static` property syntax, despite browsers already supporting this)
 UpdateManager.components = [];
-UpdateManager.components7xx = [];
+UpdateManager.elements7xx = [];
 UpdateManager.requestedUpdates = {};

@@ -3,7 +3,7 @@ import BaseProperty from './BaseProperty';
 export default class InlineJustificator extends BaseProperty {
 
 	constructor() {
-		super( 'inlineJustificator' );
+		super( 'inlineJustificator', null, false );
 
 		/**
 		 *
@@ -14,27 +14,27 @@ export default class InlineJustificator extends BaseProperty {
 	}
 
 
-	update( vrElement, out ) {
-
-	}
+	/* eslint-disable no-unused-vars */ update( element, out ) { /* eslint-enable no-unused-vars */ }
 
 	/**
 	 *
-	 * @param {ElementVR} vrElement
+	 * @param {MeshUIBaseElement} element
 	 * @return {Lines}
 	 */
-	process( vrElement ) {
+	process( element ) {
 
 
-		const INNER_HEIGHT = vrElement.innerHeight;
-		const lines = vrElement.lines;
+		const INNER_HEIGHT = element._bounds._innerHeight;
+		const lines = element._layouter._value;
+
 		const textHeight = Math.abs( lines.height );
 
 
 		// Line vertical positioning
 		let justificationOffset = ( () => {
 
-			switch ( vrElement.style._justifyContent.output ) {
+			// switch ( element._justifyContent._value ) {
+			switch ( "start" ) {
 
 				case 'start':
 					// return ( INNER_HEIGHT / 2 ) - lines[ 0 ].lineHeight - boxComponent._padding.x ;
@@ -54,9 +54,11 @@ export default class InlineJustificator extends BaseProperty {
 			}
 		} )();
 
+		//console.log( justificationOffset );
+
 		// Apply padding
-		const padding = vrElement.style._padding;
-		const border = vrElement.style._borderWidth;
+		const padding = element._padding._value;
+		const border = element._borderWidth._value;
 
 		justificationOffset += ( - padding.x + padding.z ) / 2 + ( - border.x + border.z ) / 2;
 

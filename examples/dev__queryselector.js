@@ -215,7 +215,7 @@ function makeTextPanel() {
 
   ).pasteAttributes('div');
 
-	var lastP = new ThreeMeshUI.Text({
+	const lastP = new ThreeMeshUI.Text({
 		content: "The head has a short snout, more so in males than in females.\nThe eyes are large and surrounded by 9–16 circumorbital scales. The orbits (eyes) are separated by 7–9 scales."
 	}).pasteAttributes('p');
 

@@ -9,18 +9,27 @@ export default class SideProperty extends BaseProperty{
 	 */
 	constructor( value = FrontSide ) {
 
-		super( 'side', value);
+		super( 'side', value, true);
 
 		this.isValid = _isValid;
 
 	}
 
-	update( vrElement, out ) {
+	update( element, out ) {
 
 		out[this.id] = this._value;
 
 	}
 
+	/**
+	 *
+	 * @param {number} v
+	 */
+	set value( v ) {
+
+		super.value = v;
+
+	}
 
 	/**
 	 *

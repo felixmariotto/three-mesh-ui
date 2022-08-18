@@ -16,15 +16,19 @@ import { ShaderChunkUI } from './renderers/shaders/ShaderChunkUI';
 import * as FontWeight from './utils/font/FontWeight';
 import * as FontStyle from './utils/font/FontStyle';
 import * as VRDocument from './utils/dom/VRDocument';
+import BlockElement from './elements/basic/BlockElement';
+import TextElement from './elements/basic/TextElement';
+import InlineElement from './elements/basic/InlineElement';
 
-const update = () => UpdateManager.update();
+const update = () => UpdateManager.update7xx();
 
 
 
 
 const ThreeMeshUI = {
-	Block,
-	Text,
+	Block: BlockElement,
+	Text : TextElement,
+	Inline: InlineElement,
 	InlineBlock,
 	Keyboard,
 	FontLibrary,
@@ -48,7 +52,8 @@ const ThreeMeshUI = {
 
 if ( typeof global !== 'undefined' ) global.ThreeMeshUI = ThreeMeshUI;
 
-export { Block };
+export { Block as BlockElement };
+export { BlockElement as Block };
 export { Text };
 export { InlineBlock };
 export { Keyboard };

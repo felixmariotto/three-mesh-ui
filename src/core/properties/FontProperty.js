@@ -9,12 +9,14 @@ export default class FontProperty extends BaseProperty{
 	 */
 	constructor( value = null ) {
 
-		super( 'font', value);
+		super( 'font', value, false);
+
+		this._needsUpdate = false;
 
 		/**
 		 *
 		 * @type {FontVariant|null}
-		 * @private
+		 * @internal
 		 */
 		this._fontVariant = null;
 
@@ -32,12 +34,19 @@ export default class FontProperty extends BaseProperty{
 
 	}
 
+	output( out ) {
+
+		out[this._id] = this._fontVariant;
+
+	}
+
+	/* eslint-disable no-unused-vars */
 	/**
 	 *
-	 * @param {ElementVR} vrElement
+	 * @param {MeshUIBaseElement} element
 	 * @param out
 	 */
-	update( vrElement, out ) {
+	update( element, out ) { 	/* eslint-enable no-unused-vars */
 
 		// if a previous font isset, be sure no event remains
 		if ( this._fontVariant && !this._fontVariant.isReady ) {
@@ -54,12 +63,12 @@ export default class FontProperty extends BaseProperty{
 		} else {
 
 
-			const fontFamily = vrElement.style._fontFamily.output;
+			const fontFamily = element._fontFamily._value;
 			if( fontFamily ) {
 
 				this._fontVariant = fontFamily.getVariant(
-					vrElement.style._fontWeight.output,
-					vrElement.style._fontStyle.output,
+					element._fontWeight._value,
+					element._fontStyle._value,
 				);
 
 			}
@@ -68,7 +77,7 @@ export default class FontProperty extends BaseProperty{
 
 		if( !this._fontVariant ) return;
 
-		this._handleFontReadyClosure = _readyClosure( vrElement, this );
+		this._handleFontReadyClosure = _readyClosure( element, this );
 
 		// new font, means rebuild inlines, now or soon
 		if ( !this._fontVariant.isReady ) {
@@ -86,9 +95,9 @@ export default class FontProperty extends BaseProperty{
 
 		// @TODO : Material Property
 		// update font material according to font variant
-		if( !this._material ) {
+		if( !element._material ) {
 
-			this.material = new this._font.fontMaterial();
+			element.material = new this._fontVariant.fontMaterial();
 
 		} else {
 
@@ -96,16 +105,17 @@ export default class FontProperty extends BaseProperty{
 
 			// @TODO :	Only recreate a material instance if needed,
 			//  				prevent user that its custom material may no longer be compatible with update fontVariant implementation
-			const isDefaultMaterial = this._material.isDefault && this._material.isDefault();
-			if( isDefaultMaterial && !(this._material instanceof this._font.fontMaterial) ) {
+			const isDefaultMaterial = element._material.isDefault && element._material.isDefault();
+			if( isDefaultMaterial && !(element._material instanceof this._fontVariant.fontMaterial) ) {
 
-				this.material = new this._font.fontMaterial();
-
-			} else {
-
-				this._transferToMaterial();
+				element.material = new this._fontVariant.fontMaterial();
 
 			}
+			// else {
+			//
+			// 	this._transferToMaterial();
+			//
+			// }
 
 		}
 
@@ -183,12 +193,12 @@ function _isValid( value ) {
 
 /**
  *
- * @param {ElementVR} vrElement
+ * @param {MeshUIBaseElement} element
  * @param {FontProperty} fontProperty
  * @return {() => void}
  * @private
  */
-function _readyClosure( vrElement, fontProperty ) {
+function _readyClosure( element, fontProperty ) {
 	return function () {
 
 		// this._transferToMaterial();

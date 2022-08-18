@@ -9,38 +9,31 @@ export default class StyleColorProperty extends SubStyleProperty {
 
 	constructor( propertyId, defaultValue ) {
 
-		super( propertyId, defaultValue );
+		super( propertyId, defaultValue, false );
 
 		/**
 		 * @type {Color}
 		 * @protected
 		 */
-		this._output = new Color( defaultValue );
+		this._value = new Color();
 
+		this._needsUpdate = false;
+
+		this.output = this._outputValue;
 	}
 
+	/* eslint-disable no-unused-vars */
 	/**
 	 *
-	 * @param {ElementVR} vrElement
-	 * @param {Object.<string,any>} out
+	 * @param {MeshUIBaseElement} element
 	 */
-	buildOutput( vrElement, out ) {
+	computeOutputValue( element ) { /* eslint-enable no-unused-vars */
 
-		console.log("buildOutput color", this.id);
-		_setColor( this._input, this._output);
+		if( this._input !== 'inherit' ) {
 
-		console.log( "out", this._output );
-		out[this.id] = this._output;
+			_setColor( this._input, this._value);
 
-	}
-
-	/**
-	 *
-	 * @return {Color}
-	 */
-	get output() {
-
-		return this._output;
+		}
 
 	}
 
@@ -54,7 +47,8 @@ export default class StyleColorProperty extends SubStyleProperty {
  */
 function _setColor( value, output ) {
 
-	console.log(value,output);
+
+
 	if ( !( value instanceof Color ) ) {
 
 		if ( output instanceof Color ) {
@@ -69,7 +63,7 @@ function _setColor( value, output ) {
 
 	} else {
 
-		output = value;
+		output.set(value);
 
 	}
 }

@@ -5,10 +5,11 @@ import { BoxLineGeometry } from 'three/examples/jsm/geometries/BoxLineGeometry.j
 
 import Stats from 'three/examples/jsm/libs/stats.module.js';
 
-import ThreeMeshUI from 'three-mesh-ui';
-
-import FontJSON from 'three-mesh-ui/examples/assets/fonts/msdf/roboto/regular.json';
-import FontImage from 'three-mesh-ui/examples/assets/fonts/msdf/roboto/regular.png';
+import ThreeMeshUI, { FontLibrary } from 'three-mesh-ui';
+import * as FontWeight from '../src/utils/font/FontWeight';
+import * as FontStyle from '../src/utils/font/FontStyle';
+import MSDFNormalMaterial from 'three-mesh-ui/examples/materials/msdf/MSDFNormalMaterial';
+import ROBOTO_ADJUSTMENT from 'three-mesh-ui/examples/assets/fonts/msdf/roboto/adjustment';
 
 const WIDTH = window.innerWidth;
 const HEIGHT = window.innerHeight;
@@ -30,7 +31,77 @@ const justificationLegend = [
 
 let scene, camera, renderer, controls, stats;
 
-window.addEventListener( 'load', init );
+// Using `ThreeMeshUI.FontLibrary.prepare( fontFamily, [...fontFamily] )
+// We can ensure any fontFamily passed in that function and theirs variants are properly loaded and setup
+FontLibrary.prepare(
+
+	FontLibrary
+		// Registering a fontFamily called "Roboto", the name is up to us.
+		.addFontFamily("Roboto")
+		// On the fontFamily added, lets add a variant
+		// a font variant usually requires 4 parameters
+		.addVariant(
+			// The weight of the variant '100'|'200'|'300'|'400'|'600'|'700'|'800'|'900'
+			//														LIGHTER					NORMAL			BOLD				BOLDER
+			FontWeight.NORMAL,
+
+			// The style of the variant 'normal'|'italic'|'oblique'|'oblique(x deg)'
+			FontStyle.NORMAL,
+
+			// The json definition of the msdf font 'urlToLoad'|loadedObject
+			"./assets/fonts/msdf/roboto/regular.json",
+
+			// The texture of the msdf font 'urlToLoad'|Texture
+			"./assets/fonts/msdf/roboto/regular.png"
+		)
+
+		// Registering additional variants
+		.addVariant(FontWeight.BOLD, FontStyle.ITALIC, "./assets/fonts/msdf/roboto/bold-italic.json", "./assets/fonts/msdf/roboto/bold-italic.png" )
+		.addVariant(FontWeight.BOLD, FontStyle.NORMAL, "./assets/fonts/msdf/roboto/bold.json", "./assets/fonts/msdf/roboto/bold.png" )
+		.addVariant(FontWeight.NORMAL, FontStyle.ITALIC, "./assets/fonts/msdf/roboto/italic.json", "./assets/fonts/msdf/roboto/italic.png" )
+
+// FontLibrary.prepare() returns a Promise, we can therefore add a callback to be executed when all files are loaded
+).then( () => {
+
+	// Once font are registered, we can get the font family
+	const RobotoFamily = FontLibrary.getFontFamily("Roboto");
+
+	// And then retrieve a fontVariant defined in this Family
+	const RobotoRegular = RobotoFamily.getVariant('400','normal');
+
+	// Having font variant allows us to perform some modifications
+	// 1. Adjustments
+	// If you look closely the `Getting started - Basic Setup` you may have noticed that :
+	// 		- the `h` character is slightly below the baseline
+	// This can be adjusted per fontVariant
+	RobotoRegular.adjustTypographicGlyphs( {
+		// 'h' character must change some of its properties defined in the json
+		h: {
+			// the yoffset property should be 2 (instead of 4 in the json)
+			yoffset: 2
+		}
+	} );
+	// Once adjusted, any three-mesh-ui Text using this font variant will use the adjusted properties
+
+	// 1. Material
+	// Instead of assigning custom materials to Text one by one
+	// We can assign a Material(class) to a font variant (Here the bold one)
+	RobotoFamily.getVariant('700','normal').fontMaterial = MSDFNormalMaterial;
+	// Once set, any three-mesh-ui Text using this font variant will use the defined material
+
+	// We may encounter the following lines in other examples,
+	// they are adjusting font variants to display a nice baseline
+	RobotoFamily.getVariant('700','normal').adjustTypographicGlyphs( ROBOTO_ADJUSTMENT );
+	RobotoFamily.getVariant('700','italic').adjustTypographicGlyphs( ROBOTO_ADJUSTMENT );
+	RobotoFamily.getVariant('400','italic').adjustTypographicGlyphs( ROBOTO_ADJUSTMENT );
+
+	// Now that the font are loaded and adjusted,
+
+	init();
+
+
+});
+
 window.addEventListener( 'resize', onWindowResize );
 
 //
@@ -72,6 +143,9 @@ function init() {
 
 	makeTitlePanel();
 	justifyInRow = makeTextPanel( 'column' );
+
+	window.rootBlock = justifyInRow;
+
 	justifyInColumn = makeTextPanel( 'row' );
 
 	justifyInRow.position.x = -0.75;
@@ -96,8 +170,7 @@ function makeTextPanel( contentDirection ) {
 		backgroundOpacity: 1,
 		backgroundColor: new THREE.Color( 'grey' ),
 		hiddenOverflow: true,
-		fontFamily: FontJSON,
-		fontTexture: FontImage
+		fontFamily: "Roboto"
 	} );
 
 	container.position.set( 0, 1, -1.8 );
@@ -121,36 +194,42 @@ function buildJustifiedPanel( id, color, contentDirection ) {
 	const panel = new ThreeMeshUI.Block( {
 		width: contentDirection === 'row' ? DIM_HIGH : DIM_LOW,
 		height: contentDirection === 'row' ? DIM_LOW : DIM_HIGH,
-		contentDirection: contentDirection,
+		flexDirection: contentDirection,
 		justifyContent: id,
-		backgroundOpacity: 0.5,
+		backgroundOpacity: 0.3,
+		backgroundColor: 0xff9900,
 		padding: 0.02,
 		margin: 0.01,
 		offset:0.0001
 	} );
 	container.add( panel );
 
-	// const letters = 'ABCDEF';
+	const letters = 'ABCDEF';
 
+
+	const step = 0xFFFFFF / 5;
 	for ( let i = 0; i < 5; i ++ ) {
 
 		const blockText = new ThreeMeshUI.Block( {
 			width: 0.125,
 			height: 0.125,
 			margin: 0.01,
-			borderRadius: 0.02,
+			borderRadius: 0.05,
 			backgroundColor: color,
 			justifyContent: 'center',
 			alignItems: 'center',
+			borderWidth: '0 0 0.01 0',
+			borderColor: Math.floor( step * (5-i) ),
 			offset:0.001,
+			textAlign: 'center',
 			visible: i !== 2,
 		} );
 		panel.add( blockText );
 
-		// const text = new ThreeMeshUI.Text( {
-		// 	content: letters[ i ]
-		// } );
-		// blockText.add( text );
+		const text = new ThreeMeshUI.Text( {
+			content: letters[ i ]
+		} );
+		blockText.add( text );
 
 	}
 
@@ -163,13 +242,12 @@ function makeTitlePanel(){
 		width: DIM_HIGH * 1.85,
 		height: 0.15,
 		padding: 0.05,
-		contentDirection: 'row',
+		flexDirection: 'row',
 		justifyContent: 'center',
 		textAlign: 'justify',
 		backgroundOpacity: 0.6,
 		fontSize: 0.1,
-		fontFamily: FontJSON,
-		fontTexture: FontImage
+		fontFamily: "Roboto"
 	} );
 
 	for ( let i = 0; i < justificationLegend.length; i ++ ) {
@@ -210,11 +288,11 @@ setInterval( () => {
 	isInverted = ! isInverted;
 
 	for ( let i = 1; i < justifyInRow.children.length; i ++ ) {
-		justifyInRow.children[ i ].set( { contentDirection:isInverted ? 'row-reverse' : 'row' } );
+		justifyInRow.children[ i ].set( { flexDirection:isInverted ? 'row-reverse' : 'row' } );
 	}
 
 	for ( let i = 1; i < justifyInColumn.children.length; i ++ ) {
-		justifyInColumn.children[ i ].set( { contentDirection:isInverted ? 'column-reverse' : 'column' } );
+		justifyInColumn.children[ i ].set( { flexDirection:isInverted ? 'column-reverse' : 'column' } );
 	}
 
 }, 2500 );

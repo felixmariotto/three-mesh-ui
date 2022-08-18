@@ -6,19 +6,21 @@ import { Mesh } from 'three';
  */
 export default class Frame extends Mesh {
 
-	constructor( vrElement ) {
+	/**
+	 *
+	 * @param {MeshUIBaseElement} element
+	 */
+	constructor( element ) {
 
-		const geometry = new PlaneBufferGeometry( 1, 1, vrElement._segments.value, vrElement._segments.value );
+		const geometry = new PlaneBufferGeometry( 1, 1, element._segments.value, element._segments.value );
 
-		// Add uv for borders computations by copying uv
-		geometry.setAttribute('uvB', new BufferAttribute(
-			new Float32Array(
-				geometry.getAttribute('uv').array
-			), 2)).name = 'uvB';
+		// Add additional uv for borders computations by copying initial uv
+		const uvB = new BufferAttribute( new Float32Array( geometry.getAttribute('uv').array ), 2);
+		geometry.setAttribute('uvB', uvB ).name = 'uvB';
 
-		super( geometry, vrElement.material );
+		super( geometry, element.material );
 
-		this.name = 'MeshUI-Frame';
+		this.name = 'UIBackgroundBox';
 
 	}
 

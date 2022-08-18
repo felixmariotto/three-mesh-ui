@@ -1,4 +1,5 @@
 import BaseProperty from './BaseProperty';
+import { numberEquals } from '../../utils/NumberUtils';
 
 export default class NumberProperty extends BaseProperty{
 
@@ -9,20 +10,9 @@ export default class NumberProperty extends BaseProperty{
 	 */
 	constructor( propertyId, value ) {
 
-		super( propertyId, value);
+		super( propertyId, value, true);
 
-	}
-
-	/**
-	 *
-	 * @param vrElement
-	 * @param {Object.<string,any>} out
-	 * @return {number}
-	 */
-	update( vrElement, out ) {
-
-		out[this.id] = this._value;
-
+		this.output = this._outputValue;
 	}
 
 	/**
@@ -33,15 +23,15 @@ export default class NumberProperty extends BaseProperty{
 
 		if( ! this.isValid( value) ) return;
 
-		if( this._value !== value ) {
+		if( numberEquals(this._value, value) ) return;
 
-			this._value = value;
+		this._value = value;
 
-			this._needsUpdate = true;
-
-		}
+		this._needsUpdate = true;
 
 	}
+
+
 
 	/**
 	 *

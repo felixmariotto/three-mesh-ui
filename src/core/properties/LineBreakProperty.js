@@ -12,7 +12,7 @@ export default class LineBreakProperty extends BaseProperty{
 
 	constructor( defaultValue = "- ,.:?!\n" ) {
 
-		super( "lineBreak", defaultValue );
+		super( "lineBreak", defaultValue, true );
 
 		/**
 		 *
@@ -24,24 +24,34 @@ export default class LineBreakProperty extends BaseProperty{
 
 	}
 
-	update( vrElement, out ) {
+	/* eslint-disable no-unused-vars */ update( element, out ) { 	/* eslint-enable no-unused-vars */
 
-		this._newLineBreakability = _computeNewLineBreakability( vrElement );
+		if( this._input === 'inherit' ) {
+
+			this.computeInheritedValue( element );
+
+		}
+
+		this._newLineBreakability = _computeNewLineBreakability( element );
 
 		// ? update strategies from whitespace ?
 		this._needsProcess = true;
 
 	}
 
-	process( vrElement ) {
+	process( element ) {
 
-		const whiteSpace = vrElement.style._whiteSpace.output;
+		const whiteSpace = element._whiteSpace._value;
+
+		// @TODO: Should be splitted
+		if( !element._textContent._value ) return;
+		if( !element._inlines._value ) return;
 
 		// update inlines properties before inline placements in lines
-		for ( let i = 0; i < vrElement._textContent.length; i++ ) {
+		for ( let i = 0; i < element._textContent._value.length; i++ ) {
 
-			const char = vrElement._textContent.value[ i ];
-			const inline = vrElement._inlines[ i ];
+			const char = element._textContent._value[ i ];
+			const inline = element._inlines._value[ i ];
 
 			// Whitespace Breakability ---------------------------------------------------------------------------------------
 			let lineBreak = null;
@@ -63,8 +73,6 @@ export default class LineBreakProperty extends BaseProperty{
 
 		}
 
-		this._needsProcess = false;
-
 	}
 
 	/**
@@ -77,13 +85,13 @@ export default class LineBreakProperty extends BaseProperty{
 
 /**
  *
- * @param {ElementVR} vrElement
+ * @param {MeshUIBaseElement} element
  * @return {"mandatory"|null}
  * @private
  */
-function _computeNewLineBreakability( vrElement ) {
+function _computeNewLineBreakability( element ) {
 
-	switch ( vrElement.style._whiteSpace.output ) {
+	switch ( element._whiteSpace._value ) {
 
 		case "pre":
 		case "pre-wrap":

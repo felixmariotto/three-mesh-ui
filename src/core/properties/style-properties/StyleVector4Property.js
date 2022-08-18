@@ -5,54 +5,44 @@ export default class StyleVector4Property extends SubStyleProperty {
 
 	constructor( propertyId, defaultValue ) {
 
-		super( propertyId, defaultValue );
+		super( propertyId, defaultValue, false );
+
+		/**
+		 *
+		 * @type {number}
+		 * @private
+		 */
+		this._input = 0;
 
 		/**
 		 * @override
 		 * @type {Vector4}
 		 * @protected
 		 */
-		this._computed = undefined;
-
-		/**
-		 * @override
-		 * @type {Vector4}
-		 * @protected
-		 */
-		this._inline = undefined;
-
-		/**
-		 * @override
-		 * @type {Vector4}
-		 * @protected
-		 */
-		this._input = null;
-
-		/**
-		 * @override
-		 * @type {Vector4}
-		 * @protected
-		 */
-		this._output = new Vector4(0,0,0,0);
+		this._value = new Vector4(0,0,0,0);
 
 	}
 
+	/**
+	 * @override
+	 * @return {Vector4}
+	 */
+	get value(){
+
+		return this._value;
+
+	}
+
+	/* eslint-disable no-unused-vars */
 	/**
 	 *
-	 * @param {ElementVR} vrElement
-	 * @param {Object.<string,any>} out
+	 * @param {MeshUIBaseElement} element
 	 */
-	buildOutput( vrElement, out ) {
+	computeOutputValue( element ) { /* eslint-enable no-unused-vars */
 
-		this._vector4ValueSetter( this._output, this._input );
+		this._vector4ValueSetter( this._value, this._input );
 
 	}
-
-
-	/**
-	 * @returns {Vector4}
-	 */
-	get output() { return this._output; }
 
 	/**
 	 *
@@ -194,7 +184,6 @@ export default class StyleVector4Property extends SubStyleProperty {
 
 		if ( !isNaN( value ) ) {
 
-			console.log( "set scalar", value)
 			vector4.setScalar( value );
 
 		}

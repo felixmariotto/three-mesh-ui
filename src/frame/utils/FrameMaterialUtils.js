@@ -163,45 +163,6 @@ const _backgroundSizeTransformer = function( target, property, value ) {
 
 }
 
-/**
- *
- * @param {*} target
- * @param {string} property
- * @param {*} value
- * @private
- */
-const _linkCornersOutput = function( target, property, value ) {
-
-	uniformOrUserDataTransformer(target,'cornerTL', value._cornerTL);
-	uniformOrUserDataTransformer(target,'cornerTR', value._cornerTR);
-	uniformOrUserDataTransformer(target,'cornerBL', value._cornerBL);
-	uniformOrUserDataTransformer(target,'cornerBR', value._cornerBR);
-
-}
-
-const _borderRadiusTransformer = function( target, property, value ) {
-
-	uniformOrUserDataTransformer(target,'cornerTL', value._cornerTL);
-	uniformOrUserDataTransformer(target,'cornerTR', value._cornerTR);
-	uniformOrUserDataTransformer(target,'cornerBL', value._cornerBL);
-	uniformOrUserDataTransformer(target,'cornerBR', value._cornerBR);
-
-}
-
-
-/**
- *
- * @param {*} target
- * @param {string} property
- * @param {*} value
- * @private
- */
-const _linkComponentOutput = function( target, property, value ) {
-
-	uniformOrUserDataTransformer(target,property, value.output);
-
-}
-
 // /**
 //  *
 //  * @type {Object.<{m:string, t?:(fontMaterial:Material|ShaderMaterial, materialProperty:string, value:any) => void}>}
@@ -227,15 +188,20 @@ const _linkComponentOutput = function( target, property, value ) {
  */
 const _mediationDefinitions = {
 	alphaTest: { m: 'alphaTest', t: alphaTestTransformer },
+	side: { m: 'side' },
 	// backgroundTexture: { m: 'map' },
 	backgroundImage: { m: 'map'},
 	backgroundColor: { m: 'color' },
 	backgroundOpacity: { m:'opacity' },
 	backgroundSize: { m: 'computedBackgroundSize', t: _backgroundSizeTransformer },
-	borderWidth: { m: 'borderWidth', t: _linkComponentOutput },
+	borderWidth: { m: 'borderWidth', t: uniformOrUserDataTransformer },
 	borderColor: { m: 'borderColor', t: uniformOrUserDataTransformer },
-	borderRadius : { m: 'computedCorners', t: _linkCornersOutput },
+	// borderRadius : { m: 'computedCorners', t: _linkCornersOutput },
+	cornerTL : { m: 'cornerTL', t: uniformOrUserDataTransformer },
+	cornerTR : { m: 'cornerTR', t: uniformOrUserDataTransformer },
+	cornerBR : { m: 'cornerBR', t: uniformOrUserDataTransformer },
+	cornerBL : { m: 'cornerBL', t: uniformOrUserDataTransformer },
 	borderOpacity: { m: 'borderOpacity', t: uniformOrUserDataTransformer },
-	// size: { m: 'frameSize', t: uniformOrUserDataTransformer },
-	// tSize: { m: 'textureSize', t: uniformOrUserDataTransformer }
+	size: { m: 'frameSize', t: uniformOrUserDataTransformer },
+	tSize: { m: 'textureSize', t: uniformOrUserDataTransformer }
 }

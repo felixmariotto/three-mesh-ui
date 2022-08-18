@@ -1,4 +1,5 @@
 import * as THREE from 'three';
+import { TextureLoader } from 'three';
 import { VRButton } from 'three/examples/jsm/webxr/VRButton.js';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import { BoxLineGeometry } from 'three/examples/jsm/geometries/BoxLineGeometry.js';
@@ -10,9 +11,8 @@ import MSDFNormalMaterial from 'three-mesh-ui/examples/materials/msdf/MSDFNormal
 
 import * as FontWeight from '../src/utils/font/FontWeight';
 import * as FontStyle from '../src/utils/font/FontStyle';
-import BoxElement from '../src/elements/BoxElement';
 import UpdateManager from '../src/components/core/UpdateManager';
-import { TextureLoader } from 'three';
+import BlockElement from '../src/elements/basic/BlockElement';
 
 /***********************************************************************************************************************
  * THREE-MESH-UI - FONT MANAGEMENT
@@ -159,7 +159,7 @@ function step2BuildThreeMeshUIElements() {
 	const RobotoFamily = FontLibrary.getFontFamily("Roboto");
 
 	// A rootBlock element
-	const rootBlock = new BoxElement( /*{
+	const rootBlock = new BlockElement( /*{
 		// box sizing properties
 		width: 1.65,
 		height: 0.62,
@@ -178,15 +178,42 @@ function step2BuildThreeMeshUIElements() {
 	}*/
 	);
 
-	rootBlock.style.width = 1;
-	rootBlock.style.height = 1;
-	rootBlock.style.padding = 0.05;
-	// rootBlock.style.backgroundColor = "red";
-	rootBlock.style.backgroundOpacity = "unset";
+	rootBlock.set({
+		width:2,
+		height:1,
+		padding:0.05,
+		color: 0xff9900,
+		backgroundColor:"red",
+		flexDirection: "column",
+		justifyContent: "center",
+		alignItems:"stretch",
+		borderRadius:0.2,
+		textAlign: 'left',
+		fontFamily:RobotoFamily})
+	// rootBlock.style.width = 2;
+	// rootBlock.style.height = 1;
+	// rootBlock.style.padding = 0.05;
+	// rootBlock.style.backgroundColor = "white";
+	// rootBlock.style.backgroundOpacity = "unset";
 
-	rootBlock.style.backgroundImage = new TextureLoader().load('./assets/spiny_bush_viper.jpg');
+	// rootBlock.style.backgroundImage = new TextureLoader().load('./assets/spiny_bush_viper.jpg');
+	// rootBlock.style.backgroundImage = new TextureLoader().load('./assets/uv_grid.jpg');
 
-	rootBlock.style.borderRadius = 0.2;
+	// Bad
+	// rootBlock.style.backgroundImage = new TextureLoader().load('./assets/landscape.jpg');
+
+	// Good
+	new TextureLoader().load('./assets/landscape.jpg', ( loadedTexture)=>{
+		// rootBlock.style.backgroundImage = loadedTexture;
+
+		rootBlock.set({backgroundImage:loadedTexture});
+
+		UpdateManager.update7xx();
+
+	});
+	//
+	//
+	// rootBlock.style.borderRadius = 0.2;
 
 	rootBlock.position.set( 0, 1, -1.8 );
 	rootBlock.rotation.x = -0.55;
@@ -194,6 +221,85 @@ function step2BuildThreeMeshUIElements() {
 
 
 	window.rootBlock = rootBlock;
+
+
+	// Lets build a first text that would be in bold, and use a MSDFNormalMaterial
+	const title = new ThreeMeshUI.Text( {
+		content: 'Managing fonts in three-mesh-ui',
+		fontWeight: '700',
+		fontSize: 0.1,
+		backgroundColor: 'cyan',
+	} );
+
+	// as text1 explicitely requires the font variant `fontWeight:'700'`
+	// and that we have set that font variant to use the MSDFNormalMaterial
+	// there is no more need to manually set its material to MSDFNormalMaterial
+	// text1.material = new MSDFNormalMaterial({});
+
+
+	rootBlock.add(
+
+		title,
+
+		new ThreeMeshUI.Text( {
+			backgroundColor: "green",
+			content: 'In this examples, 4 variants of the "Roboto" font are registered :',
+		} ),
+
+		new ThreeMeshUI.Text().add(
+			new ThreeMeshUI.Inline({ textContent:"Regular "}),
+			new ThreeMeshUI.Inline({ textContent:"Bold ",fontWeight:'700', margin: 0.05}),
+			new ThreeMeshUI.Inline({ textContent:"Italic ",fontStyle:'italic'}),
+			new ThreeMeshUI.Inline({ textContent:"Bold+Italic",fontWeight:'700',fontStyle:'italic'}),
+		),
+		// new ThreeMeshUI.Text( {
+		//
+		// 	backgroundColor: "yellow",
+		// 	content: '\n\nRegular',
+		// } ),
+		//
+		// new ThreeMeshUI.Text( {
+		// 	content: ' Bold',
+		// 	fontWeight: '700',
+		// } ),
+		//
+		// new ThreeMeshUI.Text( {
+		// 	content: ' Italic',
+		// 	fontStyle: 'italic',
+		// } ),
+		//
+		// new ThreeMeshUI.Text( {
+		// 	content: ' Bold+Italic',
+		// 	fontWeight: '700',
+		// 	fontStyle: 'italic',
+		// } ),
+		//
+		// new ThreeMeshUI.Text( {
+		// 	content: '\n\nThe registered bold variant in this example, will automatically set the material of a Text to use ',
+		// } ).add( new ThreeMeshUI.Text( {
+		// 	content: 'MSDFNormalMaterial.',
+		// 	fontWeight: '700',
+		// } ) ),
+
+		new ThreeMeshUI.Text( {
+			lineHeight:1.2,
+			textAlign: 'justify-right',
+			content: 'The registered bold variant in this example, will automatically set the material of a Text to use '.repeat(5),
+		} ) ,
+
+		//
+		// new ThreeMeshUI.Text( {
+		// 	content: '\n\n* Managing and preloading fonts can display Text with no additional delays.',
+		// 	fontStyle: 'italic',
+		// 	fontSize: 0.035
+		// } )
+
+	);
+
+	// pour le moment le text a besoin de 2-3 update pour etre display. => changer ordre des composants
+	// UpdateManager.update7xx();
+	// UpdateManager.update7xx();
+	// UpdateManager.update7xx();
 
 
 }

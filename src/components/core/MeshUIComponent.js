@@ -39,11 +39,12 @@ It owns the principal public methods of a component : set, setupState and setSta
 
 export default class MeshUIComponent extends Object3D {
 
+	/* eslint-disable no-unused-vars */
 	/**
 	 *
 	 * @param {Object.<(string), any>} options
 	 */
-	constructor( options ) {
+	constructor( options ) { /* eslint-enable no-unused-vars */
 
 		super();
 
@@ -753,18 +754,18 @@ export default class MeshUIComponent extends Object3D {
 
 		}
 
-		// set elements as root
-		if ( this.isBlock && !this.parentUI ) {
-
-			ThreeMeshUI.addRoot( this );
-			this.pseudoClassList.add('root');
-
-		} else {
-
-			ThreeMeshUI.removeRoot( this );
-			this.pseudoClassList.remove('root');
-
-		}
+		// // set elements as root
+		// if ( this.isBlock && !this.parentUI ) {
+		//
+		// 	ThreeMeshUI.addRoot( this );
+		// 	this.pseudoClassList.add('root');
+		//
+		// } else {
+		//
+		// 	ThreeMeshUI.removeRoot( this );
+		// 	this.pseudoClassList.remove('root');
+		//
+		// }
 
 	};
 

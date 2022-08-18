@@ -9,7 +9,9 @@ export default class GlyphsProperty extends BaseProperty{
 
 	constructor() {
 
-		super( "glyphs" );
+		super( "glyphs", null, false);
+
+		this._needsUpdate = false;
 
 		/**
 		 *
@@ -49,11 +51,20 @@ export default class GlyphsProperty extends BaseProperty{
 
 	}
 
-	process( vrElement ) {
+	process( element ) {
 
-		this._value = vrElement.style._whiteSpace._whiteSpacedContent.split( '' ).map( ( char ) => vrElement._font.getTypographicGlyph( char ) );
+		if( !element._font._fontVariant ) return;
 
+		////console.log( "GlyphsUpdate", element._textContent._value, element._whiteSpace._whiteSpacedContent );
 
+		this._value = element._whiteSpace._whiteSpacedContent.split( '' ).map( ( char ) => element._font._fontVariant.getTypographicGlyph( char ) );
+
+		if( this._value )
+		{
+			element._inlines._needsProcess = true;
+		}
+
+		// element._inlines._needsProcess = true;
 
 	}
 

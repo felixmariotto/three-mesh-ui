@@ -9,15 +9,31 @@ export default class VisibleProperty extends BaseProperty{
 	 */
 	constructor( propertyId, value = true ) {
 
-		super( 'visible', value);
+		super( 'visible', value, true );
 
 	}
 
-	update( vrElement, out ) {
+	/* eslint-disable no-unused-vars */ update( element, out ) { 	/* eslint-enable no-unused-vars */
 
-		if( vrElement._parent.value ) {
+		element.visible = this._value;
 
-			vrElement._parent.value._children._needsUpdate = true;
+		if( element._parent._value ) {
+
+			element._parent._value._children._needsUpdate = true;
+
+		}
+
+	}
+
+	set value( value ) {
+
+		if( ! this.isValid( value) ) return;
+
+		if( this._value !== value ) {
+
+			this._value = value;
+
+			this._needsUpdate = true;
 
 		}
 

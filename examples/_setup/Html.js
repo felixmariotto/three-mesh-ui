@@ -1,3 +1,8 @@
+/**
+ *
+ * @param cssContent
+ * @internal
+ */
 export function _injectCSS( cssContent ){
 
 	const style = document.createElement('style');
@@ -8,13 +13,34 @@ export function _injectCSS( cssContent ){
 
 }
 
-
+/**
+ *
+ * @param htmlText
+ * @internal
+ */
 export function _injectCaption( htmlText ) {
 
-	document.querySelector('.example-container');
+	const container = document.querySelector('.example-container');
+	if( container ) {
+
+		container.innerHTML = htmlText;
+
+	}
 
 }
 
+/**
+ *
+ * @param htmlText
+ * @internal
+ */
 export function _injectPoweredBy( htmlText ) {
+
+	const container = document.querySelector('.example-container');
+	if( container ) {
+
+		container.innerHTML = htmlText;
+
+	}
 
 }

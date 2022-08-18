@@ -10,7 +10,7 @@ export default class InlinesProperty extends BaseProperty{
 
 	constructor() {
 
-		super( "inlines" );
+		super( "inlines", null, false );
 
 		/**
 		 *
@@ -44,24 +44,29 @@ export default class InlinesProperty extends BaseProperty{
 
 	}
 
-	process( vrElement ) {
+	process( element ) {
 
-		this._value = vrElement._glyphs.value.map( ( glyphBox ) => glyphBox.asInlineGlyph() );
+		this._value = element._glyphs._value.map( ( glyphBox ) => glyphBox.asInlineGlyph() );
 
 		if( this._value.length ) {
 
 			// First gets left side
-			this._value[0].paddingLeft = this._padding.w;
-			this._value[0].marginLeft = this._margin.w;
+			this._value[0].paddingLeft = element._padding._value.w;
+			this._value[0].marginLeft = element._margin._value.w;
 
 			// Last gets right side
-			const lastIndex = this._textContentInlines.length - 1;
-			this._value[lastIndex].paddingRight = this._padding.y;
-			this._value[lastIndex].marginRight = this._margin.y;
+			const lastIndex = this._value.length - 1;
+			this._value[lastIndex].paddingRight = element._padding._value.y;
+			this._value[lastIndex].marginRight = element._margin._value.y;
 
 		}
 
-		vrElement.style._fontKerning._needsProcess = true;
+		//console.log( "inlines #", this._value.length );
+
+
+		element._lineBreak._needsProcess = true;
+		element._fontKerning._needsProcess = true;
+		element._layouter._needsProcess = true;
 
 	}
 

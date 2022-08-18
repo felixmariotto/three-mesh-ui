@@ -1,57 +1,68 @@
+import * as DefaultValues from '../DefaultValues';
+
 export default class BaseProperty {
 
 	/**
 	 *
 	 * @param {string} propertyId
 	 * @param {any} [value=null]
+	 * @param primitive
 	 */
-	constructor( propertyId, value = null ) {
+	constructor( propertyId, value = null, primitive = true ) {
 
 		/**
 		 *
 		 * @type {string}
-		 * @private
+		 * @internal
 		 */
 		this._id = propertyId;
 
 		/**
 		 *
 		 * @type {any}
-		 * @protected
+		 * @internal
 		 */
 		this._value = value;
 
 		/**
 		 *
 		 * @type {boolean}
-		 * @protected
+		 * @internal
 		 */
 		this._needsUpdate = true;
 
 		/**
 		 *
 		 * @type {boolean}
-		 * @protected
+		 * @internal
 		 */
 		this._needsProcess = false;
+
+		/**
+		 *
+		 * @type {boolean}
+		 * @protected
+		 */
+		this._isPrimitive = primitive;
 
 	}
 
 	/**
 	 *
-	 * @param vrElement
-	 * @param {Object.<string,any>} out
+	 * @return {string}
 	 */
-	update( vrElement , out ) {
+	get id() { return this._id; }
 
-		out[this.id] = this._value;
+	/**
+	 *
+	 * @return {any}
+	 */
+	get value() { return this._value; }
 
-	}
-
-	process( vrElement ) {
-
-	}
-
+	/**
+	 *
+	 * @param {any} value
+	 */
 	set value( value ) {
 
 		if( ! this.isValid( value) ) return;
@@ -66,28 +77,105 @@ export default class BaseProperty {
 
 	}
 
+	/* eslint-disable no-unused-vars */
+	/**
+	 *
+	 * @param element
+	 * @param {Object.<string,any>} out
+	 */
+	update( element , out ) { 	/* eslint-enable no-unused-vars */
+
+		// the value has been updated from setter
+		// if there is no additional logic
+		// then just output it
+		// => out[this._id] = this._value;
+		this.output( out );
+
+
+		// ??
+		//this.computeOutputValue( element );
+		// if( this._isPrimitive ) this.output( out );
+
+	}
+
+	/* eslint-disable no-unused-vars */
+	/**
+	 * Output this property in a dictionnary
+	 * @param {Object.<string,any>} out
+	 */
+	output( out ) { 	/* eslint-enable no-unused-vars */
+
+		// ie:
+		// out['borderRadius'] = this;
+		// out[this._id] = this._value;
+
+	}
+
+	/**
+	 *
+	 * @param {Object.<string,any>} out
+	 */
+	_outputValue( out ) {
+
+		out[this._id] = this._value;
+
+	}
+
+	/* eslint-disable no-unused-vars */
+	/**
+	 * Execute additional process after all properties have been updated
+	 * @param {MeshUIBaseElement} element
+	 */
+	process( element ) { /* eslint-enable no-unused-vars */ }
+
+	/**
+	 *
+	 * @param {MeshUIBaseElement} element
+	 */
+	getInheritedInput ( element ) {
+
+		if( this._value !== 'inherit' ) return this._value;
+
+		const parent = element._parent._value;
+		if( parent ) {
+
+			return parent[`_${this._id}`].getInheritedInput( parent )
+
+		}
+
+		return this.getDefaultValue();
+
+	}
+
+	/**
+	 *
+	 * @return {any}
+	 */
+	getDefaultValue() {
+
+		return DefaultValues.get( this._id );
+
+	}
+
+	/* eslint-disable no-unused-vars */
 	/**
 	 *
 	 * @param {any} value
 	 * @return {boolean}
 	 */
-	isValid( value ) {
+	isValid( value ) { 	/* eslint-enable no-unused-vars */
 
 		return true;
 
 	}
-	/**
-	 *
-	 * @return {*}
-	 */
-	get value() { return this._value; }
 
 	/**
 	 *
-	 * @return {string}
 	 */
-	get id() { return this._id; }
+	emptyStrategyLogic () {
 
+		throw new Error( `ThreeMeshUI::${this.constructor.name} has empty strategy. Update has not been processed.` );
 
+	}
 
 }
