@@ -18,9 +18,11 @@ export default class BoxSizing extends SubStyleProperty {
 	 *
 	 * @param {MeshUIBaseElement} element
 	 */
-	/* eslint-disable no-unused-vars */ computeOutputValue( element ) { /* eslint-enable no-unused-vars */
+	computeOutputValue( element ) {
 
 		this._value = this._inheritedInput;
+
+		element._bounds._needsUpdate = true;
 
 	}
 

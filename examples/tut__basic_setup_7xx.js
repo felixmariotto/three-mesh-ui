@@ -156,6 +156,7 @@ function step2BuildThreeMeshUIElements() {
 		// boxSizing: 'border-box',
 
 		// A Block can define its "layout" properties
+		flexDirection: 'row',
 		justifyContent: 'center',
 		alignItems: 'stretch',
 		textAlign: 'left',
@@ -253,14 +254,22 @@ function step2BuildThreeMeshUIElements() {
 		// new ThreeMeshUI.Block({name:'yellow',backgroundColor:"yellow", boxSizing:'content-box', height:1, width:1, margin:0.25}),
 
 
-		new ThreeMeshUI.Block({name: 'innerBlock', backgroundColor:"black", flexDirection: 'row', boxSizing:'content-box' , padding:0.25, alignItems:'stretch', margin: 0.25 }).add(
+		new ThreeMeshUI.Block({name: 'innerBlock', backgroundColor:"black", flexDirection: 'column', boxSizing:'content-box' , padding:0.25, alignItems:'stretch', margin: 0.25 }).add(
 
 			// new ThreeMeshUI.Block({backgroundColor:"blue", backgroundOpacity:0.5, height:0.25, width:1.5}),
 			// new ThreeMeshUI.Block({name:'bluebox',backgroundColor:"blue", backgroundOpacity:0.5, boxSizing:'content-box', height:0.1, width:0.1}),
-			new ThreeMeshUI.Block({name:'bluebox',backgroundColor:"blue", backgroundOpacity:0.5, boxSizing:'content-box', width:0.1, margin: '0 0.05'}),
+			new ThreeMeshUI.Block({name:'bluebox',backgroundColor:"blue", backgroundOpacity:0.5, boxSizing:'content-box', height:0.1, margin: '0.05'}),
 			new ThreeMeshUI.Block({name:'yellow',backgroundColor:"yellow", boxSizing:'content-box', height:0.4, width:0.5})
 
-		)
+		),
+		// new ThreeMeshUI.Block({name: 'innerBlock', backgroundColor:"black", flexDirection: 'row-reverse', boxSizing:'border-box' , padding:0.25, alignItems:'stretch', margin: 0.25 }).add(
+		//
+		// 	// new ThreeMeshUI.Block({backgroundColor:"blue", backgroundOpacity:0.5, height:0.25, width:1.5}),
+		// 	// new ThreeMeshUI.Block({name:'bluebox',backgroundColor:"blue", backgroundOpacity:0.5, boxSizing:'content-box', height:0.1, width:0.1}),
+		// 	new ThreeMeshUI.Block({name:'bluebox',backgroundColor:"blue", backgroundOpacity:0.5, boxSizing:'border-box', width:0.1, margin: '0.05'}),
+		// 	new ThreeMeshUI.Block({name:'yellow',backgroundColor:"yellow", boxSizing:'content-box', height:0.4, width:0.5})
+		//
+		// )
 	)
 
 	window.update = ThreeMeshUI.update;

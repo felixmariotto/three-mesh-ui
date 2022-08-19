@@ -257,11 +257,11 @@ export default class MeshUIBaseElement extends Object3D {
 			this._segments,
 			// styles ---;
 
-			this._boxSizing,
 			this._padding,
 			this._margin,
 			this._width,
 			this._height,
+			this._boxSizing,
 
 			this._bounds,
 

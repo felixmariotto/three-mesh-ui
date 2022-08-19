@@ -73,6 +73,9 @@ export default class BoundsBox extends BaseProperty {
 		// console.log( element.name, this._offsetWidth, value )
 		if ( numberEquals( this._offsetWidth, value ) ) return;
 
+		// ensure content-box
+		_forceBoxSizing( element );
+
 		this._offsetWidth = value;
 
 		this._innerWidth = _computeInnerWidth( element );
@@ -92,15 +95,18 @@ export default class BoundsBox extends BaseProperty {
 		const margin = element._margin._value;
 		value -= margin.w + margin.y;
 		//
-		// if( element._boxSizing._value === 'content-box' ) {
+		// if( element._boxSizing._value === 'border-box' ) {
 		//
 		// 	const padding = element._padding._value;
 		// 	const border = element._borderWidth._value;
-		// 	value -= padding.w + padding.y + border.w + border.y;
+		// 	value += padding.w + padding.y + border.w + border.y;
 		//
 		// }
 		// as this is from children offsetWidth, it means parent innerWidth
 		if ( numberEquals( this._offsetWidth, value ) ) return;
+
+		// ensure content-box
+		_forceBoxSizing( element );
 
 		this._offsetWidth = value;
 
@@ -139,15 +145,18 @@ export default class BoundsBox extends BaseProperty {
 		const margin = element._margin._value;
 		value -= margin.x + margin.z;
 		//
-		// if( element._boxSizing._value === 'content-box' ) {
+		// if( element._boxSizing._value === 'border-box' ) {
 		//
 		// 	const padding = element._padding._value;
 		// 	const border = element._borderWidth._value;
-		// 	value -= padding.w + padding.y + border.w + border.y;
+		// 	value += padding.x + padding.z + border.z + border.z;
 		//
 		// }
 		// as this is from children offsetWidth, it means parent innerWidth
 		if ( numberEquals( this._offsetHeight, value ) ) return;
+
+		// ensure content-box
+		_forceBoxSizing( element );
 
 		this._offsetHeight = value;
 
@@ -189,6 +198,9 @@ export default class BoundsBox extends BaseProperty {
 	setOffsetHeight( element, value ) {
 
 		if ( numberEquals( this._offsetHeight, value ) ) return;
+
+		// ensure content-box
+		_forceBoxSizing( element );
 
 		this._offsetHeight = value;
 
@@ -449,52 +461,6 @@ function _computeCenterY( element ) {
 	return ( bottomSide - topSide ) / 2;
 }
 
-
-/**
- * Retrieve the automatic height from children boxes
- * @param {MeshUIBaseElement} element
- * @return {number}
- */
-function _computeAutoHeight( element ) {
-
-	switch ( element._flexDirection._value ) {
-
-		case 'row' :
-		case 'row-reverse' :
-			return _computeHighestChildHeight( element );
-
-
-		case 'column' :
-		case 'column-reverse' :
-			return _computeChildrenSideHeight( element );
-
-	}
-
-}
-
-/**
- * @param {MeshUIBaseElement} element
- * @return {number}
- *
- */
-function _computeAutoWidth( element ) {
-
-	switch ( element._flexDirection._value ) {
-
-		case 'row' :
-		case 'row-reverse' :
-			return _computeChildrenSideWidth( element );
-
-
-		case 'column' :
-		case 'column-reverse' :
-			return _computeHighestChildWidth( element );
-
-	}
-
-}
-
-
 /**
  * Return the sum of all this component's children width
  * @param {MeshUIBaseElement} element
@@ -578,5 +544,16 @@ function _computeHighestChildHeight( element ) {
 		return Math.max( accu, maxSize );
 
 	}, 0 );
+
+}
+
+function _forceBoxSizing( element ) {
+
+	if( element._boxSizing._value !== 'content-box') {
+
+		element._boxSizing._value = 'content-box';
+		console.warn( `ThreeMeshUI - element ${element.name} is autoSize, therefore its box-sizing property is forced on 'content-box'`);
+
+	}
 
 }
