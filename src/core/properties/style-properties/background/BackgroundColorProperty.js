@@ -11,6 +11,10 @@ export default class BackgroundColorProperty extends StyleColorProperty {
 
 		super( 'backgroundColor', defaultValue, false );
 
+		this._allowsInherit = false;
+
+
+
 	}
 
 	/* eslint-disable no-unused-vars */
@@ -20,9 +24,17 @@ export default class BackgroundColorProperty extends StyleColorProperty {
 	 */
 	computeOutputValue( element ) { /* eslint-enable no-unused-vars */
 
-		element._backgroundMesh.visible = this._input !== 'none';
+		element._backgroundMesh.visible = !(this._input === 'none' || this._input === 'transparent');
 
-		_setColor( this._input, this._value);
+		if( this._input === 'inherit' ) {
+
+			_setColor( this.getInheritedInput( element ) , this._value );
+
+		} else {
+
+			_setColor( this._input, this._value);
+
+		}
 
 	}
 

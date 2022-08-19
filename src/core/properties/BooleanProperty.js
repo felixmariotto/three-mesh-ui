@@ -18,6 +18,8 @@ export default class BooleanProperty extends BaseProperty {
 		 */
 		this._value = value;
 
+		this.output = this._outputValue;
+
 	}
 
 	/**

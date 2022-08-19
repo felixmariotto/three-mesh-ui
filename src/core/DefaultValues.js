@@ -19,6 +19,7 @@ const _values = {
 	color: 0xff99ff,
 	fontColor: 0xffffff,
 	fontOpacity: 1,
+	opacity: 1,
 	fontPXRange: 4,
 	fontSupersampling: true,
 	borderRadius: '0',
@@ -27,7 +28,7 @@ const _values = {
 	borderOpacity: 1,
 	backgroundSize: "cover",
 	backgroundColor: 0x222222,
-	backgroundOpacity: 0.8,
+	backgroundOpacity: 0.5,
 	overflow: 'visible',
 	letterSpacing: 0
 };

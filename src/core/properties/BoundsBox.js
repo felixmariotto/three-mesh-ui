@@ -70,6 +70,7 @@ export default class BoundsBox extends BaseProperty {
 	 */
 	setOffsetWidth( element, value ) {
 
+		// console.log( element.name, this._offsetWidth, value )
 		if ( numberEquals( this._offsetWidth, value ) ) return;
 
 		this._offsetWidth = value;
@@ -79,6 +80,102 @@ export default class BoundsBox extends BaseProperty {
 
 		this._size.x = this._offsetWidth;
 
+		// trigger the whole rendering process
+		element._flexDirection._needsProcess = true;
+
+	}
+
+	setStretchedWidth ( element, value ) {
+
+
+		// console.log( 'set stretched width', element.name, value, this._offsetWidth );
+		const margin = element._margin._value;
+		value -= margin.w + margin.y;
+		//
+		// if( element._boxSizing._value === 'content-box' ) {
+		//
+		// 	const padding = element._padding._value;
+		// 	const border = element._borderWidth._value;
+		// 	value -= padding.w + padding.y + border.w + border.y;
+		//
+		// }
+		// as this is from children offsetWidth, it means parent innerWidth
+		if ( numberEquals( this._offsetWidth, value ) ) return;
+
+		this._offsetWidth = value;
+
+		this._innerWidth = _computeInnerWidth( element );
+		this._centerX = _computeCenterX( element );
+
+		this._size.x = this._offsetWidth;
+
+		const stretch = element._alignItems._value === 'stretch';
+		const stretchChildrenWidth =  stretch && element._flexDirection._value.indexOf( 'column' ) === 0;
+
+		// console.log( element.name, stretch, stretchChildrenWidth)
+		if( stretch && stretchChildrenWidth ) {
+
+			for ( const box of element._children._boxes ) {
+
+				if ( box._width._auto ) {
+					// if ( box._width._auto ) {
+
+					box._bounds.setStretchedWidth( box, element._bounds._innerWidth );
+
+				}
+
+			}
+
+		}
+
+		// trigger the whole rendering process
+		element._flexDirection._needsProcess = true;
+
+	}
+
+	setStretchedHeight ( element, value ) {
+
+		// console.log( 'set stretched height', element.name, value, this._offsetHeight );
+		const margin = element._margin._value;
+		value -= margin.x + margin.z;
+		//
+		// if( element._boxSizing._value === 'content-box' ) {
+		//
+		// 	const padding = element._padding._value;
+		// 	const border = element._borderWidth._value;
+		// 	value -= padding.w + padding.y + border.w + border.y;
+		//
+		// }
+		// as this is from children offsetWidth, it means parent innerWidth
+		if ( numberEquals( this._offsetHeight, value ) ) return;
+
+		this._offsetHeight = value;
+
+		this._innerHeight = _computeInnerHeight( element );
+		this._centerY = _computeCenterY( element );
+
+		this._size.y = this._offsetHeight;
+
+		const stretch = element._alignItems._value === 'stretch';
+		const stretchChildrenHeight =  stretch && element._flexDirection._value.indexOf( 'row' ) === 0;
+
+		// console.log( element.name, stretch, stretchChildrenHeight)
+		if( stretch && stretchChildrenHeight ) {
+
+			for ( const box of element._children._boxes ) {
+
+				if ( box._height._auto ) {
+					// if ( box._width._auto ) {
+
+					box._bounds.setStretchedHeight( box, element._bounds._innerWidth );
+
+				}
+
+			}
+
+		}
+
+		// trigger the whole rendering process
 		element._flexDirection._needsProcess = true;
 
 	}
@@ -100,6 +197,7 @@ export default class BoundsBox extends BaseProperty {
 
 		this._size.y = this._offsetHeight;
 
+		// trigger the whole rendering process
 		element._flexDirection._needsProcess = true;
 
 	}
@@ -210,14 +308,14 @@ function _computeOffsetWidth( element ) {
 	let base = 0;
 	if ( element._width._auto ) {
 
-		console.log( '        -> auto zero' );
+		// console.log( '        -> auto zero' );
 		//console.log( '    from auto width compute' );
 		base = 0;
 		// base = 0;
 
 	} else {
 
-		console.log( '        -> width' );
+		// console.log( '        -> width' );
 		//console.log( '    from value' );
 		base = element._width._value;
 

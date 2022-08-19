@@ -124,7 +124,7 @@ function step1BuildThreeJSElements() {
 
 	// ROOM
 	const room = new THREE.LineSegments(
-		new BoxLineGeometry( 6, 6, 6, 10, 10, 10 ).translate( 0, 3, 0 ),
+		new BoxLineGeometry( 6, 6, 6, 12, 12, 12 ),
 		new THREE.LineBasicMaterial( { color: 0x808080 } )
 	);
 
@@ -149,9 +149,9 @@ function step2BuildThreeMeshUIElements() {
 
 		name: 'rootBlock',
 		// A Block must define its "box-sizing" properties
-		// width: 1.2,
-		// height: 0.5,
-		padding: 0.05,
+		// width: 2,
+		// height: 2,
+		padding: 0.25,
 		boxSizing: 'content-box',
 		// boxSizing: 'border-box',
 
@@ -179,8 +179,8 @@ function step2BuildThreeMeshUIElements() {
 
 	// three-mesh-ui Block are Object3D agreemented with three-mesh-ui capabilities
 	// so you can use any existing Object3D methods and properties
-	rootBlock.position.set( 0, 1, -1.8 );
-	rootBlock.rotation.x = -0.55;
+	rootBlock.position.set( 0, 1, -2.999 );
+	// rootBlock.rotation.x = -0.55;
 
 
 	// Now that we have a three-mesh-ui Block, we can add three-mesh-ui Text's in it
@@ -245,13 +245,20 @@ function step2BuildThreeMeshUIElements() {
 	//
 	// );
 
+
+
 	rootBlock.add(
 
-		new ThreeMeshUI.Block({name: 'innerBlock', backgroundColor:"black",  boxSizing:'content-box' , padding:0.05, margin:0.05 }).add(
+
+		// new ThreeMeshUI.Block({name:'yellow',backgroundColor:"yellow", boxSizing:'content-box', height:1, width:1, margin:0.25}),
+
+
+		new ThreeMeshUI.Block({name: 'innerBlock', backgroundColor:"black", flexDirection: 'row', boxSizing:'content-box' , padding:0.25, alignItems:'stretch', margin: 0.25 }).add(
 
 			// new ThreeMeshUI.Block({backgroundColor:"blue", backgroundOpacity:0.5, height:0.25, width:1.5}),
-			new ThreeMeshUI.Block({name:'bluebox',backgroundColor:"blue", backgroundOpacity:0.5, boxSizing:'content-box', height:0.1, width:0.1}),
-			new ThreeMeshUI.Block({name:'yellow',backgroundColor:"yellow", boxSizing:'content-box', height:0.1, width:0.1, padding:0.1})
+			// new ThreeMeshUI.Block({name:'bluebox',backgroundColor:"blue", backgroundOpacity:0.5, boxSizing:'content-box', height:0.1, width:0.1}),
+			new ThreeMeshUI.Block({name:'bluebox',backgroundColor:"blue", backgroundOpacity:0.5, boxSizing:'content-box', width:0.1, margin: '0 0.05'}),
+			new ThreeMeshUI.Block({name:'yellow',backgroundColor:"yellow", boxSizing:'content-box', height:0.4, width:0.5})
 
 		)
 	)

@@ -22,7 +22,7 @@ export default class TextAlignPropertyText extends TextAlignProperty {
 
 	/* eslint-disable no-unused-vars */computeOutputValue( element ) { /* eslint-enable no-unused-vars */
 
-		console.error( "TextAlign Property", this._inheritedInput );
+		// console.error( "TextAlign Property", this._inheritedInput );
 			this._value = this._inheritedInput;
 
 		// this._needsProcess = true;

@@ -20,48 +20,33 @@ export default class BoxAutoSize extends BaseProperty {
 		// if( parent ) return;
 
 
-		// has auto size
+		// has auto size get the height from children
 		if ( element._width._auto ) _processAutoWidth( element );
-
-
-		// //console.log( element._display._value );
-		// if( element._display._value === 'flex' && element._flexDirection._value.indexOf('column') === 0 ) {
-		//
-		// 	//console.log( 'stretch children width')
-		// 	for ( const box of element._children._boxes ) {
-		//
-		// 		//console.log( '   ',box._position._value );
-		// 		if( box._position._value === 'static' ) {
-		// 			//console.log( '   ',box._width._auto );
-		// 			if( box._width._auto ) {
-		//
-		// 				box._actualWidth.setElementValue( box, element._bounds._innerWidth );
-		//
-		// 			}
-		// 		}
-		// 	}
-		//
-		// }
-
 		if ( element._height._auto ) _processAutoHeight( element );
+
 
 		const stretch = element._alignItems._value === 'stretch';
 		const stretchChildrenWidth =  stretch && element._flexDirection._value.indexOf( 'column' ) !== -1;
 		const stretchChildrenHeight = stretch && !stretchChildrenWidth;
 
-		for ( const box of element._children._boxes ) {
+		if( stretch ) {
 
-			// if ( box._width._auto && stretchChildrenWidth ) {
-			if ( box._width._auto ) {
+			for ( const box of element._children._boxes ) {
 
-				// box._actualWidth.setParentValue( box, element._bounds._innerWidth );
+				if ( box._width._auto && stretchChildrenWidth ) {
+				// if ( box._width._auto ) {
 
-			}
+					// console.log( element.name, ' stretched ' , box.name , ' with ', element._bounds._innerWidth )
+					box._bounds.setStretchedWidth( box, element._bounds._innerWidth );
 
-			// if ( box._height._auto && stretchChildrenHeight ) {
-			if ( box._height._auto ) {
+				}
 
-				// box._actualHeight.setParentValue( box, element._bounds._innerHeight );
+				if ( box._height._auto && stretchChildrenHeight ) {
+				// if ( box._height._auto ) {
+
+					box._bounds.setStretchedHeight( box, element._bounds._innerHeight );
+
+				}
 
 			}
 

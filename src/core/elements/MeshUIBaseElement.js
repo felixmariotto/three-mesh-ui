@@ -363,12 +363,12 @@ export default class MeshUIBaseElement extends Object3D {
 		}
 
 
-		console.log( this.name );
+		// console.log( this.name );
 		for ( const component of this._components ) {
 
 			if( component._needsProcess ) {
 
-				console.log( '    ', component.id );
+				// console.log( '    ', component.id );
 				component.process( this );
 				component._needsProcess = false;
 
@@ -776,6 +776,9 @@ export default class MeshUIBaseElement extends Object3D {
 			// transfer to the main if isset
 			this._backgroundMesh.customDepthMaterial = this._customDepthMaterial;
 
+			console.log( "customDepthMaterial on backgroundMesh")
+
+
 		}
 
 	}
@@ -917,7 +920,11 @@ export default class MeshUIBaseElement extends Object3D {
 	 */
 	set castShadow( value ) {
 
-		if( this._castShadow ) this._castShadow.value = value;
+		if( this._castShadow ) {
+
+			console.log( "cast shadow set value")
+			this._castShadow.value = value;
+		}
 
 	}
 

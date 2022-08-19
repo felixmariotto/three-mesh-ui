@@ -122,12 +122,12 @@ export default class UpdateManager {
 		for ( const UIElement of this.elements7xx ) {
 			UIElement.update();
 
-			console.log( 'PROCESS - 1 ------------------------------ ');
+			// console.log( 'PROCESS - 1 ------------------------------ ');
 			UIElement.process(); // Natural process
-			console.log( 'PROCESS - 2 ------------------------------ ');
+			// console.log( 'PROCESS - 2 ------------------------------ ');
 			UIElement.process(); // Actual process (optional) - For auto size and stretch
 
-			console.log( 'RENDER - --------------------------------- ');
+			// console.log( 'RENDER - --------------------------------- ');
 			UIElement.render();
 		}
 
