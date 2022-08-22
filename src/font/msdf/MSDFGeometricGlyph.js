@@ -46,6 +46,7 @@ export default class MSDFGeometricGlyph extends PlaneBufferGeometry {
 
 		}
 
+		this.name = "GlyphGeometry";
 		// Demo alter geometry
 		// const maxOffset = inline.fontSize / 10;
 		// this.translate(0 , -maxOffset + Math.random() * maxOffset*2, 0 )

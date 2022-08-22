@@ -19,7 +19,7 @@ export default class FontSizePropertyInline extends SubStyleProperty {
 
 		this._value = this._inheritedInput;
 
-		if( element._font._fontVariant ) this._needsProcess = true;
+		if( element._font._fontVariant ) element._layouter._needsProcess = true;
 
 	}
 
@@ -44,7 +44,7 @@ export default class FontSizePropertyInline extends SubStyleProperty {
 
 		}
 
-		element._layouter._needsProcess = true;
+		// element._layouter._needsProcess = true;
 
 	}
 

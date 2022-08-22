@@ -126,6 +126,7 @@ export const shouldBreak = function( inlines, i, lastInlineOffset, options){
 			if( lastInlineOffset + inline.xadvance + inline.xoffset + inline.kerning > options.INNER_WIDTH ) return true;
 
 
+
 			const nextBreak = _distanceToNextBreak( inlines, i, options );
 			return _shouldFriendlyBreak( inlines[ i - 1 ], lastInlineOffset, nextBreak, options );
 

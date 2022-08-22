@@ -1,6 +1,6 @@
 import BaseProperty from './BaseProperty';
 import { Vector3 } from 'three';
-import { numberEquals, numberPrecise } from '../../utils/NumberUtils';
+import { numberEquals } from '../../utils/NumberUtils';
 
 export default class BoundsBox extends BaseProperty {
 
@@ -154,7 +154,7 @@ export default class BoundsBox extends BaseProperty {
 	}
 
 
-	update( element, out ) {
+	/* eslint-disable no-unused-vars */ update( element, out ) { /* eslint-enable no-unused-vars */
 
 		const padding = element._padding._value;
 		const border = element._borderWidth._value;
@@ -210,7 +210,7 @@ export default class BoundsBox extends BaseProperty {
 
 	}
 
-	render( element ) {
+	/* eslint-disable no-unused-vars */ render( element ) { /* eslint-enable no-unused-vars */
 
 		this._size.x = this._offsetWidth;
 		this._size.y = this._offsetHeight;
@@ -228,11 +228,12 @@ export default class BoundsBox extends BaseProperty {
 	}
 
 
+	/* eslint-disable no-unused-vars */
 	/**
 	 *
 	 * @param {MeshUIBaseElement} element
 	 */
-	process( element ) {
+	process( element ) { /* eslint-enable no-unused-vars */
 
 		// this._triggerCascadingDependencies( element )
 
@@ -301,6 +302,7 @@ export default class BoundsBox extends BaseProperty {
 		}
 
 		element._flexDirection._needsProcess = true;
+		element._fontSize._needsProcess = true;
 		element._layouter._needsProcess = true;
 
 		this._needsRender = true;
@@ -394,57 +396,3 @@ function _computeChildrenSideHeight( element ) {
 
 }
 
-/**
- * Returns the highest linear dimension among all the children of the passed component
- * MARGIN INCLUDED
- * @param {MeshUIBaseElement} element
- * @return {number}
- */
-function _computeHighestChildWidth( element ) {
-
-	return element._children._boxes.reduce( ( accu, child ) => {
-
-		// if ( child._bounds._needsProcess ) child._bounds.process( child );
-
-		const margin = child._margin._value;
-
-		const maxSize = child._bounds._offsetWidth + margin.y + margin.w;
-
-		return Math.max( accu, maxSize );
-
-	}, 0 );
-
-}
-
-/**
- * Returns the highest linear dimension among all the children of the passed component
- * MARGIN INCLUDED
- * @param {MeshUIBaseElement} element
- * @return {number}
- */
-function _computeHighestChildHeight( element ) {
-
-	return element._children._boxes.reduce( ( accu, child ) => {
-
-		// if ( child._bounds._needsProcess ) child._bounds.process( child );
-
-		const margin = child._margin._value;
-
-		const maxSize = child._bounds._offsetHeight + margin.x + margin.z;
-
-		return Math.max( accu, maxSize );
-
-	}, 0 );
-
-}
-
-function _forceBoxSizing( element ) {
-
-	if( element._boxSizing._value !== 'content-box') {
-
-		element._boxSizing._value = 'content-box';
-		console.warn( `ThreeMeshUI - element ${element.name} is autoSize, therefore its box-sizing property is forced on 'content-box'`);
-
-	}
-
-}

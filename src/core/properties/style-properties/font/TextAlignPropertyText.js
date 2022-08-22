@@ -52,6 +52,9 @@ export default class TextAlignPropertyText extends TextAlignProperty {
 
 		}
 
+		// @TODO :
+		element.performAfterUpdate();
+
 	}
 
 }
@@ -84,6 +87,9 @@ function _process( element ) {
 			// line[ j ].offsetX += offsetX;
 
 		}
+
+		// line.x = line[ 0 ].offsetX;
+
 
 	}
 

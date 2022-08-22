@@ -1,5 +1,4 @@
 import * as THREE from 'three';
-import { TextureLoader } from 'three';
 import { VRButton } from 'three/examples/jsm/webxr/VRButton.js';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import { BoxLineGeometry } from 'three/examples/jsm/geometries/BoxLineGeometry.js';
@@ -11,7 +10,6 @@ import MSDFNormalMaterial from 'three-mesh-ui/examples/materials/msdf/MSDFNormal
 
 import * as FontWeight from '../src/utils/font/FontWeight';
 import * as FontStyle from '../src/utils/font/FontStyle';
-import UpdateManager from '../src/components/core/UpdateManager';
 import BlockElement from '../src/elements/basic/BlockElement';
 
 /***********************************************************************************************************************

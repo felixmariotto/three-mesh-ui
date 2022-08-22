@@ -212,7 +212,7 @@ function makeTextPanel() {
 			segments: 4,
 			letterSpacing: -0.08,
 			castShadow: true,
-			// fontCustomDepthMaterial: new MSDFDepthMaterial({}),
+			fontCustomDepthMaterial: new MSDFDepthMaterial({}),
 			side: DoubleSide
 		} );
 

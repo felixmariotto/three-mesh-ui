@@ -64,12 +64,17 @@ export default class TextLayouter extends BaseProperty {
 		// correct lines position before to merge
 		const lines = new Lines( new Line() );
 
+		console.log( "text Layouter ");
+
 		let lastInlineOffset = 0;
 		element._children._inlines.forEach( ( inlineElement ) => {
 
 			// Abort condition
 
 			if ( !inlineElement._inlines.value ) return;
+
+			// ensure no collapsed remains
+			inlineElement._fontSize.process( inlineElement );
 
 			//////////////////////////////////////////////////////////////
 			// Compute offset of each children according to its dimensions
@@ -96,6 +101,7 @@ export default class TextLayouter extends BaseProperty {
 			inlineElement._inlines.value.forEach( ( inline, i, inlines ) => {
 
 				const line = lines[lines.length - 1];
+
 				// Line break
 				const shouldBreak = Whitespace.shouldBreak(inlines,i,lastInlineOffset, whiteSpaceOptions );
 
@@ -150,8 +156,6 @@ export default class TextLayouter extends BaseProperty {
 
 		let width = 0;
 		let lineOffsetY = 0;
-		lines[0].y = 0;
-		// lines[0].y = (lines[0].lineHeight * INTERLINE);
 
 		// calculates lines
 		lines.forEach( ( line, i ) => {
@@ -191,13 +195,7 @@ export default class TextLayouter extends BaseProperty {
 
 			} else {
 
-				// console.error( - line.lineHeight * INTERLINE );
-				// line.y = - ((line.lineHeight * INTERLINE ) + line.lineHeight);
-				// line.y = - ( (line.lineHeight * INTERLINE ) - line.lineHeight);
-				// line.y = - ((line.lineHeight * INTERLINE ) - line.lineBase) / 2;
 				line.y = - ((line.lineHeight * INTERLINE ) - line.lineHeight) / 2;
-				// line.y = 4 ;
-				// line.y = 1;
 
 			}
 
@@ -226,8 +224,6 @@ export default class TextLayouter extends BaseProperty {
 
 		this._value = lines;
 
-		console.log( this._value );
-
 		if( INNER_WIDTH === Infinity ) {
 
 			element._bounds.setChildrenWidth( element, lines.width );
@@ -242,15 +238,9 @@ export default class TextLayouter extends BaseProperty {
 
 		const parent = element._parent._value;
 		if( parent ) parent._autoSize._needsProcess = true;
-		// element._bounds._needsProcess = true;
-
-		element._bounds.process( element );
 
 		element._inlineJustificator._needsProcess = true;
 		element._textAlign._needsProcess = true;
-
-		// @TODO :
-		element.performAfterUpdate();
 
 	}
 

@@ -408,7 +408,7 @@ export default class MeshUIBaseElement extends Object3D {
 
 			if( component._needsUpdate ) {
 
-				// console.log(component.constructor.name)
+				// console.log( '    ', component.constructor.name)
 				component.update( this, out );
 				component._needsUpdate = false;
 
@@ -707,14 +707,18 @@ export default class MeshUIBaseElement extends Object3D {
 	 */
 	add( object ) {
 
+		let addedUIChildren = false;
 		for ( let i = 0; i < arguments.length; i++ ) {
 
 			super.add( arguments[ i ] );
 
+			if( arguments[i].isUI ) {
+				addedUIChildren = true;
+			}
+
 		}
 
-
-		this._rebuildChildrenLists();
+		if( addedUIChildren ) this._rebuildChildrenLists();
 
 		return this;
 

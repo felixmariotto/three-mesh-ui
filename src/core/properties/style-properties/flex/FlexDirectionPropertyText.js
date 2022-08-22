@@ -11,6 +11,8 @@ export default class FlexDirectionPropertyText extends FlexDirectionProperty {
 
 		super();
 
+		this._value = this._input = 'column';
+
 		// Configure
 		this._allowsInherit = false;
 		this._needsUpdate = true;
@@ -19,11 +21,8 @@ export default class FlexDirectionPropertyText extends FlexDirectionProperty {
 
 	computeOutputValue( element ) {
 
+		// @TODO : Evaluate the needs of this property. Could be empty
 		this._value = this._inheritedInput;
-
-		element._flexDirection._needsProcess = true;
-		element._layouter._needsProcess = true;
-		element._textAlign._needsUpdate = true;
 
 	}
 

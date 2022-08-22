@@ -88,8 +88,7 @@ function init() {
 
 function makeUI() {
 	const container = new ThreeMeshUI.Block( {
-		height: 1.5,
-		width: 0.55,
+		width: 0.73,
 		justifyContent: 'center',
 		alignItems: 'center',
 		backgroundOpacity: 0,
@@ -102,14 +101,15 @@ function makeUI() {
 	//
 
 	const textBlock = new ThreeMeshUI.Text( {
-		height: 0.4,
-		width: 0.73,
 		margin: 0.05,
 		textAlign: 'right',
 		justifyContent: 'center',
 		padding: 0.025,
+		// backgroundColor: 0x000000,
+		// backgroundOpacity: 0.15,
 		letterSpacing: 0,
-		breakOn: "- \n"
+		breakOn: "- \n",
+		fontMaterial: new FontMaterialDebugger()
 	} );
 
 	container.add( textBlock );
@@ -128,19 +128,19 @@ function makeUI() {
 		textContent,
 	} );
 
-	const text2 = new ThreeMeshUI.Text( {
+	const text2 = new ThreeMeshUI.Inline( {
 		fontSize: 0.015,
 		fontOpacity: 0.75,
 		textContent: 'The spiny bush viper is known for its extremely keeled dorsal scales.',
 	} );
 
-	text.fontMaterial = new FontMaterialDebugger();
+	// text.fontMaterial = new FontMaterialDebugger();
 
 	// Lines properties. Lines are planes manually added behind each text lines
 	// in order to perceive and validate line width
 
-	const lineMat = new MeshBasicMaterial( { color: 0x696969, opacity: 0.5 } );
-	const baseMat = new MeshBasicMaterial( { color: 0xff00ff } );
+	const lineMat = new MeshBasicMaterial( { color: 0x9e9e9e, opacity: 1 } );
+	const baseMat = new MeshBasicMaterial( { color: 0xfff9900 } );
 	const medianMat = new MeshBasicMaterial( { color: 0x99ff00 } );
 	let lines = [];
 
@@ -154,6 +154,7 @@ function makeUI() {
 		lines = [];
 
 		console.log(textBlock.lines);
+
 
 		// retrieve all lines sent by InlineManager for the textBlock
 		for ( let i = 0; i < textBlock.lines.length; i++ ) {
@@ -170,19 +171,20 @@ function makeUI() {
 			// TextBackground
 			const lineGeo = new PlaneBufferGeometry( line.width, lineHeight );
 			const lineMesh = new Mesh( lineGeo, lineMat );
+			lineMesh.name = 'DevLineMesh';
 
-			// lineMesh.position.x = line[ 0 ].offsetX + ( line.width / 2 );
-			lineMesh.position.x = line[ 0 ].offsetX + ( line.width / 2 );
-			lineMesh.position.y = line.y + lineHeight/2 - deltaLine/4; // Background
-
+			lineMesh.position.x = line[0].offsetX + line.width/2;
+			// lineMesh.position.y = line[0].offsetY + line.lineHeight/2 - deltaLine / 2
+			lineMesh.position.y = line[0].offsetY + line.lineBase / 2 - deltaLine / 4;
 
 			lines.push( lineMesh );
 			textBlock.add( lineMesh );
 
 			// baseline
 			const baselineMesh = new Mesh( new PlaneBufferGeometry( line.width, 0.001 ), baseMat );
-			baselineMesh.position.x = line[ 0 ].offsetX + ( line.width / 2 );
-			baselineMesh.position.y = line.y + lineBase/2 - (lineHeight-lineBase) + 0.0005; // Baseline
+			baselineMesh.position.x = lineMesh.position.x;
+			// baselineMesh.position.y = line.y + lineBase/2 - (lineHeight-lineBase); // Baseline
+			baselineMesh.position.y = lineMesh.position.y - lineBase/2 - 0.0005;
 
 			lines.push( baselineMesh );
 			textBlock.add( baselineMesh );
@@ -191,12 +193,9 @@ function makeUI() {
 			// Median
 			const medianMesh = new Mesh( new PlaneBufferGeometry( line.width, 0.001 ), medianMat );
 
-			medianMesh.position.x = line[ 0 ].offsetX + ( line.width / 2 );
+			medianMesh.position.x = lineMesh.position.x;
+			medianMesh.position.y =  lineMesh.position.y + lineBase/2 - deltaLine - 0.0005; // Baseline
 
-			const delta = baselineMesh.position.y - lineMesh.position.y;
-
-
-			medianMesh.position.y =  lineMesh.position.y - delta - 0.0005; // Baseline
 			lines.push( medianMesh );
 			textBlock.add( medianMesh );
 

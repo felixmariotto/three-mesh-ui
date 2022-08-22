@@ -38,19 +38,20 @@ export default class ChildrenInline extends BaseProperty {
 	}
 
 
+	/* eslint-disable no-unused-vars */
 	/**
 	 * Process when :
 	 * 		- Existing child visibility changed
 	 *
 	 * @param element
 	 */
-	process( element ) {
+	process( element ) { /* eslint-enable no-unused-vars */
 
 		// this._compute( element );
 
 	}
 
-	_compute( element ) {
+	/* eslint-disable no-unused-vars */ _compute( element ) { /* eslint-enable no-unused-vars */
 
 		// this._uis = element.children.filter( child => child.visible && child.isUI );
 		//

@@ -90,6 +90,7 @@ export default class AlignItemsPropertyBox extends AlignItemsProperty {
 		element._justifyContent._needsProcess = true;
 
 		this._needsProcess = true;
+		element._fontSize._needsProcess = true;
 		element._layouter._needsProcess = true;
 
 	}

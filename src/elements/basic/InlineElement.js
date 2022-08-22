@@ -110,7 +110,6 @@ export default class InlineElement extends MeshUIBaseElement {
 
 	set textContent( value ) {
 
-		console.log( "InlineElement textcontent Set", value);
 		this._textContent.value = value;
 
 	}

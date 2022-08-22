@@ -14,6 +14,7 @@ import SegmentsPropertyText from '../../core/properties/geometry/SegmentsPropert
 import FontKerningPropertyText from '../../core/properties/style-properties/font/FontKerningPropertyText';
 import BoundsText from '../../core/properties/BoundsText';
 import ChildrenText from '../../core/properties/hierarchy/ChildrenText';
+import AutoSizePropertyText from '../../core/properties/AutoSizePropertyText';
 
 export default class TextElement extends BoxElement {
 
@@ -29,6 +30,7 @@ export default class TextElement extends BoxElement {
 		properties.justifyContent = JustifyContentProperty;
 		properties.alignItems = AlignItemsProperty;
 		properties.bounds = BoundsText;
+		properties.autoSize = AutoSizePropertyText;
 
 		if( !properties.children ) properties.children = ChildrenText;
 		if( !properties.textContent ) properties.textContent = TextContentText;

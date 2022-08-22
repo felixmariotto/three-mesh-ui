@@ -100,10 +100,7 @@ function _processAutoWidth( element ) {
 
 	// column : retrieve the biggest child width
 	// row : retrieve the sum of children width
-	let sizeFromChild = _computeAutoWidth( element );
-
-	// element._bounds.setOffsetWidth( element, sizeFromChild );
-	element._bounds.setChildrenWidth( element, sizeFromChild );
+	element._bounds.setChildrenWidth( element, _computeAutoWidth( element ) );
 
 }
 
@@ -111,9 +108,7 @@ function _processAutoHeight( element ) {
 
 	// column : retrieve the sum of children height
 	// row : retrieve the biggest child height
-	let sizeFromChild = _computeAutoHeight( element );
-
-	element._bounds.setChildrenHeight( element, sizeFromChild );
+	element._bounds.setChildrenHeight( element, _computeAutoHeight( element ) );
 
 }
 
