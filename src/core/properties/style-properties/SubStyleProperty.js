@@ -97,11 +97,11 @@ export default class SubStyleProperty extends BaseProperty{
 			this.computeOutputValue( element );
 
 			// rebuild same properties on children 'inheritance'
-			for ( const childUIElement of element._children._uis ) {
-
-				childUIElement[`_${this._id}`]._needsUpdate = true;
-
-			}
+			// for ( const childUIElement of element._children._uis ) {
+			//
+			// 	childUIElement[`_${this._id}`]._needsUpdate = true;
+			//
+			// }
 
 			this.output( out );
 

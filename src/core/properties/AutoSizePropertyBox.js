@@ -9,6 +9,7 @@ export default class AutoSizePropertyBox extends BaseProperty {
 
 		super( 'autosize' );
 
+		this._needsProcess = true;
 	}
 
 	process( element ) {
@@ -20,33 +21,76 @@ export default class AutoSizePropertyBox extends BaseProperty {
 		if ( element._width._auto ) _processAutoWidth( element );
 		if ( element._height._auto ) _processAutoHeight( element );
 
-
 		const stretch = element._alignItems._value === 'stretch';
-		const stretchChildrenWidth =  stretch && element._flexDirection._value.indexOf( 'column' ) !== -1;
+		const stretchChildrenWidth = stretch && element._flexDirection._value.indexOf( 'column' ) !== -1;
 		const stretchChildrenHeight = stretch && !stretchChildrenWidth;
 
-		if( stretch ) {
+		for ( const box of element._children._boxes ) {
 
-			for ( const box of element._children._boxes ) {
+			if ( ( box._width._auto && stretchChildrenWidth ) || box._width._relative ) {
 
-				if ( box._width._auto && stretchChildrenWidth ) {
-				// if ( box._width._auto ) {
+				box._bounds.setReferenceWidth( box, element._bounds._innerWidth );
 
-					// console.log( element.name, ' stretched ' , box.name , ' with ', element._bounds._innerWidth )
-					box._bounds.setStretchedWidth( box, element._bounds._innerWidth );
+			}
 
-				}
+			if ( ( box._height._auto && stretchChildrenHeight ) || box._height._relative ) {
 
-				if ( box._height._auto && stretchChildrenHeight ) {
-				// if ( box._height._auto ) {
-
-					box._bounds.setStretchedHeight( box, element._bounds._innerHeight );
-
-				}
+				box._bounds.setReferenceHeight( box, element._bounds._innerHeight );
 
 			}
 
 		}
+
+		// // justify stretch - Not that easy
+		// const stretchD = element._justifyContent._value === 'stretch';
+		// const stretchChildrenWidthD = stretchD && element._flexDirection._value.indexOf( 'row' ) !== -1;
+		// const stretchChildrenHeightD = stretchD && !stretchChildrenWidthD;
+		//
+		//
+		// if ( stretchChildrenWidthD ) {
+		//
+		// 	const used = _computeChildrenSideWidth( element );
+		// 	const available = element._bounds._innerWidth - used;
+		// 	if ( available > 0 ) {
+		//
+		// 		const autoElement = element._children._uis.filter( c => c._width._auto );
+		// 		const distributed = available / autoElement.length;
+		//
+		// 		for ( const child of autoElement ) {
+		//
+		// 			const width = child._bounds._offsetWidth + distributed;
+		// 			child._bounds.setReferenceWidth( child, width );
+		//
+		// 		}
+		//
+		// 		element._layouter._needsProcess = true;
+		// 		element._flexDirection._needsProcess = true;
+		//
+		// 	}
+		//
+		// } else if ( stretchChildrenHeightD ) {
+		//
+		// 	const used = _computeChildrenSideHeight( element );
+		// 	const available = element._bounds._innerHeight - used;
+		// 	if ( available > 0 ) {
+		//
+		// 		const autoElement = element._children._uis.filter( c => c._height._auto );
+		// 		const distributed = available / autoElement.length;
+		//
+		// 		for ( const child of autoElement ) {
+		//
+		// 			const height = child._bounds._offsetHeight + distributed;
+		// 			child._bounds.setReferenceHeight( child, height );
+		//
+		// 		}
+		//
+		// 		element._layouter._needsProcess = true;
+		// 		element._flexDirection._needsProcess = true;
+		//
+		// 	}
+		//
+		// }
+
 
 	}
 
@@ -58,14 +102,8 @@ function _processAutoWidth( element ) {
 	// row : retrieve the sum of children width
 	let sizeFromChild = _computeAutoWidth( element );
 
-	// as this is from children offsetWidth, it means parent innerWidth
-	const padding = element._padding._value;
-	const border = element._borderWidth._value;
-
-	// and autoSize is always content-box
-	sizeFromChild += padding.w + padding.y + border.w + border.y;
-
-	element._bounds.setOffsetWidth( element, sizeFromChild );
+	// element._bounds.setOffsetWidth( element, sizeFromChild );
+	element._bounds.setChildrenWidth( element, sizeFromChild );
 
 }
 
@@ -75,14 +113,7 @@ function _processAutoHeight( element ) {
 	// row : retrieve the biggest child height
 	let sizeFromChild = _computeAutoHeight( element );
 
-	// as this is from children offsetHeight, it means parent innerWidth
-	const padding = element._padding._value;
-	const border = element._borderWidth._value;
-
-	// and autoSize is always content-box
-	sizeFromChild += padding.x + padding.z + border.x + border.z;
-
-	element._bounds.setOffsetHeight( element, sizeFromChild );
+	element._bounds.setChildrenHeight( element, sizeFromChild );
 
 }
 

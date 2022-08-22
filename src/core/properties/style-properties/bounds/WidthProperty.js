@@ -8,12 +8,6 @@ export default class WidthProperty extends StyleSideProperty {
 
 	}
 
-	computeOutputValue( element ) {
-
-		super.computeOutputValue( element );
-
-	}
-
 }
 
 

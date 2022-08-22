@@ -14,7 +14,7 @@ const _values = {
 	alignItems : 'start',
 	backgroundImage: null,
 	textAlign : 'left',
-	boxSizing: 'border-box',
+	boxSizing: 'content-box',
 	position: 'static',
 	color: 0xff99ff,
 	fontColor: 0xffffff,

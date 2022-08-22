@@ -40,12 +40,6 @@ export default class TextLayouter extends BaseProperty {
 
 			INNER_WIDTH = Infinity;
 
-		} else if ( element._width._auto ) {
-
-			// INNER_WIDTH = element._width.getInheritedInput( element )
-			// INNER_WIDTH = element._bounds._innerWidth;
-			INNER_WIDTH = Infinity;
-
 		} else {
 
 			INNER_WIDTH = element._bounds._innerWidth;
@@ -232,39 +226,25 @@ export default class TextLayouter extends BaseProperty {
 
 		this._value = lines;
 
-		if( element._width._auto ) {
-			let sizeBase = lines.width;
+		console.log( this._value );
 
-			// if( element._boxSizing._value === 'content-box' ) {
-				const padding = element._padding._value;
-				const border = element._borderWidth._value;
+		if( INNER_WIDTH === Infinity ) {
 
-				sizeBase += padding.w + padding.y + border.w + border.y;
-			// }
+			element._bounds.setChildrenWidth( element, lines.width );
 
-			element._bounds.setOffsetWidth( element, sizeBase );
 		}
 
 		if( element._height._auto ) {
-			let sizeBase = lines.height;
 
-			// if( element._boxSizing._value === 'content-box' ) {
-			const padding = element._padding._value;
-			const border = element._borderWidth._value;
+			element._bounds.setChildrenHeight( element, lines.height );
 
-			sizeBase += padding.x + padding.z + border.x + border.z;
-			// }
-
-			element._bounds.setOffsetHeight( element, sizeBase );
-
-			element._parent._value._bounds._needsUpdate = true;
 		}
 
-		//console.log( "LINES :::" , lines.height );
-
+		const parent = element._parent._value;
+		if( parent ) parent._autoSize._needsProcess = true;
 		// element._bounds._needsProcess = true;
 
-		// element._bounds.process( element );
+		element._bounds.process( element );
 
 		element._inlineJustificator._needsProcess = true;
 		element._textAlign._needsProcess = true;

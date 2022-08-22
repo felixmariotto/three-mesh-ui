@@ -63,179 +63,157 @@ export default class BoundsBox extends BaseProperty {
 	}
 
 	/**
-	 *
+	 * Set the value of the width 100%
 	 * @param element
 	 * @param value
-	 * @internal
 	 */
-	setOffsetWidth( element, value ) {
+	setReferenceWidth( element, value ) {
 
-		// console.log( element.name, this._offsetWidth, value )
-		if ( numberEquals( this._offsetWidth, value ) ) return;
+		const width = element._width;
+		const padding = element._padding._value;
+		const borderWidth = element._borderWidth._value;
+		const margin = element._margin._value;
 
-		// ensure content-box
-		_forceBoxSizing( element );
+		const factor = width._auto ? 1 : width._value;
+		// const newOffsetWidth = (value * factor) - (margin.y + margin.w);
+		const newOffsetWidth = (value * factor) - (margin.y + margin.w);
+		if ( numberEquals( newOffsetWidth, this._offsetWidth ) ) return;
 
-		this._offsetWidth = value;
+		this._offsetWidth = newOffsetWidth;
+		this._innerWidth = this._offsetWidth - ( padding.y + padding.w + borderWidth.y + borderWidth.w );
 
-		this._innerWidth = _computeInnerWidth( element );
 		this._centerX = _computeCenterX( element );
 
-		this._size.x = this._offsetWidth;
+		this._propagateWidth( element );
 
-		// trigger the whole rendering process
-		element._flexDirection._needsProcess = true;
-
-	}
-
-	setStretchedWidth ( element, value ) {
-
-
-		// console.log( 'set stretched width', element.name, value, this._offsetWidth );
-		const margin = element._margin._value;
-		value -= margin.w + margin.y;
-		//
-		// if( element._boxSizing._value === 'border-box' ) {
-		//
-		// 	const padding = element._padding._value;
-		// 	const border = element._borderWidth._value;
-		// 	value += padding.w + padding.y + border.w + border.y;
-		//
-		// }
-		// as this is from children offsetWidth, it means parent innerWidth
-		if ( numberEquals( this._offsetWidth, value ) ) return;
-
-		// ensure content-box
-		_forceBoxSizing( element );
-
-		this._offsetWidth = value;
-
-		this._innerWidth = _computeInnerWidth( element );
-		this._centerX = _computeCenterX( element );
-
-		this._size.x = this._offsetWidth;
-
-		const stretch = element._alignItems._value === 'stretch';
-		const stretchChildrenWidth =  stretch && element._flexDirection._value.indexOf( 'column' ) === 0;
-
-		// console.log( element.name, stretch, stretchChildrenWidth)
-		if( stretch && stretchChildrenWidth ) {
-
-			for ( const box of element._children._boxes ) {
-
-				if ( box._width._auto ) {
-					// if ( box._width._auto ) {
-
-					box._bounds.setStretchedWidth( box, element._bounds._innerWidth );
-
-				}
-
-			}
-
-		}
-
-		// trigger the whole rendering process
-		element._flexDirection._needsProcess = true;
-
-	}
-
-	setStretchedHeight ( element, value ) {
-
-		// console.log( 'set stretched height', element.name, value, this._offsetHeight );
-		const margin = element._margin._value;
-		value -= margin.x + margin.z;
-		//
-		// if( element._boxSizing._value === 'border-box' ) {
-		//
-		// 	const padding = element._padding._value;
-		// 	const border = element._borderWidth._value;
-		// 	value += padding.x + padding.z + border.z + border.z;
-		//
-		// }
-		// as this is from children offsetWidth, it means parent innerWidth
-		if ( numberEquals( this._offsetHeight, value ) ) return;
-
-		// ensure content-box
-		_forceBoxSizing( element );
-
-		this._offsetHeight = value;
-
-		this._innerHeight = _computeInnerHeight( element );
-		this._centerY = _computeCenterY( element );
-
-		this._size.y = this._offsetHeight;
-
-		const stretch = element._alignItems._value === 'stretch';
-		const stretchChildrenHeight =  stretch && element._flexDirection._value.indexOf( 'row' ) === 0;
-
-		// console.log( element.name, stretch, stretchChildrenHeight)
-		if( stretch && stretchChildrenHeight ) {
-
-			for ( const box of element._children._boxes ) {
-
-				if ( box._height._auto ) {
-					// if ( box._width._auto ) {
-
-					box._bounds.setStretchedHeight( box, element._bounds._innerWidth );
-
-				}
-
-			}
-
-		}
-
-		// trigger the whole rendering process
-		element._flexDirection._needsProcess = true;
+		this._triggerCascadingDependencies( element );
 
 	}
 
 	/**
-	 *
+	 * Set the value of the height 100%
 	 * @param element
 	 * @param value
-	 * @internal
 	 */
-	setOffsetHeight( element, value ) {
+	setReferenceHeight( element, value ) {
 
-		if ( numberEquals( this._offsetHeight, value ) ) return;
+		const height = element._height;
+		const padding = element._padding._value;
+		const borderWidth = element._borderWidth._value;
+		const margin = element._margin._value;
 
-		// ensure content-box
-		_forceBoxSizing( element );
+		const factor = height._auto ? 1 : height._value;
 
-		this._offsetHeight = value;
+		const newOffsetHeight = (value * factor) - ( margin.x + margin.z );
+		if ( numberEquals( newOffsetHeight, this._offsetHeight ) ) return;
 
-		this._innerHeight = _computeInnerHeight( element );
+		this._offsetHeight = newOffsetHeight;
+		this._innerHeight = this._offsetHeight - ( padding.x + padding.z + borderWidth.x + borderWidth.z );
 		this._centerY = _computeCenterY( element );
 
-		this._size.y = this._offsetHeight;
+		this._propagateHeight( element );
 
-		// trigger the whole rendering process
-		element._flexDirection._needsProcess = true;
+		this._triggerCascadingDependencies( element );
 
 	}
 
+	setChildrenWidth( element, value ) {
+
+
+		if ( numberEquals( this._innerWidth, value ) ) return;
+
+		const padding = element._padding._value;
+		const border = element._borderWidth._value;
+
+		this._innerWidth = value;
+		this._offsetWidth = this._innerWidth + ( padding.y + padding.w + border.y + border.w )
+
+		this._centerX = _computeCenterX( element );
+
+		this._propagateWidth( element );
+		this._triggerCascadingDependencies( element );
+
+
+	}
+
+	setChildrenHeight( element, value ) {
+
+		if ( numberEquals( this._innerHeight, value ) ) return;
+
+		const padding = element._padding._value;
+		const border = element._borderWidth._value;
+
+		this._innerHeight = value;
+		this._offsetHeight = this._innerHeight + ( padding.x + padding.z + border.x + border.z )
+
+		this._centerY = _computeCenterY( element );
+
+		this._propagateHeight( element );
+		this._triggerCascadingDependencies( element );
+
+	}
+
+
 	update( element, out ) {
 
-		const offsetWidth = _computeOffsetWidth( element );
-		const widthHasChanged = !numberEquals( offsetWidth, this._offsetWidth );
-		this._offsetWidth = offsetWidth;
+		const padding = element._padding._value;
+		const border = element._borderWidth._value;
 
-		const offsetHeight = _computeOffsetHeight( element );
-		const heightHasChanged = !numberEquals( offsetHeight, this._offsetHeight );
-		this._offsetHeight = offsetHeight;
+		// only compute new width if explicitely defined
+		const width = element._width;
+		if( !width._auto && !width._relative ) {
 
-		if ( widthHasChanged || heightHasChanged ) {
+			if ( element._boxSizing._value === 'content-box' ) {
 
+				this._innerWidth = width._value;
+				this._offsetWidth = this._innerWidth + padding.y + padding.w + border.y + border.w;
 
-			this._innerWidth = _computeInnerWidth( element );
-			this._innerHeight = _computeInnerHeight( element );
+			} else {
+
+				this._offsetWidth = width._value;
+				this._innerWidth = this._offsetWidth - ( padding.y + padding.w + border.y + border.w );
+
+			}
 
 			this._centerX = _computeCenterX( element );
-			this._centerY = _computeCenterY( element );
-
 			this._needsProcess = true;
 
+			// tells children width has changed
+			this._propagateWidth( element );
+			this._triggerCascadingDependencies( element );
+
 		}
+
+		const height = element._height;
+		if( !height._auto && !height._relative ) {
+
+			if ( element._boxSizing._value === 'content-box' ) {
+
+				this._innerHeight = height._value;
+				this._offsetHeight = this._innerHeight + padding.x + padding.z + border.x + border.z;
+
+			} else {
+
+				this._offsetHeight = height._value;
+				this._innerHeight = this._offsetHeight - ( padding.x + padding.z + border.x + border.z );
+
+			}
+
+			this._centerY = _computeCenterY( element );
+			this._needsProcess = true;
+
+			// tells children height has changed
+			this._propagateHeight( element );
+			this._triggerCascadingDependencies( element );
+
+		}
+
+	}
+
+	render( element ) {
+
+		this._size.x = this._offsetWidth;
+		this._size.y = this._offsetHeight;
 
 	}
 
@@ -256,24 +234,13 @@ export default class BoundsBox extends BaseProperty {
 	 */
 	process( element ) {
 
+		// this._triggerCascadingDependencies( element )
+
 		//console.log( 'process bounds box', element.name );
 
 		// update primitives or unbinded values
 
-
-		// update binded values
-		this._size.set( this._offsetWidth, this._offsetHeight, this._size.z );
-
 		// require cascading processes
-		element._flexDirection._needsProcess = true;
-
-		element._borderRadius._needsProcess = true;
-		element._borderWidth._needsProcess = true;
-
-		element._layouter._needsProcess = true;
-
-		// also change parent when require
-		if ( element._parent._value ) element._parent._value._autoSize._needsProcess = true;
 
 
 	}
@@ -300,133 +267,57 @@ export default class BoundsBox extends BaseProperty {
 
 	}
 
+	_propagateWidth( element ) {
+
+		for ( let i = 0; i < element._children._boxes.length; i++ ) {
+
+			const box = element._children._boxes[ i ];
+			const width = box._width;
+
+			if( width._relative ) box._bounds.setReferenceWidth( box, this._innerWidth );
+
+		}
+
+	}
+
+	_propagateHeight( element ) {
+
+		for ( let i = 0; i < element._children._boxes.length; i++ ) {
+
+			const box = element._children._boxes[ i ];
+			const height = box._height;
+
+			if( height._relative ) box._bounds.setReferenceHeight( box, this._innerHeight );
+
+		}
+
+	}
+
+	_triggerCascadingDependencies( element ) {
+
+		// also change parent when require
+		if ( element._parent._value ) {
+			element._parent._value._autoSize._needsProcess = true;
+		}
+
+		element._flexDirection._needsProcess = true;
+		element._layouter._needsProcess = true;
+
+		this._needsRender = true;
+
+		element._borderWidth._needsRender = true;
+		element._borderRadius._needsRender = true;
+
+	}
+
 }
+
+
 
 
 /***********************************************************************************************************************
  * INTERNAL FUNCTIONS
  **********************************************************************************************************************/
-
-/**
- * Obtain the outer width according to box-sizing
- * @param {MeshUIBaseElement} element
- * @return {number}
- */
-function _computeOffsetWidth( element ) {
-
-	const padding = element._padding._value;
-	const borderWidth = element._borderWidth._value;
-
-	let base = 0;
-	if ( element._width._auto ) {
-
-		// console.log( '        -> auto zero' );
-		//console.log( '    from auto width compute' );
-		base = 0;
-		// base = 0;
-
-	} else {
-
-		// console.log( '        -> width' );
-		//console.log( '    from value' );
-		base = element._width._value;
-
-	}
-
-	// const base = _computeStretchedWidth( element ) || element._width._value || _computeAutoWidth( element );
-	// let base = element._width._value || _computeAutoWidth( element );
-
-	if ( element._boxSizing._value === 'content-box' ) {
-
-		base += padding.y + padding.w + borderWidth.y + borderWidth.w;
-
-	}
-
-	return numberPrecise( base );
-
-}
-
-/**
- * Obtain the outer height according to box-sizing
- * @param {MeshUIBaseElement} element
- * @return {number}
- */
-function _computeOffsetHeight( element ) {
-
-
-	const padding = element._padding._value;
-	const borderWidth = element._borderWidth._value;
-
-	let base = 0;
-	if ( element._height._auto ) {
-
-		//console.log( '    from auto height compute' );
-		// base = _computeAutoHeight( element );
-		base = 0;
-
-	} else {
-
-		//console.log( '    from value' );
-		base = element._height._value;
-
-	}
-
-	if ( element._boxSizing._value === 'content-box' ) {
-
-		base += padding.x + padding.z + borderWidth.x + borderWidth.z;
-
-	}
-
-	return numberPrecise( base );
-
-}
-
-/**
- * Obtain the inner width according to box-sizing
- * @param {MeshUIBaseElement} element
- * @return {number}
- */
-function _computeInnerWidth( element ) {
-
-
-	const padding = element._padding._value;
-	const borderWidth = element._borderWidth._value;
-
-	const base = element._bounds._offsetWidth;
-
-	if ( element._boxSizing._value === 'content-box' ) {
-
-		return base - ( padding.y + padding.w + borderWidth.y + borderWidth.w );
-
-	}
-
-	return base;
-
-}
-
-/**
- * Obtain the inner height according to box-sizing
- * @param {MeshUIBaseElement} element
- * @return {number}
- */
-function _computeInnerHeight( element ) {
-
-
-	const padding = element._padding._value;
-	const borderWidth = element._borderWidth._value;
-
-	// const base = element._height._value || _computeAutoHeight( element );
-	const base = element._bounds._offsetHeight;
-
-	if ( element._boxSizing._value === 'content-box' ) {
-
-		return base - ( padding.x + padding.z + borderWidth.x + borderWidth.z );
-
-	}
-
-	return base;
-
-}
 
 /**
  * Retrieve the center X according to box sized dimensions

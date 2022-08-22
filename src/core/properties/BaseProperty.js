@@ -41,6 +41,13 @@ export default class BaseProperty {
 		/**
 		 *
 		 * @type {boolean}
+		 * @internal
+		 */
+		this._needsRender = false;
+
+		/**
+		 *
+		 * @type {boolean}
 		 * @protected
 		 */
 		this._isPrimitive = primitive;
@@ -127,6 +134,13 @@ export default class BaseProperty {
 	 * @param {MeshUIBaseElement} element
 	 */
 	process( element ) { /* eslint-enable no-unused-vars */ }
+
+	/* eslint-disable no-unused-vars */
+	/**
+	 * Execute additional process after all properties have been updated
+	 * @param {MeshUIBaseElement} element
+	 */
+	render( element ) { /* eslint-enable no-unused-vars */ }
 
 	/**
 	 *

@@ -19,6 +19,13 @@ export default class BorderRadius extends StyleVector4Property {
 
 		/**
 		 *
+		 * @type {Vector4}
+		 * @private
+		 */
+		this._valueUV = this._value.clone();
+
+		/**
+		 *
 		 * @type {boolean}
 		 * @private
 		 */
@@ -52,10 +59,10 @@ export default class BorderRadius extends StyleVector4Property {
 		 */
 		this._cornerBL = new Vector2(0, 0);
 
-		const mediationTop = new BorderRadiusMediator( this._value, [ 'x', 'y' ] ); // bottom
-		const mediationBottom = new BorderRadiusMediator( this._value, [ 'z', 'w'] ); // top
-		const mediationLeft = new BorderRadiusMediator( this._value, [ 'x', 'w'] ); // right
-		const mediationRight = new BorderRadiusMediator( this._value, [ 'y', 'z'] ); // left
+		const mediationTop = new BorderRadiusMediator( this._valueUV, [ 'x', 'y' ] ); // bottom
+		const mediationBottom = new BorderRadiusMediator( this._valueUV, [ 'z', 'w'] ); // top
+		const mediationLeft = new BorderRadiusMediator( this._valueUV, [ 'x', 'w'] ); // right
+		const mediationRight = new BorderRadiusMediator( this._valueUV, [ 'y', 'z'] ); // left
 
 		mediationTop.complementaryMediation = mediationBottom;
 		mediationBottom.complementaryMediation = mediationTop;
@@ -134,9 +141,12 @@ export default class BorderRadius extends StyleVector4Property {
 	 */
 	/* eslint-disable no-unused-vars */ computeOutputValue( element ) { /* eslint-enable no-unused-vars */
 
+		this._vector4ValueSetter( this._value, this._input );
+
 		this._needsProcess = true;
 
 	}
+
 
 	/**
 	 *
@@ -144,19 +154,29 @@ export default class BorderRadius extends StyleVector4Property {
 	 */
 	process( element ){
 
-		this._vector4ValueSetter( this._value, this._input );
+		this._needsRender = true;
+
+	}
+
+	/**
+	 *
+	 * @param {MeshUIBaseElement} element
+	 */
+	render( element ){
+
+		this._valueUV.copy( this._value );
 
 		const elementWidth = element._bounds._offsetWidth;
 		const elementHeight = element._bounds._offsetHeight;
 
 		// @TODO: Units process could be strategies
 		if( this._units === Units.PERCENT ) {
-			this._value.divideScalar(100);
+			this._valueUV.divideScalar(100);
 		}
 
 		// @TODO: Units process could be strategies
 		if( this._units === Units.WORLD_UNITS ) {
-			this._value.divideScalar( Math.min(elementWidth , elementHeight) );
+			this._valueUV.divideScalar( Math.min(elementWidth , elementHeight) );
 		}
 
 
@@ -191,17 +211,17 @@ export default class BorderRadius extends StyleVector4Property {
 			sX = sY = 1.0;
 		}
 
-		this._cornerTL.x = this._value.x * sX;
-		this._cornerTL.y = 1 - (this._value.x * sY );
+		this._cornerTL.x = this._valueUV.x * sX;
+		this._cornerTL.y = 1 - (this._valueUV.x * sY );
 
-		this._cornerTR.x = 1 - (this._value.y * sX );
-		this._cornerTR.y = 1 - (this._value.y * sY );
+		this._cornerTR.x = 1 - (this._valueUV.y * sX );
+		this._cornerTR.y = 1 - (this._valueUV.y * sY );
 
-		this._cornerBR.x = 1 - (this._value.z * sX );
-		this._cornerBR.y = this._value.z * sY;
+		this._cornerBR.x = 1 - (this._valueUV.z * sX );
+		this._cornerBR.y = this._valueUV.z * sY;
 
-		this._cornerBL.x = this._value.w * sX;
-		this._cornerBL.y = this._value.w * sY;
+		this._cornerBL.x = this._valueUV.w * sX;
+		this._cornerBL.y = this._valueUV.w * sY;
 
 	}
 

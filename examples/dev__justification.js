@@ -217,25 +217,24 @@ function buildJustifiedPanel( id, color, contentDirection ) {
 			justifyContent: 'center',
 			alignItems: 'center',
 			borderWidth: '0 0 0.01 0',
-			// borderWidth: 0.01,
 			borderColor: Math.floor( step * (5-i) ),
 			offset:0.001,
-			textAlign: 'center',
 			visible: i !== 2,
 		} );
+
+		if( i === 0 ) {
+			blockText.set({ width:0.125, height:0.125 });
+		}
+
 		panel.add( blockText );
 
 		const text = new ThreeMeshUI.Text( {
 			textAlign: 'center',
+			alignItems : 'center',
 			lineHeight: 1,
-			// width: 0.125,
-			// height: 0.125,
-			padding: 0.03,
+			width: 0.125,
+			height: 0.125,
 			textContent: letters[ i ],
-			backgroundColor: 'blue',
-			backgroundOpacity: 0,
-			// borderColor: Math.floor( step * (5-i) ),
-			// borderWidth: '0 0 0.01 0',
 		} );
 		blockText.add( text );
 

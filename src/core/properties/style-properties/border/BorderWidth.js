@@ -69,6 +69,11 @@ export default class BorderWidth extends StyleVector4Property{
 	 * @param {MeshUIBaseElement} element
 	 */
 	process( element ) {
+		this._needsRender = true;
+		element._borderRadius._needsRender = true;
+	}
+
+	render( element ) {
 
 		this._valueUV.copy( this._value );
 

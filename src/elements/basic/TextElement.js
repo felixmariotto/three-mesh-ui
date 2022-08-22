@@ -1,7 +1,6 @@
 import Frame from '../../frame/Frame';
 import FrameMaterial from '../../frame/materials/FrameMaterial';
 import BoxElement from './BoxElement';
-import ChildrenInline from '../../core/properties/hierarchy/ChildrenInline';
 import TextContentText from '../../core/properties/TextContentText';
 import TextLayouter from '../../core/properties/TextLayouter';
 import TextAlignPropertyText from '../../core/properties/style-properties/font/TextAlignPropertyText';
@@ -11,10 +10,10 @@ import JustifyContentProperty from '../../core/properties/style-properties/flex/
 import AlignItemsProperty from '../../core/properties/style-properties/flex/AlignItemsProperty';
 import LineHeightPropertyInline from '../../core/properties/style-properties/font/LineHeightPropertyInline';
 import WhiteSpacePropertyInline from '../../core/properties/style-properties/font/WhiteSpacePropertyInline';
-import InvertAlphaPropertyText from '../../core/properties/InvertAlphaProperty';
-import SegmentsPropertyInline from '../../core/properties/geometry/SegmentsPropertyInline';
 import SegmentsPropertyText from '../../core/properties/geometry/SegmentsPropertyText';
 import FontKerningPropertyText from '../../core/properties/style-properties/font/FontKerningPropertyText';
+import BoundsText from '../../core/properties/BoundsText';
+import ChildrenText from '../../core/properties/hierarchy/ChildrenText';
 
 export default class TextElement extends BoxElement {
 
@@ -29,8 +28,9 @@ export default class TextElement extends BoxElement {
 		properties.flexDirection = FlexDirectionPropertyText;
 		properties.justifyContent = JustifyContentProperty;
 		properties.alignItems = AlignItemsProperty;
+		properties.bounds = BoundsText;
 
-		if( !properties.children ) properties.children = ChildrenInline;
+		if( !properties.children ) properties.children = ChildrenText;
 		if( !properties.textContent ) properties.textContent = TextContentText;
 		if( !properties.layouter ) properties.layouter = TextLayouter;
 		if( !properties.lineHeight ) properties.lineHeight = LineHeightPropertyInline;

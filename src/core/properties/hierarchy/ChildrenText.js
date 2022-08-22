@@ -5,7 +5,7 @@ import BaseProperty from '../BaseProperty';
 import MeshUIBaseElement from '../../elements/MeshUIBaseElement';
 /* eslint-enable no-unused-vars */
 
-export default class ChildrenInline extends BaseProperty {
+export default class ChildrenText extends BaseProperty {
 
 	constructor() {
 
@@ -17,6 +17,20 @@ export default class ChildrenInline extends BaseProperty {
 		 * @internal
 		 */
 		this._uis = [];
+
+		/**
+		 *
+		 * @type {Array.<MeshUIBaseElement>}
+		 * @internal
+		 */
+		this._inlines = [];
+
+		/**
+		 *
+		 * @type {Array.<MeshUIBaseElement>}
+		 * @internal
+		 */
+		this._boxes = [];
 
 	}
 
@@ -31,9 +45,9 @@ export default class ChildrenInline extends BaseProperty {
 	 */
 	update( element, out ) { /* eslint-enable no-unused-vars */
 
-		// this._compute( element );
-		//
-		// this._needsProcess = true;
+		this._compute( element );
+
+		this._needsProcess = true;
 
 	}
 
@@ -46,15 +60,15 @@ export default class ChildrenInline extends BaseProperty {
 	 */
 	process( element ) {
 
-		// this._compute( element );
+		this._compute( element );
 
 	}
 
 	_compute( element ) {
 
-		// this._uis = element.children.filter( child => child.visible && child.isUI );
-		//
-		// this._inlines = this._uis.filter( child => child.isInline );
+		this._uis = element.children.filter( child => child.visible && child.isUI );
+
+		this._inlines = this._uis.filter( child => child.isInline );
 
 	}
 
@@ -63,7 +77,7 @@ export default class ChildrenInline extends BaseProperty {
 	 */
 	dispose() {
 
-		// this._inlines = null;
+		this._inlines = null;
 
 	}
 

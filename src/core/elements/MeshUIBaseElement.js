@@ -41,7 +41,6 @@ import FontSizeProperty from '../properties/style-properties/font/FontSizeProper
 import FontLibrary from '../../font/FontLibrary';
 import SegmentsProperty from '../properties/geometry/SegmentsProperty';
 import InvertAlphaProperty from '../properties/InvertAlphaProperty';
-import deepDelete from '../../utils/deepDelete';
 import FontKerningProperty from '../properties/style-properties/font/FontKerningProperty';
 /* eslint-enable no-unused-vars */
 
@@ -147,7 +146,7 @@ export default class MeshUIBaseElement extends Object3D {
 
 		/**
 		 *
-		 * @type {EmptyProperty|ChildrenBox|ChildrenInline}
+		 * @type {EmptyProperty|ChildrenBox|ChildrenText}
 		 * @internal
 		 */
 		this._children = properties.children ? new properties.children : new EmptyProperty("children");
@@ -316,6 +315,7 @@ export default class MeshUIBaseElement extends Object3D {
 			this._margin,
 			this._width,
 			this._height,
+			this._borderWidth,
 			this._boxSizing,
 
 			this._bounds,
@@ -350,7 +350,6 @@ export default class MeshUIBaseElement extends Object3D {
 			this._overflow,
 
 			this._borderRadius,
-			this._borderWidth,
 			this._borderColor,
 			this._borderOpacity,
 
@@ -454,16 +453,12 @@ export default class MeshUIBaseElement extends Object3D {
 
 	render() {
 
-		for ( const component of this._components ) {
-			component._needsProcess = false;
-			component._needsUpdate = false;
-		}
-
-		if( this._renderer._needsProcess ) {
-
-			this._renderer.process( this );
-			this._renderer._needsProcess = false;
-
+		for ( let i = 0; i < this._components.length; i++ ) {
+			const component = this._components[ i ];
+			if( component._needsRender ) {
+				component.render( this );
+				component._needsRender = false;
+			}
 		}
 
 		// render all children

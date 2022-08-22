@@ -82,8 +82,10 @@ export default class AlignItemsPropertyBox extends AlignItemsProperty {
 
 		}
 
-		// this._needsProcess = true;
+		this._needsProcess = true;
 		// @TODO: Store children here
+		element._autoSize._needsProcess = true;
+
 		element._flexDirection._needsProcess = true; //not mandatory
 		element._justifyContent._needsProcess = true;
 

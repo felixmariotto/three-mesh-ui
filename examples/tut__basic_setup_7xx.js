@@ -161,10 +161,14 @@ function step2BuildThreeMeshUIElements() {
 		alignItems: 'stretch',
 		textAlign: 'left',
 
+		borderWidth : 0.25,
+		borderColor : 0x000000,
+		backgroundColor : 0x000000,
+		backgroundOpacity : 0,
+
 		// A Block can also define "text" properties that will propagate to any of its Text children
 		fontSize: 0.055,
 		fontFamily: 'Roboto',
-		backgroundColor: 'red',
 		// @Note: setting fontFamily
 		// This looks very easy, but this isn't the best way for handling fonts
 		// However it is perfect for a first glance on how to get started with three-mesh-ui

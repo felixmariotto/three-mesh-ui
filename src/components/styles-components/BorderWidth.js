@@ -36,9 +36,9 @@ export default class BorderWidth {
 
 	updateValue( target = null, offsetWidth = 1.0, offsetHeight = 1.0 ){
 
-		if( target ){
+		if( target ) {
 			this._inputValue.copy( target );
-		}else{
+		} else {
 			target = this._inputValue;
 		}
 

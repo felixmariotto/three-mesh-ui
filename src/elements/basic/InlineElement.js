@@ -1,4 +1,4 @@
-import ChildrenInline from '../../core/properties/hierarchy/ChildrenInline';
+
 import MeshUIBaseElement from '../../core/elements/MeshUIBaseElement';
 import TextContentInline from '../../core/properties/TextContentInline';
 import InlinesProperty from '../../core/properties/InlinesProperty';
@@ -16,6 +16,7 @@ import FontSizePropertyInline from '../../core/properties/style-properties/font/
 import SegmentsPropertyInline from '../../core/properties/geometry/SegmentsPropertyInline';
 import InvertAlphaPropertyInline from '../../core/properties/InvertAlphaPropertyInline';
 import FontKerningPropertyInline from '../../core/properties/style-properties/font/FontKerningPropertyInline';
+import ChildrenInline from '../../core/properties/hierarchy/ChildrenInline';
 
 export default class InlineElement extends MeshUIBaseElement {
 

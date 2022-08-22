@@ -31,40 +31,164 @@ export default class StyleSideProperty extends SubStyleProperty {
 		 */
 		this._relative = false;
 
+		this._updateRequired = true;
+
+
+
+	}
+
+	/**
+	 *
+	 * @param {any} value
+	 */
+	set inline( value ) {
+
+		if( ! this.isValidValue( value ) ) return;
+
+		if( value === this._inline ) {
+
+			// do nothing no update, the value hasn't changed
+			return;
+
+		}
+
+		this._inline = value;
+
+		if( this._input === this._inline ) return;
+
+		this._parseInput();
+
+	}
+
+	_parseInput() {
+
+		let updateRequired = true;
+
+		// Inline has priority if set
+		if( this._inline !== undefined && this._inline !== 'unset' ) {
+
+			this._input = this._inline;
+
+		}
+		// or fallback on computed
+		else if( this._computed !== undefined ) {
+
+			// do not require an update if the value remains
+			if( this._computed === this._input ) updateRequired = false;
+			this._input = this._computed;
+
+		}
+		// or fallback on default value
+		else {
+
+			updateRequired = this._input === 'inherit';
+
+		}
+
+		if( updateRequired ) {
+
+			this._auto = !this._input || this._input === 'auto';
+
+
+			if ( !this._auto ) {
+
+				// string can be percentages
+				// console.log( this._input, typeof this._input, this._input.endsWith('%'))
+				if ( ( typeof this._input === 'string' || this._input instanceof String ) && this._input.endsWith( '%' ) ) {
+
+
+					this._relative = true;
+					this._value = 0;
+
+
+					const floatValue = parseFloat( this._input.replace( '%', '' ).trim() );
+					if ( !isNaN( floatValue ) ) {
+
+						this._value = floatValue / 100;
+
+					}
+
+				} else {
+
+					this._relative = false;
+					this._value = this._input;
+
+				}
+
+			}
+
+
+			this._needsUpdate = this._updateRequired = updateRequired;
+			// this._needsUpdate = true;
+
+			// console.log( this._value, this._auto, this._relative );
+
+		}
+
+	}
+
+	update( element, out ) {
+
+		if( this._updateRequired ) {
+
+			this._updateRequired = false;
+
+			if( !this._allowsInherit ) {
+
+				this._inheritedInput = this.getInheritedInput( element );
+
+			}
+
+			this.computeOutputValue( element );
+
+			// rebuild same properties on children 'inheritance'
+			// for ( const childUIElement of element._children._uis ) {
+			//
+			// 	childUIElement[`_${this._id}`]._needsUpdate = true;
+			//
+			// }
+
+			this.output( out );
+
+		}
+
 	}
 
 	/* eslint-disable no-unused-vars */ computeOutputValue( element ) { /* eslint-enable no-unused-vars */
 
-		this._auto = !this._input || this._input === 'auto';
+		// this._auto = !this._input || this._input === 'auto';
+		//
+		// if( !this._auto ) {
+		//
+		// 	// string can be percentages
+		// 	// console.log( this._input, typeof this._input, this._input.endsWith('%'))
+		// 	if( (typeof this._input === 'string' || this._input instanceof String) && this._input.endsWith('%') ) {
+		//
+		//
+		// 		this._relative = true;
+		// 		this._value = 0;
+		//
+		//
+		// 		const floatValue = parseFloat( this._input.replace('%','').trim() );
+		// 		if ( !isNaN (floatValue) ) {
+		//
+		// 			this._value = floatValue / 100;
+		//
+		// 		}
+		//
+		// 	} else {
+		//
+		// 		this._relative = false;
+		// 		this._value = this._input;
+		//
+		// 	}
+		//
+		// }
 
-		if( !this._auto ) {
-
-			// string can be percentages
-			// console.log( this._input, typeof this._input, this._input.endsWith('%'))
-			if( (typeof this._input === 'string' || this._input instanceof String) && this._input.endsWith('%') ) {
-
-
-				this._relative = true;
-				this._value = 0;
-
-
-				const floatValue = parseFloat( this._input.replace('%','').trim() );
-				if ( !isNaN (floatValue) ) {
-
-					this._value = floatValue / 100;
-
-				}
-
-			} else {
-
-				this._relative = false;
-				this._value = this._input;
-
-			}
-
-		}
 
 		element._bounds._needsUpdate = true;
+
+		// element._autoSize._needsProcess = true;
 
 	}
 

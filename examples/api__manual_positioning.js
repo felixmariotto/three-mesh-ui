@@ -95,6 +95,8 @@ function makeTextPanel() {
 		fontTexture: FontImage
 	} );
 
+	window.rootBlock = outerContainer;
+
 	outerContainer.position.set( 0, 1, -1.8 );
 	outerContainer.rotation.x = -0.55;
 	scene.add( outerContainer );

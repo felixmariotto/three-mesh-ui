@@ -21,6 +21,8 @@ export default class FlexDirectionPropertyText extends FlexDirectionProperty {
 
 		this._value = this._inheritedInput;
 
+		element._flexDirection._needsProcess = true;
+		element._layouter._needsProcess = true;
 		element._textAlign._needsUpdate = true;
 
 	}

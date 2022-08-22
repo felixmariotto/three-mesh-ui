@@ -300,6 +300,7 @@ function makeBoxForBorder( text, visible = true ) {
 		margin: 0.05,
 		justifyContent: 'center',
 		textAlign: 'center',
+		boxSizing: 'border-box',
 		// side: DoubleSide,
 		// castShadow: true,
 		// customDepthMaterial : new FrameDepthMaterial(),
@@ -347,7 +348,7 @@ function loop() {
 		borderOpacity: 1
 	} );
 
-	topMiddleRight.set({ borderWidth: Math.abs( 0.23 * Math.sin( Date.now() / 500 ) ) })
+	topMiddleRight.set({ borderWidth: Math.abs( 0.15 * Math.sin( Date.now() / 500 ) ) })
 
 	topLeft.set({borderRadius: [Math.abs( 0.5 * Math.sin( Date.now() / 500 ) ),0,0,0]  })
 
