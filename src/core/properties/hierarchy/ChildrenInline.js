@@ -27,20 +27,41 @@ export default class ChildrenInline extends BaseProperty {
 
 	}
 
+	/* eslint-disable no-unused-vars */
+	/**
+	 * Update requested when :
+	 * 		- New child has been added
+	 * 		- Existing child has been removed
+	 *
+	 * @param element
+	 * @param out
+	 */
+	update( element, out ) { /* eslint-enable no-unused-vars */
 
-	/* eslint-disable no-unused-vars */	update( element, out ) { /* eslint-enable no-unused-vars */
+		this._compute( element );
 
 		this._needsProcess = true;
 
 	}
 
+
+	/**
+	 * Process when :
+	 * 		- Existing child visibility changed
+	 *
+	 * @param element
+	 */
 	process( element ) {
 
-		this._inlines = element.children.filter( child => child.isInline );
+		this._compute( element );
 
+	}
 
-		// TODO: ?
-		// element._bounds.checkAutoProcess( element );
+	_compute( element ) {
+
+		this._uis = element.children.filter( child => child.visible && child.isUI );
+
+		this._inlines = this._uis.filter( child => child.isInline );
 
 	}
 

@@ -1,6 +1,6 @@
 import SubStyleProperty from '../SubStyleProperty';
 import FontLibrary from '../../../../font/FontLibrary';
-import { default as RegisteredFontFamily } from '../../../../font/FontFamily';
+import FontFamily from '../../../../font/FontFamily';
 
 
 export default class FontFamilyProperty extends SubStyleProperty {
@@ -11,6 +11,7 @@ export default class FontFamilyProperty extends SubStyleProperty {
 
 	}
 
+
 	/* eslint-disable no-unused-vars */
 	/**
 	 *
@@ -18,30 +19,26 @@ export default class FontFamilyProperty extends SubStyleProperty {
 	 */
 	computeOutputValue( element ) { /* eslint-enable no-unused-vars */
 
-		let abstractedInput = this._input;
+		if( this._input instanceof FontFamily ) {
 
-		if( abstractedInput === 'inherit' ) {
-			abstractedInput = this.getInheritedInput( element );
-		}
+			this._value = this._input;
 
-		if( abstractedInput instanceof RegisteredFontFamily ) {
+		} else if ( this._input === 'inherit' ) {
 
-			this._value = abstractedInput;
-			element._font._needsUpdate = true;
+			// do nothing
 
-		} else if ( typeof abstractedInput === 'string' ) {
+		} else if ( typeof this._input === 'string' ) {
 
 			// string - family
-			const fontFamily = FontLibrary.getFontFamily(abstractedInput);
+			const fontFamily = FontLibrary.getFontFamily( this._input );
 
 			if( fontFamily ) {
 
 				this._value = fontFamily;
-				element._font._needsUpdate = true;
 
 			} else {
 
-				console.warn( `(.style) fontFamily, the font '${abstractedInput}' is not registered. Aborted.`)
+				console.warn( `(.style) fontFamily, the font '${this._input}' is not registered. Aborted.`)
 
 			}
 
@@ -56,8 +53,23 @@ export default class FontFamilyProperty extends SubStyleProperty {
 
 	/**
 	 * @override
-	 * @return {any|FontFamilyProperty|null}
+	 * @return {any|FontFamily|null}
 	 */
 	get value() { return this._value; }
+
+	getInheritedInput ( element ) {
+
+		if( this._input !== 'inherit' ) return this._input;
+
+		const parent = element._parent._value;
+		if( parent ) {
+
+			return parent[`_${this._id}`].getInheritedInput( parent )
+
+		}
+
+		return this.getDefaultValue();
+
+	}
 
 }

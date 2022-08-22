@@ -223,7 +223,7 @@ function init() {
 	const bottomMiddleLeft = makeBoxForBorder('BottomMiddleLeft?');
 	// bottomMiddleLeft.backgroundColor = new Color(0xffffff);
 	bottomMiddleLeft.set({borderRadius:'0.2 0.1', backgroundColor: 0xffffff, backgroundOpacity:1});
-	bottomMiddleLeft.material = new FramePhysicalMaterial({
+	bottomMiddleLeft.backgroundMaterial = new FramePhysicalMaterial({
 		side:DoubleSide,
 		transmission: 1,
 		opacity: 1,
@@ -238,7 +238,7 @@ function init() {
 	const bottomMiddleRight = makeBoxForBorder('BottomMiddleRight?');
 	bottomMiddleRight.set({borderRadius:0.5,
 		borderWidth:'0 0 0.05 0',borderColor:new Color(0xff9900)});
-	bottomMiddleRight.material = new FrameBasicMaterial({side:DoubleSide});
+	bottomMiddleRight.backgroundMaterial = new FrameBasicMaterial({side:DoubleSide});
 	panelScale = bottomMiddleRight;
 	const bottomRight = makeBoxForBorder('BorderBottomRight');
 	bottomRight.set({borderWidth:'0.1 0.2 0.1 0.05', borderRadius:0.5, borderColor: new Color(0x99ffff)});
@@ -270,7 +270,7 @@ function makeTextPanel() {
 
 	panel.position.set( 0, 1, -1.8 );
 	panel.rotation.x = -0.55;
-	panel.castShadow = true;
+	panel.backgroundCastShadow = true;
 	scene.add( panel );
 
 	return panel;
@@ -308,14 +308,15 @@ function makeBoxForBorder( text, visible = true ) {
 		backgroundOpacity : 0.5,
 	} );
 
-	panel.side = DoubleSide;
-	panel.castShadow = true;
-	panel.customDepthMaterial = new FrameDepthMaterial();
+	panel.backgroundSide = DoubleSide;
+	panel.backgroundCastShadow = true;
+	panel.backgroundCustomDepthMaterial = new FrameDepthMaterial();
 
 	//
 	panel.add(
 		new ThreeMeshUI.Text( {
 			content: text,
+			backgroundColor: 'yellow'
 		} )
 	);
 
@@ -346,11 +347,11 @@ function loop() {
 		borderOpacity: 1
 	} );
 
-	topMiddleRight.set({ borderWidth: Math.abs( 0.15 * Math.sin( Date.now() / 500 ) ) })
+	topMiddleRight.set({ borderWidth: Math.abs( 0.23 * Math.sin( Date.now() / 500 ) ) })
 
 	topLeft.set({borderRadius: [Math.abs( 0.5 * Math.sin( Date.now() / 500 ) ),0,0,0]  })
 
-	const size = Math.abs(0.5 * Math.sin( Date.now() / 500 ) );
+	const size = 0.15 + Math.abs(0.35 * Math.sin( Date.now() / 500 ) );
 	panelScale.set( {width: size, height: size});
 
 	lightHelper.update();

@@ -54,17 +54,12 @@ export default class GlyphsProperty extends BaseProperty{
 	process( element ) {
 
 		if( !element._font._fontVariant ) return;
-
-		////console.log( "GlyphsUpdate", element._textContent._value, element._whiteSpace._whiteSpacedContent );
+		if( !element._font._fontVariant.isReady ) return;
 
 		this._value = element._whiteSpace._whiteSpacedContent.split( '' ).map( ( char ) => element._font._fontVariant.getTypographicGlyph( char ) );
 
-		if( this._value )
-		{
-			element._inlines._needsProcess = true;
-		}
-
-		// element._inlines._needsProcess = true;
+		// @TODO : Even if the value is removed it should trigger a rebuild.
+		if( this._value ) element._inlines._needsProcess = true;
 
 	}
 

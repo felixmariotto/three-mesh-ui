@@ -189,7 +189,7 @@ function step2BuildThreeMeshUIElements() {
 
 	} );
 
-	rootBlock2.material = new FrameBasicMaterial({});
+	rootBlock2.backgroundMaterial = new FrameBasicMaterial({});
 
 
 	scene.add( rootBlock2 );

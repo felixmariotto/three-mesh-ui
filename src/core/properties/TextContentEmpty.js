@@ -11,10 +11,10 @@ export default class TextContentEmpty extends EmptyProperty{
 	}
 
 
-	/* eslint-disable no-unused-vars */ set value( v ) { 	/* eslint-enable no-unused-vars */ };
+	/* eslint-disable no-unused-vars */ set value( v ) { 	/* eslint-enable no-unused-vars */ }
 
 
-	update( element, out ) {
+	/* eslint-disable no-unused-vars */ update( element, out ) { /* eslint-enable no-unused-vars */
 
 		let content = "";
 		for ( let i = 0; i < element.children.length; i++ ) {

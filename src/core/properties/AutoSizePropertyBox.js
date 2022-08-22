@@ -3,7 +3,7 @@ import BaseProperty from './BaseProperty';
 /**
  * Autosize are only trigger when natural size changed
  */
-export default class BoxAutoSize extends BaseProperty {
+export default class AutoSizePropertyBox extends BaseProperty {
 
 	constructor() {
 
@@ -12,10 +12,6 @@ export default class BoxAutoSize extends BaseProperty {
 	}
 
 	process( element ) {
-
-
-		//console.log( element.name, 'AutoSizeBox' );
-		const parent = element._parent._value;
 
 		// if( parent ) return;
 

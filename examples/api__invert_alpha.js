@@ -83,6 +83,8 @@ function init() {
 
 	//
 
+	ThreeMeshUI.update();
+
 	renderer.setAnimationLoop( loop );
 
 }
@@ -217,7 +219,7 @@ function loop() {
 	// Don't forget, ThreeMeshUI must be updated manually.
 	// This has been introduced in version 3.0.0 in order
 	// to improve performance
-	ThreeMeshUI.update();
+	// ThreeMeshUI.update();
 
 	controls.update();
 	renderer.render( scene, camera );

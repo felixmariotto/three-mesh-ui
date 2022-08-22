@@ -84,13 +84,14 @@ export default class BackgroundImage extends SubStyleProperty {
 
 }
 
+/* eslint-disable no-unused-vars */
 /**
  *
  * @param {any} value
  * @return {boolean}
  * @private
  */
-function _isValid( value ) {
+function _isValid( value ) { /* eslint-enable no-unused-vars */
 
 	// @TODO : Texture or URL() or String or ID ?
 	//console.log( "todo, validate image value", value);

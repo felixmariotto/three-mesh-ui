@@ -29,19 +29,19 @@ function example() {
 	const defaults = new ThreeMeshUI.Block(COLUMN).add( fillDefault, borderDefault, fullDefault );
 
 	const fillStandard = new ThreeMeshUI.Block(FILL_BLOCK);
-	fillStandard.material = new FrameStandardMaterial({});
+	fillStandard.backgroundMaterial = new FrameStandardMaterial({});
 	const borderStandard = new ThreeMeshUI.Block(BORDER_BLOCK);
-	borderStandard.material = new FrameStandardMaterial({});
+	borderStandard.backgroundMaterial = new FrameStandardMaterial({});
 	const fullStandard = new ThreeMeshUI.Block(FULL_BLOCK);
-	fullStandard.material = new FrameStandardMaterial({});
+	fullStandard.backgroundMaterial = new FrameStandardMaterial({});
 	const standards = new ThreeMeshUI.Block(COLUMN).add( fillStandard, borderStandard, fullStandard );
 
 	const fillPhysical = new ThreeMeshUI.Block({...FILL_BLOCK, ...PHYSICAL_OVERRIDE} );
-	fillPhysical.material = new FramePhysicalMaterial(PHYSICAL_MATERIAL_OPTIONS);
+	fillPhysical.backgroundMaterial = new FramePhysicalMaterial(PHYSICAL_MATERIAL_OPTIONS);
 	const borderPhysical = new ThreeMeshUI.Block({...BORDER_BLOCK, ...PHYSICAL_OVERRIDE});
-	borderPhysical.material = new FramePhysicalMaterial(PHYSICAL_MATERIAL_OPTIONS);
+	borderPhysical.backgroundMaterial = new FramePhysicalMaterial(PHYSICAL_MATERIAL_OPTIONS);
 	const fullPhysical = new ThreeMeshUI.Block({...FULL_BLOCK, ...PHYSICAL_OVERRIDE});
-	fullPhysical.material = new FramePhysicalMaterial(PHYSICAL_MATERIAL_OPTIONS);
+	fullPhysical.backgroundMaterial = new FramePhysicalMaterial(PHYSICAL_MATERIAL_OPTIONS);
 	const physicals = new ThreeMeshUI.Block(COLUMN).add( fillPhysical, borderPhysical, fullPhysical );
 
 

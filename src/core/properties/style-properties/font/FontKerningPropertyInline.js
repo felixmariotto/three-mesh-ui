@@ -1,16 +1,24 @@
-import SubStyleProperty from '../SubStyleProperty';
+import FontKerningProperty from './FontKerningProperty';
 
 
-export default class FontKerning extends SubStyleProperty {
+export default class FontKerningPropertyInline extends FontKerningProperty {
 
-	constructor( defaultValue ) {
+	constructor() {
 
-		super( 'boxSizing', defaultValue );
+		super();
 
-		this.isValidValue = _isValid;
-
+		// Configure
+		this._allowsInherit = false;
+		this.computeOutputValue = this._computeFromInherited;
 	}
 
+
+	_computeFromInherited( element ) {
+		super._computeFromInherited(element);
+
+		// this._needsProcess = true;
+		element._parent._value._layouter._needsProcess = false;
+	}
 
 	process( element ) {
 
@@ -33,21 +41,5 @@ export default class FontKerning extends SubStyleProperty {
 		}
 
 	}
-
-}
-
-
-const AVAILABLE_VALUES = ['normal', 'none'];
-
-function _isValid( value ) {
-
-	if( AVAILABLE_VALUES.indexOf( value ) === -1 ) {
-
-		console.warn( `(.style) fontKerning value '${value}' is not valid. Aborted` );
-		return false;
-
-	}
-
-	return true;
 
 }

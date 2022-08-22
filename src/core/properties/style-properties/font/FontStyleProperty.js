@@ -1,7 +1,7 @@
 import SubStyleProperty from '../SubStyleProperty';
 
 
-export default class FontStyle extends SubStyleProperty {
+export default class FontStyleProperty extends SubStyleProperty {
 
 	constructor( defaultValue ) {
 

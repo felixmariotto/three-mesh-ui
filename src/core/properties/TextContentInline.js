@@ -39,6 +39,7 @@ export default class TextContentInline extends BaseProperty{
 
 	/* eslint-disable no-unused-vars */ update( element, out ) { 	/* eslint-enable no-unused-vars */
 
+		element._glyphs._needsUpdate = true;
 		element._whiteSpace._needsProcess = true;
 
 		// element._whiteSpace._needsProcess = true;
@@ -48,5 +49,6 @@ export default class TextContentInline extends BaseProperty{
 		// if( element._parent._value ) element._parent._value._layouter._needsProcess = true;
 
 	}
+
 
 }

@@ -187,8 +187,8 @@ const _backgroundSizeTransformer = function( target, property, value ) {
  * @type {Object.<{m:string, t?:(fontMaterial:Material|ShaderMaterial, materialProperty:string, value:any) => void}>}
  */
 const _mediationDefinitions = {
-	alphaTest: { m: 'alphaTest', t: alphaTestTransformer },
-	side: { m: 'side' },
+	backgroundAlphaTest: { m: 'alphaTest', t: alphaTestTransformer },
+	backgroundSide: { m: 'side' },
 	// backgroundTexture: { m: 'map' },
 	backgroundImage: { m: 'map'},
 	backgroundColor: { m: 'color' },
@@ -196,7 +196,6 @@ const _mediationDefinitions = {
 	backgroundSize: { m: 'computedBackgroundSize', t: _backgroundSizeTransformer },
 	borderWidth: { m: 'borderWidth', t: uniformOrUserDataTransformer },
 	borderColor: { m: 'borderColor', t: uniformOrUserDataTransformer },
-	// borderRadius : { m: 'computedCorners', t: _linkCornersOutput },
 	cornerTL : { m: 'cornerTL', t: uniformOrUserDataTransformer },
 	cornerTR : { m: 'cornerTR', t: uniformOrUserDataTransformer },
 	cornerBR : { m: 'cornerBR', t: uniformOrUserDataTransformer },

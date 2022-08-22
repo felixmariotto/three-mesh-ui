@@ -54,7 +54,7 @@ export default class TextContentText extends BaseProperty{
 		}
 
 
-		if( this._value ) element.add( new InlineElement({textContent:this._value}));
+		if( this._value ) element.add( new InlineElement({name:'anonymousInline',textContent:this._value}));
 
 	}
 

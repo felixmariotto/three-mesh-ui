@@ -8,6 +8,7 @@ import JustifyContentPropertyBox from '../../core/properties/style-properties/fl
 import { Vector3 } from 'three';
 import RendererPropertyBox from '../../core/properties/rendering/RendererPropertyBox';
 import PositionPropertyBox from '../../core/properties/style-properties/PositionPropertyBox';
+import AutoSizePropertyBox from '../../core/properties/AutoSizePropertyBox';
 
 export default class BoxElement extends MeshUIBaseElement {
 
@@ -25,6 +26,7 @@ export default class BoxElement extends MeshUIBaseElement {
 		if( !properties.justifyContent ) properties.justifyContent = JustifyContentPropertyBox;
 		if( !properties.alignItems ) properties.alignItems = AlignItemsPropertyBox;
 		if( !properties.position ) properties.position = PositionPropertyBox;
+		if( !properties.autoSize ) properties.autoSize = AutoSizePropertyBox;
 
 		if( !properties.renderer ) properties.renderer = RendererPropertyBox;
 
@@ -40,7 +42,7 @@ export default class BoxElement extends MeshUIBaseElement {
 		);
 
 
-		this.material = new FrameMaterial();
+		this.backgroundMaterial = new FrameMaterial();
 		this._renderer.process( this );
 
 		this._backgroundMesh.visible = false;

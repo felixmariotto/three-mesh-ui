@@ -18,7 +18,7 @@ export default class Frame extends Mesh {
 		const uvB = new BufferAttribute( new Float32Array( geometry.getAttribute('uv').array ), 2);
 		geometry.setAttribute('uvB', uvB ).name = 'uvB';
 
-		super( geometry, element.material );
+		super( geometry, element.backgroundMaterial );
 
 		this.name = 'UIBackgroundBox';
 

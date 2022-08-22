@@ -143,9 +143,10 @@ export default class FontVariant extends EventDispatcher {
 	 *
 	 * @abstract
 	 * @param {InlineGlyph} inline
+	 * @param {MeshUIBaseElement} element
 	 * @returns {BufferGeometry|Array.<BufferGeometry>}
 	 */
-	getGeometricGlyph( inline, segments = 1 ) {
+	getGeometricGlyph( inline, element ) {
 
 		throw new Error(`FontVariant(${typeof this})::getGeometryCharacter() is abstract and should therefore be overridden.`);
 

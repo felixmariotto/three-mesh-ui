@@ -95,9 +95,9 @@ export default class FontProperty extends BaseProperty{
 
 		// @TODO : Material Property
 		// update font material according to font variant
-		if( !element._material ) {
+		if( !element._backgroundMaterial ) {
 
-			element.material = new this._fontVariant.fontMaterial();
+			element.fontMaterial = new this._fontVariant.fontMaterial();
 
 		} else {
 
@@ -105,10 +105,10 @@ export default class FontProperty extends BaseProperty{
 
 			// @TODO :	Only recreate a material instance if needed,
 			//  				prevent user that its custom material may no longer be compatible with update fontVariant implementation
-			const isDefaultMaterial = element._material.isDefault && element._material.isDefault();
-			if( isDefaultMaterial && !(element._material instanceof this._fontVariant.fontMaterial) ) {
+			const isDefaultMaterial = element._fontMaterial.isDefault && element._fontMaterial.isDefault();
+			if( isDefaultMaterial && !(element._fontMaterial instanceof this._fontVariant.fontMaterial) ) {
 
-				element.material = new this._fontVariant.fontMaterial();
+				element.fontMaterial = new this._fontVariant.fontMaterial();
 
 			}
 			// else {
@@ -200,6 +200,8 @@ function _isValid( value ) {
  */
 function _readyClosure( element, fontProperty ) {
 	return function () {
+
+		element._glyphs._needsProcess = true;
 
 		// this._transferToMaterial();
 

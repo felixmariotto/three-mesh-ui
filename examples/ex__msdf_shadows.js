@@ -129,7 +129,6 @@ function makeTextPanel() {
 		padding: 0.05,
 		backgroundColor: new THREE.Color( 0x121212 ),
 		backgroundOpacity: 0,
-		interLine:0,
 		justifyContent: 'center',
 		alignItems: 'center',
 		// fontColor: new THREE.Color( 0xFF9900 ),
@@ -147,16 +146,16 @@ function makeTextPanel() {
 	// outerContainer.frame.visible = false;
 
 
-	const defaultText = new ThreeMeshUI.Text({content:"FontMaterial(default)\n", fontColor: new THREE.Color(0x0099ff), castShadow:true, side:DoubleSide});
-	const defaultTextInverted = new ThreeMeshUI.Text({content:"FontMaterial(default)\n", fontColor: new THREE.Color(0x0099ff), castShadow:true, side:DoubleSide});
+	const defaultText = new ThreeMeshUI.Text({content:"FontMaterial(default)", fontColor: new THREE.Color(0x0099ff), castShadow:true, side:DoubleSide});
+	const defaultTextInverted = new ThreeMeshUI.Text({content:"FontMaterial(default)", fontColor: new THREE.Color(0x0099ff), castShadow:true, side:DoubleSide});
 
-	const standardText = new ThreeMeshUI.Text({content:"MSDFStandardMaterial\n", fontColor: new THREE.Color(0x0099ff).convertSRGBToLinear(), castShadow:true, side:DoubleSide});
-	standardText.material = new MSDFStandardMaterial({});
-	standardText.customDepthMaterial =  new MSDFDepthMaterial({});
+	const standardText = new ThreeMeshUI.Text({content:"MSDFStandardMaterial", fontColor: new THREE.Color(0x0099ff).convertSRGBToLinear(), castShadow:true, side:DoubleSide});
+	standardText.backgroundMaterial = new MSDFStandardMaterial({});
+	standardText.backgroundCustomDepthMaterial =  new MSDFDepthMaterial({});
 
-	const standardTextInverted = new ThreeMeshUI.Text({content:"MSDFStandardMaterial\n", fontColor: new THREE.Color(0x99ff00).convertSRGBToLinear(), invertAlpha: true, castShadow:true, side:DoubleSide});
-	standardTextInverted.material = new MSDFStandardMaterial({});
-	standardTextInverted.customDepthMaterial =  new MSDFDepthMaterial({});
+	const standardTextInverted = new ThreeMeshUI.Text({content:"MSDFStandardMaterial", fontColor: new THREE.Color(0x99ff00).convertSRGBToLinear(), invertAlpha: true, castShadow:true, side:DoubleSide});
+	standardTextInverted.backgroundMaterial = new MSDFStandardMaterial({});
+	standardTextInverted.backgroundCustomDepthMaterial =  new MSDFDepthMaterial({});
 
 	outerContainer.add( defaultText, defaultTextInverted, standardText, standardTextInverted );
 

@@ -42,7 +42,13 @@ export default class TextLayouter extends BaseProperty {
 
 		} else if ( element._width._auto ) {
 
-			INNER_WIDTH = element._width.getInheritedInput( element )
+			// INNER_WIDTH = element._width.getInheritedInput( element )
+			// INNER_WIDTH = element._bounds._innerWidth;
+			INNER_WIDTH = Infinity;
+
+		} else {
+
+			INNER_WIDTH = element._bounds._innerWidth;
 
 		}
 
@@ -151,7 +157,9 @@ export default class TextLayouter extends BaseProperty {
 		let width = 0;
 		let lineOffsetY = 0;
 		lines[0].y = 0;
+		// lines[0].y = (lines[0].lineHeight * INTERLINE);
 
+		// calculates lines
 		lines.forEach( ( line, i ) => {
 
 			// starts by processing whitespace, it will return a collapsed left offset
@@ -182,10 +190,20 @@ export default class TextLayouter extends BaseProperty {
 
 			});
 
-			if( i !== 0 ){
+			if( i !== 0 ) {
 
 				// get the previousLine y and increase
-				line.y =  lines[i-1].y - (line.lineHeight * INTERLINE);
+				line.y =  lines[i-1].y - (line.lineHeight * INTERLINE) / 2;
+
+			} else {
+
+				// console.error( - line.lineHeight * INTERLINE );
+				// line.y = - ((line.lineHeight * INTERLINE ) + line.lineHeight);
+				// line.y = - ( (line.lineHeight * INTERLINE ) - line.lineHeight);
+				// line.y = - ((line.lineHeight * INTERLINE ) - line.lineBase) / 2;
+				line.y = - ((line.lineHeight * INTERLINE ) - line.lineHeight) / 2;
+				// line.y = 4 ;
+				// line.y = 1;
 
 			}
 
@@ -209,11 +227,38 @@ export default class TextLayouter extends BaseProperty {
 
 		} );
 
-		// lines.height = Math.abs(lineOffsetY + INTERLINE );
 		lines.height = Math.abs(lineOffsetY);
 		lines.width = width;
 
 		this._value = lines;
+
+		if( element._width._auto ) {
+			let sizeBase = lines.width;
+
+			// if( element._boxSizing._value === 'content-box' ) {
+				const padding = element._padding._value;
+				const border = element._borderWidth._value;
+
+				sizeBase += padding.w + padding.y + border.w + border.y;
+			// }
+
+			element._bounds.setOffsetWidth( element, sizeBase );
+		}
+
+		if( element._height._auto ) {
+			let sizeBase = lines.height;
+
+			// if( element._boxSizing._value === 'content-box' ) {
+			const padding = element._padding._value;
+			const border = element._borderWidth._value;
+
+			sizeBase += padding.x + padding.z + border.x + border.z;
+			// }
+
+			element._bounds.setOffsetHeight( element, sizeBase );
+
+			element._parent._value._bounds._needsUpdate = true;
+		}
 
 		//console.log( "LINES :::" , lines.height );
 
@@ -223,6 +268,9 @@ export default class TextLayouter extends BaseProperty {
 
 		element._inlineJustificator._needsProcess = true;
 		element._textAlign._needsProcess = true;
+
+		// @TODO :
+		element.performAfterUpdate();
 
 	}
 

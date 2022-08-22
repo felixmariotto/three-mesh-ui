@@ -137,7 +137,7 @@ export default class BaseProperty {
 		if( this._value !== 'inherit' ) return this._value;
 
 		const parent = element._parent._value;
-		if( parent ) {
+		if( parent && parent[`_${this._id}`] ) {
 
 			return parent[`_${this._id}`].getInheritedInput( parent )
 

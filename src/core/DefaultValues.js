@@ -6,7 +6,7 @@ const _values = {
 	fontStyle: 'normal',
 	fontWeight : '400',
 	offset: 0.01,
-	lineHeight: 0.01,
+	lineHeight: 1.2,
 	lineBreak: '- ,.:?!\n',// added '\n' to also acts as friendly breaks when white-space:normal
 	whiteSpace: 'pre-line',
 	flexDirection : 'column',
@@ -30,7 +30,9 @@ const _values = {
 	backgroundColor: 0x222222,
 	backgroundOpacity: 0.5,
 	overflow: 'visible',
-	letterSpacing: 0
+	letterSpacing: 0,
+	invertAlpha : false,
+	segments: 1
 };
 
 /**

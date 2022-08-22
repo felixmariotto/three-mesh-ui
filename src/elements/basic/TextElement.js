@@ -2,12 +2,19 @@ import Frame from '../../frame/Frame';
 import FrameMaterial from '../../frame/materials/FrameMaterial';
 import BoxElement from './BoxElement';
 import ChildrenInline from '../../core/properties/hierarchy/ChildrenInline';
-import BoundsText from '../../core/properties/BoundsText';
-import StyleEmptyProperty from '../../core/properties/style-properties/StyleEmptyProperty';
 import TextContentText from '../../core/properties/TextContentText';
 import TextLayouter from '../../core/properties/TextLayouter';
 import TextAlignPropertyText from '../../core/properties/style-properties/font/TextAlignPropertyText';
 import FlexDirectionPropertyText from '../../core/properties/style-properties/flex/FlexDirectionPropertyText';
+import InlineElement from './InlineElement';
+import JustifyContentProperty from '../../core/properties/style-properties/flex/JustifyContentProperty';
+import AlignItemsProperty from '../../core/properties/style-properties/flex/AlignItemsProperty';
+import LineHeightPropertyInline from '../../core/properties/style-properties/font/LineHeightPropertyInline';
+import WhiteSpacePropertyInline from '../../core/properties/style-properties/font/WhiteSpacePropertyInline';
+import InvertAlphaPropertyText from '../../core/properties/InvertAlphaProperty';
+import SegmentsPropertyInline from '../../core/properties/geometry/SegmentsPropertyInline';
+import SegmentsPropertyText from '../../core/properties/geometry/SegmentsPropertyText';
+import FontKerningPropertyText from '../../core/properties/style-properties/font/FontKerningPropertyText';
 
 export default class TextElement extends BoxElement {
 
@@ -20,14 +27,24 @@ export default class TextElement extends BoxElement {
 		const properties = {};
 
 		properties.flexDirection = FlexDirectionPropertyText;
-		properties.justifyContent = StyleEmptyProperty;
-		properties.alignItems = StyleEmptyProperty;
+		properties.justifyContent = JustifyContentProperty;
+		properties.alignItems = AlignItemsProperty;
 
 		if( !properties.children ) properties.children = ChildrenInline;
-		if( !properties.bounds ) properties.bounds = BoundsText;
 		if( !properties.textContent ) properties.textContent = TextContentText;
 		if( !properties.layouter ) properties.layouter = TextLayouter;
+		if( !properties.lineHeight ) properties.lineHeight = LineHeightPropertyInline;
 		if( !properties.textAlign ) properties.textAlign = TextAlignPropertyText;
+		if( !properties.whiteSpace ) properties.whiteSpace = WhiteSpacePropertyInline;
+		if( !properties.fontKerning ) properties.fontKerning = FontKerningPropertyText;
+		if( !properties.segments ) properties.segments = SegmentsPropertyText;
+
+
+		if( !values ) {
+			values = {};
+		}
+
+		if ( !values.width ) values.width = '100%';
 
 		super( properties, values );
 
@@ -41,7 +58,7 @@ export default class TextElement extends BoxElement {
 		);
 
 
-		this.material = new FrameMaterial();
+		this.backgroundMaterial = new FrameMaterial();
 		this.setBackgroundMesh( new Frame(this) );
 
 		this._backgroundMesh.visible = false;
@@ -96,5 +113,37 @@ export default class TextElement extends BoxElement {
 		return this;
 
 	}
+
+
+	set textContent ( value ) {
+
+		for ( let i = this.children.length - 1 ; i >= 0; i-- ) {
+			const child = this.children[ i ];
+			if( child.isUI ) {
+
+				this.remove( child );
+				child.clear();
+
+			}
+
+		}
+
+		if( value ) {
+
+			this.add( new InlineElement({name:'anonymousInline',textContent:value}));
+
+		}
+
+	}
+
+	set invertAlpha( value ) {
+
+		this._invertAlpha.value = value;
+
+	}
+
+	get invertAlpha () { return this._invertAlpha._value; }
+
+	get lines() { return this._layouter._value; }
 
 }

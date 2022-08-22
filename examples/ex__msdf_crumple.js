@@ -53,10 +53,10 @@ async function preload() {
 	const defaultGeometry = boldVariant.getGeometricGlyph;
 
 	// And let's re define what will happend when running its factory method
-	boldVariant.getGeometricGlyph = function ( inline, segments = 1 ) {
+	boldVariant.getGeometricGlyph = function ( inline, element ) {
 
 		// let's get the default geometry
-		const characterGeometry = defaultGeometry( inline, segments );
+		const characterGeometry = defaultGeometry( inline, element );
 
 		// and now alter it
 		const frequency = 0.85; // Decrease this value to reduce the amount of vertices to be moved
@@ -197,21 +197,22 @@ function makeTextPanel() {
 		backgroundOpacity: 0,
 	} );
 
-	container.frame.visible = false;
+	window.rootBlock = container;
+	// container.frame.visible = false;
 
 	container.position.set( 0, 2, -1.8 );
 	scene.add( container );
 
 	//
 	const text1 = new ThreeMeshUI.Text( {
-			content: 'Geometry',
+			textContent: 'Geometry',
 			fontWeight: '700',
 			fontColor: new Color(0x00ff99),
 			fontSize: 0.7,
 			segments: 4,
 			letterSpacing: -0.08,
 			castShadow: true,
-			customDepthMaterial: new MSDFDepthMaterial({}),
+			// fontCustomDepthMaterial: new MSDFDepthMaterial({}),
 			side: DoubleSide
 		} );
 
@@ -249,24 +250,24 @@ function makeTextPanel() {
 
 
 	infoBox.add( new ThreeMeshUI.Text( {
-		content: 'This example shows how to alter glyph ................... from',
+		textContent: 'This example shows how to alter glyph ................... from',
 		fontWeight: '700',
 	} ) );
 
 	infoBox.add( new ThreeMeshUI.Text( {
-		content: ' FontVariant.\n',
+		textContent: ' FontVariant.\n',
 		fontWeight: '700',
 		fontStyle: 'italic',
 	} ) );
 
 	infoBox.add( new ThreeMeshUI.Text( {
-		content: 'It also shows ',
+		textContent: 'It also shows ',
 		fontStyle: 'italic',
 		letterSpacing: 0.05
 	} ) );
 
 	infoBox.add( new ThreeMeshUI.Text( {
-		content: 'MSDFToonMaterial',
+		textContent: 'MSDFToonMaterial',
 		fontStyle: 'italic',
 		fontWeight: '700',
 		letterSpacing: 0.05
@@ -294,11 +295,11 @@ function loop() {
 
 	spotLight.target.position.x += speed;
 	spotLight.position.x += speed;
-	if( spotLight.target.position.x <= -1 ){
+	if( spotLight.target.position.x <= -1 ) {
 		spotLight.target.position.x = -1;
 		spotLight.position.x = -1;
 		speed*=-1;
-	}else if( spotLight.target.position.x >= 1 ){
+	} else if( spotLight.target.position.x >= 1 ) {
 		spotLight.target.position.x = 1;
 		spotLight.position.x = 1;
 		speed*=-1;

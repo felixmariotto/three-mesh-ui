@@ -211,7 +211,7 @@ export default class SubStyleProperty extends BaseProperty{
 
 		if( this._input !== 'inherit' ) return this._input;
 
-		const parent = element._parent._input;
+		const parent = element._parent._value;
 		if( parent ) {
 
 			return parent[`_${this._id}`].getInheritedInput( parent )

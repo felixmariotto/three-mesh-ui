@@ -33,23 +33,25 @@ export default class InlineJustificator extends BaseProperty {
 		// Line vertical positioning
 		let justificationOffset = ( () => {
 
-			// switch ( element._justifyContent._value ) {
-			switch ( "start" ) {
+			switch ( element._alignItems._value ) {
 
+				case 'inherit':
 				case 'start':
 					// return ( INNER_HEIGHT / 2 ) - lines[ 0 ].lineHeight - boxComponent._padding.x ;
 					// return boxComponent._padding.x - lines[0].lineHeight ;
 					// return (INNER_HEIGHT * .5) + boxComponent._padding.x - (lines[0].lineHeight * .5);
-					return (INNER_HEIGHT * .5) - lines[0].lineHeight;
+					// return (INNER_HEIGHT * .5) - lines[0].lineHeight + lines[0].y;
+					// return (INNER_HEIGHT * .5) - lines[0].lineHeight;
+					return (INNER_HEIGHT * .5) - lines[0].lineHeight + lines[0].y;
 
 				case 'end':
-					return textHeight - lines[ 0 ].lineHeight - ( INNER_HEIGHT / 2 );
+					// return textHeight - lines[ 0 ].lineHeight - ( INNER_HEIGHT / 2 );
+					return textHeight - lines[ 0 ].lineHeight + lines[0].y - ( INNER_HEIGHT / 2 );
 
-				case 'space-around':
-				case 'space-between':
-				case 'space-evenly':
+
+				case 'stretch': // @TODO : Stretch should trigger an error in own property
 				case 'center':
-					return ( textHeight / 2 ) - lines[ 0 ].lineHeight ;
+					return ( textHeight / 2 ) - lines[ 0 ].lineHeight + lines[0].y;
 
 			}
 		} )();

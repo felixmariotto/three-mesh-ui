@@ -23,9 +23,9 @@ export default class TextAlignPropertyText extends TextAlignProperty {
 	/* eslint-disable no-unused-vars */computeOutputValue( element ) { /* eslint-enable no-unused-vars */
 
 		// console.error( "TextAlign Property", this._inheritedInput );
-			this._value = this._inheritedInput;
+		this._value = this._inheritedInput;
 
-		// this._needsProcess = true;
+		this._needsProcess = true;
 
 	}
 
@@ -39,16 +39,16 @@ export default class TextAlignPropertyText extends TextAlignProperty {
 
 			const charactersAsGeometries = inlineElement._inlines._value.map(
 				inline =>
-					inlineElement._font._fontVariant.getGeometricGlyph( inline, inlineElement._segments._value )
+					inlineElement._font._fontVariant.getGeometricGlyph( inline, inlineElement )
 						.translate( inline.offsetX, inline.offsetY, 0 )
 
 			);
 
 			const mergedGeom = mergeBufferGeometries( charactersAsGeometries );
 
-			inlineElement.setBackgroundMesh( new Mesh( mergedGeom, inlineElement.material) );
+			inlineElement.setFontMesh( new Mesh( mergedGeom, inlineElement.fontMaterial) );
 
-			element._backgroundMesh.renderOrder = Infinity;
+			inlineElement._fontMesh.renderOrder = Infinity;
 
 		}
 

@@ -76,12 +76,16 @@ function step2BuildThreeMeshUIElements() {
 
 		// A Block must define its "box-sizing" properties
 		width: 1.2,
-		height: 0.5,
 		padding: 0.05,
 
 		// A Block can define its "layout" properties
 		justifyContent: 'center',
 		textAlign: 'left',
+
+		backgroundOpacity: 0.15,
+		backgroundColor: 0x000000,
+
+		borderWidth: 0.1,
 
 		// A Block can also define "text" properties that will propagate to any of its Text children
 		fontSize: 0.055,
@@ -109,8 +113,9 @@ function step2BuildThreeMeshUIElements() {
 
 
 		new ThreeMeshUI.Text( {
+			height: 'auto',
 			// three-mesh-ui Text should defined their content to display
-			content: 'This library supports line-break-friendly-characters,',
+			//content: 'This library supports line-break-friendly-characters,',
 
 			// if a Text is going to use the exact same Text properties as defined in its parent
 			// there is no need to set those properties again
@@ -118,27 +123,43 @@ function step2BuildThreeMeshUIElements() {
 			// fontFamily: '/assets/fonts/msdf/roboto/regular.json',
 			// fontTexture: '/assets/fonts/msdf/roboto/regular.png',
 
-		} ),
+		} ).add(
+
+			new ThreeMeshUI.Inline( {
+				// three-mesh-ui Text should defined their content to display
+				content: 'This library supports line-break-friendly-characters,',
+
+				// if a Text is going to use the exact same Text properties as defined in its parent
+				// there is no need to set those properties again
+				// fontSize: 0.055,
+				// fontFamily: '/assets/fonts/msdf/roboto/regular.json',
+				// fontTexture: '/assets/fonts/msdf/roboto/regular.png',
+
+			} ),
 
 
-		new ThreeMeshUI.Text( {
-			content: ' As well as multi-font-size lines with consistent vertical',
+			new ThreeMeshUI.Inline( {
+				content: ' As well as multi-font-size lines with consistent vertical',
 
-			// If a Text must have different Text properties as defined in its parent
-			// We just have to define it on a specific Text
-			fontSize: 0.08,
-			fontFamily: '/assets/fonts/msdf/roboto/italic.json',
-			fontTexture: '/assets/fonts/msdf/roboto/italic.png',
-		} ),
+				// If a Text must have different Text properties as defined in its parent
+				// We just have to define it on a specific Text
+				fontSize: 0.08,
+				fontFamily: '/assets/fonts/msdf/roboto/italic.json',
+				fontTexture: '/assets/fonts/msdf/roboto/italic.png',
+			} ),
 
-		new ThreeMeshUI.Text( {
-			content: ' spacing!',
-			fontSize: 0.08,
-			fontFamily: '/assets/fonts/msdf/roboto/bold-italic.json',
-			fontTexture: '/assets/fonts/msdf/roboto/bold-italic.png',
-		} )
+			new ThreeMeshUI.Inline( {
+				content: ' spacing!',
+				fontSize: 0.08,
+				fontFamily: '/assets/fonts/msdf/roboto/bold-italic.json',
+				fontTexture: '/assets/fonts/msdf/roboto/bold-italic.png',
+			} )
+
+		),
 
 	);
+
+	// ThreeMeshUI.update();
 
 }
 

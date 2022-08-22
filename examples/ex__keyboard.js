@@ -177,7 +177,7 @@ function init() {
 	intersectionRoom = new THREE.Mesh(
 		new THREE.BoxGeometry( 6, 6, 6, 10, 10, 10 ).translate( 0, 3, 0 ),
 		new THREE.MeshBasicMaterial( {
-			side: THREE.BackSide,
+			side : THREE.BackSide,
 			transparent: true,
 			opacity: 0
 		} )

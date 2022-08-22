@@ -3,12 +3,19 @@ import MeshUIBaseElement from '../../core/elements/MeshUIBaseElement';
 import TextContentInline from '../../core/properties/TextContentInline';
 import InlinesProperty from '../../core/properties/InlinesProperty';
 import GlyphsProperty from '../../core/properties/GlyphsProperty';
-import FontFamilyProperty from '../../core/properties/style-properties/font/FontFamilyProperty';
 import ColorProperty from '../../core/properties/style-properties/font/ColorProperty';
 import LineBreakProperty from '../../core/properties/LineBreakProperty';
 import InlineLayouter from '../../core/properties/InlineLayouter';
-import FontSize from '../../core/properties/style-properties/font/FontSize';
-import FontWeight from '../../core/properties/style-properties/font/FontWeight';
+import BackgroundColorPropertyInline from '../../core/properties/style-properties/background/BackgroundColorPropertyInline';
+import FontStylePropertyInline from '../../core/properties/style-properties/font/FontStylePropertyInline';
+import FontWeightPropertyInline from '../../core/properties/style-properties/font/FontWeightPropertyInline';
+import FontFamilyPropertyInline from '../../core/properties/style-properties/font/FontFamilyPropertyInline';
+import WhiteSpacePropertyInline from '../../core/properties/style-properties/font/WhiteSpacePropertyInline';
+import LetterSpacingPropertyInline from '../../core/properties/style-properties/font/LetterSpacingPropertyInline';
+import FontSizePropertyInline from '../../core/properties/style-properties/font/FontSizePropertyInline';
+import SegmentsPropertyInline from '../../core/properties/geometry/SegmentsPropertyInline';
+import InvertAlphaPropertyInline from '../../core/properties/InvertAlphaPropertyInline';
+import FontKerningPropertyInline from '../../core/properties/style-properties/font/FontKerningPropertyInline';
 
 export default class InlineElement extends MeshUIBaseElement {
 
@@ -24,12 +31,21 @@ export default class InlineElement extends MeshUIBaseElement {
 		if( !properties.textContent ) properties.textContent = TextContentInline;
 		if( !properties.glyphs ) properties.glyphs = GlyphsProperty;
 		if( !properties.inlines ) properties.inlines = InlinesProperty;
-		if( !properties.fontFamily ) properties.fontFamily = FontFamilyProperty;
-		if( !properties.fontWeight ) properties.fontWeight = FontWeight;
-		if( !properties.fontSize ) properties.fontSize = FontSize;
-		if( !properties.color ) properties.color = ColorProperty;
-		if( !properties.lineBreak ) properties.lineBreak = LineBreakProperty;
 		if( !properties.layouter ) properties.layouter = InlineLayouter;
+
+		if( !properties.fontFamily ) properties.fontFamily = FontFamilyPropertyInline;
+		if( !properties.fontWeight ) properties.fontWeight = FontWeightPropertyInline;
+		if( !properties.fontStyle ) properties.fontStyle = FontStylePropertyInline;
+		if( !properties.fontSize ) properties.fontSize = FontSizePropertyInline;
+		if( !properties.color ) properties.color = ColorProperty;
+		if( !properties.backgroundColor ) properties.backgroundColor = BackgroundColorPropertyInline;
+		if( !properties.lineBreak ) properties.lineBreak = LineBreakProperty;
+		if( !properties.letterSpacing ) properties.letterSpacing = LetterSpacingPropertyInline;
+		if( !properties.whiteSpace ) properties.whiteSpace = WhiteSpacePropertyInline;
+		if( !properties.segments ) properties.segments = SegmentsPropertyInline;
+
+		if( !properties.fontKerning ) properties.fontKerning = FontKerningPropertyInline;
+		if( !properties.invertAlpha ) properties.invertAlpha = InvertAlphaPropertyInline;
 
 		// if( !properties.inlines ) properties.inlines = InlinesProperty;
 
@@ -90,5 +106,20 @@ export default class InlineElement extends MeshUIBaseElement {
 		this._layouter._needsUpdate = true;
 
 	}
+
+	set textContent( value ) {
+
+		console.log( "InlineElement textcontent Set", value);
+		this._textContent.value = value;
+
+	}
+
+	set invertAlpha( value ) {
+
+		this._invertAlpha.value = value;
+
+	}
+
+	get invertAlpha () { return this._invertAlpha._value; }
 
 }

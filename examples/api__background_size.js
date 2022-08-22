@@ -162,7 +162,7 @@ function makeSection( texture, backgroundSize, text1, text2 ) {
 		backgroundSize
 	} );
 
-	imageBlock.material = new FrameBasicMaterial();
+	imageBlock.backgroundMaterial = new FrameBasicMaterial();
 	imageBlocks.push( imageHBlock, imageBlock );
 
 	const textBlock = new ThreeMeshUI.Block( {

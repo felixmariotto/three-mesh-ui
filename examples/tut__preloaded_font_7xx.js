@@ -127,7 +127,7 @@ function step1BuildThreeJSElements() {
 	document.body.appendChild( renderer.domElement );
 
 	controls = new OrbitControls( camera, renderer.domElement );
-	camera.position.set( 0, 1.6, 0 );
+	camera.position.set( 0, 1, 0 );
 	controls.target = new THREE.Vector3( 0, 1, -1.8 );
 	controls.update();
 
@@ -179,22 +179,16 @@ function step2BuildThreeMeshUIElements() {
 	);
 
 	rootBlock.set({
-		width:2,
+		name: 'rootBlock',
+		width:1.75,
 		height:1,
 		padding:0.05,
-		color: 0xff9900,
-		backgroundColor:"red",
+		color: 0xffffff,
 		flexDirection: "column",
 		justifyContent: "center",
-		alignItems:"stretch",
-		borderRadius:0.2,
+		borderRadius:0.05,
 		textAlign: 'left',
 		fontFamily:RobotoFamily})
-	// rootBlock.style.width = 2;
-	// rootBlock.style.height = 1;
-	// rootBlock.style.padding = 0.05;
-	// rootBlock.style.backgroundColor = "white";
-	// rootBlock.style.backgroundOpacity = "unset";
 
 	// rootBlock.style.backgroundImage = new TextureLoader().load('./assets/spiny_bush_viper.jpg');
 	// rootBlock.style.backgroundImage = new TextureLoader().load('./assets/uv_grid.jpg');
@@ -203,20 +197,20 @@ function step2BuildThreeMeshUIElements() {
 	// rootBlock.style.backgroundImage = new TextureLoader().load('./assets/landscape.jpg');
 
 	// Good
-	new TextureLoader().load('./assets/landscape.jpg', ( loadedTexture)=>{
-		// rootBlock.style.backgroundImage = loadedTexture;
-
-		rootBlock.set({backgroundImage:loadedTexture});
-
-		UpdateManager.update7xx();
-
-	});
+	// new TextureLoader().load('./assets/landscape.jpg', ( loadedTexture)=>{
+	// 	// rootBlock.style.backgroundImage = loadedTexture;
+	//
+	// 	rootBlock.set({backgroundImage:loadedTexture});
+	//
+	// 	UpdateManager.update7xx();
+	//
+	// });
 	//
 	//
 	// rootBlock.style.borderRadius = 0.2;
 
 	rootBlock.position.set( 0, 1, -1.8 );
-	rootBlock.rotation.x = -0.55;
+	// rootBlock.rotation.x = -0.55;
 	scene.add( rootBlock );
 
 
@@ -225,12 +219,18 @@ function step2BuildThreeMeshUIElements() {
 
 	// Lets build a first text that would be in bold, and use a MSDFNormalMaterial
 	const title = new ThreeMeshUI.Text( {
-		content: 'Managing fonts in three-mesh-ui',
+		name: 'titleBlock',
+		boxSizing: 'border-box',
+		content: 'Managing fonts in three-mesh-ui.',
 		fontWeight: '700',
 		fontSize: 0.1,
-		backgroundColor: 'cyan',
+		// backgroundColor: 'cyan',
+		borderRadius : '0.05 0.2 0 0.2',
+		invertAlpha: true,
+		letterSpacing: 0.02
 	} );
 
+	window.titleBlock = title;
 	// as text1 explicitely requires the font variant `fontWeight:'700'`
 	// and that we have set that font variant to use the MSDFNormalMaterial
 	// there is no more need to manually set its material to MSDFNormalMaterial
@@ -242,11 +242,9 @@ function step2BuildThreeMeshUIElements() {
 		title,
 
 		new ThreeMeshUI.Text( {
-			backgroundColor: "green",
 			content: 'In this examples, 4 variants of the "Roboto" font are registered :',
 		} ),
-
-		new ThreeMeshUI.Text().add(
+		new ThreeMeshUI.Text( { margin: '0.01 0', width:'100%', lineHeight:2, alignItems:'center'} ).add(
 			new ThreeMeshUI.Inline({ textContent:"Regular "}),
 			new ThreeMeshUI.Inline({ textContent:"Bold ",fontWeight:'700', margin: 0.05}),
 			new ThreeMeshUI.Inline({ textContent:"Italic ",fontStyle:'italic'}),
@@ -282,22 +280,24 @@ function step2BuildThreeMeshUIElements() {
 		// } ) ),
 
 		new ThreeMeshUI.Text( {
-			lineHeight:1.2,
-			textAlign: 'justify-right',
-			content: 'The registered bold variant in this example, will automatically set the material of a Text to use '.repeat(5),
-		} ) ,
+			content: 'The registered bold variant in this example, will automatically set the material of a Text to use ',
+		} ).add( new ThreeMeshUI.Inline( {
+			content: 'MSDFNormalMaterial.',
+			fontWeight: '700',
+		} ) ) ,
 
 		//
-		// new ThreeMeshUI.Text( {
-		// 	content: '\n\n* Managing and preloading fonts can display Text with no additional delays.',
-		// 	fontStyle: 'italic',
-		// 	fontSize: 0.035
-		// } )
+		new ThreeMeshUI.Text( {
+			content: '\n\n* Managing and preloading fonts can display Text with no additional delays.',
+			fontStyle: 'italic',
+			fontSize: 0.035
+		} )
 
 	);
 
+	window.update = ThreeMeshUI.update;
 	// pour le moment le text a besoin de 2-3 update pour etre display. => changer ordre des composants
-	// UpdateManager.update7xx();
+	ThreeMeshUI.update();
 	// UpdateManager.update7xx();
 	// UpdateManager.update7xx();
 
@@ -311,7 +311,7 @@ function step3AnimationLoop() {
 	// Don't forget, ThreeMeshUI must be updated manually.
 	// This has been introduced in version 3.0.0 in order
 	// to improve performance
-	UpdateManager.update7xx();
+	// ThreeMeshUI.update();
 
 	controls.update();
 	renderer.render( scene, camera );

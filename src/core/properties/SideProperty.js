@@ -5,11 +5,12 @@ export default class SideProperty extends BaseProperty{
 
 	/**
 	 *
+	 * @param {string} propertyId
 	 * @param {number} [value=null]
 	 */
-	constructor( value = FrontSide ) {
+	constructor( propertyId, value = FrontSide ) {
 
-		super( 'side', value, true);
+		super( propertyId, value, true);
 
 		this.isValid = _isValid;
 

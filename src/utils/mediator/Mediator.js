@@ -81,7 +81,7 @@ export default class Mediator{
 	 * @param {MeshUIComponent} subject
 	 * @param {any} target
 	 * @param {Object.<(string|number), any>} options
-	 * @param {Object.<{subjectProperty:string, trans?:(target:any, targetProperty:string, value:any) => void}>} mediationDefinitions
+	 * @param {Object.<{subjectProperty:string, t?:(target:any, targetProperty:string, value:any) => void}>} mediationDefinitions
 	 * @param {any} [secondTarget=null]
 	 */
 	static mediate( subject, target, options, mediationDefinitions, secondTarget = null ) {

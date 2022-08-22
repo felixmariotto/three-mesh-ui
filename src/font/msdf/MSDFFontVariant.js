@@ -107,6 +107,7 @@ export default class MSDFFontVariant extends FontVariant {
 		// "I would suggest precomputing unitRange as a uniform variable instead of pxRange for better performance."
 		this._unitRange = new Vector2(this._distanceRange, this._distanceRange)
 			.divide( new Vector2( json.common.scaleW, json.common.scaleH ) );
+
 	}
 
 	/**
@@ -126,12 +127,14 @@ export default class MSDFFontVariant extends FontVariant {
 
 	/**
 	 *
-	 * @param {MSDFInlineGlyph} inline
+	 * @override
+	 * @param {InlineGlyph|MSDFInlineGlyph} inline
+	 * @param {MeshUIBaseElement} element
 	 * @returns {MSDFGeometricGlyph}
 	 */
-	getGeometricGlyph( inline, segments = 1 ) {
+	getGeometricGlyph( inline, element ) {
 
-		return new MSDFGeometricGlyph( inline, segments );
+		return new MSDFGeometricGlyph( inline, element );
 
 	}
 

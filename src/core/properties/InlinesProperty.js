@@ -61,9 +61,8 @@ export default class InlinesProperty extends BaseProperty{
 
 		}
 
-		//console.log( "inlines #", this._value.length );
 
-
+		element._fontSize._needsProcess = true;
 		element._lineBreak._needsProcess = true;
 		element._fontKerning._needsProcess = true;
 		element._layouter._needsProcess = true;

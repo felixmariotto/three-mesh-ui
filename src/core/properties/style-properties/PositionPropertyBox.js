@@ -16,14 +16,4 @@ export default class PositionPropertyBox extends PositionProperty {
 
 	}
 
-	process( element ) {
-
-		// if( element._parent._value ) {
-		//
-		// 	element._parent._value._layouter._needsUpdate = true;
-		//
-		// }
-
-	}
-
 }

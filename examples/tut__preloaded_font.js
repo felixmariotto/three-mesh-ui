@@ -166,6 +166,9 @@ function step2BuildThreeMeshUIElements() {
 		justifyContent: 'center',
 		textAlign: 'left',
 
+		backgroundOpacity: 0.15,
+		backgroundColor: 0x000000,
+
 		// text properties
 		fontSize: 0.05,
 		// As we have prepare our fonts we can now use them
@@ -197,31 +200,18 @@ function step2BuildThreeMeshUIElements() {
 		text1,
 
 		new ThreeMeshUI.Text( {
-			content: '\nIn this examples, 4 variants of the "Roboto" font are registered.',
+			content: 'In this examples, 4 variants of the "Roboto" font are registered.',
 		} ),
 
-		new ThreeMeshUI.Text( {
-			content: '\n\nRegular',
-		} ),
+		new ThreeMeshUI.Text({margin:'0.05 0 0.05 0.1'}).add(
+			new ThreeMeshUI.Inline({ textContent:"Regular "}),
+			new ThreeMeshUI.Inline({ textContent:"Bold ",fontWeight:'700', margin: 0.05}),
+			new ThreeMeshUI.Inline({ textContent:"Italic ",fontStyle:'italic'}),
+			new ThreeMeshUI.Inline({ textContent:"Bold+Italic",fontWeight:'700',fontStyle:'italic'}),
+		),
 
 		new ThreeMeshUI.Text( {
-			content: ' Bold',
-			fontWeight: '700',
-		} ),
-
-		new ThreeMeshUI.Text( {
-			content: ' Italic',
-			fontStyle: 'italic',
-		} ),
-
-		new ThreeMeshUI.Text( {
-			content: ' Bold+Italic',
-			fontWeight: '700',
-			fontStyle: 'italic',
-		} ),
-
-		new ThreeMeshUI.Text( {
-			content: '\n\nThe registered bold variant in this example, will automatically set the material of a Text to use ',
+			content: 'The registered bold variant in this example, will automatically set the material of a Text to use ',
 		} ),
 
 		new ThreeMeshUI.Text( {
@@ -237,6 +227,8 @@ function step2BuildThreeMeshUIElements() {
 
 	);
 
+	ThreeMeshUI.update()
+
 }
 
 //
@@ -246,7 +238,7 @@ function step3AnimationLoop() {
 	// Don't forget, ThreeMeshUI must be updated manually.
 	// This has been introduced in version 3.0.0 in order
 	// to improve performance
-	ThreeMeshUI.update();
+	// ThreeMeshUI.update();
 
 	controls.update();
 	renderer.render( scene, camera );

@@ -198,7 +198,7 @@ function buildJustifiedPanel( id, color, contentDirection ) {
 		justifyContent: id,
 		backgroundOpacity: 0.3,
 		backgroundColor: 0xff9900,
-		padding: 0.02,
+		padding: 0.01,
 		margin: 0.01,
 		offset:0.0001
 	} );
@@ -211,14 +211,13 @@ function buildJustifiedPanel( id, color, contentDirection ) {
 	for ( let i = 0; i < 5; i ++ ) {
 
 		const blockText = new ThreeMeshUI.Block( {
-			width: 0.125,
-			height: 0.125,
 			margin: 0.01,
 			borderRadius: 0.05,
 			backgroundColor: color,
 			justifyContent: 'center',
 			alignItems: 'center',
 			borderWidth: '0 0 0.01 0',
+			// borderWidth: 0.01,
 			borderColor: Math.floor( step * (5-i) ),
 			offset:0.001,
 			textAlign: 'center',
@@ -227,7 +226,16 @@ function buildJustifiedPanel( id, color, contentDirection ) {
 		panel.add( blockText );
 
 		const text = new ThreeMeshUI.Text( {
-			content: letters[ i ]
+			textAlign: 'center',
+			lineHeight: 1,
+			// width: 0.125,
+			// height: 0.125,
+			padding: 0.03,
+			textContent: letters[ i ],
+			backgroundColor: 'blue',
+			backgroundOpacity: 0,
+			// borderColor: Math.floor( step * (5-i) ),
+			// borderWidth: '0 0 0.01 0',
 		} );
 		blockText.add( text );
 
@@ -238,13 +246,13 @@ function buildJustifiedPanel( id, color, contentDirection ) {
 
 function makeTitlePanel(){
 
-	const panel = new ThreeMeshUI.Block( {
+	const panel = new ThreeMeshUI.Text( {
 		width: DIM_HIGH * 1.85,
 		height: 0.15,
 		padding: 0.05,
 		flexDirection: 'row',
 		justifyContent: 'center',
-		textAlign: 'justify',
+		textAlign: 'center',
 		backgroundOpacity: 0.6,
 		fontSize: 0.1,
 		fontFamily: "Roboto"
@@ -256,8 +264,8 @@ function makeTitlePanel(){
 		const id = justificationLegend[ i ].id;
 
 		panel.add(
-			new ThreeMeshUI.Text( {
-				content: id + " ",
+			new ThreeMeshUI.Inline( {
+				textContent: id + " ",
 				fontColor: color
 			} )
 		);

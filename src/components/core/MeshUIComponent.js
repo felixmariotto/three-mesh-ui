@@ -119,8 +119,8 @@ export default class MeshUIComponent extends Object3D {
 		 * @private
 		 */
 		this._meshMediation = {
-			_castShadow: { m: 'castShadow' },
-			_receiveShadow: { m: 'receiveShadow' },
+			_backgroundCastShadow: { m: 'castShadow' },
+			backgroundReceiveShadow: { m: 'receiveShadow' },
 			// _renderOrder:{m:'renderOrder'}
 		};
 

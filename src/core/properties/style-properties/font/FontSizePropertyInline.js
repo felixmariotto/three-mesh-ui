@@ -1,10 +1,13 @@
 import SubStyleProperty from '../SubStyleProperty';
 
-export default class FontSize extends SubStyleProperty {
+export default class FontSizePropertyInline extends SubStyleProperty {
 
 	constructor( ) {
 
 		super( 'fontSize', 'inherit', true );
+
+		// Configure
+		this._allowsInherit = false;
 
 	}
 
@@ -14,23 +17,15 @@ export default class FontSize extends SubStyleProperty {
 	 */
 	computeOutputValue( element ) {
 
-		console.warn( "FontSize input", this._input );
-		if( this._input === 'inherit' ) {
-
-			this._value = this.getInheritedInput( element );
-			console.warn( 'fontSize from inherit', this._value );
-
-		} else {
-
-			this._value = this._input;
-
-		}
+		this._value = this._inheritedInput;
 
 		if( element._font._fontVariant ) this._needsProcess = true;
 
 	}
 
 	process( element ) {
+
+		if( !element._font._fontVariant || !element._font._fontVariant.isReady ) return;
 
 		const SCALE_MULT = this._value / element._font._fontVariant.typographic.size;
 

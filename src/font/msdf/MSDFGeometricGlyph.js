@@ -10,8 +10,9 @@ export default class MSDFGeometricGlyph extends PlaneBufferGeometry {
 	/**
 	 *
 	 * @param {MSDFInlineGlyph} inline
+	 * @param {MeshUIBaseElement} element
 	 */
-	constructor( inline, segments = 1 ) {
+	constructor( inline, element ) {
 
 
 		// default w & h segments
@@ -20,8 +21,10 @@ export default class MSDFGeometricGlyph extends PlaneBufferGeometry {
 		// If charOBJ, try to distribute segments proportionally
 		const typographicFontSize = inline.typographic.font.size;
 
-		wS = Math.ceil((inline.typographic.width / typographicFontSize) * segments);
-		hS = Math.ceil((inline.typographic.height / typographicFontSize) * segments);
+		const segments = element._segments.value;
+
+		wS = Math.ceil((inline.typographic.width / typographicFontSize) * segments );
+		hS = Math.ceil((inline.typographic.height / typographicFontSize) * segments );
 
 		super( inline.width, inline.height, wS, hS );
 
@@ -42,6 +45,11 @@ export default class MSDFGeometricGlyph extends PlaneBufferGeometry {
 			this.translate( 0, inline.fontSize / 2, 0 );
 
 		}
+
+		// Demo alter geometry
+		// const maxOffset = inline.fontSize / 10;
+		// this.translate(0 , -maxOffset + Math.random() * maxOffset*2, 0 )
+		// this.rotateZ(-0.1 + 0.2 * Math.random() )
 
 	}
 

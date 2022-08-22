@@ -157,6 +157,7 @@ function makeTextPanel() {
 	container.add( animatedTitleBox );
 	container.add( animatedTextBox );
 
+	// ThreeMeshUI.update();
 
 }
 
@@ -171,6 +172,7 @@ function onWindowResize() {
 }
 
 //
+let letterSpacing = 0;
 let letterSpacingSpeed = 0.005;
 
 function loop( ) {
@@ -187,21 +189,20 @@ function loop( ) {
 	// console.log( animatedText )
 
 	// update letterSpacing
-	let lspace = animatedText.getLetterSpacing();
-	lspace += letterSpacingSpeed;
+	letterSpacing += letterSpacingSpeed;
 
-	if ( lspace < -0.6 ) {
+	if ( letterSpacing < -0.6 ) {
 
-		lspace = -0.6;
+		letterSpacing = -0.6;
 		letterSpacingSpeed *= -1;
 
-	} else if ( lspace > 0.4 ) {
+	} else if ( letterSpacing > 0.4 ) {
 
-		lspace = 0.4;
+		letterSpacing = 0.4;
 		letterSpacingSpeed *= - 1;
 
 	}
 
-	animatedText.set({letterSpacing: lspace});
+	animatedText.set({letterSpacing});
 
 }

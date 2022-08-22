@@ -11,6 +11,8 @@ export default class BackgroundColorProperty extends StyleColorProperty {
 
 		super( 'backgroundColor', defaultValue, false );
 
+		this._input = 'transparent';
+
 		this._allowsInherit = false;
 
 

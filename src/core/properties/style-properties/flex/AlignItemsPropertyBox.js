@@ -103,7 +103,6 @@ export default class AlignItemsPropertyBox extends AlignItemsProperty {
 
 		this._process( element, this._childAlign );
 
-
 		// @TODO : Could be strategized
 		let snap = 'center';
 		let snapXon = 'center';
@@ -137,7 +136,7 @@ export default class AlignItemsPropertyBox extends AlignItemsProperty {
 		}
 
 		// apply 4 directional padding and borders
-		let y = -(padding.x - padding.z) / 2 - (border.x - border.z) / 2;
+		let y = -(padding.x - padding.z) / 2 - (border.x - border.z)  / 2;
 		let x = -(padding.y - padding.w) / 2 - ( border.y - border.w ) / 2;
 
 
@@ -153,11 +152,11 @@ export default class AlignItemsPropertyBox extends AlignItemsProperty {
 
 		if( snapYon === 'top' ) {
 
-			y = - (padding.x - padding.z) / 2 - (border.x - border.z) / 2;
+			y = - (padding.x - padding.z) / 2 - (border.x - border.z)  / 2;
 
 		} else if( snapYon === 'bottom' ) {
 
-			y = (padding.z - padding.x) / 2 + (border.z - border.x) / 2;
+			y = (padding.z - padding.x) / 2 + (border.z - border.x)  / 2;
 
 		}
 
