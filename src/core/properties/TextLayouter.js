@@ -64,8 +64,6 @@ export default class TextLayouter extends BaseProperty {
 		// correct lines position before to merge
 		const lines = new Lines( new Line() );
 
-		console.log( "text Layouter ");
-
 		let lastInlineOffset = 0;
 		element._children._inlines.forEach( ( inlineElement ) => {
 

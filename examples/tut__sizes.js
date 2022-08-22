@@ -59,129 +59,58 @@ function init() {
 //
 
 function makeTextPanel() {
-	const container = new ThreeMeshUI.Block( {
-		ref: 'container',
-		padding: 0.025,
+
+	const rootBlock = new ThreeMeshUI.Block( {
+		name: 'rootBlock',
+		width: 2,
+		height: 2,
+		padding: 0.1,
 		fontFamily: FontJSON,
 		fontTexture: FontImage,
 		fontColor: new THREE.Color( 0xffffff ),
-		backgroundOpacity: 0,
+
+		backgroundColor: 0x000000,
+		backgroundOpacity: 0.25,
+
 		flexDirection: 'column',
 		justifyContent: 'center',
-		alignItems : 'center',
+		alignItems : 'stretch',
 	} );
 
-	container.position.set( 0, 1, -1.8 );
-	container.rotation.x = -0.55;
-	scene.add( container );
+	rootBlock.position.set( 0, 1, -1.8 );
+	rootBlock.rotation.x = -0.55;
 
-	//
+	window.rootBlock = rootBlock;
 
-	const title = new ThreeMeshUI.Text( {
-		// height: 'auto',
-		width: '80%',
-		margin: 0.025,
-		padding: '0.01 0.1',
-		textAlign: 'center',
-		fontSize: 0.09,
-		textContent: 'spiny bush viper',
-		backgroundColor: 0xff9900
-	} );
+	scene.add( rootBlock );
 
-	container.add( title );
 
-	//
-
-	const leftSubBlock = new ThreeMeshUI.Block( {
-		height: 0.95,
-		width: 1.0,
-		margin: 0.025,
-		padding: 0.025,
-		textAlign: 'left',
-		flexDirection: 'column',
-		alignItems: 'center',
-		justifyContent: 'end',
-	} );
-
-	const caption = new ThreeMeshUI.Text( {
-		width: '100%',
-		margin: 0.025,
-		padding: 0.025,
-		textAlign: 'center',
-		textContent: 'Mind your fingers',
-		backgroundColor: 0x000000,
-		backgroundOpacity: 0.5,
-		fontSize: 0.04,
-	} );
-
-	leftSubBlock.add( caption );
-
-	//
-
-	const rightSubBlock = new ThreeMeshUI.Block( {
-		margin: 0.025,
-		width: 0.5,
-		padding: 0.025,
-		backgroundColor : 0x000000,
-		backgroundOpacity : 0.5,
-		flexDirection: 'column',
+	const innerBlock = new ThreeMeshUI.Block({
+		name: "innerBlock",
+		height: '100%',
+		flexDirection: 'row',
 		justifyContent: 'space-evenly',
-	} );
+		backgroundColor: 0xff9900,
+	})
 
-	const subSubBlock1 = new ThreeMeshUI.Text( {
-		margin: 0.025,
-		fontSize: 0.04,
-		backgroundOpacity: 0,
-		textAlign: 'center',
-	} ).add(
-		new ThreeMeshUI.Inline( {
-			content: 'Known for its extremely keeled dorsal scales that give it a ',
-		} ),
+	rootBlock.add( innerBlock );
 
-		new ThreeMeshUI.Inline( {
-			content: 'bristly',
-			fontColor: new THREE.Color( 0x92e66c ),
-		} ),
+	const letters = "ABCDE";
+	for ( let i = 0; i < 4; i++ ) {
+		const item = new ThreeMeshUI.Text({
+			width: 0.2,
+			height: '100%',
+			textContent: letters[i],
+			textAlign: 'center',
+			alignItems: 'center',
+			margin: 0.025,
+			backgroundColor : 'red',
+			backgroundOpacity : 1
+		})
 
-		new ThreeMeshUI.Inline( {
-			content: ' appearance.',
-		} )
-	);
+		innerBlock.add( item );
+	}
 
-	const subSubBlock2 = new ThreeMeshUI.Text( {
-		margin: 0.01,
-		padding: 0.02,
-		fontSize: 0.025,
-		alignItems: 'start',
-		textAlign: 'justify',
-		backgroundOpacity: 0,
-		textContent: 'The males of this species grow to maximum total length of 73 cm (29 in): body 58 cm (23 in), tail 15 cm (5.9 in). Females grow to a maximum total length of 58 cm (23 in). The males are surprisingly long and slender compared to the females.\n\nThe head has a short snout, more so in males than in females.\nThe eyes are large and surrounded by 9–16 circumorbital scales. The orbits (eyes) are separated by 7–9 scales.',
-	} );
-
-	rightSubBlock.add( subSubBlock1, subSubBlock2 );
-
-	//
-
-	const contentContainer = new ThreeMeshUI.Block( {
-		contentDirection: 'row',
-		alignItems: 'stretch',
-		padding: 0.02,
-		margin: 0.025,
-		backgroundOpacity: 0,
-	} );
-
-	contentContainer.add( leftSubBlock, rightSubBlock );
-	container.add( contentContainer );
-
-	//
-
-	new THREE.TextureLoader().load( SnakeImage, ( texture ) => {
-		leftSubBlock.set( {
-			backgroundColor: new THREE.Color( 0xffffff ),
-			backgroundOpacity: 1,
-			backgroundTexture: texture,
-		} );
-	} );
 }
 
 //
@@ -195,6 +124,14 @@ function onWindowResize() {
 //
 
 function loop() {
+
+	const now = Date.now();
+
+	rootBlock.set( {
+		width: Math.sin( now / 1000 ) * 0.5 + 1.5,
+		height: Math.sin( now / 500 ) * 0.5 + 1.5
+	} );
+
 	// Don't forget, ThreeMeshUI must be updated manually.
 	// This has been introduced in version 3.0.0 in order
 	// to improve performance
