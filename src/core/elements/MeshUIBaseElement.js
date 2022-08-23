@@ -42,6 +42,7 @@ import FontLibrary from '../../font/FontLibrary';
 import SegmentsProperty from '../properties/geometry/SegmentsProperty';
 import InvertAlphaProperty from '../properties/InvertAlphaProperty';
 import FontKerningProperty from '../properties/style-properties/font/FontKerningProperty';
+import InheritableBooleanProperty from '../properties/InheritableBooleanProperty';
 /* eslint-enable no-unused-vars */
 
 export default class MeshUIBaseElement extends Object3D {
@@ -165,10 +166,10 @@ export default class MeshUIBaseElement extends Object3D {
 		// mesh properties
 		this._visible = new VisibleProperty( 'visible', true );
 
-		this._backgroundCastShadow = new BooleanProperty( 'backgroundCastShadow', false );
-		this._fontCastShadow = new BooleanProperty( 'fontCastShadow', false );
-		this._backgroundReceiveShadow = new BooleanProperty( 'backgroundReceiveShadow', false );
-		this._fontReceiveShadow = new BooleanProperty( 'fontReceiveShadow', false );
+		this._backgroundCastShadow = new InheritableBooleanProperty( 'backgroundCastShadow' );
+		this._fontCastShadow = new InheritableBooleanProperty( 'fontCastShadow' );
+		this._backgroundReceiveShadow = new InheritableBooleanProperty( 'backgroundReceiveShadow' );
+		this._fontReceiveShadow = new InheritableBooleanProperty( 'fontReceiveShadow' );
 
 		// @TODO: RenderOrder for background and fonts
 		this._renderOrder = new NumberProperty( 'renderOrder', 0 );
@@ -277,7 +278,7 @@ export default class MeshUIBaseElement extends Object3D {
 		this._renderer = properties.renderer ? new properties.renderer() : new EmptyProperty("renderer");
 
 		// adds
-		this._invertAlpha = properties.invertAlpha ? new properties.invertAlpha() : new InvertAlphaProperty();
+		this._invertAlpha = new InvertAlphaProperty();
 
 		/**
 		 *
@@ -303,10 +304,15 @@ export default class MeshUIBaseElement extends Object3D {
 
 			this._visible,
 
+			// Meshes interfaces
 			this._backgroundSide,
+			this._fontSide,
 			this._backgroundAlphaTest,
+			this._fontAlphaTest,
 			this._backgroundCastShadow,
+			this._fontCastShadow,
 			this._backgroundReceiveShadow,
+			this._fontReceiveShadow,
 			this._renderOrder,
 			this._segments,
 			// styles ---;
@@ -384,6 +390,9 @@ export default class MeshUIBaseElement extends Object3D {
 		this._onAfterUpdates = [];
 
 
+		// breaks inheritance chains
+		// if( !values ) values = {};
+		if( !values.backgroundSide ) values.backgroundSide = 0; // FrontSide
 
 
 		if( values ) this.set( values );
@@ -646,6 +655,17 @@ export default class MeshUIBaseElement extends Object3D {
 						this[`_font${upperCamelCaseProperty}`].value = value;
 						break;
 
+
+						// Meshes & material properties
+					case 'fontSide':
+					case 'backgroundSide':
+					case 'fontCastShadow':
+					case 'backgroundCastShadow':
+					case 'fontReceiveShadow':
+					case 'backgroundReceiveShadow':
+						this[`_${prop}`].value = value;
+						break;
+
 					default:
 						// //console.log( prop, value );
 						// dynamic behavior
@@ -853,7 +873,6 @@ export default class MeshUIBaseElement extends Object3D {
 		this._backgroundMaterialMediation = { ...material.constructor.mediation };
 
 		// transfer all the properties to material
-		//console.log( "transfoer to mat ------------->");
 		this._transferToBackgroundMaterial();
 
 		if ( this._backgroundMesh ) {
@@ -1183,6 +1202,8 @@ export default class MeshUIBaseElement extends Object3D {
 	 */
 	_transferToFontMesh( options = null ) {
 
+		if( !this._fontMesh ) return;
+
 		if( !options ) {
 
 			options = {};
@@ -1211,6 +1232,7 @@ export default class MeshUIBaseElement extends Object3D {
 			if ( this._fontMesh.material ) this._fontMesh.material.dispose();
 			if ( this._fontMesh.geometry ) this._fontMesh.geometry.dispose();
 
+			this._fontMesh = null;
 			// deepDelete( this._fontMesh );
 
 			this.unbindFontMeshProperties();

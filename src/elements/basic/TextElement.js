@@ -46,7 +46,12 @@ export default class TextElement extends BoxElement {
 			values = {};
 		}
 
+		// configure
 		if ( !values.width ) values.width = '100%';
+
+
+		// break inheritance chains
+		if ( !values.fontSide ) values.fontSide = 0; // FrontSide;
 
 		super( properties, values );
 

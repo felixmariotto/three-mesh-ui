@@ -211,10 +211,12 @@ function makeTextPanel() {
 			fontSize: 0.7,
 			segments: 4,
 			letterSpacing: -0.08,
-			castShadow: true,
+			fontCastShadow: true,
 			fontCustomDepthMaterial: new MSDFDepthMaterial({}),
-			side: DoubleSide
+			fontSide: DoubleSide
 		} );
+
+	window.textBlock = text1;
 
 	container.add(
 
@@ -222,58 +224,58 @@ function makeTextPanel() {
 
 	);
 
-	const container2 = new ThreeMeshUI.Block( {
-		width: 2,
-		height: 0.3,
-		padding: 0.05,
-		justifyContent: 'center',
-		textAlign: 'left',
-		fontFamily: "Roboto", // As we preloaded fontFamily("Roboto") with variants, we can directly reference the font name
-		backgroundOpacity: 0,
-	} );
-
-	container2.position.set( 0, 1.7, -2 );
-	container2.rotation.x = 0.65;
-	scene.add( container2 );
-
+	// const container2 = new ThreeMeshUI.Block( {
+	// 	width: 2,
+	// 	height: 0.3,
+	// 	padding: 0.05,
+	// 	justifyContent: 'center',
+	// 	textAlign: 'left',
+	// 	fontFamily: "Roboto", // As we preloaded fontFamily("Roboto") with variants, we can directly reference the font name
+	// 	backgroundOpacity: 0,
+	// } );
 	//
-
-	const infoBox = new ThreeMeshUI.Block( {
-		width: 2,
-		height: 0.175,
-		margin: 0.01,
-		padding: 0.025,
-		textAlign: 'center',
-		side: DoubleSide,
-		castShadow: true
-	} );
-
-
-	infoBox.add( new ThreeMeshUI.Text( {
-		textContent: 'This example shows how to alter glyph ................... from',
-		fontWeight: '700',
-	} ) );
-
-	infoBox.add( new ThreeMeshUI.Text( {
-		textContent: ' FontVariant.\n',
-		fontWeight: '700',
-		fontStyle: 'italic',
-	} ) );
-
-	infoBox.add( new ThreeMeshUI.Text( {
-		textContent: 'It also shows ',
-		fontStyle: 'italic',
-		letterSpacing: 0.05
-	} ) );
-
-	infoBox.add( new ThreeMeshUI.Text( {
-		textContent: 'MSDFToonMaterial',
-		fontStyle: 'italic',
-		fontWeight: '700',
-		letterSpacing: 0.05
-	} ) );
-
-	container2.add( infoBox );
+	// container2.position.set( 0, 1.7, -2 );
+	// container2.rotation.x = 0.65;
+	// scene.add( container2 );
+	//
+	// //
+	//
+	// const infoBox = new ThreeMeshUI.Block( {
+	// 	width: 2,
+	// 	height: 0.175,
+	// 	margin: 0.01,
+	// 	padding: 0.025,
+	// 	textAlign: 'center',
+	// 	backgroundSide: DoubleSide,
+	// 	backgroundCastShadow: true
+	// } );
+	//
+	//
+	// infoBox.add( new ThreeMeshUI.Text( {
+	// 	textContent: 'This example shows how to alter glyph ................... from',
+	// 	fontWeight: '700',
+	// } ) );
+	//
+	// infoBox.add( new ThreeMeshUI.Text( {
+	// 	textContent: ' FontVariant.\n',
+	// 	fontWeight: '700',
+	// 	fontStyle: 'italic',
+	// } ) );
+	//
+	// infoBox.add( new ThreeMeshUI.Text( {
+	// 	textContent: 'It also shows ',
+	// 	fontStyle: 'italic',
+	// 	letterSpacing: 0.05
+	// } ) );
+	//
+	// infoBox.add( new ThreeMeshUI.Text( {
+	// 	textContent: 'MSDFToonMaterial',
+	// 	fontStyle: 'italic',
+	// 	fontWeight: '700',
+	// 	letterSpacing: 0.05
+	// } ) );
+	//
+	// container2.add( infoBox );
 
 
 }
@@ -310,7 +312,7 @@ function loop() {
 	// Don't forget, ThreeMeshUI must be updated manually.
 	// This has been introduced in version 3.0.0 in order
 	// to improve performance
-	ThreeMeshUI.update();
+	// ThreeMeshUI.update();
 
 	controls.update();
 	renderer.render( scene, camera );

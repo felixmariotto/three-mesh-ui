@@ -19,6 +19,7 @@ export default class BoxElement extends MeshUIBaseElement {
 	 */
 	constructor( properties = null, values = null) {
 
+		// customize property
 		if( !properties ) properties = {};
 		if( !properties.children ) properties.children = ChildrenBox;
 		if( !properties.bounds ) properties.bounds = BoundsBox;
@@ -29,6 +30,21 @@ export default class BoxElement extends MeshUIBaseElement {
 		if( !properties.autoSize ) properties.autoSize = AutoSizePropertyBox;
 
 		if( !properties.renderer ) properties.renderer = RendererPropertyBox;
+
+
+		if( !values ) values = {};
+
+		// configure
+		// /* ie: * /if ( !values.width ) values.width = '100%';
+
+
+		// break inheritance chains
+		if ( !values.fontSide ) values.fontSide = 0; // FrontSide;
+		if ( !values.invertAlpha ) values.invertAlpha = false;
+		if ( !values.fontCastShadow ) values.fontCastShadow = false;
+		if ( !values.fontReceiveShadow ) values.fontReceiveShadow = false;
+		if ( !values.backgroundCastShadow ) values.backgroundCastShadow = false;
+		if ( !values.backgroundReceiveShadow ) values.backgroundReceiveShadow = false;
 
 		super( properties, values );
 

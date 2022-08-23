@@ -39,16 +39,16 @@ function example() {
 
 	// StandardMaterial from three-mesh-ui/examples/materials/mdsf/
 	const standardText = new ThreeMeshUI.Text({content:"MSDFStandardMaterial"});
-	standardText.backgroundMaterial = new MSDFStandardMaterial({ /* material options */ });
+	standardText.fontMaterial = new MSDFStandardMaterial({ /* material options */ });
 
 	// LambertMaterial from three-mesh-ui/examples/materials/mdsf/
 	const lambertText = new ThreeMeshUI.Text({content:"MSDFLambertMaterial"});
-	lambertText.backgroundMaterial = new MSDFLambertMaterial({ /* material options */ });
+	lambertText.fontMaterial = new MSDFLambertMaterial({ /* material options */ });
 
 
 	// PhysicalMaterial from three-mesh-ui/examples/materials/mdsf/
 	const physicalText = new ThreeMeshUI.Text({content:"MSDFPhysicalMaterial",fontColor: new THREE.Color(0xffffff)});
-	physicalText.backgroundMaterial = new MSDFPhysicalMaterial({
+	physicalText.fontMaterial = new MSDFPhysicalMaterial({
 		color: 0xffffff,
 		transmission: 1,
 		opacity: 1,
@@ -61,14 +61,14 @@ function example() {
 	// WireframeProperty - When using three materials, you can then access to their properties such as wireframe
 	// Note that segments are increased to 12 instead of 1(default) - Showing more wireframe edges
 	const wireText = new ThreeMeshUI.Text({content:"WireframeProperty", segments:12});
-	wireText.backgroundMaterial = new MSDFStandardMaterial({wireframe:true});
+	wireText.fontMaterial = new MSDFStandardMaterial({wireframe:true});
 
 	// VertexShader example from three-mesh-ui/examples/materials/mdsf/
 	// Note that segments are increased to 12 instead of 1(default) - Smoothing triangles deformations
 	const vertexText = new ThreeMeshUI.Text({content:"VertexShaderExample", segments:12});
-	vertexText.backgroundMaterial = new MSDFVertexMaterialExample();
+	vertexText.fontMaterial = new MSDFVertexMaterialExample();
 	// set the vertexMaterial in this case, to access it during render update
-	vertexMaterial = vertexText.backgroundMaterial;
+	vertexMaterial = vertexText.fontMaterial;
 
 	// Mixed Material - three-mesh-ui provides a way to provide a compatibility
 	// Preventing you to create a Material class such as showed above
@@ -77,10 +77,10 @@ function example() {
 	// Pass a three material class to MSDFFontMaterialUtils.from()
 	const customMaterialClass = ThreeMeshUI.MSDFFontMaterialUtils.from(THREE.MeshStandardMaterial);
 	// It returns a mixined class that might be compatible to MSDF material (within limitation)
-	mixedText.backgroundMaterial = new customMaterialClass();
+	mixedText.fontMaterial = new customMaterialClass();
 
 	// And we can now use onBeforeCompile to customize its shader
-	mixedText.backgroundMaterial.onBeforeCompile = ( shader) => {
+	mixedText.fontMaterial.onBeforeCompile = ( shader) => {
 		console.log( "this is the shader you can customize", shader);
 		console.log( "it already has the msdf chunks applyied on it");
 	}

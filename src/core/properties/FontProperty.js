@@ -95,7 +95,7 @@ export default class FontProperty extends BaseProperty{
 
 		// @TODO : Material Property
 		// update font material according to font variant
-		if( !element._backgroundMaterial ) {
+		if( !element._fontMaterial ) {
 
 			element.fontMaterial = new this._fontVariant.fontMaterial();
 

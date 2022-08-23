@@ -1,42 +1,22 @@
-import BaseProperty from './BaseProperty';
 import { BackSide, DoubleSide, FrontSide } from 'three';
+import InheritableProperty from './InheritableProperty';
 
-export default class SideProperty extends BaseProperty{
+/**
+ * @property {number|"inherit"} value
+ */
+export default class SideProperty extends InheritableProperty {
 
 	/**
 	 *
 	 * @param {string} propertyId
-	 * @param {number} [value=null]
 	 */
-	constructor( propertyId, value = FrontSide ) {
+	constructor( propertyId ) {
 
-		super( propertyId, value, true);
+		super( propertyId, 'inherit', true);
 
 		this.isValid = _isValid;
 
 	}
-
-	update( element, out ) {
-
-		out[this.id] = this._value;
-
-	}
-
-	/**
-	 *
-	 * @param {number} v
-	 */
-	set value( v ) {
-
-		super.value = v;
-
-	}
-
-	/**
-	 *
-	 * @return {number}
-	 */
-	get value() { return this._value; }
 
 }
 
@@ -44,7 +24,7 @@ const AVAILABLE_VALUES = [ FrontSide, BackSide, DoubleSide ];
 
 /**
  *
- * @param {number} value
+ * @param {any} value
  * @return {boolean}
  * @private
  */

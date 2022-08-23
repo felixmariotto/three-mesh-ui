@@ -146,16 +146,16 @@ function makeTextPanel() {
 	// outerContainer.frame.visible = false;
 
 
-	const defaultText = new ThreeMeshUI.Text({content:"FontMaterial(default)", fontColor: new THREE.Color(0x0099ff), castShadow:true, side:DoubleSide});
-	const defaultTextInverted = new ThreeMeshUI.Text({content:"FontMaterial(default)", fontColor: new THREE.Color(0x0099ff), castShadow:true, side:DoubleSide});
+	const defaultText = new ThreeMeshUI.Text({content:"FontMaterial(default)", fontColor: new THREE.Color(0x0099ff), fontCastShadow:true, fontSide:DoubleSide});
+	const defaultTextInverted = new ThreeMeshUI.Text({content:"FontMaterial(default)", fontColor: new THREE.Color(0x0099ff), fontCastShadow:true, fontSide:DoubleSide});
 
-	const standardText = new ThreeMeshUI.Text({content:"MSDFStandardMaterial", fontColor: new THREE.Color(0x0099ff).convertSRGBToLinear(), castShadow:true, side:DoubleSide});
-	standardText.backgroundMaterial = new MSDFStandardMaterial({});
-	standardText.backgroundCustomDepthMaterial =  new MSDFDepthMaterial({});
+	const standardText = new ThreeMeshUI.Text({content:"MSDFStandardMaterial", fontColor: new THREE.Color(0x0099ff).convertSRGBToLinear(), fontCastShadow:true, fontSide:DoubleSide});
+	standardText.fontMaterial = new MSDFStandardMaterial({});
+	standardText.fontCustomDepthMaterial =  new MSDFDepthMaterial({});
 
-	const standardTextInverted = new ThreeMeshUI.Text({content:"MSDFStandardMaterial", fontColor: new THREE.Color(0x99ff00).convertSRGBToLinear(), invertAlpha: true, castShadow:true, side:DoubleSide});
-	standardTextInverted.backgroundMaterial = new MSDFStandardMaterial({});
-	standardTextInverted.backgroundCustomDepthMaterial =  new MSDFDepthMaterial({});
+	const standardTextInverted = new ThreeMeshUI.Text({content:"MSDFStandardMaterial", fontColor: new THREE.Color(0x99ff00).convertSRGBToLinear(), invertAlpha: true, fontCastShadow:true, fontSide:DoubleSide});
+	standardTextInverted.fontMaterial = new MSDFStandardMaterial({});
+	standardTextInverted.fontCustomDepthMaterial =  new MSDFDepthMaterial({});
 
 	outerContainer.add( defaultText, defaultTextInverted, standardText, standardTextInverted );
 
