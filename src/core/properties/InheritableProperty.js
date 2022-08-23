@@ -14,6 +14,7 @@ export default class InheritableProperty extends BaseProperty {
 
 		this.output = this._outputValue;
 
+		this._notInheritedValue = null;
 	}
 
 	update( element , out ) { 	/* eslint-enable no-unused-vars */
@@ -22,15 +23,27 @@ export default class InheritableProperty extends BaseProperty {
 
 		if( this._notInheritedValue === 'inherit' )
 		{
-			this._notInheritedValue = this.getInheritedInput( element )
-			console.log( "Not Herited ::", this._id , this._notInheritedValue );
-
+			this._notInheritedValue = this.getInheritedInput( element );
+		}
+		else
+		{
+			this.propagate( element );
 		}
 
 		this._outputValue( out );
 
 	}
 
+	propagate( element ) {
+
+		// rebuild same properties on children 'inheritance'
+		for ( const childUIElement of element._children._uis ) {
+
+			const property = childUIElement[`_${this._id}`];
+			if( property._value === 'inherit' ) childUIElement[`_${this._id}`]._needsUpdate = true;
+
+		}
+	}
 
 	/**
 	 * Output this property in a dictionnary
@@ -53,6 +66,7 @@ export default class InheritableProperty extends BaseProperty {
 			this._needsUpdate = true;
 
 		}
+
 	}
 	/**
 	 *

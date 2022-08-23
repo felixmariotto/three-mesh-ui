@@ -5,8 +5,6 @@ import { BoxLineGeometry } from 'three/examples/jsm/geometries/BoxLineGeometry.j
 
 import ThreeMeshUI from 'three-mesh-ui';
 
-import SnakeImage from './assets/spiny_bush_viper.jpg';
-
 import FontJSON from 'three-mesh-ui/examples/assets/fonts/msdf/roboto/regular.json';
 import FontImage from 'three-mesh-ui/examples/assets/fonts/msdf/roboto/regular.png';
 
@@ -127,7 +125,7 @@ function loop() {
 
 	const now = Date.now();
 
-	rootBlock.set( {
+	window.rootBlock.set( {
 		width: Math.sin( now / 1000 ) * 0.5 + 1.5,
 		height: Math.sin( now / 500 ) * 0.5 + 1.5
 	} );

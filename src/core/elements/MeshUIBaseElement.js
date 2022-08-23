@@ -43,6 +43,8 @@ import SegmentsProperty from '../properties/geometry/SegmentsProperty';
 import InvertAlphaProperty from '../properties/InvertAlphaProperty';
 import FontKerningProperty from '../properties/style-properties/font/FontKerningProperty';
 import InheritableBooleanProperty from '../properties/InheritableBooleanProperty';
+import InheritableMaterialProperty from '../properties/InheritableMaterialProperty';
+import { directTransferNotNull } from '../../utils/mediator/transformers/CommonTransformers';
 /* eslint-enable no-unused-vars */
 
 export default class MeshUIBaseElement extends Object3D {
@@ -71,6 +73,8 @@ export default class MeshUIBaseElement extends Object3D {
 		 * @protected
 		 */
 		this._backgroundMesh = null;
+
+
 
 		/**
 		 *
@@ -113,24 +117,17 @@ export default class MeshUIBaseElement extends Object3D {
 
 		/**
 		 *
-		 * @type {Material}
+		 * @type {InheritableMaterialProperty}
 		 * @internal
 		 */
-		this._fontMaterial = null;
+		this._fontMaterial = new InheritableMaterialProperty('fontMaterial');
 
 		/**
 		 *
-		 * @type {Material}
-		 * @protected
+		 * @type {InheritableMaterialProperty}
+		 * @private
 		 */
-		this._fontCustomDepthMaterial = null;
-
-		/**
-		 *
-		 * @type {Object.<{m:string, t?:(target:any, targetProperty:string, value:any) => void}>}
-		 * @protected
-		 */
-		this._fontMaterialMediation = {};
+		this._fontCustomDepthMaterial = new InheritableMaterialProperty('fontCustomDepthMaterial');
 
 		/**
 		 *
@@ -138,6 +135,8 @@ export default class MeshUIBaseElement extends Object3D {
 		 * @private
 		 */
 		this._fontMeshMediation = {
+			fontMaterial: { m: 'material' },
+			fontCustomDepthMaterial: { m : 'customDepthMaterial', t:directTransferNotNull},
 			fontCastShadow: { m: 'castShadow' },
 			fontReceiveShadow: { m: 'receiveShadow' },
 			renderOrder: {m: 'renderOrder' }
@@ -290,6 +289,8 @@ export default class MeshUIBaseElement extends Object3D {
 			this._children,
 			this._parent,
 
+
+
 			this._fontFamily,
 			this._fontStyle,
 			this._fontWeight,
@@ -371,15 +372,11 @@ export default class MeshUIBaseElement extends Object3D {
 
 			// !! this._renderer renderer MUST NOT BE in components !!
 
-			this._invertAlpha
+			this._invertAlpha,
+
+			this._fontMaterial,
+			this._fontCustomDepthMaterial,
 		]
-
-		// additional not referenced properties
-		if( properties.customize ) {
-
-			properties.customize( this );
-
-		}
 
 
 		/**
@@ -398,9 +395,6 @@ export default class MeshUIBaseElement extends Object3D {
 		if( values ) this.set( values );
 
 	}
-
-
-	// TODO:L Update mesh update material.
 
 
 	///////////////
@@ -425,10 +419,12 @@ export default class MeshUIBaseElement extends Object3D {
 
 		}
 
-		this._transferToBackgroundMaterial( out );
-		this._transferToFontMaterial( out );
 		this._transferToBackgroundMesh( out );
 		this._transferToFontMesh( out );
+
+		this._transferToBackgroundMaterial( out );
+		this._transferToFontMaterial( out );
+
 
 		// update children
 		for ( const child of this._children._uis ) {
@@ -663,6 +659,8 @@ export default class MeshUIBaseElement extends Object3D {
 					case 'backgroundCastShadow':
 					case 'fontReceiveShadow':
 					case 'backgroundReceiveShadow':
+					case 'fontMaterial':
+					case 'fontCustomDepthMaterial':
 						this[`_${prop}`].value = value;
 						break;
 
@@ -971,7 +969,31 @@ export default class MeshUIBaseElement extends Object3D {
 	 *
 	 * @returns {Material|ShaderMaterial}
 	 */
-	get fontMaterial() { return this._fontMaterial; }
+	// get fontMaterial() { return this._fontMaterial__; }
+	get fontMaterial() { return this._fontMaterial.value; }
+
+	// /**
+	//  *
+	//  * @param {Material|ShaderMaterial} material
+	//  */
+	// set fontMaterial( material ) {
+	//
+	// 	this._fontMaterial__ = material;
+	//
+	// 	// Update the fontMaterialProperties that need to be transferred to
+	// 	this._fontMaterialMediation__ = { ...material.constructor.mediation };
+	//
+	// 	// transfer all the properties to material
+	// 	//console.log( "transfoer to mat ------------->");
+	// 	this._transferToFontMaterial();
+	//
+	// 	if ( this._fontMesh ) {
+	//
+	// 		this._fontMesh.material = this._fontMaterial__;
+	//
+	// 	}
+	//
+	// }
 
 	/**
 	 *
@@ -979,20 +1001,20 @@ export default class MeshUIBaseElement extends Object3D {
 	 */
 	set fontMaterial( material ) {
 
-		this._fontMaterial = material;
+		this._fontMaterial.value = material;
 
 		// Update the fontMaterialProperties that need to be transferred to
-		this._fontMaterialMediation = { ...material.constructor.mediation };
+		// this._fontMaterialMediation__ = { ...material.constructor.mediation };
 
 		// transfer all the properties to material
 		//console.log( "transfoer to mat ------------->");
-		this._transferToFontMaterial();
+		// this._transferToFontMaterial();
 
-		if ( this._fontMesh ) {
+		// if ( this._fontMesh ) {
 
-			this._fontMesh.material = this._fontMaterial;
+			// this._fontMesh.material = this._fontMaterial.value;
 
-		}
+		// }
 
 	}
 
@@ -1002,15 +1024,15 @@ export default class MeshUIBaseElement extends Object3D {
 	 */
 	set fontCustomDepthMaterial( material ) {
 
-		this._fontCustomDepthMaterial = material;
+		this._fontCustomDepthMaterial.value = material;
 
-		this._transferToFontMaterial();
-
-		if ( this._fontMesh ) {
-			// transfer to the main if isset
-			this._fontMesh.customDepthMaterial = this._fontCustomDepthMaterial;
-
-		}
+		// this._transferToFontMaterial();
+		//
+		// if ( this._fontMesh ) {
+		// 	// transfer to the main if isset
+		// 	this._fontMesh.customDepthMaterial = this._fontCustomDepthMaterial__;
+		//
+		// }
 
 	}
 
@@ -1018,7 +1040,7 @@ export default class MeshUIBaseElement extends Object3D {
 	 *
 	 * @returns {Material|null}
 	 */
-	get fontCustomDepthMaterial() { return this._fontCustomDepthMaterial; }
+	get fontCustomDepthMaterial() { return this._fontCustomDepthMaterial.value; }
 
 	/**
 	 * According to the list of materialProperties
@@ -1027,6 +1049,9 @@ export default class MeshUIBaseElement extends Object3D {
 	 * @private
 	 */
 	_transferToFontMaterial( options = null ) {
+
+		const fontMat = this._fontMaterial.value;
+		if( !fontMat ) return;
 
 		if( !options ) {
 
@@ -1038,7 +1063,7 @@ export default class MeshUIBaseElement extends Object3D {
 
 		}
 
-		Mediator.mediate( this, this._fontMaterial, options, this._fontMaterialMediation, this._fontCustomDepthMaterial );
+		Mediator.mediate( this, fontMat, options, this._fontMaterial._mediation, this._fontCustomDepthMaterial.value );
 
 	}
 
@@ -1049,8 +1074,6 @@ export default class MeshUIBaseElement extends Object3D {
 	set fontSide( value ) {
 
 		this._fontSide.value = value;
-
-		if ( this._fontMaterial ) this._fontMaterial.side = value;
 
 	}
 
@@ -1067,8 +1090,6 @@ export default class MeshUIBaseElement extends Object3D {
 	set fontAlphaTest ( value ) {
 
 		this._fontAlphaTest.value = value;
-
-		if( this._fontMaterial ) this._fontMaterial.alphaTest = value;
 
 	}
 
@@ -1212,7 +1233,6 @@ export default class MeshUIBaseElement extends Object3D {
 				component.output( options );
 			}
 
-
 		}
 
 		Mediator.mediate( this, this._fontMesh, options, this._fontMeshMediation );
@@ -1245,8 +1265,7 @@ export default class MeshUIBaseElement extends Object3D {
 
 			this.bindFontMeshProperties();
 
-			if( this._fontCustomDepthMaterial ) this._fontMesh.customDepthMaterial = this._fontCustomDepthMaterial;
-
+			this._transferToFontMaterial();
 			this._transferToFontMesh();
 
 			this.add( this._fontMesh );

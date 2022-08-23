@@ -19,7 +19,7 @@ export default class FlexDirectionPropertyText extends FlexDirectionProperty {
 
 	}
 
-	computeOutputValue( element ) {
+	/* eslint-disable no-unused-vars */computeOutputValue( element ) { /* eslint-enable no-unused-vars */
 
 		// @TODO : Evaluate the needs of this property. Could be empty
 		this._value = this._inheritedInput;

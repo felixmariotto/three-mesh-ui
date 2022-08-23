@@ -60,7 +60,7 @@ async function preload() {
 
 		// and now alter it
 		const frequency = 0.85; // Decrease this value to reduce the amount of vertices to be moved
-		const amplitudeMax = 0.15; // Decrease or increase this value to set the move offset maximum
+		const amplitudeMax = 0.25; // Decrease or increase this value to set the move offset maximum
 
 
 		// loop through each vertices
@@ -86,7 +86,7 @@ async function preload() {
 	}
 
 	// And why not setting the default material of this variant to-*TOon
-	boldVariant.fontMaterial = MSDFToonMaterial;
+	// boldVariant.fontMaterial = MSDFToonMaterial;
 
 
 	// adjust fonts
@@ -141,8 +141,8 @@ function init() {
 	spotLight.castShadow = true;
 
 	//Set up shadow properties for the light
-	spotLight.shadow.mapSize.width = 1024; // default
-	spotLight.shadow.mapSize.height = 1024; // default
+	spotLight.shadow.mapSize.width = 2048; // default
+	spotLight.shadow.mapSize.height = 2048; // default
 	spotLight.shadow.camera.near = 0.5; // default
 	spotLight.shadow.camera.far = 500; // default
 
@@ -207,11 +207,12 @@ function makeTextPanel() {
 	const text1 = new ThreeMeshUI.Text( {
 			textContent: 'Geometry',
 			fontWeight: '700',
-			fontColor: new Color(0x00ff99),
+			fontColor: 0x00ff99,
 			fontSize: 0.7,
 			segments: 4,
 			letterSpacing: -0.08,
 			fontCastShadow: true,
+			fontMaterial : new MSDFToonMaterial({}),
 			fontCustomDepthMaterial: new MSDFDepthMaterial({}),
 			fontSide: DoubleSide
 		} );
@@ -224,58 +225,58 @@ function makeTextPanel() {
 
 	);
 
-	// const container2 = new ThreeMeshUI.Block( {
-	// 	width: 2,
-	// 	height: 0.3,
-	// 	padding: 0.05,
-	// 	justifyContent: 'center',
-	// 	textAlign: 'left',
-	// 	fontFamily: "Roboto", // As we preloaded fontFamily("Roboto") with variants, we can directly reference the font name
-	// 	backgroundOpacity: 0,
-	// } );
+	const container2 = new ThreeMeshUI.Block( {
+		width: 2,
+		height: 0.3,
+		padding: 0.05,
+		justifyContent: 'center',
+		textAlign: 'left',
+		fontFamily: "Roboto", // As we preloaded fontFamily("Roboto") with variants, we can directly reference the font name
+		backgroundOpacity: 0,
+	} );
+
+	container2.position.set( 0, 1.7, -2 );
+	container2.rotation.x = 0.65;
+	scene.add( container2 );
+
 	//
-	// container2.position.set( 0, 1.7, -2 );
-	// container2.rotation.x = 0.65;
-	// scene.add( container2 );
-	//
-	// //
-	//
-	// const infoBox = new ThreeMeshUI.Block( {
-	// 	width: 2,
-	// 	height: 0.175,
-	// 	margin: 0.01,
-	// 	padding: 0.025,
-	// 	textAlign: 'center',
-	// 	backgroundSide: DoubleSide,
-	// 	backgroundCastShadow: true
-	// } );
-	//
-	//
-	// infoBox.add( new ThreeMeshUI.Text( {
-	// 	textContent: 'This example shows how to alter glyph ................... from',
-	// 	fontWeight: '700',
-	// } ) );
-	//
-	// infoBox.add( new ThreeMeshUI.Text( {
-	// 	textContent: ' FontVariant.\n',
-	// 	fontWeight: '700',
-	// 	fontStyle: 'italic',
-	// } ) );
-	//
-	// infoBox.add( new ThreeMeshUI.Text( {
-	// 	textContent: 'It also shows ',
-	// 	fontStyle: 'italic',
-	// 	letterSpacing: 0.05
-	// } ) );
-	//
-	// infoBox.add( new ThreeMeshUI.Text( {
-	// 	textContent: 'MSDFToonMaterial',
-	// 	fontStyle: 'italic',
-	// 	fontWeight: '700',
-	// 	letterSpacing: 0.05
-	// } ) );
-	//
-	// container2.add( infoBox );
+
+	const infoBox = new ThreeMeshUI.Text( {
+		width: 2,
+		margin: '0.2 0.01 0.01 0.01',
+		padding: 0.025,
+		textAlign: 'center',
+		backgroundColor: 0x000000,
+	} );
+
+
+	infoBox.add( new ThreeMeshUI.Inline( {
+		textContent: 'This example shows how to alter glyph ................... from',
+		fontWeight: '700',
+	} ) );
+
+	infoBox.add( new ThreeMeshUI.Inline( {
+		textContent: ' FontVariant.\n',
+		fontWeight: '700',
+		fontStyle: 'italic',
+	} ) );
+
+	infoBox.add( new ThreeMeshUI.Inline( {
+		textContent: 'It also shows ',
+		fontStyle: 'italic',
+		letterSpacing: 0.05
+	} ) );
+
+	infoBox.add( new ThreeMeshUI.Inline( {
+		textContent: 'MSDFToonMaterial',
+		fontStyle: 'italic',
+		fontWeight: '700',
+		letterSpacing: 0.05,
+		color: 0x00ff99,
+		fontMaterial: new MSDFToonMaterial({})
+	} ) );
+
+	container2.add( infoBox );
 
 
 }
@@ -292,6 +293,7 @@ function onWindowResize() {
 
 //
 
+// let speed = 0.005;
 let speed = 0.005;
 function loop() {
 
@@ -312,7 +314,7 @@ function loop() {
 	// Don't forget, ThreeMeshUI must be updated manually.
 	// This has been introduced in version 3.0.0 in order
 	// to improve performance
-	// ThreeMeshUI.update();
+	ThreeMeshUI.update();
 
 	controls.update();
 	renderer.render( scene, camera );
