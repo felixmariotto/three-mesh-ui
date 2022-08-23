@@ -278,53 +278,53 @@ function makeUI() {
 			} )
 		);
 
-		button.setupState( {
-			state: 'idle',
-			attributes: {
-				offset: 0.02,
-				backgroundColor: new THREE.Color( colors.button ),
-				backgroundOpacity: 1
-			}
-		} );
+		// button.setupState( {
+		// 	state: 'idle',
+		// 	attributes: {
+		// 		offset: 0.02,
+		// 		backgroundColor: new THREE.Color( colors.button ),
+		// 		backgroundOpacity: 1
+		// 	}
+		// } );
 
-		button.setupState( {
-			state: 'hovered',
-			attributes: {
-				offset: 0.02,
-				backgroundColor: new THREE.Color( colors.hovered ),
-				backgroundOpacity: 1
-			}
-		} );
+		// button.setupState( {
+		// 	state: 'hovered',
+		// 	attributes: {
+		// 		offset: 0.02,
+		// 		backgroundColor: new THREE.Color( colors.hovered ),
+		// 		backgroundOpacity: 1
+		// 	}
+		// } );
 
-		button.setupState( {
-			state: 'selected',
-			attributes: {
-				offset: 0.01,
-				backgroundColor: new THREE.Color( colors.selected ),
-				backgroundOpacity: 1
-			},
-			onSet: () => {
-
-				// enable intersection checking for the previous layout button,
-				// then disable it for the current button
-
-				if ( currentLayoutButton ) objsToTest.push( currentLayoutButton );
-
-				if ( keyboard ) {
-
-					clear( keyboard );
-
-					keyboard.panels.forEach( panel => clear( panel ) );
-
-				}
-
-				currentLayoutButton = button;
-
-				makeKeyboard( options[ 1 ] );
-
-			}
-
-		} );
+		// button.setupState( {
+		// 	state: 'selected',
+		// 	attributes: {
+		// 		offset: 0.01,
+		// 		backgroundColor: new THREE.Color( colors.selected ),
+		// 		backgroundOpacity: 1
+		// 	},
+		// 	onSet: () => {
+		//
+		// 		// enable intersection checking for the previous layout button,
+		// 		// then disable it for the current button
+		//
+		// 		if ( currentLayoutButton ) objsToTest.push( currentLayoutButton );
+		//
+		// 		if ( keyboard ) {
+		//
+		// 			clear( keyboard );
+		//
+		// 			keyboard.panels.forEach( panel => clear( panel ) );
+		//
+		// 		}
+		//
+		// 		currentLayoutButton = button;
+		//
+		// 		makeKeyboard( options[ 1 ] );
+		//
+		// 	}
+		//
+		// } );
 
 		objsToTest.push( button );
 
@@ -332,9 +332,10 @@ function makeUI() {
 
 		if ( options[ 1 ] === 'eng' ) {
 
-			button.setState( 'selected' );
+			// button.setState( 'selected' );
 
 			currentLayoutButton = button;
+			makeKeyboard( options[ 1 ] );
 
 		}
 
@@ -435,6 +436,7 @@ function makeKeyboard( language ) {
 	scene.add( keyboard );
 
 	//
+	return;
 
 	keyboard.keys.forEach( ( key ) => {
 
@@ -609,7 +611,7 @@ function updateButtons() {
 		if ( ( !intersect || obj !== intersect.object ) && obj.isUI ) {
 
 			// Component.setState internally call component.set with the options you defined in component.setupState
-			if ( obj.states[ 'idle' ] ) obj.setState( 'idle' );
+			// if ( obj.states[ 'idle' ] ) obj.setState( 'idle' );
 
 		}
 
@@ -621,6 +623,7 @@ function updateButtons() {
 
 function raycast() {
 
+	return;
 	return objsToTest.reduce( ( closestIntersection, obj ) => {
 
 		// keys in panels that are hidden are not tested

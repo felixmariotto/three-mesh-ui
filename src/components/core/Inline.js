@@ -70,7 +70,7 @@ export default class Inline {
 	 *
 	 * @param {string|null} value
 	 */
-	set lineBreak( value ){
+	set lineBreak( value ) {
 
 		this._lineBreak = value;
 

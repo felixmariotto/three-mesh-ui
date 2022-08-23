@@ -1,6 +1,9 @@
 import SubStyleProperty from '../SubStyleProperty';
 
 
+/**
+ * @property {"cover"|"contain"|"stretch"} value
+ */
 export default class BackgroundSize extends SubStyleProperty {
 
 	constructor( defaultValue ) {

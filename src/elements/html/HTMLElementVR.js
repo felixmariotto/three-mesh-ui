@@ -1,4 +1,3 @@
-import Element from './Element';
 import StylePropertyWrapper from './properties/StylePropertyWrapper';
 import TokenList from '../../utils/dom/TokenList';
 import NamedMap from '../../utils/dom/NamedMap';

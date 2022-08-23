@@ -70,7 +70,7 @@ export default class MeshUIBaseElement extends Object3D {
 		/**
 		 *
 		 * @type {Mesh|null}
-		 * @protected
+		 * @internal
 		 */
 		this._backgroundMesh = null;
 
@@ -376,6 +376,7 @@ export default class MeshUIBaseElement extends Object3D {
 
 			this._fontMaterial,
 			this._fontCustomDepthMaterial,
+			this._renderer
 		]
 
 
@@ -507,6 +508,7 @@ export default class MeshUIBaseElement extends Object3D {
 	 *
 	 * @param {"normal"|"nowrap"|"pre"|"pre-line"|"pre-wrap"} [options.whiteSpace]
 	 * @param {Texture|string} [options.fontTexture] @deprecated
+	 * @param {string} [options.textContent]
 	 */
 	set( options ) {
 

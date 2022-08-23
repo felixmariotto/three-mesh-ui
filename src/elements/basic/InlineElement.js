@@ -15,6 +15,7 @@ import FontSizePropertyInline from '../../core/properties/style-properties/font/
 import SegmentsPropertyInline from '../../core/properties/geometry/SegmentsPropertyInline';
 import FontKerningPropertyInline from '../../core/properties/style-properties/font/FontKerningPropertyInline';
 import ChildrenInline from '../../core/properties/hierarchy/ChildrenInline';
+import RendererPropertyInline from '../../core/properties/rendering/RendererPropertyInline';
 
 export default class InlineElement extends MeshUIBaseElement {
 
@@ -31,6 +32,8 @@ export default class InlineElement extends MeshUIBaseElement {
 		if( !properties.glyphs ) properties.glyphs = GlyphsProperty;
 		if( !properties.inlines ) properties.inlines = InlinesProperty;
 		if( !properties.layouter ) properties.layouter = InlineLayouter;
+		if( !properties.renderer ) properties.renderer = RendererPropertyInline;
+
 
 		if( !properties.fontFamily ) properties.fontFamily = FontFamilyPropertyInline;
 		if( !properties.fontWeight ) properties.fontWeight = FontWeightPropertyInline;

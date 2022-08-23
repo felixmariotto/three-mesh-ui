@@ -33,27 +33,7 @@ export default class TextAlignPropertyText extends TextAlignProperty {
 
 		_process( element );
 
-		for ( const inlineElement of element._children._inlines ) {
-
-			if( !inlineElement._inlines._value || !inlineElement._inlines._value.length ) continue;
-
-			const charactersAsGeometries = inlineElement._inlines._value.map(
-				inline =>
-					inlineElement._font._fontVariant.getGeometricGlyph( inline, inlineElement )
-						.translate( inline.offsetX, inline.offsetY, 0 )
-
-			);
-
-			const mergedGeom = mergeBufferGeometries( charactersAsGeometries );
-
-			inlineElement.setFontMesh( new Mesh( mergedGeom, inlineElement.fontMaterial) );
-
-			inlineElement._fontMesh.renderOrder = Infinity;
-
-		}
-
-		// @TODO :
-		element.performAfterUpdate();
+		element._renderer._needsRender = true;
 
 	}
 

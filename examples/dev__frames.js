@@ -316,7 +316,7 @@ function makeBoxForBorder( text, visible = true ) {
 	//
 	panel.add(
 		new ThreeMeshUI.Text( {
-			content: text,
+			textContent: text,
 			backgroundColor: 'yellow'
 		} )
 	);

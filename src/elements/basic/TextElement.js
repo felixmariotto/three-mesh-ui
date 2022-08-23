@@ -15,6 +15,7 @@ import FontKerningPropertyText from '../../core/properties/style-properties/font
 import BoundsText from '../../core/properties/BoundsText';
 import ChildrenText from '../../core/properties/hierarchy/ChildrenText';
 import AutoSizePropertyText from '../../core/properties/AutoSizePropertyText';
+import RendererPropertyText from '../../core/properties/rendering/RendererPropertyText';
 
 export default class TextElement extends BoxElement {
 
@@ -31,6 +32,7 @@ export default class TextElement extends BoxElement {
 		properties.alignItems = AlignItemsProperty;
 		properties.bounds = BoundsText;
 		properties.autoSize = AutoSizePropertyText;
+		properties.renderer = RendererPropertyText;
 
 		if( !properties.children ) properties.children = ChildrenText;
 		if( !properties.textContent ) properties.textContent = TextContentText;
@@ -64,11 +66,6 @@ export default class TextElement extends BoxElement {
 			}
 		);
 
-
-		this.backgroundMaterial = new FrameMaterial();
-		this.setBackgroundMesh( new Frame(this) );
-
-		this._backgroundMesh.visible = false;
 
 	}
 

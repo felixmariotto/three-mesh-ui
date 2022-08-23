@@ -19,6 +19,8 @@ import * as VRDocument from './utils/dom/VRDocument';
 import BlockElement from './elements/basic/BlockElement';
 import TextElement from './elements/basic/TextElement';
 import InlineElement from './elements/basic/InlineElement';
+import InlineBlockElement from './elements/basic/InlineBlockElement';
+import KeyboardElement from './elements/basic/KeyboardElement';
 
 const update = () => UpdateManager.update7xx();
 
@@ -29,8 +31,8 @@ const ThreeMeshUI = {
 	Block: BlockElement,
 	Text : TextElement,
 	Inline: InlineElement,
-	InlineBlock,
-	Keyboard,
+	InlineBlock : InlineBlockElement,
+	Keyboard : KeyboardElement,
 	FontLibrary,
 	FontStyle,
 	FontWeight,

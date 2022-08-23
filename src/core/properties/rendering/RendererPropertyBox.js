@@ -10,9 +10,13 @@ export default class RendererPropertyBox extends BaseProperty{
 	}
 
 
-	process( element ) {
+	render( element ) {
 
-		element.setBackgroundMesh( new Frame(element) );
+		if( !element._backgroundMesh ) {
+
+			element.setBackgroundMesh( new Frame(element) );
+
+		}
 
 	}
 

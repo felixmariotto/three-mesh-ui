@@ -1,4 +1,4 @@
-import { Vector2, Vector4 } from 'three';
+import { Vector2, Vector3, Vector4 } from 'three';
 
 //JSDoc related import
 /* eslint-disable no-unused-vars */
@@ -60,7 +60,7 @@ export default class FrameMaterialUtils {
 
 		threeMaterial.userData.borderWidth = { value: new Vector4(0,0,0,0) };
 		threeMaterial.userData.borderOpacity = { value: null };
-		threeMaterial.userData.frameSize = { value: new Vector2( 1, 1 ) };
+		threeMaterial.userData.frameSize = { value: new Vector3( 1, 1, 1 ) };
 		threeMaterial.userData.textureSize = { value: new Vector2( 1, 1 ) };
 
 	}

@@ -59,7 +59,7 @@ export default class BoxElement extends MeshUIBaseElement {
 
 
 		this.backgroundMaterial = new FrameMaterial();
-		this._renderer.process( this );
+		this._renderer.render( this );
 
 		this._backgroundMesh.visible = false;
 
