@@ -103,7 +103,7 @@ function makeTextPanelColumn( index, contentDirection ) {
 		padding: 0.05,
 		justifyContent: contentDirection,
 		alignItems: 'center',
-		contentDirection: 'column',
+		flexDirection: 'column',
 		fontFamily: FontJSON,
 		fontTexture: FontImage
 	} );
@@ -113,7 +113,7 @@ function makeTextPanelColumn( index, contentDirection ) {
 
 	for ( let i = 0; i < letters.length; i ++ ) {
 
-		const blockText = new ThreeMeshUI.Block( {
+		const blockText = new ThreeMeshUI.Text( {
 			width: 0.125,
 			height: 0.125,
 			margin: 0.01,
@@ -121,16 +121,11 @@ function makeTextPanelColumn( index, contentDirection ) {
 			backgroundColor: new THREE.Color(colors[i]),
 			justifyContent: 'center',
 			alignItems: 'center',
-			offset:0.001
+			textAlign: 'center',
+			offset:0.001,
+			textContent: letters[ i ]
 		} );
 
-
-
-		const text = new ThreeMeshUI.Text( {
-			content: letters[ i ]
-		} );
-
-		blockText.add( text );
 		container.add( blockText );
 
 	}
@@ -175,7 +170,7 @@ function makeTextPanelRow( index, contentDirection ) {
 		padding: 0.05,
 		justifyContent: contentDirection,
 		alignItems: 'center',
-		contentDirection: 'row',
+		flexDirection: 'row',
 		fontFamily: FontJSON,
 		fontTexture: FontImage
 	} );
@@ -185,7 +180,7 @@ function makeTextPanelRow( index, contentDirection ) {
 
 	for ( let i = 0; i < letters.length; i ++ ) {
 
-		const blockText = new ThreeMeshUI.Block( {
+		const blockText = new ThreeMeshUI.Text( {
 			width: 0.125,
 			height: 0.125,
 			margin: 0.01,
@@ -193,16 +188,11 @@ function makeTextPanelRow( index, contentDirection ) {
 			backgroundColor: new THREE.Color(colors[i]),
 			justifyContent: 'center',
 			alignItems: 'center',
-			offset:0.001
+			textAlign: 'center',
+			offset:0.001,
+			textContent: letters[ i ]
 		} );
 
-
-
-		const text = new ThreeMeshUI.Text( {
-			content: letters[ i ]
-		} );
-
-		blockText.add( text );
 		container.add( blockText );
 
 	}

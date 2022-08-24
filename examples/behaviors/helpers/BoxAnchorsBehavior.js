@@ -14,7 +14,7 @@ export default class BoxAnchorsBehavior extends Behavior{
 		this.anchorTC = new Mesh( anchorGeometry, anchorMaterial );
 		this.anchorTR = new Mesh( anchorGeometry, anchorMaterial );
 		this.anchorCL = new Mesh( anchorGeometry, anchorMaterial );
-		this.anchorC = new Mesh( anchorGeometry, anchorMaterial );
+		this.anchorC  = new Mesh( anchorGeometry, anchorMaterial );
 		this.anchorCR = new Mesh( anchorGeometry, anchorMaterial );
 		this.anchorBL = new Mesh( anchorGeometry, anchorMaterial );
 		this.anchorBC = new Mesh( anchorGeometry, anchorMaterial );
