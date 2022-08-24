@@ -80,33 +80,45 @@ function step1BuildThreeJSElements() {
 //
 function step2BuildThreeMeshUIElements() {
 
+	const container = new ThreeMeshUI.Block({
+		width: 8,
+		flexDirection: 'row',
+		justifyContent: 'space-evenly',
+		alignItems: 'center'
+	});
+
+	container.position.set( 0 , 1 , -2);
+	scene.add( container );
+
 	// If we are going to display ThreeMeshUI Text elements
 	// It is important to know that a Text MUST have a Block as parent
 	// Using three-mesh-ui, we would usually have one or more rootBlock elements
 	const rootBlock = new ThreeMeshUI.Block( {
-
+		boxSizing: 'border-box',
 		// A Block must define its "box-sizing" properties
 		width: 1,
 		height: 1,
+		// margin: 0.05,
 		// padding: '0 0.225 0 0',
 		// padding: '0.25 0 0 0.1',
 		// padding: '0 0 0.1 0.1',
-		padding: '0.1 0.2 0.1 0',
+		// padding: '0.1 0.2 0.1 0',
+		padding: '0 0 0.1 0.5',
 		// padding: 0.1,
 		// padding: '0.1 .2 .2 0.1',
 
 		// A Block can define its "layout" properties
-		// contentDirection: 'row-reverse',
-		contentDirection: 'row',
+		// flexDirection: 'row-reverse',
+		flexDirection: 'row',
 		justifyContent: 'start',
 		alignItems: 'start',
 		textAlign: 'justify',
 
 		backgroundColor: new THREE.Color(0xffffff),
-		backgroundTexture : new TextureLoader().load("./assets/uv_grid.jpg"),
+		// backgroundTexture : new TextureLoader().load("./assets/uv_grid.jpg"),
 
 		// borderWidth: 0.1,
-		borderWidth: '0 0.2 .05 0.1',
+		// borderWidth: '0 0.2 .05 0.1',
 		borderColor: new THREE.Color(0x000000),
 
 		// A Block can also define "text" properties that will propagate to any of its Text children
@@ -122,12 +134,7 @@ function step2BuildThreeMeshUIElements() {
 
 	// three-mesh-ui root elements must be added on threejs display stack
 	// In the scene, or in another Object3D of our choice
-	scene.add( rootBlock );
-
-	// three-mesh-ui Block are Object3D agreemented with three-mesh-ui capabilities
-	// so you can use any existing Object3D methods and properties
-	rootBlock.position.set( -0.5, 1, -1.8 );
-	// rootBlock.rotation.x = -0.55;
+	container.add( rootBlock );
 
 	// Now that we have a three-mesh-ui Block, we can add three-mesh-ui Text's in it
 	rootBlock.add(
@@ -185,113 +192,116 @@ function step2BuildThreeMeshUIElements() {
 
 	const settings = [
 		//top left -- column
-		{contentDirection:'column', justifyContent: 'start', alignItems: 'start'},
-		{contentDirection:'column-reverse', justifyContent: 'end', alignItems: 'start'},
-					// {contentDirection:'column', justifyContent: 'space-between', alignItems: 'start'},
-					// {contentDirection:'column-reverse', justifyContent: 'space-between', alignItems: 'start'},
-					// {contentDirection:'column', justifyContent: 'space-around', alignItems: 'start'},
-					// {contentDirection:'column-reverse', justifyContent: 'space-around', alignItems: 'start'},
-					// {contentDirection:'column', justifyContent: 'space-evenly', alignItems: 'start'},
-					// {contentDirection:'column-reverse', justifyContent: 'space-evenly', alignItems: 'start'},
+		{flexDirection:'column', justifyContent: 'start', alignItems: 'start'},
+		{flexDirection:'column-reverse', justifyContent: 'end', alignItems: 'start'},
+					// {flexDirection:'column', justifyContent: 'space-between', alignItems: 'start'},
+					// {flexDirection:'column-reverse', justifyContent: 'space-between', alignItems: 'start'},
+					// {flexDirection:'column', justifyContent: 'space-around', alignItems: 'start'},
+					// {flexDirection:'column-reverse', justifyContent: 'space-around', alignItems: 'start'},
+					// {flexDirection:'column', justifyContent: 'space-evenly', alignItems: 'start'},
+					// {flexDirection:'column-reverse', justifyContent: 'space-evenly', alignItems: 'start'},
 		//top left -- row
-		{contentDirection:'row', justifyContent: 'start', alignItems: 'start'},
-		{contentDirection:'row-reverse', justifyContent: 'end', alignItems: 'start'},
-					// {contentDirection:'row', justifyContent: 'space-between', alignItems: 'start'},
-					// {contentDirection:'row-reverse', justifyContent: 'space-between', alignItems: 'start'},
-					// {contentDirection:'row', justifyContent: 'space-around', alignItems: 'start'},
-					// {contentDirection:'row-reverse', justifyContent: 'space-around', alignItems: 'start'},
-					// {contentDirection:'row', justifyContent: 'space-evenly', alignItems: 'start'},
-					// {contentDirection:'row-reverse', justifyContent: 'space-evenly', alignItems: 'start'},
+		{flexDirection:'row', justifyContent: 'start', alignItems: 'start'},
+		{flexDirection:'row-reverse', justifyContent: 'end', alignItems: 'start'},
+					// {flexDirection:'row', justifyContent: 'space-between', alignItems: 'start'},
+					// {flexDirection:'row-reverse', justifyContent: 'space-between', alignItems: 'start'},
+					// {flexDirection:'row', justifyContent: 'space-around', alignItems: 'start'},
+					// {flexDirection:'row-reverse', justifyContent: 'space-around', alignItems: 'start'},
+					// {flexDirection:'row', justifyContent: 'space-evenly', alignItems: 'start'},
+					// {flexDirection:'row-reverse', justifyContent: 'space-evenly', alignItems: 'start'},
 		// top center
-		{contentDirection:'column', justifyContent: 'start', alignItems: 'center'},
-		{contentDirection:'column-reverse', justifyContent: 'end', alignItems: 'center'},
-					// {contentDirection:'column', justifyContent: 'space-between', alignItems: 'center'},
-					// {contentDirection:'column-reverse', justifyContent: 'space-between', alignItems: 'center'},
-					// {contentDirection:'column', justifyContent: 'space-around', alignItems: 'center'},
-					// {contentDirection:'column-reverse', justifyContent: 'space-around', alignItems: 'center'},
-					// {contentDirection:'column', justifyContent: 'space-evenly', alignItems: 'center'},
-					// {contentDirection:'column-reverse', justifyContent: 'space-evenly', alignItems: 'center'},
+		{flexDirection:'column', justifyContent: 'start', alignItems: 'center'},
+		{flexDirection:'column-reverse', justifyContent: 'end', alignItems: 'center'},
+					// {flexDirection:'column', justifyContent: 'space-between', alignItems: 'center'},
+					// {flexDirection:'column-reverse', justifyContent: 'space-between', alignItems: 'center'},
+					// {flexDirection:'column', justifyContent: 'space-around', alignItems: 'center'},
+					// {flexDirection:'column-reverse', justifyContent: 'space-around', alignItems: 'center'},
+					// {flexDirection:'column', justifyContent: 'space-evenly', alignItems: 'center'},
+					// {flexDirection:'column-reverse', justifyContent: 'space-evenly', alignItems: 'center'},
 		// top center -- row
-		{contentDirection:'row', justifyContent: 'center', alignItems: 'start'},
-		{contentDirection:'row-reverse', justifyContent: 'center', alignItems: 'start'},
-					// {contentDirection:'row', justifyContent: 'space-between', alignItems: 'center'},
-					// {contentDirection:'row-reverse', justifyContent: 'space-between', alignItems: 'center'},
-					// {contentDirection:'row', justifyContent: 'space-around', alignItems: 'center'},
-					// {contentDirection:'row-reverse', justifyContent: 'space-around', alignItems: 'center'},
-					// {contentDirection:'row', justifyContent: 'space-evenly', alignItems: 'center'},
-					// {contentDirection:'row-reverse', justifyContent: 'space-evenly', alignItems: 'center'},
+		{flexDirection:'row', justifyContent: 'center', alignItems: 'start'},
+		{flexDirection:'row-reverse', justifyContent: 'center', alignItems: 'start'},
+					// {flexDirection:'row', justifyContent: 'space-between', alignItems: 'center'},
+					// {flexDirection:'row-reverse', justifyContent: 'space-between', alignItems: 'center'},
+					// {flexDirection:'row', justifyContent: 'space-around', alignItems: 'center'},
+					// {flexDirection:'row-reverse', justifyContent: 'space-around', alignItems: 'center'},
+					// {flexDirection:'row', justifyContent: 'space-evenly', alignItems: 'center'},
+					// {flexDirection:'row-reverse', justifyContent: 'space-evenly', alignItems: 'center'},
 		// top right
-		{contentDirection:'column', justifyContent: 'start', alignItems: 'end'},
-		{contentDirection:'column-reverse', justifyContent: 'end', alignItems: 'end'},
+		{flexDirection:'column', justifyContent: 'start', alignItems: 'end'},
+		{flexDirection:'column-reverse', justifyContent: 'end', alignItems: 'end'},
 		// top right -- row
-		{contentDirection:'row', justifyContent: 'end', alignItems: 'start'},
-		{contentDirection:'row-reverse', justifyContent: 'start', alignItems: 'start'},
+		{flexDirection:'row', justifyContent: 'end', alignItems: 'start'},
+		{flexDirection:'row-reverse', justifyContent: 'start', alignItems: 'start'},
 
 		// middle right
-		{contentDirection:'column', justifyContent: 'center', alignItems: 'end'},
-		{contentDirection:'column-reverse', justifyContent: 'center', alignItems: 'end'},
+		{flexDirection:'column', justifyContent: 'center', alignItems: 'end'},
+		{flexDirection:'column-reverse', justifyContent: 'center', alignItems: 'end'},
 		// middle right -- row
-		{contentDirection:'row', justifyContent: 'end', alignItems: 'center'},
-		{contentDirection:'row-reverse', justifyContent: 'start', alignItems: 'center'},
+		{flexDirection:'row', justifyContent: 'end', alignItems: 'center'},
+		{flexDirection:'row-reverse', justifyContent: 'start', alignItems: 'center'},
 
 		// bottom right
-		{contentDirection:'column', justifyContent: 'end', alignItems: 'end'},
-		{contentDirection:'column-reverse', justifyContent: 'start', alignItems: 'end'},
+		{flexDirection:'column', justifyContent: 'end', alignItems: 'end'},
+		{flexDirection:'column-reverse', justifyContent: 'start', alignItems: 'end'},
 		// bottom right -- row
-		{contentDirection:'row', justifyContent: 'end', alignItems: 'end'},
-		{contentDirection:'row-reverse', justifyContent: 'start', alignItems: 'end'},
+		{flexDirection:'row', justifyContent: 'end', alignItems: 'end'},
+		{flexDirection:'row-reverse', justifyContent: 'start', alignItems: 'end'},
 
 		// bottom center
-		{contentDirection:'column', justifyContent: 'end', alignItems: 'center'},
-		{contentDirection:'column-reverse', justifyContent: 'start', alignItems: 'center'},
+		{flexDirection:'column', justifyContent: 'end', alignItems: 'center'},
+		{flexDirection:'column-reverse', justifyContent: 'start', alignItems: 'center'},
 		// bottom center -- row
-		{contentDirection:'row', justifyContent: 'center', alignItems: 'end'},
-		{contentDirection:'row-reverse', justifyContent: 'center', alignItems: 'end'},
+		{flexDirection:'row', justifyContent: 'center', alignItems: 'end'},
+		{flexDirection:'row-reverse', justifyContent: 'center', alignItems: 'end'},
 
 		//bottom left
-		{contentDirection:'column', justifyContent: 'end', alignItems: 'start'},
-		{contentDirection:'column-reverse', justifyContent: 'start', alignItems: 'start'},
+		{flexDirection:'column', justifyContent: 'end', alignItems: 'start'},
+		{flexDirection:'column-reverse', justifyContent: 'start', alignItems: 'start'},
 		//bottom left -- row
-		{contentDirection:'row', justifyContent: 'start', alignItems: 'end'},
-		{contentDirection:'row-reverse', justifyContent: 'end', alignItems: 'end'},
+		{flexDirection:'row', justifyContent: 'start', alignItems: 'end'},
+		{flexDirection:'row-reverse', justifyContent: 'end', alignItems: 'end'},
 
 		// middle left
-		{contentDirection:'column', justifyContent: 'center', alignItems: 'start'},
-		{contentDirection:'column-reverse', justifyContent: 'center', alignItems: 'start'},
+		{flexDirection:'column', justifyContent: 'center', alignItems: 'start'},
+		{flexDirection:'column-reverse', justifyContent: 'center', alignItems: 'start'},
 		// middle left -- row
-		{contentDirection:'row', justifyContent: 'start', alignItems: 'center'},
-		{contentDirection:'row-reverse', justifyContent: 'end', alignItems: 'center'},
+		{flexDirection:'row', justifyContent: 'start', alignItems: 'center'},
+		{flexDirection:'row-reverse', justifyContent: 'end', alignItems: 'center'},
 
 		// middle center
-		{contentDirection:'column', justifyContent: 'center', alignItems: 'center'},
-		{contentDirection:'column-reverse', justifyContent: 'center', alignItems: 'center'},
+		{flexDirection:'column', justifyContent: 'center', alignItems: 'center'},
+		{flexDirection:'column-reverse', justifyContent: 'center', alignItems: 'center'},
 		// middle center -- row
-		{contentDirection:'row', justifyContent: 'center', alignItems: 'center'},
-		{contentDirection:'row-reverse', justifyContent: 'center', alignItems: 'center'},
+		{flexDirection:'row', justifyContent: 'center', alignItems: 'center'},
+		{flexDirection:'row-reverse', justifyContent: 'center', alignItems: 'center'},
 	]
 
 
 
 	const rootBlock2 = new ThreeMeshUI.Block( {
 
+		boxSizing: 'border-box',
+
 		// A Block must define its "box-sizing" properties
 		width: 1,
 		height: 1,
+		margin: 0.05,
 		// padding: '0 0.225 0 0',
 		// padding: '0.25 0 0 0.1',
 		padding: '0.2 0.25 0.1 0.1',
 		// padding: '0.1 0.2 0.3 0.4',
 
 		// A Block can define its "layout" properties
-		contentDirection: 'row',
-		// contentDirection: 'column-reverse',
+		flexDirection: 'row',
+		// flexDirection: 'column-reverse',
 		justifyContent: 'start',
 		alignItems: 'start',
 		// textAlign: 'justify-left',
 		textAlign: 'right',
 
 		backgroundColor: new THREE.Color(0xffffff),
-		backgroundTexture : new TextureLoader().load("./assets/uv_grid.jpg"),
+		// backgroundTexture : new TextureLoader().load("./assets/uv_grid.jpg"),
 
 		borderWidth: '0.1 0.05 0.05 0.1',
 		// A Block can also define "text" properties that will propagate to any of its Text children
@@ -307,12 +317,7 @@ function step2BuildThreeMeshUIElements() {
 
 	// three-mesh-ui root elements must be added on threejs display stack
 	// In the scene, or in another Object3D of our choice
-	scene.add( rootBlock2 );
-
-	// three-mesh-ui Block are Object3D agreemented with three-mesh-ui capabilities
-	// so you can use any existing Object3D methods and properties
-	rootBlock2.position.set( 1.05 - 0.5, 1, -1.8 );
-	// rootBlock2.rotation.x = -0.55;
+	container.add( rootBlock2 );
 
 
 	// Now that we have a three-mesh-ui Block, we can add three-mesh-ui Text's in it
@@ -343,24 +348,26 @@ function step2BuildThreeMeshUIElements() {
 		// A Block must define its "box-sizing" properties
 		width: 1,
 		height: 1,
+		// margin: 0.05,
 		// padding: '0 0.225 0 0',
 		// padding: '0.25 0 0 0.1',
 		// padding: '0 0 0.1 0.1',
-		padding: '0.1 0.2 0.3 0.4',
+		// padding: '0.1 0.2 0.3 0.4',
+		padding: '0.1 0 0.1 0.5',
 
 		// A Block can define its "layout" properties
-		// contentDirection: 'column',
-		contentDirection: 'column-reverse',
-		// contentDirection: 'row',
-		// contentDirection: 'row-reverse',
+		// flexDirection: 'column',
+		flexDirection: 'column-reverse',
+		// flexDirection: 'row',
+		// flexDirection: 'row-reverse',
 		justifyContent: 'start',
 		alignItems: 'end',
 		textAlign: 'justify',
 		boxSizing: 'content-box',
 
-		borderWidth: '0.1 0 0.1 0.05',
+		// borderWidth: '0.1 0 0.1 0.05',
 		backgroundColor: new THREE.Color(0xffffff),
-		backgroundTexture : new TextureLoader().load("./assets/uv_grid.jpg"),
+		// backgroundTexture : new TextureLoader().load("./assets/uv_grid.jpg"),
 		backgroundSize: 'stretch',
 
 		// A Block can also define "text" properties that will propagate to any of its Text children
@@ -376,12 +383,7 @@ function step2BuildThreeMeshUIElements() {
 
 	// three-mesh-ui root elements must be added on threejs display stack
 	// In the scene, or in another Object3D of our choice
-	scene.add( rootBlock3 );
-
-	// three-mesh-ui Block are Object3D agreemented with three-mesh-ui capabilities
-	// so you can use any existing Object3D methods and properties
-	rootBlock3.position.set( -1.35 - 0.5, 0.9, -1.8 );
-	// rootBlock3.rotation.x = -0.55;
+	container.add( rootBlock3 );
 
 	const childWithMargin = new ThreeMeshUI.Block( {
 			// three-mesh-ui Text should defined their content to display
@@ -428,7 +430,7 @@ function step2BuildThreeMeshUIElements() {
 	);
 
 	new BoxLayoutBehavior( rootBlock3 ).attach();
-	new BoxLayoutBehavior( childWithMargin ).attach();
+	// new BoxLayoutBehavior( childWithMargin ).attach();
 
 
 
@@ -438,14 +440,15 @@ function step2BuildThreeMeshUIElements() {
 		// A Block must define its "box-sizing" properties
 		width: 1,
 		height: 1,
+		margin: 0.05,
 		// padding: '0 0.225 0 0',
 		// padding: '0.25 0 0 0.1',
 		padding: '0.4 0.25 0.1 0.1',
 		// padding: '0.1 0.2 0.3 0.4',
 
 		// A Block can define its "layout" properties
-		contentDirection: 'row',
-		// contentDirection: 'column-reverse',
+		flexDirection: 'row',
+		// flexDirection: 'column-reverse',
 		justifyContent: 'start',
 		alignItems: 'start',
 		// textAlign: 'justify-left',
@@ -454,7 +457,7 @@ function step2BuildThreeMeshUIElements() {
 
 		borderWidth: '0.1 0 0.05 0.1',
 		backgroundColor: new THREE.Color(0xffffff),
-		backgroundTexture : new TextureLoader().load("./assets/uv_grid.jpg"),
+		// backgroundTexture : new TextureLoader().load("./assets/uv_grid.jpg"),
 
 		// A Block can also define "text" properties that will propagate to any of its Text children
 		fontSize: 0.055,
@@ -469,12 +472,7 @@ function step2BuildThreeMeshUIElements() {
 
 	// three-mesh-ui root elements must be added on threejs display stack
 	// In the scene, or in another Object3D of our choice
-	scene.add( rootBlock4 );
-
-	// three-mesh-ui Block are Object3D agreemented with three-mesh-ui capabilities
-	// so you can use any existing Object3D methods and properties
-	rootBlock4.position.set( 2.28 - 0.5, 1.15, -1.8 );
-	// rootBlock4.rotation.x = -0.55;
+	container.add( rootBlock4 );
 
 
 	// Now that we have a three-mesh-ui Block, we can add three-mesh-ui Text's in it

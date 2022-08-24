@@ -47,7 +47,8 @@ export default class BlockElement extends BoxElement {
 
 				validChildren.push( argument );
 
-				argument.position.z = 0.005;
+				// @TODO: Offset Property
+				if( argument.isUI ) { argument.position.z = 0.005; }
 
 			} else {
 

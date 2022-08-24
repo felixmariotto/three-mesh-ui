@@ -213,7 +213,8 @@ function makeUI() {
 		fontFamily: FontJSON,
 		fontTexture: FontImage,
 		width: 1,
-		height: 0.35,
+		height: 0.32,
+		padding: 0.02,
 		backgroundColor: new THREE.Color( colors.panelBack ),
 		backgroundOpacity: 1
 	} );
@@ -223,27 +224,24 @@ function makeUI() {
 
 	//
 
-	const title = new ThreeMeshUI.Block( {
+	const title = new ThreeMeshUI.Text( {
 		width: 1,
 		height: 0.1,
 		justifyContent: 'center',
 		fontSize: 0.045,
-		backgroundOpacity: 0
-	} ).add(
-		new ThreeMeshUI.Text( { content: 'Type some text on the keyboard' } )
-	);
+		textContent: 'Type some text on the keyboard'
+	} )
 
-	userText = new ThreeMeshUI.Text( { content: '' } );
-
-	const textField = new ThreeMeshUI.Block( {
+	userText = new ThreeMeshUI.Text( {
 		width: 1,
-		height: 0.4,
+		// height: 0.4,
 		fontSize: 0.033,
 		padding: 0.02,
-		backgroundOpacity: 0
-	} ).add( userText );
+		backgroundOpacity: 0,
+		textContent: ""
+	} );
 
-	textPanel.add( title, textField );
+	textPanel.add( title, userText );
 
 	////////////////////////
 	// LAYOUT OPTIONS PANEL
@@ -256,27 +254,24 @@ function makeUI() {
 		[ 'Nordic', 'nord' ],
 		[ 'German', 'de' ],
 		[ 'Spanish', 'es' ],
-		[ 'French', 'fr' ],
+		[ 'Rancais-French', 'fr' ],
 		[ 'Russian', 'ru' ],
 		[ 'Greek', 'el' ]
 	];
 
 	layoutButtons = layoutButtons.map( ( options ) => {
 
-		const button = new ThreeMeshUI.Block( {
-			height: 0.06,
-			width: 0.2,
+		const button = new ThreeMeshUI.Text( {
+			// height: 0.06,
+			width: 'auto',
+			padding : '0.01 0.05',
 			margin: 0.012,
 			justifyContent: 'center',
 			backgroundColor: new THREE.Color( colors.button ),
-			backgroundOpacity: 1
-		} ).add(
-			new ThreeMeshUI.Text( {
-				offset: 0,
-				fontSize: 0.035,
-				content: options[ 0 ]
-			} )
-		);
+			backgroundOpacity: 1,
+			fontSize: 0.035,
+			textContent: options[ 0 ]
+		} );
 
 		// button.setupState( {
 		// 	state: 'idle',
@@ -348,24 +343,19 @@ function makeUI() {
 	layoutOptions = new ThreeMeshUI.Block( {
 		fontFamily: FontJSON,
 		fontTexture: FontImage,
-		height: 0.25,
+		padding: 0.02,
 		width: 1,
 		offset: 0,
 		backgroundColor: new THREE.Color( colors.panelBack ),
 		backgroundOpacity: 1
 	} ).add(
-		new ThreeMeshUI.Block( {
-			height: 0.1,
-			width: 0.6,
+		new ThreeMeshUI.Text( {
 			offset: 0,
 			justifyContent: 'center',
-			backgroundOpacity: 0
-		} ).add(
-			new ThreeMeshUI.Text( {
-				fontSize: 0.04,
-				content: 'Select a keyboard layout :'
-			} )
-		),
+			backgroundOpacity: 0,
+			fontSize: 0.04,
+			textContent: 'Select a keyboard layout :'
+		} ),
 
 		new ThreeMeshUI.Block( {
 			height: 0.075,
@@ -424,7 +414,7 @@ function makeKeyboard( language ) {
 		fontFamily: FontJSON,
 		fontTexture: FontImage,
 		fontSize: 0.035, // fontSize will propagate to the keys blocks
-		backgroundColor: new THREE.Color( colors.keyboardBack ),
+		// backgroundColor: new THREE.Color( colors.keyboardBack ),
 		backgroundOpacity: 1,
 		backspaceTexture: Backspace,
 		shiftTexture: Shift,

@@ -116,6 +116,8 @@ export default class InlineElement extends MeshUIBaseElement {
 
 	}
 
+	get textContent () { return this._textContent._value; }
+
 	set invertAlpha( value ) {
 
 		this._invertAlpha.value = value;

@@ -14,7 +14,9 @@ export default class TextContentEmpty extends EmptyProperty{
 	/* eslint-disable no-unused-vars */ set value( v ) { 	/* eslint-enable no-unused-vars */ }
 
 
-	/* eslint-disable no-unused-vars */ update( element, out ) { /* eslint-enable no-unused-vars */
+	/* eslint-disable no-unused-vars */ process( element ) { /* eslint-enable no-unused-vars */
+
+		console.log( "process text content" );
 
 		let content = "";
 		for ( let i = 0; i < element.children.length; i++ ) {
@@ -27,6 +29,8 @@ export default class TextContentEmpty extends EmptyProperty{
 			}
 
 		}
+
+		console.log( this._value );
 
 		this._value = content;
 

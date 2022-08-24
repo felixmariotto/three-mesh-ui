@@ -3,7 +3,6 @@
 import { Object3D, Texture, Vector4 } from 'three';
 import Mediator from '../../utils/mediator/Mediator';
 import ParentProperty from '../properties/hierarchy/ParentProperty';
-import BooleanProperty from '../properties/BooleanProperty';
 import NumberProperty from '../properties/NumberProperty';
 import SideProperty from '../properties/SideProperty';
 import UpdateManager from '../../components/core/UpdateManager';
@@ -853,6 +852,8 @@ export default class MeshUIBaseElement extends Object3D {
 	 * @return {string}
 	 */
 	get textContent() {
+
+		console.log( "textCpmtemt frp,<esjION Ase");
 
 		this._textContent.process( this );
 

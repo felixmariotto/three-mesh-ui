@@ -141,6 +141,10 @@ export default class TextElement extends BoxElement {
 
 	}
 
+	get textContent ( ) {
+		return super.textContent;
+	}
+
 	set invertAlpha( value ) {
 
 		this._invertAlpha.value = value;

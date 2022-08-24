@@ -54,7 +54,6 @@ const ThreeMeshUI = {
 
 if ( typeof global !== 'undefined' ) global.ThreeMeshUI = ThreeMeshUI;
 
-export { Block as BlockElement };
 export { BlockElement as Block };
 export { Text };
 export { InlineBlock };

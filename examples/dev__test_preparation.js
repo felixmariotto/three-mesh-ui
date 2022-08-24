@@ -238,14 +238,14 @@ function step2BuildThreeMeshUIElements() {
 
 		console.log( child11.position.x, child11.position.y );
 
-		rootBlock2.frame.material.map.matrixAutoUpdate = true;
+		rootBlock2.backgroundMaterial.map.matrixAutoUpdate = true;
 
-		rootBlock2.frame.material.map.offset.set(
+		rootBlock2.backgroundMaterial.map.offset.set(
 			-rootBlock2._padding.w,
 			-rootBlock2._padding.z
 		);
 
-		rootBlock2.frame.material.map.repeat.set(
+		rootBlock2.backgroundMaterial.map.repeat.set(
 			rootBlock2.offsetWidth / rootBlock2.innerWidth,
 			rootBlock2.offsetHeight / rootBlock2.innerHeight
 		);

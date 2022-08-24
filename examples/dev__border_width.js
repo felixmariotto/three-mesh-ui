@@ -91,7 +91,7 @@ function init() {
 	const b1 = createColumn('WorldUnits = rem');
 	for ( let i = 0; i < b1.blocks.length; i++ ) {
 		const block = b1.blocks[ i ];
-		block._borderWidthComponent.units = 'rem';
+		block._borderWidth.units = 'rem';
 		block.set({borderWidth: 0.1,borderOpacity:0.6, borderColor:new Color(0xff99ff)});
 		block.set({backgroundTexture: uvTexture, backgroundSize:'stretch',backgroundColor:new THREE.Color(0xFFFFFF)});
 	}
@@ -100,7 +100,7 @@ function init() {
 	const b2 = createColumn('UV = em');
 	for ( let i = 0; i < b2.blocks.length; i++ ) {
 		const block = b2.blocks[ i ];
-		block._borderWidthComponent.units = 'em';
+		block._borderWidth.units = 'em';
 		block.set({borderWidth: 0.1,borderOpacity:0.6, borderColor:new Color(0xff99ff)});
 		block.set({backgroundTexture: uvTexture, backgroundSize:'stretch',backgroundColor:new THREE.Color(0xFFFFFF)});
 	}
@@ -111,8 +111,8 @@ function init() {
 	const b3 = createColumn('Percent');
 	for ( let i = 0; i < b3.blocks.length; i++ ) {
 		const block = b3.blocks[ i ];
-		block._borderWidthComponent.units = '%';
-		block.set({borderWidth: 10,borderOpacity:0.6, borderColor:new Color(0xff99ff)})
+		block._borderWidth.units = '%';
+		block.set({borderWidth: 0.1,borderOpacity:0.6, borderColor:new Color(0xff99ff)})
 	}
 	columnContainer.add(b3);
 

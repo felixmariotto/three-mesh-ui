@@ -29,7 +29,7 @@ export default class BorderWidth extends StyleVector4Property{
 
 		this._units = Units.validateUnits( units );
 
-		this._needsProcess = true;
+		this._needsUpdate = true;
 
 	}
 
@@ -83,7 +83,9 @@ export default class BorderWidth extends StyleVector4Property{
 		// @TODO: Units process could be strategies
 		if( this._units === Units.PERCENT ){
 
-			this._valueUV.divideScalar( 100 );
+			console.log( "Percent" );
+			// this._valueUV.divideScalar( 100 );
+			console.log( this._valueUV );
 
 		}
 

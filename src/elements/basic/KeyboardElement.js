@@ -27,8 +27,7 @@ export default class KeyboardElement extends BlockElement {
 		if ( !options.padding ) options.padding = 0.01;
 
 		//
-
-		super( options );
+		super();
 
 		this.currentPanel = 0;
 
@@ -119,13 +118,14 @@ export default class KeyboardElement extends BlockElement {
 			const lineHeight = ( options.height / panel.length ) - ( options.margin * 2 );
 
 			const panelBlock = new BlockElement( {
+				boxSizing: 'border-box',
 				width: options.width + ( options.padding * 2 ),
 				height: options.height + ( options.padding * 2 ),
 				// offset: 0,
 				padding: options.padding,
 				fontFamily: options.fontFamily,
 				fontTexture: options.fontTexture,
-				backgroundColor: options.backgroundColor,
+				backgroundColor: 0xff9000,
 				backgroundOpacity: options.backgroundOpacity
 			} );
 
@@ -139,16 +139,14 @@ export default class KeyboardElement extends BlockElement {
 					margin: options.margin,
 					flexDirection: 'row',
 					justifyContent: 'center',
-					// backgroundColor: 0xff9900
 				} );
-
-				// lineBlock.frame.visible = false;
 
 				const keys = [];
 
 				line.forEach( ( keyItem ) => {
 
 					const key = new TextElement( {
+						boxSizing : 'border-box',
 						width: ( options.width * keyItem.width ) - ( options.margin * 2 ),
 						height: lineHeight,
 						margin: options.margin,
@@ -230,7 +228,7 @@ export default class KeyboardElement extends BlockElement {
 		this.add( this.panels[ 0 ] );
 
 		// Lastly set the options parameters to this object, which will trigger an update
-		this.set( options );
+		// this.set( options );
 
 	}
 

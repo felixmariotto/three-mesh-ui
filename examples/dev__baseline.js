@@ -78,11 +78,21 @@ function init() {
 
 	// TEXT PANEL
 
-	container = makeUI();
-	scene.add( container );
+	const rootBlock = new ThreeMeshUI.Block({
+		alignItems: 'center',
+		padding: 0.05,
+		borderRadius: 0.01,
+		backgroundColor : 0x000000,
+		backgroundOpacity : 0.8
+	})
 
-	const cont2 = makeUI(false);
-	scene.add( cont2 );
+	rootBlock.position.set( 0, 0.930, -1.8 );
+
+	scene.add( rootBlock );
+
+	rootBlock.add( makeUI() );
+
+	rootBlock.add( makeUI(false) );
 	//
 
 	renderer.setAnimationLoop( loop );
@@ -96,44 +106,33 @@ function init() {
  * @return {Block}
  */
 function makeUI(fixed = true ) {
-	const container = new ThreeMeshUI.Block( {
-		height: 0.55,
-		width: 0.85,
-		justifyContent: 'center',
-		alignItems: 'center',
-		fontFamily: fixed ? 'Roboto' : 'Roboto-unfixed',
-		backgroundOpacity: fixed ? 1.0 : 0
-	} );
-
-	container.position.set( 0, fixed ? 1.0 : 0.930, -1.8 );
+	// const container = new ThreeMeshUI.Block( {
+	// 	width: 0.85,
+	// 	justifyContent: 'center',
+	// 	alignItems: 'center',
+	//
+	// 	backgroundOpacity: fixed ? 1.0 : 0
+	// } );
 
 	//
 
-	const textBlock = new ThreeMeshUI.Block( {
-		height: 0.4,
+	const textBlock = new ThreeMeshUI.Text( {
 		width: 0.73,
-		margin: 0.05,
-		textAlign: 'right',
+		textAlign: 'left',
 		justifyContent: 'center',
-		padding: 0.03,
-		interLine: 0.08,
-		letterSpacing: 0,
-		backgroundOpacity:0,
+		fontSize: 0.06,
+		fontFamily: fixed ? 'Roboto' : 'Roboto-unfixed',
+		textContent : 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'
 	} );
 
-	container.add( textBlock );
+	// container.add( textBlock );
 
 
 	// const textContent = FontLibrary.getFontFamily("Roboto").getVariant('400',"normal").typographic.charset;
-	const textContent = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
-	const _text = new ThreeMeshUI.Text( {
-		fontSize: 0.06,
-		content: textContent,
-	} );
 
 	if( fixed ){
 
-		text = _text;
+		text = textBlock;
 
 	}
 
@@ -144,16 +143,16 @@ function makeUI(fixed = true ) {
 	const lineMat = new MeshBasicMaterial( { color: fixed ? 0x0099FF : 0xcacaca, opacity: 0.5 } );
 	let lines = [];
 
-	_text.addAfterUpdate( function () {
+	textBlock.addAfterUpdate( function () {
 
 
 		// only process when texts are not empty
-		if ( _text.children.length == 0 ) return;
+		if ( textBlock._children._inlines.length === 0 ) return;
 
 		// remove all lines previously added
 		for ( let i = 0; i < lines.length; i++ ) {
 			const line = lines[ i ];
-			container.remove( line );
+			textBlock.remove( line );
 		}
 		lines = [];
 
@@ -175,19 +174,18 @@ function makeUI(fixed = true ) {
 			const lineMesh = new Mesh( lineGeo, lineMat );
 
 			lineMesh.position.x = lineProperty[ 0 ].offsetX + ( lineProperty.width / 2 );
-			lineMesh.position.y = lineProperty[ 0 ].offsetY + ( lineHeight / 2.89 );
+			lineMesh.position.y = lineProperty[ 0 ].offsetY + ( lineHeight / 2.915 );
 
 			lineMesh.position.z = 0.018;
 
 			lines.push( lineMesh );
-			container.add( lineMesh );
+			textBlock.add( lineMesh );
 		}
 
 	});
 
-	textBlock.add( _text );
 
-	return container;
+	return textBlock;
 
 }
 
@@ -198,8 +196,8 @@ function buildGUI() {
 	const alterations = {};
 
 	const letters = {};
-	for ( let i = 0; i < text.content.length; i++ ) {
-		const letter = text.content[ i ];
+	for ( let i = 0; i < text.textContent.length; i++ ) {
+		const letter = text.textContent[ i ];
 		letters[ letter ] = letter;
 	}
 
@@ -223,8 +221,8 @@ function buildGUI() {
 		alterations[ p.letter ] = v;
 
 		charDesc._yoffset = v;
-		text.update( true, true, true );
-		container.update( true, true, true );
+
+		text._renderer._needsRender = true;
 
 	} );
 

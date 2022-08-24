@@ -91,7 +91,7 @@ function init() {
 	const b1 = createColumn('WorldUnits = rem');
 	for ( let i = 0; i < b1.blocks.length; i++ ) {
 		const block = b1.blocks[ i ];
-		block._borderRadiusComponent.units = 'rem';
+		block._borderRadius.units = 'rem';
 		block.set({borderRadius: 0.1});
 		block.set({backgroundTexture: uvTexture, backgroundSize:'stretch',backgroundColor:new THREE.Color(0xFFFFFF)});
 	}
@@ -100,7 +100,7 @@ function init() {
 	const b2 = createColumn('UV = em');
 	for ( let i = 0; i < b2.blocks.length; i++ ) {
 		const block = b2.blocks[ i ];
-		block._borderRadiusComponent.units = 'em';
+		block._borderRadius.units = 'em';
 		// block.set({borderTopLeftRadius: 0.5})
 		block.set({borderRadius: 0.1});
 		block.set({backgroundTexture: uvTexture, backgroundSize:'stretch',backgroundColor:new THREE.Color(0xFFFFFF)});
@@ -112,7 +112,7 @@ function init() {
 	const b3 = createColumn('Percent');
 	for ( let i = 0; i < b3.blocks.length; i++ ) {
 		const block = b3.blocks[ i ];
-		block._borderRadiusComponent.units = '%';
+		block._borderRadius.units = '%';
 		block.set({borderRadius: 10})
 	}
 	columnContainer.add(b3);

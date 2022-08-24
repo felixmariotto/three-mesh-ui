@@ -1,7 +1,7 @@
-import BaseProperty from './BaseProperty';
 import InlineElement from '../../elements/basic/InlineElement';
+import TextContentEmpty from './TextContentEmpty';
 
-export default class TextContentText extends BaseProperty{
+export default class TextContentText extends TextContentEmpty{
 
 	constructor() {
 
