@@ -676,7 +676,16 @@ export default class MeshUIBaseElement extends Object3D {
 
 	}
 
+	get ( property ) {
 
+		switch ( property ) {
+
+			case 'width' :
+			case 'height' :
+				return this[`_${property}`].inline;
+		}
+
+	}
 
 	/**
 	 * Filters children in order to compute only one times children lists

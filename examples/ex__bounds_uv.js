@@ -4,8 +4,7 @@ import { VRButton } from 'three/examples/jsm/webxr/VRButton.js';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import { BoxLineGeometry } from 'three/examples/jsm/geometries/BoxLineGeometry.js';
 
-import * as ThreeMeshUI from 'three-mesh-ui';
-import { FontLibrary } from 'three-mesh-ui';
+import ThreeMeshUI from 'three-mesh-ui';
 // import SnakeImage from './assets/spiny_bush_viper.jpg';
 import SnakeImage from './assets/uv_grid.jpg';
 import SmokeImage from './assets/smoke-tileable.png';
@@ -13,8 +12,6 @@ import SmokeImage from './assets/smoke-tileable.png';
 import Stats from 'three/examples/jsm/libs/stats.module.js';
 import BoundsUVBehavior from 'three-mesh-ui/examples/behaviors/geometries/BoundsUVBehavior';
 import ExampleBoundsUVMaterial from 'three-mesh-ui/examples/materials/msdf/ExampleBoundsUVMaterial';
-import * as FontWeight from '../src/utils/font/FontWeight';
-import * as FontStyle from '../src/utils/font/FontStyle';
 import ROBOTO_ADJUSTMENT from 'three-mesh-ui/examples/assets/fonts/msdf/roboto/adjustment';
 
 
@@ -32,14 +29,14 @@ window.addEventListener('resize', onWindowResize );
 //
 function preloadFonts() {
 
-	FontLibrary.prepare(
+	ThreeMeshUI.FontLibrary.prepare(
 
-		FontLibrary
+		ThreeMeshUI.FontLibrary
 			.addFontFamily("Roboto")
-			.addVariant(FontWeight.NORMAL, FontStyle.NORMAL, "./assets/fonts/msdf/roboto/regular.json", "./assets/fonts/msdf/roboto/regular.png" )
-			.addVariant(FontWeight.BOLD, FontStyle.ITALIC, "./assets/fonts/msdf/roboto/bold-italic.json", "./assets/fonts/msdf/roboto/bold-italic.png" )
-			.addVariant(FontWeight.BOLD, FontStyle.NORMAL, "./assets/fonts/msdf/roboto/bold.json", "./assets/fonts/msdf/roboto/bold.png" )
-			.addVariant(FontWeight.NORMAL, FontStyle.ITALIC, "./assets/fonts/msdf/roboto/italic.json", "./assets/fonts/msdf/roboto/italic.png" )
+			.addVariant(ThreeMeshUI.FontWeight.NORMAL, ThreeMeshUI.FontStyle.NORMAL, "./assets/fonts/msdf/roboto/regular.json", "./assets/fonts/msdf/roboto/regular.png" )
+			.addVariant(ThreeMeshUI.FontWeight.BOLD, ThreeMeshUI.FontStyle.ITALIC, "./assets/fonts/msdf/roboto/bold-italic.json", "./assets/fonts/msdf/roboto/bold-italic.png" )
+			.addVariant(ThreeMeshUI.FontWeight.BOLD, ThreeMeshUI.FontStyle.NORMAL, "./assets/fonts/msdf/roboto/bold.json", "./assets/fonts/msdf/roboto/bold.png" )
+			.addVariant(ThreeMeshUI.FontWeight.NORMAL, ThreeMeshUI.FontStyle.ITALIC, "./assets/fonts/msdf/roboto/italic.json", "./assets/fonts/msdf/roboto/italic.png" )
 
 	).then( init );
 
@@ -48,7 +45,7 @@ function preloadFonts() {
 function init() {
 
 	// Adjusting font variants
-	const FF = FontLibrary.getFontFamily("Roboto");
+	const FF = ThreeMeshUI.FontLibrary.getFontFamily("Roboto");
 
 	// adjust fonts
 	// @see TODO:adjustDocumentation
@@ -116,13 +113,16 @@ function makeTextPanel() {
 	boundingContainer = new ThreeMeshUI.Block({
 		width: 0.75,
 		height: 0.2,
-		backgroundColor: new THREE.Color(0xff0000),
+		backgroundColor: 0xff0000,
 		backgroundOpacity: 0.25
 	});
+
 	scene.add( boundingContainer );
+
 	boundingContainer.position.set( 0, 1, -2 );
 	boundingContainer.rotation.x = -0.55;
 
+	window.boundingContainer = boundingContainer;
 
 	outerContainer = new ThreeMeshUI.Block({
 		width: 3.2,
@@ -139,23 +139,23 @@ function makeTextPanel() {
 	scene.add( outerContainer );
 
 	//
-	const infoContainer = new ThreeMeshUI.Block({
+	const infoContainer = new ThreeMeshUI.Text({
 		width: 1.5,
 		height: 0.2,
-		contentDirection: 'column',
+		flexDirection: 'column',
 		justifyContent: 'center',
 		alignItems: 'center',
 		backgroundSize: 'stretch',
 		fontFamily: "Roboto",
-		fontColor: new THREE.Color(0xffffff)
+		color: 0xffffff
 	});
 	outerContainer.add( infoContainer );
 
-	infoContainer.add( new ThreeMeshUI.Text({
+	infoContainer.add( new ThreeMeshUI.Inline({
 		content:"BoundsUVBehavior obtains the UV from another geometry\n",
 		fontWeight: '700',
 	}),
-		new ThreeMeshUI.Text({
+		new ThreeMeshUI.Inline({
 			content:"This example uses a custom material to show the whole glyph box",
 			fontWeight: '400',
 			fontSize: 0.04
@@ -164,7 +164,7 @@ function makeTextPanel() {
 	const effectContainer = new ThreeMeshUI.Block({
 		width:3,
 		height: 1.15,
-		contentDirection: 'row',
+		flexDirection: 'row',
 		backgroundOpacity: 0
 	})
 	outerContainer.add( effectContainer );
@@ -184,36 +184,36 @@ function buildEffectContainer( title, subtitle, bindedTo) {
 		backgroundOpacity: 0,
 		fontSize: 0.25,
 		justifyContent: "center",
+		flexDirection: 'column'
 	});
 	outerContainer.add( effectContainer );
 
-	const titleContainer = new ThreeMeshUI.Block({
+	const titleContainer = new ThreeMeshUI.Text({
 		width: 0.9,
 		height: 0.15,
 		justifyContent: 'center',
-		interLine: -0.01
 	});
 	effectContainer.add( titleContainer );
 
-	titleContainer.add( new ThreeMeshUI.Text({
-		content: title+"\n",
+	titleContainer.add( new ThreeMeshUI.Inline({
+		textContent: title+"\n",
 		fontWeight: '700',
-		fontColor: new THREE.Color(0xffffff),
+		color: 0xffffff,
 		fontSize: 0.055
 	}),
-		new ThreeMeshUI.Text({
-			content: subtitle,
+		new ThreeMeshUI.Inline({
+			textContent: subtitle,
 			fontWeight: '400',
-			fontColor: new THREE.Color(0xffffff),
+			color: 0xffffff,
 			fontSize: 0.035
 		}));
 
 
 	const defaultText = new ThreeMeshUI.Text({
-		content:"map",
+		textContent:"map",
 		fontColor: new THREE.Color(0xffffff)
 	});
-	defaultText.material = new ExampleBoundsUVMaterial({map:snakeTexture});
+	defaultText.fontMaterial = new ExampleBoundsUVMaterial({map:snakeTexture});
 
 	let textBlock = new ThreeMeshUI.Block({width:0.75,height:0.3, backgroundOpacity:0});
 	textBlock.add( defaultText );
@@ -223,7 +223,7 @@ function buildEffectContainer( title, subtitle, bindedTo) {
 		content:"alpha",
 		fontColor: new THREE.Color(0xFFFFFF)
 	});
-	alphaText.material = new ExampleBoundsUVMaterial({alphaMap:smokeTexture});
+	alphaText.fontMaterial = new ExampleBoundsUVMaterial({alphaMap:smokeTexture});
 	textBlock = new ThreeMeshUI.Block({width:0.75,height:0.3, backgroundOpacity:0});
 	textBlock.add( alphaText );
 	effectContainer.add( textBlock );
@@ -232,7 +232,7 @@ function buildEffectContainer( title, subtitle, bindedTo) {
 		content: "Both",
 		fontColor: new THREE.Color(0xffffff)
 	});
-	bothText.material = new ExampleBoundsUVMaterial({
+	bothText.fontMaterial = new ExampleBoundsUVMaterial({
 		map: snakeTexture,
 		alphaMap:smokeTexture
 	});
@@ -279,7 +279,8 @@ function loop() {
 	//
 	// }
 
-	let height = boundingContainer.height;
+	let height = boundingContainer.get('height');
+
 	height += speed;
 
 	if( height >= 0.6 ) {

@@ -2,13 +2,13 @@ export default class Behavior {
 
 	/**
 	 *
-	 * @param {MeshUIComponent} subject
+	 * @param {MeshUIBaseElement} subject
 	 */
 	constructor( subject ) {
 
 		/**
 		 *
-		 * @type {MeshUIComponent}
+		 * @type {MeshUIBaseElement}
 		 * @protected
 		 */
 		this._subject = subject;
