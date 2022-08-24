@@ -853,8 +853,6 @@ export default class MeshUIBaseElement extends Object3D {
 	 */
 	get textContent() {
 
-		console.log( "textCpmtemt frp,<esjION Ase");
-
 		this._textContent.process( this );
 
 		return this._textContent._value;
@@ -1401,6 +1399,19 @@ export default class MeshUIBaseElement extends Object3D {
 			this._onAfterUpdates[ i ]();
 
 		}
+
+	}
+
+	replaceProperty( name, instance ) {
+
+		let oldProperty = this[`_${name}`];
+
+		const index = this._components.indexOf( oldProperty );
+
+		this._components[index] = this[`_${name}`] = instance;
+		instance.needsUpdate = true;
+
+		return oldProperty;
 
 	}
 

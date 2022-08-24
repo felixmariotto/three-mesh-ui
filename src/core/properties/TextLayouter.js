@@ -68,8 +68,7 @@ export default class TextLayouter extends BaseProperty {
 
 			if ( !inlineElement._inlines.value ) return;
 
-			// ensure no collapsed remains
-			inlineElement._fontSize.process( inlineElement );
+			this._resetInlines( inlineElement );
 
 			//////////////////////////////////////////////////////////////
 			// Compute offset of each children according to its dimensions
@@ -234,10 +233,22 @@ export default class TextLayouter extends BaseProperty {
 		}
 
 		const parent = element._parent._value;
-		if( parent ) parent._autoSize._needsProcess = true;
+		if( parent ) {
+
+			parent._autoSize._needsProcess = true;
+			parent._flexDirection._needsProcess = true;
+
+		}
 
 		element._inlineJustificator._needsProcess = true;
 		element._textAlign._needsProcess = true;
+
+	}
+
+	_resetInlines ( inlineElement ) {
+
+		// ensure no collapsed remains
+		inlineElement._fontSize.process( inlineElement );
 
 	}
 

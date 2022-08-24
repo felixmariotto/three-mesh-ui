@@ -49,8 +49,6 @@ export default class WhiteSpacePropertyInline extends WhiteSpaceProperty {
 		// set strategies
 		this._newLineBreakability = _newlineBreakability( this._value );
 
-		console.log( this._newLineBreakability )
-
 		// REDO Whitespace Matrix
 		// https://developer.mozilla.org/en-US/docs/Web/CSS/white-space
 
@@ -115,8 +113,6 @@ export default class WhiteSpacePropertyInline extends WhiteSpaceProperty {
 		// @TODO: Make a property for Text -> inlineCollapser
 		if( element.isInline && !element.isInlineBlock ) {
 
-
-			console.log( element._textContent._value );
 			this._whiteSpacedContent = this._stringCollapser( element._textContent._value );
 
 			element._glyphs._needsProcess = true;
@@ -369,8 +365,6 @@ function _inlineCollapseNothing( line ) {
 function _collapseRightInlines( inlines, targetInline ) {
 
 	if ( !targetInline ) return;
-
-	console.log( "Collapse right", inlines.length, targetInline.char );
 
 	for ( let i = 0; i < inlines.length; i++ ) {
 

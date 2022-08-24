@@ -169,7 +169,7 @@ function makeTextPanel() {
 			backgroundColor: new THREE.Color( 0xd9d9d9 ),
 			backgroundOpacity: 0.5,
 			borderRadius: 0.05,
-			borderWidth: 0.01,
+			borderWidth: 0.02,
 			borderOpacity: 1,
 			borderColor: new THREE.Color( 0x333333 ),
 			justifyContent: 'end',
@@ -177,27 +177,25 @@ function makeTextPanel() {
 			fontColor: new THREE.Color( 0x111111 ),
 			fontFamily: FontJSON,
 			fontTexture: FontImage,
-			width: 1.1,
-			height: 0.95
+			width: 1,
+			height: 1
 		} );
 
 		outerContainer.position.set( -1.725 + 1.15 * i, 1, -1.8 );
 		outerContainer.rotation.x = -0.55;
 		scene.add( outerContainer );
 
-		new BoxLayoutBehavior( outerContainer ).attach();
-
 		//
 
-		const innerContainer = new ThreeMeshUI.Block( {
-			width: 0.98, // width - padding - border
+		const innerContainer = new ThreeMeshUI.Text( {
+			// width: 0.96, // width - padding - border
 			height: 0.7,
 			padding: 0.05,
+			margin: 0.01,
 			backgroundColor: new THREE.Color( 0xffffff ),
 			backgroundOpacity: 0.5,
-			offset: 0.001
-			// 7.x.x : bestFit as been moved as behavior
-			// bestFit: bestFit
+			offset: 0.001,
+			textAlign: 'justify-left'
 		} );
 
 		// 7.x.x : Add a behavior on Block that need to process bestFit
@@ -206,15 +204,15 @@ function makeTextPanel() {
 		outerContainer.add( innerContainer );
 		innerContainers.push( innerContainer );
 
-		const firstTextBlock = new ThreeMeshUI.Text( {
+		const firstTextBlock = new ThreeMeshUI.Inline( {
 			content: TEXT1[ i ],
 			fontSize: 0.085
 		} );
 
 		innerContainer.add( firstTextBlock );
 
-		const secondTextBlock = new ThreeMeshUI.Text( {
-			content: TEXT2[ i ],
+		const secondTextBlock = new ThreeMeshUI.Inline( {
+			content: ' '+TEXT2[ i ],
 			fontSize: 0.066
 		} );
 

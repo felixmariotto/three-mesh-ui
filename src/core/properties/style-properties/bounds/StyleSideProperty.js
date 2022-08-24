@@ -148,6 +148,8 @@ export default class StyleSideProperty extends SubStyleProperty {
 
 			this.output( out );
 
+			if( element._parent._value ) element._parent._value._layouter._needsProcess = true;
+
 		}
 
 	}
