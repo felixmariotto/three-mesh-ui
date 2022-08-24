@@ -88,7 +88,7 @@ function init() {
 
 function makeUI() {
 	const container = new ThreeMeshUI.Block( {
-		width: 0.73,
+		width: 0.78,
 		justifyContent: 'center',
 		alignItems: 'center',
 		backgroundOpacity: 0,
@@ -104,11 +104,11 @@ function makeUI() {
 		margin: 0.05,
 		textAlign: 'right',
 		justifyContent: 'center',
-		padding: 0.025,
+		color: 'red',
 		// backgroundColor: 0x000000,
 		// backgroundOpacity: 0.15,
 		letterSpacing: 0,
-		breakOn: "- \n",
+		// breakOn: "- \n",
 		fontMaterial: new FontMaterialDebugger()
 	} );
 
@@ -127,14 +127,6 @@ function makeUI() {
 		fontOpacity: 0.75,
 		textContent,
 	} );
-
-	const text2 = new ThreeMeshUI.Inline( {
-		fontSize: 0.015,
-		fontOpacity: 0.75,
-		textContent: 'The spiny bush viper is known for its extremely keeled dorsal scales.',
-	} );
-
-	// text.fontMaterial = new FontMaterialDebugger();
 
 	// Lines properties. Lines are planes manually added behind each text lines
 	// in order to perceive and validate line width
@@ -194,29 +186,20 @@ function makeUI() {
 			const medianMesh = new Mesh( new PlaneBufferGeometry( line.width, 0.001 ), medianMat );
 
 			medianMesh.position.x = lineMesh.position.x;
-			medianMesh.position.y =  lineMesh.position.y + lineBase/2 - deltaLine - 0.0005; // Baseline
+			medianMesh.position.y =  lineMesh.position.y + deltaLine/2 + 0.0005; // Baseline
 
 			lines.push( medianMesh );
 			textBlock.add( medianMesh );
 
-			baselineMesh.position.z = medianMesh.position.z = textBlock.children[0].position.z + 0.006;
+			baselineMesh.position.z = medianMesh.position.z = textBlock.children[0].position.z + 0.026;
 
 
 		}
 
 
-		//
-		// const heightMesh = new Mesh( new PlaneBufferGeometry( 0.5, textBlock.lines.height ),
-		// 	new MeshBasicMaterial({color:0xff0000}));
-		//
-		// lines.push( heightMesh );
-		// text.add( heightMesh );
-
-
-
 	});
 
-	textBlock.add( text , text2 );
+	textBlock.add( text );
 
 
 	//build html overlay for comparison and selection
@@ -417,7 +400,7 @@ class FontMaterialDebugger extends MeshBasicMaterial {
 				'#include <alphamap_fragment>',
 				ShaderChunkUI.msdf_alphaglyph_fragment + `
 				if( diffuseColor.a <= 0.02 ) {
-					diffuseColor = vec4(0.,0.,0.,0.75);
+					diffuseColor = vec4(1.-diffuseColor.x,1.-diffuseColor.y,1.-diffuseColor.z,0.75);
 				}
 				#include <alphamap_fragment>
 `

@@ -287,8 +287,6 @@ export default class KeyboardElement extends BlockElement {
 				textContent: newContent
 			} );
 
-			// textComponent.update( true, true, true );
-
 		} );
 
 	}
@@ -313,8 +311,6 @@ export default class KeyboardElement extends BlockElement {
 			textComponent.set( {
 				content: newContent
 			} );
-
-			// textComponent.update( true, true, true );
 
 		} );
 

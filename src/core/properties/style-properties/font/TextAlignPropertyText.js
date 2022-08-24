@@ -1,6 +1,3 @@
-import { mergeBufferGeometries } from 'three/examples/jsm/utils/BufferGeometryUtils';
-import { Mesh } from 'three';
-import { CENTER, JUSTIFY, JUSTIFY_CENTER, JUSTIFY_LEFT, JUSTIFY_RIGHT, LEFT, RIGHT } from '../../../../utils/inline-layout/TextAlign';
 import TextAlignProperty from './TextAlignProperty';
 
 
@@ -22,7 +19,6 @@ export default class TextAlignPropertyText extends TextAlignProperty {
 
 	/* eslint-disable no-unused-vars */computeOutputValue( element ) { /* eslint-enable no-unused-vars */
 
-		// console.error( "TextAlign Property", this._inheritedInput );
 		this._value = this._inheritedInput;
 
 		this._needsProcess = true;
@@ -138,20 +134,20 @@ function _computeLineOffset ( element, line, lastLine ) {
 
 	switch ( element._textAlign._value ) {
 
-		case JUSTIFY_LEFT:
-		case JUSTIFY:
-		case LEFT:
+		case 'justify-left':
+		case 'justify':
+		case 'left':
 			return - element._bounds._innerWidth / 2;
 
-		case JUSTIFY_RIGHT:
-		case RIGHT:
+		case 'justify-right':
+		case 'right':
 			return -line.width + ( element._bounds._innerWidth / 2 );
 
 
-		case CENTER:
+		case 'center':
 			return -line.width / 2;
 
-		case JUSTIFY_CENTER:
+		case 'justify-center':
 			if ( lastLine ) {
 
 				// center alignement

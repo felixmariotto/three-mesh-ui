@@ -115,6 +115,18 @@ export default class TypographicGlyph {
 	/**
 	 *
 	 * @abstract
+	 * @param {string} otherChar
+	 * @returns {InlineGlyph}
+	 */
+	/* eslint-disable no-unused-vars */ clone( otherChar ) { /* eslint-enable no-unused-vars */
+
+		throw new Error("Abstract... Need to be implemented");
+
+	}
+
+	/**
+	 *
+	 * @abstract
 	 * @returns {InlineGlyph}
 	 */
 	asInlineGlyph() {

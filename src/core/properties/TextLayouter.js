@@ -1,7 +1,6 @@
 import BaseProperty from './BaseProperty';
 import Lines from '../../components/core/Lines';
 import Line from '../../components/core/Line';
-import * as Whitespace from '../../utils/inline-layout/Whitespace';
 
 export default class TextLayouter extends BaseProperty {
 
@@ -26,8 +25,6 @@ export default class TextLayouter extends BaseProperty {
 	 * @return {Lines}
 	 */
 	process( element ) {
-
-		//console.log( "Layout Inlines", element._width._auto );
 
 		let INNER_WIDTH = element._width._value;
 		// if nowrap or pre => infinite then = re bounds;
@@ -94,6 +91,8 @@ export default class TextLayouter extends BaseProperty {
 				INNER_WIDTH
 			}
 
+			const inlineWrapper = inlineElement._whiteSpace._inlineWrapper;
+
 			lastInlineOffset += inlineElement._margin._value.w + inlineElement._padding._value.w;
 
 			inlineElement._inlines.value.forEach( ( inline, i, inlines ) => {
@@ -101,7 +100,7 @@ export default class TextLayouter extends BaseProperty {
 				const line = lines[lines.length - 1];
 
 				// Line break
-				const shouldBreak = Whitespace.shouldBreak(inlines,i,lastInlineOffset, whiteSpaceOptions );
+				const shouldBreak = inlineWrapper(inlines,i,lastInlineOffset, whiteSpaceOptions );
 
 				if ( shouldBreak ) {
 
@@ -150,7 +149,7 @@ export default class TextLayouter extends BaseProperty {
 		} );
 
 		// Compute single line and combined lines dimensions
-		const WHITESPACE = element._whiteSpace._value;
+		const inlineCollapser = element._whiteSpace._inlineCollapser;
 
 		let width = 0;
 		let lineOffsetY = 0;
@@ -159,7 +158,7 @@ export default class TextLayouter extends BaseProperty {
 		lines.forEach( ( line, i ) => {
 
 			// starts by processing whitespace, it will return a collapsed left offset
-			const whiteSpaceOffset = Whitespace.collapseWhitespaceOnInlines( line, WHITESPACE );
+			const whiteSpaceOffset = inlineCollapser( line );
 
 			//
 			let lineHeight = 0;

@@ -16,6 +16,7 @@ import SegmentsPropertyInline from '../../core/properties/geometry/SegmentsPrope
 import FontKerningPropertyInline from '../../core/properties/style-properties/font/FontKerningPropertyInline';
 import ChildrenInline from '../../core/properties/hierarchy/ChildrenInline';
 import RendererPropertyInline from '../../core/properties/rendering/RendererPropertyInline';
+import TextAlignPropertyInline from '../../core/properties/style-properties/font/TextAlignPropertyInline';
 
 export default class InlineElement extends MeshUIBaseElement {
 
@@ -45,6 +46,7 @@ export default class InlineElement extends MeshUIBaseElement {
 		if( !properties.letterSpacing ) properties.letterSpacing = LetterSpacingPropertyInline;
 		if( !properties.whiteSpace ) properties.whiteSpace = WhiteSpacePropertyInline;
 		if( !properties.segments ) properties.segments = SegmentsPropertyInline;
+		if( !properties.textAlign ) properties.textAlign = TextAlignPropertyInline;
 
 		if( !properties.fontKerning ) properties.fontKerning = FontKerningPropertyInline;
 

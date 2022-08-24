@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import { AmbientLight, Color, DoubleSide, Mesh, MeshStandardMaterial, PlaneBufferGeometry, SpotLight, SpotLightHelper } from 'three';
+import { AmbientLight, DoubleSide, Mesh, MeshStandardMaterial, PlaneBufferGeometry, SpotLight, SpotLightHelper } from 'three';
 import { VRButton } from 'three/examples/jsm/webxr/VRButton.js';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import { BoxLineGeometry } from 'three/examples/jsm/geometries/BoxLineGeometry.js';

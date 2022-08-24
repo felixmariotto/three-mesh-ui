@@ -60,6 +60,8 @@ export default class StyleSideProperty extends SubStyleProperty {
 
 	}
 
+	get inline() { return this._inline; }
+
 	_parseInput() {
 
 		let updateRequired = true;
@@ -117,11 +119,7 @@ export default class StyleSideProperty extends SubStyleProperty {
 
 			}
 
-
 			this._needsUpdate = this._updateRequired = updateRequired;
-			// this._needsUpdate = true;
-
-			// console.log( this._value, this._auto, this._relative );
 
 		}
 
@@ -187,7 +185,7 @@ export default class StyleSideProperty extends SubStyleProperty {
 
 
 		element._bounds._needsUpdate = true;
-
+		element._renderer._needsRender = true;
 		// element._autoSize._needsProcess = true;
 
 	}

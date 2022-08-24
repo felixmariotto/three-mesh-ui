@@ -94,7 +94,10 @@ export default class MSDFFontVariant extends FontVariant {
 
 		this._kernings = this._buildKerningPairs( json );
 		this._chars = this._buildCharacters( json );
+
 		this._chars[ " " ] = this._buildCharacterWhite( json );
+		this._chars[ "\n" ] = this._buildCharacterWhite( json, '\n' , 0.001, 1);
+		this._chars[ "\t" ] = this._buildCharacterWhite( json, '\t' , 4, 1);
 
 		this._size = json.info.size;
 		this._lineHeight = json.common.lineHeight;
@@ -208,14 +211,17 @@ export default class MSDFFontVariant extends FontVariant {
 	/**
 	 *
 	 * @param {MSDFJson} json
+	 * @param char
+	 * @param scaleX
+	 * @param scaleY
 	 * @private
 	 */
-	_buildCharacterWhite( json ) {
+	_buildCharacterWhite( json, char = " ", scaleX = 1, scaleY = 1 ) {
 		return new MSDFTypographicGlyph( this._font,
 			{
-				char: ' ',
-				width: json.info.size / 3,
-				height: json.info.size * 0.7,
+				char,
+				width: (json.info.size / 3)*scaleX,
+				height: (json.info.size * 0.7)*scaleY,
 			});
 	}
 
@@ -336,7 +342,8 @@ function _loadTexture( fontVariant, textureUrl ) {
  * @property {number} xadvance How much the current position should be advanced after drawing the character.
  * @property {string} page The texture page where the character image is found.
  * @property {number} chnl The texture channel where the character image is found (1 = blue, 2 = green, 4 = red, 8 = alpha, 15 = all channels).
- */
+ * @property {Object} [uv]
+ * /
 
 
 

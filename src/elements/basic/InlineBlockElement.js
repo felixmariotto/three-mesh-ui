@@ -1,9 +1,6 @@
 import LineBreakProperty from '../../core/properties/LineBreakProperty';
 import ChildrenInline from '../../core/properties/hierarchy/ChildrenInline';
 import FontKerningProperty from '../../core/properties/style-properties/font/FontKerningProperty';
-import LetterSpacingProperty from '../../core/properties/style-properties/font/LetterSpacingProperty';
-import WhiteSpaceProperty from '../../core/properties/style-properties/font/WhiteSpaceProperty';
-import FontSizeProperty from '../../core/properties/style-properties/font/FontSizeProperty';
 import FontStyleProperty from '../../core/properties/style-properties/font/FontStyleProperty';
 import FontFamilyProperty from '../../core/properties/style-properties/font/FontFamilyProperty';
 import FontWeightProperty from '../../core/properties/style-properties/font/FontWeightProperty';
@@ -12,13 +9,13 @@ import MeshUIBaseElement from '../../core/elements/MeshUIBaseElement';
 import InlineLayouter from '../../core/properties/InlineLayouter';
 import Inline from '../../components/core/Inline';
 import FrameMaterial from '../../frame/materials/FrameMaterial';
-import RendererPropertyBox from '../../core/properties/rendering/RendererPropertyBox';
 import InlinesPropertyInlineBlock from '../../core/properties/InlinesPropertyInlineBlock';
 import LetterSpacingPropertyInline from '../../core/properties/style-properties/font/LetterSpacingPropertyInline';
 import FontSizePropertyInline from '../../core/properties/style-properties/font/FontSizePropertyInline';
 import RendererPropertyInlineBox from '../../core/properties/rendering/RendererPropertyInlineBox';
 import BoundsInlineBlock from '../../core/properties/BoundsInlineBlock';
 import { Vector3 } from 'three';
+import WhiteSpacePropertyInline from '../../core/properties/style-properties/font/WhiteSpacePropertyInline';
 
 export default class InlineBlockElement extends MeshUIBaseElement {
 
@@ -44,7 +41,7 @@ export default class InlineBlockElement extends MeshUIBaseElement {
 		if( !properties.backgroundColor ) properties.backgroundColor = BackgroundColorProperty;
 		if( !properties.lineBreak ) properties.lineBreak = LineBreakProperty;
 		if( !properties.letterSpacing ) properties.letterSpacing = LetterSpacingPropertyInline;
-		if( !properties.whiteSpace ) properties.whiteSpace = WhiteSpaceProperty;
+		if( !properties.whiteSpace ) properties.whiteSpace = WhiteSpacePropertyInline;
 		if( !properties.fontKerning ) properties.fontKerning = FontKerningProperty;
 
 		// if( !properties.inlines ) properties.inlines = InlinesProperty;
@@ -55,6 +52,11 @@ export default class InlineBlockElement extends MeshUIBaseElement {
 
 		Object.defineProperties( this, {
 				isInline: {
+					configurable: false,
+					enumerable: true,
+					value: true
+				},
+				isInlineBlock: {
 					configurable: false,
 					enumerable: true,
 					value: true

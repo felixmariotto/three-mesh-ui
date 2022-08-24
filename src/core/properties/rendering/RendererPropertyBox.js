@@ -18,6 +18,8 @@ export default class RendererPropertyBox extends BaseProperty{
 
 		}
 
+		element.performAfterUpdate();
+
 	}
 
 }

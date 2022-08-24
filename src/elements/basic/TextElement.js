@@ -1,5 +1,3 @@
-import Frame from '../../frame/Frame';
-import FrameMaterial from '../../frame/materials/FrameMaterial';
 import BoxElement from './BoxElement';
 import TextContentText from '../../core/properties/TextContentText';
 import TextLayouter from '../../core/properties/TextLayouter';
@@ -91,7 +89,10 @@ export default class TextElement extends BoxElement {
 
 			if ( !argument.isUI || argument.isInline ) {
 
-				updateLayout = true;
+				if( argument.isInline ) {
+					updateLayout = true;
+				}
+
 				validChildren.push( argument );
 
 				argument.position.z = 0.005;

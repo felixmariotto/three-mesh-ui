@@ -122,6 +122,7 @@ export default class FontVariant extends EventDispatcher {
 		let typographicGlyph = this._chars[ character ];
 		if ( typographicGlyph ) return typographicGlyph;
 
+		// Auto generate whitespace chars
 		if ( character.match( /\s/ ) ) return this._chars[ " " ];
 
 		const fallbackCharacter = FontLibrary.missingCharacter( this, character );
