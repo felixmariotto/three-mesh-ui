@@ -34,7 +34,7 @@ export function _injectCaption( htmlText ) {
  * @param htmlText
  * @internal
  */
-export function _injectPoweredBy( htmlText ) {
+export function _injectCredits( htmlText ) {
 
 	const container = document.querySelector('.example-container');
 	if( container ) {
