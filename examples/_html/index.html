@@ -143,7 +143,7 @@
 
 		#examples-container {
 			padding: 20px;
-			max-height: calc( 100% - 60px );
+			/*max-height: calc( 100% - 60px );*/
 			overflow-y: auto;
 		}
 
@@ -195,6 +195,10 @@
 			#iframe-container {
 				height: calc( 100% - var(--navbar-height) );
 				width: 100vw;
+			}
+
+			#examples-container {
+				max-height: calc( 100% - 60px );
 			}
 
 		}
@@ -266,6 +270,7 @@
 
 <script>
 
+  	const version = "v<%= htmlWebpackPlugin.options.environment.version %>";
 	const root = document.documentElement;
 	const btn = document.getElementById('toggle-btn');
 	const link = document.getElementById('github-link');
@@ -325,8 +330,7 @@
 		let hash = window.location.hash.substring(1);
 
 		iframe.src = `./${ hash }.html`;
-
-		link.href = `https://github.com/felixmariotto/three-mesh-ui/blob/master/examples/${ hash }.js`
+		link.href = `https://github.com/felixmariotto/three-mesh-ui/tree/${version}/src/examples/${ hash }.js`
 
 	})
 
@@ -335,7 +339,7 @@
 	function selectView( listItem ) {
 
 		iframe.src = `./${ listItem.title }.html`;
-		link.href = `https://github.com/felixmariotto/three-mesh-ui/blob/master/examples/${ listItem.title }.js`
+		link.href = `https://github.com/felixmariotto/three-mesh-ui/tree/${version}/examples/${ listItem.title }.js`
 
 		window.location.hash = listItem.title;
 

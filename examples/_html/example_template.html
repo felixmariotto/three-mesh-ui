@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+	<title><%= htmlWebpackPlugin.options.title %></title>
+	<style>
+		* {
+			margin: 0;
+			padding: 0;
+		}
+
+		body {
+			overflow: hidden;
+		}
+
+		.overlay {
+			position: absolute;
+			left: 0;
+			right: 0;
+			top: 0;
+
+			margin-top: .5rem;
+			font-family: "Courier New", Courier, monospace;
+			color: whitesmoke;
+		}
+
+		.overlay p {
+			text-align: center;
+		}
+
+		.overlay a {
+			color: white;
+			text-shadow: 1px 1px 0 black;
+			border-radius: 5px;
+			padding: 0 .25rem;
+		}
+
+	</style>
+
+	<script>
+		// generate flashy color for overlay
+		let colorComponents = [];
+		for ( let i = 0; i < 6; i++ ) {
+			colorComponents.push( Math.random() > 0.5 ? 'f' : '9');
+		}
+
+		const index = Math.floor( Math.random() * 3 ) * 2;
+		colorComponents.splice(index, 0, '0', '0');
+		const color = '#'+colorComponents.join("");
+
+		const style = document.createElement('style');
+		style.textContent = `
+		.overlay a { background-color: ${color}; }
+		`
+
+		document.head.appendChild( style );
+
+
+	</script>
+</head>
+<body>
+<div class="overlay">
+	<% if(htmlWebpackPlugin.options.details && htmlWebpackPlugin.options.details.description){ %>
+	<p class="description"><%= htmlWebpackPlugin.options.details.description %></p>
+	<% } %>
+	<% if(htmlWebpackPlugin.options.details && htmlWebpackPlugin.options.details.contribution){ %>
+	<p class="contribution"><%= htmlWebpackPlugin.options.details.contribution %></p>
+	<% } %>
+	<% if(htmlWebpackPlugin.options.details && htmlWebpackPlugin.options.details.copyright){ %>
+	<p class="copyright"><%= htmlWebpackPlugin.options.details.copyright %></p>
+	<% } %>
+</div>
+
+</body>
+</html>
