@@ -3,25 +3,25 @@ import type { Color, Object3D, Texture } from "three"
 export type BlockOptions = {
     width: number;
     height: number;
-		margin?: number;
+    margin?: number;
     padding?: number;
     fontFamily?: string;
-		fontSize?: number;
+    fontSize?: number;
     fontTexture?: string;
     backgroundColor?: Color;
     backgroundOpacity?: number;
-		backgroundTexture?: Texture;
-		backgroundSize?: 'stretch'|'contain'|'cover';
-		borderColor?: Color;
+    backgroundTexture?: Texture;
+    backgroundSize?: 'stretch'|'contain'|'cover';
+    borderColor?: Color;
     borderRadius?: number | [topLeft: number, topRight: number, bottomRight: number, bottomLeft: number];
-		borderWidth?: number;
-		contentDirection?: 'row'|'row-reverse'|'column'|'column-reverse';
-		justifyContent?: 'start'|'end'|'center'|'space-between'|'space-around'|'space-evenly';
-		alignItems?: 'start'| 'end'| 'center'| 'stretch';
-		interLine?: number;
-		hiddenOverflow?: boolean;
-		offset?: number;
-		bestFit?: 'none'|'shrink'| 'grow'| 'auto';
+    borderWidth?: number;
+    contentDirection?: 'row'|'row-reverse'|'column'|'column-reverse';
+    justifyContent?: 'start'|'end'|'center'|'space-between'|'space-around'|'space-evenly';
+    alignItems?: 'start'| 'end'| 'center'| 'stretch';
+    interLine?: number;
+    hiddenOverflow?: boolean;
+    offset?: number;
+    bestFit?: 'none'|'shrink'| 'grow'| 'auto';
 }
 
 export declare class Block extends Object3D {
@@ -29,14 +29,14 @@ export declare class Block extends Object3D {
 }
 
 export type TextOptions = {
-		content: string
-		fontColor?: Color
-		fontKerning?: 'none'|'normal'
-		fontOpacity?: number
-		fontSuperSampling?: boolean
-		textAlign?: 'left'|'center'|'right'|'justify'|'justify-left'|'justify-center'|'justify-right'
-		offset?: number
-		whiteSpace?: 'normal'|'pre-line'|'pre-wrap'|'pre'|'nowrap'
+    content: string
+    fontColor?: Color
+    fontKerning?: 'none'|'normal'
+    fontOpacity?: number
+    fontSuperSampling?: boolean
+    textAlign?: 'left'|'center'|'right'|'justify'|'justify-left'|'justify-center'|'justify-right'
+    offset?: number
+    whiteSpace?: 'normal'|'pre-line'|'pre-wrap'|'pre'|'nowrap'
 }
 
 export declare class Text extends Object3D {
