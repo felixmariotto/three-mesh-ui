@@ -15,6 +15,10 @@ import MSDFFontMaterialUtils from './font/msdf/utils/MSDFFontMaterialUtils';
 import { ShaderChunkUI } from './renderers/shaders/ShaderChunkUI';
 import * as FontWeight from './utils/font/FontWeight';
 import * as FontStyle from './utils/font/FontStyle';
+import FontVariant from './font/FontVariant';
+import TypographicFont from './font/TypographicFont';
+import TypographicGlyph from './font/TypographicGlyph';
+import InlineGlyph from './font/InlineGlyph';
 
 const update = () => UpdateManager.update();
 
@@ -40,6 +44,7 @@ const ThreeMeshUI = {
 
 if ( typeof global !== 'undefined' ) global.ThreeMeshUI = ThreeMeshUI;
 
+
 export { Block };
 export { Text };
 export { InlineBlock };
@@ -55,6 +60,10 @@ export { AlignItems };
 export { ContentDirection };
 export { ShaderChunkUI };
 export { MSDFFontMaterialUtils };
+export { FontVariant }
+export { TypographicFont }
+export { TypographicGlyph }
+export { InlineGlyph }
 
 export default ThreeMeshUI;
 
