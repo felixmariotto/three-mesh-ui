@@ -1,9 +1,8 @@
-import { FileLoader, LinearFilter, MeshBasicMaterial, Vector2 } from 'three';
-import SVGTypographicFont from 'three-mesh-ui/examples/font/svg/MSDFTypographicFont';
-import MSDFGeometricGlyph from 'three-mesh-ui/examples/font/svg/MSDFGeometricGlyph';
-import MSDFTypographicGlyph from 'three-mesh-ui/examples/font/svg/MSDFTypographicGlyph';
+import { FileLoader, MeshBasicMaterial } from 'three';
 import { FontVariant } from 'three-mesh-ui';
 import SVGTypographicGlyph from './SVGTypographicGlyph';
+import SVGTypographicFont from './SVGTypographicFont';
+import SVGGeometricGlyph from './SVGGeometricGlyph';
 
 export default class SVGFontVariant extends FontVariant {
 
@@ -70,12 +69,12 @@ export default class SVGFontVariant extends FontVariant {
 
 	/**
 	 *
-	 * @param {MSDFInlineGlyph} inline
-	 * @returns {MSDFGeometricGlyph}
+	 * @param {SVGInlineGlyph} inline
+	 * @returns {SVGGeometricGlyph}
 	 */
 	getGeometricGlyph( inline, segments = 1 ) {
 
-		return new MSDFGeometricGlyph( inline, segments );
+		return new SVGGeometricGlyph( inline, segments );
 
 	}
 
@@ -140,8 +139,14 @@ export default class SVGFontVariant extends FontVariant {
 
 		for ( let i = 0; i < svgGlyphs.length; i++ ) {
 			const charOBJ = svgGlyphs[ i ];
+			const unicode = charOBJ.getAttribute('unicode')
 
-			friendlyChars[ charOBJ.unicode ] = new SVGTypographicGlyph( this._font, charOBJ );
+			if( unicode === ' ' ) continue;
+
+			if( unicode.charCodeAt(0) === 160 ) continue;
+
+			console.log( "CAHRCODE  ",unicode.charCodeAt( 0 ), '-'+unicode+'-' );
+			friendlyChars[ unicode ] = new SVGTypographicGlyph( this._font, charOBJ );
 
 		}
 
@@ -154,7 +159,7 @@ export default class SVGFontVariant extends FontVariant {
 	 * @private
 	 */
 	_buildCharacterWhite() {
-		return new MSDFTypographicGlyph( this._font,
+		return new SVGTypographicGlyph( this._font,
 			{
 				char: ' ',
 				xadvance:  this._font.size / 3,
@@ -177,15 +182,29 @@ export default class SVGFontVariant extends FontVariant {
  */
 function _loadSvg( fontVariant, svgUrl ) {
 
-	new FileLoader().setResponseType( 'document' ) .load( svgUrl, ( response ) => {
+	new FileLoader().setResponseType( 'document' ).setMimeType("text/xml").load( svgUrl, ( response ) => {
 
 		// check what response is
 		var i = 2;
 
-		fontVariant._buildData( response );
-		fontVariant._checkReadiness();
+		const firstElement = response.firstElementChild;
+		if( firstElement && firstElement.tagName.toLowerCase() === 'svg') {
 
-	} );
+			fontVariant._buildData( response );
+			fontVariant._checkReadiness();
+
+		} else {
+
+			throw new Error( "SVGFontVariant:: The loaded SVG is not a SVG.")
+
+
+		}
+
+
+
+	} , ( progressEvent) => { console.log( progressEvent)}, (event) => {
+		console.log( event );
+	});
 
 }
 

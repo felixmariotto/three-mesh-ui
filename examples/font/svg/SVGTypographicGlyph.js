@@ -1,6 +1,7 @@
 import { TypographicGlyph } from 'three-mesh-ui';
 import { Shape, ShapePath, Vector2 } from 'three';
-import SVGInlineGlyph from 'three-mesh-ui/examples/font/svg/SVGInlineGlyph';
+import SVGInlineGlyph from './SVGInlineGlyph';
+import { SVGLoader } from 'three/examples/jsm/loaders/SVGLoader';
 
 
 export default class SVGTypographicGlyph extends TypographicGlyph {
@@ -30,9 +31,21 @@ export default class SVGTypographicGlyph extends TypographicGlyph {
 
 		} else {
 
-			this._char = svgElement.unicode;
-			this._xadvance = parseFloat( svgElement.getAttribute( 'horiz-adv-x' ) ) / fontDescription.divisor;
-			this._shapePath = _transformSVGPath( svgElement.d ).toShapes(true);
+			this._char = svgElement.getAttribute('unicode');
+
+			if( svgElement.hasAttribute('horiz-adv-x') ) {
+
+				this._xadvance = parseFloat( svgElement.getAttribute( 'horiz-adv-x' ) ) / fontDescription.divisor;
+
+			} else {
+
+				this._xadvance = fontDescription.xadvance / fontDescription.divisor;
+
+			}
+
+			const paths = _transformSVGPath( svgElement.getAttribute('d') );
+			// this._shapePath = paths.toShapes( ShapeUtils.isClockWise( paths.subPaths[0].getPoints()));
+			this._shapePath = SVGLoader.createShapes( paths );
 
 		}
 
@@ -216,6 +229,7 @@ function _transformSVGPath( pathStr ) {
 			case 'C':
 				x1 = eatNum();
 				y1 = eatNum();
+			//fallthrough
 
 			case 'S':
 				if ( activeCmd === 'S' ) {
@@ -237,6 +251,7 @@ function _transformSVGPath( pathStr ) {
 			case 'c':
 				x1 = x + eatNum();
 				y1 = y + eatNum();
+			//fallthrough
 
 			case 's':
 				if ( activeCmd === 's' ) {
@@ -259,6 +274,7 @@ function _transformSVGPath( pathStr ) {
 			case 'Q':
 				x1 = eatNum();
 				y1 = eatNum();
+			//fallthrough
 
 			case 'T':
 				if ( activeCmd === 'T' ) {
@@ -278,6 +294,7 @@ function _transformSVGPath( pathStr ) {
 			case 'q':
 				x1 = x + eatNum();
 				y1 = y + eatNum();
+			//fallthrough
 
 			case 't':
 				if ( activeCmd === 't' ) {
@@ -353,7 +370,15 @@ function _transformSVGPath( pathStr ) {
 				break;
 
 			default:
-				throw new Error( 'Wrong path command: ' + activeCmd );
+				if( activeCmd.length === 1 && activeCmd.charCodeAt(0) === SPACE ) {
+
+					// allows that case, it could comes from untrimmed data value
+
+				}
+				else {
+					throw new Error( 'Wrong path command: ' + activeCmd.charCodeAt(0),  );
+				}
+
 
 		}
 

@@ -1,4 +1,10 @@
+// xfg:title SVG Fonts
+// xfg:category extend
+// xfg:description This example use SVG Fonts format to shows how to implements custom font type in three-mesh-ui.
+// xfg:copyright FluxArchitect font was created by <a href="http://www.orangemodern.com/">Clayton Cowan</a>
+
 import * as THREE from 'three';
+import { MeshNormalMaterial } from 'three';
 import { VRButton } from 'three/examples/jsm/webxr/VRButton.js';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import { BoxLineGeometry } from 'three/examples/jsm/geometries/BoxLineGeometry.js';
@@ -14,15 +20,32 @@ FontLibrary.prepare(
 
 		FontLibrary
 
-			.addFontFamily("BadComic")
-				// On the fontFamily added, lets add a variant
-				// a font variant usually requires 4 parameters
-				.addCustomImplementationVariant(
-					new SVGFontVariant ( '400', 'normal', './assets/fonts/svg/BadComic.svg' )
-				)
+			.addFontFamily("FluxArchitect")
+
+				// This is where you can register font variant with you custom type implementation
+				// @see three-mesh-ui/examples/font/svg/SVGFontVariant.js which is the implementation
+				.addCustomImplementationVariant( new SVGFontVariant ( '400', 'normal', './assets/fonts/svg/flux/regular.svg' ) )
+				.addCustomImplementationVariant( new SVGFontVariant ( '400', 'italic', './assets/fonts/svg/flux/italic.svg' ) )
+				.addCustomImplementationVariant( new SVGFontVariant ( '700', 'normal', './assets/fonts/svg/flux/bold.svg' ) )
+				.addCustomImplementationVariant( new SVGFontVariant ( '700', 'italic', './assets/fonts/svg/flux/bold-italic.svg' ) )
 
 // FontLibrary.prepare() returns a Promise, we can therefore add a callback to be executed when all files are loaded
-).then( step1BuildThreeJSElements );
+).then( () => {
+
+	// Once font are registered, we can get the font family
+	const FluxFamily = FontLibrary.getFontFamily("FluxArchitect");
+
+	// 1. Material
+	// Instead of assigning custom materials to Text one by one
+	// We can assign a Material(class) to a font variant (Here the bold one)
+	FluxFamily.getVariant('700','normal').fontMaterial = MeshNormalMaterial;
+	// Once set, any three-mesh-ui Text using this font variant will use the defined material
+
+	// Now that the font are loaded and adjusted,
+	step1BuildThreeJSElements();
+
+
+} );
 
 
 
@@ -85,20 +108,20 @@ function step2BuildThreeMeshUIElements() {
 	// A rootBlock element
 	const rootBlock = new ThreeMeshUI.Block( {
 		// box sizing properties
-		width: 1.65,
-		height: 0.62,
+		width: 1.85,
+		height: 0.82,
 		padding: 0.05,
 
 		// layout properties
 		justifyContent: 'center',
 		textAlign: 'left',
 
+		fontKerning: 'none',
+
 		// text properties
 		fontSize: 0.05,
 		// As we have prepare our fonts we can now use them
-		fontFamily: "BadComic"
-		// We could also have chosen to use the font family name instead of the FontFamily
-		//fontFamily: "Roboto"
+		fontFamily: "FluxArchitect",
 	} );
 
 	rootBlock.position.set( 0, 1, -1.8 );
@@ -108,7 +131,7 @@ function step2BuildThreeMeshUIElements() {
 
 	// Lets build a first text that would be in bold, and use a MSDFNormalMaterial
 	const text1 = new ThreeMeshUI.Text( {
-			content: 'Managing fonts in three-mesh-ui',
+			content: 'Extending font types (SVG)',
 			fontWeight: '700',
 			fontSize: 0.08
 		} );
@@ -124,7 +147,7 @@ function step2BuildThreeMeshUIElements() {
 		text1,
 
 		new ThreeMeshUI.Text( {
-			content: '\nIn this examples, 4 variants of the "Roboto" font are registered.',
+			content: '\nIn this examples, 4 variants of the "FluxArchitect" font in svg format are registered.',
 		} ),
 
 		new ThreeMeshUI.Text( {
@@ -148,18 +171,18 @@ function step2BuildThreeMeshUIElements() {
 		} ),
 
 		new ThreeMeshUI.Text( {
-			content: '\n\nThe registered bold variant in this example, will automatically set the material of a Text to use ',
+			content: '\n\nThe registered bold variant in this example, will automatically set the material of a Text to use',
 		} ),
 
 		new ThreeMeshUI.Text( {
-			content: 'MSDFNormalMaterial.',
+			content: ' MeshNormalMaterial.',
 			fontWeight: '700',
 		} ),
 
 		new ThreeMeshUI.Text( {
-			content: '\n\n* Managing and preloading fonts can display Text with no additional delays.',
-			fontStyle: 'italic',
-			fontSize: 0.035
+			content: '\n\n* Some font type implementation, such as this one, will allow to have 3D glyphs and additional parameters such as depth, ...',
+			fontSize: 0.035,
+			fontColor: new THREE.Color(0x00ff99)
 		} )
 
 	);

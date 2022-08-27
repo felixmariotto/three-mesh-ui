@@ -253,4 +253,6 @@ export default class Inline {
 		this._fontFactor = value;
 
 	}
+
+	get fontFactor() { return this._fontFactor };
 }

@@ -21,11 +21,12 @@ export default class SVGGeometricGlyph extends ExtrudeBufferGeometry {
 		wS = Math.ceil((inline.typographic.width / typographicFontSize) * segments);
 		hS = Math.ceil((inline.typographic.height / typographicFontSize) * segments);
 
-		super( inline.shape, {depth:0.01} );
+		super( inline.shape, {depth:.01} );
 
+		this.name = "SVGGeometryGlyph("+inline.typographic.char+")";
 
 			this._transformGeometry( inline );
-			this.scale( divisor, divisor, 1 );
+			this.scale( 1/divisor * inline.fontFactor , 1/divisor * inline.fontFactor, 0.025 );
 
 			this.translate( 0, inline.fontSize / 2, 0 );
 
