@@ -44,6 +44,7 @@ import FontKerningProperty from '../properties/style-properties/font/FontKerning
 import InheritableBooleanProperty from '../properties/InheritableBooleanProperty';
 import InheritableMaterialProperty from '../properties/InheritableMaterialProperty';
 import { directTransferNotNull } from '../../utils/mediator/transformers/CommonTransformers';
+import RenderOrderProperty from '../properties/RenderOrderProperty';
 /* eslint-enable no-unused-vars */
 
 export default class MeshUIBaseElement extends Object3D {
@@ -170,7 +171,7 @@ export default class MeshUIBaseElement extends Object3D {
 		this._fontReceiveShadow = new InheritableBooleanProperty( 'fontReceiveShadow' );
 
 		// @TODO: RenderOrder for background and fonts
-		this._renderOrder = new NumberProperty( 'renderOrder', 0 );
+		this._renderOrder = new RenderOrderProperty();
 
 		// @TODO : background & Text
 		this._segments = properties.segments ? new properties.segments() : new SegmentsProperty();
@@ -185,7 +186,7 @@ export default class MeshUIBaseElement extends Object3D {
 
 		// styles ---;
 
-		this._order = new OrderProperty( 0 );
+		this._order = new OrderProperty();
 
 		this._padding = new StyleVector4Property( 'padding', new Vector4(0,0,0,0) );
 		this._margin = new StyleVector4Property( 'margin', new Vector4(0,0,0,0) );
@@ -332,6 +333,7 @@ export default class MeshUIBaseElement extends Object3D {
 			this._flexDirection,
 			this._justifyContent,
 			this._alignItems,
+			this._order,
 
 
 			this._display,
@@ -593,6 +595,7 @@ export default class MeshUIBaseElement extends Object3D {
 				// As textContent property might alter the hierarchy, do not wait until update
 				// 	case 'textContent' :
 
+					case 'renderOrder':
 					case 'segments' :
 					case 'visible' :
 						//console.log( this[`_${prop}`], prop, value );
@@ -637,6 +640,7 @@ export default class MeshUIBaseElement extends Object3D {
 					case 'borderRadius' :
 					case 'borderWidth':
 					case 'overflow' :
+					case 'order':
 					case 'boxSizing':
 						if( this[`_${prop}`] ){
 							this[`_${prop}`].inline = value;
@@ -664,6 +668,7 @@ export default class MeshUIBaseElement extends Object3D {
 					case 'fontCustomDepthMaterial':
 						this[`_${prop}`].value = value;
 						break;
+
 
 					default:
 						// //console.log( prop, value );

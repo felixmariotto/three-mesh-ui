@@ -6,6 +6,10 @@ export default class OrderProperty extends SubStyleProperty {
 
 		super( 'order', 0, true );
 
+		this._value = 0;
+
+		this._input = 0;
+
 		// configure
 		this._allowsInherit = false;
 	}
@@ -24,6 +28,7 @@ export default class OrderProperty extends SubStyleProperty {
 		if( element._parent._value ) {
 
 			// reorder children
+			element._parent._value._children._needsUpdate = true;
 			element._parent._value._children._needsProcess = true;
 
 		}

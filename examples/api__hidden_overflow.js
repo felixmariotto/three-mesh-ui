@@ -65,7 +65,7 @@ function init() {
 
 function makeTextPanel() {
 
-	const title = new ThreeMeshUI.Block( {
+	const title = new ThreeMeshUI.Text( {
 		height: 0.2,
 		width: 1.2,
 		fontSize: 0.09,
@@ -73,10 +73,13 @@ function makeTextPanel() {
 		fontFamily: FontJSON,
 		fontTexture: FontImage,
 		backgroundColor: new THREE.Color( 'blue' ),
-		backgroundOpacity: 0.2
+		backgroundOpacity: 0.2,
+		renderOrder: 150
 	} ).add(
-		new ThreeMeshUI.Text( { content: 'hiddenOverflow attribute :' } )
+		new ThreeMeshUI.Inline( { content: 'hiddenOverflow attribute :' } )
 	);
+
+	window.title = title;
 
 	title.position.set( 0, 1.8, -2 );
 	scene.add( title );
@@ -92,7 +95,7 @@ function makeTextPanel() {
 		// padding: '0 0.1 0.2 0',
 		// padding: '0.05 0.1 0.2 0.025',
 		padding: '0.1 0.2 0.1 0.1',
-		borderRadius: 1,
+		borderRadius: 0.05,
 		// padding: 0.09,
 		justifyContent: 'center',
 		borderOpacity: 1,
@@ -133,6 +136,8 @@ function makeTextPanel() {
 		justifyContent: 'center'
 	} );
 
+	window.textContainer = textContainer;
+
 	container.add( textContainer );
 
 	//
@@ -144,13 +149,15 @@ function makeTextPanel() {
 		fontTexture: FontImage
 	} );
 
+	window.text = text;
+
 	textContainer.add( text );
 
 	new BoxLayoutBehavior( container );
 
 	setInterval( () => {
 
-		console.log( container.get('overflow') );
+		// console.log( container.get('overflow') );
 		if( container.get('overflow') === 'hidden' ) {
 
 			container.set({ overflow:'visible'});

@@ -42,6 +42,7 @@ export default class ChildrenBox extends BaseProperty {
 		this._compute( element );
 
 		element._layouter._needsUpdate = true;
+		element._renderOrder._needsUpdate = true;
 
 	}
 
@@ -55,6 +56,9 @@ export default class ChildrenBox extends BaseProperty {
 	process( element ) {
 
 		this._compute( element );
+
+		element._flexDirection._needsProcess = true;
+		element._layouter._needsProcess = true;
 
 	}
 
