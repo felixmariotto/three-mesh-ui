@@ -679,6 +679,7 @@ export default class MeshUIBaseElement extends Object3D {
 
 		switch ( property ) {
 
+			case 'overflow':
 			case 'width' :
 			case 'height' :
 				return this[`_${property}`].inline;

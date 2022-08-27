@@ -252,6 +252,7 @@ const _RGSSTransformer = function( fontMaterial, materialProperty, value){
  * @type {Object.<{m:string, t?:(fontMaterial:Material|ShaderMaterial, materialProperty:string, value:any) => void}>}
  */
 const mediationDefinitions = {
+	clippingPlanes: { m: 'clippingPlanes' },
 	fontAlphaTest: { m: 'alphaTest', t: alphaTestTransformer },
 	fontSide: { m: 'side' },
 	font: { m: "glyphMap", t: _fontToGlyphMapTransformer },

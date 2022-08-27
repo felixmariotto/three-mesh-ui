@@ -187,6 +187,7 @@ const _backgroundSizeTransformer = function( target, property, value ) {
  * @type {Object.<{m:string, t?:(fontMaterial:Material|ShaderMaterial, materialProperty:string, value:any) => void}>}
  */
 const _mediationDefinitions = {
+	clippingPlanes : {m: 'clippingPlanes'},
 	backgroundAlphaTest: { m: 'alphaTest', t: alphaTestTransformer },
 	backgroundSide: { m: 'side' },
 	// backgroundTexture: { m: 'map' },
