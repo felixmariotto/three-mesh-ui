@@ -12,7 +12,7 @@ export default class Overflow extends SubStyleProperty {
 
 		/**
 		 *
-		 * @type {null}
+		 * @type {Array.<Plane>|null}
 		 * @internal
 		 */
 		this._clippingPlanes = null;
@@ -82,10 +82,11 @@ export default class Overflow extends SubStyleProperty {
 
 
 		const parent = element._parent._value;
-		if( parent ) {
+		if( parent !== null ) {
 
+			// Check that parent is hiddenOverflow or has clippingPlanes
 			const overflowParent = parent._overflow;
-			if ( ( overflowParent._value === 'hidden' || overflowParent._clippingPlanes ) && !this._clippingPlanes ) {
+			if ( ( overflowParent._value === 'hidden' || overflowParent._clippingPlanes !== null ) && !this._clippingPlanes ) {
 
 				// add planes and render
 				this._clippingPlanes =  [
@@ -99,19 +100,20 @@ export default class Overflow extends SubStyleProperty {
 					new Plane( new Vector3( 1, 0, 0 ), 1 ),
 				];
 
-				// bind the parent to the clipping plane
+				// bind the parent to the clipping plane in a custom property
 				for ( let i = 0; i < this._clippingPlanes.length; i++ ) {
 					this._clippingPlanes[ i ].parent = parent;
 				}
 
-				if( overflowParent._clippingPlanes ) {
+				// Also add parent clipping planes if isset
+				if( overflowParent._clippingPlanes !== null ) {
 					this._clippingPlanes.push( ...overflowParent._clippingPlanes );
 				}
 
 				this._renderStrategy = this._hiddenRender;
 				this._needsRender = true;
 
-			} else if ( ( overflowParent._value === 'visible' || !overflowParent._clippingPlanes ) && this._clippingPlanes ){
+			} else if ( ( overflowParent._value === 'visible' || overflowParent._clippingPlanes === null ) && this._clippingPlanes !== null ){
 
 				// remove planes and render
 				this._clippingPlanes = null;

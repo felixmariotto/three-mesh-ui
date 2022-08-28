@@ -35,7 +35,7 @@ export default class RenderOrderProperty extends BaseProperty{
 		} else {
 
 			const parent = element._parent._value;
-			if( parent ) {
+			if( parent !== null ) {
 
 				const parentIndex = parent._renderOrder._actualValue;
 				const positionInParent = 1 + parent._children._uis.indexOf( element );

@@ -45,6 +45,7 @@ import InheritableBooleanProperty from '../properties/InheritableBooleanProperty
 import InheritableMaterialProperty from '../properties/InheritableMaterialProperty';
 import { directTransferNotNull } from '../../utils/mediator/transformers/CommonTransformers';
 import RenderOrderProperty from '../properties/RenderOrderProperty';
+import OffsetProperty from '../properties/OffsetProperty';
 /* eslint-enable no-unused-vars */
 
 export default class MeshUIBaseElement extends Object3D {
@@ -276,6 +277,8 @@ export default class MeshUIBaseElement extends Object3D {
 
 		this._renderer = properties.renderer ? new properties.renderer() : new EmptyProperty("renderer");
 
+		this._offset = new OffsetProperty();
+
 		// adds
 		this._invertAlpha = new InvertAlphaProperty();
 
@@ -364,6 +367,7 @@ export default class MeshUIBaseElement extends Object3D {
 			// this._styles,
 			// styles ---;
 			this._lineBreak,
+			this._offset,
 			this._layouter,
 
 			this._inlineJustificator,
@@ -598,14 +602,8 @@ export default class MeshUIBaseElement extends Object3D {
 					case 'renderOrder':
 					case 'segments' :
 					case 'visible' :
-						//console.log( this[`_${prop}`], prop, value );
-						this[`_${prop}`].value = value;
-						break;
-
 					case 'offset':
-						// @TODO
-						this[ prop ] = value;
-						this.position.z = value;
+						this[`_${prop}`].value = value;
 						break;
 
 					case 'fontSupersampling' :// todo
@@ -1365,7 +1363,7 @@ export default class MeshUIBaseElement extends Object3D {
 	 */
 	set onAfterUpdate( func ) {
 
-		console.warn( '`onAfterUpdate` property has been deprecated, please rely on `addAfterUpdate` instead.' );
+		console.warn( 'ThreeMeshUI v7xx : `onAfterUpdate()` property has been deprecated, please rely on `addAfterUpdate` instead.' );
 		this.addAfterUpdate( func );
 
 	}
