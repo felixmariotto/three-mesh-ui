@@ -46,6 +46,7 @@ import InheritableMaterialProperty from '../properties/InheritableMaterialProper
 import { directTransferNotNull } from '../../utils/mediator/transformers/CommonTransformers';
 import RenderOrderProperty from '../properties/RenderOrderProperty';
 import OffsetProperty from '../properties/OffsetProperty';
+import FontSmoothProperty from '../properties/FontSmoothProperty';
 /* eslint-enable no-unused-vars */
 
 export default class MeshUIBaseElement extends Object3D {
@@ -281,6 +282,7 @@ export default class MeshUIBaseElement extends Object3D {
 
 		// adds
 		this._invertAlpha = new InvertAlphaProperty();
+		this._fontSmooth = properties.fontSmooth ? new properties.fontSmooth() : new FontSmoothProperty();
 
 		/**
 		 *
@@ -378,6 +380,7 @@ export default class MeshUIBaseElement extends Object3D {
 			// !! this._renderer renderer MUST NOT BE in components !!
 
 			this._invertAlpha,
+			this._fontSmooth,
 
 			this._fontMaterial,
 			this._fontCustomDepthMaterial,
@@ -599,6 +602,7 @@ export default class MeshUIBaseElement extends Object3D {
 				// As textContent property might alter the hierarchy, do not wait until update
 				// 	case 'textContent' :
 
+					case 'fontSmooth':
 					case 'renderOrder':
 					case 'segments' :
 					case 'visible' :

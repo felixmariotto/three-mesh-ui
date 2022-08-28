@@ -12,6 +12,7 @@ export default class InheritableProperty extends BaseProperty {
 
 		super( propertyId, value, primitive );
 
+		// @TODO : I would like to remove this rules ( here )
 		this.output = this._outputValue;
 
 		this._notInheritedValue = null;

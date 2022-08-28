@@ -50,9 +50,9 @@ function init() {
 
 	// attempt to have a pixel-perfect match to the reference MSDF implementation
 
-	const no = makeTextPanel( 0.6, 0, 0, 0, true );
+	const no = makeTextPanel( 0.6, 0, 0, 0, 'antialiased' );
 	window.no = no;
-	makeTextPanel( -0.6, 0, 0, 0, false );
+	makeTextPanel( -0.6, 0, 0, 0, 'none' );
 
 	//
 
@@ -65,7 +65,7 @@ function init() {
 function makeTextPanel( x, rotX, rotY, rotZ, supersample ) {
 
 	const textContent = `
-  fontSupersampling: ${supersample}
+  fontSmooth: '${supersample}'
 
   Three-mesh-ui uses rotated-grid-super-sampling (RGSS) to smooth out the rendering of small characters on low res displays.
 
@@ -83,7 +83,7 @@ function makeTextPanel( x, rotX, rotY, rotZ, supersample ) {
 		fontColor: new THREE.Color( 0xffffff ),
 		backgroundOpacity: 1,
 		backgroundColor: new THREE.Color( 0x000000 ),
-		fontSupersampling: supersample,
+		fontSmooth: supersample,
 		fontSize: 0.045,
 		textContent
 	} );
