@@ -1,85 +1,285 @@
 'use strict';
-
 const path = require( 'path' );
 const HtmlWebpackPlugin = require( 'html-webpack-plugin' );
 const TerserPlugin = require( 'terser-webpack-plugin' );
 const ESLintPlugin = require( 'eslint-webpack-plugin' );
 const CopyPlugin = require("copy-webpack-plugin");
+const glob = require( 'glob' );
+const fs = require( 'fs' );
+const readline = require( 'readline' );
+const { mkdirIfNotExists } = require( 'karma/lib/helper' );
 
-// data in format [ JS file name => demo title in examples page ]
-const pages = [
-	[ 'api__align_items', '.alignItems' ],
-	[ 'api__antialiasing', '.fontSuperSampling' ],
-	[ 'api__background_size', '.backgroundSize' ],
-	[ 'api__border', '.border-<sup>*</sup>' ],
-	[ 'api__content_direction', '.contentDirection' ],
-	[ 'api__font_kerning', '.fontKerning' ],
-	[ 'api__hidden_overflow', '.hiddenOverflow' ],
-	[ 'api__invert_alpha', '.invertAlpha<sup>(msdf)</sup>' ],
-	[ 'api__justify_content', '.justifyContent' ],
-	[ 'api__letter_spacing', '.letterSpacing' ],
-	[ 'api__manual_positioning', '.autoLayout' ],
-	[ 'api__text_align', '.textAlign' ],
-	[ 'api__whitespace', '.whiteSpace' ],
-	[ 'tut__basic_setup', 'Basic setup' ],
-	[ 'tut__preloaded_font', 'Preload fonts' ],
-	[ 'tut__nested_blocks', 'Nested Blocks' ],
-	[ 'tut__tutorial_result', 'Tutorial result' ],
-	[ 'ex__best_fit', 'BestFit<sup>(behavior)</sup>' ],
-	[ 'ex__bounds_uv', 'Bounds UV<sup>(behavior)</sup>' ],
-	[ 'ex__frame_materials', 'Frame Materials' ],
-	[ 'ex__interactive_button', 'Interactive Button' ],
-	[ 'ex__msdf_crumple', 'MSDF Crumple' ],
-	[ 'ex__msdf_materials', 'Font Materials<sup>(msdf)</sup>' ],
-	[ 'ex__msdf_shadows', 'Font Shadows<sup>(msdf)</sup>' ],
-	[ 'ex__msdf_text', 'Big Text' ],
-	[ 'ex__inline_block', 'Inline Block' ],
-	[ 'ex__onafterupdate', 'On after Update' ],
-	[ 'ex__keyboard', 'Keyboard' ],
-	[ 'dev__border_units', 'Border units' ],
-	[ 'dev__border_width', 'Border Width' ],
-	[ 'dev__baseline', 'Character Alignment' ],
-	[ 'dev__frames', 'Frames' ],
-	[ 'dev__justification', 'Justification' ],
-	[ 'dev__padding', 'Padding' ],
-	[ 'dev__test_preparation', 'TestPrepa' ],
-	[ 'dev__whitespace', 'WhiteSpace' ],
-];
+/***********************************************************************************************************************
+ * CUSTOM WEBPACK PLUGIN
+ * - Jobs :
+ * 			- Gather all :xfg(example finger prints) from example header files
+ * 			- Dispatch those informations to each html templates
+ * 			- Save all those informations as json available in index.html for search/indexing purposes
+ **********************************************************************************************************************/
+
+/**
+ *
+ * @type {RegExp}
+ */
+const EMPTY_LINE_REGEX = /^\s*$/;
+
+/**
+ *
+ * @type {RegExp}
+ */
+const XFG_LINE_REGEX = /^\s*\/\/\s*xfg:([A-z_]+)\s+(.+)/;
+
+
+class ThreeMeshUIExamplePlugin {
+
+	constructor() {
+
+		this._pluginID = "ThreeMeshUIExamplePlugin";
+		this._entries = [];
+		this._entriesData = {};
+
+	}
+
+	/**
+	 * Find all header comments `xfg:{info} {data}` from a filename
+	 * @source https://stackoverflow.com/a/32599033/5769288
+	 * @param {string} filepath
+	 * @return {Promise<{string,any}>}
+	 */
+	async findDetails( filepath ) {
+		const fileStream = fs.createReadStream( filepath );
+
+		const rl = readline.createInterface( {
+			input: fileStream,
+			crlfDelay: Infinity
+		} );
+
+		let content = {};
+
+		// read one line at time from top to bottom
+		for await ( const line of rl ) {
+
+			// until line is empty, check next line
+			if ( line.match( EMPTY_LINE_REGEX ) ) continue;
+
+			const xfgData = line.match( XFG_LINE_REGEX );
+			if ( xfgData ) {
+
+				// only register xfg data if key and value are not empty
+				if ( xfgData[ 1 ] && xfgData[ 2 ] ) {
+					content[ xfgData[ 1 ] ] = xfgData[ 2 ];
+				}
+
+				// until line is xfg formatted, check next line
+				continue;
+
+			}
+
+			rl.close();
+			fileStream.close();
+			// not an empty line, neither a xfg one? stop this checks
+			break;
+
+		}
+
+		return content;
+	}
+
+	/**
+	 * Webpack Plugin interface
+	 * @param compiler
+	 */
+	apply( compiler ) {
+
+		compiler.hooks.done.tap(this._pluginID, ( compiler ) => {
+
+			const dirName = path.join( __dirname , '../dist');
+			const fileName = path.join( __dirname , '../dist/database.json');
+
+			if( fs.existsSync( dirName) ) {
+				fs.writeFileSync( fileName , JSON.stringify( this._entriesData, null, true ) );
+			}else {
+
+				mkdirIfNotExists( dirName, () => {
+					fs.writeFileSync( fileName , JSON.stringify( this._entriesData, null, true ) );
+				})
+			}
+
+
+
+		});
+
+		compiler.hooks.compilation.tap( this._pluginID, (compilation) => {
+
+				compilation.hooks.finishModules.tapAsync( this._pluginID, async (modules, callback) => {
+
+					// When modules finished, find which xfg should be updated
+					const entriesToRebuild = [];
+					for ( const module of modules ) {
+
+						const entry = this._entries.find( e => e.path === module.rawRequest );
+						if( entry ){
+
+							entriesToRebuild.push( entry );
+
+						}
+
+					}
+
+					for ( const entry of entriesToRebuild ) {
+
+						// update from xfg
+						const details = await this.findDetails( entry.path );
+
+						details.id = entry.id;
+
+						if( !details.title ) {
+							details.title = details.id;
+						}
+
+						details.link = details.title;
+						if( details.type ) {
+							details.link += `<sup>${details.type}</sup>`;
+						}
+
+						//store it
+						this._entriesData[ entry.id ] = details;
+
+					}
+
+					callback();
+
+				})
+
+			}
+		);
+
+
+		compiler.hooks.entryOption.tap( this._pluginID, ( context, entry ) => {
+
+			// Register all entry keys
+			for ( const entryKey in entry ) {
+
+				if( entry.hasOwnProperty( entryKey) ) {
+					this._entries.push( {id:entryKey, path:entry[entryKey].import[0]} );
+				}
+
+			}
+
+		});
+
+		compiler.hooks.beforeCompile.tapAsync( this._pluginID, async (params, callback) => {
+
+			if( this._entriesData.length !== 0 ) {
+				callback( null, params );
+				return;
+			}
+
+			// register all entrypoints
+			for ( const entry of this._entries ) {
+
+				const details = await this.findDetails( entry.path );
+
+				details.id = entry.id;
+
+				if( !details.title ) {
+					details.title = details.id;
+				}
+
+				details.link = details.title;
+				if( details.type ) {
+					details.link += ` <sup>${details.type}</sup>`;
+				}
+
+				this._entriesData[ entry.id ] = details;
+
+			}
+
+			//
+			callback( null, params );
+
+		} );
+
+	}
+}
+
+
+// Automatically get all example.js files
+const entryPoints = {};
+glob.sync( './examples/*.js' ).map( function ( file ) {
+	const entryKey = path.basename( file, '.js' );
+	entryPoints[ entryKey ] = file;
+} );
+
+// instanciate the plugin, it will be used by other
+const threeMeshUIExamples = new ThreeMeshUIExamplePlugin();
 
 // create one config for each of the data set above
-const pagesConfig = pages.map( ( page ) => {
+// const pagesConfig = pages.map( ( page ) => {
+const pagesConfig = Object.keys(entryPoints).map( ( page ) => {
+
 	return new HtmlWebpackPlugin( {
-		title: page[ 0 ],
-		filename: page[ 0 ] + '.html',
-		template: path.resolve( __dirname, `../examples/html/example_template.html` ),
-		chunks: [ page[ 0 ], 'three-mesh-ui' ],
+		cache: false,
+		title: page,
+		filename: page + '.html',
+		template: path.resolve( __dirname, `../examples/_html/example_template.html` ),
+		templateParameters: function(compilation, assets, assetTags, options){
+
+			// generate pages
+			options.details = this._entriesData[ page ];
+			options.title = options.details ? options.details.title : page;
+
+			return {
+				compilation,
+				webpackConfig: compilation.options,
+				htmlWebpackPlugin: {
+					tags: assetTags,
+					files: assets,
+					options
+				},
+			};
+		}.bind( threeMeshUIExamples ),
+		chunks: [ page, 'three-mesh-ui' ],
 		inject: true
 	} );
 } );
 
 function pageReducer( accu, page ) {
-	return accu + `<li title="${page[ 0 ]}">${page[ 1 ]}</li>`;
+	return accu + `<li title="${page.id}">${page.link}</li>`;
 }
 
 // just add one config for the index page
 const indexConfig = new HtmlWebpackPlugin( {
 	// sort pages per purposes
-	pages: {
-
-		examples: pages.filter( p => p[ 0 ].indexOf( 'ex__' ) === 0 ).reduce( pageReducer, '' ),
-		api: pages.filter( p => p[ 0 ].indexOf( 'api__' ) === 0 ).reduce( pageReducer, '' ),
-		tutorials: pages.filter( p => p[ 0 ].indexOf( 'tut__' ) === 0 ).reduce( pageReducer, '' ),
-		dev: pages.filter( p => p[ 0 ].indexOf( 'dev__' ) === 0 ).reduce( pageReducer, '' )
-
-	},
-
 	environment: {
 		production: false,
 		version: require('./../package.json').version,
 	},
 
 	filename: 'index.html',
-	template: path.resolve( __dirname, `../examples/html/index.html` ),
+	template: path.resolve( __dirname, `../examples/_html/index.html` ),
+	templateParameters: function(compilation, assets, assetTags, options){
+
+		const entryKeys = Object.keys(this._entriesData);
+
+		// generate pages
+		options.pages = {
+			examples: entryKeys.filter( p => p.indexOf( 'ex__' ) === 0 ).map( p => this._entriesData[p]).reduce( pageReducer, '' ),
+			api: entryKeys.filter( p => p.indexOf( 'api__' ) === 0 ).map( p => this._entriesData[p]).reduce( pageReducer, '' ),
+			tutorials: entryKeys.filter( p => p.indexOf( 'tut__' ) === 0 ).map( p => this._entriesData[p]).reduce( pageReducer, '' ),
+			dev: entryKeys.filter( p => p.indexOf( 'dev__' ) === 0 ).map( p => this._entriesData[p]).reduce( pageReducer, '' )
+		}
+
+		return {
+			compilation,
+			webpackConfig: compilation.options,
+			htmlWebpackPlugin: {
+				tags: assetTags,
+				files: assets,
+				options
+			},
+		};
+	}.bind( threeMeshUIExamples ),
 	inject: false
 } );
 
@@ -93,48 +293,11 @@ const webpackConfig = env => {
 		mode: 'development',
 		devtool: 'eval-source-map',
 
-		entry: {
-			api__align_items: './examples/api__align_items.js',
-			api__antialiasing: './examples/api__antialiasing.js',
-			api__background_size: './examples/api__background_size.js',
-			api__border: './examples/api__border.js',
-			api__content_direction: './examples/api__content_direction.js',
-			api__font_kerning: './examples/api__font_kerning.js',
-			api__hidden_overflow: './examples/api__hidden_overflow.js',
-			api__invert_alpha: './examples/api__invert_alpha.js',
-			api__justify_content: './examples/api__justify_content.js',
-			api__letter_spacing: './examples/api__letter_spacing.js',
-			api__manual_positioning: './examples/api__manual_positioning.js',
-			api__text_align: './examples/api__text_align.js',
-			api__whitespace: './examples/api__whitespace.js',
-			tut__basic_setup: './examples/tut__basic_setup.js',
-			tut__preloaded_font: './examples/tut__preloaded_font.js',
-			tut__nested_blocks: './examples/tut__nested_blocks.js',
-			tut__tutorial_result: './examples/tut__tutorial_result.js',
-			ex__best_fit: './examples/ex__best_fit.js',
-			ex__bounds_uv: './examples/ex__bounds_uv.js',
-			ex__frame_materials: './examples/ex__frame_materials.js',
-			ex__interactive_button: './examples/ex__interactive_button.js',
-			ex__msdf_crumple: './examples/ex__msdf_crumple.js',
-			ex__msdf_materials: './examples/ex__msdf_materials.js',
-			ex__msdf_shadows: './examples/ex__msdf_shadows.js',
-			ex__msdf_text: './examples/ex__msdf_text.js',
-			ex__inline_block: './examples/ex__inline_block.js',
-			ex__onafterupdate: './examples/ex__onafterupdate.js',
-			ex__keyboard: './examples/ex__keyboard.js',
-			dev__border_units: './examples/dev__border_units.js',
-			dev__border_width: './examples/dev__border_width.js',
-			dev__baseline: './examples/dev__baseline.js',
-			dev__frames: './examples/dev__frames.js',
-			dev__justification: './examples/dev__justification.js',
-			dev__padding: './examples/dev__padding.js',
-			dev__test_preparation: './examples/dev__test_preparation.js',
-			dev__whitespace: './examples/dev__whitespace.js',
-
-		},
+		entry: entryPoints,
 
 		plugins: [
-			new ESLintPlugin( { overrideConfigFile: './config/codestyle/.eslintrc', } ),
+			new ESLintPlugin( { overrideConfigFile: path.join( __dirname, '../config/codestyle/.eslintrc' ), } ),
+			threeMeshUIExamples,
 			new CopyPlugin({
 				patterns: [
 					{ from: "./examples/assets", to: "./assets" },
@@ -250,5 +413,4 @@ const webpackConfig = env => {
 	return config;
 }
 
-// share the configuration
 module.exports = webpackConfig;
