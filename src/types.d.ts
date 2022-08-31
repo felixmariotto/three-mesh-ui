@@ -29,7 +29,7 @@ export declare class Block extends Object3D {
 }
 
 export type TextOptions = {
-    content: string
+    content?: string
     fontColor?: Color
     fontKerning?: 'none'|'normal'
     fontOpacity?: number
