@@ -1,8 +1,8 @@
 import type { Color, Object3D, Texture } from "three"
 
 export type BlockOptions = {
-    width: number;
-    height: number;
+    width?: number;
+    height?: number;
     margin?: number;
     padding?: number;
     fontFamily?: string;
