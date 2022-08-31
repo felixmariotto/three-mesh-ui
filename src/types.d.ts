@@ -1,6 +1,6 @@
 import type { Color, Object3D, Texture } from "three"
 
-export type BlockOptions = TextOptions & {
+export interface BlockOptions extends TextOptions {
     width?: number;
     height?: number;
     margin?: number;
@@ -28,7 +28,7 @@ export declare class Block extends Object3D {
     constructor(options: BlockOptions);
 }
 
-export type TextOptions = {
+export interface TextOptions {
     content?: string
     fontColor?: Color
     fontKerning?: 'none'|'normal'
