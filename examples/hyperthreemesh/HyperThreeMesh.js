@@ -161,7 +161,7 @@ function _querySelectorAll( target, query, recursive = true ) {
 let _rules = [];
 let _conditions = [];
 let _observers = [];
-
+let _media = 'three-mesh-ui';
 /**
  * WIP
  * @deprecated until achieved
@@ -169,6 +169,8 @@ let _observers = [];
  * @param listenForChanges
  */
 function loadSheets( media = 'three-mesh-ui', listenForChanges = false ) {
+
+	_media = media;
 
 	// If it should be reactive and a document isset
 	if( listenForChanges && document ){
@@ -220,7 +222,7 @@ function loadSheets( media = 'three-mesh-ui', listenForChanges = false ) {
 		_rules.sort( _sortXSSRules );
 
 		for ( const condition of _conditions ) {
-			condition.init( _applyRules );
+			condition.init( () => { _needsUpdate = true; } );
 		}
 
 	}
@@ -262,7 +264,7 @@ function _addOrRemoveStylesheetMutation( mutations ){
 
 function _matchVRStyleSheet( element ) {
 
-	return element.tagName === 'LINK' || element.tagName === 'STYLE' && element.getAttribute('media') === 'vr';
+	return element.tagName === 'LINK' || element.tagName === 'STYLE' && element.getAttribute('media') === _media;
 
 }
 
@@ -347,7 +349,8 @@ function _checkAndApplyCSSRules( forElement ){
 		if( rule.query.match( forElement ) ) {
 
 			// append the rules styles properties
-			computedStyles = {...computedStyles,...rule.styles};
+			// computedStyles = {...computedStyles,...rule.styles};
+			computedStyles = {...computedStyles };
 			found = true;
 
 		}
@@ -356,6 +359,8 @@ function _checkAndApplyCSSRules( forElement ){
 
 	// If at least one rule has matched
 	if( found ) {
+
+		console.log( computedStyles )
 
 		// Set computed styles
 		forElement.set( computedStyles );
@@ -390,7 +395,9 @@ export function computeStyle( element ){
 
 		}
 
-		if( found ) elem.set( computedStyles );
+		if( found ) {
+			elem.set( computedStyles );
+		}
 	}
 
 }
@@ -405,6 +412,7 @@ export function _applyRules(){
 		const targets = querySelectorAll( rule.query );
 
 		for ( const target of targets ) {
+
 			target.set( rule.styles );
 		}
 	}
@@ -506,6 +514,7 @@ function _importSheet( rulesList, condition = null ) {
 
 	}
 
+
 	return { rules, conditions };
 
 }
@@ -523,6 +532,7 @@ function createElement( tag, options = {} ){
 
 		case "p":
 		case "h":
+		case "label":
 		case "button":
 				return new HTMTextElement(options);
 

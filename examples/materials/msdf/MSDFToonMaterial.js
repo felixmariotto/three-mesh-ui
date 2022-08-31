@@ -1,4 +1,4 @@
-import { DataTexture, LuminanceFormat, MeshToonMaterial, RedFormat } from 'three';
+import { DataTexture, MeshToonMaterial, RedFormat } from 'three';
 import { MSDFFontMaterialUtils } from 'three-mesh-ui';
 
 /**

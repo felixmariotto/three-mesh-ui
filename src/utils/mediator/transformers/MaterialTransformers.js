@@ -44,11 +44,9 @@ export const toPreprocessorTriggerTransformer = function ( target, targetPropert
  */
 export const asPreprocessorValueTransformer = function ( target, targetProperty, value) {
 
-	console.log( "preprocess ", targetProperty, value);
 	// abort if nothing to update, same value
 	if( target.defines[targetProperty] && target.defines[targetProperty] === value ) return;
 
-	console.log( "rebuild");
 	// or change the preprocessor and update
 	target.defines[targetProperty] = value;
 	target.needsUpdate = true;
