@@ -3,9 +3,6 @@ import BaseProperty from './BaseProperty';
 
 //JSDoc related imports
 /* eslint-disable no-unused-vars */
-import Inline from '../../components/core/Inline';
-import * as Whitespace from '../../utils/inline-layout/Whitespace';
-import { PRE, PRE_LINE, PRE_WRAP } from '../../utils/inline-layout/Whitespace';
 /* eslint-enable no-unused-vars */
 
 export default class LineBreakProperty extends BaseProperty{
@@ -50,7 +47,7 @@ export default class LineBreakProperty extends BaseProperty{
 			if( char !== undefined ) {
 
 				// @question : Does it worth to be strategy? I don't really think so
-				if ( newLineBreakability !== Whitespace.NOWRAP ) {
+				if ( newLineBreakability !== 'nowrap' ) {
 
 					if ( this._value.includes( char ) || char.match( /\s/g ) ) lineBreak = 'possible';
 

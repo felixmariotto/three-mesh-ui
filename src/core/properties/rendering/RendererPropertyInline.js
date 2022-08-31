@@ -13,8 +13,7 @@ export default class RendererPropertyInline extends BaseProperty{
 
 	render( element ) {
 
-
-			if( !element._inlines._value || !element._inlines._value.length ) return;
+		if( !element._inlines._value || !element._inlines._value.length ) return;
 
 			const charactersAsGeometries = element._inlines._value.map(
 				inline =>

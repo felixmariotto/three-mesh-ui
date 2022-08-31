@@ -9,10 +9,17 @@ export default class StyleVector4Property extends SubStyleProperty {
 
 		/**
 		 *
-		 * @type {number}
+		 * @type {Vector4}
 		 * @private
 		 */
-		this._input = 0;
+		this._input = new Vector4(0,0,0,0);
+
+		/**
+		 *
+		 * @type {any}
+		 * @internal
+		 */
+		this._inline = null;
 
 		/**
 		 * @override
@@ -44,24 +51,35 @@ export default class StyleVector4Property extends SubStyleProperty {
 
 	}
 
-	/**
-	 *
-	 * @param {Number} v
-	 */
-	set top( v ) {
+	set inline( value ) {
 
-		if( this._inline.x === v ) return;
+		this._vector4ValueSetter( this._input, value );
 
-		this._inline.x = v;
+		if( this._input.equals( this._value) ) return;
+
 		this._needsUpdate = true;
 
 	}
 
 	/**
 	 *
+	 * @param {Number} v
+	 */
+	set top( v ) {
+
+		if( this._input.x === v ) return;
+
+		this._input.x = v;
+		this._needsUpdate = true;
+
+	}
+
+
+	/**
+	 *
 	 * @returns {number}
 	 */
-	get top() { return this._inline.x; }
+	get top() { return this._input.x; }
 
 	/**
 	 *
@@ -69,9 +87,9 @@ export default class StyleVector4Property extends SubStyleProperty {
 	 */
 	set right( v ) {
 
-		if( this._inline.y === v ) return;
+		if( this._input.y === v ) return;
 
-		this._inline.y = v;
+		this._input.y = v;
 		this._needsUpdate = true;
 	}
 
@@ -79,16 +97,16 @@ export default class StyleVector4Property extends SubStyleProperty {
 	 *
 	 * @returns {number}
 	 */
-	get right() { return this._inline.y; }
+	get right() { return this._input.y; }
 
 	/**
 	 *
 	 * @param {Number} v
 	 */
 	set bottom( v ) {
-		if( this._inline.z === v ) return;
+		if( this._input.z === v ) return;
 
-		this._inline.z = v;
+		this._input.z = v;
 		this._needsUpdate = true;
 	}
 
@@ -96,7 +114,7 @@ export default class StyleVector4Property extends SubStyleProperty {
 	 *
 	 * @returns {number}
 	 */
-	get bottom() { return this._inline.z; }
+	get bottom() { return this._input.z; }
 
 	/**
 	 *
@@ -104,17 +122,18 @@ export default class StyleVector4Property extends SubStyleProperty {
 	 */
 	set left( v ) {
 
-		if( this._inline.w === v ) return;
+		if( this._input.w === v ) return;
 
-		this._inline.w = v;
+		this._input.w = v;
 		this._needsUpdate = true;
 	}
+
 
 	/**
 	 *
 	 * @returns {number}
 	 */
-	get left() { return this._inline.w; }
+	get left() { return this._input.w; }
 
 	dispose(){
 

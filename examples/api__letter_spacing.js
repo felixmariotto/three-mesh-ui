@@ -1,3 +1,6 @@
+// xfg:title LetterSpacing
+// xfg:category learn
+
 import * as THREE from 'three';
 import { VRButton } from 'three/examples/jsm/webxr/VRButton.js';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
@@ -12,7 +15,7 @@ import { Color } from 'three';
 const WIDTH = window.innerWidth;
 const HEIGHT = window.innerHeight;
 
-let scene, camera, renderer, controls, animatedText;
+let scene, camera, renderer, controls, animatedTextBox;
 
 window.addEventListener( 'load', init );
 window.addEventListener( 'resize', onWindowResize );
@@ -81,39 +84,34 @@ function makeTextPanel() {
 		const letterSpace = i / 10;
 		const opacity = letterSpace === 0 ? 1 : 0.5;
 
-		const titleBox = new ThreeMeshUI.Block( {
-			width: 1,
+		const titleBox = new ThreeMeshUI.Text( {
+			width: 'auto',
 			height: 0.1,
-			margin: 0.01,
-			padding: 0.025,
-			justifyContent: 'center',
+			margin: '0.1 0.1 0 0',
+			padding: '0.025 0.075',
+			alignItems: 'center',
 			backgroundColor: new Color( 0xff9900 ),
 			backgroundOpacity: opacity,
-			textAlign: 'left'
-		} );
-
-		const title = new ThreeMeshUI.Text( {
-			content: `.set({letterSpacing: ${letterSpace}})`,
+			textAlign: 'left',
+			textContent: `.set({letterSpacing: ${letterSpace}})`,
 			fontSize: 0.055,
+			borderRadius : '0.15 0.15 0 0'
 		} );
 
-		titleBox.add( title );
-
-		const textBox = new ThreeMeshUI.Block( {
-			width: 3,
+		const textBox = new ThreeMeshUI.Text( {
 			height: 0.1,
-			margin: 0.01,
-			justifyContent: 'center',
-			backgroundOpacity: opacity,
-		} );
-
-		const text = new ThreeMeshUI.Text( {
-			content: '.letterSpacing adds a constant space between each characters.',
+			alignItems: 'center',
+			fontOpacity: opacity,
+			textContent: '.letterSpacing adds a constant space between each characters.',
 			fontSize: 0.055,
-			letterSpacing: letterSpace
+			letterSpacing: letterSpace,
+			backgroundColor : 0xffffff,
+			backgroundOpacity: 0,
+			borderColor : 0xff9900,
+			borderWidth : 0.01,
+			borderOpacity: opacity,
+			borderRadius : '0 0.025 0.025 0.025'
 		} );
-
-		textBox.add( text );
 
 		container.add( titleBox );
 		container.add( textBox );
@@ -121,38 +119,34 @@ function makeTextPanel() {
 
 
 	// Then add an animated one
-	const animatedTitleBox = new ThreeMeshUI.Block( {
-		width: 1,
+	const animatedTitleBox = new ThreeMeshUI.Text( {
+		width: 'auto',
 		height: 0.1,
-		margin: 0.01,
-		padding: 0.025,
-		justifyContent: 'center',
+		margin: '0.1 0.1 0 0',
+		padding: '0.025 0.075',
+		alignItems: 'center',
 		backgroundColor: new Color( 0xff9900 ),
 		backgroundOpacity: 0.5,
-		textAlign: 'left'
-	} );
-
-	const animatedTitle = new ThreeMeshUI.Text( {
-		content: `animated letterSpacing`,
+		textAlign: 'left',
+		textContent: `animated letterSpacing`,
 		fontSize: 0.055,
+		borderRadius : '0.15 0.15 0 0'
 	} );
 
-	animatedTitleBox.add( animatedTitle );
-
-	const animatedTextBox = new ThreeMeshUI.Block( {
+	animatedTextBox = new ThreeMeshUI.Text( {
 		width: 3,
 		height: 0.1,
-		margin: 0.01,
-		justifyContent: 'center',
-		backgroundOpacity: 0.5
-	} );
-
-	animatedText = new ThreeMeshUI.Text( {
+		alignItems: 'center',
+		fontOpacity: 1,
 		content: '.letterSpacing adds a constant space between each characters.',
 		fontSize: 0.055,
+		backgroundColor : 0xffffff,
+		backgroundOpacity: 0,
+		borderColor : 0xff9900,
+		borderWidth : 0.01,
+		borderOpacity: 0.5,
+		borderRadius : '0 0.025 0.025 0.025'
 	} );
-
-	animatedTextBox.add( animatedText );
 
 	container.add( animatedTitleBox );
 	container.add( animatedTextBox );
@@ -203,6 +197,6 @@ function loop( ) {
 
 	}
 
-	animatedText.set({letterSpacing});
+	animatedTextBox.set({letterSpacing});
 
 }

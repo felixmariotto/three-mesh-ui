@@ -23,8 +23,6 @@ export default class BackgroundImage extends SubStyleProperty {
 
 		this.isValidValue = _isValid;
 
-
-
 	}
 
 	/**
@@ -55,7 +53,7 @@ export default class BackgroundImage extends SubStyleProperty {
 		// out[this.id] = this._value;
 
 		if( this._value instanceof Texture && !this._value.image ) {
-			console.warn( `(.style) backgroundImage. The provided texture is not loaded. Therefore its ratio won't be computed, and it could cause inconsistent result. Please load the texture before, or feed with url()`);
+			console.warn( `ThreeMeshUI - .backgroundImage :: Please provided preloaded texture in order to have accurate sizing.`);
 			return;
 		}
 

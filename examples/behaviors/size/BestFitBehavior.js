@@ -1,5 +1,5 @@
-import Behavior from '../../../src/utils/Behavior';
 import TextLayouterBestFit from './properties/TextLayouterBestFit';
+import { Behavior } from 'three-mesh-ui';
 
 export default class BestFitBehavior extends Behavior {
 

@@ -1,17 +1,14 @@
 /* global lil */
 
+// import FontJSON from './assets/Roboto-msdf.json';
+// import FontImage from './assets/Roboto-msdf.png';
 import * as THREE from 'three';
+import { Mesh, MeshBasicMaterial, PlaneBufferGeometry } from 'three';
 import { VRButton } from 'three/examples/jsm/webxr/VRButton.js';
 import { BoxLineGeometry } from 'three/examples/jsm/geometries/BoxLineGeometry.js';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 
 import ThreeMeshUI, { FontLibrary } from 'three-mesh-ui';
-
-// import FontJSON from './assets/Roboto-msdf.json';
-// import FontImage from './assets/Roboto-msdf.png';
-
-
-import { Mesh, MeshBasicMaterial, PlaneBufferGeometry } from 'three';
 
 // Add lil-gui
 const script = document.createElement( 'script' );
@@ -22,7 +19,7 @@ document.body.appendChild( script );
 const WIDTH = window.innerWidth;
 const HEIGHT = window.innerHeight;
 
-let scene, camera, renderer, controls, text, container;
+let scene, camera, renderer, controls, text;
 
 window.addEventListener( 'load', () => {
 
@@ -154,6 +151,7 @@ function makeUI(fixed = true ) {
 			const line = lines[ i ];
 			textBlock.remove( line );
 		}
+
 		lines = [];
 
 		// retrieve all lines sent by InlineManager for the textBlock
@@ -176,7 +174,7 @@ function makeUI(fixed = true ) {
 			lineMesh.position.x = lineProperty[ 0 ].offsetX + ( lineProperty.width / 2 );
 			lineMesh.position.y = lineProperty[ 0 ].offsetY + ( lineHeight / 2.915 );
 
-			lineMesh.position.z = 0.018;
+			lineMesh.position.z = text.position.z / 2;
 
 			lines.push( lineMesh );
 			textBlock.add( lineMesh );

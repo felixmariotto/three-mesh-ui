@@ -117,6 +117,11 @@ export default class StyleSideProperty extends SubStyleProperty {
 
 				}
 
+			} else {
+
+
+				this._relative = false;
+
 			}
 
 			this._needsUpdate = this._updateRequired = updateRequired;
@@ -155,36 +160,6 @@ export default class StyleSideProperty extends SubStyleProperty {
 	}
 
 	/* eslint-disable no-unused-vars */ computeOutputValue( element ) { /* eslint-enable no-unused-vars */
-
-		// this._auto = !this._input || this._input === 'auto';
-		//
-		// if( !this._auto ) {
-		//
-		// 	// string can be percentages
-		// 	// console.log( this._input, typeof this._input, this._input.endsWith('%'))
-		// 	if( (typeof this._input === 'string' || this._input instanceof String) && this._input.endsWith('%') ) {
-		//
-		//
-		// 		this._relative = true;
-		// 		this._value = 0;
-		//
-		//
-		// 		const floatValue = parseFloat( this._input.replace('%','').trim() );
-		// 		if ( !isNaN (floatValue) ) {
-		//
-		// 			this._value = floatValue / 100;
-		//
-		// 		}
-		//
-		// 	} else {
-		//
-		// 		this._relative = false;
-		// 		this._value = this._input;
-		//
-		// 	}
-		//
-		// }
-
 
 		element._bounds._needsUpdate = true;
 		element._renderer._needsRender = true;

@@ -1,46 +1,15 @@
 /**
  *
- * @param cssContent
+ * @param {string} cssContent
+ * @param {string} [media="three-mesh-ui"]
  * @internal
  */
-export function _injectCSS( cssContent ){
+export function _injectCSS( cssContent, media = 'three-mesh-ui' ){
 
 	const style = document.createElement('style');
-	style.setAttribute('media','vr');
-	style.innerHTML = cssContent;
+	style.setAttribute('media',media);
+	style.textContent = cssContent;
 
 	document.head.appendChild( style );
-
-}
-
-/**
- *
- * @param htmlText
- * @internal
- */
-export function _injectCaption( htmlText ) {
-
-	const container = document.querySelector('.example-container');
-	if( container ) {
-
-		container.innerHTML = htmlText;
-
-	}
-
-}
-
-/**
- *
- * @param htmlText
- * @internal
- */
-export function _injectCredits( htmlText ) {
-
-	const container = document.querySelector('.example-container');
-	if( container ) {
-
-		container.innerHTML = htmlText;
-
-	}
 
 }

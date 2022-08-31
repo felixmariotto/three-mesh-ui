@@ -232,7 +232,7 @@ const _fontToGlyphMapTransformer = function( fontMaterial, materialProperty, val
  */
 const _RGSSTransformer = function( fontMaterial, materialProperty, value){
 
-	if ( value !== 'antialiased' ) {
+	if ( value && value !== 'antialiased' ) {
 
 		fontMaterial.defines['NO_RGSS'] = '';
 

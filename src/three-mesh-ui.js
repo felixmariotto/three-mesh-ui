@@ -1,79 +1,61 @@
 /* global global */
 
-import Block from './components/Block.js';
-import Text from './components/Text.js';
-import InlineBlock from './components/InlineBlock.js';
-import Keyboard from './components/Keyboard.js';
 import UpdateManager from './components/core/UpdateManager.js';
 import FontLibrary from './font/FontLibrary.js';
-import * as TextAlign from './utils/inline-layout/TextAlign';
-import * as Whitespace from './utils/inline-layout/Whitespace';
-import * as JustifyContent from './utils/block-layout/JustifyContent';
-import * as AlignItems from './utils/block-layout/AlignItems';
-import * as ContentDirection from './utils/block-layout/ContentDirection';
 import MSDFFontMaterialUtils from './font/msdf/utils/MSDFFontMaterialUtils';
 import { ShaderChunkUI } from './renderers/shaders/ShaderChunkUI';
-import * as FontWeight from './utils/font/FontWeight';
-import * as FontStyle from './utils/font/FontStyle';
-import * as VRDocument from './utils/dom/VRDocument';
+import FontVariant from './font/FontVariant';
+import TypographicFont from './font/TypographicFont';
+import TypographicGlyph from './font/TypographicGlyph';
+import InlineGlyph from './font/InlineGlyph';
 import BlockElement from './elements/basic/BlockElement';
 import TextElement from './elements/basic/TextElement';
 import InlineElement from './elements/basic/InlineElement';
 import InlineBlockElement from './elements/basic/InlineBlockElement';
-import KeyboardElement from './elements/basic/KeyboardElement';
+import MeshUIBaseElement from './core/elements/MeshUIBaseElement';
+import * as DefaultValues from './core/DefaultValues';
+import InheritableProperty from './core/properties/InheritableProperty';
+import BaseProperty from './core/properties/BaseProperty';
+import * as MaterialTransformers from './utils/mediator/transformers/MaterialTransformers';
+import Behavior from './utils/Behavior';
 
-const update = () => UpdateManager.update7xx();
-
-
-
+const update = () => UpdateManager.update();
 
 const ThreeMeshUI = {
 	Block: BlockElement,
 	Text : TextElement,
 	Inline: InlineElement,
 	InlineBlock : InlineBlockElement,
-	Keyboard : KeyboardElement,
+	// Keyboard : KeyboardElement,
+	MeshUIBaseElement,
 	FontLibrary,
-	FontStyle,
-	FontWeight,
 	update,
-	TextAlign,
-	Whitespace,
-	JustifyContent,
-	AlignItems,
-	ContentDirection,
 	MSDFFontMaterialUtils,
 	ShaderChunkUI,
-	VRDocument,
-	addRoot:VRDocument.addRoot,
-	removeRoot:VRDocument.removeRoot,
-	querySelectorAll:VRDocument.querySelectorAll,
-	loadSheets:VRDocument.loadSheets,
+	Behavior
 };
 
 
 if ( typeof global !== 'undefined' ) global.ThreeMeshUI = ThreeMeshUI;
 
 export { BlockElement as Block };
-export { Text };
-export { InlineBlock };
-export { Keyboard };
+export { TextElement as Text };
+export { InlineElement as Inline };
+export { InlineBlockElement as InlineBlock };
 export { FontLibrary };
-export { FontStyle };
-export { FontWeight };
 export { update };
-export { TextAlign };
-export { Whitespace };
-export { JustifyContent};
-export { AlignItems };
-export { ContentDirection };
 export { ShaderChunkUI };
 export { MSDFFontMaterialUtils };
-// export { loadSheets }
-// export { addRoot }
-// export { removeRoot }
-// export { querySelectorAll }
-export { VRDocument };
+export { FontVariant }
+export { TypographicFont }
+export { TypographicGlyph }
+export { InlineGlyph }
+export { MeshUIBaseElement }
+export { DefaultValues }
+export { InheritableProperty }
+export { BaseProperty }
+export { MaterialTransformers }
+export { Behavior }
 
 export default ThreeMeshUI;
 

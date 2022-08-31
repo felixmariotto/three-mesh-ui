@@ -2,11 +2,10 @@
 /*
  Job: creating the VR controllers and their pointers
  */
-
-import * as THREE from 'three';
 import { XRControllerModelFactory } from 'three/examples/jsm/webxr/XRControllerModelFactory.js';
+import { BoxBufferGeometry, CanvasTexture, Matrix4, Mesh, MeshBasicMaterial, Sprite, SpriteMaterial } from 'three';
 
-export default function VRControl( renderer, camera, scene ) {
+export default function VRControl( renderer ) {
 
 	const controllers = [];
 	const controllerGrips = [];
@@ -17,22 +16,23 @@ export default function VRControl( renderer, camera, scene ) {
 	// Lines helpers
 	//////////////////
 
-	const material = new THREE.MeshBasicMaterial( {
+	const material = new MeshBasicMaterial( {
 		color: 0xffffff,
-		alphaMap: new THREE.CanvasTexture( generateRayTexture() ),
+		alphaMap: new CanvasTexture( generateRayTexture() ),
 		transparent: true
 	});
 
-	const geometry = new THREE.BoxBufferGeometry( 0.004, 0.004, 0.35 );
+	const geometry = new BoxBufferGeometry( 0.004, 0.004, 0.35 );
 
 	geometry.translate( 0, 0, -0.15 );
 
 	const uvAttribute = geometry.attributes.uv;
 
-	for ( var i = 0; i < uvAttribute.count; i ++ ) {
+	// @TODO: This could be simplified and optimized
+	for ( let i = 0; i < uvAttribute.count; i ++ ) {
 
-		var u = uvAttribute.getX( i );
-		var v = uvAttribute.getY( i );
+		let u = uvAttribute.getX( i );
+		let v = uvAttribute.getY( i );
 
 		[ u, v ] = (()=> {
 			switch ( i ) {
@@ -53,27 +53,27 @@ export default function VRControl( renderer, camera, scene ) {
 				case 14 : return [ 0, 0 ]
 				case 15 : return [ 0, 0 ]
 				default : return [ 0, 0 ]
-			};
+			}
 		})();
 
 		uvAttribute.setXY( i, u, v );
 
-	};
+	}
 
-	const linesHelper = new THREE.Mesh( geometry, material );
+	const linesHelper = new Mesh( geometry, material );
 	linesHelper.renderOrder = Infinity;
 
 	/////////////////
 	// Point helper
 	/////////////////
 
-	const spriteMaterial = new THREE.SpriteMaterial({
-		map: new THREE.CanvasTexture( generatePointerTexture() ),
+	const spriteMaterial = new SpriteMaterial({
+		map: new CanvasTexture( generatePointerTexture() ),
 		sizeAttenuation: false,
 		depthTest: false
 	});
 
-	const pointer = new THREE.Sprite( spriteMaterial );
+	const pointer = new Sprite( spriteMaterial );
 
 	pointer.scale.set(0.015, 0.015, 1)
 	pointer.renderOrder = Infinity;
@@ -116,7 +116,7 @@ export default function VRControl( renderer, camera, scene ) {
 	// Functions
 	//////////////
 
-	const dummyMatrix = new THREE.Matrix4();
+	const dummyMatrix = new Matrix4();
 
 	// Set the passed ray to match the given controller pointing direction
 
@@ -131,7 +131,7 @@ export default function VRControl( renderer, camera, scene ) {
 		ray.origin.setFromMatrixPosition( controller.matrixWorld );
 		ray.direction.set( 0, 0, - 1 ).applyMatrix4( dummyMatrix );
 
-	};
+	}
 
 	// Position the chosen controller's pointer at the given point in space.
 	// Should be called after raycaster.intersectObject() found an intersection point.
@@ -144,7 +144,7 @@ export default function VRControl( renderer, camera, scene ) {
 		controller.point.position.copy( localVec );
 		controller.point.visible = true;
 
-	};
+	}
 
 	//
 
@@ -155,7 +155,7 @@ export default function VRControl( renderer, camera, scene ) {
 		setPointerAt
 	};
 
-};
+}
 
 //////////////////////////////
 // CANVAS TEXTURE GENERATION
@@ -163,15 +163,19 @@ export default function VRControl( renderer, camera, scene ) {
 
 // Generate the texture needed to make the intersection ray fade away
 
+/**
+ *
+ * @returns {HTMLCanvasElement}
+ */
 function generateRayTexture() {
 
-	var canvas = document.createElement( 'canvas' );
+	const canvas = document.createElement( 'canvas' );
 	canvas.width = 64;
 	canvas.height = 64;
 
-	var ctx = canvas.getContext("2d");
+	const ctx = canvas.getContext("2d");
 
-	var gradient = ctx.createLinearGradient(0, 0, 64, 0);
+	const gradient = ctx.createLinearGradient(0, 0, 64, 0);
 	gradient.addColorStop(0, "black");
 	gradient.addColorStop(1, "white");
 
@@ -180,17 +184,21 @@ function generateRayTexture() {
 
 	return canvas;
 
-};
+}
 
 // Generate the texture of the point helper sprite
 
+/**
+ *
+ * @returns {HTMLCanvasElement}
+ */
 function generatePointerTexture() {
 
-	var canvas = document.createElement( 'canvas' );
+	const canvas = document.createElement( 'canvas' );
 	canvas.width = 64;
 	canvas.height = 64;
 
-	var ctx = canvas.getContext("2d");
+	const ctx = canvas.getContext("2d");
 
 	ctx.beginPath();
 	ctx.arc(32, 32, 29, 0, 2 * Math.PI);
@@ -201,4 +209,4 @@ function generatePointerTexture() {
 
 	return canvas;
 
-};
+}

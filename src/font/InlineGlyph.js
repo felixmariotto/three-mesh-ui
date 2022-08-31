@@ -1,4 +1,4 @@
-import Inline from '../components/core/Inline';
+import Inline from '../core/elements/glyphs/Inline';
 
 //JSDoc related imports
 /* eslint-disable no-unused-vars */

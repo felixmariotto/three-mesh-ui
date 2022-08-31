@@ -26,6 +26,12 @@ export default class BorderRadius extends StyleVector4Property {
 
 		/**
 		 *
+		 * @type {Vector4}
+		 * @private
+		 */
+		this._input = new Vector4(0,0,0,0);
+		/**
+		 *
 		 * @type {boolean}
 		 * @private
 		 */
@@ -254,9 +260,9 @@ export default class BorderRadius extends StyleVector4Property {
 	 */
 	set topLeft( v ) {
 
-		if( this._inline.x === v ) return;
+		if( this._input.x === v ) return;
 
-		this._inline.x = v;
+		this._input.x = v;
 		this._needsUpdate = true;
 
 	}
@@ -265,7 +271,7 @@ export default class BorderRadius extends StyleVector4Property {
 	 *
 	 * @returns {number}
 	 */
-	get topLeft() { return this._inline.x; }
+	get topLeft() { return this._input.x; }
 
 	/**
 	 *
@@ -273,9 +279,9 @@ export default class BorderRadius extends StyleVector4Property {
 	 */
 	set topRight( v ) {
 
-		if( this._inline.y === v ) return;
+		if( this._input.y === v ) return;
 
-		this._inline.y = v;
+		this._input.y = v;
 		this._needsUpdate = true;
 	}
 
@@ -283,16 +289,16 @@ export default class BorderRadius extends StyleVector4Property {
 	 *
 	 * @returns {number}
 	 */
-	get topRight() { return this._inline.y; }
+	get topRight() { return this._input.y; }
 
 	/**
 	 *
 	 * @param {Number} v
 	 */
 	set bottomRight( v ) {
-		if( this._inline.z === v ) return;
+		if( this._input.z === v ) return;
 
-		this._inline.z = v;
+		this._input.z = v;
 		this._needsUpdate = true;
 	}
 
@@ -300,7 +306,7 @@ export default class BorderRadius extends StyleVector4Property {
 	 *
 	 * @returns {number}
 	 */
-	get bottomRight() { return this._inline.z; }
+	get bottomRight() { return this._input.z; }
 
 	/**
 	 *
@@ -308,9 +314,9 @@ export default class BorderRadius extends StyleVector4Property {
 	 */
 	set bottomLeft( v ) {
 
-		if( this._inline.w === v ) return;
+		if( this._input.w === v ) return;
 
-		this._inline.w = v;
+		this._input.w = v;
 		this._needsUpdate = true;
 	}
 
@@ -318,7 +324,7 @@ export default class BorderRadius extends StyleVector4Property {
 	 *
 	 * @returns {number}
 	 */
-	get bottomLeft() { return this._inline.w; }
+	get bottomLeft() { return this._input.w; }
 
 
 	/**
@@ -327,9 +333,9 @@ export default class BorderRadius extends StyleVector4Property {
 	 */
 	set top( v ) {
 
-		if( this._inline.x === v && this._inline.y === v ) return;
+		if( this._input.x === v && this._input.y === v ) return;
 
-		this._inline.x = this._inline.y = v;
+		this._input.x = this._input.y = v;
 		this._needsUpdate = true;
 
 	}
@@ -338,7 +344,7 @@ export default class BorderRadius extends StyleVector4Property {
 	 * @override
 	 * @returns {number}
 	 */
-	get top() { return (this._inline.x + this._inline.y) / 2; }
+	get top() { return (this._input.x + this._input.y) / 2; }
 
 	/**
 	 * @override
@@ -346,9 +352,9 @@ export default class BorderRadius extends StyleVector4Property {
 	 */
 	set right( v ) {
 
-		if( this._inline.y === v && this._inline.z === v ) return;
+		if( this._input.y === v && this._input.z === v ) return;
 
-		this._inline.y = this._inline.z = v;
+		this._input.y = this._input.z = v;
 		this._needsUpdate = true;
 	}
 
@@ -356,16 +362,16 @@ export default class BorderRadius extends StyleVector4Property {
 	 * @override
 	 * @returns {number}
 	 */
-	get right() { return (this._inline.y + this._inline.z) / 2; }
+	get right() { return (this._input.y + this._input.z) / 2; }
 
 	/**
 	 * @override
 	 * @param {Number} v
 	 */
 	set bottom( v ) {
-		if( this._inline.z === v && this._inline.w === v ) return;
+		if( this._input.z === v && this._input.w === v ) return;
 
-		this._inline.z = this._inline.w = v;
+		this._input.z = this._input.w = v;
 		this._needsUpdate = true;
 	}
 
@@ -373,7 +379,7 @@ export default class BorderRadius extends StyleVector4Property {
 	 * @override
 	 * @returns {number}
 	 */
-	get bottom() { return (this._inline.z + this._inline.w) / 2; }
+	get bottom() { return (this._input.z + this._input.w) / 2; }
 
 	/**
 	 * @override
@@ -381,9 +387,9 @@ export default class BorderRadius extends StyleVector4Property {
 	 */
 	set left( v ) {
 
-		if( this._inline.w === v && this._inline.x === v ) return;
+		if( this._input.w === v && this._input.x === v ) return;
 
-		this._inline.w = this._inline.x = v;
+		this._input.w = this._input.x = v;
 		this._needsUpdate = true;
 	}
 
@@ -391,7 +397,7 @@ export default class BorderRadius extends StyleVector4Property {
 	 * @override
 	 * @returns {number}
 	 */
-	get left() { return (this._inline.w + this._inline.x) / 2; }
+	get left() { return (this._input.w + this._input.x) / 2; }
 
 }
 

@@ -1,13 +1,11 @@
 import * as THREE from 'three';
+import { TextureLoader } from 'three';
 import { VRButton } from 'three/examples/jsm/webxr/VRButton.js';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import { BoxLineGeometry } from 'three/examples/jsm/geometries/BoxLineGeometry.js';
 
 import ThreeMeshUI from 'three-mesh-ui';
 import Stats from 'three/examples/jsm/libs/stats.module';
-import * as FontWeight from '../src/utils/font/FontWeight';
-import * as FontStyle from '../src/utils/font/FontStyle';
-import { TextureLoader } from 'three';
 
 const WIDTH = window.innerWidth;
 const HEIGHT = window.innerHeight;
@@ -60,7 +58,7 @@ function init() {
 	// Fonts
 	ThreeMeshUI.FontLibrary
 		.addFontFamily("Roboto")
-		.addVariant( FontWeight.NORMAL, FontStyle.NORMAL,"./assets/fonts/msdf/roboto/regular.json","./assets/fonts/msdf/roboto/regular.png" );
+		.addVariant( "normal", "normal","./assets/fonts/msdf/roboto/regular.json","./assets/fonts/msdf/roboto/regular.png" );
 
 	const uvTexture = new TextureLoader().load("./assets/uv_grid.jpg");
 

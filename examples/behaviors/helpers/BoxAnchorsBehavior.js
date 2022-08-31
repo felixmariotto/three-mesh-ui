@@ -24,6 +24,8 @@ export default class BoxAnchorsBehavior extends Behavior{
 		this.anchorCL.position.z = this.anchorC.position.z = this.anchorCR.position.z =
 		this.anchorBL.position.z = this.anchorBC.position.z = this.anchorBR.position.z = 0.005;
 
+		this._actor = this.act.bind( this );
+
 	}
 
 	attach() {
@@ -34,7 +36,7 @@ export default class BoxAnchorsBehavior extends Behavior{
 			this.anchorBL, this.anchorBC, this.anchorBR,
 		);
 
-		this._subject.addAfterUpdate( this.act )
+		this._subject.addAfterUpdate( this._actor )
 
 		this.act();
 
@@ -48,11 +50,11 @@ export default class BoxAnchorsBehavior extends Behavior{
 			this.anchorBL, this.anchorBC, this.anchorBR,
 		);
 
-		this._subject.removeAfterUpdate( this.act );
+		this._subject.removeAfterUpdate( this._actor );
 
 	}
 
-	act = () => {
+	act () {
 
 		const bounds = this._subject._bounds;
 

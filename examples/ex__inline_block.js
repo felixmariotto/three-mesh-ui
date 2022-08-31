@@ -1,3 +1,6 @@
+// xfg:title InlineBlocks
+// xfg:category practice
+
 import * as THREE from 'three';
 import { VRButton } from 'three/examples/jsm/webxr/VRButton.js';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
@@ -89,7 +92,8 @@ function makeTextPanel() {
 			height: 0.2,
 			width: 0.4,
 			backgroundTexture: texture,
-			backgroundOpacity: 0.75
+			backgroundOpacity: 0.75,
+			backgroundColor: 0xffffff,
 		} );
 
 

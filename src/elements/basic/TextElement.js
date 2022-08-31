@@ -21,48 +21,14 @@ export default class TextElement extends BoxElement {
 	 *
 	 * @param {Object.<string,any>} [values=null]
 	 */
-	constructor( values = null) {
+	constructor( values = {}) {
 
 		const properties = {};
-
-		properties.flexDirection = FlexDirectionPropertyText;
-		properties.justifyContent = JustifyContentProperty;
-		properties.alignItems = AlignItemsProperty;
-		properties.bounds = BoundsText;
-		properties.autoSize = AutoSizePropertyText;
-		properties.renderer = RendererPropertyText;
-
-		if( !properties.children ) properties.children = ChildrenText;
-		if( !properties.textContent ) properties.textContent = TextContentText;
-		if( !properties.layouter ) properties.layouter = TextLayouter;
-		if( !properties.lineHeight ) properties.lineHeight = LineHeightPropertyInline;
-		if( !properties.textAlign ) properties.textAlign = TextAlignPropertyText;
-		if( !properties.whiteSpace ) properties.whiteSpace = WhiteSpacePropertyInline;
-		if( !properties.fontKerning ) properties.fontKerning = FontKerningPropertyText;
-		if( !properties.segments ) properties.segments = SegmentsPropertyText;
-
-
-		if( !values ) {
-			values = {};
-		}
-
-		// configure
-		if ( !values.width ) values.width = '100%';
-
-
-		// break inheritance chains
-		if ( !values.fontSide ) values.fontSide = 0; // FrontSide;
+		TextElement.definePropertiesValues( properties, values );
 
 		super( properties, values );
 
-		Object.defineProperties( this, {
-				isText: {
-					configurable: false,
-					enumerable: true,
-					value: true
-				}
-			}
-		);
+		TextElement.init( this );
 
 
 	}
@@ -94,9 +60,6 @@ export default class TextElement extends BoxElement {
 				}
 
 				validChildren.push( argument );
-
-				argument.position.z = 0.005;
-				argument.renderOrder = argument.id;
 
 			} else {
 
@@ -155,4 +118,52 @@ export default class TextElement extends BoxElement {
 
 	get lines() { return this._layouter._value; }
 
+	/**
+	 *
+	 * @param {Object.<string,Class>} [properties={}]
+	 * @param {Object.<string,any>} [values={}]
+	 */
+	static definePropertiesValues( properties, values ) {
+
+		properties.flexDirection = FlexDirectionPropertyText;
+		properties.justifyContent = JustifyContentProperty;
+		properties.alignItems = AlignItemsProperty;
+		properties.bounds = BoundsText;
+		properties.autoSize = AutoSizePropertyText;
+		properties.renderer = RendererPropertyText;
+
+		if( !properties.children ) properties.children = ChildrenText;
+		if( !properties.textContent ) properties.textContent = TextContentText;
+		if( !properties.layouter ) properties.layouter = TextLayouter;
+		if( !properties.lineHeight ) properties.lineHeight = LineHeightPropertyInline;
+		if( !properties.textAlign ) properties.textAlign = TextAlignPropertyText;
+		if( !properties.whiteSpace ) properties.whiteSpace = WhiteSpacePropertyInline;
+		if( !properties.fontKerning ) properties.fontKerning = FontKerningPropertyText;
+		if( !properties.segments ) properties.segments = SegmentsPropertyText;
+
+		// configure
+		if ( !values.width ) values.width = '100%';
+
+
+		// break inheritance chains
+		if ( !values.fontSide ) values.fontSide = 0; // FrontSide;
+
+	}
+
+	/**
+	 *
+	 * @param {MeshUIBaseElement} element
+	 */
+	static init( element ) {
+
+		Object.defineProperties( element, {
+				isText: {
+					configurable: false,
+					enumerable: true,
+					value: true
+				}
+			}
+		);
+
+	}
 }

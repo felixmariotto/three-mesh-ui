@@ -1,3 +1,6 @@
+// xfg:title MSDF-Font Materials
+// xfg:category extend
+
 import * as THREE from 'three';
 import ThreeMeshUI from 'three-mesh-ui';
 
@@ -22,7 +25,7 @@ function example() {
 		alignItems: 'center',
 		fontColor,
 		fontFamily: RobotoFontFamily,
-		fontWeight: ThreeMeshUI.FontWeight.BOLD,
+		fontWeight: "700",
 		fontSize: 0.25,
 		lineHeight: 0.9
 	});

@@ -1,18 +1,20 @@
-import BaseProperty from './BaseProperty';
+import InheritableProperty from './InheritableProperty';
 
-export default class OffsetProperty extends BaseProperty {
+export default class OffsetProperty extends InheritableProperty {
 
 	constructor( ) {
 
-		super( 'offset', 0.01, false );
+		super( 'offset', 'inherit', false );
 
 	}
 
 
 	/* eslint-disable no-unused-vars */ update( element, out ) { /* eslint-enable no-unused-vars */
 
+		super.update( element, out);
+
 		// only process if element has ui parent
-		if( element._parent._value !== null ) element.position.z = this._value;
+		if( element._parent._value !== null ) element.position.z = this._notInheritedValue;
 
 	}
 

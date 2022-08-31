@@ -1,5 +1,4 @@
 import BaseProperty from './BaseProperty';
-import { numberEquals } from '../../utils/NumberUtils';
 
 export default class RenderOrderProperty extends BaseProperty{
 

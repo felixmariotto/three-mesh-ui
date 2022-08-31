@@ -12,14 +12,14 @@ export default class StylePropertyWrapper {
 	 *
 	 * @param {MeshUIBaseElement} element
 	 */
-	constructor( vrElement ) {
+	constructor( element ) {
 
 		/**
 		 *
-		 * @type {HTMLElementVR}
+		 * @type {MeshUIBaseElement}
 		 * @private
 		 */
-		this._vrElement = vrElement;
+		this._element = element;
 
 	}
 
@@ -35,7 +35,7 @@ export default class StylePropertyWrapper {
 	 */
 	set boxSizing( value ) {
 
-		this._vrElement._boxSizing.inline = value;
+		this._element._boxSizing.inline = value;
 
 	}
 
@@ -43,7 +43,7 @@ export default class StylePropertyWrapper {
 	 *
 	 * @return {"border-box"|"content-box"}
 	 */
-	get boxSizing() { return this._vrElement._boxSizing._inline; }
+	get boxSizing() { return this._element._boxSizing._inline; }
 
 
 	/**
@@ -52,7 +52,7 @@ export default class StylePropertyWrapper {
 	 */
 	set width ( v ) {
 
-		this._vrElement._width.inline = v;
+		this._element._width.inline = v;
 
 	}
 
@@ -60,7 +60,7 @@ export default class StylePropertyWrapper {
 	 *
 	 * @return {*}
 	 */
-	get width () { return this._vrElement._width._inline; }
+	get width () { return this._element._width._inline; }
 
 	/**
 	 *
@@ -68,7 +68,7 @@ export default class StylePropertyWrapper {
 	 */
 	set height ( v ) {
 
-		this._vrElement._height.inline = v;
+		this._element._height.inline = v;
 
 	}
 
@@ -76,7 +76,7 @@ export default class StylePropertyWrapper {
 	 *
 	 * @return {*}
 	 */
-	get height () { return this._vrElement._height._inline; }
+	get height () { return this._element._height._inline; }
 
 
 	/**
@@ -85,7 +85,7 @@ export default class StylePropertyWrapper {
 	 */
 	set padding( v ) {
 
-		this._vrElement._padding.inline = v;
+		this._element._padding.inline = v;
 
 	}
 
@@ -94,7 +94,7 @@ export default class StylePropertyWrapper {
 	 *
 	 * @return {Vector4}
 	 */
-	get padding () { return this._vrElement._padding._inline; }
+	get padding () { return this._element._padding._inline; }
 
 
 	/**
@@ -103,7 +103,7 @@ export default class StylePropertyWrapper {
 	 */
 	set paddingTop ( v ) {
 
-		this._vrElement._padding.top = v;
+		this._element._padding.top = v;
 
 	}
 
@@ -111,7 +111,7 @@ export default class StylePropertyWrapper {
 	 *
 	 * @return {number}
 	 */
-	get paddingTop () { return this._vrElement._padding.top; }
+	get paddingTop () { return this._element._padding.top; }
 
 	/**
 	 *
@@ -119,7 +119,7 @@ export default class StylePropertyWrapper {
 	 */
 	set paddingRight (v) {
 
-		this._vrElement._padding.right = v;
+		this._element._padding.right = v;
 
 	}
 
@@ -127,7 +127,7 @@ export default class StylePropertyWrapper {
 	 *
 	 * @return {number}
 	 */
-	get paddingRight () { return this._vrElement._padding.right; }
+	get paddingRight () { return this._element._padding.right; }
 
 	/**
 	 *
@@ -135,7 +135,7 @@ export default class StylePropertyWrapper {
 	 */
 	set paddingBottom (v) {
 
-		this._vrElement._padding.bottom = v;
+		this._element._padding.bottom = v;
 
 	}
 
@@ -143,7 +143,7 @@ export default class StylePropertyWrapper {
 	 *
 	 * @return {number}
 	 */
-	get paddingBottom () { return this._vrElement._padding.bottom; }
+	get paddingBottom () { return this._element._padding.bottom; }
 
 	/**
 	 *
@@ -151,7 +151,7 @@ export default class StylePropertyWrapper {
 	 */
 	set paddingLeft ( v ) {
 
-		this._vrElement._padding.left = v;
+		this._element._padding.left = v;
 
 	}
 
@@ -159,7 +159,7 @@ export default class StylePropertyWrapper {
 	 *
 	 * @return {number}
 	 */
-	get paddingLeft () { return this._vrElement._padding.left; }
+	get paddingLeft () { return this._element._padding.left; }
 
 	/**
 	 *
@@ -167,7 +167,7 @@ export default class StylePropertyWrapper {
 	 */
 	set margin( v ) {
 
-		this._vrElement._margin.inline = v;
+		this._element._margin.inline = v;
 
 	}
 
@@ -177,7 +177,7 @@ export default class StylePropertyWrapper {
 	 * @return {Vector4}
 	 */
 	get margin () {
-		return this._vrElement._margin._inline;
+		return this._element._margin._inline;
 	}
 
 
@@ -187,7 +187,7 @@ export default class StylePropertyWrapper {
 	 */
 	set marginTop ( v ) {
 
-		this._vrElement._margin.top = v;
+		this._element._margin.top = v;
 
 	}
 
@@ -195,7 +195,7 @@ export default class StylePropertyWrapper {
 	 *
 	 * @return {number}
 	 */
-	get marginTop () { return this._vrElement._margin.top; }
+	get marginTop () { return this._element._margin.top; }
 
 	/**
 	 *
@@ -203,7 +203,7 @@ export default class StylePropertyWrapper {
 	 */
 	set marginRight (v) {
 
-		this._vrElement._margin.right = v;
+		this._element._margin.right = v;
 
 	}
 
@@ -211,7 +211,7 @@ export default class StylePropertyWrapper {
 	 *
 	 * @return {number}
 	 */
-	get marginRight () { return this._vrElement._margin.right; }
+	get marginRight () { return this._element._margin.right; }
 
 	/**
 	 *
@@ -219,7 +219,7 @@ export default class StylePropertyWrapper {
 	 */
 	set marginBottom (v) {
 
-		this._vrElement._margin.bottom = v;
+		this._element._margin.bottom = v;
 
 	}
 
@@ -227,7 +227,7 @@ export default class StylePropertyWrapper {
 	 *
 	 * @return {number}
 	 */
-	get marginBottom () { return this._vrElement._margin.bottom; }
+	get marginBottom () { return this._element._margin.bottom; }
 
 	/**
 	 *
@@ -235,7 +235,7 @@ export default class StylePropertyWrapper {
 	 */
 	set marginLeft ( v ) {
 
-		this._vrElement._margin.left = v;
+		this._element._margin.left = v;
 
 	}
 
@@ -248,7 +248,7 @@ export default class StylePropertyWrapper {
 	 */
 	set display ( value ) {
 
-		this._vrElement._display.inline = value;
+		this._element._display.inline = value;
 
 	}
 
@@ -256,7 +256,7 @@ export default class StylePropertyWrapper {
 	 *
 	 * @return {"flex"|"none"}
 	 */
-	get display() { return this._vrElement._display._inline; }
+	get display() { return this._element._display._inline; }
 
 
 	/**
@@ -265,7 +265,7 @@ export default class StylePropertyWrapper {
 	 */
 	set overflow ( v ) {
 
-		this._vrElement._overflow.inline = v;
+		this._element._overflow.inline = v;
 
 	}
 
@@ -273,7 +273,7 @@ export default class StylePropertyWrapper {
 	 *
 	 * @return {"visible"|"hidden"}
 	 */
-	get overflow () { return this._vrElement._overflow._inline; }
+	get overflow () { return this._element._overflow._inline; }
 
 	/** Position Properties ----------------------------------------------------*/
 
@@ -283,7 +283,7 @@ export default class StylePropertyWrapper {
 	 */
 	set position ( v ) {
 
-		this._vrElement._position.inline = v;
+		this._element._position.inline = v;
 
 	}
 
@@ -291,7 +291,7 @@ export default class StylePropertyWrapper {
 	 *
 	 * @return {"static"|"absolute"}
 	 */
-	get position () { return this._vrElement._position._inline; }
+	get position () { return this._element._position._inline; }
 
 
 	/** Flex Properties --------------------------------------------------------*/
@@ -302,7 +302,7 @@ export default class StylePropertyWrapper {
 	 */
 	set flexDirection( value ) {
 
-		this._vrElement._flexDirection.inline = value;
+		this._element._flexDirection.inline = value;
 
 	}
 
@@ -310,7 +310,7 @@ export default class StylePropertyWrapper {
 	 *
 	 * @return {"column"|"column-reverse"|"row"|"row-reverse"}
 	 */
-	get flexDirection() { return this._vrElement._flexDirection._inline; }
+	get flexDirection() { return this._element._flexDirection._inline; }
 
 	/**
 	 *
@@ -318,7 +318,7 @@ export default class StylePropertyWrapper {
 	 */
 	set justifyContent( value ) {
 
-		this._vrElement._justifyContent.inline = value;
+		this._element._justifyContent.inline = value;
 
 	}
 
@@ -326,7 +326,7 @@ export default class StylePropertyWrapper {
 	 *
 	 * @return {"flex-start"|"center"|"flex-end"|"space-around"|"space-between"|"space-evenly"}
 	 */
-	get justifyContent() { return this._vrElement._justifyContent._inline; }
+	get justifyContent() { return this._element._justifyContent._inline; }
 
 	/**
 	 *
@@ -334,7 +334,7 @@ export default class StylePropertyWrapper {
 	 */
 	set alignItems ( value ) {
 
-		this._vrElement._alignItems.inline = value;
+		this._element._alignItems.inline = value;
 
 	}
 
@@ -342,7 +342,7 @@ export default class StylePropertyWrapper {
 	 *
 	 * @return {"start"|"center"|"end"|"stretch"}
 	 */
-	get alignItems() { return this._vrElement._alignItems._inline; }
+	get alignItems() { return this._element._alignItems._inline; }
 
 
 	/**
@@ -351,7 +351,7 @@ export default class StylePropertyWrapper {
 	 */
 	set order (v) {
 
-		this._vrElement._order.inline = v;
+		this._element._order.inline = v;
 
 	}
 
@@ -359,7 +359,7 @@ export default class StylePropertyWrapper {
 	 *
 	 * @return {number}
 	 */
-	get order () { return this._vrElement._order._inline; }
+	get order () { return this._element._order._inline; }
 
 
 	/** Background Properties --------------------------------------------------*/
@@ -370,7 +370,7 @@ export default class StylePropertyWrapper {
 	 */
 	set backgroundColor( v ) {
 
-		this._vrElement._backgroundColor.inline = v;
+		this._element._backgroundColor.inline = v;
 
 	}
 
@@ -378,16 +378,16 @@ export default class StylePropertyWrapper {
 	 *
 	 * @return {Color|number|string}
 	 */
-	get backgroundColor() { return this._vrElement._backgroundColor._inline; }
+	get backgroundColor() { return this._element._backgroundColor._inline; }
 
 
 	set backgroundOpacity ( v ) {
 
-		this._vrElement._backgroundOpacity.inline = v;
+		this._element._backgroundOpacity.inline = v;
 
 	}
 
-	get backgroundOpacity () { return this._vrElement._backgroundOpacity._inline; }
+	get backgroundOpacity () { return this._element._backgroundOpacity._inline; }
 
 	/**
 	 *
@@ -395,7 +395,7 @@ export default class StylePropertyWrapper {
 	 */
 	set backgroundImage ( v ) {
 
-		this._vrElement._backgroundImage.inline = v;
+		this._element._backgroundImage.inline = v;
 
 	}
 
@@ -403,7 +403,7 @@ export default class StylePropertyWrapper {
 	 *
 	 * @return {Texture|string}
 	 */
-	get backgroundImage () { return this._vrElement._backgroundImage._inline; }
+	get backgroundImage () { return this._element._backgroundImage._inline; }
 
 	/**
 	 *
@@ -411,7 +411,7 @@ export default class StylePropertyWrapper {
 	 */
 	set backgroundSize ( v ) {
 
-		this._vrElement._backgroundSize.inline = v;
+		this._element._backgroundSize.inline = v;
 
 	}
 
@@ -419,7 +419,7 @@ export default class StylePropertyWrapper {
 	 *
 	 * @return {"cover"|"contain"|"stretch"}
 	 */
-	get backgroundSize() { return this._vrElement._backgroundSize._inline; }
+	get backgroundSize() { return this._element._backgroundSize._inline; }
 
 
 	/** Text Properties --------------------------------------------------------*/
@@ -430,7 +430,7 @@ export default class StylePropertyWrapper {
 	 */
 	set whiteSpace ( v ) {
 
-		this._vrElement._whiteSpace.inline = v;
+		this._element._whiteSpace.inline = v;
 
 	}
 
@@ -438,7 +438,7 @@ export default class StylePropertyWrapper {
 	 *
 	 * @return {"normal"|"nowrap"|"pre"|"pre-line"|"pre-wrap"}
 	 */
-	get whiteSpace () { return this._vrElement._whiteSpace._inline; }
+	get whiteSpace () { return this._element._whiteSpace._inline; }
 
 
 
@@ -450,7 +450,7 @@ export default class StylePropertyWrapper {
 	 */
 	set color( v ) {
 
-		this._vrElement._color.inline = v;
+		this._element._color.inline = v;
 
 	}
 
@@ -458,7 +458,7 @@ export default class StylePropertyWrapper {
 	 *
 	 * @return {Color|number|string}
 	 */
-	get color () { return this._vrElement._color._inline; }
+	get color () { return this._element._color._inline; }
 
 	/**
 	 *
@@ -466,7 +466,7 @@ export default class StylePropertyWrapper {
 	 */
 	set opacity ( v ) {
 
-		this._vrElement._opacity.inline = v;
+		this._element._fontOpacity.inline = v;
 
 	}
 
@@ -474,7 +474,7 @@ export default class StylePropertyWrapper {
 	 *
 	 * @return {number}
 	 */
-	get opacity () { return this._vrElement._opacity._inline; }
+	get opacity () { return this._element._fontOpacity._inline; }
 
 
 
@@ -485,7 +485,7 @@ export default class StylePropertyWrapper {
 	 */
 	set fontStyle (v) {
 
-		this._vrElement._fontStyle.inline = v;
+		this._element._fontStyle.inline = v;
 
 	}
 
@@ -493,7 +493,7 @@ export default class StylePropertyWrapper {
 	 *
 	 * @return {"normal"|"italic"}
 	 */
-	get fontStyle () { return this._vrElement._fontStyle._inline; }
+	get fontStyle () { return this._element._fontStyle._inline; }
 
 
 	/**
@@ -502,7 +502,7 @@ export default class StylePropertyWrapper {
 	 */
 	set fontWeight ( v ) {
 
-		this._vrElement._fontWeight.inline = v;
+		this._element._fontWeight.inline = v;
 
 	}
 
@@ -510,7 +510,7 @@ export default class StylePropertyWrapper {
 	 *
 	 * @return {100|200|300|400|500|600|700|800|900|"light"|"normal"|"bold"|"bolder"}
 	 */
-	get fontWeight () { return this._vrElement._fontWeight._inline; }
+	get fontWeight () { return this._element._fontWeight._inline; }
 
 	/**
 	 *
@@ -518,7 +518,7 @@ export default class StylePropertyWrapper {
 	 */
 	set fontKerning ( v ) {
 
-		this._vrElement._fontKerning.inline = v;
+		this._element._fontKerning.inline = v;
 
 	}
 
@@ -526,7 +526,7 @@ export default class StylePropertyWrapper {
 	 *
 	 * @return {"normal"|"none"}
 	 */
-	get fontKerning () { return this._vrElement._fontKerning._inline; }
+	get fontKerning () { return this._element._fontKerning._inline; }
 
 
 	/**
@@ -535,7 +535,7 @@ export default class StylePropertyWrapper {
 	 */
 	set letterSpacing (v) {
 
-		this._vrElement._letterSpacing.inline = v;
+		this._element._letterSpacing.inline = v;
 
 	}
 
@@ -543,7 +543,7 @@ export default class StylePropertyWrapper {
 	 *
 	 * @return {number}
 	 */
-	get letterSpacing () { return this._vrElement._letterSpacing._inline; }
+	get letterSpacing () { return this._element._letterSpacing._inline; }
 
 	/**
 	 *
@@ -551,7 +551,7 @@ export default class StylePropertyWrapper {
 	 */
 	set lineHeight ( v ) {
 
-		this._vrElement._lineHeight.inline = v;
+		this._element._lineHeight.inline = v;
 
 	}
 
@@ -559,7 +559,7 @@ export default class StylePropertyWrapper {
 	 *
 	 * @return {number}
 	 */
-	get lineHeight () { return this._vrElement._lineHeight._inline; }
+	get lineHeight () { return this._element._lineHeight._inline; }
 
 
 	/**
@@ -568,7 +568,7 @@ export default class StylePropertyWrapper {
 	 */
 	set textAlign ( v ) {
 
-		this._vrElement._textAlign.inline = v;
+		this._element._textAlign.inline = v;
 
 	}
 
@@ -576,19 +576,19 @@ export default class StylePropertyWrapper {
 	 *
 	 * @return {"left"| "right"|"center"|"justify"|"justify-left"|"justify-right"|"justify-center"}
 	 */
-	get textAlign() { return this._vrElement._textAlign._inline; }
+	get textAlign() { return this._element._textAlign._inline; }
 
 
 	/** Border Properties ----------------------------------------------------------------------------------------------*/
 
 	/**
 	 * Set the units of borderRadius
-	 * @param {string|"em"|"rem"|"%"} v
+	 * @param {string|"rem"} v
 	 */
 	set borderRadiusUnits( v ) {
 
 		// @TODO:
-		this._vrElement._borderRadius.units = v;
+		this._element._borderRadius.units = v;
 
 	}
 
@@ -596,7 +596,7 @@ export default class StylePropertyWrapper {
 	 * Get the units of borderRadius
 	 * @returns {string}
 	 */
-	get borderRadiusUnits() { /* @TODO:inline units */ return this._vrElement._borderRadius.units; }
+	get borderRadiusUnits() { /* @TODO:inline units */ return this._element._borderRadius.units; }
 
 	/**
 	 *
@@ -604,7 +604,7 @@ export default class StylePropertyWrapper {
 	 */
 	set borderRadius( v ) {
 
-		this._vrElement._borderRadius.inline = v;
+		this._element._borderRadius.inline = v;
 
 	}
 
@@ -612,7 +612,7 @@ export default class StylePropertyWrapper {
 	 *
 	 * @returns {Vector4}
 	 */
-	get borderRadius() { return this._vrElement._borderRadius._inline; }
+	get borderRadius() { return this._element._borderRadius._inline; }
 
 	/**
 	 * Set the top left radius only
@@ -620,7 +620,7 @@ export default class StylePropertyWrapper {
 	 */
 	set borderTopLeftRadius( v ) {
 
-		this._vrElement._borderRadius.topLeft = v;
+		this._element._borderRadius.topLeft = v;
 
 	}
 
@@ -628,7 +628,7 @@ export default class StylePropertyWrapper {
 	 *
 	 * @returns {number}
 	 */
-	get borderTopLeftRadius() { return this._vrElement._borderRadius.topLeft; }
+	get borderTopLeftRadius() { return this._element._borderRadius.topLeft; }
 
 
 	/**
@@ -637,7 +637,7 @@ export default class StylePropertyWrapper {
 	 */
 	set borderTopRightRadius( v ) {
 
-		this._vrElement._borderRadius.topRight = v;
+		this._element._borderRadius.topRight = v;
 
 	}
 
@@ -645,7 +645,7 @@ export default class StylePropertyWrapper {
 	 *
 	 * @returns {number}
 	 */
-	get borderTopRightRadius() { return this._vrElement._borderWidth.topRight; }
+	get borderTopRightRadius() { return this._element._borderWidth.topRight; }
 
 	/**
 	 * Set the bottom right radius only
@@ -653,7 +653,7 @@ export default class StylePropertyWrapper {
 	 */
 	set borderBottomRightRadius( v ) {
 
-		this._vrElement._borderRadius.bottomRight = v;
+		this._element._borderRadius.bottomRight = v;
 
 	}
 
@@ -661,7 +661,7 @@ export default class StylePropertyWrapper {
 	 *
 	 * @returns {number}
 	 */
-	get borderBottomRightRadius() { return this._vrElement._borderWidth.bottomRight; }
+	get borderBottomRightRadius() { return this._element._borderWidth.bottomRight; }
 
 	/**
 	 * Set the bottom left radius only
@@ -669,7 +669,7 @@ export default class StylePropertyWrapper {
 	 */
 	set borderBottomLeftRadius( v ) {
 
-		this._vrElement._borderRadius.bottomLeft = v;
+		this._element._borderRadius.bottomLeft = v;
 
 	}
 
@@ -677,7 +677,7 @@ export default class StylePropertyWrapper {
 	 *
 	 * @returns {number}
 	 */
-	get borderBottomLeftRadius() { return this._vrElement._borderWidth.bottomLeft; }
+	get borderBottomLeftRadius() { return this._element._borderWidth.bottomLeft; }
 
 	/**
 	 * Set the top left and top right radiuses
@@ -685,7 +685,7 @@ export default class StylePropertyWrapper {
 	 */
 	set borderTopRadius( v ) {
 
-		this._vrElement._borderRadius.top = v;
+		this._element._borderRadius.top = v;
 
 	}
 
@@ -693,7 +693,7 @@ export default class StylePropertyWrapper {
 	 *
 	 * @returns {number}
 	 */
-	get borderTopRadius() { return this._vrElement._borderWidth.top; }
+	get borderTopRadius() { return this._element._borderWidth.top; }
 
 	/**
 	 * Set the top right and bottom right radiuses
@@ -701,7 +701,7 @@ export default class StylePropertyWrapper {
 	 */
 	set borderRightRadius( v ) {
 
-		this._vrElement._borderRadius.right = v;
+		this._element._borderRadius.right = v;
 
 	}
 
@@ -709,7 +709,7 @@ export default class StylePropertyWrapper {
 	 *
 	 * @returns {number}
 	 */
-	get borderRightRadius() { return this._vrElement._borderRadius.right; }
+	get borderRightRadius() { return this._element._borderRadius.right; }
 
 	/**
 	 * Set the top left and bottom left radiuses
@@ -717,7 +717,7 @@ export default class StylePropertyWrapper {
 	 */
 	set borderLeftRadius( v ) {
 
-		this._vrElement._borderRadius.left = v;
+		this._element._borderRadius.left = v;
 
 	}
 
@@ -725,7 +725,7 @@ export default class StylePropertyWrapper {
 	 *
 	 * @returns {number}
 	 */
-	get borderLeftRadius() { return this._vrElement._borderRadius.left; }
+	get borderLeftRadius() { return this._element._borderRadius.left; }
 
 	/**
 	 * Set the bottom left and bottom right radiuses
@@ -733,7 +733,7 @@ export default class StylePropertyWrapper {
 	 */
 	set borderBottomRadius( v ) {
 
-		this._vrElement._borderRadius.bottom = v;
+		this._element._borderRadius.bottom = v;
 
 	}
 
@@ -741,17 +741,17 @@ export default class StylePropertyWrapper {
 	 *
 	 * @returns {number}
 	 */
-	get borderBottomRadius() { return this._vrElement._borderRadius.bottom; }
+	get borderBottomRadius() { return this._element._borderRadius.bottom; }
 
 
 	/**
 	 * Set the units of borderWidth
-	 * @param {string|"em"|"rem"|"%"} v
+	 * @param {string|"rem"} v
 	 */
 	set borderWidthUnits( v ) {
 
 		// @TODO : Inline and Computed units to be implemented
-		this._vrElement._borderWidth.units = v;
+		this._element._borderWidth.units = v;
 
 	}
 
@@ -759,7 +759,7 @@ export default class StylePropertyWrapper {
 	 * Get the units of borderWidth
 	 * @returns {string}
 	 */
-	get borderWidthUnits() { return this._vrElement._borderWidth.units; }
+	get borderWidthUnits() { return this._element._borderWidth.units; }
 
 	/**
 	 *
@@ -767,7 +767,7 @@ export default class StylePropertyWrapper {
 	 */
 	set borderWidth( v ) {
 
-		this._vrElement._borderWidth.inline = v;
+		this._element._borderWidth.inline = v;
 
 	}
 
@@ -775,7 +775,7 @@ export default class StylePropertyWrapper {
 	 *
 	 * @returns {Vector4}
 	 */
-	get borderWidth() { return this._vrElement._borderWidth._inline; }
+	get borderWidth() { return this._element._borderWidth._inline; }
 
 	/**
 	 * Set the width of the top side border only
@@ -783,7 +783,7 @@ export default class StylePropertyWrapper {
 	 */
 	set borderTopWidth( v ) {
 
-		this._vrElement._borderWidth.top = v;
+		this._element._borderWidth.top = v;
 
 	}
 
@@ -791,7 +791,7 @@ export default class StylePropertyWrapper {
 	 *
 	 * @returns {number}
 	 */
-	get borderTopWidth() { return this._vrElement._borderWidth.top; }
+	get borderTopWidth() { return this._element._borderWidth.top; }
 
 	/**
 	 * Set the width of the right side border only
@@ -799,7 +799,7 @@ export default class StylePropertyWrapper {
 	 */
 	set borderRightWidth( v ) {
 
-		this._vrElement._borderWidth.right = v;
+		this._element._borderWidth.right = v;
 
 	}
 
@@ -807,7 +807,7 @@ export default class StylePropertyWrapper {
 	 *
 	 * @returns {number}
 	 */
-	get borderRightWidth() { return this._vrElement._borderWidth.right; }
+	get borderRightWidth() { return this._element._borderWidth.right; }
 
 	/**
 	 * Set the width of the bottom side border only
@@ -815,7 +815,7 @@ export default class StylePropertyWrapper {
 	 */
 	set borderBottomWidth( v ) {
 
-		this._vrElement._borderWidth.bottom = v;
+		this._element._borderWidth.bottom = v;
 
 	}
 
@@ -823,7 +823,7 @@ export default class StylePropertyWrapper {
 	 *
 	 * @returns {number}
 	 */
-	get borderBottomWidth() { return this._vrElement._borderWidth.bottom; }
+	get borderBottomWidth() { return this._element._borderWidth.bottom; }
 
 	/**
 	 * Set the width of the left side border only
@@ -831,7 +831,7 @@ export default class StylePropertyWrapper {
 	 */
 	set borderLeftWidth( v ) {
 
-		this._vrElement._borderWidth.left = v;
+		this._element._borderWidth.left = v;
 
 	}
 
@@ -839,7 +839,7 @@ export default class StylePropertyWrapper {
 	 *
 	 * @returns {number}
 	 */
-	get borderLeftWidth() { return this._vrElement._borderWidth.left; }
+	get borderLeftWidth() { return this._element._borderWidth.left; }
 
 
 	/**
@@ -848,7 +848,7 @@ export default class StylePropertyWrapper {
 	 */
 	set borderColor( v ) {
 
-		this._vrElement._borderColor.inline = v;
+		this._element._borderColor.inline = v;
 
 	}
 
@@ -856,7 +856,7 @@ export default class StylePropertyWrapper {
 	 *
 	 * @returns {Color}
 	 */
-	get borderColor() { return this._vrElement._borderColor._inline; }
+	get borderColor() { return this._element._borderColor._inline; }
 
 	/**
 	 *
@@ -864,7 +864,7 @@ export default class StylePropertyWrapper {
 	 */
 	set borderOpacity (v) {
 
-		this._vrElement._borderOpacity.inline = v;
+		this._element._borderOpacity.inline = v;
 
 	}
 
@@ -872,7 +872,7 @@ export default class StylePropertyWrapper {
 	 *
 	 * @return {*}
 	 */
-	get borderOpacity () { return this._vrElement._borderOpacity._inline; }
+	get borderOpacity () { return this._element._borderOpacity._inline; }
 
 
 
@@ -883,7 +883,7 @@ export default class StylePropertyWrapper {
 	set computed( value ) {
 
 		// do update
-		this._needsUpdate = true;
+		// this._needsUpdate = true;
 
 	}
 
@@ -894,7 +894,7 @@ export default class StylePropertyWrapper {
 	get computed() {
 
 		const output = {};
-		for ( const component of this._components ) {
+		for ( const component of this._element._components ) {
 
 			output[component.id] = component.output;
 
@@ -907,7 +907,7 @@ export default class StylePropertyWrapper {
 
 	dispose () {
 
-		this._vrElement = null;
+		this._element = null;
 
 	}
 

@@ -1,3 +1,6 @@
+// xfg:title Nested block
+// xfg:category practice
+
 import * as THREE from 'three';
 import { VRButton } from 'three/examples/jsm/webxr/VRButton.js';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';

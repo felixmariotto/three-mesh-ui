@@ -132,7 +132,7 @@ export default class Overflow extends SubStyleProperty {
 
 	}
 
-	_emptyRender( element ) { };
+	/* eslint-disable no-unused-vars */	_emptyRender( element ) { /* eslint-enable no-unused-vars */ }
 
 	_hiddenRender( element ) {
 

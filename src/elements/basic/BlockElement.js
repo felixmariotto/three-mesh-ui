@@ -7,18 +7,14 @@ export default class BlockElement extends BoxElement {
 	 *
 	 * @param {Object.<string,any>} values
 	 */
-	constructor( values = null ) {
+	constructor( values = {} ) {
 
-		super( {layouter:BoxLayouter}, values );
+		const properties = {};
+		BlockElement.definePropertiesValues( properties, values );
 
-		Object.defineProperties( this, {
-				isBlock: {
-					configurable: false,
-					enumerable: true,
-					value: true
-				}
-			}
-		);
+		super( properties , values );
+
+		BlockElement.init( this );
 
 
 	}
@@ -47,9 +43,6 @@ export default class BlockElement extends BoxElement {
 
 				validChildren.push( argument );
 
-				// @TODO: Offset Property
-				if( argument.isUI ) { argument.position.z = 0.005; }
-
 			} else {
 
 				console.warn( 'Block element can only contain Box elements.', argument );
@@ -59,6 +52,35 @@ export default class BlockElement extends BoxElement {
 		}
 
 		return super.add( ...validChildren );
+
+	}
+
+	/* eslint-disable no-unused-vars */
+	/**
+	 *
+	 * @param properties
+	 * @param values
+	 */
+	static definePropertiesValues( properties, values ) {  /* eslint-enable no-unused-vars */
+
+		properties.layouter = BoxLayouter;
+
+	}
+
+	/**
+	 *
+	 * @param {MeshUIBaseElement} element
+	 */
+	static init ( element ) {
+
+		Object.defineProperties( element , {
+				isBlock: {
+					configurable: false,
+					enumerable: true,
+					value: true
+				}
+			}
+		);
 
 	}
 

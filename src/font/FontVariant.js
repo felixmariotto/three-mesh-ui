@@ -203,6 +203,18 @@ export default class FontVariant extends EventDispatcher {
 
 	}
 
+	/* eslint-disable no-unused-vars */
+	/**
+	 * @abstract
+	 * @param element
+	 * @internal
+	 */
+	_alterElementProperties( element ) {  /* eslint-enable no-unused-vars */
+
+		throw new Error(`FontVariant(${typeof this})::_alterElementProperties() is abstract and should therefore be overridden.`);
+
+	}
+
 	/**
 	 *
 	 * @abstract

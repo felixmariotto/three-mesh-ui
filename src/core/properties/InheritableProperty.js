@@ -26,10 +26,13 @@ export default class InheritableProperty extends BaseProperty {
 		{
 			this._notInheritedValue = this.getInheritedInput( element );
 		}
-		else
-		{
-			this.propagate( element );
-		}
+		// else
+		// {
+		// 	this.propagate( element );
+		// }
+
+		// @TODO: Evaluate. This might be too much
+		this.propagate( element );
 
 		this._outputValue( out );
 
@@ -41,7 +44,9 @@ export default class InheritableProperty extends BaseProperty {
 		for ( const childUIElement of element._children._uis ) {
 
 			const property = childUIElement[`_${this._id}`];
-			if( property._value === 'inherit' ) childUIElement[`_${this._id}`]._needsUpdate = true;
+			if( property !== undefined && property._value === 'inherit' ) {
+				childUIElement[`_${this._id}`]._needsUpdate = true;
+			}
 
 		}
 	}

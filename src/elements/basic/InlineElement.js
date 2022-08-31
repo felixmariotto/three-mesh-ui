@@ -22,46 +22,16 @@ export default class InlineElement extends MeshUIBaseElement {
 
 	/**
 	 *
-	 * @param {Object.<string,any>} [values=null]
+	 * @param {Object.<string,any>} [values={}]
 	 */
-	constructor( values = null) {
+	constructor( values = { }) {
 
 		const properties = {};
-
-		if( !properties.children ) properties.children = ChildrenInline;
-		if( !properties.textContent ) properties.textContent = TextContentInline;
-		if( !properties.glyphs ) properties.glyphs = GlyphsProperty;
-		if( !properties.inlines ) properties.inlines = InlinesProperty;
-		if( !properties.layouter ) properties.layouter = InlineLayouter;
-		if( !properties.renderer ) properties.renderer = RendererPropertyInline;
-
-
-		if( !properties.fontFamily ) properties.fontFamily = FontFamilyPropertyInline;
-		if( !properties.fontWeight ) properties.fontWeight = FontWeightPropertyInline;
-		if( !properties.fontStyle ) properties.fontStyle = FontStylePropertyInline;
-		if( !properties.fontSize ) properties.fontSize = FontSizePropertyInline;
-		if( !properties.color ) properties.color = ColorProperty;
-		if( !properties.backgroundColor ) properties.backgroundColor = BackgroundColorPropertyInline;
-		if( !properties.lineBreak ) properties.lineBreak = LineBreakProperty;
-		if( !properties.letterSpacing ) properties.letterSpacing = LetterSpacingPropertyInline;
-		if( !properties.whiteSpace ) properties.whiteSpace = WhiteSpacePropertyInline;
-		if( !properties.segments ) properties.segments = SegmentsPropertyInline;
-		if( !properties.textAlign ) properties.textAlign = TextAlignPropertyInline;
-
-		if( !properties.fontKerning ) properties.fontKerning = FontKerningPropertyInline;
-
-		// if( !properties.inlines ) properties.inlines = InlinesProperty;
+		InlineElement.definePropertiesValues( properties, values );
 
 		super( properties, values );
 
-		Object.defineProperties( this, {
-				isInline: {
-					configurable: false,
-					enumerable: true,
-					value: true
-				}
-			}
-		);
+		InlineElement.init( this );
 
 	}
 
@@ -126,4 +96,54 @@ export default class InlineElement extends MeshUIBaseElement {
 
 	get invertAlpha () { return this._invertAlpha._value; }
 
+	/* eslint-disable no-unused-vars */
+	/**
+	 *
+	 * @param {Object.<string,Class>} [properties={}]
+	 * @param {Object.<string,any>} [values={}]
+	 */
+	static definePropertiesValues( properties, values ) {  /* eslint-enable no-unused-vars */
+
+		if( !properties.children ) properties.children = ChildrenInline;
+		if( !properties.textContent ) properties.textContent = TextContentInline;
+		if( !properties.glyphs ) properties.glyphs = GlyphsProperty;
+		if( !properties.inlines ) properties.inlines = InlinesProperty;
+		if( !properties.layouter ) properties.layouter = InlineLayouter;
+		if( !properties.renderer ) properties.renderer = RendererPropertyInline;
+
+
+		if( !properties.fontFamily ) properties.fontFamily = FontFamilyPropertyInline;
+		if( !properties.fontWeight ) properties.fontWeight = FontWeightPropertyInline;
+		if( !properties.fontStyle ) properties.fontStyle = FontStylePropertyInline;
+		if( !properties.fontSize ) properties.fontSize = FontSizePropertyInline;
+		if( !properties.color ) properties.color = ColorProperty;
+		if( !properties.backgroundColor ) properties.backgroundColor = BackgroundColorPropertyInline;
+		if( !properties.lineBreak ) properties.lineBreak = LineBreakProperty;
+		if( !properties.letterSpacing ) properties.letterSpacing = LetterSpacingPropertyInline;
+		if( !properties.whiteSpace ) properties.whiteSpace = WhiteSpacePropertyInline;
+		if( !properties.segments ) properties.segments = SegmentsPropertyInline;
+		if( !properties.textAlign ) properties.textAlign = TextAlignPropertyInline;
+
+		if( !properties.fontKerning ) properties.fontKerning = FontKerningPropertyInline;
+
+		// if( !properties.inlines ) properties.inlines = InlinesProperty;
+
+	}
+
+	/**
+	 *
+	 * @param {MeshUIBaseElement} element
+	 */
+	static init( element ) {
+
+		Object.defineProperties( element, {
+				isInline: {
+					configurable: false,
+					enumerable: true,
+					value: true
+				}
+			}
+		);
+
+	}
 }

@@ -1,3 +1,6 @@
+// xfg:title Background Materials
+// xfg:category extend
+
 import * as THREE from 'three';
 import * as ThreeMeshUI from 'three-mesh-ui';
 
@@ -8,12 +11,11 @@ function example() {
 		width: 3.2,
 		height: 3.2,
 		backgroundOpacity: 0,
-		interLine:-0.05,
 		contentDirection: 'row',
 		justifyContent: 'center',
 		alignItems: 'center',
 		fontFamily: RobotoFontFamily,
-		fontWeight: ThreeMeshUI.FontWeight.BOLD,
+		fontWeight: "700",
 		fontSize: 0.25,
 	});
 

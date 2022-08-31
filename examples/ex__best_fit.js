@@ -1,3 +1,7 @@
+// xfg:title Best fit
+// xfg:category learn
+// xfg:type Behavior
+
 import * as THREE from 'three';
 import { VRButton } from 'three/examples/jsm/webxr/VRButton.js';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
@@ -10,7 +14,6 @@ import FontImage from 'three-mesh-ui/examples/assets/fonts/msdf/roboto/regular.p
 
 import Stats from 'three/examples/jsm/libs/stats.module.js';
 import BestFitBehavior from 'three-mesh-ui/examples/behaviors/size/BestFitBehavior';
-import BoxLayoutBehavior from 'three-mesh-ui/examples/behaviors/helpers/BoxLayoutBehavior';
 
 /*
 

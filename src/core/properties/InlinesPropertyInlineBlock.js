@@ -3,7 +3,7 @@ import BaseProperty from './BaseProperty';
 
 //JSDoc related imports
 /* eslint-disable no-unused-vars */
-import Inline from '../../components/core/Inline';
+import Inline from '../elements/glyphs/Inline';
 /* eslint-enable no-unused-vars */
 
 /**

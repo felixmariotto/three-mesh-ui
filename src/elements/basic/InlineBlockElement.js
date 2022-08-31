@@ -7,7 +7,7 @@ import FontWeightProperty from '../../core/properties/style-properties/font/Font
 import BackgroundColorProperty from '../../core/properties/style-properties/background/BackgroundColorProperty';
 import MeshUIBaseElement from '../../core/elements/MeshUIBaseElement';
 import InlineLayouter from '../../core/properties/InlineLayouter';
-import Inline from '../../components/core/Inline';
+import Inline from '../../core/elements/glyphs/Inline';
 import FrameMaterial from '../../frame/materials/FrameMaterial';
 import InlinesPropertyInlineBlock from '../../core/properties/InlinesPropertyInlineBlock';
 import LetterSpacingPropertyInline from '../../core/properties/style-properties/font/LetterSpacingPropertyInline';
@@ -23,51 +23,14 @@ export default class InlineBlockElement extends MeshUIBaseElement {
 	 *
 	 * @param {Object.<string,any>} [values=null]
 	 */
-	constructor( values = null) {
+	constructor( values = {}) {
 
 		const properties = {};
-
-		if( !properties.children ) properties.children = ChildrenInline;
-		if( !properties.bounds ) properties.bounds = BoundsInlineBlock;
-		if( !properties.inlines ) properties.inlines = InlinesPropertyInlineBlock;
-		if( !properties.layouter ) properties.layouter = InlineLayouter;
-		if( !properties.renderer ) properties.renderer = RendererPropertyInlineBox;
-
-		// reset inlineElement specificity
-		if( !properties.fontFamily ) properties.fontFamily = FontFamilyProperty;
-		if( !properties.fontWeight ) properties.fontWeight = FontWeightProperty;
-		if( !properties.fontStyle ) properties.fontStyle = FontStyleProperty;
-		if( !properties.fontSize ) properties.fontSize = FontSizePropertyInline;
-		if( !properties.backgroundColor ) properties.backgroundColor = BackgroundColorProperty;
-		if( !properties.lineBreak ) properties.lineBreak = LineBreakProperty;
-		if( !properties.letterSpacing ) properties.letterSpacing = LetterSpacingPropertyInline;
-		if( !properties.whiteSpace ) properties.whiteSpace = WhiteSpacePropertyInline;
-		if( !properties.fontKerning ) properties.fontKerning = FontKerningProperty;
-
-		// if( !properties.inlines ) properties.inlines = InlinesProperty;
-		if( !values ) values = {};
-		if( !values.backgroundSize ) values.backgroundSize = 'cover';
+		InlineBlockElement.definePropertiesValues( properties, values );
 
 		super( properties, values );
 
-		Object.defineProperties( this, {
-				isInline: {
-					configurable: false,
-					enumerable: true,
-					value: true
-				},
-				isInlineBlock: {
-					configurable: false,
-					enumerable: true,
-					value: true
-				}
-			}
-		);
-
-		this._inlines._value = [new InlineBlockInline(this)];
-
-		this.backgroundMaterial = new FrameMaterial();
-		this._renderer.render( this );
+		InlineBlockElement.init( this );
 
 	}
 
@@ -87,7 +50,7 @@ export default class InlineBlockElement extends MeshUIBaseElement {
 	 */
 	bindBackgroundMeshProperties () {
 
-		console.log( "Buidsdsd ");
+		this._backgroundMesh.raycast = ()=>{};
 
 		// bind the background scale with bounds
 		this._bounds._size = this._backgroundMesh.scale;
@@ -101,7 +64,6 @@ export default class InlineBlockElement extends MeshUIBaseElement {
 	 */
 	unbindBackgroundMeshProperties () {
 
-		console.log( "Unbind !!!!! ")
 		// detach bounds size
 		this._bounds._size = new Vector3(1,1,1);
 		this._bounds._needsUpdate = true;
@@ -145,7 +107,66 @@ export default class InlineBlockElement extends MeshUIBaseElement {
 
 	}
 
+
+	/**
+	 *
+	 * @param {Object.<string,Class>} [properties={}]
+	 * @param {Object.<string,any>} [values={}]
+	 */
+	static definePropertiesValues( properties, values ) {
+
+		if( !properties.children ) properties.children = ChildrenInline;
+		if( !properties.bounds ) properties.bounds = BoundsInlineBlock;
+		if( !properties.inlines ) properties.inlines = InlinesPropertyInlineBlock;
+		if( !properties.layouter ) properties.layouter = InlineLayouter;
+		if( !properties.renderer ) properties.renderer = RendererPropertyInlineBox;
+
+		// reset inlineElement specificity
+		if( !properties.fontFamily ) properties.fontFamily = FontFamilyProperty;
+		if( !properties.fontWeight ) properties.fontWeight = FontWeightProperty;
+		if( !properties.fontStyle ) properties.fontStyle = FontStyleProperty;
+		if( !properties.fontSize ) properties.fontSize = FontSizePropertyInline;
+		if( !properties.backgroundColor ) properties.backgroundColor = BackgroundColorProperty;
+		if( !properties.lineBreak ) properties.lineBreak = LineBreakProperty;
+		if( !properties.letterSpacing ) properties.letterSpacing = LetterSpacingPropertyInline;
+		if( !properties.whiteSpace ) properties.whiteSpace = WhiteSpacePropertyInline;
+		if( !properties.fontKerning ) properties.fontKerning = FontKerningProperty;
+
+		if( !values.backgroundSize ) values.backgroundSize = 'cover';
+
+	}
+
+	/**
+	 *
+	 * @param {MeshUIBaseElement} element
+	 */
+	static init( element ) {
+
+		Object.defineProperties( element, {
+				isInline: {
+					configurable: false,
+					enumerable: true,
+					value: true
+				},
+				isInlineBlock: {
+					configurable: false,
+					enumerable: true,
+					value: true
+				}
+			}
+		);
+
+		element._inlines._value = [new InlineBlockInline(element)];
+
+		element.backgroundMaterial = new FrameMaterial();
+		element._renderer.render( element );
+
+	}
+
 }
+
+
+
 
 /**
  * InlineBlock has its own Inline implementation

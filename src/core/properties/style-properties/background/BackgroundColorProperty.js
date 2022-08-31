@@ -1,9 +1,6 @@
 import { Color } from 'three';
 import StyleColorProperty from '../StyleColorProperty';
 
-//JSDoc related imports
-/* eslint-disable no-unused-vars */
-/* eslint-enable no-unused-vars */
 
 export default class BackgroundColorProperty extends StyleColorProperty {
 
@@ -14,8 +11,6 @@ export default class BackgroundColorProperty extends StyleColorProperty {
 		this._input = 'transparent';
 
 		this._allowsInherit = false;
-
-
 
 	}
 
@@ -49,8 +44,6 @@ export default class BackgroundColorProperty extends StyleColorProperty {
  * @private
  */
 function _setColor( value, output ) {
-
-
 
 	if ( !( value instanceof Color ) ) {
 

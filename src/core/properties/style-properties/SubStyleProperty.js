@@ -45,13 +45,6 @@ export default class SubStyleProperty extends BaseProperty{
 		 */
 		this._inline = undefined;
 
-		/**
-		 *
-		 * @type {any}
-		 * @protected
-		 */
-		this._computed = undefined;
-
 	}
 
 	/**
@@ -61,54 +54,25 @@ export default class SubStyleProperty extends BaseProperty{
 	 */
 	update( element, out ) {
 
-		let updateRequired = true;
+		if( !this._allowsInherit ) {
 
-		// Inline has priority if set
-		if( this._inline !== undefined && this._inline !== 'unset' ) {
-
-			// do not require an update if the value remains
-			if( this._inline === this._input ) updateRequired = false;
-			this._input = this._inline;
-
-		}
-		// or fallback on computed
-		else if( this._computed !== undefined ) {
-
-			// do not require an update if the value remains
-			if( this._computed === this._input ) updateRequired = false;
-			this._input = this._computed;
-
-		}
-		// or fallback on default value
-		else {
-
-			updateRequired = this._input === 'inherit';
+			this._inheritedInput = this.getInheritedInput( element );
 
 		}
 
-		if( updateRequired ) {
+		this.computeOutputValue( element );
 
-			if( !this._allowsInherit ) {
+		// rebuild same properties on children 'inheritance'
+		for ( const childUIElement of element._children._uis ) {
 
-				this._inheritedInput = this.getInheritedInput( element );
+			const property = childUIElement[`_${this._id}`];
+			const target = property._input ? property._input : property._value;
 
-			}
-
-			this.computeOutputValue( element );
-
-			// rebuild same properties on children 'inheritance'
-			for ( const childUIElement of element._children._uis ) {
-
-				const property = childUIElement[`_${this._id}`];
-				const target = property._input ? property._input : property._value;
-
-				if( target === 'inherit' ) childUIElement[`_${this._id}`]._needsUpdate = true;
-
-			}
-
-			this.output( out );
+			if( target === 'inherit' ) childUIElement[`_${this._id}`]._needsUpdate = true;
 
 		}
+
+		this.output( out );
 
 	}
 
@@ -159,7 +123,7 @@ export default class SubStyleProperty extends BaseProperty{
 
 		}
 
-		this._inline = value;
+		this._input = this._inline = value;
 
 		this._needsUpdate = true;
 
@@ -170,30 +134,6 @@ export default class SubStyleProperty extends BaseProperty{
 	 * @return {any}
 	 */
 	get inline() { return this._inline; }
-
-	/**
-	 *
-	 * @param {any} value
-	 */
-	set computed( value ) {
-
-		if( ! this.isValidValue( value ) ) return;
-
-		if( this._computed !== value ) {
-
-			this._computed = value;
-
-		}
-
-		this._needsUpdate = true;
-
-	}
-
-	/**
-	 *
-	 * @return {any}
-	 */
-	get computed( ) { return this._computed; }
 
 	/**
 	 *

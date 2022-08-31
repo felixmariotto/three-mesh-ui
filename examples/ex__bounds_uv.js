@@ -1,3 +1,7 @@
+// xfg:title Bounds UV
+// xfg:category learn
+// xfg:type Behavior
+
 import * as THREE from 'three';
 import { RepeatWrapping, TextureLoader, Vector2 } from 'three';
 import { VRButton } from 'three/examples/jsm/webxr/VRButton.js';
@@ -33,10 +37,10 @@ function preloadFonts() {
 
 		ThreeMeshUI.FontLibrary
 			.addFontFamily("Roboto")
-			.addVariant(ThreeMeshUI.FontWeight.NORMAL, ThreeMeshUI.FontStyle.NORMAL, "./assets/fonts/msdf/roboto/regular.json", "./assets/fonts/msdf/roboto/regular.png" )
-			.addVariant(ThreeMeshUI.FontWeight.BOLD, ThreeMeshUI.FontStyle.ITALIC, "./assets/fonts/msdf/roboto/bold-italic.json", "./assets/fonts/msdf/roboto/bold-italic.png" )
-			.addVariant(ThreeMeshUI.FontWeight.BOLD, ThreeMeshUI.FontStyle.NORMAL, "./assets/fonts/msdf/roboto/bold.json", "./assets/fonts/msdf/roboto/bold.png" )
-			.addVariant(ThreeMeshUI.FontWeight.NORMAL, ThreeMeshUI.FontStyle.ITALIC, "./assets/fonts/msdf/roboto/italic.json", "./assets/fonts/msdf/roboto/italic.png" )
+			.addVariant("400", "normal", "./assets/fonts/msdf/roboto/regular.json", "./assets/fonts/msdf/roboto/regular.png" )
+			.addVariant("700", "italic", "./assets/fonts/msdf/roboto/bold-italic.json", "./assets/fonts/msdf/roboto/bold-italic.png" )
+			.addVariant("700", "normal", "./assets/fonts/msdf/roboto/bold.json", "./assets/fonts/msdf/roboto/bold.png" )
+			.addVariant("400", "italic", "./assets/fonts/msdf/roboto/italic.json", "./assets/fonts/msdf/roboto/italic.png" )
 
 	).then( init );
 

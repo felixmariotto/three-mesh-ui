@@ -225,6 +225,14 @@ export default class MSDFFontVariant extends FontVariant {
 			});
 	}
 
+
+	/* eslint-disable no-unused-vars */
+	/**
+	 *
+	 * @param element
+	 * @private
+	 */
+	_alterElementProperties( element ) { /* eslint-enable no-unused-vars */ }
 }
 
 /***********************************************************************************************************************

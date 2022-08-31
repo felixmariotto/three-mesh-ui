@@ -14,6 +14,11 @@ export default class BoundsInlineBlock extends BaseProperty {
 		 */
 		this._size = new Vector3( 1, 1, 1 );
 
+		this._offsetWidth = 0;
+		this._offsetHeight = 0;
+
+		this._innerWidth = 0;
+		this._innerHeight = 0;
 	}
 
 
@@ -23,14 +28,20 @@ export default class BoundsInlineBlock extends BaseProperty {
 
 		this.output( out );
 
+		this._offsetWidth = this._innerWidth = element._inlines._value[0].width;
+		this._offsetHeight = this._innerHeight = element._inlines._value[0].height;
+
 		this._needsRender = true;
+
+		element._borderWidth._needsRender = true;
+		element._borderRadius._needsRender = true;
 
 	}
 
 	/* eslint-disable no-unused-vars */ render( element ) { /* eslint-enable no-unused-vars */
 
-		this._size.x = element._inlines._value[0].width;
-		this._size.y = element._inlines._value[0].height;
+		this._size.x = this._offsetWidth;
+		this._size.y = this._offsetHeight;
 
 	}
 

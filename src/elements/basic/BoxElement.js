@@ -14,54 +14,16 @@ export default class BoxElement extends MeshUIBaseElement {
 
 	/**
 	 *
-	 * @param {Object.<string,Class>} [properties=null]
-	 * @param {Object.<string,any>} [values=null]
+	 * @param {Object.<string,Class>} [properties={}]
+	 * @param {Object.<string,any>} [values={}]
 	 */
-	constructor( properties = null, values = null) {
+	constructor( properties = {}, values = {}) {
 
-		// customize property
-		if( !properties ) properties = {};
-		if( !properties.children ) properties.children = ChildrenBox;
-		if( !properties.bounds ) properties.bounds = BoundsBox;
-		if( !properties.flexDirection ) properties.flexDirection = FlexDirectionPropertyBox;
-		if( !properties.justifyContent ) properties.justifyContent = JustifyContentPropertyBox;
-		if( !properties.alignItems ) properties.alignItems = AlignItemsPropertyBox;
-		if( !properties.position ) properties.position = PositionPropertyBox;
-		if( !properties.autoSize ) properties.autoSize = AutoSizePropertyBox;
-
-		if( !properties.renderer ) properties.renderer = RendererPropertyBox;
-
-
-		if( !values ) values = {};
-
-		// configure
-		// /* ie: * /if ( !values.width ) values.width = '100%';
-
-
-		// break inheritance chains
-		if ( !values.fontSide ) values.fontSide = 0; // FrontSide;
-		if ( !values.invertAlpha ) values.invertAlpha = false;
-		if ( !values.fontCastShadow ) values.fontCastShadow = false;
-		if ( !values.fontReceiveShadow ) values.fontReceiveShadow = false;
-		if ( !values.backgroundCastShadow ) values.backgroundCastShadow = false;
-		if ( !values.backgroundReceiveShadow ) values.backgroundReceiveShadow = false;
+		BoxElement.definePropertiesValues( properties, values );
 
 		super( properties, values );
 
-		Object.defineProperties( this, {
-				isBox: {
-					configurable: false,
-					enumerable: true,
-					value: true
-				}
-			}
-		);
-
-
-		this.backgroundMaterial = new FrameMaterial();
-		this._renderer.render( this );
-
-		this._backgroundMesh.visible = false;
+		BoxElement.init( this );
 
 	}
 
@@ -86,6 +48,63 @@ export default class BoxElement extends MeshUIBaseElement {
 		// detach bounds size
 		this._bounds._size = new Vector3(1,1,1);
 		this._bounds._needsProcess = true;
+
+	}
+
+
+	/**
+	 *
+	 * @param {Object.<string,Class>} [properties={}]
+	 * @param {Object.<string,any>} [values={}]
+	 */
+	static definePropertiesValues( properties, values ) {
+
+		// customize property
+		if( !properties.children ) properties.children = ChildrenBox;
+		if( !properties.bounds ) properties.bounds = BoundsBox;
+		if( !properties.flexDirection ) properties.flexDirection = FlexDirectionPropertyBox;
+		if( !properties.justifyContent ) properties.justifyContent = JustifyContentPropertyBox;
+		if( !properties.alignItems ) properties.alignItems = AlignItemsPropertyBox;
+		if( !properties.position ) properties.position = PositionPropertyBox;
+		if( !properties.autoSize ) properties.autoSize = AutoSizePropertyBox;
+
+		if( !properties.renderer ) properties.renderer = RendererPropertyBox;
+
+
+		// configure
+		// /* ie: * /if ( !values.width ) values.width = '100%';
+
+
+		// break inheritance chains
+		if ( !values.fontSide ) values.fontSide = 0; // FrontSide;
+		if ( !values.invertAlpha ) values.invertAlpha = false;
+		if ( !values.fontCastShadow ) values.fontCastShadow = false;
+		if ( !values.fontReceiveShadow ) values.fontReceiveShadow = false;
+		if ( !values.backgroundCastShadow ) values.backgroundCastShadow = false;
+		if ( !values.backgroundReceiveShadow ) values.backgroundReceiveShadow = false;
+
+	}
+
+	/**
+	 *
+	 * @param {MeshUIBaseElement} element
+	 */
+	static init( element ) {
+
+		Object.defineProperties( element, {
+				isBox: {
+					configurable: false,
+					enumerable: true,
+					value: true
+				}
+			}
+		);
+
+
+		element.backgroundMaterial = new FrameMaterial();
+		element._renderer.render( element );
+
+		element._backgroundMesh.visible = false;
 
 	}
 

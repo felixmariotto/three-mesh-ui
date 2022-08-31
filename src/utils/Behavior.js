@@ -26,6 +26,7 @@ export default class Behavior {
 
 	/**
 	 * @abstract
+	 * @returns {void}
 	 */
 	act() {
 

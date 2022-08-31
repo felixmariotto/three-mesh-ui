@@ -47,6 +47,9 @@ import { directTransferNotNull } from '../../utils/mediator/transformers/CommonT
 import RenderOrderProperty from '../properties/RenderOrderProperty';
 import OffsetProperty from '../properties/OffsetProperty';
 import FontSmoothProperty from '../properties/FontSmoothProperty';
+import PaddingProperty from '../properties/style-properties/bounds/PaddingProperty';
+import MarginProperty from '../properties/style-properties/bounds/MarginProperty';
+import { uniformOrUserDataTransformer } from '../../utils/mediator/transformers/MaterialTransformers';
 /* eslint-enable no-unused-vars */
 
 export default class MeshUIBaseElement extends Object3D {
@@ -190,8 +193,8 @@ export default class MeshUIBaseElement extends Object3D {
 
 		this._order = new OrderProperty();
 
-		this._padding = new StyleVector4Property( 'padding', new Vector4(0,0,0,0) );
-		this._margin = new StyleVector4Property( 'margin', new Vector4(0,0,0,0) );
+		this._padding = new PaddingProperty();
+		this._margin = new MarginProperty();
 
 
 		this._position = new PositionProperty();
@@ -214,12 +217,12 @@ export default class MeshUIBaseElement extends Object3D {
 		this._height = new HeightProperty();
 
 		this._backgroundColor = properties.backgroundColor ? new properties.backgroundColor() : new BackgroundColorProperty();
-		this._backgroundOpacity = new StyleFactorProperty('backgroundOpacity', 1.0);
+		this._backgroundOpacity = new StyleFactorProperty('backgroundOpacity', 0.5);
 		this._backgroundImage = new BackgroundImage();
 		this._backgroundSize = new BackgroundSize( 'cover' );
 
 		this._color = properties.color ? new properties.color() : new StyleColorProperty('color', 'inherit');
-		this._opacity = new StyleFactorProperty( 'opacity', 1.0);
+		this._fontOpacity = new StyleFactorProperty( 'fontOpacity', 'inherit');
 
 		this._whiteSpace = properties.whiteSpace ? new properties.whiteSpace() : new WhiteSpaceProperty();
 
@@ -346,7 +349,7 @@ export default class MeshUIBaseElement extends Object3D {
 			this._backgroundOpacity,
 			this._backgroundImage,
 			this._backgroundSize,
-			this._opacity,
+			this._fontOpacity,
 			this._color,
 
 
@@ -426,6 +429,10 @@ export default class MeshUIBaseElement extends Object3D {
 
 			}
 
+		}
+
+		if( out.size ) {
+			console.log( out.size );
 		}
 
 		this._transferToBackgroundMesh( out );
@@ -520,6 +527,7 @@ export default class MeshUIBaseElement extends Object3D {
 	 */
 	set( options ) {
 
+
 		// Retro compatibility, when not recommended way
 		// 2. < v7.x.x way
 		if( options.fontTexture ) {
@@ -593,6 +601,13 @@ export default class MeshUIBaseElement extends Object3D {
 					console.warn( 'ThreeMeshUI v7xx: property `alignContent` is deprecated and has been renamed as `alignItems`');
 					prop = 'alignItems';
 					break;
+
+				case "borderTopColor":
+				case "borderBottomColor":
+				case "borderLeftColor":
+				case "borderRightColor":
+					prop = 'borderColor';
+					break;
 			}
 
 				switch ( prop ) {
@@ -608,9 +623,6 @@ export default class MeshUIBaseElement extends Object3D {
 					case 'visible' :
 					case 'offset':
 						this[`_${prop}`].value = value;
-						break;
-
-					case 'fontSupersampling' :// todo
 						break;
 
 					// styles properties
@@ -649,6 +661,59 @@ export default class MeshUIBaseElement extends Object3D {
 						}
 						break;
 
+					case 'paddingTop':
+						this._padding.top = value;
+						break;
+					case 'paddingRight':
+						this._padding.right = value;
+						break;
+					case 'paddingBottom':
+						this._padding.bottom = value;
+						break;
+					case 'paddingLeft':
+						this._padding.left = value;
+						break;
+
+					case 'marginTop':
+						this._margin.top = value;
+						break;
+					case 'marginRight':
+						this._margin.right = value;
+						break;
+					case 'marginBottom':
+						this._margin.bottom = value;
+						break;
+					case 'marginLeft':
+						this._margin.left = value;
+						break;
+
+					case 'borderTopWidth':
+						this._borderWidth.top = value;
+						break;
+					case 'borderRightWidth':
+						this._borderWidth.right = value;
+						break;
+					case 'borderBottomWidth':
+						this._borderWidth.bottom = value;
+						break;
+					case 'borderLeftWidth':
+						this._borderWidth.left = value;
+						break;
+
+					case 'borderTopLeftRadius':
+						this._borderRadius.topLeft = value;
+						break;
+					case 'borderTopRightRadius':
+						this._borderRadius.topRight = value;
+						break;
+					case 'borderBottomRightRadius':
+						this._borderRadius.bottomRight = value;
+						break;
+					case 'borderBottomLeftRadius':
+						this._borderRadius.bottomLeft = value;
+						break;
+
+
 					// Back & Front linked properties
 					case 'side':
 					case 'castShadow':
@@ -673,9 +738,14 @@ export default class MeshUIBaseElement extends Object3D {
 
 
 					default:
-						// //console.log( prop, value );
-						// dynamic behavior
-						this[ prop ] = value;
+
+						if( this[ prop ] !== undefined ) {
+							this[ prop ] = value
+						}else if( this[`_${prop}`] !== undefined ) {
+							this[`_${prop}`].value = value;
+						} else {
+							// error
+						}
 				}
 
 		}
@@ -716,14 +786,13 @@ export default class MeshUIBaseElement extends Object3D {
 		// set elements as root
 		if ( this.parent && !this.parent.isUI ) {
 
-			UpdateManager.register7xx( this );
-			// this.pseudoClassList.add('root');
+			UpdateManager.register( this );
+			this.activatePseudoState('root');
 
 		} else {
 
-			UpdateManager.remove7xx( this );
-			// this.pseudoClassList.remove('root');
-
+			UpdateManager.remove( this );
+			this.deactivatePseudoState('root');
 		}
 
 
@@ -791,6 +860,7 @@ export default class MeshUIBaseElement extends Object3D {
 	 */
 	clear() {
 
+		this.removeFromParent();
 
 		this.traverse( ( obj ) => {
 
@@ -836,7 +906,7 @@ export default class MeshUIBaseElement extends Object3D {
 		this._backgroundColor = null;
 		this._backgroundOpacity = null;
 		this._backgroundSize = null;
-		this._opacity = null;
+		this._fontOpacity = null;
 		this._color = null;
 		this._whiteSpace = null;
 		this._fontFamily = null;
@@ -894,6 +964,7 @@ export default class MeshUIBaseElement extends Object3D {
 		if ( this._backgroundMesh ) {
 
 			this._backgroundMesh.material = this._backgroundMaterial;
+			uniformOrUserDataTransformer( material, 'frameSize', this._backgroundMesh.scale );
 
 		}
 
@@ -990,29 +1061,6 @@ export default class MeshUIBaseElement extends Object3D {
 	// get fontMaterial() { return this._fontMaterial__; }
 	get fontMaterial() { return this._fontMaterial.value; }
 
-	// /**
-	//  *
-	//  * @param {Material|ShaderMaterial} material
-	//  */
-	// set fontMaterial( material ) {
-	//
-	// 	this._fontMaterial__ = material;
-	//
-	// 	// Update the fontMaterialProperties that need to be transferred to
-	// 	this._fontMaterialMediation__ = { ...material.constructor.mediation };
-	//
-	// 	// transfer all the properties to material
-	// 	//console.log( "transfoer to mat ------------->");
-	// 	this._transferToFontMaterial();
-	//
-	// 	if ( this._fontMesh ) {
-	//
-	// 		this._fontMesh.material = this._fontMaterial__;
-	//
-	// 	}
-	//
-	// }
-
 	/**
 	 *
 	 * @param {Material|ShaderMaterial} material
@@ -1020,19 +1068,6 @@ export default class MeshUIBaseElement extends Object3D {
 	set fontMaterial( material ) {
 
 		this._fontMaterial.value = material;
-
-		// Update the fontMaterialProperties that need to be transferred to
-		// this._fontMaterialMediation__ = { ...material.constructor.mediation };
-
-		// transfer all the properties to material
-		//console.log( "transfoer to mat ------------->");
-		// this._transferToFontMaterial();
-
-		// if ( this._fontMesh ) {
-
-			// this._fontMesh.material = this._fontMaterial.value;
-
-		// }
 
 	}
 
@@ -1043,14 +1078,6 @@ export default class MeshUIBaseElement extends Object3D {
 	set fontCustomDepthMaterial( material ) {
 
 		this._fontCustomDepthMaterial.value = material;
-
-		// this._transferToFontMaterial();
-		//
-		// if ( this._fontMesh ) {
-		// 	// transfer to the main if isset
-		// 	this._fontMesh.customDepthMaterial = this._fontCustomDepthMaterial__;
-		//
-		// }
 
 	}
 
@@ -1163,7 +1190,13 @@ export default class MeshUIBaseElement extends Object3D {
 
 			this.bindBackgroundMeshProperties();
 
-			if( this._backgroundCustomDepthMaterial ) this._backgroundMesh.customDepthMaterial = this._backgroundCustomDepthMaterial;
+			if( this._backgroundCustomDepthMaterial ) {
+				this._backgroundMesh.customDepthMaterial = this._backgroundCustomDepthMaterial;
+			}
+
+			if( this._backgroundMaterial ) {
+				uniformOrUserDataTransformer( this._backgroundMaterial, 'frameSize', this._backgroundMesh.scale );
+			}
 
 			this._transferToBackgroundMesh();
 
@@ -1182,6 +1215,23 @@ export default class MeshUIBaseElement extends Object3D {
 	 *
 	 */
 	unbindBackgroundMeshProperties () { }
+
+
+	activatePseudoState ( state ) {
+
+	}
+
+	deactivatePseudoState ( state ) {
+
+	}
+
+	togglePseudoState ( state ) {
+
+	}
+
+	set borderRadiusMediation ( value ) {
+		this._borderRadius.mediation = value;
+	}
 
 	/**
 	 *
@@ -1280,6 +1330,8 @@ export default class MeshUIBaseElement extends Object3D {
 		this._fontMesh = mesh;
 
 		if ( this._fontMesh ) {
+
+			this._fontMesh.raycast = () => {};
 
 			this.bindFontMeshProperties();
 
@@ -1410,9 +1462,28 @@ export default class MeshUIBaseElement extends Object3D {
 
 	}
 
+	/**
+	 *
+	 * @param {string} name
+	 * @param {BaseProperty} instance
+	 * @returns {void}
+	 */
+	appendProperty( name, instance ) {
+
+		this[`_${name}`] = instance;
+		this._components.push( instance );
+
+	}
+
+	/**
+	 *
+	 * @param {string} name
+	 * @param {BaseProperty} instance
+	 * @returns {BaseProperty}
+	 */
 	replaceProperty( name, instance ) {
 
-		let oldProperty = this[`_${name}`];
+		const oldProperty = this[`_${name}`];
 
 		const index = this._components.indexOf( oldProperty );
 

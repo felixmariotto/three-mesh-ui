@@ -1,4 +1,5 @@
 import InheritableProperty from './InheritableProperty';
+import { alphaTestTransformer } from '../../utils/mediator/transformers/MaterialTransformers';
 
 /**
  * @property {Material|null|"inherit"} value
@@ -9,7 +10,7 @@ export default class InheritableMaterialProperty extends InheritableProperty {
 	 *
 	 * @param {string} propertyId
 	 */
-	constructor( propertyId) {
+	constructor( propertyId ) {
 
 		super( propertyId, 'inherit', false );
 
@@ -29,27 +30,35 @@ export default class InheritableMaterialProperty extends InheritableProperty {
 
 	}
 
-	update( element , out ) { 	/* eslint-enable no-unused-vars */
+	update( element, out ) { 	/* eslint-enable no-unused-vars */
 
 		this._notInheritedValue = this._value;
 
-		if( this._notInheritedValue === 'inherit' )
-		{
-			this._notInheritedValue = this.getInheritedInput( element )
+		if ( this._notInheritedValue === 'inherit' ) {
+			this._notInheritedValue = this.getInheritedInput( element );
 		} else {
 			this.propagate( element );
 		}
 
 		// no material
-		if( !this._notInheritedValue ) {
+		if ( !this._notInheritedValue ) {
 
 			// reset mediation
-			this._mediation = {}
+			this._mediation = {};
+
+		} else if ( this._notInheritedValue.constructor.mediation ) {
+
+			this._mediation = { ...this._notInheritedValue.constructor.mediation };
 
 		} else {
 
-			// acquire mediation
-			this._mediation = { ...this._notInheritedValue.constructor.mediation }
+			this._mediation = {
+				clippingPlanes: { m: 'clippingPlanes' },
+				fontAlphaTest: { m: 'alphaTest', t: alphaTestTransformer },
+				fontSide: { m: 'side' },
+				color: { m: 'color' },
+				fontOpacity: { m: 'opacity' }
+			};
 
 		}
 
@@ -64,25 +73,25 @@ export default class InheritableMaterialProperty extends InheritableProperty {
 	 * @override
 	 * @param {MeshUIBaseElement} element
 	 */
-	getInheritedInput ( element ) {
+	getInheritedInput( element ) {
 
-		if( this._value !== 'inherit' ) return this._value;
+		if ( this._value !== 'inherit' ) return this._value;
 
 		let recursiveParent = element;
 		let inheritedValue = null;
-		while ( recursiveParent._parent._value ){
+		while ( recursiveParent._parent._value ) {
 
 			recursiveParent = recursiveParent._parent._value;
-			if( recursiveParent[`_${this._id}`]._value !== 'inherit' ) {
+			if ( recursiveParent[ `_${this._id}` ]._value !== 'inherit' ) {
 
-				inheritedValue = recursiveParent[`_${this._id}`]._value;
-				break
+				inheritedValue = recursiveParent[ `_${this._id}` ]._value;
+				break;
 			}
 
 		}
 
 		if ( inheritedValue !== null ) {
-			return inheritedValue
+			return inheritedValue;
 		}
 
 		return this.getDefaultValue();

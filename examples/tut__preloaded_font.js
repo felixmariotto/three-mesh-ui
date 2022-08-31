@@ -1,3 +1,6 @@
+// xfg:title Basic setup
+// xfg:category practice
+
 import * as THREE from 'three';
 import { VRButton } from 'three/examples/jsm/webxr/VRButton.js';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
@@ -7,9 +10,6 @@ import ThreeMeshUI, { FontLibrary } from 'three-mesh-ui';
 
 import ROBOTO_ADJUSTMENT from 'three-mesh-ui/examples/assets/fonts/msdf/roboto/adjustment';
 import MSDFNormalMaterial from 'three-mesh-ui/examples/materials/msdf/MSDFNormalMaterial';
-
-import * as FontWeight from '../src/utils/font/FontWeight';
-import * as FontStyle from '../src/utils/font/FontStyle';
 
 /***********************************************************************************************************************
  * THREE-MESH-UI - FONT MANAGEMENT
@@ -39,10 +39,10 @@ FontLibrary.prepare(
 				.addVariant(
 					// The weight of the variant '100'|'200'|'300'|'400'|'600'|'700'|'800'|'900'
 					//														LIGHTER					NORMAL			BOLD				BOLDER
-					FontWeight.NORMAL,
+					"400",
 
 					// The style of the variant 'normal'|'italic'|'oblique'|'oblique(x deg)'
-					FontStyle.NORMAL,
+					"normal",
 
 					// The json definition of the msdf font 'urlToLoad'|loadedObject
 					"./assets/fonts/msdf/roboto/regular.json",
@@ -52,9 +52,9 @@ FontLibrary.prepare(
 				)
 
 				// Registering additional variants
-				.addVariant(FontWeight.BOLD, FontStyle.ITALIC, "./assets/fonts/msdf/roboto/bold-italic.json", "./assets/fonts/msdf/roboto/bold-italic.png" )
-				.addVariant(FontWeight.BOLD, FontStyle.NORMAL, "./assets/fonts/msdf/roboto/bold.json", "./assets/fonts/msdf/roboto/bold.png" )
-				.addVariant(FontWeight.NORMAL, FontStyle.ITALIC, "./assets/fonts/msdf/roboto/italic.json", "./assets/fonts/msdf/roboto/italic.png" )
+				.addVariant("700", "italic", "./assets/fonts/msdf/roboto/bold-italic.json", "./assets/fonts/msdf/roboto/bold-italic.png" )
+				.addVariant("700", "normal", "./assets/fonts/msdf/roboto/bold.json", "./assets/fonts/msdf/roboto/bold.png" )
+				.addVariant("400", "italic", "./assets/fonts/msdf/roboto/italic.json", "./assets/fonts/msdf/roboto/italic.png" )
 
 // FontLibrary.prepare() returns a Promise, we can therefore add a callback to be executed when all files are loaded
 ).then( () => {

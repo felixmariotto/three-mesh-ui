@@ -1,3 +1,5 @@
+// xfg:title Tutorial result
+// xfg:category practice
 /* Import everything we need from Three.js */
 
 import * as THREE from "three";

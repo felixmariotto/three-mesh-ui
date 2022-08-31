@@ -1,57 +1,73 @@
+// xfg:title 			Interactive Button
+// xfg:category		extend
+// xfg:group			hypermesh
+
 import * as THREE from 'three';
 import { VRButton } from 'three/examples/jsm/webxr/VRButton.js';
 import { BoxLineGeometry } from 'three/examples/jsm/geometries/BoxLineGeometry.js';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 
 import ThreeMeshUI from 'three-mesh-ui';
+import * as HyperThreeMesh from 'three-mesh-ui/examples/hyperthreemesh/HyperThreeMesh';
 import VRControl from './utils/VRControl.js';
 import ShadowedLight from './utils/ShadowedLight.js';
 
 import FontJSON from 'three-mesh-ui/examples/assets/fonts/msdf/roboto/regular.json';
 import FontImage from 'three-mesh-ui/examples/assets/fonts/msdf/roboto/regular.png';
+import InteractiveRaycaster from 'three-mesh-ui/examples/interactive/InteractiveRaycaster';
+import { _injectCSS } from 'three-mesh-ui/examples/_setup/Html';
+import InteractiveCursor from 'three-mesh-ui/examples/interactive/InteractiveCursor';
 
-let scene, camera, renderer, controls, vrControl;
+let scene, camera, renderer, controls, vrControl, interactiveRaycaster;
 let meshContainer, meshes, currentMesh;
 const objsToTest = [];
 
+_injectCSS( `
+
+:root{
+
+	background-color : rgba(0,0,0,0.75);
+	padding: 0.05rem 0.125rem;
+	border-radius: 0.2rem 0.02rem 0.2rem 0.02rem;
+
+}
+
+button{
+
+	width : auto;
+	padding: 0.02rem 0.15rem;
+	margin: 0.01rem;
+
+	text-align: center;
+	background-color: rgba(255,255,255,0.5);
+	border-radius : 0.08rem;
+	rx: 0.005rem;
+	border-bottom-width : 0.01rem;
+	border-bottom-color : rgba(64,64,64,.5);
+	border-top-width : 0;
+
+}
+
+button:hover {
+
+	background-color: rgba(255,255,255,0.7);
+	rx : 0.025rem;
+
+}
+
+button:active {
+
+	rx : 0.01rem;
+	border-top : rgba(103,103,103,0.8) 0.005rem solid;
+	border-bottom-width : 0.005rem;
+	border-bottom-color : #000;
+	background-color: rgba(128,128,128,0.8);
+}
+
+`)
+
 window.addEventListener( 'load', init );
 window.addEventListener( 'resize', onWindowResize );
-
-// compute mouse position in normalized device coordinates
-// (-1 to +1) for both directions.
-// Used to raycasting against the interactive elements
-
-const raycaster = new THREE.Raycaster();
-
-const mouse = new THREE.Vector2();
-mouse.x = mouse.y = null;
-
-let selectState = false;
-
-window.addEventListener( 'pointermove', ( event ) => {
-	mouse.x = ( event.clientX / window.innerWidth ) * 2 - 1;
-	mouse.y = -( event.clientY / window.innerHeight ) * 2 + 1;
-} );
-
-window.addEventListener( 'pointerdown', () => {
-	selectState = true;
-} );
-
-window.addEventListener( 'pointerup', () => {
-	selectState = false;
-} );
-
-window.addEventListener( 'touchstart', ( event ) => {
-	selectState = true;
-	mouse.x = ( event.touches[ 0 ].clientX / window.innerWidth ) * 2 - 1;
-	mouse.y = -( event.touches[ 0 ].clientY / window.innerHeight ) * 2 + 1;
-} );
-
-window.addEventListener( 'touchend', () => {
-	selectState = false;
-	mouse.x = null;
-	mouse.y = null;
-} );
 
 //
 
@@ -115,20 +131,15 @@ function init() {
 	// Controllers
 	////////////////
 
-	vrControl = VRControl( renderer, camera, scene );
+	vrControl = VRControl( renderer );
 
 	scene.add( vrControl.controllerGrips[ 0 ], vrControl.controllers[ 0 ] );
 
-	vrControl.controllers[ 0 ].addEventListener( 'selectstart', () => {
+	interactiveRaycaster = new InteractiveRaycaster( camera, scene, renderer, vrControl );
+	interactiveRaycaster.start();
 
-		selectState = true;
-
-	} );
-	vrControl.controllers[ 0 ].addEventListener( 'selectend', () => {
-
-		selectState = false;
-
-	} );
+	const interactiveCursor = new InteractiveCursor( renderer.domElement, 'pointer' );
+	interactiveRaycaster.addListener( interactiveCursor );
 
 	////////////////////
 	// Primitive Meshes
@@ -174,6 +185,8 @@ function init() {
 
 	//
 
+	HyperThreeMesh.loadSheets();
+
 	renderer.setAnimationLoop( loop );
 
 }
@@ -196,118 +209,59 @@ function showMesh( id ) {
 
 function makePanel() {
 
-	// Container block, in which we put the two buttons.
-	// We don't define width and height, it will be set automatically from the children's dimensions
-	// Note that we set contentDirection: "row-reverse", in order to orient the buttons horizontally
 
-	const container = new ThreeMeshUI.Block( {
-		justifyContent: 'center',
-		contentDirection: 'row-reverse',
+	const container = HyperThreeMesh.createElement( 'div' )
+	container.style.borderRadius = 0.11;
+	container.style.justifyContent = "center";
+	container.style.flexDirection = 'row';
+	container.style.padding = '0.02 0.05';
+
+	// or go by standard way
+	container.set( {
 		fontFamily: FontJSON,
 		fontTexture: FontImage,
 		fontSize: 0.07,
-		padding: 0.02,
-		borderRadius: 0.11
 	} );
 
 	container.position.set( 0, 0.6, -1.2 );
 	container.rotation.x = -0.55;
 	scene.add( container );
 
-	// BUTTONS
+	const buttonNext = HyperThreeMesh.createElement('button');
+	buttonNext.set({width: 'auto', name: 'next'});
+	// buttonNext.textContent = "next";
 
-	// We start by creating objects containing options that we will use with the two buttons,
-	// in order to write less code.
+	const inl = HyperThreeMesh.createElement('span');
+	inl.textContent = "nrxy";
+	buttonNext.add( inl );
 
-	const buttonOptions = {
-		width: 0.4,
-		height: 0.15,
-		justifyContent: 'center',
-		offset: 0.05,
-		margin: 0.02,
-		borderRadius: 0.075
-	};
+	buttonNext.addEventListener( 'click' , (event) => {
 
-	// Options for component.setupState().
-	// It must contain a 'state' parameter, which you will refer to with component.setState( 'name-of-the-state' ).
+		console.log( "catched event on buttonNext", event );
 
-	const hoveredStateAttributes = {
-		state: 'hovered',
-		attributes: {
-			offset: 0.035,
-			backgroundColor: new THREE.Color( 0x999999 ),
-			backgroundOpacity: 1,
-			fontColor: new THREE.Color( 0xffffff )
-		},
-	};
+		currentMesh = ( currentMesh + 1 ) % 3;
+		showMesh( currentMesh );
 
-	const idleStateAttributes = {
-		state: 'idle',
-		attributes: {
-			offset: 0.035,
-			backgroundColor: new THREE.Color( 0x666666 ),
-			backgroundOpacity: 0.3,
-			fontColor: new THREE.Color( 0xffffff )
-		},
-	};
+	});
 
-	// Buttons creation, with the options objects passed in parameters.
+	const buttonPrevious = HyperThreeMesh.createElement('button');
+	buttonPrevious.set({width: 'auto', name: 'prev'});
+	buttonPrevious.textContent = "previous";
 
-	const buttonNext = new ThreeMeshUI.Block( buttonOptions );
-	const buttonPrevious = new ThreeMeshUI.Block( buttonOptions );
+	buttonPrevious.addEventListener( 'click' , (event) => {
 
-	// Add text to buttons
+		console.log( "catched event on buttonPrevious", event );
 
-	buttonNext.add(
-		new ThreeMeshUI.Text( { content: 'next' } )
-	);
+		currentMesh -= 1;
+		if ( currentMesh < 0 ) currentMesh = 2;
+		showMesh( currentMesh );
 
-	buttonPrevious.add(
-		new ThreeMeshUI.Text( { content: 'previous' } )
-	);
-
-	// Create states for the buttons.
-	// In the loop, we will call component.setState( 'state-name' ) when mouse hover or click
-
-	const selectedAttributes = {
-		offset: 0.02,
-		backgroundColor: new THREE.Color( 0x777777 ),
-		fontColor: new THREE.Color( 0x222222 )
-	};
-
-	buttonNext.setupState( {
-		state: 'selected',
-		attributes: selectedAttributes,
-		onSet: () => {
-
-			currentMesh = ( currentMesh + 1 ) % 3;
-			showMesh( currentMesh );
-
-		}
-	} );
-	buttonNext.setupState( hoveredStateAttributes );
-	buttonNext.setupState( idleStateAttributes );
-
-	//
-
-	buttonPrevious.setupState( {
-		state: 'selected',
-		attributes: selectedAttributes,
-		onSet: () => {
-
-			currentMesh -= 1;
-			if ( currentMesh < 0 ) currentMesh = 2;
-			showMesh( currentMesh );
-
-		}
-	} );
-	buttonPrevious.setupState( hoveredStateAttributes );
-	buttonPrevious.setupState( idleStateAttributes );
-
-	//
+	});
 
 	container.add( buttonNext, buttonPrevious );
-	objsToTest.push( buttonNext, buttonPrevious );
+
+	interactiveRaycaster.addObject( buttonNext, buttonPrevious );
+
 
 }
 
@@ -329,97 +283,15 @@ function loop() {
 	// This has been introduced in version 3.0.0 in order
 	// to improve performance
 	ThreeMeshUI.update();
-
 	controls.update();
+	interactiveRaycaster.update();
+	HyperThreeMesh.update();
+
 
 	meshContainer.rotation.z += 0.01;
 	meshContainer.rotation.y += 0.01;
 
 	renderer.render( scene, camera );
 
-	updateButtons();
-
 }
 
-// Called in the loop, get intersection with either the mouse or the VR controllers,
-// then update the buttons states according to result
-
-function updateButtons() {
-
-	// Find closest intersecting object
-
-	let intersect;
-
-	if ( renderer.xr.isPresenting ) {
-
-		vrControl.setFromController( 0, raycaster.ray );
-
-		intersect = raycast();
-
-		// Position the little white dot at the end of the controller pointing ray
-		if ( intersect ) vrControl.setPointerAt( 0, intersect.point );
-
-	} else if ( mouse.x !== null && mouse.y !== null ) {
-
-		raycaster.setFromCamera( mouse, camera );
-
-		intersect = raycast();
-
-	}
-
-	// Update targeted button state (if any)
-
-	if ( intersect && intersect.object.isUI ) {
-
-		if ( selectState ) {
-
-			// Component.setState internally call component.set with the options you defined in component.setupState
-			intersect.object.setState( 'selected' );
-
-		} else {
-
-			// Component.setState internally call component.set with the options you defined in component.setupState
-			intersect.object.setState( 'hovered' );
-
-		}
-
-	}
-
-	// Update non-targeted buttons state
-
-	objsToTest.forEach( ( obj ) => {
-
-		if ( ( !intersect || obj !== intersect.object ) && obj.isUI ) {
-
-			// Component.setState internally call component.set with the options you defined in component.setupState
-			obj.setState( 'idle' );
-
-		}
-
-	} );
-
-}
-
-//
-
-function raycast() {
-
-	return objsToTest.reduce( ( closestIntersection, obj ) => {
-
-		const intersection = raycaster.intersectObject( obj, true );
-
-		if ( !intersection[ 0 ] ) return closestIntersection;
-
-		if ( !closestIntersection || intersection[ 0 ].distance < closestIntersection.distance ) {
-
-			intersection[ 0 ].object = obj;
-
-			return intersection[ 0 ];
-
-		}
-
-		return closestIntersection;
-
-	}, null );
-
-}

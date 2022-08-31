@@ -1,6 +1,6 @@
 import BaseProperty from './BaseProperty';
-import Lines from '../../components/core/Lines';
-import Line from '../../components/core/Line';
+import Lines from '../elements/glyphs/Lines';
+import Line from '../elements/glyphs/Line';
 
 export default class TextLayouter extends BaseProperty {
 
@@ -34,6 +34,10 @@ export default class TextLayouter extends BaseProperty {
 
 
 		if( element._whiteSpace._value === 'nowrap' || element._whiteSpace._value === 'pre' ){
+
+			INNER_WIDTH = Infinity;
+
+		} else if ( element._width._auto ) {
 
 			INNER_WIDTH = Infinity;
 

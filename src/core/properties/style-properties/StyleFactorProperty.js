@@ -13,11 +13,23 @@ export default class StyleFactorProperty extends SubStyleProperty {
 
 		this.isValidValue = _isValid;
 
-		this._input = this.getDefaultValue();
+		this._allowsInherit = false;
 
-		this._value = this.getDefaultValue();
+		this._input = defaultValue;
+
+		this._value = defaultValue;
 
 		this.output = this._outputValue;
+
+		this.computeOutputValue = this._computeFromInherited;
+
+	}
+
+
+	_outputValue( out ) {
+
+		out[this._id] = this._inheritedInput;
+
 	}
 
 

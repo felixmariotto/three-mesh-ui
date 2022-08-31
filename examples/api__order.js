@@ -1,4 +1,5 @@
 // xfg:title Order
+// xfg:category learn
 // xfg:description Define the position order of a child in a flex parent
 
 import * as THREE from 'three';

@@ -1,3 +1,6 @@
+// xfg:title MSDF-Font shadows
+// xfg:category practice
+
 import * as THREE from 'three';
 import { DoubleSide, Mesh, MeshStandardMaterial, PlaneBufferGeometry, PointLight, SpotLight, SpotLightHelper } from 'three';
 import { VRButton } from 'three/examples/jsm/webxr/VRButton.js';

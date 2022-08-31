@@ -15,7 +15,8 @@ export default class TextLayouterBestFit extends TextLayouter {
 		this._superLayouter = super.process;
 	}
 
-	update( element, out ) {
+	/* eslint-disable no-unused-vars */
+	update( element, out ) {  /* eslint-enable no-unused-vars */
 
 		switch ( this._mode ) {
 

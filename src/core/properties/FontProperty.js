@@ -77,6 +77,8 @@ export default class FontProperty extends BaseProperty{
 
 		if( !this._fontVariant ) return;
 
+		this._fontVariant._alterElementProperties( element );
+
 		this._handleFontReadyClosure = _readyClosure( element, this );
 
 		// new font, means rebuild inlines, now or soon
@@ -100,27 +102,6 @@ export default class FontProperty extends BaseProperty{
 			element._fontMaterial._needsUpdate = true;
 
 		}
-
-
-		// } else {
-
-
-
-			// // @TODO :	Only recreate a material instance if needed,
-			// //  				prevent user that its custom material may no longer be compatible with update fontVariant implementation
-			// const isDefaultMaterial = element._fontMaterial__.isDefault && element._fontMaterial__.isDefault();
-			// if( isDefaultMaterial && !(element._fontMaterial__ instanceof this._fontVariant.fontMaterial) ) {
-			//
-			// 	element.fontMaterial = new this._fontVariant.fontMaterial();
-			//
-			// }
-			// else {
-			//
-			// 	this._transferToMaterial();
-			//
-			// }
-
-		// }
 
 	}
 

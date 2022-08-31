@@ -1,7 +1,5 @@
 import { BufferAttribute, Mesh, MeshBasicMaterial, PlaneBufferGeometry, RepeatWrapping, Texture, TextureLoader, Vector4 } from 'three';
 import Behavior from '../../../src/utils/Behavior';
-import msdfAlphaglyphParsVertexGlsl from '../../../src/font/msdf/renderers/ShaderChunks/msdf-alphaglyph.pars.vertex.glsl';
-import msdfAlphaglyphVertexGlsl from '../../../src/font/msdf/renderers/ShaderChunks/msdf-alphaglyph.vertex.glsl';
 
 export default class BoxLayoutBehavior extends Behavior{
 
@@ -41,12 +39,14 @@ export default class BoxLayoutBehavior extends Behavior{
 
 		this._overlay.position.z = 0.0001;
 
+		this._actor = this.act.bind( this );
+
 	}
 
 	attach() {
 
 		this._subject.add (this._overlay);
-		this._subject.addAfterUpdate( this.act );
+		this._subject.addAfterUpdate( this._actor );
 		this.act();
 
 	}
@@ -54,11 +54,11 @@ export default class BoxLayoutBehavior extends Behavior{
 	detach() {
 
 		this._subject.remove( this._overlay );
-		this._subject.removeAfterUpdate( this.act );
+		this._subject.removeAfterUpdate( this._actor );
 
 	}
 
-	act = () => {
+	act () {
 
 		const margin = this._subject._margin._value;
 		const border = this._subject._borderWidth._value;
@@ -68,9 +68,6 @@ export default class BoxLayoutBehavior extends Behavior{
 		const offsetHeight = this._subject._bounds._offsetHeight + margin.x + margin.z;
 
 		if( offsetWidth === 0 || offsetHeight === 0 ) return;
-
-		const innerWidth = this._subject._bounds._innerWidth;
-		const innerHeight = this._subject._bounds._innerHeight;
 
 		this._overlay.scale.set( offsetWidth, offsetHeight, 1);
 
@@ -111,10 +108,6 @@ export default class BoxLayoutBehavior extends Behavior{
 			1 - ( margin.w + border.w + padding.w ),
 			- ( margin.z + border.z + padding.z )
 		);
-
-		console.log( this._texture.offset );
-
-		// this._overlay.material.map.needsUpdate = true;
 
 	}
 

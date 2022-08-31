@@ -1,4 +1,3 @@
-import BaseProperty from './BaseProperty';
 import InheritableProperty from './InheritableProperty';
 
 export default class FontSmoothProperty extends InheritableProperty{

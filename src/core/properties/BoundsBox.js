@@ -119,9 +119,6 @@ export default class BoundsBox extends BaseProperty {
 
 	setChildrenWidth( element, value ) {
 
-
-		if ( numberEquals( this._innerWidth, value ) ) return;
-
 		const padding = element._padding._value;
 		const border = element._borderWidth._value;
 
@@ -137,8 +134,6 @@ export default class BoundsBox extends BaseProperty {
 	}
 
 	setChildrenHeight( element, value ) {
-
-		if ( numberEquals( this._innerHeight, value ) ) return;
 
 		const padding = element._padding._value;
 		const border = element._borderWidth._value;

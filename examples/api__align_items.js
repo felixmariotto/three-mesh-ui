@@ -1,3 +1,10 @@
+
+// xfg:title 				Align Items
+// xfg:type  				api
+// xfg:description  This description is updated & printed on html upon each build
+// xfg:contribution Implemented by <a href="https://github.com/random_human">@random_human</a> and sponsorized by <a href="https://www.some-company.com/">SomeCompany</a>
+
+
 import * as THREE from 'three';
 import { VRButton } from 'three/examples/jsm/webxr/VRButton.js';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
@@ -236,3 +243,6 @@ function loop() {
 	renderer.render( scene, camera );
 
 }
+
+export const infos = {nbo:"fdsfds"};
+

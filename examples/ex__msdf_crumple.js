@@ -1,3 +1,6 @@
+// xfg:title MSDF-Geometry alteration
+// xfg:category extend
+
 import * as THREE from 'three';
 import { AmbientLight, DoubleSide, Mesh, MeshStandardMaterial, PlaneBufferGeometry, SpotLight, SpotLightHelper } from 'three';
 import { VRButton } from 'three/examples/jsm/webxr/VRButton.js';
@@ -5,9 +8,6 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import { BoxLineGeometry } from 'three/examples/jsm/geometries/BoxLineGeometry.js';
 
 import ThreeMeshUI, { FontLibrary } from 'three-mesh-ui';
-
-import * as FontWeight from '../src/utils/font/FontWeight';
-import * as FontStyle from '../src/utils/font/FontStyle';
 import ROBOTO_ADJUSTMENT from 'three-mesh-ui/examples/assets/fonts/msdf/roboto/adjustment';
 import MSDFToonMaterial from 'three-mesh-ui/examples/materials/msdf/MSDFToonMaterial';
 import MSDFDepthMaterial from '../src/font/msdf/materials/MSDFDepthMaterial';
@@ -31,15 +31,15 @@ async function preload() {
 
 		FontLibrary
 			.addFontFamily("Roboto")
-			.addVariant(FontWeight.NORMAL, FontStyle.NORMAL, "./assets/fonts/msdf/roboto/regular.json", "./assets/fonts/msdf/roboto/regular.png" )
-			.addVariant(FontWeight.BOLD, FontStyle.ITALIC, "./assets/fonts/msdf/roboto/bold-italic.json", "./assets/fonts/msdf/roboto/bold-italic.png" )
-			.addVariant(FontWeight.BOLD, FontStyle.NORMAL, "./assets/fonts/msdf/roboto/bold.json", "./assets/fonts/msdf/roboto/bold.png" )
-			.addVariant(FontWeight.NORMAL, FontStyle.ITALIC, "./assets/fonts/msdf/roboto/italic.json", "./assets/fonts/msdf/roboto/italic.png" ),
+			.addVariant("400", "normal", "./assets/fonts/msdf/roboto/regular.json", "./assets/fonts/msdf/roboto/regular.png" )
+			.addVariant("700", "italic", "./assets/fonts/msdf/roboto/bold-italic.json", "./assets/fonts/msdf/roboto/bold-italic.png" )
+			.addVariant("700", "normal", "./assets/fonts/msdf/roboto/bold.json", "./assets/fonts/msdf/roboto/bold.png" )
+			.addVariant("400", "italic", "./assets/fonts/msdf/roboto/italic.json", "./assets/fonts/msdf/roboto/italic.png" ),
 
 
 		FontLibrary
 				.addFontFamily("RobotoAltered")
-					.addVariant(FontWeight.BOLD, FontStyle.NORMAL, "./assets/fonts/msdf/roboto/bold.json", "./assets/fonts/msdf/roboto/bold.png" )
+					.addVariant("700", "normal", "./assets/fonts/msdf/roboto/bold.json", "./assets/fonts/msdf/roboto/bold.png" )
 
 	);
 

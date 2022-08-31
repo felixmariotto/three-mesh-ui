@@ -29,8 +29,8 @@ export default class MSDFToonMaterial extends MeshToonMaterial {
 		if( !options.gradientMap ) {
 
 			// Use the webgl2 format, unless format is defined
-			// const format = options.format ? options.format : RedFormat;
-			const format = options.format ? options.format : LuminanceFormat;
+			const format = options.format ? options.format : RedFormat;
+			// const format = options.format ? options.format : LuminanceFormat;
 
 			const granularity = options.tones ? options.tones : 8;
 

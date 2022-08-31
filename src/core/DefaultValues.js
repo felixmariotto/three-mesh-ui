@@ -5,7 +5,7 @@ const _values = {
 	fontKerning: 'normal',
 	fontStyle: 'normal',
 	fontWeight : '400',
-	offset: 0.01,
+	offset: 0.005,
 	lineHeight: 1.2,
 	lineBreak: '- ,.:?!\n',// added '\n' to also acts as friendly breaks when white-space:normal
 	whiteSpace: 'pre-line',

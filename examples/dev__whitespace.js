@@ -1,16 +1,15 @@
+// xfg:title WhiteSpace
+// xfg:category develop
+
 /* Import everything we need from Three.js */
 
 import * as THREE from 'three';
+import { Mesh, MeshBasicMaterial, PlaneBufferGeometry } from 'three';
 import { VRButton } from 'three/examples/jsm/webxr/VRButton.js';
 import { BoxLineGeometry } from 'three/examples/jsm/geometries/BoxLineGeometry.js';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 
 import ThreeMeshUI, { FontLibrary, MSDFFontMaterialUtils, ShaderChunkUI } from 'three-mesh-ui';
-
-
-import { Mesh, MeshBasicMaterial, PlaneBufferGeometry } from 'three';
-import * as FontWeight from '../src/utils/font/FontWeight';
-import * as FontStyle from '../src/utils/font/FontStyle';
 import ROBOTO_ADJUSTMENT from 'three-mesh-ui/examples/assets/fonts/msdf/roboto/adjustment';
 
 const WIDTH = window.innerWidth;
@@ -26,7 +25,7 @@ function preloadFonts(){
 
 		FontLibrary
 			.addFontFamily("Roboto")
-			.addVariant(FontWeight.NORMAL, FontStyle.NORMAL, "./assets/fonts/msdf/roboto/regular.json", "./assets/fonts/msdf/roboto/regular.png" )
+			.addVariant("400", "normal", "./assets/fonts/msdf/roboto/regular.json", "./assets/fonts/msdf/roboto/regular.png" )
 
 	).then( () => {
 

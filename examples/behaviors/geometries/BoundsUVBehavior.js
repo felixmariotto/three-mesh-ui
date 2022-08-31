@@ -1,5 +1,5 @@
 import { Vector3 } from 'three';
-import Behavior from '../../../src/utils/Behavior';
+import { Behavior } from 'three-mesh-ui';
 
 export default class BoundsUVBehavior extends Behavior {
 
@@ -23,21 +23,26 @@ export default class BoundsUVBehavior extends Behavior {
 
 		this._uvSet = uvSet;
 
+		this._actor = this.act.bind( this );
+
 	}
 
 	attach() {
 
-		this._subject.addAfterUpdate( this.act );
+		this._subject.addAfterUpdate( this._actor );
 
 	}
 
 	detach() {
 
-		this._subject.removeAfterUpdate( this.act );
+		this._subject.removeAfterUpdate( this._actor );
 
 	}
 
-	act = () => {
+	/**
+	 * @returns {void}
+	 */
+	act() {
 
 		if ( this._subject._backgroundMesh ) {
 
