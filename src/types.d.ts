@@ -1,6 +1,6 @@
 import type { Color, Object3D, Texture } from "three"
 
-export type BlockOptions = {
+export type BlockOptions = TextOptions & {
     width?: number;
     height?: number;
     margin?: number;
