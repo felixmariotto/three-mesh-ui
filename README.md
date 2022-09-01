@@ -2,18 +2,20 @@
 
 
 
+<a href="https://three-mesh-ui.herokuapp.com/#interactive_button">
+  <img alt="buttons example" target="_blank" src="https://felixmariotto.s3.eu-west-3.amazonaws.com/three-mesh-ui-teasers/buttons_opti.gif" width="45%">
 </a>
 
-
-
+<a href="https://three-mesh-ui.herokuapp.com/#hidden_overflow">
+  <img alt="tuto example" target="_blank" src="https://felixmariotto.s3.eu-west-3.amazonaws.com/three-mesh-ui-teasers/hidden_overflow_opti.gif" width="45%">
 </a>
 
-
-
+<a href="https://three-mesh-ui.herokuapp.com/#nested_blocks">
+  <img alt="big text example" target="_blank" src="https://felixmariotto.s3.eu-west-3.amazonaws.com/three-mesh-ui-teasers/nested_layout_opti.gif" width="45%">
 </a>
 
 <a href="https://three-mesh-ui.herokuapp.com/#keyboard">
-
+  <img alt="big text example" target="_blank" src="https://felixmariotto.s3.eu-west-3.amazonaws.com/three-mesh-ui-teasers/keyboard_opti.gif" width="45%">
 </a>
 
 ## [Examples 7.x.x (live)](https://felixmariotto.github.io/three-mesh-ui/7.x.x/) &nbsp;|	&nbsp;[NPM](https://www.npmjs.com/package/three-mesh-ui)	&nbsp;|	&nbsp;[Documentation](https://github.com/felixmariotto/three-mesh-ui/wiki)	&nbsp;|	&nbsp;[Contributing](https://github.com/felixmariotto/three-mesh-ui/wiki/Roadmap-&-Contributions)
