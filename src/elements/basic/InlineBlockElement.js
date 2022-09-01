@@ -21,7 +21,7 @@ export default class InlineBlockElement extends MeshUIBaseElement {
 
 	/**
 	 *
-	 * @param {Object.<string,any>} [values=null]
+	 * @param {import('./../../core/elements/MeshUIBaseElement').Options} [values={}]
 	 */
 	constructor( values = {}) {
 
@@ -110,8 +110,8 @@ export default class InlineBlockElement extends MeshUIBaseElement {
 
 	/**
 	 *
-	 * @param {Object.<string,Class>} [properties={}]
-	 * @param {Object.<string,any>} [values={}]
+	 * @param {import('./../../core/elements/MeshUIBaseElement').Properties} properties
+	 * @param {import('./../../core/elements/MeshUIBaseElement').Options} values
 	 */
 	static definePropertiesValues( properties, values ) {
 

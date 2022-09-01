@@ -1,4 +1,8 @@
-export default /* glsl */`
+/**
+ *
+ * @type {string}
+ */
+const program = /* glsl */`
 varying vec2 vUvG;
 uniform sampler2D glyphMap;
 uniform vec2 unitRange;
@@ -22,3 +26,5 @@ float tap(vec2 offsetUV) {
 	return alpha;
 }
 `;
+
+export default program;

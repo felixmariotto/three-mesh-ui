@@ -1,5 +1,10 @@
 import * as DefaultValues from '../DefaultValues';
 
+//JSDoc related imports
+/* eslint-disable no-unused-vars */
+import MeshUIBaseElement from './../../core/elements/MeshUIBaseElement';
+/* eslint-enable no-unused-vars */
+
 export default class BaseProperty {
 
 	/**
@@ -118,9 +123,11 @@ export default class BaseProperty {
 
 	}
 
+
+
 	/**
 	 *
-	 * @param {Object.<string,any>} out
+	 * @param {Out} out
 	 */
 	_outputValue( out ) {
 
@@ -193,3 +200,9 @@ export default class BaseProperty {
 	}
 
 }
+
+
+/**
+ * @typedef Out
+ * @type {Object & Object.<string,any>}
+ */

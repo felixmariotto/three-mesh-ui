@@ -1,3 +1,8 @@
+//JSDoc related imports
+/* eslint-disable no-unused-vars */
+import MeshUIBaseElement from './../../core/elements/MeshUIBaseElement';
+/* eslint-enable no-unused-vars */
+
 /**
  * Job:
  * - recording components required updates

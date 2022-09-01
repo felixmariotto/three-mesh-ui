@@ -1,0 +1,33 @@
+export default ThreeMeshUI;
+import BlockElement from "./elements/basic/BlockElement";
+import TextElement from "./elements/basic/TextElement";
+import InlineElement from "./elements/basic/InlineElement";
+import InlineBlockElement from "./elements/basic/InlineBlockElement";
+import FontLibrary from "./font/FontLibrary.js";
+export function update(): void;
+import { ShaderChunkUI } from "./renderers/shaders/ShaderChunkUI";
+import MSDFFontMaterialUtils from "./font/msdf/utils/MSDFFontMaterialUtils";
+import TypographicFont from "./font/TypographicFont";
+import TypographicGlyph from "./font/TypographicGlyph";
+import InlineGlyph from "./font/InlineGlyph";
+import MeshUIBaseElement from "./core/elements/MeshUIBaseElement";
+import * as DefaultValues from "./core/DefaultValues";
+import InheritableProperty from "./core/properties/InheritableProperty";
+import BaseProperty from "./core/properties/BaseProperty";
+import * as MaterialTransformers from "./utils/mediator/transformers/MaterialTransformers";
+import Behavior from "./utils/Behavior";
+import FontVariant from "./font/FontVariant";
+declare namespace ThreeMeshUI {
+    export { BlockElement as Block };
+    export { TextElement as Text };
+    export { InlineElement as Inline };
+    export { InlineBlockElement as InlineBlock };
+    export { MeshUIBaseElement };
+    export { FontLibrary };
+    export { update };
+    export { MSDFFontMaterialUtils };
+    export { ShaderChunkUI };
+    export { Behavior };
+    export { FontVariant };
+}
+export { BlockElement as Block, TextElement as Text, InlineElement as Inline, InlineBlockElement as InlineBlock, FontLibrary, ShaderChunkUI, MSDFFontMaterialUtils, TypographicFont, TypographicGlyph, InlineGlyph, MeshUIBaseElement, DefaultValues, InheritableProperty, BaseProperty, MaterialTransformers, Behavior, FontVariant };

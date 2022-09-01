@@ -71,7 +71,6 @@ export default class InheritableMaterialProperty extends InheritableProperty {
 
 	/**
 	 * @override
-	 * @param {MeshUIBaseElement} element
 	 */
 	getInheritedInput( element ) {
 

@@ -167,10 +167,6 @@ export default class StyleSideProperty extends SubStyleProperty {
 
 	}
 
-	/**
-	 *
-	 * @param {MeshUIBaseElement} element
-	 */
 	getInheritedInput ( element ) {
 
 		if( this._input !== 'inherit' && !this._auto ) return this._input;

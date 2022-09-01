@@ -1,5 +1,5 @@
-import StyleVector4Property from '../StyleVector4Property';
 import * as Units from '../../../../utils/Units';
+import StyleVector4Property from '../StyleVector4Property';
 
 export default class BorderWidth extends StyleVector4Property{
 
@@ -42,7 +42,7 @@ export default class BorderWidth extends StyleVector4Property{
 	/* eslint-disable no-unused-vars */
 	/**
 	 *
-	 * @param {MeshUIBaseElement} element
+	 * @override
 	 */
 	computeOutputValue( element) { /* eslint-enable no-unused-vars */
 
@@ -66,13 +66,16 @@ export default class BorderWidth extends StyleVector4Property{
 
 	/**
 	 *
-	 * @param {MeshUIBaseElement} element
+	 * @override
 	 */
 	process( element ) {
 		this._needsRender = true;
 		element._borderRadius._needsRender = true;
 	}
 
+	/**
+	 * @override
+	 */
 	render( element ) {
 
 		this._valueUV.copy( this._value );

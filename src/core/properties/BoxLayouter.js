@@ -1,5 +1,12 @@
 import BaseProperty from './BaseProperty';
 
+//JSDoc related imports
+/* eslint-disable no-unused-vars */
+import MeshUIBaseElement from './../../core/elements/MeshUIBaseElement';
+import Line from './../../core/elements/glyphs/Line';
+import { Vector3 } from 'three';
+/* eslint-enable no-unused-vars */
+
 export default class BoxLayouter extends BaseProperty {
 
 	constructor() {
@@ -10,8 +17,13 @@ export default class BoxLayouter extends BaseProperty {
 		this._needsUpdate = true;
 
 		/**
+		 * @typedef ChildrenPos
+		 * @type {Object & Object.<string,Vector3>}
+		 */
+
+		/**
 		 *
-		 * @type {Object.<string,any>}
+		 * @type {ChildrenPos}
 		 * @internal
 		 */
 		this._childrenPos = {};
@@ -27,8 +39,7 @@ export default class BoxLayouter extends BaseProperty {
 	 * 	- Child position changed
 	 * 	- Child visibility changed
 	 * 	- ...?
-	 * @param element
-	 * @param out
+	 * 	@override
 	 */
 	update( element, out ) { 	/* eslint-enable no-unused-vars */
 
@@ -48,14 +59,11 @@ export default class BoxLayouter extends BaseProperty {
 
 		}
 
-		//console.log( "   ",this._childrenPos );
-
 	}
 
 	/**
 	 *
-	 * @param {MeshUIBaseElement} element
-	 * @return {Lines}
+	 * @override
 	 */
 	/* eslint-disable no-unused-vars */ process( element ) { 	/* eslint-enable no-unused-vars */
 

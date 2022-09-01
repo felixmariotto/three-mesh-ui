@@ -225,8 +225,7 @@ export default class BoundsBox extends BaseProperty {
 
 	/* eslint-disable no-unused-vars */
 	/**
-	 *
-	 * @param {MeshUIBaseElement} element
+	 * @override
 	 */
 	process( element ) { /* eslint-enable no-unused-vars */
 

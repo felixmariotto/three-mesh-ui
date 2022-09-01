@@ -18,8 +18,7 @@ export default class InlineJustificator extends BaseProperty {
 
 	/**
 	 *
-	 * @param {MeshUIBaseElement} element
-	 * @return {Lines}
+	 * @override
 	 */
 	process( element ) {
 

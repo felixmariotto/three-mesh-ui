@@ -23,8 +23,6 @@ export default class Overflow extends SubStyleProperty {
 	/**
 	 * Update of overflow is a bit different, as parent may trigger changes on it
 	 * @override
-	 * @param {MeshUIBaseElement} element
-	 * @param {Object.<string,any> } out
 	 */
 	update( element, out ) {
 

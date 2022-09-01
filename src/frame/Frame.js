@@ -1,6 +1,11 @@
 import { BufferAttribute, PlaneBufferGeometry } from 'three';
 import { Mesh } from 'three';
 
+//JSDoc related imports
+/* eslint-disable no-unused-vars */
+import MeshUIBaseElement from '../core/elements/MeshUIBaseElement';
+/* eslint-enable no-unused-vars */
+
 /**
  * Returns a basic plane mesh.
  */

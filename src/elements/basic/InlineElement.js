@@ -18,11 +18,17 @@ import ChildrenInline from '../../core/properties/hierarchy/ChildrenInline';
 import RendererPropertyInline from '../../core/properties/rendering/RendererPropertyInline';
 import TextAlignPropertyInline from '../../core/properties/style-properties/font/TextAlignPropertyInline';
 
+
+//JSDoc related imports
+/* eslint-disable no-unused-vars */
+import { Object3D } from 'three';
+/* eslint-enable no-unused-vars */
+
 export default class InlineElement extends MeshUIBaseElement {
 
 	/**
 	 *
-	 * @param {Object.<string,any>} [values={}]
+	 * @param {import('./../../core/elements/MeshUIBaseElement').Options} [values={}]
 	 */
 	constructor( values = { }) {
 
@@ -99,8 +105,8 @@ export default class InlineElement extends MeshUIBaseElement {
 	/* eslint-disable no-unused-vars */
 	/**
 	 *
-	 * @param {Object.<string,Class>} [properties={}]
-	 * @param {Object.<string,any>} [values={}]
+	 * @param {import('./../../core/elements/MeshUIBaseElement').Properties} properties
+	 * @param {import('./../../core/elements/MeshUIBaseElement').Options} values
 	 */
 	static definePropertiesValues( properties, values ) {  /* eslint-enable no-unused-vars */
 

@@ -1,5 +1,10 @@
 import BaseProperty from '../BaseProperty';
 
+//JSDoc related imports
+/* eslint-disable no-unused-vars */
+import { Object3D } from 'three';
+/* eslint-enable no-unused-vars */
+
 export default class ParentProperty extends BaseProperty {
 
 	constructor() {

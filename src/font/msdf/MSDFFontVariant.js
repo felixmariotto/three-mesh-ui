@@ -1,13 +1,14 @@
 import { FileLoader, LinearFilter, Texture, TextureLoader, Vector2 } from 'three';
-import FontVariant from '../FontVariant';
 import MSDFTypographicFont from './MSDFTypographicFont';
 import MSDFTypographicGlyph from './MSDFTypographicGlyph';
 import MSDFGeometricGlyph from './MSDFGeometricGlyph';
 import MSDFFontMaterial from './materials/MSDFFontMaterial';
+import FontVariant from '../FontVariant';
 
 //JSDoc related imports
 /* eslint-disable no-unused-vars */
-import MSDFInlineGlyph from './MSDFInlineGlyph';
+import InlineGlyph from './../InlineGlyph';
+import FontLibrary from '../FontLibrary';
 /* eslint-enable no-unused-vars */
 
 /**
@@ -92,6 +93,11 @@ export default class MSDFFontVariant extends FontVariant {
 
 		this._font = new MSDFTypographicFont( json );
 
+		/**
+		 *
+		 * @type {import('../FontVariant').KerningPairs}
+		 * @private
+		 */
 		this._kernings = this._buildKerningPairs( json );
 		this._chars = this._buildCharacters( json );
 
@@ -129,10 +135,20 @@ export default class MSDFFontVariant extends FontVariant {
 	}
 
 	/**
+	 * @abstract
+	 * @protected
+	 * @param {string} missingChar
+	 * @returns {string|null}
+	 */
+	_getFallbackCharacter( missingChar ) {
+		return FontLibrary.missingCharacter( this, missingChar );
+	}
+
+	/**
 	 *
 	 * @override
-	 * @param {InlineGlyph|MSDFInlineGlyph} inline
-	 * @param {MeshUIBaseElement} element
+	 * @param {import('./../InlineGlyph').default|import('./MSDFInlineGlyph').default} inline
+	 * @param {import('./../../core/elements/MeshUIBaseElement').default} element
 	 * @returns {MSDFGeometricGlyph}
 	 */
 	getGeometricGlyph( inline, element ) {
@@ -158,8 +174,7 @@ export default class MSDFFontVariant extends FontVariant {
 	 * @see src/font/msdf/FontVariantMSDF.js for an implementation
 	 *
 	 * @param {MSDFJson} json
-	 *
-	 * @returns {Object.<string, number>}
+	 * @returns {import('../FontVariant').KerningPairs}
 	 * @private
 	 */
 	_buildKerningPairs( json ) {
@@ -280,7 +295,6 @@ function _loadTexture( fontVariant, textureUrl ) {
  * MSDF FILE FORMAT DESCRIPTION
  * @see https://www.angelcode.com/products/bmfont/doc/file_format.html
  **********************************************************************************************************************/
-
 
 /**
  * @typedef {Object} MSDFJson

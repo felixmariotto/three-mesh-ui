@@ -147,7 +147,6 @@ export default class SubStyleProperty extends BaseProperty{
 	}
 
 	/**
-	 * @override
 	 * @param {MeshUIBaseElement} element
 	 */
 	getInheritedInput ( element ) {

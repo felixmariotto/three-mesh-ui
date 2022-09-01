@@ -10,14 +10,19 @@ import RendererPropertyBox from '../../core/properties/rendering/RendererPropert
 import PositionPropertyBox from '../../core/properties/style-properties/PositionPropertyBox';
 import AutoSizePropertyBox from '../../core/properties/AutoSizePropertyBox';
 
+//JSDoc related imports
+/* eslint-disable no-unused-vars */
+import { Object3D } from 'three';
+/* eslint-enable no-unused-vars */
+
 export default class BoxElement extends MeshUIBaseElement {
 
 	/**
 	 *
-	 * @param {Object.<string,Class>} [properties={}]
-	 * @param {Object.<string,any>} [values={}]
+	 * @param {import('./../../core/elements/MeshUIBaseElement').Properties} properties
+	 * @param {import('./../../core/elements/MeshUIBaseElement').Options} values
 	 */
-	constructor( properties = {}, values = {}) {
+	constructor( properties, values) {
 
 		BoxElement.definePropertiesValues( properties, values );
 
@@ -54,8 +59,8 @@ export default class BoxElement extends MeshUIBaseElement {
 
 	/**
 	 *
-	 * @param {Object.<string,Class>} [properties={}]
-	 * @param {Object.<string,any>} [values={}]
+	 * @param {import('./../../core/elements/MeshUIBaseElement').Properties} properties
+	 * @param {import('./../../core/elements/MeshUIBaseElement').Options} values
 	 */
 	static definePropertiesValues( properties, values ) {
 

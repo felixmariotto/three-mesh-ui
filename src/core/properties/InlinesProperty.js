@@ -71,7 +71,7 @@ export default class InlinesProperty extends BaseProperty{
 
 	/**
 	 *
-	 * @return {Array.<InlineGlyph>}
+	 * @return {Array.<Inline>}
 	 */
 	get value() { return this._value; }
 

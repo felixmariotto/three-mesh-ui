@@ -208,8 +208,12 @@ class ThreeMeshUIExamplePlugin {
 // Automatically get all example.js files
 const entryPoints = {};
 glob.sync( './examples/*.js' ).map( function ( file ) {
+
 	const entryKey = path.basename( file, '.js' );
-	entryPoints[ entryKey ] = file;
+
+	if( entryKey.indexOf("webpack.config") === -1 ){
+		entryPoints[ entryKey ] = file;
+	}
 } );
 
 // instanciate the plugin, it will be used by other
@@ -254,7 +258,7 @@ const indexConfig = new HtmlWebpackPlugin( {
 	// sort pages per purposes
 	environment: {
 		production: false,
-		version: require('./../package.json').version,
+		version: require('../package.json').version,
 	},
 
 	filename: 'index.html',

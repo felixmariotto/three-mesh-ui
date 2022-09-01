@@ -15,11 +15,18 @@ import ChildrenText from '../../core/properties/hierarchy/ChildrenText';
 import AutoSizePropertyText from '../../core/properties/AutoSizePropertyText';
 import RendererPropertyText from '../../core/properties/rendering/RendererPropertyText';
 
+
+//JSDoc related imports
+/* eslint-disable no-unused-vars */
+import { Object3D } from 'three';
+import MeshUIBaseElement from '../../core/elements/MeshUIBaseElement';
+/* eslint-enable no-unused-vars */
+
 export default class TextElement extends BoxElement {
 
 	/**
 	 *
-	 * @param {Object.<string,any>} [values=null]
+	 * @param {import('./../../core/elements/MeshUIBaseElement').Options} [values={}]
 	 */
 	constructor( values = {}) {
 
@@ -120,8 +127,8 @@ export default class TextElement extends BoxElement {
 
 	/**
 	 *
-	 * @param {Object.<string,Class>} [properties={}]
-	 * @param {Object.<string,any>} [values={}]
+	 * @param {import('./../../core/elements/MeshUIBaseElement').Properties} properties
+	 * @param {import('./../../core/elements/MeshUIBaseElement').Options} values
 	 */
 	static definePropertiesValues( properties, values ) {
 

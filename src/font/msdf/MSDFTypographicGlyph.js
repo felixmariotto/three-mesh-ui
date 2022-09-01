@@ -55,7 +55,7 @@ export default class MSDFTypographicGlyph extends TypographicGlyph {
 
 	/**
 	 * @override
-	 * @param otherChar
+	 * @param {string} otherChar
 	 * @returns {MSDFTypographicGlyph}
 	 */
 	clone( otherChar ) {

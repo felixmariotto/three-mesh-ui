@@ -1,13 +1,15 @@
-//JSDoc related imports
-/* eslint-disable no-unused-vars */
-import { Object3D, Texture, Vector4 } from 'three';
+import RenderOrderProperty from '../properties/RenderOrderProperty';
+import OffsetProperty from '../properties/OffsetProperty';
+import FontSmoothProperty from '../properties/FontSmoothProperty';
+import PaddingProperty from '../properties/style-properties/bounds/PaddingProperty';
+import MarginProperty from '../properties/style-properties/bounds/MarginProperty';
 import Mediator from '../../utils/mediator/Mediator';
 import ParentProperty from '../properties/hierarchy/ParentProperty';
 import NumberProperty from '../properties/NumberProperty';
 import SideProperty from '../properties/SideProperty';
 import UpdateManager from '../../components/core/UpdateManager';
 import FontProperty from '../properties/FontProperty';
-import StyleVector4Property from '../properties/style-properties/StyleVector4Property';
+import { Object3D } from 'three';
 import Display from '../properties/style-properties/visibility/Display';
 import BoxSizing from '../properties/style-properties/bounds/BoxSizing';
 import StyleColorProperty from '../properties/style-properties/StyleColorProperty';
@@ -44,22 +46,22 @@ import FontKerningProperty from '../properties/style-properties/font/FontKerning
 import InheritableBooleanProperty from '../properties/InheritableBooleanProperty';
 import InheritableMaterialProperty from '../properties/InheritableMaterialProperty';
 import { directTransferNotNull } from '../../utils/mediator/transformers/CommonTransformers';
-import RenderOrderProperty from '../properties/RenderOrderProperty';
-import OffsetProperty from '../properties/OffsetProperty';
-import FontSmoothProperty from '../properties/FontSmoothProperty';
-import PaddingProperty from '../properties/style-properties/bounds/PaddingProperty';
-import MarginProperty from '../properties/style-properties/bounds/MarginProperty';
 import { uniformOrUserDataTransformer } from '../../utils/mediator/transformers/MaterialTransformers';
+
+//JSDoc related imports
+/* eslint-disable no-unused-vars */
+import { Color, Texture, Vector4, Mesh, Material, ShaderMaterial } from 'three';
+import BaseProperty from './../properties/BaseProperty';
 /* eslint-enable no-unused-vars */
 
 export default class MeshUIBaseElement extends Object3D {
 
 	/**
 	 *
-	 * @param {Object.<string,Class>} [properties=null]
-	 * @param {Object.<string,any>} [values=null]
+	 * @param {Properties} properties
+	 * @param {Options} values
 	 */
-	constructor( properties = null, values = null) {
+	constructor( properties, values) {
 
 		super();
 
@@ -185,6 +187,7 @@ export default class MeshUIBaseElement extends Object3D {
 		/**
 		 *
 		 * @type {BoundsBox|BoundsText|EmptyProperty}
+		 * @ignore
 		 * @internal
 		 */
 		this._bounds = properties.bounds ? new properties.bounds() : new EmptyProperty("bounds");
@@ -489,44 +492,12 @@ export default class MeshUIBaseElement extends Object3D {
 
 	}
 
+
 	/**
 	 *
-	 * @param {Object} options
-	 * @param {"row"|"row-reverse"|"column"|"column-reverse"} [options.flexDirection]
-	 * @param {"start"|"center"|"end"|"space-around"|"space-between"|"space-evenly"} [options.justifyContent]
-	 * @param {"start"|"center"|"end"|"stretch"} [options.alignItems]
-	 * @param {"visible"|"hidden"} [options.overflow]
-	 * @param {"normal"|"none"} [options.fontKerning]
-	 * @param {number} [options.segments]
-	 * @param {"normal"|"italic"} [options.fontStyle]
-	 * @param {"light"|"normal"|"bold"|"bolder"|100|200|300|400|500|600|700|800|900} [options.fontWeight]
-	 *
-	 * @param {Color|number|string} [options.backgroundColor]
-	 * @param {number} [options.backgroundOpacity]
-	 * @param {"cover"|"contain"|"stretch"} [options.backgroundSize]
-	 * @param {Texture|string} [options.backgroundImage]
-	 *
-	 *
-	 * @param {Vector4|Array.<number>|number|string} [options.borderRadius]
-	 * @param {Vector4|Array.<number>|number|string} [options.borderWidth]
-	 * @param {Color|number|string} [options.borderColor]
-	 *
-	 * @param {"content-box"|"border-box"} [options.boxSizing]
-	 * @param {number|"auto"} [options.width]
-	 * @param {number|"auto"} [options.height]
-	 * @param {Vector4|Array.<number>|number|string} [options.padding]
-	 * @param {Vector4|Array.<number>|number|string} [options.margin]
-	 *
-	 * @param {"left"|"right"|"center"|"justify"|"justify-left"|"justify-right"} [options.textAlign]
-	 * @param {boolean} [options.visible]
-	 * @param {number} [options.letterSpacing]
-	 *
-	 * @param {"normal"|"nowrap"|"pre"|"pre-line"|"pre-wrap"} [options.whiteSpace]
-	 * @param {Texture|string} [options.fontTexture] @deprecated
-	 * @param {string} [options.textContent]
+	 * @param {Options} options
 	 */
 	set( options ) {
-
 
 		// Retro compatibility, when not recommended way
 		// 2. < v7.x.x way
@@ -856,15 +827,13 @@ export default class MeshUIBaseElement extends Object3D {
 
 	/**
 	 *
-	 * @return {MeshUIBaseElement}
+	 * @return {Object3D}
 	 */
 	clear() {
 
 		this.removeFromParent();
 
 		this.traverse( ( obj ) => {
-
-			UpdateManager.disposeOf( obj );
 
 			if ( obj.material ) obj.material.dispose();
 			if ( obj.geometry ) obj.geometry.dispose();
@@ -1495,3 +1464,53 @@ export default class MeshUIBaseElement extends Object3D {
 	}
 
 }
+
+/**
+ * @typedef Properties
+ * @type {Object.<string,Function>}
+ */
+
+/**
+ * @typedef Options
+ * @type {DocumentedOptions & Object.<string,any>}
+ */
+
+/**
+ *
+ * @typedef {Object} DocumentedOptions
+ *
+ * @property [options.name] {string}
+ * @property [options.flexDirection] {"row"|"row-reverse"|"column"|"column-reverse"}
+ * @property [options.justifyContent] {"start"|"center"|"end"|"space-around"|"space-between"|"space-evenly"}
+ * @property [options.alignItems] {"start"|"center"|"end"|"stretch"}
+ * @property [options.overflow] {"visible"|"hidden"}
+ * @property [options.fontKerning] {"normal"|"none"}
+ * @property [options.segments] {number}
+ * @property [options.fontStyle] {"normal"|"italic"}
+ * @property [options.fontWeight] {"light"|"normal"|"bold"|"bolder"|100|200|300|400|500|600|700|800|900}
+ *
+ * @property [options.backgroundColor]{Color|number|string}
+ * @property [options.backgroundOpacity] {number}
+ * @property [options.backgroundSize] {"cover"|"contain"|"stretch"}
+ * @property [options.backgroundImage] {Texture|string}
+ *
+ *
+ * @property [options.borderRadius] {Vector4|Array.<number>|number|string}
+ * @property [options.borderWidth] {Vector4|Array.<number>|number|string}
+ * @property [options.borderColor] {Color|number|string}
+ *
+ * @property [options.boxSizing] {"content-box"|"border-box"}
+ * @property [options.width] {number|string|"100%"|"auto"}
+ * @property [options.height] {number|string|"100%"|"auto"}
+ * @property [options.padding] {Vector4|Array.<number>|number|string}
+ * @property [options.margin] {Vector4|Array.<number>|number|string}
+ *
+ * @property [options.textAlign] {"left"|"right"|"center"|"justify"|"justify-left"|"justify-right"}
+ * @property [options.visible] {boolean}
+ * @property [options.letterSpacing] {number}
+ *
+ * @property [options.whiteSpace] {"normal"|"nowrap"|"pre"|"pre-line"|"pre-wrap"}
+ * @property [options.fontTexture] {Texture|string} @deprecated
+ * @property [options.textContent] {string}
+ *
+ */

@@ -22,6 +22,7 @@ window.addEventListener( 'resize', onWindowResize );
 
 //
 
+
 function init() {
 
 	scene = new THREE.Scene();

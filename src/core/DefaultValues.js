@@ -37,8 +37,7 @@ const _values = {
 };
 
 /**
- * @TODO : Import typedefinition options
- * @param {Object.<string,any>} overrideProperties
+ * @param {import('./../core/elements/MeshUIBaseElement').Options} overrideProperties
  */
 export const set = function ( overrideProperties ) {
 

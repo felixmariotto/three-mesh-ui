@@ -143,7 +143,7 @@ export default class BorderRadius extends StyleVector4Property {
 
 	/**
 	 *
-	 * @param {MeshUIBaseElement} element
+	 * @override
 	 */
 	/* eslint-disable no-unused-vars */ computeOutputValue( element ) { /* eslint-enable no-unused-vars */
 
@@ -157,7 +157,7 @@ export default class BorderRadius extends StyleVector4Property {
 	/* eslint-disable no-unused-vars */
 	/**
 	 *
-	 * @param {MeshUIBaseElement} element
+	 * @override
 	 */
 	process( element ){ /* eslint-enable no-unused-vars */
 
@@ -167,7 +167,7 @@ export default class BorderRadius extends StyleVector4Property {
 
 	/**
 	 *
-	 * @param {MeshUIBaseElement} element
+	 * @override
 	 */
 	render( element ){
 

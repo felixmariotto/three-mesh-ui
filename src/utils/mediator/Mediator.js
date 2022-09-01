@@ -1,5 +1,9 @@
 import { directTransfer } from './transformers/CommonTransformers';
 
+//JSDoc related imports
+/* eslint-disable no-unused-vars */
+import MeshUIBaseElement from '../../core/elements/MeshUIBaseElement';
+/* eslint-enable no-unused-vars */
 /**
  * An option function to transform value from subject to target
  * @typedef {(target:any, targetProperty:string, value:any) => void} MediationTransformer
@@ -41,7 +45,7 @@ export default class Mediator{
 
 	/**
 	 *
-	 * @param {MeshUIComponent} subject
+	 * @param {MeshUIBaseElement} subject
 	 * @param {any} target
 	 * @param {Object.<(string|number), any>} options
 	 * @param {any} [secondTarget=null]

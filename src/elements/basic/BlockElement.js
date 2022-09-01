@@ -1,11 +1,18 @@
 import BoxElement from './BoxElement';
 import BoxLayouter from '../../core/properties/BoxLayouter';
 
+//JSDoc related imports
+/* eslint-disable no-unused-vars */
+import MeshUIBaseElement from './../../core/elements/MeshUIBaseElement';
+import { Object3D } from 'three';
+/* eslint-enable no-unused-vars */
+
+
 export default class BlockElement extends BoxElement {
 
 	/**
 	 *
-	 * @param {Object.<string,any>} values
+	 * @param {import('./../../core/elements/MeshUIBaseElement').Options} [values={}]
 	 */
 	constructor( values = {} ) {
 
@@ -58,8 +65,8 @@ export default class BlockElement extends BoxElement {
 	/* eslint-disable no-unused-vars */
 	/**
 	 *
-	 * @param properties
-	 * @param values
+	 * @param {import('./../../core/elements/MeshUIBaseElement').Properties} properties
+	 * @param {import('./../../core/elements/MeshUIBaseElement').Options} values
 	 */
 	static definePropertiesValues( properties, values ) {  /* eslint-enable no-unused-vars */
 

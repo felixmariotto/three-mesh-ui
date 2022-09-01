@@ -11,12 +11,14 @@
   "scripts": {
     "test": "karma start --single-run --browsers ChromeHeadless config/karma.conf.js",
     "lint": "eslint -c config/codestyle/.eslintrc src examples",
+    "dts" : "npx tsc",
+    "strip": "npx ./config/scripts/tsc-strip-internals.js",
     "tdd:test": "karma start --auto-watch --browsers ChromeHeadless config/karma.conf.js",
     "tdd:build": "npx webpack --config config/webpack.config.test.js --watch",
-    "build": "npx webpack --config config/webpack.config.js",
-    "build-site": "npx webpack --config config/webpack.prodConfig.js --env NODE_ENV=prod",
-    "start": "webpack-dev-server --config config/webpack.prodConfig.js --open --env NODE_ENV=dev",
-    "heroku-postbuild": "npx webpack --config config/webpack.prodConfig.js --env NODE_ENV=prod"
+    "build": "npx webpack --config webpack.config.js",
+    "build-site": "npx webpack --config examples/webpack.config.js --env NODE_ENV=prod",
+    "start": "webpack-dev-server --config examples/webpack.config.js --open --env NODE_ENV=dev",
+    "heroku-postbuild": "npx webpack --config examples/webpack.prodConfig.js --env NODE_ENV=prod"
   },
   "repository": {
     "type": "git",

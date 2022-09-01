@@ -1,7 +1,9 @@
 //JSDoc related imports
 /* eslint-disable no-unused-vars */
-import { Vector4 } from 'three';
+import { Color, Vector4 } from 'three';
+import MeshUIBaseElement from '../../../core/elements/MeshUIBaseElement';
 /* eslint-enable no-unused-vars */
+
 
 /**
  * Wrapper of properties to fit html naming and multiple inputs : inline & computed(css)

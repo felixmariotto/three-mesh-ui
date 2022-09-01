@@ -116,7 +116,7 @@ export default class TypographicGlyph {
 	 *
 	 * @abstract
 	 * @param {string} otherChar
-	 * @returns {InlineGlyph}
+	 * @returns {TypographicGlyph}
 	 */
 	/* eslint-disable no-unused-vars */ clone( otherChar ) { /* eslint-enable no-unused-vars */
 

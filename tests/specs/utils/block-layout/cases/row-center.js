@@ -3,7 +3,7 @@ import { preloadFonts } from '../../../../utils/TestFonts.js';
 import { fiveBlockContainer } from '../../../../utils/TestStructure.js';
 import { imprecise } from '../../../../utils/TestNumber.js';
 
-describe('Layout Case : {contentDirection:"row", justifyContent:"center"}', function () {
+describe('Layout Case : {flexDirection:"row", justifyContent:"center"}', function () {
 
 	let scene, camera, renderer, render;
 	let fontFamily;
@@ -35,8 +35,8 @@ describe('Layout Case : {contentDirection:"row", justifyContent:"center"}', func
 
 	beforeEach( function () {
 
-		containerBB.set({contentDirection: 'row', justifyContent:'center'});
-		containerCB.set({contentDirection: 'row', justifyContent:'center'});
+		containerBB.set({flexDirection: 'row', justifyContent:'center'});
+		containerCB.set({flexDirection: 'row', justifyContent:'center'});
 
 
 
@@ -75,8 +75,8 @@ describe('Layout Case : {contentDirection:"row", justifyContent:"center"}', func
 
 		render();
 
-		expect( imprecise( child3BB.position.x) ).equals( ( child3BB._margin.w - child3BB._margin.y) / 2);
-		expect( imprecise( child3CB.position.x) ).equals( ( child3CB._margin.w - child3CB._margin.y) / 2 );
+		expect( imprecise( child3BB.position.x) ).equals( ( child3BB._margin._value.w - child3BB._margin._value.y) / 2);
+		expect( imprecise( child3CB.position.x) ).equals( ( child3CB._margin._value.w - child3CB._margin._value.y) / 2 );
 	});
 
 
@@ -92,8 +92,8 @@ describe('Layout Case : {contentDirection:"row", justifyContent:"center"}', func
 
 			render();
 
-			expect( imprecise( child3BB.position.y) ).equals( containerBB.centerY );
-			expect( imprecise( child3CB.position.y) ).equals( containerCB.centerY );
+			expect( imprecise( child3BB.position.y) ).equals( containerBB._bounds._centerY );
+			expect( imprecise( child3CB.position.y) ).equals( containerCB._bounds._centerY );
 		});
 
 
@@ -107,8 +107,8 @@ describe('Layout Case : {contentDirection:"row", justifyContent:"center"}', func
 
 			render();
 
-			expect( imprecise( child3BB.position.y) ).equals( containerBB.centerY + ( - child3BB._margin.x + child3BB._margin.z) / 2 );
-			expect( imprecise( child3CB.position.y) ).equals( containerCB.centerY + ( - child3CB._margin.x + child3CB._margin.z) / 2 );
+			expect( imprecise( child3BB.position.y) ).equals( containerBB._bounds._centerY + ( - child3BB._margin._value.x + child3BB._margin._value.z) / 2 );
+			expect( imprecise( child3CB.position.y) ).equals( containerCB._bounds._centerY + ( - child3CB._margin._value.x + child3CB._margin._value.z) / 2 );
 
 		});
 
@@ -123,8 +123,8 @@ describe('Layout Case : {contentDirection:"row", justifyContent:"center"}', func
 
 			render();
 
-			expect( imprecise( child3BB.position.y) ).equals( containerBB.centerY + ( - child3BB._margin.x + child3BB._margin.z ) / 2);
-			expect( imprecise( child3CB.position.y) ).equals( containerCB.centerY + ( - child3CB._margin.x + child3CB._margin.z ) / 2);
+			expect( imprecise( child3BB.position.y) ).equals( containerBB._bounds._centerY + ( - child3BB._margin._value.x + child3BB._margin._value.z ) / 2);
+			expect( imprecise( child3CB.position.y) ).equals( containerCB._bounds._centerY + ( - child3CB._margin._value.x + child3CB._margin._value.z ) / 2);
 		});
 
 	});
@@ -142,8 +142,8 @@ describe('Layout Case : {contentDirection:"row", justifyContent:"center"}', func
 			render();
 
 
-			expect( imprecise( child3BB.position.y) ).equals( containerBB.centerY + containerBB.offsetHeight/2 - child3BB.offsetHeight/2 );
-			expect( imprecise( child3CB.position.y) ).equals( containerCB.centerY + containerCB.offsetHeight/2 - child3CB.offsetHeight/2 );
+			expect( imprecise( child3BB.position.y) ).equals( containerBB._bounds._centerY + containerBB._bounds._offsetHeight/2 - child3BB._bounds._offsetHeight/2 );
+			expect( imprecise( child3CB.position.y) ).equals( containerCB._bounds._centerY + containerCB._bounds._offsetHeight/2 - child3CB._bounds._offsetHeight/2 );
 		});
 
 		it("Any child should snap on container top minus margin", function () {
@@ -156,8 +156,8 @@ describe('Layout Case : {contentDirection:"row", justifyContent:"center"}', func
 
 			render();
 
-			expect( imprecise( child3BB.position.y) ).equals(containerBB.centerY + containerBB.offsetHeight/2 - child3BB.offsetHeight/2 - child3BB._margin.x );
-			expect( imprecise( child3CB.position.y) ).equals(containerCB.centerY + containerCB.offsetHeight/2 - child3CB.offsetHeight/2 - child3CB._margin.x );
+			expect( imprecise( child3BB.position.y) ).equals(containerBB._bounds._centerY + containerBB._bounds._offsetHeight/2 - child3BB._bounds._offsetHeight/2 - child3BB._margin._value.x );
+			expect( imprecise( child3CB.position.y) ).equals(containerCB._bounds._centerY + containerCB._bounds._offsetHeight/2 - child3CB._bounds._offsetHeight/2 - child3CB._margin._value.x );
 		});
 
 		it("Any child should snap on container center minus margin mixed", function () {
@@ -170,8 +170,8 @@ describe('Layout Case : {contentDirection:"row", justifyContent:"center"}', func
 
 			render();
 
-			expect( imprecise( child3BB.position.y) ).equals(containerBB.centerY + containerBB.offsetHeight/2 - child3BB.offsetHeight/2 - child3BB._margin.x );
-			expect( imprecise( child3CB.position.y) ).equals(containerCB.centerY + containerCB.offsetHeight/2 - child3CB.offsetHeight/2 - child3CB._margin.x );
+			expect( imprecise( child3BB.position.y) ).equals(containerBB._bounds._centerY + containerBB._bounds._offsetHeight/2 - child3BB._bounds._offsetHeight/2 - child3BB._margin._value.x );
+			expect( imprecise( child3CB.position.y) ).equals(containerCB._bounds._centerY + containerCB._bounds._offsetHeight/2 - child3CB._bounds._offsetHeight/2 - child3CB._margin._value.x );
 		});
 
 	});
@@ -189,8 +189,8 @@ describe('Layout Case : {contentDirection:"row", justifyContent:"center"}', func
 			render();
 
 
-			expect( imprecise( child3BB.position.y) ).equals( containerBB.centerY - containerBB.offsetHeight/2 + child3BB.offsetHeight/2 );
-			expect( imprecise( child3CB.position.y) ).equals( containerCB.centerY - containerCB.offsetHeight/2 + child3CB.offsetHeight/2 );
+			expect( imprecise( child3BB.position.y) ).equals( containerBB._bounds._centerY - containerBB._bounds._offsetHeight/2 + child3BB._bounds._offsetHeight/2 );
+			expect( imprecise( child3CB.position.y) ).equals( containerCB._bounds._centerY - containerCB._bounds._offsetHeight/2 + child3CB._bounds._offsetHeight/2 );
 		});
 
 		it("Any child should snap on container bottom minus margin", function () {
@@ -203,8 +203,8 @@ describe('Layout Case : {contentDirection:"row", justifyContent:"center"}', func
 
 			render();
 
-			expect( imprecise( child3BB.position.y) ).equals(containerBB.centerY - containerBB.offsetHeight/2 + child3BB.offsetHeight/2 + child3BB._margin.z );
-			expect( imprecise( child3CB.position.y) ).equals(containerCB.centerY - containerCB.offsetHeight/2 + child3CB.offsetHeight/2 + child3CB._margin.z );
+			expect( imprecise( child3BB.position.y) ).equals(containerBB._bounds._centerY - containerBB._bounds._offsetHeight/2 + child3BB._bounds._offsetHeight/2 + child3BB._margin._value.z );
+			expect( imprecise( child3CB.position.y) ).equals(containerCB._bounds._centerY - containerCB._bounds._offsetHeight/2 + child3CB._bounds._offsetHeight/2 + child3CB._margin._value.z );
 		});
 
 		it("Any child should snap on container right minus margin mixed", function () {
@@ -217,8 +217,8 @@ describe('Layout Case : {contentDirection:"row", justifyContent:"center"}', func
 
 			render();
 
-			expect( imprecise( child3BB.position.y) ).equals(containerBB.centerY - containerBB.offsetHeight/2 + child3BB.offsetHeight/2 + child3BB._margin.z );
-			expect( imprecise( child3CB.position.y) ).equals(containerCB.centerY - containerCB.offsetHeight/2 + child3CB.offsetHeight/2 + child3CB._margin.z );
+			expect( imprecise( child3BB.position.y) ).equals(containerBB._bounds._centerY - containerBB._bounds._offsetHeight/2 + child3BB._bounds._offsetHeight/2 + child3BB._margin._value.z );
+			expect( imprecise( child3CB.position.y) ).equals(containerCB._bounds._centerY - containerCB._bounds._offsetHeight/2 + child3CB._bounds._offsetHeight/2 + child3CB._margin._value.z );
 		});
 
 	});

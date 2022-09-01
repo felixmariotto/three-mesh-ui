@@ -53,7 +53,7 @@ export default class InheritableProperty extends BaseProperty {
 
 	/**
 	 * Output this property in a dictionnary
-	 * @param {Object.<string,any>} out
+	 * @override
 	 */
 	_outputValue( out ) { 	/* eslint-enable no-unused-vars */
 

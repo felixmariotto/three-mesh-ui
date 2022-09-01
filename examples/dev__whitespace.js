@@ -391,13 +391,13 @@ class FontMaterialDebugger extends MeshBasicMaterial {
 
 			shader.fragmentShader = shader.fragmentShader.replace(
 				'#include <uv_pars_fragment>',
-				'#include <uv_pars_fragment>\n' + ShaderChunkUI.msdf_alphaglyph_pars_fragment
+				'#include <uv_pars_fragment>\n' + ShaderChunkUI.msdfAlphaglyphParsFragmentGlsl
 			);
 
 			// fragment chunks
 			shader.fragmentShader = shader.fragmentShader.replace(
 				'#include <alphamap_fragment>',
-				ShaderChunkUI.msdf_alphaglyph_fragment + `
+				ShaderChunkUI.msdfAlphaglyphFragmentGlsl + `
 				if( diffuseColor.a <= 0.02 ) {
 					diffuseColor = vec4(1.-diffuseColor.x,1.-diffuseColor.y,1.-diffuseColor.z,0.75);
 				}

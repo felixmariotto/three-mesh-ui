@@ -42,8 +42,7 @@ export default class StyleVector4Property extends SubStyleProperty {
 
 	/* eslint-disable no-unused-vars */
 	/**
-	 *
-	 * @param {MeshUIBaseElement} element
+	 * @override
 	 */
 	computeOutputValue( element ) { /* eslint-enable no-unused-vars */
 

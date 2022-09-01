@@ -21,8 +21,7 @@ export default class TextLayouter extends BaseProperty {
 
 	/**
 	 *
-	 * @param {MeshUIBaseElement} element
-	 * @return {Lines}
+	 * @override
 	 */
 	process( element ) {
 

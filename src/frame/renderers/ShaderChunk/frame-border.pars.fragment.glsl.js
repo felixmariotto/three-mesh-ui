@@ -1,4 +1,8 @@
-export default /* glsl */`
+/**
+ *
+ * @type {string}
+ */
+const program = /* glsl */`
 
 // borders sequences are : x:TOP, y:RIGHT, z:BOTTOM, w:LEFT
 uniform vec4 borderWidth;
@@ -26,4 +30,6 @@ float getEllipticFactor( vec2 uv, vec2 center, float radiusX, float radiusY )
 
 }
 
-`
+`;
+
+export default program;

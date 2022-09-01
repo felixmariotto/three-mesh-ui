@@ -3,8 +3,14 @@ import { Vector2, Vector3, Vector4 } from 'three';
 //JSDoc related import
 /* eslint-disable no-unused-vars */
 import { Material, ShaderMaterial } from 'three';
-import { ShaderChunkUI } from '../../renderers/shaders/ShaderChunkUI';
 import { alphaTestTransformer, asPreprocessorValueTransformer, uniformOrUserDataTransformer } from '../../utils/mediator/transformers/MaterialTransformers';
+import frameBorderParsVertexGlsl from '../renderers/ShaderChunk/frame-border.pars.vertex.glsl';
+import frameBorderVertexGlsl from '../renderers/ShaderChunk/frame-border.vertex.glsl';
+import frameBackgroundParsFragmentGlsl from '../renderers/ShaderChunk/frame-background.pars.fragment.glsl';
+import frameBorderParsFragmentGlsl from '../renderers/ShaderChunk/frame-border.pars.fragment.glsl';
+import frameCommonParsFragmentGlsl from '../renderers/ShaderChunk/frame-common.pars.fragment.glsl';
+import frameBackgroundFragmentGlsl from '../renderers/ShaderChunk/frame-background.fragment.glsl';
+import frameBorderFragmentGlsl from '../renderers/ShaderChunk/frame-border.fragment.glsl';
 /* eslint-enable no-unused-vars */
 
 
@@ -103,13 +109,13 @@ export default class FrameMaterialUtils {
 	static injectVertexShaderChunks( shader ) {
 		shader.vertexShader = shader.vertexShader.replace(
 			'#include <uv_pars_vertex>',
-			'#include <uv_pars_vertex>\n' + ShaderChunkUI.frame_border_pars_vertex
+			'#include <uv_pars_vertex>\n' + frameBorderParsVertexGlsl
 		);
 
 		// vertex chunks
 		shader.vertexShader = shader.vertexShader.replace(
 			'#include <uv_vertex>',
-			'#include <uv_vertex>\n' + ShaderChunkUI.frame_border_vertex
+			'#include <uv_vertex>\n' + frameBorderVertexGlsl
 		)
 
 	}
@@ -121,28 +127,28 @@ export default class FrameMaterialUtils {
 	static injectFragmentShaderChunks( shader ) {
 		shader.fragmentShader = shader.fragmentShader.replace(
 			'#include <map_pars_fragment>',
-			'#include <map_pars_fragment>\n' + ShaderChunkUI.frame_background_pars_fragment
+			'#include <map_pars_fragment>\n' + frameBackgroundParsFragmentGlsl
 		)
 
 		shader.fragmentShader = shader.fragmentShader.replace(
 			'#include <map_pars_fragment>',
-			'#include <map_pars_fragment>\n' + ShaderChunkUI.frame_border_pars_fragment
+			'#include <map_pars_fragment>\n' + frameBorderParsFragmentGlsl
 		)
 
 		shader.fragmentShader = shader.fragmentShader.replace(
 			'#include <map_pars_fragment>',
-			'#include <map_pars_fragment>\n' + ShaderChunkUI.frame_common_pars
+			'#include <map_pars_fragment>\n' + frameCommonParsFragmentGlsl
 		)
 
 		// fragment chunks
 		shader.fragmentShader = shader.fragmentShader.replace(
 			'#include <map_fragment>',
-			ShaderChunkUI.frame_background_fragment
+			frameBackgroundFragmentGlsl
 		)
 
 		shader.fragmentShader = shader.fragmentShader.replace(
 			'#include <alphamap_fragment>',
-			ShaderChunkUI.frame_border_fragment+'\n#include <alphamap_fragment>'
+			frameBorderFragmentGlsl+'\n#include <alphamap_fragment>'
 		)
 
 	}

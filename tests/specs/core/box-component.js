@@ -56,23 +56,23 @@ describe("BoxComponent", function () {
 
 		it('Without padding, without borders', () => {
 
-			expect( containerCB.offsetWidth ).equals(1.0 );
-			expect( containerBB.offsetWidth ).equals(1.0 );
+			expect( containerCB._bounds._offsetWidth ).equals(1.0 );
+			expect( containerBB._bounds._offsetWidth ).equals(1.0 );
 
-			expect( containerCB.offsetHeight ).equals(1.0 );
-			expect( containerBB.offsetHeight ).equals(1.0 );
+			expect( containerCB._bounds._offsetHeight ).equals(1.0 );
+			expect( containerBB._bounds._offsetHeight ).equals(1.0 );
 
-			expect( containerCB.innerWidth ).equals(1.0 );
-			expect( containerBB.innerWidth ).equals(1.0 );
+			expect( containerCB._bounds._innerWidth ).equals(1.0 );
+			expect( containerBB._bounds._innerWidth ).equals(1.0 );
 
-			expect( containerCB.innerHeight ).equals(1.0 );
-			expect( containerBB.innerHeight ).equals(1.0 );
+			expect( containerCB._bounds._innerHeight ).equals(1.0 );
+			expect( containerBB._bounds._innerHeight ).equals(1.0 );
 
-			expect( containerCB.centerX ).equals( 0 );
-			expect( containerBB.centerX ).equals( 0 );
+			expect( containerCB._bounds._centerX ).equals( 0 );
+			expect( containerBB._bounds._centerX ).equals( 0 );
 
-			expect( containerCB.centerY ).equals( 0 );
-			expect( containerBB.centerY ).equals( 0 );
+			expect( containerCB._bounds._centerY ).equals( 0 );
+			expect( containerBB._bounds._centerY ).equals( 0 );
 
 		});
 
@@ -83,23 +83,23 @@ describe("BoxComponent", function () {
 			render();
 
 
-			expect( imprecise( containerCB.offsetWidth ) ).equals(1.2 );
-			expect( imprecise( containerBB.offsetWidth ) ).equals(1.0 );
+			expect( imprecise( containerCB._bounds._offsetWidth ) ).equals(1.2 );
+			expect( imprecise( containerBB._bounds._offsetWidth ) ).equals(1.0 );
 
-			expect( imprecise( containerCB.offsetHeight ) ).equals(1.2 );
-			expect( imprecise( containerBB.offsetHeight ) ).equals(1.0 );
+			expect( imprecise( containerCB._bounds._offsetHeight ) ).equals(1.2 );
+			expect( imprecise( containerBB._bounds._offsetHeight ) ).equals(1.0 );
 
-			expect( imprecise( containerCB.innerWidth ) ).equals(1.0 );
-			expect( imprecise( containerBB.innerWidth ) ).equals(0.8 );
+			expect( imprecise( containerCB._bounds._innerWidth ) ).equals(1.0 );
+			expect( imprecise( containerBB._bounds._innerWidth ) ).equals(0.8 );
 
-			expect( imprecise( containerCB.innerHeight ) ).equals(1.0 );
-			expect( imprecise( containerBB.innerHeight ) ).equals(0.8 );
+			expect( imprecise( containerCB._bounds._innerHeight ) ).equals(1.0 );
+			expect( imprecise( containerBB._bounds._innerHeight ) ).equals(0.8 );
 
-			expect( imprecise( containerCB.centerX ) ).equals( 0 );
-			expect( imprecise( containerBB.centerX ) ).equals( 0 );
+			expect( imprecise( containerCB._bounds._centerX ) ).equals( 0 );
+			expect( imprecise( containerBB._bounds._centerX ) ).equals( 0 );
 
-			expect( imprecise( containerCB.centerY ) ).equals( 0 );
-			expect( imprecise( containerBB.centerY ) ).equals( 0 );
+			expect( imprecise( containerCB._bounds._centerY ) ).equals( 0 );
+			expect( imprecise( containerBB._bounds._centerY ) ).equals( 0 );
 
 		});
 
@@ -109,23 +109,23 @@ describe("BoxComponent", function () {
 			containerBB.set({paddingLeft:0.1});
 			render();
 
-			expect( imprecise( containerCB.offsetWidth ) ).equals(1.1 );
-			expect( imprecise( containerBB.offsetWidth ) ).equals(1.0 );
+			expect( imprecise( containerCB._bounds._offsetWidth ) ).equals(1.1 );
+			expect( imprecise( containerBB._bounds._offsetWidth ) ).equals(1.0 );
 
-			expect( imprecise( containerCB.offsetHeight ) ).equals(1.0 );
-			expect( imprecise( containerBB.offsetHeight ) ).equals(1.0 );
+			expect( imprecise( containerCB._bounds._offsetHeight ) ).equals(1.0 );
+			expect( imprecise( containerBB._bounds._offsetHeight ) ).equals(1.0 );
 
-			expect( imprecise( containerCB.innerWidth ) ).equals(1.0 );
-			expect( imprecise( containerBB.innerWidth ) ).equals(0.9 );
+			expect( imprecise( containerCB._bounds._innerWidth ) ).equals(1.0 );
+			expect( imprecise( containerBB._bounds._innerWidth ) ).equals(0.9 );
 
-			expect( imprecise( containerCB.innerHeight ) ).equals(1.0 );
-			expect( imprecise( containerBB.innerHeight ) ).equals(1.0 );
+			expect( imprecise( containerCB._bounds._innerHeight ) ).equals(1.0 );
+			expect( imprecise( containerBB._bounds._innerHeight ) ).equals(1.0 );
 
-			expect( imprecise( containerCB.centerX ) ).equals( 0.05 );
-			expect( imprecise( containerBB.centerX ) ).equals( 0.05 );
+			expect( imprecise( containerCB._bounds._centerX ) ).equals( 0.05 );
+			expect( imprecise( containerBB._bounds._centerX ) ).equals( 0.05 );
 
-			expect( imprecise( containerCB.centerY ) ).equals( 0 );
-			expect( imprecise( containerBB.centerY ) ).equals( 0 );
+			expect( imprecise( containerCB._bounds._centerY ) ).equals( 0 );
+			expect( imprecise( containerBB._bounds._centerY ) ).equals( 0 );
 
 		});
 
@@ -135,23 +135,23 @@ describe("BoxComponent", function () {
 			containerBB.set({paddingLeft:0.1, paddingRight:0.3});
 			render();
 
-			expect( imprecise( containerCB.offsetWidth ) ).equals(1.4 );
-			expect( imprecise( containerBB.offsetWidth ) ).equals(1.0 );
+			expect( imprecise( containerCB._bounds._offsetWidth ) ).equals(1.4 );
+			expect( imprecise( containerBB._bounds._offsetWidth ) ).equals(1.0 );
 
-			expect( imprecise( containerCB.offsetHeight ) ).equals(1.0 );
-			expect( imprecise( containerBB.offsetHeight ) ).equals(1.0 );
+			expect( imprecise( containerCB._bounds._offsetHeight ) ).equals(1.0 );
+			expect( imprecise( containerBB._bounds._offsetHeight ) ).equals(1.0 );
 
-			expect( imprecise( containerCB.innerWidth ) ).equals(1.0 );
-			expect( imprecise( containerBB.innerWidth ) ).equals(0.6 );
+			expect( imprecise( containerCB._bounds._innerWidth ) ).equals(1.0 );
+			expect( imprecise( containerBB._bounds._innerWidth ) ).equals(0.6 );
 
-			expect( imprecise( containerCB.innerHeight ) ).equals(1.0 );
-			expect( imprecise( containerBB.innerHeight ) ).equals(1.0 );
+			expect( imprecise( containerCB._bounds._innerHeight ) ).equals(1.0 );
+			expect( imprecise( containerBB._bounds._innerHeight ) ).equals(1.0 );
 
-			expect( imprecise( containerCB.centerX ) ).equals( -0.1 );
-			expect( imprecise( containerBB.centerX ) ).equals( -0.1 );
+			expect( imprecise( containerCB._bounds._centerX ) ).equals( -0.1 );
+			expect( imprecise( containerBB._bounds._centerX ) ).equals( -0.1 );
 
-			expect( imprecise( containerCB.centerY ) ).equals( 0 );
-			expect( imprecise( containerBB.centerY ) ).equals( 0 );
+			expect( imprecise( containerCB._bounds._centerY ) ).equals( 0 );
+			expect( imprecise( containerBB._bounds._centerY ) ).equals( 0 );
 
 		});
 
@@ -161,23 +161,23 @@ describe("BoxComponent", function () {
 			containerBB.set({paddingLeft:0.3, paddingRight:0.1});
 			render();
 
-			expect( imprecise( containerCB.offsetWidth ) ).equals(1.4 );
-			expect( imprecise( containerBB.offsetWidth ) ).equals(1.0 );
+			expect( imprecise( containerCB._bounds._offsetWidth ) ).equals(1.4 );
+			expect( imprecise( containerBB._bounds._offsetWidth ) ).equals(1.0 );
 
-			expect( imprecise( containerCB.offsetHeight ) ).equals(1.0 );
-			expect( imprecise( containerBB.offsetHeight ) ).equals(1.0 );
+			expect( imprecise( containerCB._bounds._offsetHeight ) ).equals(1.0 );
+			expect( imprecise( containerBB._bounds._offsetHeight ) ).equals(1.0 );
 
-			expect( imprecise( containerCB.innerWidth ) ).equals(1.0 );
-			expect( imprecise( containerBB.innerWidth ) ).equals(0.6 );
+			expect( imprecise( containerCB._bounds._innerWidth ) ).equals(1.0 );
+			expect( imprecise( containerBB._bounds._innerWidth ) ).equals(0.6 );
 
-			expect( imprecise( containerCB.innerHeight ) ).equals(1.0 );
-			expect( imprecise( containerBB.innerHeight ) ).equals(1.0 );
+			expect( imprecise( containerCB._bounds._innerHeight ) ).equals(1.0 );
+			expect( imprecise( containerBB._bounds._innerHeight ) ).equals(1.0 );
 
-			expect( imprecise( containerCB.centerX ) ).equals( 0.1 );
-			expect( imprecise( containerBB.centerX ) ).equals( 0.1 );
+			expect( imprecise( containerCB._bounds._centerX ) ).equals( 0.1 );
+			expect( imprecise( containerBB._bounds._centerX ) ).equals( 0.1 );
 
-			expect( imprecise( containerCB.centerY ) ).equals( 0 );
-			expect( imprecise( containerBB.centerY ) ).equals( 0 );
+			expect( imprecise( containerCB._bounds._centerY ) ).equals( 0 );
+			expect( imprecise( containerBB._bounds._centerY ) ).equals( 0 );
 
 		});
 
@@ -187,23 +187,23 @@ describe("BoxComponent", function () {
 			containerBB.set({paddingTop:0.1});
 			render();
 
-			expect( imprecise( containerCB.offsetWidth ) ).equals(1.0 );
-			expect( imprecise( containerBB.offsetWidth ) ).equals(1.0 );
+			expect( imprecise( containerCB._bounds._offsetWidth ) ).equals(1.0 );
+			expect( imprecise( containerBB._bounds._offsetWidth ) ).equals(1.0 );
 
-			expect( imprecise( containerCB.offsetHeight ) ).equals(1.1 );
-			expect( imprecise( containerBB.offsetHeight ) ).equals(1.0 );
+			expect( imprecise( containerCB._bounds._offsetHeight ) ).equals(1.1 );
+			expect( imprecise( containerBB._bounds._offsetHeight ) ).equals(1.0 );
 
-			expect( imprecise( containerCB.innerWidth ) ).equals(1.0 );
-			expect( imprecise( containerBB.innerWidth ) ).equals(1.0 );
+			expect( imprecise( containerCB._bounds._innerWidth ) ).equals(1.0 );
+			expect( imprecise( containerBB._bounds._innerWidth ) ).equals(1.0 );
 
-			expect( imprecise( containerCB.innerHeight ) ).equals(1.0 );
-			expect( imprecise( containerBB.innerHeight ) ).equals(0.9 );
+			expect( imprecise( containerCB._bounds._innerHeight ) ).equals(1.0 );
+			expect( imprecise( containerBB._bounds._innerHeight ) ).equals(0.9 );
 
-			expect( imprecise( containerCB.centerX ) ).equals( 0 );
-			expect( imprecise( containerBB.centerX ) ).equals( 0 );
+			expect( imprecise( containerCB._bounds._centerX ) ).equals( 0 );
+			expect( imprecise( containerBB._bounds._centerX ) ).equals( 0 );
 
-			expect( imprecise( containerCB.centerY ) ).equals( -0.05 );
-			expect( imprecise( containerBB.centerY ) ).equals( -0.05 );
+			expect( imprecise( containerCB._bounds._centerY ) ).equals( -0.05 );
+			expect( imprecise( containerBB._bounds._centerY ) ).equals( -0.05 );
 
 		});
 
@@ -213,23 +213,23 @@ describe("BoxComponent", function () {
 			containerBB.set({paddingTop:0.1, paddingBottom:0.3});
 			render();
 
-			expect( imprecise( containerCB.offsetWidth ) ).equals(1.0 );
-			expect( imprecise( containerBB.offsetWidth ) ).equals(1.0 );
+			expect( imprecise( containerCB._bounds._offsetWidth ) ).equals(1.0 );
+			expect( imprecise( containerBB._bounds._offsetWidth ) ).equals(1.0 );
 
-			expect( imprecise( containerCB.offsetHeight ) ).equals(1.4 );
-			expect( imprecise( containerBB.offsetHeight ) ).equals(1.0 );
+			expect( imprecise( containerCB._bounds._offsetHeight ) ).equals(1.4 );
+			expect( imprecise( containerBB._bounds._offsetHeight ) ).equals(1.0 );
 
-			expect( imprecise( containerCB.innerWidth ) ).equals(1.0 );
-			expect( imprecise( containerBB.innerWidth ) ).equals(1.0 );
+			expect( imprecise( containerCB._bounds._innerWidth ) ).equals(1.0 );
+			expect( imprecise( containerBB._bounds._innerWidth ) ).equals(1.0 );
 
-			expect( imprecise( containerCB.innerHeight ) ).equals(1.0 );
-			expect( imprecise( containerBB.innerHeight ) ).equals(0.6 );
+			expect( imprecise( containerCB._bounds._innerHeight ) ).equals(1.0 );
+			expect( imprecise( containerBB._bounds._innerHeight ) ).equals(0.6 );
 
-			expect( imprecise( containerCB.centerX ) ).equals( 0 );
-			expect( imprecise( containerBB.centerX ) ).equals( 0 );
+			expect( imprecise( containerCB._bounds._centerX ) ).equals( 0 );
+			expect( imprecise( containerBB._bounds._centerX ) ).equals( 0 );
 
-			expect( imprecise( containerCB.centerY ) ).equals( 0.1 );
-			expect( imprecise( containerBB.centerY ) ).equals( 0.1 );
+			expect( imprecise( containerCB._bounds._centerY ) ).equals( 0.1 );
+			expect( imprecise( containerBB._bounds._centerY ) ).equals( 0.1 );
 
 		});
 
@@ -239,23 +239,23 @@ describe("BoxComponent", function () {
 			containerBB.set({paddingTop:0.3, paddingBottom:0.1});
 			render();
 
-			expect( imprecise( containerCB.offsetWidth ) ).equals(1.0 );
-			expect( imprecise( containerBB.offsetWidth ) ).equals(1.0 );
+			expect( imprecise( containerCB._bounds._offsetWidth ) ).equals(1.0 );
+			expect( imprecise( containerBB._bounds._offsetWidth ) ).equals(1.0 );
 
-			expect( imprecise( containerCB.offsetHeight ) ).equals(1.4 );
-			expect( imprecise( containerBB.offsetHeight ) ).equals(1.0 );
+			expect( imprecise( containerCB._bounds._offsetHeight ) ).equals(1.4 );
+			expect( imprecise( containerBB._bounds._offsetHeight ) ).equals(1.0 );
 
-			expect( imprecise( containerCB.innerWidth ) ).equals(1.0 );
-			expect( imprecise( containerBB.innerWidth ) ).equals(1.0 );
+			expect( imprecise( containerCB._bounds._innerWidth ) ).equals(1.0 );
+			expect( imprecise( containerBB._bounds._innerWidth ) ).equals(1.0 );
 
-			expect( imprecise( containerCB.innerHeight ) ).equals(1.0 );
-			expect( imprecise( containerBB.innerHeight ) ).equals(0.6 );
+			expect( imprecise( containerCB._bounds._innerHeight ) ).equals(1.0 );
+			expect( imprecise( containerBB._bounds._innerHeight ) ).equals(0.6 );
 
-			expect( imprecise( containerCB.centerX ) ).equals( 0 );
-			expect( imprecise( containerBB.centerX ) ).equals( 0 );
+			expect( imprecise( containerCB._bounds._centerX ) ).equals( 0 );
+			expect( imprecise( containerBB._bounds._centerX ) ).equals( 0 );
 
-			expect( imprecise( containerCB.centerY ) ).equals( -0.1 );
-			expect( imprecise( containerBB.centerY ) ).equals( -0.1 );
+			expect( imprecise( containerCB._bounds._centerY ) ).equals( -0.1 );
+			expect( imprecise( containerBB._bounds._centerY ) ).equals( -0.1 );
 
 		});
 
@@ -270,23 +270,23 @@ describe("BoxComponent", function () {
 			render();
 
 
-			expect( imprecise( containerCB.offsetWidth ) ).equals(1.2 );
-			expect( imprecise( containerBB.offsetWidth ) ).equals(1.0 );
+			expect( imprecise( containerCB._bounds._offsetWidth ) ).equals(1.2 );
+			expect( imprecise( containerBB._bounds._offsetWidth ) ).equals(1.0 );
 
-			expect( imprecise( containerCB.offsetHeight ) ).equals(1.2 );
-			expect( imprecise( containerBB.offsetHeight ) ).equals(1.0 );
+			expect( imprecise( containerCB._bounds._offsetHeight ) ).equals(1.2 );
+			expect( imprecise( containerBB._bounds._offsetHeight ) ).equals(1.0 );
 
-			expect( imprecise( containerCB.innerWidth ) ).equals(1.0 );
-			expect( imprecise( containerBB.innerWidth ) ).equals(0.8 );
+			expect( imprecise( containerCB._bounds._innerWidth ) ).equals(1.0 );
+			expect( imprecise( containerBB._bounds._innerWidth ) ).equals(0.8 );
 
-			expect( imprecise( containerCB.innerHeight ) ).equals(1.0 );
-			expect( imprecise( containerBB.innerHeight ) ).equals(0.8 );
+			expect( imprecise( containerCB._bounds._innerHeight ) ).equals(1.0 );
+			expect( imprecise( containerBB._bounds._innerHeight ) ).equals(0.8 );
 
-			expect( imprecise( containerCB.centerX ) ).equals( 0 );
-			expect( imprecise( containerBB.centerX ) ).equals( 0 );
+			expect( imprecise( containerCB._bounds._centerX ) ).equals( 0 );
+			expect( imprecise( containerBB._bounds._centerX ) ).equals( 0 );
 
-			expect( imprecise( containerCB.centerY ) ).equals( 0 );
-			expect( imprecise( containerBB.centerY ) ).equals( 0 );
+			expect( imprecise( containerCB._bounds._centerY ) ).equals( 0 );
+			expect( imprecise( containerBB._bounds._centerY ) ).equals( 0 );
 
 		});
 
@@ -296,23 +296,23 @@ describe("BoxComponent", function () {
 			containerBB.set({borderLeftWidth:0.1});
 			render();
 
-			expect( imprecise( containerCB.offsetWidth ) ).equals(1.1 );
-			expect( imprecise( containerBB.offsetWidth ) ).equals(1.0 );
+			expect( imprecise( containerCB._bounds._offsetWidth ) ).equals(1.1 );
+			expect( imprecise( containerBB._bounds._offsetWidth ) ).equals(1.0 );
 
-			expect( imprecise( containerCB.offsetHeight ) ).equals(1.0 );
-			expect( imprecise( containerBB.offsetHeight ) ).equals(1.0 );
+			expect( imprecise( containerCB._bounds._offsetHeight ) ).equals(1.0 );
+			expect( imprecise( containerBB._bounds._offsetHeight ) ).equals(1.0 );
 
-			expect( imprecise( containerCB.innerWidth ) ).equals(1.0 );
-			expect( imprecise( containerBB.innerWidth ) ).equals(0.9 );
+			expect( imprecise( containerCB._bounds._innerWidth ) ).equals(1.0 );
+			expect( imprecise( containerBB._bounds._innerWidth ) ).equals(0.9 );
 
-			expect( imprecise( containerCB.innerHeight ) ).equals(1.0 );
-			expect( imprecise( containerBB.innerHeight ) ).equals(1.0 );
+			expect( imprecise( containerCB._bounds._innerHeight ) ).equals(1.0 );
+			expect( imprecise( containerBB._bounds._innerHeight ) ).equals(1.0 );
 
-			expect( imprecise( containerCB.centerX ) ).equals( 0.05 );
-			expect( imprecise( containerBB.centerX ) ).equals( 0.05 );
+			expect( imprecise( containerCB._bounds._centerX ) ).equals( 0.05 );
+			expect( imprecise( containerBB._bounds._centerX ) ).equals( 0.05 );
 
-			expect( imprecise( containerCB.centerY ) ).equals( 0 );
-			expect( imprecise( containerBB.centerY ) ).equals( 0 );
+			expect( imprecise( containerCB._bounds._centerY ) ).equals( 0 );
+			expect( imprecise( containerBB._bounds._centerY ) ).equals( 0 );
 
 		});
 
@@ -322,23 +322,23 @@ describe("BoxComponent", function () {
 			containerBB.set({borderLeftWidth:0.1, borderRightWidth:0.3});
 			render();
 
-			expect( imprecise( containerCB.offsetWidth ) ).equals(1.4 );
-			expect( imprecise( containerBB.offsetWidth ) ).equals(1.0 );
+			expect( imprecise( containerCB._bounds._offsetWidth ) ).equals(1.4 );
+			expect( imprecise( containerBB._bounds._offsetWidth ) ).equals(1.0 );
 
-			expect( imprecise( containerCB.offsetHeight ) ).equals(1.0 );
-			expect( imprecise( containerBB.offsetHeight ) ).equals(1.0 );
+			expect( imprecise( containerCB._bounds._offsetHeight ) ).equals(1.0 );
+			expect( imprecise( containerBB._bounds._offsetHeight ) ).equals(1.0 );
 
-			expect( imprecise( containerCB.innerWidth ) ).equals(1.0 );
-			expect( imprecise( containerBB.innerWidth ) ).equals(0.6 );
+			expect( imprecise( containerCB._bounds._innerWidth ) ).equals(1.0 );
+			expect( imprecise( containerBB._bounds._innerWidth ) ).equals(0.6 );
 
-			expect( imprecise( containerCB.innerHeight ) ).equals(1.0 );
-			expect( imprecise( containerBB.innerHeight ) ).equals(1.0 );
+			expect( imprecise( containerCB._bounds._innerHeight ) ).equals(1.0 );
+			expect( imprecise( containerBB._bounds._innerHeight ) ).equals(1.0 );
 
-			expect( imprecise( containerCB.centerX ) ).equals( -0.1 );
-			expect( imprecise( containerBB.centerX ) ).equals( -0.1 );
+			expect( imprecise( containerCB._bounds._centerX ) ).equals( -0.1 );
+			expect( imprecise( containerBB._bounds._centerX ) ).equals( -0.1 );
 
-			expect( imprecise( containerCB.centerY ) ).equals( 0 );
-			expect( imprecise( containerBB.centerY ) ).equals( 0 );
+			expect( imprecise( containerCB._bounds._centerY ) ).equals( 0 );
+			expect( imprecise( containerBB._bounds._centerY ) ).equals( 0 );
 
 		});
 
@@ -348,23 +348,23 @@ describe("BoxComponent", function () {
 			containerBB.set({borderLeftWidth:0.3, borderRightWidth:0.1});
 			render();
 
-			expect( imprecise( containerCB.offsetWidth ) ).equals(1.4 );
-			expect( imprecise( containerBB.offsetWidth ) ).equals(1.0 );
+			expect( imprecise( containerCB._bounds._offsetWidth ) ).equals(1.4 );
+			expect( imprecise( containerBB._bounds._offsetWidth ) ).equals(1.0 );
 
-			expect( imprecise( containerCB.offsetHeight ) ).equals(1.0 );
-			expect( imprecise( containerBB.offsetHeight ) ).equals(1.0 );
+			expect( imprecise( containerCB._bounds._offsetHeight ) ).equals(1.0 );
+			expect( imprecise( containerBB._bounds._offsetHeight ) ).equals(1.0 );
 
-			expect( imprecise( containerCB.innerWidth ) ).equals(1.0 );
-			expect( imprecise( containerBB.innerWidth ) ).equals(0.6 );
+			expect( imprecise( containerCB._bounds._innerWidth ) ).equals(1.0 );
+			expect( imprecise( containerBB._bounds._innerWidth ) ).equals(0.6 );
 
-			expect( imprecise( containerCB.innerHeight ) ).equals(1.0 );
-			expect( imprecise( containerBB.innerHeight ) ).equals(1.0 );
+			expect( imprecise( containerCB._bounds._innerHeight ) ).equals(1.0 );
+			expect( imprecise( containerBB._bounds._innerHeight ) ).equals(1.0 );
 
-			expect( imprecise( containerCB.centerX ) ).equals( 0.1 );
-			expect( imprecise( containerBB.centerX ) ).equals( 0.1 );
+			expect( imprecise( containerCB._bounds._centerX ) ).equals( 0.1 );
+			expect( imprecise( containerBB._bounds._centerX ) ).equals( 0.1 );
 
-			expect( imprecise( containerCB.centerY ) ).equals( 0 );
-			expect( imprecise( containerBB.centerY ) ).equals( 0 );
+			expect( imprecise( containerCB._bounds._centerY ) ).equals( 0 );
+			expect( imprecise( containerBB._bounds._centerY ) ).equals( 0 );
 
 		});
 
@@ -374,23 +374,23 @@ describe("BoxComponent", function () {
 			containerBB.set({borderTopWidth:0.1});
 			render();
 
-			expect( imprecise( containerCB.offsetWidth ) ).equals(1.0 );
-			expect( imprecise( containerBB.offsetWidth ) ).equals(1.0 );
+			expect( imprecise( containerCB._bounds._offsetWidth ) ).equals(1.0 );
+			expect( imprecise( containerBB._bounds._offsetWidth ) ).equals(1.0 );
 
-			expect( imprecise( containerCB.offsetHeight ) ).equals(1.1 );
-			expect( imprecise( containerBB.offsetHeight ) ).equals(1.0 );
+			expect( imprecise( containerCB._bounds._offsetHeight ) ).equals(1.1 );
+			expect( imprecise( containerBB._bounds._offsetHeight ) ).equals(1.0 );
 
-			expect( imprecise( containerCB.innerWidth ) ).equals(1.0 );
-			expect( imprecise( containerBB.innerWidth ) ).equals(1.0 );
+			expect( imprecise( containerCB._bounds._innerWidth ) ).equals(1.0 );
+			expect( imprecise( containerBB._bounds._innerWidth ) ).equals(1.0 );
 
-			expect( imprecise( containerCB.innerHeight ) ).equals(1.0 );
-			expect( imprecise( containerBB.innerHeight ) ).equals(0.9 );
+			expect( imprecise( containerCB._bounds._innerHeight ) ).equals(1.0 );
+			expect( imprecise( containerBB._bounds._innerHeight ) ).equals(0.9 );
 
-			expect( imprecise( containerCB.centerX ) ).equals( 0 );
-			expect( imprecise( containerBB.centerX ) ).equals( 0 );
+			expect( imprecise( containerCB._bounds._centerX ) ).equals( 0 );
+			expect( imprecise( containerBB._bounds._centerX ) ).equals( 0 );
 
-			expect( imprecise( containerCB.centerY ) ).equals( -0.05 );
-			expect( imprecise( containerBB.centerY ) ).equals( -0.05 );
+			expect( imprecise( containerCB._bounds._centerY ) ).equals( -0.05 );
+			expect( imprecise( containerBB._bounds._centerY ) ).equals( -0.05 );
 
 		});
 
@@ -400,23 +400,23 @@ describe("BoxComponent", function () {
 			containerBB.set({borderTopWidth:0.1, borderBottomWidth:0.3});
 			render();
 
-			expect( imprecise( containerCB.offsetWidth ) ).equals(1.0 );
-			expect( imprecise( containerBB.offsetWidth ) ).equals(1.0 );
+			expect( imprecise( containerCB._bounds._offsetWidth ) ).equals(1.0 );
+			expect( imprecise( containerBB._bounds._offsetWidth ) ).equals(1.0 );
 
-			expect( imprecise( containerCB.offsetHeight ) ).equals(1.4 );
-			expect( imprecise( containerBB.offsetHeight ) ).equals(1.0 );
+			expect( imprecise( containerCB._bounds._offsetHeight ) ).equals(1.4 );
+			expect( imprecise( containerBB._bounds._offsetHeight ) ).equals(1.0 );
 
-			expect( imprecise( containerCB.innerWidth ) ).equals(1.0 );
-			expect( imprecise( containerBB.innerWidth ) ).equals(1.0 );
+			expect( imprecise( containerCB._bounds._innerWidth ) ).equals(1.0 );
+			expect( imprecise( containerBB._bounds._innerWidth ) ).equals(1.0 );
 
-			expect( imprecise( containerCB.innerHeight ) ).equals(1.0 );
-			expect( imprecise( containerBB.innerHeight ) ).equals(0.6 );
+			expect( imprecise( containerCB._bounds._innerHeight ) ).equals(1.0 );
+			expect( imprecise( containerBB._bounds._innerHeight ) ).equals(0.6 );
 
-			expect( imprecise( containerCB.centerX ) ).equals( 0 );
-			expect( imprecise( containerBB.centerX ) ).equals( 0 );
+			expect( imprecise( containerCB._bounds._centerX ) ).equals( 0 );
+			expect( imprecise( containerBB._bounds._centerX ) ).equals( 0 );
 
-			expect( imprecise( containerCB.centerY ) ).equals( 0.1 );
-			expect( imprecise( containerBB.centerY ) ).equals( 0.1 );
+			expect( imprecise( containerCB._bounds._centerY ) ).equals( 0.1 );
+			expect( imprecise( containerBB._bounds._centerY ) ).equals( 0.1 );
 
 		});
 
@@ -426,23 +426,23 @@ describe("BoxComponent", function () {
 			containerBB.set({borderTopWidth:0.3, borderBottomWidth:0.1});
 			render();
 
-			expect( imprecise( containerCB.offsetWidth ) ).equals(1.0 );
-			expect( imprecise( containerBB.offsetWidth ) ).equals(1.0 );
+			expect( imprecise( containerCB._bounds._offsetWidth ) ).equals(1.0 );
+			expect( imprecise( containerBB._bounds._offsetWidth ) ).equals(1.0 );
 
-			expect( imprecise( containerCB.offsetHeight ) ).equals(1.4 );
-			expect( imprecise( containerBB.offsetHeight ) ).equals(1.0 );
+			expect( imprecise( containerCB._bounds._offsetHeight ) ).equals(1.4 );
+			expect( imprecise( containerBB._bounds._offsetHeight ) ).equals(1.0 );
 
-			expect( imprecise( containerCB.innerWidth ) ).equals(1.0 );
-			expect( imprecise( containerBB.innerWidth ) ).equals(1.0 );
+			expect( imprecise( containerCB._bounds._innerWidth ) ).equals(1.0 );
+			expect( imprecise( containerBB._bounds._innerWidth ) ).equals(1.0 );
 
-			expect( imprecise( containerCB.innerHeight ) ).equals(1.0 );
-			expect( imprecise( containerBB.innerHeight ) ).equals(0.6 );
+			expect( imprecise( containerCB._bounds._innerHeight ) ).equals(1.0 );
+			expect( imprecise( containerBB._bounds._innerHeight ) ).equals(0.6 );
 
-			expect( imprecise( containerCB.centerX ) ).equals( 0 );
-			expect( imprecise( containerBB.centerX ) ).equals( 0 );
+			expect( imprecise( containerCB._bounds._centerX ) ).equals( 0 );
+			expect( imprecise( containerBB._bounds._centerX ) ).equals( 0 );
 
-			expect( imprecise( containerCB.centerY ) ).equals( -0.1 );
-			expect( imprecise( containerBB.centerY ) ).equals( -0.1 );
+			expect( imprecise( containerCB._bounds._centerY ) ).equals( -0.1 );
+			expect( imprecise( containerBB._bounds._centerY ) ).equals( -0.1 );
 
 		});
 
@@ -452,23 +452,23 @@ describe("BoxComponent", function () {
 			containerBB.set({borderLeftWidth:0.1,paddingLeft:0.1});
 			render();
 
-			expect( imprecise( containerCB.offsetWidth ) ).equals(1.2 );
-			expect( imprecise( containerBB.offsetWidth ) ).equals(1.0 );
+			expect( imprecise( containerCB._bounds._offsetWidth ) ).equals(1.2 );
+			expect( imprecise( containerBB._bounds._offsetWidth ) ).equals(1.0 );
 
-			expect( imprecise( containerCB.offsetHeight ) ).equals(1.0 );
-			expect( imprecise( containerBB.offsetHeight ) ).equals(1.0 );
+			expect( imprecise( containerCB._bounds._offsetHeight ) ).equals(1.0 );
+			expect( imprecise( containerBB._bounds._offsetHeight ) ).equals(1.0 );
 
-			expect( imprecise( containerCB.innerWidth ) ).equals(1.0 );
-			expect( imprecise( containerBB.innerWidth ) ).equals(0.8 );
+			expect( imprecise( containerCB._bounds._innerWidth ) ).equals(1.0 );
+			expect( imprecise( containerBB._bounds._innerWidth ) ).equals(0.8 );
 
-			expect( imprecise( containerCB.innerHeight ) ).equals(1.0 );
-			expect( imprecise( containerBB.innerHeight ) ).equals(1.0 );
+			expect( imprecise( containerCB._bounds._innerHeight ) ).equals(1.0 );
+			expect( imprecise( containerBB._bounds._innerHeight ) ).equals(1.0 );
 
-			expect( imprecise( containerCB.centerX ) ).equals( 0.1 );
-			expect( imprecise( containerBB.centerX ) ).equals( 0.1 );
+			expect( imprecise( containerCB._bounds._centerX ) ).equals( 0.1 );
+			expect( imprecise( containerBB._bounds._centerX ) ).equals( 0.1 );
 
-			expect( imprecise( containerCB.centerY ) ).equals( 0 );
-			expect( imprecise( containerBB.centerY ) ).equals( 0 );
+			expect( imprecise( containerCB._bounds._centerY ) ).equals( 0 );
+			expect( imprecise( containerBB._bounds._centerY ) ).equals( 0 );
 
 		});
 
@@ -478,23 +478,23 @@ describe("BoxComponent", function () {
 			containerBB.set({borderLeftWidth:0.1,paddingLeft:0.2});
 			render();
 
-			expect( imprecise( containerCB.offsetWidth ) ).equals(1.3 );
-			expect( imprecise( containerBB.offsetWidth ) ).equals(1.0 );
+			expect( imprecise( containerCB._bounds._offsetWidth ) ).equals(1.3 );
+			expect( imprecise( containerBB._bounds._offsetWidth ) ).equals(1.0 );
 
-			expect( imprecise( containerCB.offsetHeight ) ).equals(1.0 );
-			expect( imprecise( containerBB.offsetHeight ) ).equals(1.0 );
+			expect( imprecise( containerCB._bounds._offsetHeight ) ).equals(1.0 );
+			expect( imprecise( containerBB._bounds._offsetHeight ) ).equals(1.0 );
 
-			expect( imprecise( containerCB.innerWidth ) ).equals(1.0 );
-			expect( imprecise( containerBB.innerWidth ) ).equals(0.7 );
+			expect( imprecise( containerCB._bounds._innerWidth ) ).equals(1.0 );
+			expect( imprecise( containerBB._bounds._innerWidth ) ).equals(0.7 );
 
-			expect( imprecise( containerCB.innerHeight ) ).equals(1.0 );
-			expect( imprecise( containerBB.innerHeight ) ).equals(1.0 );
+			expect( imprecise( containerCB._bounds._innerHeight ) ).equals(1.0 );
+			expect( imprecise( containerBB._bounds._innerHeight ) ).equals(1.0 );
 
-			expect( imprecise( containerCB.centerX ) ).equals( 0.15 );
-			expect( imprecise( containerBB.centerX ) ).equals( 0.15 );
+			expect( imprecise( containerCB._bounds._centerX ) ).equals( 0.15 );
+			expect( imprecise( containerBB._bounds._centerX ) ).equals( 0.15 );
 
-			expect( imprecise( containerCB.centerY ) ).equals( 0 );
-			expect( imprecise( containerBB.centerY ) ).equals( 0 );
+			expect( imprecise( containerCB._bounds._centerY ) ).equals( 0 );
+			expect( imprecise( containerBB._bounds._centerY ) ).equals( 0 );
 
 		});
 
@@ -504,23 +504,23 @@ describe("BoxComponent", function () {
 			containerBB.set({borderLeftWidth:0.1,paddingRight:0.2});
 			render();
 
-			expect( imprecise( containerCB.offsetWidth ) ).equals(1.3 );
-			expect( imprecise( containerBB.offsetWidth ) ).equals(1.0 );
+			expect( imprecise( containerCB._bounds._offsetWidth ) ).equals(1.3 );
+			expect( imprecise( containerBB._bounds._offsetWidth ) ).equals(1.0 );
 
-			expect( imprecise( containerCB.offsetHeight ) ).equals(1.0 );
-			expect( imprecise( containerBB.offsetHeight ) ).equals(1.0 );
+			expect( imprecise( containerCB._bounds._offsetHeight ) ).equals(1.0 );
+			expect( imprecise( containerBB._bounds._offsetHeight ) ).equals(1.0 );
 
-			expect( imprecise( containerCB.innerWidth ) ).equals(1.0 );
-			expect( imprecise( containerBB.innerWidth ) ).equals(0.7 );
+			expect( imprecise( containerCB._bounds._innerWidth ) ).equals(1.0 );
+			expect( imprecise( containerBB._bounds._innerWidth ) ).equals(0.7 );
 
-			expect( imprecise( containerCB.innerHeight ) ).equals(1.0 );
-			expect( imprecise( containerBB.innerHeight ) ).equals(1.0 );
+			expect( imprecise( containerCB._bounds._innerHeight ) ).equals(1.0 );
+			expect( imprecise( containerBB._bounds._innerHeight ) ).equals(1.0 );
 
-			expect( imprecise( containerCB.centerX ) ).equals( -0.05 );
-			expect( imprecise( containerBB.centerX ) ).equals( -0.05 );
+			expect( imprecise( containerCB._bounds._centerX ) ).equals( -0.05 );
+			expect( imprecise( containerBB._bounds._centerX ) ).equals( -0.05 );
 
-			expect( imprecise( containerCB.centerY ) ).equals( 0 );
-			expect( imprecise( containerBB.centerY ) ).equals( 0 );
+			expect( imprecise( containerCB._bounds._centerY ) ).equals( 0 );
+			expect( imprecise( containerBB._bounds._centerY ) ).equals( 0 );
 
 		});
 

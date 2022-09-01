@@ -14,7 +14,8 @@ export default class MarginProperty extends StyleVector4Property {
 		super.computeOutputValue( element );
 
 		if( element._parent._value ){
-			element._parent._value._layouter._needsProcess = true;
+			element._parent._value._flexDirection._needsProcess = true;
+			// element._parent._value._layouter._needsProcess = true;
 		}
 	}
 

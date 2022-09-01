@@ -1,19 +1,19 @@
 # three-mesh-ui
 
-<a href="https://three-mesh-ui.herokuapp.com/#interactive_button">
-  <img alt="buttons example" target="_blank" src="https://felixmariotto.s3.eu-west-3.amazonaws.com/three-mesh-ui-teasers/buttons_opti.gif" width="45%">
+
+
 </a>
 
-<a href="https://three-mesh-ui.herokuapp.com/#hidden_overflow">
-  <img alt="tuto example" target="_blank" src="https://felixmariotto.s3.eu-west-3.amazonaws.com/three-mesh-ui-teasers/hidden_overflow_opti.gif" width="45%">
+
+
 </a>
 
-<a href="https://three-mesh-ui.herokuapp.com/#nested_blocks">
-  <img alt="big text example" target="_blank" src="https://felixmariotto.s3.eu-west-3.amazonaws.com/three-mesh-ui-teasers/nested_layout_opti.gif" width="45%">
+
+
 </a>
 
 <a href="https://three-mesh-ui.herokuapp.com/#keyboard">
-  <img alt="big text example" target="_blank" src="https://felixmariotto.s3.eu-west-3.amazonaws.com/three-mesh-ui-teasers/keyboard_opti.gif" width="45%">
+
 </a>
 
 ## [Examples 7.x.x (live)](https://felixmariotto.github.io/three-mesh-ui/7.x.x/) &nbsp;|	&nbsp;[NPM](https://www.npmjs.com/package/three-mesh-ui)	&nbsp;|	&nbsp;[Documentation](https://github.com/felixmariotto/three-mesh-ui/wiki)	&nbsp;|	&nbsp;[Contributing](https://github.com/felixmariotto/three-mesh-ui/wiki/Roadmap-&-Contributions)
@@ -76,7 +76,7 @@ const ThreeMeshUI = require('three-mesh-ui');
     // code goes here ...
 </script>
 ```
-:muscle: *You can use the minified version named __three-mesh-ui.module.min.js__ ([codesandbox demo](https://codesandbox.io/s/module-build-demo-minified-pm6jwx))*
+
 
 
 ### JS
@@ -95,7 +95,7 @@ const ThreeMeshUI = require('three-mesh-ui');
     // code goes here ...
 </script>
 ```
-:muscle: *You can use the minified version named __three-mesh-ui.min.js__ ([codesandbox demo](https://codesandbox.io/s/js-build-demo-minified-onh8zi))*    
+
 :warning: *Although this would theorically allows you to build 'something', loading js libraries instead of using jsm, might restrict the global features you would have. This is true for both three and three-mesh-ui libraries.*
 
 

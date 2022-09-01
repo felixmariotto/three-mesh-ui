@@ -34,10 +34,7 @@ export default class JustifyContentPropertyBox extends JustifyContentProperty {
 
 	}
 
-	/**
-	 *
-	 * @param {MeshUIBaseElement} element
-	 */
+
 	computeOutputValue( element ) {
 
 		this._value = this._inheritedInput;

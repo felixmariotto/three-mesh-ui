@@ -5,7 +5,7 @@ export default class FontProperty extends BaseProperty{
 
 	/**
 	 *
-	 * @param {fontVariant} [value=null]
+	 * @param {FontVariant} [value=null]
 	 */
 	constructor( value = null ) {
 
@@ -20,9 +20,15 @@ export default class FontProperty extends BaseProperty{
 		 */
 		this._fontVariant = null;
 
+
+		/**
+		 * @typedef ReadyClosure
+		 * @type { ()=> void|null }
+		 */
+
 		/**
 		 *
-		 * @type { ()=> void|null }
+		 * @type {ReadyClosure}
 		 * @private
 		 */
 		this._handleFontReadyClosure = null;
@@ -43,8 +49,7 @@ export default class FontProperty extends BaseProperty{
 	/* eslint-disable no-unused-vars */
 	/**
 	 *
-	 * @param {MeshUIBaseElement} element
-	 * @param out
+	 * @override
 	 */
 	update( element, out ) { 	/* eslint-enable no-unused-vars */
 

@@ -28,8 +28,7 @@ export default class InlineLayouter extends BaseProperty {
 	/* eslint-disable no-unused-vars */
 	/**
 	 *
-	 * @param {MeshUIBaseElement} element
-	 * @return {Lines}
+	 * @override
 	 */
 	process( element ) { 	/* eslint-enable no-unused-vars */
 

@@ -1,5 +1,21 @@
 import WhiteSpaceProperty from './WhiteSpaceProperty';
 
+/**
+ * @typedef  StringCollapserStrategy
+ * @type {(textContent:{string}) => string}
+ */
+
+
+/**
+ * @typedef  InlineCollapserStrategy
+ * @type {(line:{Line}) => number }
+ */
+
+
+/**
+ * @typedef InlineWrapperStrategy
+ * @type {(inlines:{Array}, i:{number}, lastInlineOffset:{number}, options:Object<string,any>) => boolean}
+ */
 
 export default class WhiteSpacePropertyInline extends WhiteSpaceProperty {
 
@@ -17,21 +33,21 @@ export default class WhiteSpacePropertyInline extends WhiteSpaceProperty {
 
 		/**
 		 *
-		 * @type {(textContent:{string}) => string}
+		 * @type {StringCollapserStrategy}
 		 * @internal
 		 */
 		this._stringCollapser = this.emptyStrategyLogic;
 
 		/**
 		 *
-		 * @type {(line:{Line}) => number }
+		 * @type {InlineCollapserStrategy}
 		 * @internal
 		 */
 		this._inlineCollapser = this.emptyStrategyLogic;
 
 		/**
 		 *
-		 * @type {(inlines:Array.<Inline>, i:{number}, lastInlineOffset:{number}, options:Object<string,any>) => boolean}
+		 * @type {InlineWrapperStrategy}
 		 * @internal
 		 */
 		this._inlineWrapper = this.emptyStrategyLogic;

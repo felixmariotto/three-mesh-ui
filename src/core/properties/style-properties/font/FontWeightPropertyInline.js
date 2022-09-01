@@ -8,10 +8,6 @@ export default class FontWeightPropertyInline extends FontWeightProperty {
 
 	}
 
-	/**
-	 *
-	 * @param {MeshUIBaseElement} element
-	 */
 	computeOutputValue( element ) {
 
 		const input = this.getInheritedInput( element );

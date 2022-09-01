@@ -2,6 +2,7 @@ import { BufferAttribute, PlaneBufferGeometry } from 'three';
 
 //JSDoc related imports
 /* eslint-disable no-unused-vars */
+import MeshUIBaseElement from './../../core/elements/MeshUIBaseElement';
 import MSDFInlineGlyph from './MSDFInlineGlyph';
 /* eslint-enable no-unused-vars */
 

@@ -11,10 +11,6 @@ export default class FontSizePropertyInline extends SubStyleProperty {
 
 	}
 
-	/**
-	 *
-	 * @param {MeshUIBaseElement} element
-	 */
 	computeOutputValue( element ) {
 
 		this._value = this._inheritedInput;

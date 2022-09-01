@@ -1,5 +1,6 @@
 import { MeshNormalMaterial } from 'three';
 import * as ThreeMeshUI from 'three-mesh-ui';
+import { ShaderChunkUI } from 'three-mesh-ui';
 
 /**
  * Example of enabling MeshNormalMaterial to render ThreeMeshUI MSDF Texts
@@ -47,7 +48,8 @@ export default class MSDFNormalMaterial extends MeshNormalMaterial{
 				`#include <normalmap_pars_fragment>
 vec4 diffuseColor;
 uniform float alphaTest;
-${ThreeMeshUI.ShaderChunkUI.msdf_alphaglyph_pars_fragment}`
+
+${ShaderChunkUI.msdfAlphaglyphParsFragmentGlsl}`
 			);
 
 			// fragment
@@ -55,7 +57,7 @@ ${ThreeMeshUI.ShaderChunkUI.msdf_alphaglyph_pars_fragment}`
 				'#include <normal_fragment_maps>',
 				`#include <normal_fragment_maps>
 diffuseColor = vec4( packNormalToRGB( normal ), opacity );
-${ThreeMeshUI.ShaderChunkUI.msdf_alphaglyph_fragment}`
+${ShaderChunkUI.msdfAlphaglyphFragmentGlsl}`
 			);
 
 			// output
