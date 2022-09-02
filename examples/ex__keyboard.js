@@ -40,7 +40,7 @@ import QwertySpanish from 'three-mesh-ui/examples/elements/keyboard/keyboard-lay
 import VRControl from 'three-mesh-ui/examples/controls/VRControl';
 import PhysicalKeyboardFeederBehavior from 'three-mesh-ui/examples/behaviors/input/PhysicalKeyboardFeederBehavior';
 import KeyboardsSynchronizerBehavior from 'three-mesh-ui/examples/behaviors/input/KeyboardsSynchronizerBehavior';
-import InteractiveTooltip from 'three-mesh-ui/examples/interactive/listeners/AriaTitleTooltip';
+import InteractiveTooltip from 'three-mesh-ui/examples/interactive/listeners/InteractiveTooltip';
 
 let scene,
 	camera,

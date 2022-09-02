@@ -1,4 +1,4 @@
-// xfg:title Basic setup
+// xfg:title Preload Fonts
 // xfg:category practice
 
 import * as THREE from 'three';

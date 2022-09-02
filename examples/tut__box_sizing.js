@@ -101,8 +101,8 @@ function step2BuildThreeMeshUIElements() {
 
 		// A Block can also define "text" properties that will propagate to any of its Text children
 		fontSize: 0.055,
-		fontFamily: '/assets/fonts/msdf/roboto/regular.json',
-		fontTexture: '/assets/fonts/msdf/roboto/regular.png',
+		fontFamily: './assets/fonts/msdf/roboto/regular.json',
+		fontTexture: './assets/fonts/msdf/roboto/regular.png',
 		// @Note: setting fontFamily
 		// This looks very easy, but this isn't the best way for handling fonts
 		// However it is perfect for a first glance on how to get started with three-mesh-ui
@@ -137,8 +137,8 @@ function step2BuildThreeMeshUIElements() {
 			// if a Text is going to use the exact same Text properties as defined in its parent
 			// there is no need to set those properties again
 			// fontSize: 0.055,
-			// fontFamily: '/assets/fonts/msdf/roboto/regular.json',
-			// fontTexture: '/assets/fonts/msdf/roboto/regular.png',
+			// fontFamily: './assets/fonts/msdf/roboto/regular.json',
+			// fontTexture: './assets/fonts/msdf/roboto/regular.png',
 
 		} ).add(
 
@@ -149,8 +149,8 @@ function step2BuildThreeMeshUIElements() {
 				// if a Text is going to use the exact same Text properties as defined in its parent
 				// there is no need to set those properties again
 				// fontSize: 0.055,
-				// fontFamily: '/assets/fonts/msdf/roboto/regular.json',
-				// fontTexture: '/assets/fonts/msdf/roboto/regular.png',
+				// fontFamily: './assets/fonts/msdf/roboto/regular.json',
+				// fontTexture: './assets/fonts/msdf/roboto/regular.png',
 
 			} ),
 
@@ -161,15 +161,15 @@ function step2BuildThreeMeshUIElements() {
 				// If a Text must have different Text properties as defined in its parent
 				// We just have to define it on a specific Text
 				fontSize: 0.08,
-				fontFamily: '/assets/fonts/msdf/roboto/italic.json',
-				fontTexture: '/assets/fonts/msdf/roboto/italic.png',
+				fontFamily: './assets/fonts/msdf/roboto/italic.json',
+				fontTexture: './assets/fonts/msdf/roboto/italic.png',
 			} ),
 
 			new ThreeMeshUI.Inline( {
 				content: ' spacing!',
 				fontSize: 0.08,
-				fontFamily: '/assets/fonts/msdf/roboto/bold-italic.json',
-				fontTexture: '/assets/fonts/msdf/roboto/bold-italic.png',
+				fontFamily: './assets/fonts/msdf/roboto/bold-italic.json',
+				fontTexture: './assets/fonts/msdf/roboto/bold-italic.png',
 			} )
 
 		),

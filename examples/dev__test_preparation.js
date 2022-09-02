@@ -111,8 +111,8 @@ function step2BuildThreeMeshUIElements() {
 
 		// A Block can also define "text" properties that will propagate to any of its Text children
 		fontSize: 0.055,
-		fontFamily: '/assets/fonts/msdf/roboto/regular.json',
-		fontTexture: '/assets/fonts/msdf/roboto/regular.png',
+		fontFamily: './assets/fonts/msdf/roboto/regular.json',
+		fontTexture: './assets/fonts/msdf/roboto/regular.png',
 
 
 	} );
@@ -183,8 +183,8 @@ function step2BuildThreeMeshUIElements() {
 
 		// A Block can also define "text" properties that will propagate to any of its Text children
 		fontSize: 0.055,
-		fontFamily: '/assets/fonts/msdf/roboto/regular.json',
-		fontTexture: '/assets/fonts/msdf/roboto/regular.png',
+		fontFamily: './assets/fonts/msdf/roboto/regular.json',
+		fontTexture: './assets/fonts/msdf/roboto/regular.png',
 
 
 	} );
