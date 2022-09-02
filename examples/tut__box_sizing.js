@@ -1,92 +1,21 @@
 // xfg:title BoxSizing
 // xfg:category learn
-// xfg:type Explore
+// xfg:type explore
 
-import * as THREE from 'three';
-import { VRButton } from 'three/examples/jsm/webxr/VRButton.js';
-import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
-import { BoxLineGeometry } from 'three/examples/jsm/geometries/BoxLineGeometry.js';
+import { Block, Inline, Text } from 'three-mesh-ui';
+let rootBlock;
 
-import ThreeMeshUI from 'three-mesh-ui';
-
-const WIDTH = window.innerWidth;
-const HEIGHT = window.innerHeight;
-
-let scene, camera, renderer, controls;
-
-window.addEventListener( 'load', step1BuildThreeJSElements );
-window.addEventListener( 'resize', onWindowResize );
-
-/***********************************************************************************************************************
- * THREE-MESH-UI - BASIC SETUP
- * ---------------------------
- *
- * This tutorial is made of 3 steps, split by functions:
- *    - step1BuildThreeJSElements()
- *    - step2BuildThreeMeshUIElements()
- *    - step3AnimationLoop()
- *
- * Be sure to read all of their comments, in the proper order before going for another tutorial.
- **********************************************************************************************************************/
-
-
-// three-mesh-ui requires working threejs setup
-// We usually build the threejs stuff prior three-mesh-ui
-function step1BuildThreeJSElements() {
-
-	scene = new THREE.Scene();
-	scene.background = new THREE.Color( 0x505050 );
-
-	camera = new THREE.PerspectiveCamera( 60, WIDTH / HEIGHT, 0.1, 100 );
-
-	renderer = new THREE.WebGLRenderer( {
-		antialias: true
-	} );
-	renderer.setPixelRatio( window.devicePixelRatio );
-	renderer.setSize( WIDTH, HEIGHT );
-	renderer.xr.enabled = true;
-	document.body.appendChild( VRButton.createButton( renderer ) );
-	document.body.appendChild( renderer.domElement );
-
-	controls = new OrbitControls( camera, renderer.domElement );
-	camera.position.set( 0, 1, 0 );
-	controls.target = new THREE.Vector3( 0, 1, -1.8 );
-	controls.update();
-
-	// ROOM
-	const room = new THREE.LineSegments(
-		new BoxLineGeometry( 6, 6, 6, 60, 60, 60 ).translate( 0, 3, 0.01 ),
-		new THREE.LineBasicMaterial( { color: 0xdd99dd, transparent:true, opacity: 0.5 } )
-	);
-
-	const room2 = new THREE.LineSegments(
-		new BoxLineGeometry( 6, 6, 6, 12, 12, 12 ).translate( 0, 3, 0.01 ),
-		new THREE.LineBasicMaterial( { lineWidth:10, color: 0xffffff, transparent:true, opacity:0.5} )
-	);
-
-	scene.add( room );
-	scene.add( room2 );
-
-	// Now that we have the threejs stuff up and running, we can build our three-mesh-ui stuff
-	// Let's read that function
-	step2BuildThreeMeshUIElements();
-
-	// three-mesh-ui requires to be updated prior each threejs render, let's go see what is in step3AnimationLoop()
-	renderer.setAnimationLoop( step3AnimationLoop );
-
-}
-
-//
-function step2BuildThreeMeshUIElements() {
+function example() {
 
 	// If we are going to display ThreeMeshUI Text elements
 	// It is important to know that a Text MUST have a Block as parent
 	// Using three-mesh-ui, we would usually have one or more rootBlock elements
-	const rootBlock = new ThreeMeshUI.Block( {
+	rootBlock = new Block( {
 
 		name: "rootBlock",
 		// A Block must define its "box-sizing" properties
-		width: 1.4,
+		width: 1,
+		height: 1,
 		padding: 0.1,
 		boxSizing: 'border-box',
 
@@ -98,11 +27,12 @@ function step2BuildThreeMeshUIElements() {
 		backgroundColor: 0x000000,
 
 		borderWidth: 0.1,
+		borderRadius: 0.05,
 
 		// A Block can also define "text" properties that will propagate to any of its Text children
 		fontSize: 0.055,
-		fontFamily: './assets/fonts/msdf/roboto/regular.json',
-		fontTexture: './assets/fonts/msdf/roboto/regular.png',
+		fontFamily: '/assets/fonts/msdf/roboto/regular.json',
+		fontTexture: '/assets/fonts/msdf/roboto/regular.png',
 		// @Note: setting fontFamily
 		// This looks very easy, but this isn't the best way for handling fonts
 		// However it is perfect for a first glance on how to get started with three-mesh-ui
@@ -118,90 +48,123 @@ function step2BuildThreeMeshUIElements() {
 
 	// three-mesh-ui Block are Object3D agreemented with three-mesh-ui capabilities
 	// so you can use any existing Object3D methods and properties
-	rootBlock.position.set( 0, 1, -3 );
-	// rootBlock.rotation.x = -0.55;
-
-
-	// Now that we have a three-mesh-ui Block, we can add three-mesh-ui Text's in it
-	rootBlock.add(
-
-
-		new ThreeMeshUI.Text( {
-			name: "Text",
-			backgroundOpacity: 0.85,
-			backgroundColor: 0xFF0000,
-			height: 'auto',
-			// three-mesh-ui Text should defined their content to display
-			//content: 'This library supports line-break-friendly-characters,',
-
-			// if a Text is going to use the exact same Text properties as defined in its parent
-			// there is no need to set those properties again
-			// fontSize: 0.055,
-			// fontFamily: './assets/fonts/msdf/roboto/regular.json',
-			// fontTexture: './assets/fonts/msdf/roboto/regular.png',
-
-		} ).add(
-
-			new ThreeMeshUI.Inline( {
-				// three-mesh-ui Text should defined their content to display
-				content: 'This library supports line-break-friendly-characters,',
-
-				// if a Text is going to use the exact same Text properties as defined in its parent
-				// there is no need to set those properties again
-				// fontSize: 0.055,
-				// fontFamily: './assets/fonts/msdf/roboto/regular.json',
-				// fontTexture: './assets/fonts/msdf/roboto/regular.png',
-
-			} ),
-
-
-			new ThreeMeshUI.Inline( {
-				content: ' As well as multi-font-size lines with consistent vertical',
-
-				// If a Text must have different Text properties as defined in its parent
-				// We just have to define it on a specific Text
-				fontSize: 0.08,
-				fontFamily: './assets/fonts/msdf/roboto/italic.json',
-				fontTexture: './assets/fonts/msdf/roboto/italic.png',
-			} ),
-
-			new ThreeMeshUI.Inline( {
-				content: ' spacing!',
-				fontSize: 0.08,
-				fontFamily: './assets/fonts/msdf/roboto/bold-italic.json',
-				fontTexture: './assets/fonts/msdf/roboto/bold-italic.png',
-			} )
-
-		),
-
-	);
-
-	ThreeMeshUI.update();
-
-}
-
-// In order to see things, we need to render them, usually on each frame
-function step3AnimationLoop() {
-
-	// Don't forget, ThreeMeshUI must be updated manually.
-	// This has been introduced in version 3.0.0 in order
-	// to improve performance
-	ThreeMeshUI.update();
-
-	controls.update();
-	renderer.render( scene, camera );
+	rootBlock.position.set( 0, 1.5, -2.99 );
 
 }
 
 
-// handles resizing the renderer when the viewport is resized
-// common threejs stuff
-function onWindowResize() {
 
-	camera.aspect = window.innerWidth / window.innerHeight;
-	camera.updateProjectionMatrix();
-	renderer.setSize( window.innerWidth, window.innerHeight );
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/***********************************************************************************************************************
+ * Above this comment, you could find the contextual setup of this example.
+ * Not really related to the example itself : Creating three renderer, scene, lights, etc...
+ **********************************************************************************************************************/
+
+import { exampleAddResizer, exampleAddUpdate, exampleNoRenderLoop, exampleRender, exampleThreeSetup } from 'three-mesh-ui/examples/_setup/ThreeSetup';
+import { exampleFontPreloadAll } from 'three-mesh-ui/examples/_setup/RobotoFont';
+import { exampleCameraOrthographic, exampleCameraOrthographicResize } from 'three-mesh-ui/examples/_setup/CameraOrthographic';
+import { exampleRulers } from 'three-mesh-ui/examples/_setup/RulersVR';
+import exampleGUI from 'three-mesh-ui/examples/_setup/gui/exampleGUI';
+import BoxLayoutBehavior from 'three-mesh-ui/examples/behaviors/helpers/BoxLayoutBehavior';
+
+/* eslint-disable no-unused-vars */
+
+// building three setup
+const { camera } = exampleCameraOrthographic();
+exampleAddResizer( exampleCameraOrthographicResize );
+
+const { scene } = exampleThreeSetup( camera );
+exampleNoRenderLoop();
+
+const { ruler, rulerHalf } = exampleRulers( scene );
+
+// preload fonts and run example() after
+exampleFontPreloadAll( () => { example(); exampleRender(); boxSizingUI(); });
+
+function boxSizingUI() {
+
+	const gui = exampleGUI();
+
+	const boxlayout = new BoxLayoutBehavior( rootBlock, exampleRender );
+	boxlayout.attach();
+
+	const params = {
+		boxLayout: true,
+		boxSizing: rootBlock._boxSizing._value,
+		width: rootBlock._width._value,
+		height: rootBlock._height._value,
+		padding: rootBlock._padding._value.x,
+		margin: rootBlock._margin._value.x,
+	}
+
+	gui.add( params, 'boxLayout',  ).onChange( bl => {
+		if( bl ) {
+			boxlayout.attach();
+		}else{
+			boxlayout.detach();
+		}
+
+		exampleRender();
+
+	})
+
+	gui.add( params, 'boxSizing', {"border-box":"border-box", "content-box":"content-box"} ).onChange( bz => {
+		rootBlock.set({boxSizing:bz});
+		exampleRender();
+
+	})
+
+	gui.add( params, 'width', 0, 2, 0.1 ).onChange( bz => {
+		rootBlock.set({width:bz});
+		exampleRender();
+	})
+
+	gui.add( params, 'height', 0, 2, 0.1 ).onChange( bz => {
+		rootBlock.set({height:bz});
+		exampleRender();
+	})
+
+	gui.add( params, 'padding', 0, 2, 0.1 ).onChange( bz => {
+		rootBlock.set({padding:bz});
+		exampleRender();
+	})
+
+	gui.add( params, 'margin', 0, 2, 0.1 ).onChange( bz => {
+		rootBlock.set({margin:bz});
+		exampleRender();
+	})
+
 
 }
-
-

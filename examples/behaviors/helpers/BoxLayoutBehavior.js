@@ -1,13 +1,16 @@
 import { BufferAttribute, Mesh, MeshBasicMaterial, PlaneBufferGeometry, RepeatWrapping, Texture, TextureLoader, Vector4 } from 'three';
-import Behavior from '../../../src/utils/Behavior';
+import { Behavior } from 'three-mesh-ui';
+
 
 export default class BoxLayoutBehavior extends Behavior{
 
 	/**
 	 *
-	 * @param {MeshUIComponent} subject
+	 * @param {MeshUIBaseElement} subject
+	 * @param {Function|null}onTextureLoadedCallback
+	 *
 	 */
-	constructor( subject ) {
+	constructor( subject, onTextureLoadedCallback = null ) {
 
 		super( subject );
 
@@ -34,6 +37,10 @@ export default class BoxLayoutBehavior extends Behavior{
 			this._overlay.material.map = this._texture;
 
 			this.act();
+
+			if( onTextureLoadedCallback ) {
+				onTextureLoadedCallback( texture );
+			}
 
 		});
 

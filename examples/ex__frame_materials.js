@@ -115,11 +115,17 @@ import { exampleThreeCube, rollCubeUpdate } from 'three-mesh-ui/examples/_setup/
 import { exampleFontPreloadAll } from 'three-mesh-ui/examples/_setup/RobotoFont';
 import FrameStandardMaterial from 'three-mesh-ui/examples/materials/frame/FrameStandardMaterial';
 import FramePhysicalMaterial from 'three-mesh-ui/examples/materials/frame/FramePhysicalMaterial';
+import { exampleCameraPerspective } from 'three-mesh-ui/examples/_setup/CameraPerspective';
+import { exampleRoomVR } from 'three-mesh-ui/examples/_setup/RoomVR';
 
 /* eslint-disable no-unused-vars */
 
 // building three setup
-const { scene, camera, renderer, controls, stats } = exampleThreeSetup();
+const { camera } = exampleCameraPerspective();
+const { scene, renderer, controls, stats } = exampleThreeSetup( camera );
+
+
+const { roomVR } = exampleRoomVR( scene );
 
 // building pointLight
 const {pointLightContainer, pointLight, pointLightHelper} = exampleThreePointLight(scene);

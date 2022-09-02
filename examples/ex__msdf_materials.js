@@ -160,15 +160,23 @@ function vertexShaderUpdate() {
  * Not really related to the example itself : Creating three renderer, scene, lights, etc...
  **********************************************************************************************************************/
 
-import { exampleAddUpdate, exampleThreeSetup } from 'three-mesh-ui/examples/_setup/ThreeSetup';
+import { exampleAddResizer, exampleAddUpdate, exampleThreeSetup } from 'three-mesh-ui/examples/_setup/ThreeSetup';
 import { exampleThreePointLight, rollPointLightUpdate } from 'three-mesh-ui/examples/_setup/ThreePointLight';
 import { exampleThreeCube, rollCubeUpdate } from 'three-mesh-ui/examples/_setup/ThreeCube';
 import { exampleFontPreloadAll } from 'three-mesh-ui/examples/_setup/RobotoFont';
+import { exampleRoomVR } from 'three-mesh-ui/examples/_setup/RoomVR';
+import { exampleCameraPerspective, exampleCameraPerspectiveResize } from 'three-mesh-ui/examples/_setup/CameraPerspective';
 
 /* eslint-disable no-unused-vars */
 
 // building three setup
-const { scene, camera, renderer, controls, stats } = exampleThreeSetup();
+const { camera } = exampleCameraPerspective();
+exampleAddResizer( exampleCameraPerspectiveResize );
+
+
+const { scene, renderer, controls, stats } = exampleThreeSetup( camera );
+
+const { roomVR } = exampleRoomVR( scene );
 
 // building pointLight
 const {pointLightContainer, pointLight, pointLightHelper} = exampleThreePointLight(scene);

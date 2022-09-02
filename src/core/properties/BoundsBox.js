@@ -210,6 +210,8 @@ export default class BoundsBox extends BaseProperty {
 		this._size.x = this._offsetWidth;
 		this._size.y = this._offsetHeight;
 
+		element._renderer._needsRender = true;
+
 	}
 
 	/**

@@ -11,7 +11,7 @@
   "scripts": {
     "test": "karma start --single-run --browsers ChromeHeadless config/karma.conf.js",
     "lint": "eslint -c config/codestyle/.eslintrc src examples",
-    "dts" : "npx tsc",
+    "dts": "npx tsc",
     "strip": "npx ./config/scripts/tsc-strip-internals.js",
     "tdd:test": "karma start --auto-watch --browsers ChromeHeadless config/karma.conf.js",
     "tdd:build": "npx webpack --config config/webpack.config.test.js --watch",
@@ -60,6 +60,7 @@
     "karma-coverage-istanbul-reporter": "^3.0.3",
     "karma-mocha": "^2.0.1",
     "karma-mocha-reporter": "^2.2.5",
+    "lil-gui": "^0.17.0",
     "mocha": "^9.2.2",
     "typescript": "^4.6.3",
     "webpack": "^5.70.0",
@@ -68,5 +69,8 @@
   },
   "peerDependencies": {
     "three": "^0.132.1"
+  },
+  "dependencies": {
+    "three": "^0.144.0"
   }
 }

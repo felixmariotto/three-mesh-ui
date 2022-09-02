@@ -8,18 +8,20 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 
 
 const _updater = [];
+const _resizer = [];
 
-let scene, camera, renderer, controls, stats, room;
+let scene, renderer, controls, stats;
+let _camera;
 
-export const exampleThreeSetup = function () {
+export const exampleThreeSetup = function ( camera ) {
+
+	_camera = camera;
 
 	const WIDTH = window.innerWidth;
 	const HEIGHT = window.innerHeight;
 
 	scene = new Scene();
 	scene.background = new Color( 0x505050 );
-
-	camera = new PerspectiveCamera( 60, WIDTH / HEIGHT, 0.1, 100 );
 
 	renderer = new WebGLRenderer({
 		antialias: true
@@ -35,24 +37,14 @@ export const exampleThreeSetup = function () {
 	document.body.appendChild( stats.dom );
 
 	controls = new OrbitControls( camera, renderer.domElement );
-	camera.position.set( 0, 1.6, 1.5 );
 	controls.target = new Vector3( 0, 1, -1.8 );
 	controls.update();
 
-	// ROOM
-
-	room = new LineSegments(
-		new BoxLineGeometry( 6, 6, 6, 32, 32, 32 ).translate( 0, 3, 0 ),
-		new LineBasicMaterial( { color: 0x808080 } )
-	);
-
-	scene.add( room );
-
 	window.addEventListener('resize', onWindowResize );
 
-	renderer.setAnimationLoop( loop );
+	renderer.setAnimationLoop( exampleRender );
 
-	return {scene, camera, renderer, controls, stats, room};
+	return {scene, renderer, controls, stats};
 
 }
 
@@ -62,7 +54,9 @@ export const exampleAddUpdate = function ( fct ) {
 
 }
 
-function loop(){
+export const exampleRender = function (){
+
+	console.log( "render" );
 
 	for ( let i = 0; i < _updater.length; i++ ) {
 		_updater[ i ]();
@@ -74,14 +68,29 @@ function loop(){
 	ThreeMeshUI.update();
 
 	controls.update();
-	renderer.render( scene, camera );
+	renderer.render( scene, _camera );
 	stats.update()
+
+}
+
+export const exampleNoRenderLoop = function () {
+	renderer.setAnimationLoop( ()=>{} );
+}
+
+export const exampleAddResizer = function ( fct ) {
+
+	_resizer.push( fct );
 
 }
 
 // handles resizing the renderer when the viewport is resized
 function onWindowResize() {
-	camera.aspect = window.innerWidth / window.innerHeight;
-	camera.updateProjectionMatrix();
+
+	for ( let i = 0; i < _resizer.length; i++ ) {
+		_resizer[ i ]();
+	}
+
 	renderer.setSize( window.innerWidth, window.innerHeight );
 }
+
+
