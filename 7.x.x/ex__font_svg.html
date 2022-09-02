@@ -1,0 +1,45 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,user-scalable=no,minimum-scale=1,maximum-scale=1"><title>SVG Fonts</title><style>* {
+			margin: 0;
+			padding: 0;
+		}
+
+		body {
+			overflow: hidden;
+		}
+
+		.overlay {
+			position: absolute;
+			left: 0;
+			right: 0;
+			top: 0;
+
+			margin-top: .5rem;
+			font-family: "Courier New", Courier, monospace;
+			color: whitesmoke;
+		}
+
+		.overlay p {
+			text-align: center;
+		}
+
+		.overlay a {
+			color: white;
+			text-shadow: 1px 1px 0 black;
+			border-radius: 5px;
+			padding: 0 .25rem;
+		}</style><script>// generate flashy color for overlay
+		let colorComponents = [];
+		for ( let i = 0; i < 6; i++ ) {
+			colorComponents.push( Math.random() > 0.5 ? 'f' : '9');
+		}
+
+		const index = Math.floor( Math.random() * 3 ) * 2;
+		colorComponents.splice(index, 0, '0', '0');
+		const color = '#'+colorComponents.join("");
+
+		const style = document.createElement('style');
+		style.textContent = `
+		.overlay a { background-color: ${color}; }
+		`
+
+		document.head.appendChild( style );</script><script defer="defer" src="chunk_three-mesh-ui.js"></script><script defer="defer" src="chunk_vendors.js"></script><script defer="defer" src="ex__font_svg.js"></script></head><body><div class="overlay"><p class="description">This example use SVG Fonts format to shows how to implements custom font type in three-mesh-ui.</p><p class="copyright">FluxArchitect font was created by <a href="http://www.orangemodern.com/">Clayton Cowan</a></p></div></body></html>
