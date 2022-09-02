@@ -28,7 +28,7 @@ import Enter from 'three-mesh-ui/examples/assets/enter.png';
 import Shift from 'three-mesh-ui/examples/assets/shift.png';
 import Stats from 'three/examples/jsm/libs/stats.module';
 import InteractiveRaycaster from 'three-mesh-ui/examples/interactive/InteractiveRaycaster';
-import InteractiveCursor from 'three-mesh-ui/examples/interactive/InteractiveCursor';
+import InteractiveCursor from 'three-mesh-ui/examples/interactive/listeners/InteractiveCursor';
 import KeyboardElement from 'three-mesh-ui/examples/elements/keyboard/KeyboardElement';
 import QwertyEnglish from 'three-mesh-ui/examples/elements/keyboard/keyboard-layouts/QwertyEnglish';
 import AzertyFrench from 'three-mesh-ui/examples/elements/keyboard/keyboard-layouts/AzertyFrench';
@@ -40,6 +40,7 @@ import QwertySpanish from 'three-mesh-ui/examples/elements/keyboard/keyboard-lay
 import VRControl from 'three-mesh-ui/examples/controls/VRControl';
 import PhysicalKeyboardFeederBehavior from 'three-mesh-ui/examples/behaviors/input/PhysicalKeyboardFeederBehavior';
 import KeyboardsSynchronizerBehavior from 'three-mesh-ui/examples/behaviors/input/KeyboardsSynchronizerBehavior';
+import InteractiveTooltip from 'three-mesh-ui/examples/interactive/listeners/AriaTitleTooltip';
 
 let scene,
 	camera,
@@ -127,6 +128,9 @@ function init() {
 
 	interactiveCursor = new InteractiveCursor( renderer.domElement );
 	interactiveRaycaster.addListener( interactiveCursor );
+
+	const interactiveTooltip = new InteractiveTooltip( renderer.domElement );
+	interactiveRaycaster.addListener( interactiveTooltip );
 
 	interactiveRaycaster.start();
 
@@ -227,6 +231,8 @@ function makeUI() {
 	layoutButtons = layoutButtons.map( ( options ) => {
 
 		const button = new ThreeMeshUI.Text( {
+
+			name: 'switch keyboard layout to '+options[ 0 ],
 			// height: 0.06,
 			width: 'auto',
 			padding : '0.01 0.05',

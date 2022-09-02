@@ -1,5 +1,9 @@
 import TextLayouter from '../../../../src/core/properties/TextLayouter';
 
+/**
+ * Inheritance is TextLayouterBestFit < TextLayouter < BaseProperty
+ * You should have minimal knowledge of BaseProperty
+ */
 export default class TextLayouterBestFit extends TextLayouter {
 
 	constructor() {
@@ -51,6 +55,16 @@ export default class TextLayouterBestFit extends TextLayouter {
 
 	}
 
+	/**
+	 * Override the resetInline protected method.
+	 * Instead of always resetting with defined fontSize.value
+	 * We will alter it with our custom _fontMultiplier value
+	 *
+	 * @override
+	 * @protected
+	 * @param inlineElement
+	 *
+	 */
 	_resetInlines( inlineElement ) {
 
 		// apply fontScale
@@ -79,6 +93,8 @@ function _calculateGrowFit( textElement ) {
 	do {
 
 		this._fontMultiplier = fontMultiplier;
+
+		// this is the default TextLayouter.process() being called, we didn't had to rewrite all of this
 		this._superLayouter( textElement );
 
 		textHeight = this._value.height;
@@ -118,6 +134,11 @@ function _calculateGrowFit( textElement ) {
 
 }
 
+/**
+ * Same for shrink
+ * @param textElement
+ * @private
+ */
 function _calculateShrinkFit( textElement ) {
 
 	const INNER_HEIGHT = textElement._bounds._innerHeight;
@@ -170,6 +191,11 @@ function _calculateShrinkFit( textElement ) {
 	} while ( ++iterations <= 10 );
 }
 
+/**
+ * Same for shrink & grow
+ * @param textElement
+ * @private
+ */
 function _calculateAutoFit( textElement )  {
 
 	const INNER_HEIGHT = textElement._bounds._innerHeight;

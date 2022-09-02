@@ -28,7 +28,7 @@ import Enter from 'three-mesh-ui/examples/assets/enter.png';
 import Shift from 'three-mesh-ui/examples/assets/shift.png';
 import Stats from 'three/examples/jsm/libs/stats.module';
 import InteractiveRaycaster from 'three-mesh-ui/examples/interactive/InteractiveRaycaster';
-import InteractiveCursor from 'three-mesh-ui/examples/interactive/InteractiveCursor';
+import InteractiveCursor from 'three-mesh-ui/examples/interactive/listeners/InteractiveCursor';
 import QwertyEnglish from 'three-mesh-ui/examples/elements/keyboard/keyboard-layouts/QwertyEnglish';
 import AzertyFrench from 'three-mesh-ui/examples/elements/keyboard/keyboard-layouts/AzertyFrench';
 import QwertzDeutsch from 'three-mesh-ui/examples/elements/keyboard/keyboard-layouts/QwertzDeutsch';

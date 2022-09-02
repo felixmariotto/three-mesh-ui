@@ -16,7 +16,7 @@ import FontJSON from 'three-mesh-ui/examples/assets/fonts/msdf/roboto/regular.js
 import FontImage from 'three-mesh-ui/examples/assets/fonts/msdf/roboto/regular.png';
 import InteractiveRaycaster from 'three-mesh-ui/examples/interactive/InteractiveRaycaster';
 import { _injectCSS } from 'three-mesh-ui/examples/_setup/Html';
-import InteractiveCursor from 'three-mesh-ui/examples/interactive/InteractiveCursor';
+import InteractiveCursor from 'three-mesh-ui/examples/interactive/listeners/InteractiveCursor';
 
 let scene, camera, renderer, controls, vrControl, interactiveRaycaster;
 let meshContainer, meshes, currentMesh;

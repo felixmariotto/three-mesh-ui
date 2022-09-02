@@ -248,6 +248,11 @@ export default class TextLayouter extends BaseProperty {
 
 	}
 
+	/**
+	 *
+	 * @param inlineElement
+	 * @protected
+	 */
 	_resetInlines ( inlineElement ) {
 
 		// ensure no collapsed remains
