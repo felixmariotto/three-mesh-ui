@@ -72,7 +72,7 @@ function makePanels() {
 	const container = new ThreeMeshUI.Block( {
 		height: 1.6,
 		width: 2,
-		contentDirection: 'row',
+		flexDirection: 'row',
 		justifyContent: 'center',
 		backgroundOpacity: 0
 	} );

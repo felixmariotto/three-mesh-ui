@@ -83,12 +83,12 @@ function makeTextPanel() {
 	//
 
 	const text = new ThreeMeshUI.Text( {
-		content: 'onAfterUpdate get called after any update.\n\n',
+		textContent: 'onAfterUpdate get called after any update.\n\n',
 		fontSize: 0.055
 	} );
 
 	const counter = new ThreeMeshUI.Text( {
-		content: '0',
+		textContent: '0',
 		fontSize: 0.08
 	} );
 
@@ -106,7 +106,7 @@ function makeTextPanel() {
 	setInterval( () => {
 
 		count++;
-		counter.set( { content: String( count ) } );
+		counter.set( { textContent: String( count ) } );
 
 	}, 500 );
 

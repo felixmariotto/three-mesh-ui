@@ -1,10 +1,10 @@
 import CustomController from 'three-mesh-ui/examples/_setup/gui/controllers/CustomController';
-import { FunctionController } from 'lil-gui';
 
 export default class FontLoaderController extends CustomController {
 
 
-	$constructor( args ) {
+	/* eslint-disable no-unused-vars */
+	$constructor( args ) { /* eslint-enable no-unused-vars */
 
 		this.name('MSDF Font upload');
 
@@ -41,7 +41,7 @@ export default class FontLoaderController extends CustomController {
 		if (!this.$jsonFile.value.length) return;
 
 		// Create a new FileReader() object
-		let reader = new FileReader();
+		const reader = new FileReader();
 
 		// Setup the callback event to run when the file is read
 		reader.onload = this._loadedJson.bind(this);
@@ -70,7 +70,7 @@ export default class FontLoaderController extends CustomController {
 
 				this._pngData = img;
 
-				this._onChange.call( this, { json:this._jsonData, img: img } );
+				this._onChange({ json:this._jsonData, img: img } );
 
 			}
 

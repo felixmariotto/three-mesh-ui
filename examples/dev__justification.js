@@ -158,16 +158,16 @@ function init() {
 
 }
 
-function makeTextPanel( contentDirection ) {
+function makeTextPanel( flexDirection ) {
 
 	container = new ThreeMeshUI.Block( {
 		height: DIM_HIGH + 0.2,
 		width: DIM_HIGH + 0.2,
-		contentDirection: contentDirection,
+		flexDirection: flexDirection,
 		justifyContent: 'center',
 		backgroundOpacity: 1,
 		backgroundColor: new THREE.Color( 'grey' ),
-		hiddenOverflow: true,
+		overflow: 'hidden',
 		fontFamily: "Roboto"
 	} );
 
@@ -179,7 +179,7 @@ function makeTextPanel( contentDirection ) {
 
 		const color = new THREE.Color( justificationLegend[ i ].color );
 		const id = justificationLegend[ i ].id;
-		const panel = buildJustifiedPanel( id, color, contentDirection === 'column' ? 'row' : 'column' );
+		const panel = buildJustifiedPanel( id, color, flexDirection === 'column' ? 'row' : 'column' );
 
 		container.add( panel );
 	}
@@ -187,12 +187,12 @@ function makeTextPanel( contentDirection ) {
 	return container;
 }
 
-function buildJustifiedPanel( id, color, contentDirection ) {
+function buildJustifiedPanel( id, color, flexDirection ) {
 
 	const panel = new ThreeMeshUI.Block( {
-		width: contentDirection === 'row' ? DIM_HIGH : DIM_LOW,
-		height: contentDirection === 'row' ? DIM_LOW : DIM_HIGH,
-		flexDirection: contentDirection,
+		width: flexDirection === 'row' ? DIM_HIGH : DIM_LOW,
+		height: flexDirection === 'row' ? DIM_LOW : DIM_HIGH,
+		flexDirection: flexDirection,
 		justifyContent: id,
 		backgroundOpacity: 0.3,
 		backgroundColor: 0xff9900,
@@ -263,7 +263,7 @@ function makeTitlePanel(){
 		panel.add(
 			new ThreeMeshUI.Inline( {
 				textContent: id + " ",
-				fontColor: color
+				color: color
 			} )
 		);
 

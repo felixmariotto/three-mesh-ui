@@ -46,8 +46,6 @@ export default class BoundsUVBehavior extends Behavior {
 
 		if ( this._subject._backgroundMesh ) {
 
-			console.log( "render");
-
 			const referenceMesh = this._subject._backgroundMesh;
 
 			// be sure that box is computed before acquiring it

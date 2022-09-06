@@ -472,7 +472,7 @@ export default class MeshUIBaseElement extends Object3D {
 
 	render() {
 
-		 // console.log( 'render ', this.name );
+		// console.log( 'render ', this.name );
 		for ( let i = 0; i < this._components.length; i++ ) {
 			const component = this._components[ i ];
 			if( component._needsRender ) {
@@ -739,7 +739,7 @@ export default class MeshUIBaseElement extends Object3D {
 	_rebuildChildrenLists() {
 
 		//console.log( this.name, 'child added' );
-		// this._children._needsUpdate = true;
+		this._children._needsUpdate = true;
 
 	}
 

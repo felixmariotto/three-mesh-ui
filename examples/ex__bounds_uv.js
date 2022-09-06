@@ -135,7 +135,7 @@ function makeTextPanel() {
 		backgroundOpacity: 0,
 		justifyContent: 'center',
 		alignItems: 'center',
-		contentDirection: 'column',
+		flexDirection: 'column',
 	});
 
 	outerContainer.position.set( 0, 1, -1.8 );
@@ -156,11 +156,11 @@ function makeTextPanel() {
 	outerContainer.add( infoContainer );
 
 	infoContainer.add( new ThreeMeshUI.Inline({
-		content:"BoundsUVBehavior obtains the UV from another geometry\n",
+		textContent:"BoundsUVBehavior obtains the UV from another geometry\n",
 		fontWeight: '700',
 	}),
 		new ThreeMeshUI.Inline({
-			content:"This example uses a custom material to show the whole glyph box",
+			textContent:"This example uses a custom material to show the whole glyph box",
 			fontWeight: '400',
 			fontSize: 0.04
 		}));
@@ -215,7 +215,7 @@ function buildEffectContainer( title, subtitle, bindedTo) {
 
 	const defaultText = new ThreeMeshUI.Text({
 		textContent:"map",
-		fontColor: new THREE.Color(0xffffff)
+		color: new THREE.Color(0xffffff)
 	});
 	defaultText.fontMaterial = new ExampleBoundsUVMaterial({map:snakeTexture});
 
@@ -224,8 +224,8 @@ function buildEffectContainer( title, subtitle, bindedTo) {
 	effectContainer.add( textBlock );
 
 	const alphaText = new ThreeMeshUI.Text({
-		content:"alpha",
-		fontColor: new THREE.Color(0xFFFFFF)
+		textContent:"alpha",
+		color: new THREE.Color(0xFFFFFF)
 	});
 	alphaText.fontMaterial = new ExampleBoundsUVMaterial({alphaMap:smokeTexture});
 	textBlock = new ThreeMeshUI.Block({width:0.75,height:0.3, backgroundOpacity:0});
@@ -233,8 +233,8 @@ function buildEffectContainer( title, subtitle, bindedTo) {
 	effectContainer.add( textBlock );
 
 	const bothText = new ThreeMeshUI.Text({
-		content: "Both",
-		fontColor: new THREE.Color(0xffffff)
+		textContent: "Both",
+		color: new THREE.Color(0xffffff)
 	});
 	bothText.fontMaterial = new ExampleBoundsUVMaterial({
 		map: snakeTexture,

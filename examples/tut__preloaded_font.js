@@ -184,7 +184,7 @@ function step2BuildThreeMeshUIElements() {
 
 	// Lets build a first text that would be in bold, and use a MSDFNormalMaterial
 	const text1 = new ThreeMeshUI.Text( {
-			content: 'Managing fonts in three-mesh-ui',
+			textContent: 'Managing fonts in three-mesh-ui',
 			fontWeight: '700',
 			fontSize: 0.08
 		} );
@@ -200,7 +200,7 @@ function step2BuildThreeMeshUIElements() {
 		text1,
 
 		new ThreeMeshUI.Text( {
-			content: 'In this examples, 4 variants of the "Roboto" font are registered.',
+			textContent: 'In this examples, 4 variants of the "Roboto" font are registered.',
 		} ),
 
 		new ThreeMeshUI.Text({margin:'0.05 0 0.05 0.1'}).add(
@@ -211,16 +211,16 @@ function step2BuildThreeMeshUIElements() {
 		),
 
 		new ThreeMeshUI.Text( {
-			content: 'The registered bold variant in this example, will automatically set the material of a Text to use ',
+			textContent: 'The registered bold variant in this example, will automatically set the material of a Text to use ',
 		} ),
 
 		new ThreeMeshUI.Text( {
-			content: 'MSDFNormalMaterial.',
+			textContent: 'MSDFNormalMaterial.',
 			fontWeight: '700',
 		} ),
 
 		new ThreeMeshUI.Text( {
-			content: '\n\n* Managing and preloading fonts can display Text with no additional delays.',
+			textContent: '\n\n* Managing and preloading fonts can display Text with no additional delays.',
 			fontStyle: 'italic',
 			fontSize: 0.035
 		} )

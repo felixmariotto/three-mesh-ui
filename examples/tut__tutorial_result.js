@@ -97,7 +97,7 @@ function makeUI() {
 
   loader.load(SnakeImage, (texture) => {
     imageBlock.set({
-			backgroundTexture: texture,
+			backgroundImage: texture,
 			backgroundOpacity: 1,
 			backgroundColor: new THREE.Color(0xffffff)
 		});
@@ -111,14 +111,14 @@ function makeUI() {
   });
 
 	textBlock.add( new ThreeMeshUI.Inline({
-		content: " Mind your fingers.",
+		textContent: " Mind your fingers.",
 		fontSize: 0.07,
-		fontColor: new THREE.Color(0xefffe8),
+		color: new THREE.Color(0xefffe8),
 	}) )
 
 
   textBlock.set({
-		fontColor: new THREE.Color(0xd2ffbd),
+		color: new THREE.Color(0xd2ffbd),
 		fontSize: 0.06,
     textAlign: "right",
     justifyContent: "end",

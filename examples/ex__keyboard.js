@@ -296,7 +296,7 @@ function makeUI() {
 			height: 0.075,
 			width: 1,
 			// offset: 0,
-			contentDirection: 'row',
+			flexDirection: 'row',
 			justifyContent: 'center',
 			backgroundOpacity: 0
 		} ).add(
@@ -310,7 +310,7 @@ function makeUI() {
 			height: 0.075,
 			width: 1,
 			// offset: 0,
-			contentDirection: 'row',
+			flexDirection: 'row',
 			justifyContent: 'center',
 			backgroundOpacity: 0
 		} ).add(

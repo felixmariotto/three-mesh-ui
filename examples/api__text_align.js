@@ -93,7 +93,7 @@ function makeTextPanel( index, textAlign, last = false ) {
 	} );
 
 	const titleText = new ThreeMeshUI.Text( {
-		content: '.set({textAlign: "' + textAlign + '"})',
+		textContent: '.set({textAlign: "' + textAlign + '"})',
 		fontSize: 0.075
 	} );
 
@@ -121,7 +121,7 @@ function makeTextPanel( index, textAlign, last = false ) {
 
 	container.add(
 		new ThreeMeshUI.Text( {
-			content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
+			textContent: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
 			fontSize: 0.055
 		} )
 	);

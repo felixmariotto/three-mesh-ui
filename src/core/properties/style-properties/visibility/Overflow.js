@@ -182,7 +182,6 @@ export default class Overflow extends SubStyleProperty {
 
 	_propagateRender( element ) {
 
-		console.log( element.constructor.name, "Propagate children ");
 		for ( let i = 0; i < element._children._uis.length; i++ ) {
 			const ui = element._children._uis[ i ];
 			ui._overflow._needsRender = true;

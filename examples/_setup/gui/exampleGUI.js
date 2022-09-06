@@ -1,4 +1,4 @@
-import GUI, { NumberController } from 'lil-gui';
+import GUI from 'lil-gui';
 import CustomController from 'three-mesh-ui/examples/_setup/gui/controllers/CustomController';
 import D4Controller from 'three-mesh-ui/examples/_setup/gui/controllers/D4Controller';
 import FontLoaderController from 'three-mesh-ui/examples/_setup/gui/controllers/FontLoaderController';

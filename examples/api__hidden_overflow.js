@@ -79,7 +79,7 @@ function makeTextPanel() {
 		backgroundOpacity: 0.2,
 		renderOrder: 150
 	} ).add(
-		new ThreeMeshUI.Inline( { content: 'hiddenOverflow attribute :' } )
+		new ThreeMeshUI.Inline( { textContent: 'hiddenOverflow attribute :' } )
 	);
 
 	window.title = title;
@@ -106,7 +106,7 @@ function makeTextPanel() {
 		borderColor: new THREE.Color(0xff99ff),
 		backgroundOpacity: 1,
 		backgroundColor: new THREE.Color(0xffffff),
-		backgroundTexture : new TextureLoader().load("./assets/uv_grid.jpg"),
+		backgroundImage : new TextureLoader().load("./assets/uv_grid.jpg"),
 		backgroundSize: 'stretch',
 		overflow: 'hidden'
 	} );
@@ -146,7 +146,7 @@ function makeTextPanel() {
 	//
 
 	const text = new ThreeMeshUI.Text( {
-		content: 'hiddenOverflow '.repeat( 28 ),
+		textContent: 'hiddenOverflow '.repeat( 28 ),
 		fontSize: 0.054,
 		fontFamily: FontJSON,
 		fontTexture: FontImage

@@ -960,9 +960,10 @@ class MarginProperty extends StyleVector4Property {
 
 		super.computeOutputValue( element );
 
+		element._renderer._needsRender = true;
+
 		if( element._parent._value ){
 			element._parent._value._flexDirection._needsProcess = true;
-			// element._parent._value._layouter._needsProcess = true;
 		}
 	}
 
@@ -1792,7 +1793,7 @@ function FontProperty_isValid( value ) {
 function _readyClosure( element, fontProperty ) {
 	return function () {
 
-		fontProperty._needsUpdate = true;
+		fontProperty._needsUpdate = true;// ? update itself?
 		element._glyphs._needsProcess = true;
 
 		// this._transferToMaterial();
@@ -2055,6 +2056,9 @@ class BackgroundImage extends SubStyleProperty {
 
 		super( 'backgroundImage', defaultValue, true );
 
+
+		this._input = null;
+
 		// configure
 		this._allowsInherit = false;
 
@@ -2097,7 +2101,7 @@ class BackgroundImage extends SubStyleProperty {
 		// out[this.id] = this._value;
 
 		if( this._value instanceof external_THREE_namespaceObject.Texture && !this._value.image ) {
-			console.warn( `ThreeMeshUI - .backgroundImage :: Please provided preloaded texture in order to have accurate sizing.`);
+			console.warn( `ThreeMeshUI - .backgroundImage :: Please provide preloaded texture in order to have accurate sizing.`);
 			return;
 		}
 
@@ -2257,9 +2261,11 @@ class Overflow extends SubStyleProperty {
 		super.computeOutputValue( element );
 
 		if( this._value === 'hidden' ) {
-			this._renderStrategy = this._hiddenRender;
+
+			this._renderStrategy = this._propagateRender;
 
 		}else{
+
 			this._renderStrategy = this._emptyRender;
 			this._clippingPlanes = null;
 		}
@@ -2320,6 +2326,7 @@ class Overflow extends SubStyleProperty {
 
 	_hiddenRender( element ) {
 
+
 		const parentUI = element._parent._value;
 
 		const yLimit = parentUI._bounds._offsetHeight;
@@ -2327,7 +2334,7 @@ class Overflow extends SubStyleProperty {
 		const padding = parentUI._padding._value;
 		const border = parentUI._borderWidth._value;
 
-		for ( let i = 0; i < 4; i++ ) {
+		for ( let i = 0; i < 4 && i < this._clippingPlanes.length ; i++ ) {
 			const clippingPlane = this._clippingPlanes[ i ];
 
 			switch ( i % 4 ) {
@@ -2354,6 +2361,20 @@ class Overflow extends SubStyleProperty {
 
 			clippingPlane.applyMatrix4( parentUI.matrixWorld )
 
+		}
+
+		for ( let i = 0; i < element._children._uis.length; i++ ) {
+			const ui = element._children._uis[ i ];
+			ui._overflow._needsRender = true;
+		}
+
+	}
+
+	_propagateRender( element ) {
+
+		for ( let i = 0; i < element._children._uis.length; i++ ) {
+			const ui = element._children._uis[ i ];
+			ui._overflow._needsRender = true;
 		}
 
 	}
@@ -3064,6 +3085,8 @@ class VisibleProperty extends BaseProperty{
 
 		super( 'visible', value, true );
 
+		this._needsUpdate = false;
+
 	}
 
 	/* eslint-disable no-unused-vars */ update( element, out ) { 	/* eslint-enable no-unused-vars */
@@ -3476,17 +3499,9 @@ class OrderProperty extends SubStyleProperty {
 
 		this._value = this._inheritedInput;
 
-		this._needsProcess = true;
-
-	}
-
-	process( element ) {
-
 		// require parent children (order) update, which will require layout update
 		if( element._parent._value ) {
 
-			// reorder children
-			element._parent._value._children._needsUpdate = true;
 			element._parent._value._children._needsProcess = true;
 
 		}
@@ -4600,7 +4615,7 @@ class MSDFTypographicGlyph extends TypographicGlyph {
 
 /* eslint-enable no-unused-vars */
 
-class MSDFGeometricGlyph extends external_THREE_namespaceObject.PlaneBufferGeometry {
+class MSDFGeometricGlyph extends external_THREE_namespaceObject.PlaneGeometry {
 
 	/**
 	 *
@@ -5432,6 +5447,7 @@ class MSDFFontVariant extends font_FontVariant {
 
 		if ( texture instanceof external_THREE_namespaceObject.Texture ) {
 
+			this._texture = texture;
 			this._buildTexture( texture );
 
 		} else {
@@ -5562,7 +5578,7 @@ class MSDFFontVariant extends font_FontVariant {
 	 */
 	_readyCondition() {
 
-		return this._chars && this._texture;
+		return this._chars && this._texture && this._texture.image;
 
 	}
 
@@ -6194,6 +6210,12 @@ class LineHeightProperty extends SubStyleProperty {
 
 	}
 
+	update( element, out ) {
+		super.update( element, out );
+
+		element._layouter._needsProcess = true;
+	}
+
 }
 
 
@@ -6416,6 +6438,8 @@ class InheritableMaterialProperty extends InheritableProperty {
 			};
 
 		}
+
+		element._transferToFontMaterial();
 
 		// dispatch to children
 
@@ -6763,6 +6787,8 @@ class MeshUIBaseElement extends external_THREE_namespaceObject.Object3D {
 			this._parent,
 
 
+			this._autoSize,
+
 
 			this._fontFamily,
 			this._fontStyle,
@@ -6827,9 +6853,6 @@ class MeshUIBaseElement extends external_THREE_namespaceObject.Object3D {
 			this._fontKerning,
 			this._letterSpacing,
 
-
-			this._overflow,
-
 			this._borderRadius,
 			this._borderColor,
 			this._borderOpacity,
@@ -6843,7 +6866,6 @@ class MeshUIBaseElement extends external_THREE_namespaceObject.Object3D {
 			this._inlineJustificator,
 			this._textAlign,
 
-			this._autoSize,
 
 			// !! this._renderer renderer MUST NOT BE in components !!
 
@@ -6852,7 +6874,8 @@ class MeshUIBaseElement extends external_THREE_namespaceObject.Object3D {
 
 			this._fontMaterial,
 			this._fontCustomDepthMaterial,
-			this._renderer
+			this._renderer,
+			this._overflow,
 		]
 
 
@@ -6888,16 +6911,12 @@ class MeshUIBaseElement extends external_THREE_namespaceObject.Object3D {
 
 			if( component._needsUpdate ) {
 
-				// console.log( '    ', component.constructor.name)
+				// console.log( '    ', component.id )
 				component.update( this, out );
 				component._needsUpdate = false;
 
 			}
 
-		}
-
-		if( out.size ) {
-			console.log( out.size );
 		}
 
 		this._transferToBackgroundMesh( out );
@@ -6922,7 +6941,7 @@ class MeshUIBaseElement extends external_THREE_namespaceObject.Object3D {
 		}
 
 
-		// console.log( this.name );
+		// console.log( 'Process ', this.name );
 		for ( const component of this._components ) {
 
 			if( component._needsProcess ) {
@@ -6939,9 +6958,11 @@ class MeshUIBaseElement extends external_THREE_namespaceObject.Object3D {
 
 	render() {
 
+		// console.log( 'render ', this.name );
 		for ( let i = 0; i < this._components.length; i++ ) {
 			const component = this._components[ i ];
 			if( component._needsRender ) {
+				// console.log( '    ', component.id);
 				component.render( this );
 				component._needsRender = false;
 			}
@@ -8894,6 +8915,8 @@ class ChildrenBox extends BaseProperty {
 		element._flexDirection._needsProcess = true;
 		element._layouter._needsProcess = true;
 
+		element._overflow._needsRender = true;
+
 	}
 
 	_compute( element ) {
@@ -9162,6 +9185,8 @@ class BoundsBox extends BaseProperty {
 		this._size.x = this._offsetWidth;
 		this._size.y = this._offsetHeight;
 
+		element._renderer._needsRender = true;
+
 	}
 
 	/**
@@ -9188,6 +9213,8 @@ class BoundsBox extends BaseProperty {
 		// update primitives or unbinded values
 
 		// require cascading processes
+
+		element._overflow._needsRender = true;
 
 
 	}
@@ -9255,6 +9282,8 @@ class BoundsBox extends BaseProperty {
 
 		element._borderWidth._needsRender = true;
 		element._borderRadius._needsRender = true;
+
+		element._overflow._needsRender = true;
 
 	}
 
@@ -10179,7 +10208,7 @@ class Frame extends external_THREE_namespaceObject.Mesh {
 	 */
 	constructor( element ) {
 
-		const geometry = new external_THREE_namespaceObject.PlaneBufferGeometry( 1, 1, element._segments.value, element._segments.value );
+		const geometry = new external_THREE_namespaceObject.PlaneGeometry( 1, 1, element._segments.value, element._segments.value );
 
 		// Add additional uv for borders computations by copying initial uv
 		const uvB = new external_THREE_namespaceObject.BufferAttribute( new Float32Array( geometry.getAttribute('uv').array ), 2);
@@ -13894,6 +13923,11 @@ class TextLayouter extends BaseProperty {
 
 	}
 
+	/**
+	 *
+	 * @param inlineElement
+	 * @protected
+	 */
 	_resetInlines ( inlineElement ) {
 
 		// ensure no collapsed remains
@@ -14233,6 +14267,8 @@ class ChildrenText extends BaseProperty {
 
 		this._compute( element );
 
+		element._overflow._needsRender = true;
+
 	}
 
 	_compute( element ) {
@@ -14412,7 +14448,10 @@ class TextElement extends BoxElement {
 
 		}
 
-		if( updateLayout ) this._layouter._needsProcess = true;
+		if( updateLayout ) {
+			this._children._needsUpdate = true;
+			this._layouter._needsProcess = true;
+		}
 
 
 		return this;
@@ -14432,6 +14471,8 @@ class TextElement extends BoxElement {
 			}
 
 		}
+
+		this._children._uis = [];
 
 		if( value ) {
 

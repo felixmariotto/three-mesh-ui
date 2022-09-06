@@ -93,7 +93,7 @@ function makeTextPanel() {
 		backgroundOpacity: 0.5,
 		justifyContent: 'end',
 		alignItems: 'end',
-		fontColor: new THREE.Color( 0x333333 ),
+		color: new THREE.Color( 0x333333 ),
 		fontFamily: FontJSON,
 		fontTexture: FontImage
 	} );
@@ -131,7 +131,7 @@ function makeAbsoluteBlock( string, x, y ) {
 		backgroundOpacity: 0.2
 	} );
 
-	text.add( new ThreeMeshUI.Text( { content: string } ) );
+	text.add( new ThreeMeshUI.Text( { textContent: string } ) );
 
 	text.autoLayout = false;
 	text.position.set( x, y, 0 );

@@ -2,7 +2,7 @@
 // xfg:type tool
 // xfg:copyright Rye font author is Nicole Fally
 
-import { Block } from 'three-mesh-ui';
+import { Block, Text } from 'three-mesh-ui';
 
 let text;
 //
@@ -10,7 +10,7 @@ let text;
 function example(){
 
 
-	text = new ThreeMeshUI.Text( {
+	text = new Text( {
 		width: 2.4,
 		textAlign: 'center',
 		alignItems: 'start',
@@ -154,7 +154,7 @@ import { exampleAddResizer, exampleManualRender, exampleNoRenderLoop, exampleRen
 import { adjustRobotoAndVariants, registerRobotoAndVariants } from 'three-mesh-ui/examples/_setup/RobotoFont';
 import { exampleCameraOrthographic, exampleCameraOrthographicResize } from 'three-mesh-ui/examples/_setup/CameraOrthographic';
 import exampleGUI from 'three-mesh-ui/examples/_setup/gui/exampleGUI';
-import { DefaultValues, FontLibrary, Inline, Text } from 'three-mesh-ui';
+import { DefaultValues, FontLibrary, Inline } from 'three-mesh-ui';
 import { Mesh, MeshBasicMaterial, PlaneBufferGeometry, Texture } from 'three';
 /* eslint-disable no-unused-vars */
 
@@ -268,7 +268,9 @@ function baselineGUI() {
 	p.export = () => {
 		console.log( `{MSDFVariant}.adjustTypographicGlyphs ( ${JSON.stringify(alterations, null, 2 )} );` );
 		navigator.clipboard.writeText( `{MSDFVariant}.adjustTypographicGlyphs ( ${JSON.stringify(alterations, null, 2 )} );` );
+		/* eslint-disable no-alert */
 		alert('Adjustments have been copied in your clipboard and in the console.')
+		/* eslint-enable no-alert */
 	}
 
 	gui.add( p, 'zoom', 100, 800, 10).onChange( z => {

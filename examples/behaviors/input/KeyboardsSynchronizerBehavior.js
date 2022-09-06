@@ -27,8 +27,6 @@ export default class KeyboardsSynchronizerBehavior extends Behavior {
 
 		let lowerKey = event.key.toLowerCase();
 
-		console.log( 'lowerKey ', lowerKey );
-
 		if ( lowerKey === ' ' ) lowerKey = 'space';
 		if ( lowerKey === 'delete' ) lowerKey = 'backspace';
 		switch ( lowerKey ) {

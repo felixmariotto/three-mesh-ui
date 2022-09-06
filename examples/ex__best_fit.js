@@ -104,7 +104,7 @@ function makeTextPanel() {
 		borderWidth: 0.02,
 		borderOpacity: 1,
 		borderColor: new THREE.Color( 'orange' ),
-		fontColor: new THREE.Color( 0x333333 ),
+		color: new THREE.Color( 0x333333 ),
 		fontFamily: FontJSON,
 		fontTexture: FontImage,
 		width: 4,
@@ -116,7 +116,7 @@ function makeTextPanel() {
 	scene.add( warningContainer );
 
 	const warningTextBlock = new ThreeMeshUI.Text( {
-		content: '* Warning - The Best Fit functionality is computationally expensive and therefore should not be used if you intend to update the container size every frame. ' +
+		textContent: '* Warning - The Best Fit functionality is computationally expensive and therefore should not be used if you intend to update the container size every frame. ' +
 			'If you do need to update the container while using this functionality, it may be wise to only do so at intervals.',
 		fontSize: 0.075
 	} );
@@ -149,7 +149,7 @@ function makeTextPanel() {
 			backgroundColor: new THREE.Color( 0xd9d9d9 ),
 			backgroundOpacity: 1,
 			borderRadius: 0.05,
-			fontColor: new THREE.Color( 0x111111 ),
+			color: new THREE.Color( 0x111111 ),
 			fontFamily: FontJSON,
 			fontTexture: FontImage,
 			width: 1.1,
@@ -161,7 +161,7 @@ function makeTextPanel() {
 		scene.add( titleContainer );
 
 		const titleTextBlock = new ThreeMeshUI.Text( {
-			content: HEADER_TEXT[ i ],
+			textContent: HEADER_TEXT[ i ],
 			fontSize: 0.075
 		} );
 
@@ -177,7 +177,7 @@ function makeTextPanel() {
 			borderColor: new THREE.Color( 0x333333 ),
 			justifyContent: 'end',
 			alignItems: 'center',
-			fontColor: new THREE.Color( 0x111111 ),
+			color: new THREE.Color( 0x111111 ),
 			fontFamily: FontJSON,
 			fontTexture: FontImage,
 			width: 1,
@@ -208,14 +208,14 @@ function makeTextPanel() {
 		innerContainers.push( innerContainer );
 
 		const firstTextBlock = new ThreeMeshUI.Inline( {
-			content: TEXT1[ i ],
+			textContent: TEXT1[ i ],
 			fontSize: 0.085
 		} );
 
 		innerContainer.add( firstTextBlock );
 
 		const secondTextBlock = new ThreeMeshUI.Inline( {
-			content: ' '+TEXT2[ i ],
+			textContent: ' '+TEXT2[ i ],
 			fontSize: 0.066
 		} );
 

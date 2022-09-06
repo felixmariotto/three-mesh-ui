@@ -4,7 +4,7 @@
 /* Import everything we need from Three.js */
 
 import * as THREE from 'three';
-import { Mesh, MeshBasicMaterial, PlaneBufferGeometry } from 'three';
+import { Mesh, MeshBasicMaterial, PlaneGeometry } from 'three';
 import { VRButton } from 'three/examples/jsm/webxr/VRButton.js';
 import { BoxLineGeometry } from 'three/examples/jsm/geometries/BoxLineGeometry.js';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
@@ -144,8 +144,6 @@ function makeUI() {
 		}
 		lines = [];
 
-		console.log(textBlock.lines);
-
 
 		// retrieve all lines sent by InlineManager for the textBlock
 		for ( let i = 0; i < textBlock.lines.length; i++ ) {
@@ -160,7 +158,7 @@ function makeUI() {
 			const deltaLine = lineHeight - lineBase;
 
 			// TextBackground
-			const lineGeo = new PlaneBufferGeometry( line.width, lineHeight );
+			const lineGeo = new PlaneGeometry( line.width, lineHeight );
 			const lineMesh = new Mesh( lineGeo, lineMat );
 			lineMesh.name = 'DevLineMesh';
 
@@ -172,7 +170,7 @@ function makeUI() {
 			textBlock.add( lineMesh );
 
 			// baseline
-			const baselineMesh = new Mesh( new PlaneBufferGeometry( line.width, 0.001 ), baseMat );
+			const baselineMesh = new Mesh( new PlaneGeometry( line.width, 0.001 ), baseMat );
 			baselineMesh.position.x = lineMesh.position.x;
 			// baselineMesh.position.y = line.y + lineBase/2 - (lineHeight-lineBase); // Baseline
 			baselineMesh.position.y = lineMesh.position.y - lineBase/2 - 0.0005;
@@ -182,7 +180,7 @@ function makeUI() {
 
 
 			// Median
-			const medianMesh = new Mesh( new PlaneBufferGeometry( line.width, 0.001 ), medianMat );
+			const medianMesh = new Mesh( new PlaneGeometry( line.width, 0.001 ), medianMat );
 
 			medianMesh.position.x = lineMesh.position.x;
 			medianMesh.position.y =  lineMesh.position.y + deltaLine/2 + 0.0005; // Baseline

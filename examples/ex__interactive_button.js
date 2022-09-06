@@ -1,4 +1,4 @@
-// xfg:title 			Interactive Button
+// xfg:title 			Interactive Button HTM
 // xfg:category		extend
 // xfg:group			hypermesh
 
@@ -9,7 +9,6 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 
 import ThreeMeshUI from 'three-mesh-ui';
 import * as HyperThreeMesh from 'three-mesh-ui/examples/hyperthreemesh/HyperThreeMesh';
-import VRControl from './utils/VRControl.js';
 import ShadowedLight from './utils/ShadowedLight.js';
 
 import FontJSON from 'three-mesh-ui/examples/assets/fonts/msdf/roboto/regular.json';
@@ -17,6 +16,7 @@ import FontImage from 'three-mesh-ui/examples/assets/fonts/msdf/roboto/regular.p
 import InteractiveRaycaster from 'three-mesh-ui/examples/interactive/InteractiveRaycaster';
 import { _injectCSS } from 'three-mesh-ui/examples/_setup/Html';
 import InteractiveCursor from 'three-mesh-ui/examples/interactive/listeners/InteractiveCursor';
+import VRControl from 'three-mesh-ui/examples/controls/VRControl';
 
 let scene, camera, renderer, controls, vrControl, interactiveRaycaster;
 let meshContainer, meshes, currentMesh;
@@ -152,17 +152,17 @@ function init() {
 	//
 
 	const sphere = new THREE.Mesh(
-		new THREE.IcosahedronBufferGeometry( 0.3, 1 ),
+		new THREE.IcosahedronGeometry( 0.3, 1 ),
 		new THREE.MeshStandardMaterial( { color: 0x3de364, flatShading: true } )
 	);
 
 	const box = new THREE.Mesh(
-		new THREE.BoxBufferGeometry( 0.45, 0.45, 0.45 ),
+		new THREE.BoxGeometry( 0.45, 0.45, 0.45 ),
 		new THREE.MeshStandardMaterial( { color: 0x643de3, flatShading: true } )
 	);
 
 	const cone = new THREE.Mesh(
-		new THREE.ConeBufferGeometry( 0.28, 0.5, 10 ),
+		new THREE.ConeGeometry( 0.28, 0.5, 10 ),
 		new THREE.MeshStandardMaterial( { color: 0xe33d4e, flatShading: true } )
 	);
 

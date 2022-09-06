@@ -2,7 +2,7 @@
 // xfg:category extend
 
 import * as THREE from 'three';
-import { AmbientLight, DoubleSide, Mesh, MeshStandardMaterial, PlaneBufferGeometry, SpotLight, SpotLightHelper } from 'three';
+import { AmbientLight, DoubleSide, Mesh, MeshStandardMaterial, PlaneGeometry, SpotLight, SpotLightHelper } from 'three';
 import { VRButton } from 'three/examples/jsm/webxr/VRButton.js';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import { BoxLineGeometry } from 'three/examples/jsm/geometries/BoxLineGeometry.js';
@@ -164,7 +164,7 @@ function init() {
 	scene.add( room );
 
 	const wall = new Mesh(
-		new PlaneBufferGeometry(6,6,5,5),
+		new PlaneGeometry(6,6,5,5),
 		new MeshStandardMaterial( {color:0xffffff} )
 	);
 	wall.position.y = 3;
@@ -207,7 +207,7 @@ function makeTextPanel() {
 	const text1 = new ThreeMeshUI.Text( {
 			textContent: 'Geometry',
 			fontWeight: '700',
-			fontColor: 0x00ff99,
+			color: 0x00ff99,
 			fontSize: 0.7,
 			segments: 4,
 			letterSpacing: -0.08,

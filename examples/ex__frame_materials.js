@@ -11,7 +11,7 @@ function example() {
 		width: 3.2,
 		height: 3.2,
 		backgroundOpacity: 0,
-		contentDirection: 'row',
+		flexDirection: 'row',
 		justifyContent: 'center',
 		alignItems: 'center',
 		fontFamily: RobotoFontFamily,
@@ -59,8 +59,8 @@ const BACKGROUND_COLOR = new THREE.Color( 0xff9900 );
 const BORDER_COLOR = new THREE.Color( 0xff9900 );
 const WHITE_COLOR = new THREE.Color( 0xffffff );
 
-const COLUMN = { width:0.45, height: 0.45, margin: 0.02, contentDirection: 'column', justifyContent: "center", backgroundOpacity: 0 };
-const FILL_BLOCK = { width: 0.45, height: 0.45, margin:0.02, borderRadius:0.05,backgroundColor:BACKGROUND_COLOR, borderColor: BORDER_COLOR };
+const COLUMN = { width:0.45, height: 0.45, margin: 0.02, flexDirection: 'column', justifyContent: "center", backgroundOpacity: 0 };
+const FILL_BLOCK = { boxSizing: 'border-box', width: 0.45, height: 0.45, margin:0.02, borderRadius:0.05,backgroundColor:BACKGROUND_COLOR, borderColor: BORDER_COLOR };
 const BORDER_BLOCK = { ...FILL_BLOCK, backgroundOpacity:0, borderWidth:0.05 };
 const FULL_BLOCK = { ...FILL_BLOCK, borderWidth: 0.05 };
 const PHYSICAL_MATERIAL_OPTIONS = {

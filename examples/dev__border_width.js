@@ -65,7 +65,7 @@ function init() {
 	// TEXT PANEL
 	rootBlock = new ThreeMeshUI.Block({
 		width:3.25,
-		contentDirection: 'column',
+		flexDirection: 'column',
 		justifyContent: 'center',
 		alignItems: 'center'
 	});
@@ -74,7 +74,7 @@ function init() {
 	const title = new ThreeMeshUI.Text({
 		fontFamily: 'Roboto',
 		fontSize: 0.055,
-		content: 'Border - Units and radiuses'
+		textContent: 'Border - Units and radiuses'
 	})
 
 	titleBlock.add( title );
@@ -82,7 +82,7 @@ function init() {
 
 	rootBlock.position.set(0,1,-2);
 
-	columnContainer = new ThreeMeshUI.Block({width:3.25,contentDirection:'row', alignItems:'start', justifyContent: 'space-between'});
+	columnContainer = new ThreeMeshUI.Block({width:3.25,flexDirection:'row', alignItems:'start', justifyContent: 'space-between'});
 
 	rootBlock.add(columnContainer)
 
@@ -91,7 +91,7 @@ function init() {
 		const block = b1.blocks[ i ];
 		block._borderWidth.units = 'rem';
 		block.set({borderWidth: 0.1,borderOpacity:0.6, borderColor:new Color(0xff99ff)});
-		block.set({backgroundTexture: uvTexture, backgroundSize:'stretch',backgroundColor:new THREE.Color(0xFFFFFF)});
+		block.set({backgroundImage: uvTexture, backgroundSize:'stretch',backgroundColor:new THREE.Color(0xFFFFFF)});
 	}
 	columnContainer.add(b1);
 
@@ -100,7 +100,7 @@ function init() {
 		const block = b2.blocks[ i ];
 		block._borderWidth.units = 'em';
 		block.set({borderWidth: 0.1,borderOpacity:0.6, borderColor:new Color(0xff99ff)});
-		block.set({backgroundTexture: uvTexture, backgroundSize:'stretch',backgroundColor:new THREE.Color(0xFFFFFF)});
+		block.set({backgroundImage: uvTexture, backgroundSize:'stretch',backgroundColor:new THREE.Color(0xFFFFFF)});
 	}
 
 
@@ -121,13 +121,13 @@ function init() {
 
 function createColumn(text){
 
-	const column = new ThreeMeshUI.Block({width:1, contentDirection: 'column', alignItems:'center', justifyContent: 'start'});
+	const column = new ThreeMeshUI.Block({width:1, flexDirection: 'column', alignItems:'center', justifyContent: 'start'});
 
 	const titleBlock = new ThreeMeshUI.Block({width:1,height:0.25});
 	const title = new ThreeMeshUI.Text({
 		fontFamily: 'Roboto',
 		fontSize: 0.035,
-		content: text
+		textContent: text
 	})
 
 	titleBlock.add( title );

@@ -83,7 +83,7 @@ function example() {
  * Not really related to the example itself : Creating three renderer, scene, lights, etc...
  **********************************************************************************************************************/
 
-import { exampleAddResizer, exampleManualRender, exampleManualRenderThreeOnly, exampleNoRenderLoop, exampleRender, exampleThreeSetup } from 'three-mesh-ui/examples/_setup/ThreeSetup';
+import { exampleAddResizer, exampleManualRenderThreeOnly, exampleNoRenderLoop, exampleRender, exampleThreeSetup } from 'three-mesh-ui/examples/_setup/ThreeSetup';
 import { exampleFontPreloadRoboto } from 'three-mesh-ui/examples/_setup/RobotoFont';
 import { exampleCameraOrthographic, exampleCameraOrthographicResize } from 'three-mesh-ui/examples/_setup/CameraOrthographic';
 import { exampleRulers } from 'three-mesh-ui/examples/_setup/RulersVR';

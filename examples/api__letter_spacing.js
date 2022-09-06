@@ -139,7 +139,7 @@ function makeTextPanel() {
 		height: 0.1,
 		alignItems: 'center',
 		fontOpacity: 1,
-		content: '.letterSpacing adds a constant space between each characters.',
+		textContent: '.letterSpacing adds a constant space between each characters.',
 		fontSize: 0.055,
 		backgroundColor : 0xffffff,
 		backgroundOpacity: 0,

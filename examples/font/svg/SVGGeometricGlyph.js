@@ -1,7 +1,7 @@
-import { ExtrudeBufferGeometry } from 'three';
+import { ExtrudeGeometry } from 'three';
 
 // This implementation arbitrary choose to use ExtrudedGeometry, but it will also work with ShapeGeometry
-export default class SVGGeometricGlyph extends ExtrudeBufferGeometry {
+export default class SVGGeometricGlyph extends ExtrudeGeometry {
 
 	/**
 	 *

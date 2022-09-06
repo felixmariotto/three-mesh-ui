@@ -69,7 +69,7 @@ function makeTextPanel() {
 		padding: 0.1,
 		fontFamily: FontJSON,
 		fontTexture: FontImage,
-		fontColor: new THREE.Color( 0xffffff ),
+		color: new THREE.Color( 0xffffff ),
 
 		backgroundColor: 0x000000,
 		backgroundOpacity: 0.25,

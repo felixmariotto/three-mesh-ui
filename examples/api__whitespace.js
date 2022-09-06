@@ -92,7 +92,7 @@ function makeTextPanel( index, whitespace, last = false) {
 	} );
 
 	const titleText = new ThreeMeshUI.Text( {
-			content: '.set({whiteSpace: "'+whitespace+'"})',
+			textContent: '.set({whiteSpace: "'+whitespace+'"})',
 			fontSize: 0.075
 		} );
 
@@ -121,7 +121,7 @@ function makeTextPanel( index, whitespace, last = false) {
 
 	container.add(
 		new ThreeMeshUI.Text( {
-			content: `But ere she from the church-door stepped
+			textContent: `But ere she from the church-door stepped
      She smiled and told us why:
 'It was a wicked woman's curse,'
      Quoth she, 'and what care I?'

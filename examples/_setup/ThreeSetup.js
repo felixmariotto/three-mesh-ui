@@ -50,7 +50,7 @@ export const exampleThreeSetup = function ( camera ) {
 
 }
 
-const controlsUpdate = function() {
+export const controlsUpdate = function() {
 
 	controls.update();
 	requestAnimationFrame( controlsUpdate );

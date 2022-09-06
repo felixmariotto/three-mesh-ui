@@ -67,7 +67,7 @@ function makeTextPanel() {
 		padding: 0.025,
 		fontFamily: FontJSON,
 		fontTexture: FontImage,
-		fontColor: new THREE.Color( 0xffffff ),
+		color: new THREE.Color( 0xffffff ),
 		backgroundOpacity: 0,
 		flexDirection: 'column',
 		justifyContent: 'center',
@@ -138,16 +138,16 @@ function makeTextPanel() {
 		textAlign: 'center',
 	} ).add(
 		new ThreeMeshUI.Inline( {
-			content: 'Known for its extremely keeled dorsal scales that give it a ',
+			textContent: 'Known for its extremely keeled dorsal scales that give it a ',
 		} ),
 
 		new ThreeMeshUI.Inline( {
-			content: 'bristly',
-			fontColor: new THREE.Color( 0x92e66c ),
+			textContent: 'bristly',
+			color: new THREE.Color( 0x92e66c ),
 		} ),
 
 		new ThreeMeshUI.Inline( {
-			content: ' appearance.',
+			textContent: ' appearance.',
 		} )
 	);
 
@@ -166,7 +166,7 @@ function makeTextPanel() {
 	//
 
 	const contentContainer = new ThreeMeshUI.Block( {
-		contentDirection: 'row',
+		flexDirection: 'row',
 		alignItems: 'stretch',
 		padding: 0.02,
 		margin: 0.025,
@@ -182,7 +182,7 @@ function makeTextPanel() {
 		leftSubBlock.set( {
 			backgroundColor: new THREE.Color( 0xffffff ),
 			backgroundOpacity: 1,
-			backgroundTexture: texture,
+			backgroundImage: texture,
 		} );
 	} );
 }

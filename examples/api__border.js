@@ -66,13 +66,14 @@ function init() {
 function makeTextPanel() {
 
 	panel = new ThreeMeshUI.Block( {
-		width: 3,
+		width: 1,
 		height: 0.8,
 		fontSize: 0.055,
 		justifyContent: 'center',
 		textAlign: 'center',
 		fontFamily: FontJSON,
-		fontTexture: FontImage
+		fontTexture: FontImage,
+		backgroundColor : 0x000000,
 	} );
 
 	panel.position.set( 0, 1, -1.8 );
@@ -83,7 +84,7 @@ function makeTextPanel() {
 
 	panel.add(
 		new ThreeMeshUI.Text( {
-			content: `Block.borderRadius\n\nBlock.borderWidth\n\nBlock.borderColor\n\nBlock.borderOpacity`,
+			textContent: `Block.borderRadius\n\nBlock.borderWidth\n\nBlock.borderColor\n\nBlock.borderOpacity`,
 		} )
 	);
 
@@ -108,7 +109,7 @@ function loop() {
 		borderWidth: 0.05 - 0.06 * Math.sin( Date.now() / 500 ),
 		borderColor: new THREE.Color( 0.5 + 0.5 * Math.sin( Date.now() / 500 ), 0.5, 1 ),
 		borderOpacity: 1,
-		width: 2 + ( Math.sin( Date.now() / 500 ) ),
+		// width: 2 + ( Math.sin( Date.now() / 500 ) ),
 	} );
 
 	// console.log( panel.frame.material.uniforms.frameSize.value );

@@ -119,23 +119,23 @@ function makeTextPanel() {
 	} );
 
 	infoBox.add( new ThreeMeshUI.Text( {
-		content: '.invertAlpha ',
+		textContent: '.invertAlpha ',
 		fontWeight: '700',
 	} ) );
 
 	infoBox.add( new ThreeMeshUI.Text( {
-		content: '(* works on msdf font variants)',
+		textContent: '(* works on msdf font variants)',
 		fontStyle: 'italic',
 		fontSize: 0.035
 	} ) );
 
 	infoBox.add( new ThreeMeshUI.Text( {
-		content: ' inverts the alpha of the glyph.\n',
+		textContent: ' inverts the alpha of the glyph.\n',
 		fontWeight: '700',
 	} ) );
 
 	infoBox.add( new ThreeMeshUI.Text( {
-		content: 'The rendering will be a boxed char, with transparent inner.\n',
+		textContent: 'The rendering will be a boxed char, with transparent inner.\n',
 		letterSpacing: 0.05
 	} ) );
 
@@ -152,7 +152,7 @@ function makeKernedContainer( kerning ) {
 		width: 1.8,
 		height: 0.126,
 		padding: 0.05,
-		contentDirection: "row",
+		flexDirection: "row",
 		justifyContent: 'center',
 		textAlign: 'left',
 		fontFamily: "Roboto",
@@ -170,7 +170,7 @@ function makeKernedContainer( kerning ) {
 	} );
 
 	const title = new ThreeMeshUI.Text( {
-		content: `.set({invertAlpha: "${kerning}"})`,
+		textContent: `.set({invertAlpha: "${kerning}"})`,
 		fontSize: 0.055
 	} );
 
@@ -189,7 +189,7 @@ function makeKernedContainer( kerning ) {
 
 	textBox.add(
 		new ThreeMeshUI.Text( {
-			content: '.invertAlpha works on msdf texts',
+			textContent: '.invertAlpha works on msdf texts',
 			letterSpacing: 0.05,
 			invertAlpha: kerning,
 		} )

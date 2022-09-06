@@ -53,16 +53,16 @@ function init() {
 	scene.add( room );
 
 	// TEXT PANEL
-	const contentDirections = [
+	const flexDirections = [
 		'row',						// 'row' or ThreeMeshUI.ContentDirection.ROW,
 		'row-reverse',		// 'row-reverse' or ThreeMeshUI.ContentDirection.ROW_REVERSE,
 		'column',					// 'column' or ThreeMeshUI.ContentDirection.COLUMN,
 		'column-reverse'	// 'column-reverse' or ThreeMeshUI.ContentDirection.COLUMN_REVERSE,
 	];
 
-	for ( let i = 0; i < contentDirections.length; i++ ) {
-		const contentDirection = contentDirections[ i ];
-		makeTextPanel( i, contentDirection );
+	for ( let i = 0; i < flexDirections.length; i++ ) {
+		const flexDirection = flexDirections[ i ];
+		makeTextPanel( i, flexDirection );
 	}
 
 
@@ -74,7 +74,7 @@ function init() {
 
 //
 
-function makeTextPanel( index, contentDirection ) {
+function makeTextPanel( index, flexDirection ) {
 
 
 	const group = new Object3D();
@@ -90,7 +90,7 @@ function makeTextPanel( index, contentDirection ) {
 	} );
 
 	const titleText = new ThreeMeshUI.Text( {
-		content: '.set({contentDirection: "' + contentDirection + '"})',
+		textContent: '.set({flexDirection: "' + flexDirection + '"})',
 		fontSize: 0.075
 	} );
 
@@ -104,7 +104,7 @@ function makeTextPanel( index, contentDirection ) {
 		padding: 0.05,
 		justifyContent: 'center',
 		alignItems: 'center',
-		contentDirection: contentDirection,
+		flexDirection: flexDirection,
 		fontFamily: FontJSON,
 		fontTexture: FontImage
 	} );
@@ -128,7 +128,7 @@ function makeTextPanel( index, contentDirection ) {
 
 
 		const text = new ThreeMeshUI.Text( {
-			content: letters[ i ]
+			textContent: letters[ i ]
 		} );
 
 		blockText.add( text );

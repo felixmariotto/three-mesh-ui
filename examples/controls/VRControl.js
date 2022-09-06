@@ -3,7 +3,7 @@
  Job: creating the VR controllers and their pointers
  */
 import { XRControllerModelFactory } from 'three/examples/jsm/webxr/XRControllerModelFactory.js';
-import { BoxBufferGeometry, CanvasTexture, Matrix4, Mesh, MeshBasicMaterial, Sprite, SpriteMaterial } from 'three';
+import { BoxGeometry, CanvasTexture, Matrix4, Mesh, MeshBasicMaterial, Sprite, SpriteMaterial } from 'three';
 
 export default function VRControl( renderer ) {
 
@@ -22,7 +22,7 @@ export default function VRControl( renderer ) {
 		transparent: true
 	});
 
-	const geometry = new BoxBufferGeometry( 0.004, 0.004, 0.35 );
+	const geometry = new BoxGeometry( 0.004, 0.004, 0.35 );
 
 	geometry.translate( 0, 0, -0.15 );
 

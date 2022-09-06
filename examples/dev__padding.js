@@ -139,7 +139,7 @@ function step2BuildThreeMeshUIElements() {
 	rootBlock.add(
 
 		// new ThreeMeshUI.Text( {
-		// 	// three-mesh-ui Text should defined their content to display
+		// 	// three-mesh-ui Text should defined their flexDirection to display
 		// 	content: 'this is a text made of small words ',
 		//
 		// 	// if a Text is going to use the exact same Text properties as defined in its parent
@@ -324,7 +324,7 @@ function step2BuildThreeMeshUIElements() {
 
 		new ThreeMeshUI.Text( {
 			// three-mesh-ui Text should defined their content to display
-			content: 'this is a text made of small words '.repeat(2),
+			textContent: 'this is a text made of small words '.repeat(2),
 
 			// if a Text is going to use the exact same Text properties as defined in its parent
 			// there is no need to set those properties again
@@ -479,7 +479,7 @@ function step2BuildThreeMeshUIElements() {
 
 		new ThreeMeshUI.Text( {
 			// three-mesh-ui Text should defined their content to display
-			content: 'this is a text made of small words '.repeat(2),
+			textContent: 'this is a text made of small words '.repeat(2),
 
 			// if a Text is going to use the exact same Text properties as defined in its parent
 			// there is no need to set those properties again

@@ -63,9 +63,9 @@ function init() {
 	];
 
 	for ( let i = 0; i < justifications.length; i++ ) {
-		const contentDirection = justifications[ i ];
-		makeTextPanelColumn( i, contentDirection );
-		makeTextPanelRow( i, contentDirection );
+		const flexDirection = justifications[ i ];
+		makeTextPanelColumn( i, flexDirection );
+		makeTextPanelRow( i, flexDirection );
 	}
 
 	//
@@ -76,7 +76,7 @@ function init() {
 
 //
 
-function makeTextPanelColumn( index, contentDirection ) {
+function makeTextPanelColumn( index, flexDirection ) {
 
 
 	const group = new Object3D();
@@ -92,7 +92,7 @@ function makeTextPanelColumn( index, contentDirection ) {
 	} );
 
 	const titleText = new ThreeMeshUI.Text( {
-		content: contentDirection,
+		textContent: flexDirection,
 		fontSize: 0.075
 	} );
 
@@ -104,7 +104,7 @@ function makeTextPanelColumn( index, contentDirection ) {
 		width: 0.7,
 		height: 1,
 		padding: 0.05,
-		justifyContent: contentDirection,
+		justifyContent: flexDirection,
 		alignItems: 'center',
 		flexDirection: 'column',
 		fontFamily: FontJSON,
@@ -142,7 +142,7 @@ function makeTextPanelColumn( index, contentDirection ) {
 
 }
 
-function makeTextPanelRow( index, contentDirection ) {
+function makeTextPanelRow( index, flexDirection ) {
 
 
 	const group = new Object3D();
@@ -159,7 +159,7 @@ function makeTextPanelRow( index, contentDirection ) {
 	} );
 
 	const titleText = new ThreeMeshUI.Text( {
-		content: `.set({justifyContent: "${contentDirection}"})`,
+		textContent: `.set({justifyContent: "${flexDirection}"})`,
 		fontSize: 0.075
 	} );
 
@@ -171,7 +171,7 @@ function makeTextPanelRow( index, contentDirection ) {
 		width: 3,
 		height: 0.2,
 		padding: 0.05,
-		justifyContent: contentDirection,
+		justifyContent: flexDirection,
 		alignItems: 'center',
 		flexDirection: 'row',
 		fontFamily: FontJSON,

@@ -13,7 +13,7 @@ export const exampleRulers = function ( scene ) {
 
 	rulerHalf = new LineSegments(
 		new BoxLineGeometry( 6, 6, 6, 12, 12, 12 ).translate( 0, 0, 0.01 ),
-		new LineBasicMaterial( { lineWidth:10, color: 0xffffff, transparent:true, opacity:0.5} )
+		new LineBasicMaterial( { linewidth:1, color: 0xffffff, transparent:true, opacity:0.5} )
 	);
 
 	scene.add( ruler );

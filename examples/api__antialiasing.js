@@ -84,7 +84,7 @@ function makeTextPanel( x, rotX, rotY, rotZ, supersample ) {
 		alignItems: 'start',
 		fontFamily: FontJSON,
 		fontTexture: FontImage,
-		fontColor: new THREE.Color( 0xffffff ),
+		color: new THREE.Color( 0xffffff ),
 		backgroundOpacity: 1,
 		backgroundColor: new THREE.Color( 0x000000 ),
 		fontSmooth: supersample,

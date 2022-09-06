@@ -166,7 +166,6 @@ export default class MSDFFontVariant extends FontVariant {
 	 */
 	_readyCondition() {
 
-		console.log( this._chars, this._texture, this._texture.image );
 		return this._chars && this._texture && this._texture.image;
 
 	}

@@ -78,7 +78,7 @@ function init() {
 
 //
 
-function makeTextPanelColumn( index, contentDirection ) {
+function makeTextPanelColumn( index, flexDirection ) {
 
 
 	const group = new Object3D();
@@ -94,7 +94,7 @@ function makeTextPanelColumn( index, contentDirection ) {
 	} );
 
 	const titleText = new ThreeMeshUI.Text( {
-		content: contentDirection,
+		textContent: flexDirection,
 		fontSize: 0.075
 	} );
 
@@ -107,8 +107,8 @@ function makeTextPanelColumn( index, contentDirection ) {
 		height: 1,
 		padding: 0.01,
 		justifyContent: "space-evenly",
-		alignItems: contentDirection,
-		contentDirection: 'column',
+		alignItems: flexDirection,
+		flexDirection: 'column',
 		fontFamily: FontJSON,
 		fontTexture: FontImage
 	} );
@@ -131,7 +131,7 @@ function makeTextPanelColumn( index, contentDirection ) {
 
 
 		const text = new ThreeMeshUI.Text( {
-			content: letters[ i ]
+			textContent: letters[ i ]
 		} );
 
 		blockText.add( text );
@@ -148,7 +148,7 @@ function makeTextPanelColumn( index, contentDirection ) {
 
 }
 
-function makeTextPanelRow( index, contentDirection ) {
+function makeTextPanelRow( index, flexDirection ) {
 
 
 	const group = new Object3D();
@@ -165,7 +165,7 @@ function makeTextPanelRow( index, contentDirection ) {
 	} );
 
 	const titleText = new ThreeMeshUI.Text( {
-		content: `.set({justifyContent: "${contentDirection}"})`,
+		textContent: `.set({justifyContent: "${flexDirection}"})`,
 		fontSize: 0.075
 	} );
 
@@ -178,8 +178,8 @@ function makeTextPanelRow( index, contentDirection ) {
 		height: 0.3,
 		padding: 0.01,
 		justifyContent: "space-evenly",
-		alignItems: contentDirection,
-		contentDirection: 'row',
+		alignItems: flexDirection,
+		flexDirection: 'row',
 		fontFamily: FontJSON,
 		fontTexture: FontImage
 	} );
@@ -202,7 +202,7 @@ function makeTextPanelRow( index, contentDirection ) {
 
 
 		const text = new ThreeMeshUI.Text( {
-			content: letters[ i ]
+			textContent: letters[ i ]
 		} );
 
 		blockText.add( text );

@@ -12,11 +12,12 @@ export default class InteractiveTooltip extends InteractiveListener{
 
 	}
 
+	/* eslint-disable no-unused-vars */
 	/**
 	 * What happen when interactive object are clicked?
 	 * @param element
 	 */
-	clicked( element ) { /* nothing in this case */ }
+	clicked( element ) { /* nothing in this case */ }  /* eslint-enable no-unused-vars */
 
 	/**
 	 * What happend when the current hovered changes?
@@ -39,9 +40,11 @@ export default class InteractiveTooltip extends InteractiveListener{
 
 	}
 
+
+	/* eslint-disable no-unused-vars */
 	/**
 	 * What happen when the current selected changes?
 	 * @param element
 	 */
-	selectedElementHasChanged( element ) { /* nothing in this case */ }
+	selectedElementHasChanged( element ) { /* nothing in this case */ }  /* eslint-enable no-unused-vars */
 }

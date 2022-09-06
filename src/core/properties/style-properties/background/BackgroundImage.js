@@ -11,6 +11,9 @@ export default class BackgroundImage extends SubStyleProperty {
 
 		super( 'backgroundImage', defaultValue, true );
 
+
+		this._input = null;
+
 		// configure
 		this._allowsInherit = false;
 
@@ -53,7 +56,7 @@ export default class BackgroundImage extends SubStyleProperty {
 		// out[this.id] = this._value;
 
 		if( this._value instanceof Texture && !this._value.image ) {
-			console.warn( `ThreeMeshUI - .backgroundImage :: Please provided preloaded texture in order to have accurate sizing.`);
+			console.warn( `ThreeMeshUI - .backgroundImage :: Please provide preloaded texture in order to have accurate sizing.`);
 			return;
 		}
 
