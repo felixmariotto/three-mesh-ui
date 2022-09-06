@@ -25,13 +25,10 @@ export const exampleCameraOrthographicResize = function () {
 	const W = window.innerWidth;
 	const H = window.innerHeight;
 
-	const aspect = W / H;
-	camera.aspectRatio = aspect;
-
-	camera.left = W * aspect / -2;
-	camera.right = W * aspect / 2;
-	camera.top = H * aspect / 2;
-	camera.bottom = -H * aspect / 2;
+	camera.left = W / -2;
+	camera.right = W / 2;
+	camera.top = H / 2;
+	camera.bottom = -H / 2;
 
 	camera.updateProjectionMatrix();
 

@@ -1,4 +1,4 @@
-import { BufferAttribute, PlaneBufferGeometry } from 'three';
+import { BufferAttribute, PlaneGeometry } from 'three';
 import { Mesh } from 'three';
 
 //JSDoc related imports
@@ -17,7 +17,7 @@ export default class Frame extends Mesh {
 	 */
 	constructor( element ) {
 
-		const geometry = new PlaneBufferGeometry( 1, 1, element._segments.value, element._segments.value );
+		const geometry = new PlaneGeometry( 1, 1, element._segments.value, element._segments.value );
 
 		// Add additional uv for borders computations by copying initial uv
 		const uvB = new BufferAttribute( new Float32Array( geometry.getAttribute('uv').array ), 2);

@@ -34,30 +34,42 @@ export const exampleFontRegister = function ( weight = '400', style = 'normal' )
 
 }
 
-export const exampleFontPreloadAll = function ( callback ) {
+export const exampleFontPreloadRoboto = function ( callback ) {
 
 	FontLibrary.prepare(
 
-		FontLibrary
-			.addFontFamily(ROBOTO_FAMILY)
-			.addVariant("400", "normal", "./assets/fonts/msdf/roboto/regular.json", "./assets/fonts/msdf/roboto/regular.png" )
-			.addVariant("700", "italic", "./assets/fonts/msdf/roboto/bold-italic.json", "./assets/fonts/msdf/roboto/bold-italic.png" )
-			.addVariant("700", "normal", "./assets/fonts/msdf/roboto/bold.json", "./assets/fonts/msdf/roboto/bold.png" )
-			.addVariant("400", "italic", "./assets/fonts/msdf/roboto/italic.json", "./assets/fonts/msdf/roboto/italic.png" )
+		registerRobotoAndVariants(),
 
 	).then( () => {
 
 		// Adjusting font variants to correct some glitchs
-		const FF = FontLibrary.getFontFamily(ROBOTO_FAMILY);
-		FF.getVariant('700','normal').adjustTypographicGlyphs( ROBOTO_ADJUSTMENT );
-		FF.getVariant('700','italic').adjustTypographicGlyphs( ROBOTO_ADJUSTMENT );
-		FF.getVariant('400','italic').adjustTypographicGlyphs( ROBOTO_ADJUSTMENT );
-		FF.getVariant('400','normal').adjustTypographicGlyphs( ROBOTO_ADJUSTMENT );
+		adjustRobotoAndVariants();
 
 		callback();
 
 	});
 
 	return FontLibrary.getFontFamily( ROBOTO_FAMILY );
+
+}
+
+export const registerRobotoAndVariants = function() {
+
+	return FontLibrary
+		.addFontFamily(ROBOTO_FAMILY)
+		.addVariant("400", "normal", "./assets/fonts/msdf/roboto/regular.json", "./assets/fonts/msdf/roboto/regular.png" )
+		.addVariant("700", "italic", "./assets/fonts/msdf/roboto/bold-italic.json", "./assets/fonts/msdf/roboto/bold-italic.png" )
+		.addVariant("700", "normal", "./assets/fonts/msdf/roboto/bold.json", "./assets/fonts/msdf/roboto/bold.png" )
+		.addVariant("400", "italic", "./assets/fonts/msdf/roboto/italic.json", "./assets/fonts/msdf/roboto/italic.png" )
+
+}
+
+export const adjustRobotoAndVariants = function () {
+
+	const FF = FontLibrary.getFontFamily(ROBOTO_FAMILY);
+	FF.getVariant('700','normal').adjustTypographicGlyphs( ROBOTO_ADJUSTMENT );
+	FF.getVariant('700','italic').adjustTypographicGlyphs( ROBOTO_ADJUSTMENT );
+	FF.getVariant('400','italic').adjustTypographicGlyphs( ROBOTO_ADJUSTMENT );
+	FF.getVariant('400','normal').adjustTypographicGlyphs( ROBOTO_ADJUSTMENT );
 
 }

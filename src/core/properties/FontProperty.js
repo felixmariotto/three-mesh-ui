@@ -190,7 +190,7 @@ function _isValid( value ) {
 function _readyClosure( element, fontProperty ) {
 	return function () {
 
-		fontProperty._needsUpdate = true;
+		fontProperty._needsUpdate = true;// ? update itself?
 		element._glyphs._needsProcess = true;
 
 		// this._transferToMaterial();

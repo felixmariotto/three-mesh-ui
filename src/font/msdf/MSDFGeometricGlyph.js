@@ -1,4 +1,4 @@
-import { BufferAttribute, PlaneBufferGeometry } from 'three';
+import { BufferAttribute, PlaneGeometry } from 'three';
 
 //JSDoc related imports
 /* eslint-disable no-unused-vars */
@@ -6,7 +6,7 @@ import MeshUIBaseElement from './../../core/elements/MeshUIBaseElement';
 import MSDFInlineGlyph from './MSDFInlineGlyph';
 /* eslint-enable no-unused-vars */
 
-export default class MSDFGeometricGlyph extends PlaneBufferGeometry {
+export default class MSDFGeometricGlyph extends PlaneGeometry {
 
 	/**
 	 *

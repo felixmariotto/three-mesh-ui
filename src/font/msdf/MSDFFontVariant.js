@@ -35,6 +35,7 @@ export default class MSDFFontVariant extends FontVariant {
 
 		if ( texture instanceof Texture ) {
 
+			this._texture = texture;
 			this._buildTexture( texture );
 
 		} else {
@@ -165,7 +166,8 @@ export default class MSDFFontVariant extends FontVariant {
 	 */
 	_readyCondition() {
 
-		return this._chars && this._texture;
+		console.log( this._chars, this._texture, this._texture.image );
+		return this._chars && this._texture && this._texture.image;
 
 	}
 

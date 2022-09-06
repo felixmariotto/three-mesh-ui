@@ -163,7 +163,7 @@ function vertexShaderUpdate() {
 import { exampleAddResizer, exampleAddUpdate, exampleThreeSetup } from 'three-mesh-ui/examples/_setup/ThreeSetup';
 import { exampleThreePointLight, rollPointLightUpdate } from 'three-mesh-ui/examples/_setup/ThreePointLight';
 import { exampleThreeCube, rollCubeUpdate } from 'three-mesh-ui/examples/_setup/ThreeCube';
-import { exampleFontPreloadAll } from 'three-mesh-ui/examples/_setup/RobotoFont';
+import { exampleFontPreloadRoboto } from 'three-mesh-ui/examples/_setup/RobotoFont';
 import { exampleRoomVR } from 'three-mesh-ui/examples/_setup/RoomVR';
 import { exampleCameraPerspective, exampleCameraPerspectiveResize } from 'three-mesh-ui/examples/_setup/CameraPerspective';
 
@@ -189,5 +189,5 @@ const cube = exampleThreeCube( scene );
 exampleAddUpdate( rollCubeUpdate );
 
 // preload fonts and run example() after
-const RobotoFontFamily = exampleFontPreloadAll( example );
+const RobotoFontFamily = exampleFontPreloadRoboto( example );
 

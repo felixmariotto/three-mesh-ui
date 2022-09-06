@@ -18,17 +18,9 @@ export default class OrderProperty extends SubStyleProperty {
 
 		this._value = this._inheritedInput;
 
-		this._needsProcess = true;
-
-	}
-
-	process( element ) {
-
 		// require parent children (order) update, which will require layout update
 		if( element._parent._value ) {
 
-			// reorder children
-			element._parent._value._children._needsUpdate = true;
 			element._parent._value._children._needsProcess = true;
 
 		}

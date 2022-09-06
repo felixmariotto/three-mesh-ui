@@ -71,9 +71,11 @@ export default class Overflow extends SubStyleProperty {
 		super.computeOutputValue( element );
 
 		if( this._value === 'hidden' ) {
-			this._renderStrategy = this._hiddenRender;
+
+			this._renderStrategy = this._propagateRender;
 
 		}else{
+
 			this._renderStrategy = this._emptyRender;
 			this._clippingPlanes = null;
 		}
@@ -134,6 +136,7 @@ export default class Overflow extends SubStyleProperty {
 
 	_hiddenRender( element ) {
 
+
 		const parentUI = element._parent._value;
 
 		const yLimit = parentUI._bounds._offsetHeight;
@@ -141,7 +144,7 @@ export default class Overflow extends SubStyleProperty {
 		const padding = parentUI._padding._value;
 		const border = parentUI._borderWidth._value;
 
-		for ( let i = 0; i < 4; i++ ) {
+		for ( let i = 0; i < 4 && i < this._clippingPlanes.length ; i++ ) {
 			const clippingPlane = this._clippingPlanes[ i ];
 
 			switch ( i % 4 ) {
@@ -168,6 +171,21 @@ export default class Overflow extends SubStyleProperty {
 
 			clippingPlane.applyMatrix4( parentUI.matrixWorld )
 
+		}
+
+		for ( let i = 0; i < element._children._uis.length; i++ ) {
+			const ui = element._children._uis[ i ];
+			ui._overflow._needsRender = true;
+		}
+
+	}
+
+	_propagateRender( element ) {
+
+		console.log( element.constructor.name, "Propagate children ");
+		for ( let i = 0; i < element._children._uis.length; i++ ) {
+			const ui = element._children._uis[ i ];
+			ui._overflow._needsRender = true;
 		}
 
 	}

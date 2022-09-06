@@ -301,6 +301,8 @@ export default class MeshUIBaseElement extends Object3D {
 			this._parent,
 
 
+			this._autoSize,
+
 
 			this._fontFamily,
 			this._fontStyle,
@@ -365,9 +367,6 @@ export default class MeshUIBaseElement extends Object3D {
 			this._fontKerning,
 			this._letterSpacing,
 
-
-			this._overflow,
-
 			this._borderRadius,
 			this._borderColor,
 			this._borderOpacity,
@@ -381,7 +380,6 @@ export default class MeshUIBaseElement extends Object3D {
 			this._inlineJustificator,
 			this._textAlign,
 
-			this._autoSize,
 
 			// !! this._renderer renderer MUST NOT BE in components !!
 
@@ -390,7 +388,8 @@ export default class MeshUIBaseElement extends Object3D {
 
 			this._fontMaterial,
 			this._fontCustomDepthMaterial,
-			this._renderer
+			this._renderer,
+			this._overflow,
 		]
 
 
@@ -426,16 +425,12 @@ export default class MeshUIBaseElement extends Object3D {
 
 			if( component._needsUpdate ) {
 
-				// console.log( '    ', component.constructor.name)
+				// console.log( '    ', component.id )
 				component.update( this, out );
 				component._needsUpdate = false;
 
 			}
 
-		}
-
-		if( out.size ) {
-			console.log( out.size );
 		}
 
 		this._transferToBackgroundMesh( out );
@@ -460,7 +455,7 @@ export default class MeshUIBaseElement extends Object3D {
 		}
 
 
-		// console.log( this.name );
+		// console.log( 'Process ', this.name );
 		for ( const component of this._components ) {
 
 			if( component._needsProcess ) {
@@ -477,9 +472,11 @@ export default class MeshUIBaseElement extends Object3D {
 
 	render() {
 
+		 // console.log( 'render ', this.name );
 		for ( let i = 0; i < this._components.length; i++ ) {
 			const component = this._components[ i ];
 			if( component._needsRender ) {
+				// console.log( '    ', component.id);
 				component.render( this );
 				component._needsRender = false;
 			}
@@ -742,7 +739,7 @@ export default class MeshUIBaseElement extends Object3D {
 	_rebuildChildrenLists() {
 
 		//console.log( this.name, 'child added' );
-		this._children._needsUpdate = true;
+		// this._children._needsUpdate = true;
 
 	}
 

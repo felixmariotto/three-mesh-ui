@@ -82,7 +82,10 @@ export default class TextElement extends BoxElement {
 
 		}
 
-		if( updateLayout ) this._layouter._needsProcess = true;
+		if( updateLayout ) {
+			this._children._needsUpdate = true;
+			this._layouter._needsProcess = true;
+		}
 
 
 		return this;
@@ -102,6 +105,8 @@ export default class TextElement extends BoxElement {
 			}
 
 		}
+
+		this._children._uis = [];
 
 		if( value ) {
 

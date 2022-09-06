@@ -112,7 +112,7 @@ const PHYSICAL_OVERRIDE = {borderColor: WHITE_COLOR, backgroundColor: WHITE_COLO
 import { exampleAddUpdate, exampleThreeSetup } from 'three-mesh-ui/examples/_setup/ThreeSetup';
 import { exampleThreePointLight, rollPointLightUpdate } from 'three-mesh-ui/examples/_setup/ThreePointLight';
 import { exampleThreeCube, rollCubeUpdate } from 'three-mesh-ui/examples/_setup/ThreeCube';
-import { exampleFontPreloadAll } from 'three-mesh-ui/examples/_setup/RobotoFont';
+import { exampleFontPreloadRoboto } from 'three-mesh-ui/examples/_setup/RobotoFont';
 import FrameStandardMaterial from 'three-mesh-ui/examples/materials/frame/FrameStandardMaterial';
 import FramePhysicalMaterial from 'three-mesh-ui/examples/materials/frame/FramePhysicalMaterial';
 import { exampleCameraPerspective } from 'three-mesh-ui/examples/_setup/CameraPerspective';
@@ -138,5 +138,5 @@ const cube = exampleThreeCube( scene );
 exampleAddUpdate( rollCubeUpdate );
 
 // preload fonts and run example() after
-const RobotoFontFamily = exampleFontPreloadAll( example );
+const RobotoFontFamily = exampleFontPreloadRoboto( example );
 

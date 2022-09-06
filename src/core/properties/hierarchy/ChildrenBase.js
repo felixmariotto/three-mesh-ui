@@ -39,6 +39,8 @@ export default class ChildrenBox extends BaseProperty {
 	 */
 	update( element, out ) { /* eslint-enable no-unused-vars */
 
+		
+
 		this._compute( element );
 
 		element._layouter._needsUpdate = true;

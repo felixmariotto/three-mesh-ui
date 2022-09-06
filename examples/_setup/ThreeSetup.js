@@ -1,8 +1,6 @@
-
 import Stats from 'three/examples/jsm/libs/stats.module';
-import { BoxLineGeometry } from 'three/examples/jsm/geometries/BoxLineGeometry.js';
 import * as ThreeMeshUI from 'three-mesh-ui';
-import { Color, LineBasicMaterial, LineSegments, PerspectiveCamera, Scene, Vector3, WebGLRenderer } from 'three';
+import { Color, Scene, Vector3, WebGLRenderer } from 'three';
 import { VRButton } from 'three/examples/jsm/webxr/VRButton.js';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 
@@ -40,6 +38,10 @@ export const exampleThreeSetup = function ( camera ) {
 	controls.target = new Vector3( 0, 1, -1.8 );
 	controls.update();
 
+	controls.addEventListener( 'change', ()=>{
+		exampleRender();
+	} );
+
 	window.addEventListener('resize', onWindowResize );
 
 	renderer.setAnimationLoop( exampleRender );
@@ -48,15 +50,35 @@ export const exampleThreeSetup = function ( camera ) {
 
 }
 
+const controlsUpdate = function() {
+
+	controls.update();
+	requestAnimationFrame( controlsUpdate );
+
+}
+
+
 export const exampleAddUpdate = function ( fct ) {
 
 	_updater.push( fct );
 
 }
 
+export const exampleManualRender = function () {
+
+	requestAnimationFrame( exampleRender );
+
+}
+
+export const exampleManualRenderThreeOnly = function( ) {
+
+	renderer.render( scene, _camera );
+
+}
+
 export const exampleRender = function (){
 
-	console.log( "render" );
+	// console.log( "RENDER ---------------------------------- ");
 
 	for ( let i = 0; i < _updater.length; i++ ) {
 		_updater[ i ]();
@@ -67,14 +89,14 @@ export const exampleRender = function (){
 	// to improve performance
 	ThreeMeshUI.update();
 
-	controls.update();
+	// controls.update();
 	renderer.render( scene, _camera );
 	stats.update()
 
 }
 
 export const exampleNoRenderLoop = function () {
-	renderer.setAnimationLoop( ()=>{} );
+	renderer.setAnimationLoop( ()=>{ } );
 }
 
 export const exampleAddResizer = function ( fct ) {
@@ -86,11 +108,12 @@ export const exampleAddResizer = function ( fct ) {
 // handles resizing the renderer when the viewport is resized
 function onWindowResize() {
 
+	renderer.setSize( window.innerWidth, window.innerHeight );
+
 	for ( let i = 0; i < _resizer.length; i++ ) {
 		_resizer[ i ]();
 	}
 
-	renderer.setSize( window.innerWidth, window.innerHeight );
 }
 
 

@@ -11,6 +11,8 @@ export default class VisibleProperty extends BaseProperty{
 
 		super( 'visible', value, true );
 
+		this._needsUpdate = false;
+
 	}
 
 	/* eslint-disable no-unused-vars */ update( element, out ) { 	/* eslint-enable no-unused-vars */

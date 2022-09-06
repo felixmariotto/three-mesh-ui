@@ -239,6 +239,8 @@ export default class BoundsBox extends BaseProperty {
 
 		// require cascading processes
 
+		element._overflow._needsRender = true;
+
 
 	}
 
@@ -305,6 +307,8 @@ export default class BoundsBox extends BaseProperty {
 
 		element._borderWidth._needsRender = true;
 		element._borderRadius._needsRender = true;
+
+		element._overflow._needsRender = true;
 
 	}
 

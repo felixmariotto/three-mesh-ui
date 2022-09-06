@@ -1,4 +1,4 @@
-import { BufferAttribute, Mesh, MeshBasicMaterial, PlaneBufferGeometry, RepeatWrapping, Texture, TextureLoader, Vector4 } from 'three';
+import { BufferAttribute, Mesh, MeshBasicMaterial, PlaneGeometry, RepeatWrapping, Texture, TextureLoader, Vector4 } from 'three';
 import { Behavior } from 'three-mesh-ui';
 
 
@@ -14,7 +14,7 @@ export default class BoxLayoutBehavior extends Behavior{
 
 		super( subject );
 
-		const geometry = new PlaneBufferGeometry( 1, 1 );
+		const geometry = new PlaneGeometry( 1, 1 );
 
 		// Add additional uv for borders computations by copying initial uv
 		const uvB = new BufferAttribute( new Float32Array( geometry.getAttribute('uv').array ), 2);
@@ -125,6 +125,10 @@ export default class BoxLayoutBehavior extends Behavior{
 
 	}
 
+	set color( v ) {
+		this._overlay.material.color.set( v );
+	}
+
 }
 
 class BoxLayoutMaterial extends MeshBasicMaterial{
@@ -191,6 +195,13 @@ const paddingColorFragment = /* glsl */`
 if( vUvB.x < padding.w || vUvB.x > padding.y || vUvB.y > padding.x || vUvB.y < padding.z ) {
 	diffuseColor = vec4( 0.76, 0.815, 0.545, opacity );
 }else{
+
+	// greyscale
+	// float biggerColorComponent = diffuseColor.x;
+	// biggerColorComponent = max( biggerColorComponent, diffuseColor.y );
+	// biggerColorComponent = max( biggerColorComponent, diffuseColor.z );
+	// diffuseColor.xyz = vec3( biggerColorComponent );
+
 	diffuseColor.a = 1.;
 }
 

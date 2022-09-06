@@ -62,6 +62,8 @@ export default class InheritableMaterialProperty extends InheritableProperty {
 
 		}
 
+		element._transferToFontMaterial();
+
 		// dispatch to children
 
 
