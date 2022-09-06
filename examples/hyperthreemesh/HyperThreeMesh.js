@@ -287,7 +287,7 @@ function _addMutationObserverOnStyleSheet( cssStyleSheet ){
 	// observe the stylesheet itself for content changes
 	/* eslint-disable no-unused-vars */
 	const observer = new MutationObserver(function(mutations) {
-		loadSheets(true);
+		loadSheets(_media, true);
 	});
 	/* eslint-enable no-unused-vars */
 
