@@ -55,7 +55,7 @@ function example(){
 			const deltaLine = lineHeight - lineBase;
 
 			// TextBackground
-			const lineGeo = new PlaneBufferGeometry( line.width, lineHeight );
+			const lineGeo = new PlaneGeometry( line.width, lineHeight );
 			const lineMesh = new Mesh( lineGeo, lineMat );
 			lineMesh.name = 'DevLineMesh';
 
@@ -66,7 +66,7 @@ function example(){
 			text.add( lineMesh );
 
 			// baseline
-			const baselineMesh = new Mesh( new PlaneBufferGeometry( line.width, 0.002 ), baseMat );
+			const baselineMesh = new Mesh( new PlaneGeometry( line.width, 0.002 ), baseMat );
 			baselineMesh.position.x = lineMesh.position.x;
 			// baselineMesh.position.y = line.y -  // Baseline
 			baselineMesh.position.y = lineMesh.position.y - lineBase/2 + 0.002;
@@ -76,7 +76,7 @@ function example(){
 
 
 			// Median
-			const medianMesh = new Mesh( new PlaneBufferGeometry( line.width, 0.002 ), medianMat );
+			const medianMesh = new Mesh( new PlaneGeometry( line.width, 0.002 ), medianMat );
 
 			medianMesh.position.x = lineMesh.position.x;
 			medianMesh.position.y =  lineMesh.position.y + deltaLine/2 - 0.002; // Baseline
@@ -155,7 +155,7 @@ import { adjustRobotoAndVariants, registerRobotoAndVariants } from 'three-mesh-u
 import { exampleCameraOrthographic, exampleCameraOrthographicResize } from 'three-mesh-ui/examples/_setup/CameraOrthographic';
 import exampleGUI from 'three-mesh-ui/examples/_setup/gui/exampleGUI';
 import { DefaultValues, FontLibrary, Inline } from 'three-mesh-ui';
-import { Mesh, MeshBasicMaterial, PlaneBufferGeometry, Texture } from 'three';
+import { Mesh, MeshBasicMaterial, PlaneGeometry, Texture } from 'three';
 /* eslint-disable no-unused-vars */
 
 // building three setup
@@ -168,10 +168,7 @@ controls.enableZoom = false;
 exampleNoRenderLoop();
 exampleAddResizer( exampleRender );
 
-const fontFamily = FontLibrary.addFontFamily('imported')
-	.addVariant('400', 'normal', './assets/fonts/msdf/rye/regular.json', './assets/fonts/msdf/rye/regular.png');
-let fontVariant = fontFamily.getVariant('400', 'normal');
-
+let fontFamily, fontVariant;
 FontLibrary.prepare(
 	registerRobotoAndVariants(),
 	FontLibrary.addFontFamily('imported')
@@ -181,6 +178,14 @@ FontLibrary.prepare(
 			'./assets/fonts/msdf/rye/regular.json',
 			'./assets/fonts/msdf/rye/regular.png')
 ).then( () => {
+
+	fontFamily = FontLibrary.getFontFamily('imported');
+	fontVariant = fontFamily.getVariant('400', 'normal');
+
+
+	// preload fonts and run example() after
+	DefaultValues.set({fontFamily});
+
 	adjustRobotoAndVariants();
 	example();
 	additionalUI();
@@ -188,8 +193,6 @@ FontLibrary.prepare(
 	baselineGUI();
 })
 
-// preload fonts and run example() after
-DefaultValues.set({fontFamily});
 
 let infoBlock;
 function additionalUI(){
