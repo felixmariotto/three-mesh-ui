@@ -1,4 +1,4 @@
-// xfg:title 			Interactive Button HTM
+// xfg:title 			ToggleButton HTM
 // xfg:category		extend
 // xfg:group			hypermesh
 
@@ -19,7 +19,7 @@ import InteractiveCursor from 'three-mesh-ui/examples/interactive/listeners/Inte
 import VRControl from 'three-mesh-ui/examples/controls/VRControl';
 
 let scene, camera, renderer, controls, vrControl, interactiveRaycaster;
-let meshContainer, meshes, currentMesh;
+let meshContainer, meshes, currentMesh, sphere, box, cone;
 const objsToTest = [];
 
 _injectCSS( `
@@ -29,52 +29,73 @@ _injectCSS( `
 	background-color : rgba(0,0,0,0.75);
 	padding: 0.05rem 0.125rem;
 	border-radius: 0.2rem 0.02rem 0.2rem 0.02rem;
+	align-items: start;
 
 }
 
-button{
+button[type="toggle"]{
 
-	width : auto;
-	padding: 0.02rem 0.15rem;
+	font-size: 0.055rem;
+
+	width : 0.5rem;
 	margin: 0.01rem;
 
-	text-align: center;
-	background-color: rgba(255,255,255,0.5);
-	border-radius : 0.08rem;
+	border-radius: 0.02rem;
+
+	text-align: left;
 	rx: 0.005rem;
-	border-bottom-width : 0.01rem;
-	border-bottom-color : rgba(64,64,64,.5);
-	border-top-width : 0;
 
 }
 
-button:hover {
+button[type="toggle"] ascent {
 
-	background-color: rgba(255,255,255,0.7);
+	rx : 0;
+	background-color : rgba(0,0,0,0.05);
+	border-width: 0.01rem;
+	border-color: rgba(255,255,255,.9);
+
+}
+
+button[type="toggle"]:hover ascent{
+
 	rx : 0.025rem;
 
 }
 
-button:disabled {
+button[type="toggle"]:disabled {
 
-	background-color: rgba(255,255,255,0.3);
 	color: rgba( 255,255,255,0.5);
 
 }
 
-button:disabled:hover {
+button[type="toggle"]:disabled ascent {
+
+	border-color: rgba( 128,128,128,0.5);
+
+}
+
+button[type="toggle"]:disabled:hover ascent {
 
 	rx : 0.015rem;
 
 }
 
-button:active {
+button[type="toggle"]:active ascent {
 
 	rx : 0.01rem;
-	border-top : rgba(103,103,103,0.8) 0.005rem solid;
-	border-bottom-width : 0.005rem;
-	border-bottom-color : #000;
-	background-color: rgba(128,128,128,0.8);
+
+}
+
+button[type="toggle"]:checked ascent {
+
+	background-color : rgba(0,225,128,.85);
+
+}
+
+button[type="toggle"]:checked:hover ascent {
+
+background-color : rgba(0,225,128,.99);
+
 }
 
 `)
@@ -133,12 +154,14 @@ function init() {
 	const light = ShadowedLight( {
 		z: 10,
 		width: 6,
-		bias: -0.0001
+		bias: -0.0001,
+		intensity: 1.8
 	} );
 
-	const hemLight = new THREE.HemisphereLight( 0x808080, 0x606060 );
+	// const hemLight = new THREE.HemisphereLight( 0x808080, 0x606060 );
 
-	scene.add( light, hemLight );
+	// scene.add( light, hemLight );
+	scene.add( light );
 
 	////////////////
 	// Controllers
@@ -159,24 +182,24 @@ function init() {
 	////////////////////
 
 	meshContainer = new THREE.Group();
-	meshContainer.position.set( 0, 1, -1.9 );
+	meshContainer.position.set( -0.5, 1.25, -1.2 );
 	scene.add( meshContainer );
 
 	//
 
-	const sphere = new THREE.Mesh(
+	sphere = new THREE.Mesh(
 		new THREE.IcosahedronGeometry( 0.3, 1 ),
-		new THREE.MeshStandardMaterial( { color: 0x3de364, flatShading: true } )
+		new THREE.MeshStandardMaterial( { color: 0x3de364 } )
 	);
 
-	const box = new THREE.Mesh(
+	box = new THREE.Mesh(
 		new THREE.BoxGeometry( 0.45, 0.45, 0.45 ),
-		new THREE.MeshStandardMaterial( { color: 0x643de3, flatShading: true } )
+		new THREE.MeshStandardMaterial( { color: 0x643de3 } )
 	);
 
-	const cone = new THREE.Mesh(
-		new THREE.ConeGeometry( 0.28, 0.5, 10 ),
-		new THREE.MeshStandardMaterial( { color: 0xe33d4e, flatShading: true } )
+	cone = new THREE.Mesh(
+		new THREE.ConeGeometry( 0.22, 0.5, 10 ).translate(0,0.425,0),
+		new THREE.MeshStandardMaterial( { color: 0xe33d4e } )
 	);
 
 	//
@@ -184,11 +207,6 @@ function init() {
 	sphere.visible = box.visible = cone.visible = false;
 
 	meshContainer.add( sphere, box, cone );
-
-	meshes = [ sphere, box, cone ];
-	currentMesh = 0;
-
-	showMesh( currentMesh );
 
 	//////////
 	// Panel
@@ -204,18 +222,6 @@ function init() {
 
 }
 
-// Shows the primitive mesh with the passed ID and hide the others
-
-function showMesh( id ) {
-
-	meshes.forEach( ( mesh, i ) => {
-
-		mesh.visible = i === id;
-
-	} );
-
-}
-
 ///////////////////
 // UI contruction
 ///////////////////
@@ -226,7 +232,7 @@ function makePanel() {
 	const container = HyperThreeMesh.createElement( 'div' )
 	container.style.borderRadius = 0.11;
 	container.style.justifyContent = "center";
-	container.style.flexDirection = 'row-reverse';
+	container.style.flexDirection = 'column';
 	container.style.padding = '0.02 0.05';
 
 	// or go by standard way
@@ -236,55 +242,48 @@ function makePanel() {
 		fontSize: 0.07,
 	} );
 
-	container.position.set( 0, 0.6, -1.2 );
+	container.position.set( 0.5, 1.25, -1.2 );
 	container.rotation.x = -0.55;
 	scene.add( container );
 
-	const buttonNext = HyperThreeMesh.createElement('button');
-	buttonNext.set({width: 'auto', name: 'next'});
-	buttonNext.name = 'nextBtn';
-	// buttonNext.textContent = "next";
-
-	const inl = HyperThreeMesh.createElement('span');
-	inl.textContent = "next";
-	buttonNext.add( inl );
-
-	buttonNext.addEventListener( 'click' , (event) => {
-
-		console.log( event.target.name );
-
-		console.log( "catched event on buttonNext", event );
-
-		currentMesh = ( currentMesh + 1 ) % 3;
-		showMesh( currentMesh );
-
+	/**
+	 *
+	 * @type {HTMButtonToggle}
+	 */
+	const buttonSphere = HyperThreeMesh.createElement('toggle', {name:"sphere",textContent:"Show sphere"});
+	buttonSphere.addEventListener( 'change', (event) => {
+		sphere.visible = buttonSphere.checked;
 	});
 
-	const disabledButton = HyperThreeMesh.createElement('button');
-	disabledButton.set({width: 'auto', name: 'next'});
+	const disabledButton = HyperThreeMesh.createElement('toggle');
+	disabledButton.set({name: 'disabled'});
 	disabledButton.disabled = true;
-	disabledButton.textContent = 'Disabled'
+	disabledButton.textContent = 'Disabled toggle'
 
-	console.log( disabledButton.copyAttributes() );
-
-
-	const buttonPrevious = HyperThreeMesh.createElement('button');
-	buttonPrevious.set({width: 'auto', name: 'prev'});
-	buttonPrevious.textContent = "previous";
-
-	buttonPrevious.addEventListener( 'click' , (event) => {
-
-		console.log( "catched event on buttonPrevious", event );
-
-		currentMesh -= 1;
-		if ( currentMesh < 0 ) currentMesh = 2;
-		showMesh( currentMesh );
-
+	const buttonIcosahedron = HyperThreeMesh.createElement('toggle',{name:'Icosahedron',textContent:"Show Icosahedron"});
+	buttonIcosahedron.addEventListener( 'change', (event) => {
+		cone.visible = event.target.checked;
 	});
 
-	container.add( buttonNext, disabledButton, buttonPrevious );
+	const buttonBox = HyperThreeMesh.createElement('toggle',{name:'Icosahedron',textContent:"Show box"});
+	buttonBox.addEventListener( 'change', (event) => {
+		box.visible = buttonBox.checked;
+	});
 
-	interactiveRaycaster.addObject( buttonNext, disabledButton, buttonPrevious );
+	const buttonFlat = HyperThreeMesh.createElement('toggle',{name:'flat',textContent:"Flatshading"});
+	buttonFlat.addEventListener( 'change', ( event ) => {
+		sphere.material.flatShading = box.material.flatShading = cone.material.flatShading = event.target.checked;
+		sphere.material.needsUpdate = box.material.needsUpdate = cone.material.needsUpdate = true;
+	})
+
+	const buttonWire = HyperThreeMesh.createElement('toggle',{name:'wire',textContent:"Wireframe"});
+	buttonWire.addEventListener( 'change', (event) => {
+		sphere.material.wireframe = box.material.wireframe = cone.material.wireframe = event.target.checked;
+	});
+
+	container.add( buttonSphere, disabledButton, buttonIcosahedron, buttonBox, buttonFlat, buttonWire );
+
+	interactiveRaycaster.addObject( buttonSphere, disabledButton, buttonIcosahedron, buttonBox, buttonFlat, buttonWire );
 
 
 }

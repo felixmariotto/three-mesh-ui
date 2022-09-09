@@ -16,6 +16,9 @@ import RendererPropertyInlineBox from '../../core/properties/rendering/RendererP
 import BoundsInlineBlock from '../../core/properties/BoundsInlineBlock';
 import { Vector3 } from 'three';
 import WhiteSpacePropertyInline from '../../core/properties/style-properties/font/WhiteSpacePropertyInline';
+import FontFamilyPropertyInline from '../../core/properties/style-properties/font/FontFamilyPropertyInline';
+import FontWeightPropertyInline from '../../core/properties/style-properties/font/FontWeightPropertyInline';
+import FontStylePropertyInline from '../../core/properties/style-properties/font/FontStylePropertyInline';
 
 export default class InlineBlockElement extends MeshUIBaseElement {
 
@@ -122,17 +125,22 @@ export default class InlineBlockElement extends MeshUIBaseElement {
 		if( !properties.renderer ) properties.renderer = RendererPropertyInlineBox;
 
 		// reset inlineElement specificity
-		if( !properties.fontFamily ) properties.fontFamily = FontFamilyProperty;
-		if( !properties.fontWeight ) properties.fontWeight = FontWeightProperty;
-		if( !properties.fontStyle ) properties.fontStyle = FontStyleProperty;
+		if( !properties.fontFamily ) properties.fontFamily = FontFamilyPropertyInline;
+		if( !properties.fontWeight ) properties.fontWeight = FontWeightPropertyInline;
+		if( !properties.fontStyle ) properties.fontStyle = FontStylePropertyInline;
 		if( !properties.fontSize ) properties.fontSize = FontSizePropertyInline;
+
 		if( !properties.backgroundColor ) properties.backgroundColor = BackgroundColorProperty;
+
 		if( !properties.lineBreak ) properties.lineBreak = LineBreakProperty;
 		if( !properties.letterSpacing ) properties.letterSpacing = LetterSpacingPropertyInline;
 		if( !properties.whiteSpace ) properties.whiteSpace = WhiteSpacePropertyInline;
 		if( !properties.fontKerning ) properties.fontKerning = FontKerningProperty;
 
 		if( !values.backgroundSize ) values.backgroundSize = 'cover';
+		if( !values.width ) values.width = '100%';
+		if( !values.height ) values.height = '100%';
+		if( !values.boxSizing ) values.boxSizing = 'border-box';
 
 	}
 
@@ -199,8 +207,11 @@ class InlineBlockInline extends Inline {
 
 		const padding = this._uiElement._padding._value;
 		const width = this._uiElement._width;
+		if( width._relative ) {
+			return width._value * this._uiElement._fontSize.getInheritedInput( this._uiElement );
+		}
 
-		return padding.w + padding.y + width.value;
+		return padding.w + padding.y + width.value ;
 	}
 
 	/**
@@ -211,6 +222,11 @@ class InlineBlockInline extends Inline {
 	get width() {
 
 		const width = this._uiElement._width;
+
+		if( width._relative ) {
+			return width._value * this._uiElement._fontSize.getInheritedInput( this._uiElement );
+		}
+
 		return width.value;
 
 	}
@@ -222,7 +238,13 @@ class InlineBlockInline extends Inline {
 	 */
 	get height() {
 
-		return this._uiElement._height.value;
+		const height = this._uiElement._height;
+		if( height._relative ) {
+			return height._value * this._uiElement._fontSize.getInheritedInput( this._uiElement ) ;
+		}
+
+		return height.value;
+
 
 	}
 
@@ -234,7 +256,12 @@ class InlineBlockInline extends Inline {
 	 */
 	get lineHeight() {
 
-		return this._uiElement._height.value;
+		const height = this._uiElement._height;
+		if( height._relative ) {
+			return height._value * this._uiElement._fontSize.getInheritedInput( this._uiElement );
+		}
+
+		return height.value;
 
 	}
 
@@ -243,7 +270,16 @@ class InlineBlockInline extends Inline {
 	 * @override
 	 * @returns {number}
 	 */
-	get lineBase() { return this._uiElement._height.value }
+	get lineBase() {
+
+		const height = this._uiElement._height;
+		if( height._relative ) {
+			return height._value * this._uiElement._fontSize.getInheritedInput( this._uiElement );
+		}
+
+		return height.value;
+
+	}
 
 	/**
 	 *

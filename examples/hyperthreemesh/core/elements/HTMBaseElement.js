@@ -134,6 +134,17 @@ export default class HTMBaseElement extends MeshUIBaseElement {
 	/**
 	 *
 	 * @param {string} attributeName
+	 * @returns {boolean}
+	 */
+	hasAttribute( attributeName ) {
+
+		return this._attributes.has( attributeName );
+
+	}
+
+	/**
+	 *
+	 * @param {string} attributeName
 	 */
 	removeAttribute( attributeName ) {
 
@@ -243,7 +254,11 @@ export default class HTMBaseElement extends MeshUIBaseElement {
 	 * @param state
 	 */
 	activatePseudoState ( state ) {
-		this._pseudoClassList.add( state );
+
+		if ( state === 'hover' || state === 'disabled' || !this.hasAttribute( 'disabled' ) ) {
+			this._pseudoClassList.add( state );
+		}
+
 	}
 
 	/**
@@ -256,6 +271,10 @@ export default class HTMBaseElement extends MeshUIBaseElement {
 
 	togglePseudoState ( state ) {
 		this._pseudoClassList.toggle( state );
+	}
+
+	hasPseudoState( state ) {
+		return this._pseudoClassList.contains( state );
 	}
 
 	/**

@@ -7,6 +7,9 @@ import HTMInlineElement from 'three-mesh-ui/examples/hyperthreemesh/core/element
 import HTMBlockElement from 'three-mesh-ui/examples/hyperthreemesh/core/elements/HTMBlockElement';
 import KeyboardHTM from 'three-mesh-ui/examples/hyperthreemesh/KeyboardHTM';
 import HTMInlineBlockElement from 'three-mesh-ui/examples/hyperthreemesh/core/elements/HTMInlineBlockElement';
+import HTMButton from 'three-mesh-ui/examples/hyperthreemesh/elements/HTMButton';
+import HTMButtonToggle from 'three-mesh-ui/examples/hyperthreemesh/elements/HTMButtonToggle';
+import HTMButtonRadio from 'three-mesh-ui/examples/hyperthreemesh/elements/HTMButtonRadio';
 
 
 /**
@@ -533,8 +536,18 @@ function createElement( tag, options = {} ){
 		case "p":
 		case "h":
 		case "label":
-		case "button":
 				return new HTMTextElement(options);
+
+		case "button":
+			return new HTMButton(options);
+
+		case "toggle":
+			options.tagName = 'button';
+			return new HTMButtonToggle(options);
+
+		case "radio":
+			options.tagName = 'button';
+			return new HTMButtonRadio(options);
 
 		case "div":
 		case "li":

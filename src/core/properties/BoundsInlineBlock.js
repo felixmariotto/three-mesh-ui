@@ -28,6 +28,12 @@ export default class BoundsInlineBlock extends BaseProperty {
 
 		this.output( out );
 
+		this._needsProcess = true;
+
+	}
+
+	process( element ) {
+
 		this._offsetWidth = this._innerWidth = element._inlines._value[0].width;
 		this._offsetHeight = this._innerHeight = element._inlines._value[0].height;
 

@@ -60,8 +60,9 @@ export default class NamedMap {
 	 */
 	remove( name ) {
 
+		const removed = this._map.delete( name );
 		this._callback();
-		return this._map.delete( name );
+		return removed;
 
 	}
 

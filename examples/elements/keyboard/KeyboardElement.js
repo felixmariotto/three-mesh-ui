@@ -166,6 +166,11 @@ export default class KeyboardElement extends Block {
 		});
 
 
+		// be sure only listener trigger actions on keys
+		for ( const key of element.keys ) {
+			key._clicked = _emptyClicked;
+		}
+
 		Object.defineProperty( element, 'interactiveObjects', {
 			get() {
 				return element.keys;
@@ -410,4 +415,5 @@ export default class KeyboardElement extends Block {
 }
 
 function _emptyRaycast() {}
+function _emptyClicked() {}
 

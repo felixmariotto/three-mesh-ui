@@ -1195,6 +1195,11 @@ export default class MeshUIBaseElement extends Object3D {
 
 	}
 
+
+	hasPseudoState( state ) {
+		return false;
+	}
+
 	set borderRadiusMediation ( value ) {
 		this._borderRadius.mediation = value;
 	}

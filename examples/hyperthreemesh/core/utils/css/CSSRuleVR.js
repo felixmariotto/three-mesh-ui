@@ -60,7 +60,10 @@ export default class CSSRuleVR {
 					// To apply alpha too
 					if( colorComponents.length === 4 ) {
 
-						const alphaProperty = styleProperty.replace('color', 'opacity');
+						let alphaProperty = styleProperty.replace('color', 'opacity');
+						if( alphaProperty === 'opacity' ) {
+							alphaProperty = 'fontOpacity';
+						}
 
 						// If it is not previously defined
 						if( !styles[alphaProperty] || styles[alphaProperty] === "" ){
