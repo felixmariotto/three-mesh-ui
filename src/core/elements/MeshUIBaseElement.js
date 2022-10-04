@@ -1491,7 +1491,9 @@ export default class MeshUIBaseElement extends Object3D {
  * @property [options.fontStyle] {"normal"|"italic"}
  * @property [options.fontWeight] {"light"|"normal"|"bold"|"bolder"|100|200|300|400|500|600|700|800|900}
  *
- * @property [options.backgroundColor]{Color|number|string}
+ * @property [options.color]{Color|number|string} The font color
+ *
+ * @property [options.backgroundColor]{Color|number|string} The background color
  * @property [options.backgroundOpacity] {number}
  * @property [options.backgroundSize] {"cover"|"contain"|"stretch"}
  * @property [options.backgroundImage] {Texture|string}
