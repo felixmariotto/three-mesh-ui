@@ -38,9 +38,13 @@ export default class MSDFFontVariant extends FontVariant {
 			this._texture = texture;
 			this._buildTexture( texture );
 
-		} else {
+		} else if( typeof(s) === 'string' || s instanceof String ){
 
 			_loadTexture( this, texture );
+
+		} else {
+
+			throw new Error(`ThreeMeshUI::MSDFVariant provided 'texture' parameter is '${typeof texture}'. Only Texture and String allowed.`)
 
 		}
 
