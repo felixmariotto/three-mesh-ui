@@ -70,7 +70,7 @@ export default class ChildrenText extends BaseProperty {
 
 		this._uis = element.children.filter( child => child.visible && child.isUI );
 
-		this._inlines = this._uis.filter( child => child.isInline );
+		this._inlines = this._uis.filter( child => child.isInline ).sort( this._sortOrder );
 
 	}
 
@@ -80,6 +80,29 @@ export default class ChildrenText extends BaseProperty {
 	dispose() {
 
 		this._inlines = null;
+
+	}
+
+	/**
+	 *
+	 * Sort children according to their .style.order property or fallback on children index
+	 *
+	 * @param {HTMLElementVR} a
+	 * @param {HTMLElementVR} b
+	 * @return {number}
+	 * @private
+	 */
+	_sortOrder = ( a, b ) => {
+
+		if( a._order._value < b._order._value ) return -1;
+		if( a._order._value > b._order._value ) return 1;
+
+		// if both children have the same order value, use their children index to order them
+		if( this._uis.indexOf(a) < this._uis.indexOf(b) ) {
+			return -1;
+		}
+
+		return 1;
 
 	}
 
