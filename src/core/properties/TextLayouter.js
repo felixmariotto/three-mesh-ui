@@ -146,7 +146,7 @@ export default class TextLayouter extends BaseProperty {
 
 			} );
 
-			lastInlineOffset += inlineElement._margin._value.w + inlineElement._padding._value.w;
+			lastInlineOffset += inlineElement._margin._value.y + inlineElement._padding._value.y;
 
 		} );
 
