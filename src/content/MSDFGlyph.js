@@ -1,11 +1,11 @@
-import { PlaneBufferGeometry } from 'three';
+import { PlaneGeometry } from 'three';
 
 /**
  * Job: create a plane geometry with the right UVs to map the MSDF texture on the wanted glyph.
  *
  * Knows: dimension of the plane to create, specs of the font used, glyph requireed
  */
-export default class MSDFGlyph extends PlaneBufferGeometry {
+export default class MSDFGlyph extends PlaneGeometry {
 
 	constructor( inline, font ) {
 
