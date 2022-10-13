@@ -119,7 +119,7 @@ __webpack_require__.d(TextAlign_namespaceObject, {
 ;// CONCATENATED MODULE: external "three"
 var x = y => { var x = {}; __webpack_require__.d(x, y); return x; }
 var y = x => () => x
-const external_three_namespaceObject = x({ ["BufferAttribute"]: () => __WEBPACK_EXTERNAL_MODULE_three__.BufferAttribute, ["BufferGeometry"]: () => __WEBPACK_EXTERNAL_MODULE_three__.BufferGeometry, ["CanvasTexture"]: () => __WEBPACK_EXTERNAL_MODULE_three__.CanvasTexture, ["Color"]: () => __WEBPACK_EXTERNAL_MODULE_three__.Color, ["FileLoader"]: () => __WEBPACK_EXTERNAL_MODULE_three__.FileLoader, ["LinearFilter"]: () => __WEBPACK_EXTERNAL_MODULE_three__.LinearFilter, ["Mesh"]: () => __WEBPACK_EXTERNAL_MODULE_three__.Mesh, ["Object3D"]: () => __WEBPACK_EXTERNAL_MODULE_three__.Object3D, ["Plane"]: () => __WEBPACK_EXTERNAL_MODULE_three__.Plane, ["PlaneBufferGeometry"]: () => __WEBPACK_EXTERNAL_MODULE_three__.PlaneBufferGeometry, ["PlaneGeometry"]: () => __WEBPACK_EXTERNAL_MODULE_three__.PlaneGeometry, ["ShaderMaterial"]: () => __WEBPACK_EXTERNAL_MODULE_three__.ShaderMaterial, ["TextureLoader"]: () => __WEBPACK_EXTERNAL_MODULE_three__.TextureLoader, ["Vector2"]: () => __WEBPACK_EXTERNAL_MODULE_three__.Vector2, ["Vector3"]: () => __WEBPACK_EXTERNAL_MODULE_three__.Vector3 });
+const external_three_namespaceObject = x({ ["BufferAttribute"]: () => __WEBPACK_EXTERNAL_MODULE_three__.BufferAttribute, ["BufferGeometry"]: () => __WEBPACK_EXTERNAL_MODULE_three__.BufferGeometry, ["CanvasTexture"]: () => __WEBPACK_EXTERNAL_MODULE_three__.CanvasTexture, ["Color"]: () => __WEBPACK_EXTERNAL_MODULE_three__.Color, ["FileLoader"]: () => __WEBPACK_EXTERNAL_MODULE_three__.FileLoader, ["LinearFilter"]: () => __WEBPACK_EXTERNAL_MODULE_three__.LinearFilter, ["Mesh"]: () => __WEBPACK_EXTERNAL_MODULE_three__.Mesh, ["Object3D"]: () => __WEBPACK_EXTERNAL_MODULE_three__.Object3D, ["Plane"]: () => __WEBPACK_EXTERNAL_MODULE_three__.Plane, ["PlaneGeometry"]: () => __WEBPACK_EXTERNAL_MODULE_three__.PlaneGeometry, ["ShaderMaterial"]: () => __WEBPACK_EXTERNAL_MODULE_three__.ShaderMaterial, ["TextureLoader"]: () => __WEBPACK_EXTERNAL_MODULE_three__.TextureLoader, ["Vector2"]: () => __WEBPACK_EXTERNAL_MODULE_three__.Vector2, ["Vector3"]: () => __WEBPACK_EXTERNAL_MODULE_three__.Vector3 });
 ;// CONCATENATED MODULE: ./src/utils/block-layout/ContentDirection.js
 const ROW = "row";
 const ROW_REVERSE = "row-reverse";
@@ -1947,7 +1947,6 @@ UpdateManager.requestedUpdates = {};
 	contentDirection: COLUMN,
 	alignItems: CENTER,
 	justifyContent: JustifyContent_START,
-	fontTexture: null,
 	textAlign: TextAlign_CENTER,
 	textType: 'MSDF',
 	fontColor: new external_three_namespaceObject.Color( 0xffffff ),
@@ -1964,29 +1963,30 @@ UpdateManager.requestedUpdates = {};
 	backgroundOpacity: 0.8,
 	backgroundOpaqueOpacity: 1.0,
 	// this default value is a function to avoid initialization issues (see issue #126)
-	backgroundTexture: makeBackgroundTexture,
+	getDefaultTexture,
 	hiddenOverflow: false,
 	letterSpacing: 0
 });
 
 //
-let defaultBgTexture;
 
-function makeBackgroundTexture() {
+let defaultTexture;
 
-	if ( !defaultBgTexture ) {
+function getDefaultTexture() {
+
+	if ( !defaultTexture ) {
 
 		const ctx = document.createElement( 'canvas' ).getContext( '2d' );
 		ctx.canvas.width = 1;
 		ctx.canvas.height = 1;
 		ctx.fillStyle = '#ffffff';
 		ctx.fillRect( 0, 0, 1, 1 );
-		defaultBgTexture = new external_three_namespaceObject.CanvasTexture( ctx.canvas );
-		defaultBgTexture.isDefault = true;
+		defaultTexture = new external_three_namespaceObject.CanvasTexture( ctx.canvas );
+		defaultTexture.isDefault = true;
 
 	}
 
-	return defaultBgTexture;
+	return defaultTexture;
 
 }
 
@@ -2137,7 +2137,17 @@ function MeshUIComponent( Base ) {
 
 		getFontTexture() {
 
-			return this._getProperty( 'fontTexture' );
+			if ( this[ 'fontTexture' ] === undefined && this.parentUI ) {
+
+				return this.parent._getProperty( 'fontTexture' );
+
+			} else if ( this[ 'fontTexture' ] !== undefined ) {
+
+				return this[ 'fontTexture' ];
+
+			}
+
+			return Defaults.getDefaultTexture();
 
 		}
 
@@ -2274,7 +2284,7 @@ function MeshUIComponent( Base ) {
 
 		getBackgroundTexture() {
 
-			return this.backgroundTexture || Defaults.backgroundTexture();
+			return this.backgroundTexture || Defaults.getDefaultTexture();
 
 		}
 
@@ -2630,7 +2640,7 @@ function MeshUIComponent( Base ) {
 			const savedState = this.states[ state ];
 
 			if ( !savedState ) {
-				console.warn( `state "${state}" does not exist within this component` );
+				console.warn( `state "${state}" does not exist within this component:`, this.name );
 				return;
 			}
 
@@ -2690,25 +2700,25 @@ function MaterialManager( Base ) {
 			super( options );
 
 			this.textUniforms = {
-				u_texture: { value: null },
-				u_color: { value: null },
-				u_opacity: { value: null },
-				u_pxRange: { value: null },
-				u_useRGSS: { value: null },
+				u_texture: { value: this.getFontTexture() },
+				u_color: { value: this.getFontColor() },
+				u_opacity: { value: this.getFontOpacity() },
+				u_pxRange: { value: this.getFontPXRange() },
+				u_useRGSS: { value: this.getFontSupersampling() },
 			};
 
 			this.backgroundUniforms = {
-				u_texture: { value: null },
-				u_color: { value: null },
-				u_opacity: { value: null },
-				u_backgroundMapping: { value: null },
-				u_borderWidth: { value: null },
-				u_borderColor: { value: null },
-				u_borderRadiusTopLeft: { value: null },
-				u_borderRadiusTopRight: { value: null },
-				u_borderRadiusBottomRight: { value: null },
-				u_borderRadiusBottomLeft: { value: null },
-				u_borderOpacity: { value: null },
+				u_texture: { value: this.getBackgroundTexture() },
+				u_color: { value: this.getBackgroundColor() },
+				u_opacity: { value: this.getBackgroundOpacity() },
+				u_backgroundMapping: { value: this.getBackgroundSize() },
+				u_borderWidth: { value: this.getBorderWidth() },
+				u_borderColor: { value: this.getBorderColor() },
+				u_borderRadiusTopLeft: { value: this.getBorderRadius() },
+				u_borderRadiusTopRight: { value: this.getBorderRadius() },
+				u_borderRadiusBottomRight: { value: this.getBorderRadius() },
+				u_borderRadiusBottomLeft: { value: this.getBorderRadius() },
+				u_borderOpacity: { value: this.getBorderOpacity() },
 				u_size: { value: new external_three_namespaceObject.Vector2( 1, 1 ) },
 				u_tSize: { value: new external_three_namespaceObject.Vector2( 1, 1 ) }
 			};
@@ -3353,19 +3363,106 @@ function InlineComponent( Base ) {
 ;// CONCATENATED MODULE: ./node_modules/three/examples/jsm/utils/BufferGeometryUtils.js
 
 
+function computeTangents() {
 
-function computeTangents( geometry ) {
+	throw new Error( 'BufferGeometryUtils: computeTangents renamed to computeMikkTSpaceTangents.' );
 
-	geometry.computeTangents();
-	console.warn( 'THREE.BufferGeometryUtils: .computeTangents() has been removed. Use BufferGeometry.computeTangents() instead.' );
+}
+
+function computeMikkTSpaceTangents( geometry, MikkTSpace, negateSign = true ) {
+
+	if ( ! MikkTSpace || ! MikkTSpace.isReady ) {
+
+		throw new Error( 'BufferGeometryUtils: Initialized MikkTSpace library required.' );
+
+	}
+
+	if ( ! geometry.hasAttribute( 'position' ) || ! geometry.hasAttribute( 'normal' ) || ! geometry.hasAttribute( 'uv' ) ) {
+
+		throw new Error( 'BufferGeometryUtils: Tangents require "position", "normal", and "uv" attributes.' );
+
+	}
+
+	function getAttributeArray( attribute ) {
+
+		if ( attribute.normalized || attribute.isInterleavedBufferAttribute ) {
+
+			const srcArray = attribute.isInterleavedBufferAttribute ? attribute.data.array : attribute.array;
+			const dstArray = new Float32Array( attribute.getCount() * attribute.itemSize );
+
+			for ( let i = 0, j = 0; i < attribute.getCount(); i ++ ) {
+
+				dstArray[ j ++ ] = MathUtils.denormalize( attribute.getX( i ), srcArray );
+				dstArray[ j ++ ] = MathUtils.denormalize( attribute.getY( i ), srcArray );
+
+				if ( attribute.itemSize > 2 ) {
+
+					dstArray[ j ++ ] = MathUtils.denormalize( attribute.getZ( i ), srcArray );
+
+				}
+
+			}
+
+			return dstArray;
+
+		}
+
+		if ( attribute.array instanceof Float32Array ) {
+
+			return attribute.array;
+
+		}
+
+		return new Float32Array( attribute.array );
+
+	}
+
+	// MikkTSpace algorithm requires non-indexed input.
+
+	const _geometry = geometry.index ? geometry.toNonIndexed() : geometry;
+
+	// Compute vertex tangents.
+
+	const tangents = MikkTSpace.generateTangents(
+
+		getAttributeArray( _geometry.attributes.position ),
+		getAttributeArray( _geometry.attributes.normal ),
+		getAttributeArray( _geometry.attributes.uv )
+
+	);
+
+	// Texture coordinate convention of glTF differs from the apparent
+	// default of the MikkTSpace library; .w component must be flipped.
+
+	if ( negateSign ) {
+
+		for ( let i = 3; i < tangents.length; i += 4 ) {
+
+			tangents[ i ] *= - 1;
+
+		}
+
+	}
+
+	//
+
+	_geometry.setAttribute( 'tangent', new BufferAttribute( tangents, 4 ) );
+
+	if ( geometry !== _geometry ) {
+
+		geometry.copy( _geometry );
+
+	}
+
+	return geometry;
 
 }
 
 /**
-	 * @param  {Array<BufferGeometry>} geometries
-	 * @param  {Boolean} useGroups
-	 * @return {BufferGeometry}
-	 */
+ * @param  {Array<BufferGeometry>} geometries
+ * @param  {Boolean} useGroups
+ * @return {BufferGeometry}
+ */
 function mergeBufferGeometries( geometries, useGroups = false ) {
 
 	const isIndexed = geometries[ 0 ].index !== null;
@@ -3692,6 +3789,97 @@ function interleaveAttributes( attributes ) {
 
 }
 
+// returns a new, non-interleaved version of the provided attribute
+function deinterleaveAttribute( attribute ) {
+
+	const cons = attribute.data.array.constructor;
+	const count = attribute.count;
+	const itemSize = attribute.itemSize;
+	const normalized = attribute.normalized;
+
+	const array = new cons( count * itemSize );
+	let newAttribute;
+	if ( attribute.isInstancedInterleavedBufferAttribute ) {
+
+		newAttribute = new InstancedBufferAttribute( array, itemSize, normalized, attribute.meshPerAttribute );
+
+	} else {
+
+		newAttribute = new BufferAttribute( array, itemSize, normalized );
+
+	}
+
+	for ( let i = 0; i < count; i ++ ) {
+
+		newAttribute.setX( i, attribute.getX( i ) );
+
+		if ( itemSize >= 2 ) {
+
+			newAttribute.setY( i, attribute.getY( i ) );
+
+		}
+
+		if ( itemSize >= 3 ) {
+
+			newAttribute.setZ( i, attribute.getZ( i ) );
+
+		}
+
+		if ( itemSize >= 4 ) {
+
+			newAttribute.setW( i, attribute.getW( i ) );
+
+		}
+
+	}
+
+	return newAttribute;
+
+}
+
+// deinterleaves all attributes on the geometry
+function deinterleaveGeometry( geometry ) {
+
+	const attributes = geometry.attributes;
+	const morphTargets = geometry.morphTargets;
+	const attrMap = new Map();
+
+	for ( const key in attributes ) {
+
+		const attr = attributes[ key ];
+		if ( attr.isInterleavedBufferAttribute ) {
+
+			if ( ! attrMap.has( attr ) ) {
+
+				attrMap.set( attr, deinterleaveAttribute( attr ) );
+
+			}
+
+			attributes[ key ] = attrMap.get( attr );
+
+		}
+
+	}
+
+	for ( const key in morphTargets ) {
+
+		const attr = morphTargets[ key ];
+		if ( attr.isInterleavedBufferAttribute ) {
+
+			if ( ! attrMap.has( attr ) ) {
+
+				attrMap.set( attr, deinterleaveAttribute( attr ) );
+
+			}
+
+			morphTargets[ key ] = attrMap.get( attr );
+
+		}
+
+	}
+
+}
+
 /**
  * @param {Array<BufferGeometry>} geometry
  * @return {number}
@@ -4003,7 +4191,6 @@ function computeMorphedAttributes( object ) {
 
 	function _calculateMorphedAttributeData(
 		object,
-		material,
 		attribute,
 		morphAttribute,
 		morphTargetsRelative,
@@ -4019,7 +4206,7 @@ function computeMorphedAttributes( object ) {
 
 		const morphInfluences = object.morphTargetInfluences;
 
-		if ( material.morphTargets && morphAttribute && morphInfluences ) {
+		if ( morphAttribute && morphInfluences ) {
 
 			_morphA.set( 0, 0, 0 );
 			_morphB.set( 0, 0, 0 );
@@ -4092,7 +4279,7 @@ function computeMorphedAttributes( object ) {
 	const groups = geometry.groups;
 	const drawRange = geometry.drawRange;
 	let i, j, il, jl;
-	let group, groupMaterial;
+	let group;
 	let start, end;
 
 	const modifiedPosition = new Float32Array( positionAttribute.count * positionAttribute.itemSize );
@@ -4107,7 +4294,6 @@ function computeMorphedAttributes( object ) {
 			for ( i = 0, il = groups.length; i < il; i ++ ) {
 
 				group = groups[ i ];
-				groupMaterial = material[ group.materialIndex ];
 
 				start = Math.max( group.start, drawRange.start );
 				end = Math.min( ( group.start + group.count ), ( drawRange.start + drawRange.count ) );
@@ -4120,7 +4306,6 @@ function computeMorphedAttributes( object ) {
 
 					_calculateMorphedAttributeData(
 						object,
-						groupMaterial,
 						positionAttribute,
 						morphPosition,
 						morphTargetsRelative,
@@ -4130,7 +4315,6 @@ function computeMorphedAttributes( object ) {
 
 					_calculateMorphedAttributeData(
 						object,
-						groupMaterial,
 						normalAttribute,
 						morphNormal,
 						morphTargetsRelative,
@@ -4155,7 +4339,6 @@ function computeMorphedAttributes( object ) {
 
 				_calculateMorphedAttributeData(
 					object,
-					material,
 					positionAttribute,
 					morphPosition,
 					morphTargetsRelative,
@@ -4165,7 +4348,6 @@ function computeMorphedAttributes( object ) {
 
 				_calculateMorphedAttributeData(
 					object,
-					material,
 					normalAttribute,
 					morphNormal,
 					morphTargetsRelative,
@@ -4177,7 +4359,7 @@ function computeMorphedAttributes( object ) {
 
 		}
 
-	} else if ( positionAttribute !== undefined ) {
+	} else {
 
 		// non-indexed buffer geometry
 
@@ -4186,7 +4368,6 @@ function computeMorphedAttributes( object ) {
 			for ( i = 0, il = groups.length; i < il; i ++ ) {
 
 				group = groups[ i ];
-				groupMaterial = material[ group.materialIndex ];
 
 				start = Math.max( group.start, drawRange.start );
 				end = Math.min( ( group.start + group.count ), ( drawRange.start + drawRange.count ) );
@@ -4199,7 +4380,6 @@ function computeMorphedAttributes( object ) {
 
 					_calculateMorphedAttributeData(
 						object,
-						groupMaterial,
 						positionAttribute,
 						morphPosition,
 						morphTargetsRelative,
@@ -4209,7 +4389,6 @@ function computeMorphedAttributes( object ) {
 
 					_calculateMorphedAttributeData(
 						object,
-						groupMaterial,
 						normalAttribute,
 						morphNormal,
 						morphTargetsRelative,
@@ -4234,7 +4413,6 @@ function computeMorphedAttributes( object ) {
 
 				_calculateMorphedAttributeData(
 					object,
-					material,
 					positionAttribute,
 					morphPosition,
 					morphTargetsRelative,
@@ -4244,7 +4422,6 @@ function computeMorphedAttributes( object ) {
 
 				_calculateMorphedAttributeData(
 					object,
-					material,
 					normalAttribute,
 					morphNormal,
 					morphTargetsRelative,
@@ -4272,7 +4449,107 @@ function computeMorphedAttributes( object ) {
 
 }
 
+function mergeGroups( geometry ) {
 
+	if ( geometry.groups.length === 0 ) {
+
+		console.warn( 'THREE.BufferGeometryUtils.mergeGroups(): No groups are defined. Nothing to merge.' );
+		return geometry;
+
+	}
+
+	let groups = geometry.groups;
+
+	// sort groups by material index
+
+	groups = groups.sort( ( a, b ) => {
+
+		if ( a.materialIndex !== b.materialIndex ) return a.materialIndex - b.materialIndex;
+
+		return a.start - b.start;
+
+	} );
+
+	// create index for non-indexed geometries
+
+	if ( geometry.getIndex() === null ) {
+
+		const positionAttribute = geometry.getAttribute( 'position' );
+		const indices = [];
+
+		for ( let i = 0; i < positionAttribute.count; i += 3 ) {
+
+			indices.push( i, i + 1, i + 2 );
+
+		}
+
+		geometry.setIndex( indices );
+
+	}
+
+	// sort index
+
+	const index = geometry.getIndex();
+
+	const newIndices = [];
+
+	for ( let i = 0; i < groups.length; i ++ ) {
+
+		const group = groups[ i ];
+
+		const groupStart = group.start;
+		const groupLength = groupStart + group.count;
+
+		for ( let j = groupStart; j < groupLength; j ++ ) {
+
+			newIndices.push( index.getX( j ) );
+
+		}
+
+	}
+
+	geometry.dispose(); // Required to force buffer recreation
+	geometry.setIndex( newIndices );
+
+	// update groups indices
+
+	let start = 0;
+
+	for ( let i = 0; i < groups.length; i ++ ) {
+
+		const group = groups[ i ];
+
+		group.start = start;
+		start += group.count;
+
+	}
+
+	// merge groups
+
+	let currentGroup = groups[ 0 ];
+
+	geometry.groups = [ currentGroup ];
+
+	for ( let i = 1; i < groups.length; i ++ ) {
+
+		const group = groups[ i ];
+
+		if ( currentGroup.materialIndex === group.materialIndex ) {
+
+			currentGroup.count += group.count;
+
+		} else {
+
+			currentGroup = group;
+			geometry.groups.push( currentGroup );
+
+		}
+
+	}
+
+	return geometry;
+
+}
 
 
 
@@ -4284,7 +4561,7 @@ function computeMorphedAttributes( object ) {
  *
  * Knows: dimension of the plane to create, specs of the font used, glyph requireed
  */
-class MSDFGlyph extends external_three_namespaceObject.PlaneBufferGeometry {
+class MSDFGlyph extends external_three_namespaceObject.PlaneGeometry {
 
 	constructor( inline, font ) {
 
