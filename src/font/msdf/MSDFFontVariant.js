@@ -38,7 +38,7 @@ export default class MSDFFontVariant extends FontVariant {
 			this._texture = texture;
 			this._buildTexture( texture );
 
-		} else if( typeof(s) === 'string' || s instanceof String ){
+		} else if( typeof(texture) === 'string' || texture instanceof String ){
 
 			_loadTexture( this, texture );
 
