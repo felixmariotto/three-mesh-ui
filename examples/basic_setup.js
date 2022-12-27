@@ -5,8 +5,10 @@ import { BoxLineGeometry } from 'three/examples/jsm/geometries/BoxLineGeometry.j
 
 import ThreeMeshUI from '../src/three-mesh-ui.js';
 
-import FontJSON from './assets/Roboto-msdf.json';
-import FontImage from './assets/Roboto-msdf.png';
+// import FontJSON from './assets/Roboto-msdf.json';
+import FontJSON from './assets/Saira.json';
+import FontImage from './assets/Saira.png';
+// import FontImage from './assets/Roboto-msdf.png';
 
 const WIDTH = window.innerWidth;
 const HEIGHT = window.innerHeight;
@@ -69,7 +71,8 @@ function makeTextPanel() {
 		justifyContent: 'center',
 		textAlign: 'left',
 		fontFamily: FontJSON,
-		fontTexture: FontImage
+		fontTexture: FontImage,
+		interLine: 0.01,
 	} );
 
 	container.position.set( 0, 1, -1.8 );
@@ -80,12 +83,12 @@ function makeTextPanel() {
 
 	container.add(
 		new ThreeMeshUI.Text( {
-			content: 'This library supports line-break-friendly-characters,',
+			content: 'This library supports line break friendly characters',
 			fontSize: 0.055
 		} ),
 
 		new ThreeMeshUI.Text( {
-			content: ' As well as multi-font-size lines with consistent vertical spacing.',
+			content: ' As well as multi font size lines with consistent vertical spacing',
 			fontSize: 0.08
 		} )
 	);

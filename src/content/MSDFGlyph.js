@@ -119,7 +119,7 @@ export default class MSDFGlyph extends PlaneGeometry {
 
 		this.translate(
 			inline.width / 2,
-			( inline.height / 2 ) - inline.anchor,
+				inline.height / 2,
 			0
 		);
 
