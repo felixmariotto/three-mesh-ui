@@ -69,22 +69,23 @@ export default function InlineManager( Base ) {
 
 					case 'start':
 
-						let deltaTop = lines[0].lineHeight * 0.5;
-						deltaTop -= lines.interLine;
+						let deltaTop = (lines[0].lineHeight + lines.interLine) * 0.5;
+						// deltaTop -= lines.interLine;
 
 						// return ( INNER_HEIGHT / 2 ) - lines[ 0 ].lineHeight;
 						return ( INNER_HEIGHT / 2 ) - lines[ 0 ].y - deltaTop;
 
 
 					case 'end':
-						let deltaBottom = lines[lines.length-1].lineHeight * 0.5;
-						deltaBottom -= lines.interLine;
+						let deltaBottom = (lines[lines.length-1].lineHeight + lines.interLine) * 0.5;
+						// deltaBottom -= lines.interLine;
 						// return textHeight - lines[ 0 ].lineHeight - ( INNER_HEIGHT / 2 ) + ( lines[ lines.length - 1 ].lineHeight - lines[ lines.length - 1 ].lineHeight );
 						return - ( INNER_HEIGHT / 2 ) + lines.height / 2 + deltaBottom;
 
 
 					case 'center':
 						return ( textHeight / 2 ) - lines[ 0 ].y;
+
 					default:
 						console.warn( `justifyContent: '${JUSTIFICATION}' is not valid` );
 
@@ -96,6 +97,8 @@ export default function InlineManager( Base ) {
 			//
 
 			lines.forEach( ( line ) => {
+
+				line.y += justificationOffset;
 
 				line.forEach( ( inline ) => {
 
@@ -404,7 +407,8 @@ export default function InlineManager( Base ) {
 
 					line.forEach( ( inline ) => {
 
-						inline.offsetY = lineOffsetY - inline.height - inline.anchor;
+						// inline.offsetY = (lineOffsetY - inline.height) - inline.anchor;
+						inline.offsetY = (lineOffsetY - inline.height) - inline.anchor;
 
 						if( inline.lineHeight < line.lineHeight ){
 							inline.offsetY -= line.lineBase- inline.lineBase;
@@ -420,7 +424,7 @@ export default function InlineManager( Base ) {
 					}
 
 					height += (line.lineHeight + INTERLINE ) ;
-					lineOffsetY = lineOffsetY - (line.lineHeight + INTERLINE );
+					lineOffsetY = lineOffsetY - (line.lineHeight - INTERLINE );
 
 				}
 
@@ -444,15 +448,6 @@ export default function InlineManager( Base ) {
 			} );
 
 			const lines = this.computeLines();
-
-			// const INTERLINE = this.getInterLine();
-
-			// const textHeight = lines.reduce( ( offsetY, line ) => {
-			//
-			// 	return offsetY - line.lineHeight - INTERLINE;
-			//
-			// }, 0 ) + INTERLINE;
-
 			return Math.abs( lines.height );
 		}
 

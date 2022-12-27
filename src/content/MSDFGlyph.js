@@ -12,7 +12,8 @@ export default class MSDFGlyph extends PlaneGeometry {
 		const char = inline.glyph;
 		const fontSize = inline.fontSize;
 
-		super( fontSize, fontSize );
+		// super( fontSize, fontSize );
+		super( inline.width, inline.height );
 
 		// Misc glyphs
 		if ( char.match( /\s/g ) === null ) {
@@ -21,7 +22,7 @@ export default class MSDFGlyph extends PlaneGeometry {
 
 			this.mapUVs( font, char );
 
-			this.transformGeometry( font, fontSize, char, inline );
+			this.transformGeometry( inline );
 
 			// White spaces (we don't want our plane geometry to have a visual width nor a height)
 		} else {
@@ -100,22 +101,7 @@ export default class MSDFGlyph extends PlaneGeometry {
 	}
 
 	/** Gives the previously computed scale and offset to the geometry */
-	transformGeometry( font, fontSize, char, inline ) {
-
-		const charOBJ = font.chars.find( charOBJ => charOBJ.char === char );
-
-		const common = font.common;
-
-		const newHeight = charOBJ.height / common.lineHeight;
-		const newWidth = ( charOBJ.width * newHeight ) / charOBJ.height;
-
-		this.scale(
-			newWidth,
-			newHeight,
-			1
-		);
-
-		//
+	transformGeometry( inline ) {
 
 		this.translate(
 			inline.width / 2,
