@@ -8,6 +8,7 @@ const ESLintPlugin = require('eslint-webpack-plugin');
 // data in format [ JS file name => demo title in examples page ]
 const pages = [
 	[ 'basic_setup', 'basic setup' ],
+	[ 'vertical_alignment', 'vertical_alignment' ],
 	[ 'preloaded_font', 'preloaded font' ],
 	[ 'nested_blocks', 'nested blocks' ],
 	[ 'border', 'block borders' ],
@@ -66,6 +67,7 @@ const webpackConfig = env => {
 		entry: {
 			'../dist/three-mesh-ui': './src/three-mesh-ui.js',
 			basic_setup: './examples/basic_setup.js',
+			vertical_alignment: './examples/vertical_alignment.js',
 			preloaded_font: './examples/preloaded_font.js',
 			nested_blocks: './examples/nested_blocks.js',
 			border: './examples/border.js',
