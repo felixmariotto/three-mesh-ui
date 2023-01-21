@@ -77,7 +77,7 @@ function makeTextPanel() {
 		textAlign: 'center',
 		fontFamily: FontJSON,
 		fontTexture: FontImage,
-		interLine: 0.04,
+		// interLine: 0.02,
 	} );
 
 	container.position.set( 0, 1.6, -1.8 );
@@ -95,7 +95,7 @@ function makeTextPanel() {
 
 		new ThreeMeshUI.Text( {
 			content: ' As well as multi font size lines with consistent vertical spacing',
-			fontSize: 0.3
+			fontSize: 0.08
 		} )
 	);
 

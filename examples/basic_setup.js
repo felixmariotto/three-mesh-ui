@@ -5,13 +5,8 @@ import { BoxLineGeometry } from 'three/examples/jsm/geometries/BoxLineGeometry.j
 
 import ThreeMeshUI from '../src/three-mesh-ui.js';
 
-// import FontJSON from './assets/Roboto-msdf.json';
-// import FontImage from './assets/Roboto-msdf.png';
-
-import FontJSON from './assets/Rye.json';
-import FontImage from './assets/Rye.png';
-// import FontJSON from './assets/Saira.json';
-// import FontImage from './assets/Saira.png';
+import FontJSON from './assets/Roboto-msdf.json';
+import FontImage from './assets/Roboto-msdf.png';
 
 import { Mesh, MeshBasicMaterial, PlaneGeometry } from 'three';
 
