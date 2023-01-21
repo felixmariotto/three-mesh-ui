@@ -35,30 +35,13 @@ export default function InlineManager( Base ) {
 
 			// Compute lines
 			const lines = this.computeLines();
+			lines.interLine = INTERLINE;
 
 			/////////////////////////////////////////////////////////////////
 			// Position lines according to justifyContent and contentAlign
 			/////////////////////////////////////////////////////////////////
 
-			// individual vertical offset
-
-			let textHeight = lines.reduce( ( offsetY, line, i, arr ) => {
-
-				const charAlignement = line.lineHeight - line.lineBase;
-
-				line.forEach( ( inline ) => {
-
-					inline.offsetY = offsetY - line.lineHeight + charAlignement + arr[ 0 ].lineHeight;
-
-				} );
-
-				return offsetY - line.lineHeight - INTERLINE;
-
-			}, 0 ) + INTERLINE;
-
-			//
-
-			textHeight = Math.abs( textHeight );
+			const textHeight = Math.abs( lines.height );
 
 			// Line vertical positioning
 
@@ -66,22 +49,26 @@ export default function InlineManager( Base ) {
 				switch ( JUSTIFICATION ) {
 
 					case 'start':
-						return ( INNER_HEIGHT / 2 ) - lines[ 0 ].lineHeight;
+						return (INNER_HEIGHT/2);
+
 					case 'end':
-						return textHeight - lines[ 0 ].lineHeight - ( INNER_HEIGHT / 2 ) + ( lines[ lines.length - 1 ].lineHeight - lines[ lines.length - 1 ].lineHeight );
+						return textHeight - ( INNER_HEIGHT / 2 );
+
 					case 'center':
-						return ( textHeight / 2 ) - lines[ 0 ].lineHeight;
+						return ( textHeight / 2 );
+
 					default:
 						console.warn( `justifyContent: '${JUSTIFICATION}' is not valid` );
 
 				}
 			} )();
 
-			// const justificationOffset = 0;
 
 			//
 
 			lines.forEach( ( line ) => {
+
+				line.y += justificationOffset;
 
 				line.forEach( ( inline ) => {
 
@@ -271,6 +258,10 @@ export default function InlineManager( Base ) {
 			// Will stock the characters of each line, so that we can
 			// correct lines position before to merge
 			const lines = [ [] ];
+			lines.height = 0;
+
+			const INTERLINE = this.getInterLine();
+			console.warn(INTERLINE);
 
 			this.childrenInlines.reduce( ( lastInlineOffset, inlineComponent ) => {
 
@@ -335,7 +326,8 @@ export default function InlineManager( Base ) {
 
 			// Compute lines dimensions
 
-			lines.forEach( ( line ) => {
+			let width = 0, height =0, lineOffsetY = -INTERLINE/2;
+			lines.forEach( ( line, i ) => {
 
 				//
 
@@ -360,6 +352,7 @@ export default function InlineManager( Base ) {
 				//
 
 				line.width = 0;
+				line.height = line.lineHeight;
 				const lineHasInlines = line[ 0 ];
 
 				if ( lineHasInlines ) {
@@ -377,10 +370,34 @@ export default function InlineManager( Base ) {
 
 					// compute its width: length from firstInline:LEFT to lastInline:RIGHT
 					line.width = this.computeLineWidth( line );
+					if( line.width > width ){
+						width = line.width;
+					}
+
+					line.forEach( ( inline ) => {
+
+						inline.offsetY = (lineOffsetY - inline.height) - inline.anchor;
+
+						if( inline.lineHeight < line.lineHeight ){
+							inline.offsetY -= line.lineBase- inline.lineBase;
+						}
+
+					} );
+
+					line.y = lineOffsetY;
+					// line.x will be set by textAlign
+
+					height += ( line.lineHeight + INTERLINE );
+
+					lineOffsetY = lineOffsetY - (line.lineHeight + INTERLINE );
 
 				}
 
 			} );
+
+			lines.height = height;
+			lines.width = width;
+
 
 			return lines;
 		}
@@ -398,16 +415,7 @@ export default function InlineManager( Base ) {
 			} );
 
 			const lines = this.computeLines();
-
-			const INTERLINE = this.getInterLine();
-
-			const textHeight = lines.reduce( ( offsetY, line ) => {
-
-				return offsetY - line.lineHeight - INTERLINE;
-
-			}, 0 ) + INTERLINE;
-
-			return Math.abs( textHeight );
+			return Math.abs( lines.height );
 		}
 
 		/**

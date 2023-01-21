@@ -23,6 +23,8 @@ export function textAlign( lines, ALIGNMENT, INNER_WIDTH ) {
 
 		}
 
+		line.x = offsetX;
+
 	}
 
 	// last operations for justifications alignments

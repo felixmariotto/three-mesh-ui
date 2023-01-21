@@ -5,8 +5,13 @@ import { BoxLineGeometry } from 'three/examples/jsm/geometries/BoxLineGeometry.j
 
 import ThreeMeshUI from '../src/three-mesh-ui.js';
 
-import FontJSON from './assets/Roboto-msdf.json';
-import FontImage from './assets/Roboto-msdf.png';
+// import FontJSON from './assets/Roboto-msdf.json';
+// import FontImage from './assets/Roboto-msdf.png';
+
+import FontJSON from './assets/Rye.json';
+import FontImage from './assets/Rye.png';
+// import FontJSON from './assets/Saira.json';
+// import FontImage from './assets/Saira.png';
 
 import { Mesh, MeshBasicMaterial, PlaneGeometry } from 'three';
 
@@ -38,7 +43,7 @@ function init() {
 
 	controls = new OrbitControls( camera, renderer.domElement );
 	camera.position.set( 0, 1.6, 0 );
-	controls.target = new THREE.Vector3( 0, 1, -1.8 );
+	controls.target = new THREE.Vector3( 0, 1.6, -1.8 );
 	controls.update();
 
 	// ROOM
@@ -69,14 +74,14 @@ function makeTextPanel() {
 		height: 0.5,
 		padding: 0.05,
 		justifyContent: 'center',
-		textAlign: 'left',
+		textAlign: 'center',
 		fontFamily: FontJSON,
 		fontTexture: FontImage,
-		// interLine: 0,
+		// interLine: 0.02,
 	} );
 
-	container.position.set( 0, 1, -1.8 );
-	container.rotation.x = -0.55;
+	container.position.set( 0, 1.6, -1.8 );
+	// container.rotation.x = -0.55;
 	scene.add( container );
 
 	//
@@ -95,7 +100,8 @@ function makeTextPanel() {
 	);
 
 
-	return
+	// return
+	const linesDisplay = [];
 	container.onAfterUpdate = function (  ){
 
 
@@ -103,28 +109,44 @@ function makeTextPanel() {
 
 		if( !container.lines ) return;
 
-
-		console.log("lines", container.lines);
-
-		var plane = new Mesh(
-			new PlaneGeometry(container.lines.width, container.lines.height ),
-			new MeshBasicMaterial({color:0xff9900})
-		);
-
-		// plane.position.x = container.lines.x;
-		// plane.position.y = container.lines.height/2 - container.getInterLine()/2;
-
-		const INNER_HEIGHT = container.getHeight() - ( container.padding * 2 || 0 );
-
-		if( container.getJustifyContent() === 'start' ){
-			plane.position.y = (INNER_HEIGHT/2) - container.lines.height/2;
-		}else if( container.getJustifyContent() === 'center'){
-			plane.position.y = 0;
-		}else{
-			plane.position.y = -(INNER_HEIGHT/2) + container.lines.height/2
+		if( linesDisplay.length > 0 ){
+			for ( let i = 0; i < linesDisplay.length; i++ ) {
+				container.remove( linesDisplay[i] );
+			}
+			linesDisplay.length = 0;
 		}
 
-		container.add( plane );
+
+		for ( let i = 0; i < container.lines.length; i++ ) {
+			const line = container.lines[ i ];
+
+			console.log(line.width, line.height)
+
+			const plane = new Mesh(
+				new PlaneGeometry(line.width, line.height ),
+				new MeshBasicMaterial({color:0x696969})
+			);
+
+			plane.position.z = 0.01;
+
+			plane.position.x = line.x + line.width/2;
+			// plane.position.y = line.y + line.lineHeight - line.lineBase;
+			plane.position.y = line.y - line.height/2 - (line.lineHeight-line.lineBase)/2;
+
+			// lines
+			const baseLine = new Mesh(
+				new PlaneGeometry(line.width,0.001),
+				new MeshBasicMaterial({color:0xff99ff})
+			)
+			baseLine.position.y = (line.height/2-line.lineBase) + 0.005;
+
+			plane.add( baseLine )
+
+
+			container.add( plane );
+
+		}
+
 	}
 }
 
