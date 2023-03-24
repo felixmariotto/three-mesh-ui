@@ -5843,7 +5843,7 @@ class FontFamily extends external_THREE_namespaceObject.EventDispatcher {
 
 	/**
 	 *
-	 * @param {string} weight
+	 * @param {string|number} weight
 	 * @param {string} style
 	 * @param {string|Object} json
 	 * @param {string|Texture} texture
@@ -5914,7 +5914,7 @@ class FontFamily extends external_THREE_namespaceObject.EventDispatcher {
 
 	/**
 	 *
-	 * @param {string} weight
+	 * @param {string|number} weight
 	 * @param {string} style
 	 * @returns {FontVariant|null}
 	 */
@@ -6540,6 +6540,7 @@ class InheritableMaterialProperty extends InheritableProperty {
 
 //JSDoc related imports
 /* eslint-disable no-unused-vars */
+
 
 
 /* eslint-enable no-unused-vars */
@@ -7978,6 +7979,7 @@ class MeshUIBaseElement extends external_THREE_namespaceObject.Object3D {
  * @property [options.overflow] {"visible"|"hidden"}
  * @property [options.fontKerning] {"normal"|"none"}
  * @property [options.segments] {number}
+ * @property [options.fontFamily] {FontFamily|string}
  * @property [options.fontStyle] {"normal"|"italic"}
  * @property [options.fontWeight] {"light"|"normal"|"bold"|"bolder"|100|200|300|400|500|600|700|800|900}
  *
@@ -13943,6 +13945,8 @@ class TextLayouter extends BaseProperty {
 
 		element._inlineJustificator._needsProcess = true;
 		element._textAlign._needsProcess = true;
+
+		element._overflow._needsUpdate = true;
 
 	}
 
