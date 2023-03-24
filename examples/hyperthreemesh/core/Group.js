@@ -43,7 +43,7 @@ export class Group {
  */
 export function getGroupByName( groupName, orCreate = false ) {
 
-	let group = _groups[groupName];
+	const group = _groups[groupName];
 
 	if( !group && orCreate ) {
 

@@ -1,8 +1,8 @@
 import { Raycaster, Vector2 } from 'three';
-import VRControl from 'three-mesh-ui/examples/controls/VRControl';
 
-
+/* eslint-disable no-unused-vars */
 const CLICK = { type: 'click' };
+/* eslint-enable no-unused-vars */
 const HOVER = { type: 'hover' };
 
 export default class InteractiveRaycaster {
@@ -153,7 +153,7 @@ export default class InteractiveRaycaster {
 
 	}
 
-	_selectStart = ( event = null ) => {
+	_selectStart = () => {
 
 		this._selectState = true;
 

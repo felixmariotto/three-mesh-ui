@@ -296,7 +296,7 @@ function makeFontOptions() {
 	const materialPlain = new FontMaterialPlain({});
 
 
-	for ( let obj of textOptions.children ) {
+	for ( const obj of textOptions.children ) {
 		obj.addEventListener('change', (event)=>{
 
 			const option = event.target;
@@ -372,7 +372,7 @@ function makeBackOptions() {
 	)
 
 
-	for ( let obj of backOptions.children ) {
+	for ( const obj of backOptions.children ) {
 		obj.addEventListener('change', (event)=>{
 
 			const option = event.target;

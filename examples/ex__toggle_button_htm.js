@@ -19,7 +19,7 @@ import InteractiveCursor from 'three-mesh-ui/examples/interactive/listeners/Inte
 import VRControl from 'three-mesh-ui/examples/controls/VRControl';
 
 let scene, camera, renderer, controls, vrControl, interactiveRaycaster;
-let meshContainer, meshes, currentMesh, sphere, box, cone;
+let meshContainer, sphere, box, cone;
 const objsToTest = [];
 
 _injectCSS( `
@@ -251,7 +251,8 @@ function makePanel() {
 	 * @type {HTMButtonToggle}
 	 */
 	const buttonSphere = HyperThreeMesh.createElement('toggle', {name:"sphere",textContent:"Show sphere"});
-	buttonSphere.addEventListener( 'change', (event) => {
+
+	buttonSphere.addEventListener( 'change', () => {
 		sphere.visible = buttonSphere.checked;
 	});
 
@@ -266,7 +267,7 @@ function makePanel() {
 	});
 
 	const buttonBox = HyperThreeMesh.createElement('toggle',{name:'Icosahedron',textContent:"Show box"});
-	buttonBox.addEventListener( 'change', (event) => {
+	buttonBox.addEventListener( 'change', () => {
 		box.visible = buttonBox.checked;
 	});
 

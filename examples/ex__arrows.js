@@ -7,7 +7,6 @@ import { BoxLineGeometry } from 'three/examples/jsm/geometries/BoxLineGeometry.j
 
 import ThreeMeshUI from 'three-mesh-ui';
 import Arrows from 'three-mesh-ui/examples/utils/Arrows';
-import threeMeshUi from 'three-mesh-ui';
 import { Object3D } from 'three';
 
 const WIDTH = window.innerWidth;
@@ -233,7 +232,7 @@ function step2BuildThreeMeshUIElements() {
 
 
 	ThreeMeshUI.update();
-	console.log( arrow2._margin._value );;
+	console.log( arrow2._margin._value );
 
 }
 

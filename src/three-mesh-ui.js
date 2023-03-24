@@ -20,6 +20,8 @@ import Behavior from './utils/Behavior';
 import FontVariant from './font/FontVariant';
 
 
+
+
 const update = () => UpdateManager.update();
 
 const ThreeMeshUI = {
@@ -60,6 +62,8 @@ export { Behavior }
 export { FontVariant }
 
 export default ThreeMeshUI;
+
+console.warn("ThreeMeshUI v7.1.x - Three "+window.__THREE__)
 
 
 
