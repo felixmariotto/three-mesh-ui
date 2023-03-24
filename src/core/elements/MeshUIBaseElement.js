@@ -52,6 +52,7 @@ import { uniformOrUserDataTransformer } from '../../utils/mediator/transformers/
 /* eslint-disable no-unused-vars */
 import { Color, Texture, Vector4, Mesh, Material, ShaderMaterial } from 'three';
 import BaseProperty from './../properties/BaseProperty';
+import FontFamily from '../../font/FontFamily';
 /* eslint-enable no-unused-vars */
 
 export default class MeshUIBaseElement extends Object3D {
@@ -1488,6 +1489,7 @@ export default class MeshUIBaseElement extends Object3D {
  * @property [options.overflow] {"visible"|"hidden"}
  * @property [options.fontKerning] {"normal"|"none"}
  * @property [options.segments] {number}
+ * @property [options.fontFamily] {FontFamily|string}
  * @property [options.fontStyle] {"normal"|"italic"}
  * @property [options.fontWeight] {"light"|"normal"|"bold"|"bolder"|100|200|300|400|500|600|700|800|900}
  *
