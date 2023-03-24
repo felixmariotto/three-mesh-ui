@@ -8,6 +8,12 @@
   "main": "build/three-mesh-ui.min.js",
   "module": "build/three-mesh-ui.module.js",
   "types": "build/types/three-mesh-ui.d.ts",
+  "exports": {
+    ".": {
+      "import": "./build/three.module.js"
+    },
+    "./examples/*": "./examples/*"
+  },
   "scripts": {
     "test": "karma start --single-run --browsers ChromeHeadless config/karma.conf.js",
     "lint": "eslint -c config/codestyle/.eslintrc src examples",
