@@ -367,6 +367,8 @@ function makeKeyboard( layout = null ) {
 	keyboard.position.set( 0, 0.88, -1 );
 	keyboard.rotation.x = -0.55;
 
+	keyboard.interactiveListener.bindText( userText )
+
 	scene.add( keyboard );
 
 	interactiveRaycaster.addObject( keyboard );
