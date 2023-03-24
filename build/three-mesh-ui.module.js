@@ -1340,7 +1340,6 @@ function InlineManager( Base ) {
 			lines.height = 0;
 
 			const INTERLINE = this.getInterLine();
-			console.warn(INTERLINE);
 
 			this.childrenInlines.reduce( ( lastInlineOffset, inlineComponent ) => {
 
@@ -1406,7 +1405,7 @@ function InlineManager( Base ) {
 			// Compute lines dimensions
 
 			let width = 0, height =0, lineOffsetY = -INTERLINE/2;
-			lines.forEach( ( line, i ) => {
+			lines.forEach( ( line ) => {
 
 				//
 
