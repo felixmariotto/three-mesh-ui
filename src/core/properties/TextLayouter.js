@@ -246,6 +246,8 @@ export default class TextLayouter extends BaseProperty {
 		element._inlineJustificator._needsProcess = true;
 		element._textAlign._needsProcess = true;
 
+		element._overflow._needsUpdate = true;
+
 	}
 
 	/**
