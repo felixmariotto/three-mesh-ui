@@ -389,8 +389,9 @@ export default class MeshUIBaseElement extends Object3D {
 
 			this._fontMaterial,
 			this._fontCustomDepthMaterial,
-			this._renderer,
 			this._overflow,
+			this._renderer,
+
 		]
 
 

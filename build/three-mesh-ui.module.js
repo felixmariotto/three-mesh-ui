@@ -6936,8 +6936,9 @@ class MeshUIBaseElement extends external_three_namespaceObject.Object3D {
 
 			this._fontMaterial,
 			this._fontCustomDepthMaterial,
-			this._renderer,
 			this._overflow,
+			this._renderer,
+
 		]
 
 
