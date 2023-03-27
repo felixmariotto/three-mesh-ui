@@ -56,15 +56,4 @@ export default class StyleColorProperty extends SubStyleProperty {
 
 }
 
-/**
- *
- * @param {Color|string|number|null}value
- * @param {Color|null} output
- * @private
- */
-function _setColor( value, output ) {
-
-
-}
-
 

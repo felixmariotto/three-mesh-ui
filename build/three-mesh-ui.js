@@ -1969,17 +1969,6 @@ class StyleColorProperty extends SubStyleProperty {
 
 }
 
-/**
- *
- * @param {Color|string|number|null}value
- * @param {Color|null} output
- * @private
- */
-function _setColor( value, output ) {
-
-
-}
-
 
 
 ;// CONCATENATED MODULE: ./src/core/properties/style-properties/StyleFactorProperty.js
@@ -3151,11 +3140,11 @@ class BackgroundColorProperty extends StyleColorProperty {
 
 		if( this._input === 'inherit' ) {
 
-			BackgroundColorProperty_setColor( this.getInheritedInput( element ) , this._value );
+			_setColor( this.getInheritedInput( element ) , this._value );
 
 		} else {
 
-			BackgroundColorProperty_setColor( this._input, this._value);
+			_setColor( this._input, this._value);
 
 		}
 
@@ -3169,7 +3158,7 @@ class BackgroundColorProperty extends StyleColorProperty {
  * @param {Color|null} output
  * @private
  */
-function BackgroundColorProperty_setColor( value, output ) {
+function _setColor( value, output ) {
 
 	if ( !( value instanceof external_THREE_namespaceObject.Color ) ) {
 
