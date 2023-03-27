@@ -1954,13 +1954,6 @@ class StyleColorProperty extends SubStyleProperty {
 		// Colors are too wide to perform validation checks each time
 		// if( ! this.isValidValue( value ) ) return;
 
-		if( value === this._inline ) {
-
-			if( value instanceof external_THREE_namespaceObject.Color ) this._needsUpdate = true;
-			return;
-
-		}
-
 		this._input = this._inline = value;
 
 		this._needsUpdate = true;
