@@ -24,45 +24,14 @@ export default class ColorProperty extends StyleColorProperty {
 
 		if( this._input === 'inherit' ) {
 
-			_setColor( this.getInheritedInput( element ) , this._value );
+			this._value.set( this.getInheritedInput( element ) );
 
 		} else {
 
-			_setColor( this._input, this._value);
+			this._value.set( this._input);
 
 		}
 
 	}
 
 }
-
-/**
- *
- * @param {Color|string|number|null}value
- * @param {Color|null} output
- * @private
- */
-function _setColor( value, output ) {
-
-
-
-	if ( !( value instanceof Color ) ) {
-
-		if ( output instanceof Color ) {
-
-			output.set( value );
-
-		} else {
-
-			output = new Color( value );
-
-		}
-
-	} else {
-
-		output.set(value);
-
-	}
-}
-
-
