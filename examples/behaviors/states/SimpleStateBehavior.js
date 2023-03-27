@@ -35,6 +35,7 @@ export default class SimpleStateBehavior extends Behavior{
 		subject.renderStates = this.renderStates.bind(subject);
 		subject.setupState = this.setupState.bind(subject);
 
+		subject.setState = this.setState.bind(subject);
 		subject.activatePseudoState = this.activatePseudoState.bind(subject);
 		subject.deactivatePseudoState = this.deactivatePseudoState.bind(subject);
 		subject.togglePseudoState = this.togglePseudoState.bind(subject);
@@ -109,6 +110,7 @@ export default class SimpleStateBehavior extends Behavior{
 	}
 
 	activatePseudoState ( state ) {
+
 		if( this._simpleState__activeStates.indexOf(state) === -1) {
 			this._simpleState__activeStates.push( state );
 			this.renderStates();
@@ -134,5 +136,15 @@ export default class SimpleStateBehavior extends Behavior{
 
 		this.renderStates();
 
+	}
+
+	setState( states ){
+		if( Array.isArray(states) ){
+			this._simpleState__activeStates = states;
+		}else{
+			this._simpleState__activeStates = [ states ];
+		}
+
+		this.renderStates();
 	}
 }
