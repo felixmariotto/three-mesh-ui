@@ -3306,7 +3306,6 @@ class InlineJustificator extends BaseProperty {
 	 */
 	process( element ) {
 
-
 		const INNER_HEIGHT = element._bounds._innerHeight;
 		const lines = element._layouter._value;
 
@@ -3320,21 +3319,15 @@ class InlineJustificator extends BaseProperty {
 
 				case 'inherit':
 				case 'start':
-					// return ( INNER_HEIGHT / 2 ) - lines[ 0 ].lineHeight - boxComponent._padding.x ;
-					// return boxComponent._padding.x - lines[0].lineHeight ;
-					// return (INNER_HEIGHT * .5) + boxComponent._padding.x - (lines[0].lineHeight * .5);
-					// return (INNER_HEIGHT * .5) - lines[0].lineHeight + lines[0].y;
-					// return (INNER_HEIGHT * .5) - lines[0].lineHeight;
-					return (INNER_HEIGHT * .5) - lines[0].lineHeight + lines[0].y;
+					return INNER_HEIGHT / 2 ;
 
 				case 'end':
-					// return textHeight - lines[ 0 ].lineHeight - ( INNER_HEIGHT / 2 );
-					return textHeight - lines[ 0 ].lineHeight + lines[0].y - ( INNER_HEIGHT / 2 );
+					return textHeight - ( INNER_HEIGHT / 2 );
 
 
 				case 'stretch': // @TODO : Stretch should trigger an error in own property
 				case 'center':
-					return ( textHeight / 2 ) - lines[ 0 ].lineHeight + lines[0].y;
+					return textHeight/2;
 
 			}
 		} )();
@@ -4520,10 +4513,12 @@ class InlineGlyph extends Inline {
 	 */
 	get anchor() {
 
-		const lineHeight = this._typographic.font.lineHeight;
-		const lineBase = this._typographic.font.lineBase;
+		// const lineHeight = this._typographic.font.lineHeight;
+		// const lineBase = this._typographic.font.lineBase;
+		//
+		// return ( ( this._typographic.yoffset + this._typographic.height - lineBase ) * this._fontSize ) / lineHeight;
 
-		return ( ( this._typographic.yoffset + this._typographic.height - lineBase ) * this._fontSize ) / lineHeight;
+		return this.yoffset;
 
 	}
 
@@ -4784,7 +4779,7 @@ class MSDFGeometricGlyph extends external_three_namespaceObject.PlaneGeometry {
 		// @TODO : Evaluate this as being a property. It can wait until splitGeometry
 		this.translate(
 			inline.width / 2,
-			( inline.height / 2 ) - inline.anchor,
+			-inline.height/2,
 			0
 		);
 
@@ -13783,6 +13778,7 @@ class TextLayouter extends BaseProperty {
 	 */
 	process( element ) {
 
+
 		let INNER_WIDTH = element._width._value;
 		// if nowrap or pre => infinite then = re bounds;
 
@@ -13911,8 +13907,8 @@ class TextLayouter extends BaseProperty {
 		// Compute single line and combined lines dimensions
 		const inlineCollapser = element._whiteSpace._inlineCollapser;
 
-		let width = 0;
-		let lineOffsetY = 0;
+
+		let width = 0, height =0, lineOffsetY = 0;
 
 		// calculates lines
 		lines.forEach( ( line, i ) => {
@@ -13938,28 +13934,32 @@ class TextLayouter extends BaseProperty {
 
 			const baseLineDelta = lineHeight - lineBase;
 
+			if( i === 0 ){
+				lineOffsetY = -(lineHeight*INTERLINE - lineHeight) * 0.5;
+			} else {
+				lineOffsetY -= lines[i-1].lineHeight*INTERLINE;
+			}
+
+			line.y = lineOffsetY;
+			line.x = 0;
+
 			// process yoffset
 			line.forEach( ( inline ) => {
 
-				inline.offsetY = lineOffsetY - line.lineHeight + baseLineDelta + lines[ 0 ].lineHeight;
+				inline.offsetY = lineOffsetY - inline.anchor;
+
+				if( inline.lineHeight < line.lineHeight ){
+					inline.offsetY -= line.lineBase- inline.lineBase;
+				}
 
 			});
 
-			if( i !== 0 ) {
 
-				// get the previousLine y and increase
-				line.y =  lines[i-1].y - (line.lineHeight * INTERLINE) / 2;
 
-			} else {
-
-				line.y = - ((line.lineHeight * INTERLINE ) - line.lineHeight) / 2;
-
-			}
-
-			lineOffsetY = lineOffsetY - (line.lineHeight * INTERLINE);
+			height += ( line.lineHeight * INTERLINE );
+			// height += ( line.lineHeight);
 
 			//
-
 			line.width = 0;
 			// if this line have inlines
 			if ( line[ 0 ] ) {
@@ -13976,7 +13976,7 @@ class TextLayouter extends BaseProperty {
 
 		} );
 
-		lines.height = Math.abs(lineOffsetY);
+		lines.height = height;
 		lines.width = width;
 
 		this._value = lines;
@@ -14080,6 +14080,8 @@ function _process( element ) {
 		// const paddingAmount = - ( padding.w + padding.y ) / 2 - ( border.w + border.y ) / 2;
 		// const paddingAmount = - ( padding.w + padding.y ) / 2;
 		const paddingAmount = ( - padding.w + padding.y ) / 2 + ( - border.w + border.y ) / 2;
+
+		line.x += offsetX;
 
 		// apply the offset to each characters of the line
 		for ( let j = 0; j < line.length; j++ ) {
@@ -15039,7 +15041,10 @@ class InlineBlockInline extends Inline {
 
 		return height.value;
 
+	}
 
+	get anchor(){
+		return this.height;
 	}
 
 
