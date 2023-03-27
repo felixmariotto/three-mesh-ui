@@ -75,10 +75,12 @@ export default class InlineGlyph extends Inline {
 	 */
 	get anchor() {
 
-		const lineHeight = this._typographic.font.lineHeight;
-		const lineBase = this._typographic.font.lineBase;
+		// const lineHeight = this._typographic.font.lineHeight;
+		// const lineBase = this._typographic.font.lineBase;
+		//
+		// return ( ( this._typographic.yoffset + this._typographic.height - lineBase ) * this._fontSize ) / lineHeight;
 
-		return ( ( this._typographic.yoffset + this._typographic.height - lineBase ) * this._fontSize ) / lineHeight;
+		return this.yoffset;
 
 	}
 

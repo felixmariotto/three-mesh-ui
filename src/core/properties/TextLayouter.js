@@ -25,6 +25,7 @@ export default class TextLayouter extends BaseProperty {
 	 */
 	process( element ) {
 
+
 		let INNER_WIDTH = element._width._value;
 		// if nowrap or pre => infinite then = re bounds;
 
@@ -153,8 +154,8 @@ export default class TextLayouter extends BaseProperty {
 		// Compute single line and combined lines dimensions
 		const inlineCollapser = element._whiteSpace._inlineCollapser;
 
-		let width = 0;
-		let lineOffsetY = 0;
+
+		let width = 0, height =0, lineOffsetY = 0;
 
 		// calculates lines
 		lines.forEach( ( line, i ) => {
@@ -180,28 +181,32 @@ export default class TextLayouter extends BaseProperty {
 
 			const baseLineDelta = lineHeight - lineBase;
 
+			if( i === 0 ){
+				lineOffsetY = -(lineHeight*INTERLINE - lineHeight) * 0.5;
+			} else {
+				lineOffsetY -= lines[i-1].lineHeight*INTERLINE;
+			}
+
+			line.y = lineOffsetY;
+			line.x = 0;
+
 			// process yoffset
 			line.forEach( ( inline ) => {
 
-				inline.offsetY = lineOffsetY - line.lineHeight + baseLineDelta + lines[ 0 ].lineHeight;
+				inline.offsetY = lineOffsetY - inline.anchor;
+
+				if( inline.lineHeight < line.lineHeight ){
+					inline.offsetY -= line.lineBase- inline.lineBase;
+				}
 
 			});
 
-			if( i !== 0 ) {
 
-				// get the previousLine y and increase
-				line.y =  lines[i-1].y - (line.lineHeight * INTERLINE) / 2;
 
-			} else {
-
-				line.y = - ((line.lineHeight * INTERLINE ) - line.lineHeight) / 2;
-
-			}
-
-			lineOffsetY = lineOffsetY - (line.lineHeight * INTERLINE);
+			height += ( line.lineHeight * INTERLINE );
+			// height += ( line.lineHeight);
 
 			//
-
 			line.width = 0;
 			// if this line have inlines
 			if ( line[ 0 ] ) {
@@ -218,7 +223,7 @@ export default class TextLayouter extends BaseProperty {
 
 		} );
 
-		lines.height = Math.abs(lineOffsetY);
+		lines.height = height;
 		lines.width = width;
 
 		this._value = lines;

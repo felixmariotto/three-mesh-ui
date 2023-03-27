@@ -56,6 +56,8 @@ function _process( element ) {
 		// const paddingAmount = - ( padding.w + padding.y ) / 2;
 		const paddingAmount = ( - padding.w + padding.y ) / 2 + ( - border.w + border.y ) / 2;
 
+		line.x += offsetX;
+
 		// apply the offset to each characters of the line
 		for ( let j = 0; j < line.length; j++ ) {
 

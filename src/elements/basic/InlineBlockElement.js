@@ -242,7 +242,10 @@ class InlineBlockInline extends Inline {
 
 		return height.value;
 
+	}
 
+	get anchor(){
+		return this.height;
 	}
 
 

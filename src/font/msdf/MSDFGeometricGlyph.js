@@ -118,7 +118,7 @@ export default class MSDFGeometricGlyph extends PlaneGeometry {
 		// @TODO : Evaluate this as being a property. It can wait until splitGeometry
 		this.translate(
 			inline.width / 2,
-			( inline.height / 2 ) - inline.anchor,
+			-inline.height/2,
 			0
 		);
 
