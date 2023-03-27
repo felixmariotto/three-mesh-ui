@@ -1951,7 +1951,7 @@ class StyleColorProperty extends SubStyleProperty {
 
 	set inline( value ) {
 
-		// Colors are too wide to performa validation checks each time
+		// Colors are too wide to perform validation checks each time
 		// if( ! this.isValidValue( value ) ) return;
 
 		if( value === this._inline ) {
@@ -3140,43 +3140,16 @@ class BackgroundColorProperty extends StyleColorProperty {
 
 		if( this._input === 'inherit' ) {
 
-			_setColor( this.getInheritedInput( element ) , this._value );
+			this._value.set(this.getInheritedInput( element ));
 
 		} else {
 
-			_setColor( this._input, this._value);
+			this._value.set( this._value );
 
 		}
 
 	}
 
-}
-
-/**
- *
- * @param {Color|string|number|null}value
- * @param {Color|null} output
- * @private
- */
-function _setColor( value, output ) {
-
-	if ( !( value instanceof external_THREE_namespaceObject.Color ) ) {
-
-		if ( output instanceof external_THREE_namespaceObject.Color ) {
-
-			output.set( value );
-
-		} else {
-
-			output = new external_THREE_namespaceObject.Color( value );
-
-		}
-
-	} else {
-
-		output.set(value);
-
-	}
 }
 
 
@@ -11073,11 +11046,11 @@ class ColorProperty extends StyleColorProperty {
 
 		if( this._input === 'inherit' ) {
 
-			ColorProperty_setColor( this.getInheritedInput( element ) , this._value );
+			_setColor( this.getInheritedInput( element ) , this._value );
 
 		} else {
 
-			ColorProperty_setColor( this._input, this._value);
+			_setColor( this._input, this._value);
 
 		}
 
@@ -11091,7 +11064,7 @@ class ColorProperty extends StyleColorProperty {
  * @param {Color|null} output
  * @private
  */
-function ColorProperty_setColor( value, output ) {
+function _setColor( value, output ) {
 
 
 
@@ -11274,45 +11247,16 @@ class BackgroundColorPropertyInline extends StyleColorProperty {
 
 		if( this._input === 'inherit' ) {
 
-			BackgroundColorPropertyInline_setColor( this.getInheritedInput( element ) , this._value );
+			this._value.set(this.getInheritedInput( element ));
 
 		} else {
 
-			BackgroundColorPropertyInline_setColor( this._input, this._value);
+			this._value.set( this._input );
 
 		}
 
 	}
 
-}
-
-/**
- *
- * @param {Color|string|number|null}value
- * @param {Color|null} output
- * @private
- */
-function BackgroundColorPropertyInline_setColor( value, output ) {
-
-
-
-	if ( !( value instanceof external_THREE_namespaceObject.Color ) ) {
-
-		if ( output instanceof external_THREE_namespaceObject.Color ) {
-
-			output.set( value );
-
-		} else {
-
-			output = new external_THREE_namespaceObject.Color( value );
-
-		}
-
-	} else {
-
-		output.set(value);
-
-	}
 }
 
 

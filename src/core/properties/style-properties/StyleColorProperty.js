@@ -38,7 +38,7 @@ export default class StyleColorProperty extends SubStyleProperty {
 
 	set inline( value ) {
 
-		// Colors are too wide to performa validation checks each time
+		// Colors are too wide to perform validation checks each time
 		// if( ! this.isValidValue( value ) ) return;
 
 		if( value === this._inline ) {
