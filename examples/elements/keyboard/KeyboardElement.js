@@ -214,7 +214,8 @@ export default class KeyboardElement extends Block {
 				fontFamily: options.fontFamily,
 				fontTexture: options.fontTexture,
 				backgroundColor: options.backgroundColor,
-				backgroundOpacity: options.backgroundOpacity
+				backgroundOpacity: options.backgroundOpacity,
+				borderRadius: options.borderRadius ? options.borderRadius : 0,
 			} );
 
 			panel.charset = 0;
