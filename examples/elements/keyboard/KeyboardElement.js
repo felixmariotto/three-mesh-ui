@@ -242,6 +242,15 @@ export default class KeyboardElement extends Block {
 
 					const key = element._buildKey( char, keyDefinition );
 
+					let keyOps = {};
+					if( options.keyOptions ){
+						if( options.keyOptions instanceof Function){
+							keyOps = options.keyOptions( key );
+						}else{
+							keyOps = options.keyOptions;
+						}
+					}
+
 					key.set({
 						boxSizing : 'border-box',
 						width: ( options.width * keyDefinition.width ) - ( options.margin * 2 ),
@@ -250,8 +259,9 @@ export default class KeyboardElement extends Block {
 						alignItems: 'center',
 						textAlign: 'center',
 						backgroundColor : 0x000000,
-						backgroundOpacity: 0.8
-						// offset: 0
+						backgroundOpacity: 0.8,
+						// offset: 0,
+						...keyOps
 					});
 
 					builtKeys.push( key );

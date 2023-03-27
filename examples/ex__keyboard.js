@@ -41,6 +41,7 @@ import VRControl from 'three-mesh-ui/examples/controls/VRControl';
 import PhysicalKeyboardFeederBehavior from 'three-mesh-ui/examples/behaviors/input/PhysicalKeyboardFeederBehavior';
 import KeyboardsSynchronizerBehavior from 'three-mesh-ui/examples/behaviors/input/KeyboardsSynchronizerBehavior';
 import InteractiveTooltip from 'three-mesh-ui/examples/interactive/listeners/InteractiveTooltip';
+import SimpleStateBehavior from 'three-mesh-ui/examples/behaviors/states/SimpleStateBehavior';
 
 let scene,
 	camera,
@@ -203,10 +204,12 @@ function makeUI() {
 		// height: 0.4,
 		fontSize: 0.033,
 		padding: 0.02,
-		backgroundOpacity: 0,
-		textContent: ""
+		boxSizing: 'border-box',
+		textContent: "",
+		textAlign: 'center'
 	} );
 
+	// add keyboard input to userText
 	const feeder = new PhysicalKeyboardFeederBehavior( userText );
 	feeder.attach();
 
@@ -238,11 +241,24 @@ function makeUI() {
 			padding : '0.01 0.05',
 			margin: 0.012,
 			justifyContent: 'center',
-			backgroundColor: new THREE.Color( colors.button ),
+			// backgroundColor: new THREE.Color( colors.button ),
+			backgroundColor: colors.button ,
+			offset: 0.01,
 			backgroundOpacity: 1,
 			fontSize: 0.035,
 			textContent: options[ 0 ]
 		} );
+
+		new SimpleStateBehavior( button, {
+			hover: {
+				offset: 0.02,
+				backgroundColor: colors.hovered,
+			},
+			checked: {
+				backgroundColor: colors.selected,
+			},
+		});
+
 
 		button.addEventListener( 'click' , () => {
 
@@ -361,7 +377,14 @@ function makeKeyboard( layout = null ) {
 		backgroundOpacity: 1,
 		backspaceTexture: Backspace,
 		shiftTexture: Shift,
-		enterTexture: Enter
+		enterTexture: Enter,
+		keyOptions : {
+			color: 0xffffff,
+			backgroundColor: colors.button,
+			backgroundOpacity:1,
+			borderRadius: 0.01,
+			offset: 0.0085
+		}
 	} );
 
 	keyboard.position.set( 0, 0.88, -1 );
@@ -373,8 +396,29 @@ function makeKeyboard( layout = null ) {
 
 	interactiveRaycaster.addObject( keyboard );
 
+	// Report physicalKeyboard even to virtual keyboard
 	keyboardSync = new KeyboardsSynchronizerBehavior( keyboard );
 	keyboardSync.attach();
+
+
+	// styles for keys
+	keyboard.keys.forEach( ( key ) => {
+
+		new SimpleStateBehavior(key,{
+			hover: {
+				backgroundColor: colors.hovered,
+				backgroundOpacity: 1,
+			},
+			checked:{
+				backgroundColor: 0x00ff99
+			},
+			active: {
+				offset: 0.0025,
+				backgroundColor: colors.hovered,
+			}
+		});
+
+	});
 }
 
 //
