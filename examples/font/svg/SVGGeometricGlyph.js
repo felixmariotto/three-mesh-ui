@@ -26,13 +26,14 @@ export default class SVGGeometricGlyph extends ExtrudeGeometry {
 		wS = Math.ceil( ( inline.typographic.width / typographicFontSize ) * segments );
 		hS = Math.ceil( ( inline.typographic.height / typographicFontSize ) * segments );  /* eslint-enable no-unused-vars */
 
-		super( inline.shape, {depth:element._fontDepth.value} );
+		const depth = element._fontDepth.value;
+		super( inline.shape, {depth:1} );
 
 		this.name = "SVGGeometryGlyph("+inline.typographic.char+")";
 
-			this._transformGeometry( inline );
+			this._transformGeometry( inline, depth );
 
-			this.scale( 1/divisor * inline.fontFactor , 1/divisor * inline.fontFactor, 0.025 );
+			this.scale( 1/divisor * inline.fontFactor , 1/divisor * inline.fontFactor, depth );
 
 			// this.translate( 0, 0, 0 );
 
@@ -46,15 +47,15 @@ export default class SVGGeometricGlyph extends ExtrudeGeometry {
 	 * @param {MSDFInlineGlyph} inline
 	 * @private
 	 */
-	_transformGeometry( inline ) {
+	_transformGeometry( inline, depth ) {
 
 		//
 
 		// @TODO : Evaluate this as being a property. It can wait until splitGeometry
 		this.translate(
 			inline.width / 2,
-			( inline.height / 2 ) - inline.anchor,
-			0
+			inline.height / 2,
+			-depth/2
 		);
 
 	}

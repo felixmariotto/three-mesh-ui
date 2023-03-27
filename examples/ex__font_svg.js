@@ -116,6 +116,9 @@ function step2BuildThreeMeshUIElements() {
 		backgroundColor: 0x000000,
 		backgroundOpacity : 0.25,
 
+		// lineHeight:0,
+		borderRadius: 0.025,
+
 		// text properties
 		fontSize: 0.05,
 		// As we have prepare our fonts we can now use them
@@ -129,12 +132,18 @@ function step2BuildThreeMeshUIElements() {
 
 	// Lets build a first text that would be in bold, and use a MSDFNormalMaterial
 	const text1 = new ThreeMeshUI.Text( {
-			width: '100%',
+			width: 'auto',
 			justifyContent: 'center',
 			textContent: 'Extending font types (SVG)',
 			fontWeight: '700',
 			fontSize: 0.08,
-			marginBottom: 0.025
+			marginBottom: 0.025,
+			backgroundColor: 0x000000,
+			backgroundOpacity: 0.3,
+			padding: '0.01 0.05',
+			borderRadius: 0.025,
+			borderColor: 0xffffff,
+			borderWidth: 0.01,
 		} );
 
 
@@ -153,7 +162,7 @@ function step2BuildThreeMeshUIElements() {
 		new ThreeMeshUI.Text( {
 			width: '100%',
 			textContent: 'In this examples, 4 variants of the "FluxArchitect" font in svg format are registered.',
-			marginBottom: 0.025
+			marginBottom: 0.025,
 		} ),
 
 		new ThreeMeshUI.Text({}).add(
@@ -204,9 +213,11 @@ function step2BuildThreeMeshUIElements() {
 	// If we want to have to ability to control fontDepth from parent, to children,
 	// we need to register them here
 	SVGFontVariant.appendProperties( rootBlock, ...rootBlock.children );
+	SVGFontVariant.appendProperties( text1, ...rootBlock.children );
 
 	// now we can control parent value, cascading to inherited children
-	// rootBlock.set({fontDepth:0.6});
+	text1.set({fontDepth:0.02});
+	rootBlock.set({fontDepth:0.006});
 
 }
 

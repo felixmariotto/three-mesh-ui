@@ -21,4 +21,10 @@ export default class SVGInlineGlyph extends InlineGlyph{
 	 */
 	get shape() { return this.typographic.shape; }
 
+	get anchor() {
+
+		return this.yoffset + this.height/2;
+
+	}
+
 }
