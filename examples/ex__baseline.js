@@ -14,84 +14,19 @@ function example(){
 		width: 2.4,
 		textAlign: 'center',
 		alignItems: 'start',
-		fontSize: 0.2,
-		textContent : 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'
+		fontSize: 0.18,
+		textContent : 'abcdefghijklmnopqrstuvwxyz'
 	} );
 
 	text.position.z = -2;
 	text.position.y = 1.41
 
+	text.add( new Inline({textContent: "ABCDEFGHIJKLMNOPQRSTUVWXYZ", fontSize:0.2}) )
+	text.add( new Inline({textContent: "LMNOPQRSTUVWXYZ", fontSize:0.15}) )
+
 	scene.add( text );
 
-	// Lines properties. Lines are planes manually added behind each text lines
-	// in order to perceive and validate line width
-
-	const lineMat = new MeshBasicMaterial( { color: 0x9e9e9e, opacity: 1 } );
-	const baseMat = new MeshBasicMaterial( { color: 0x000000, opacity: 1 } );
-	const medianMat = new MeshBasicMaterial( { color: 0x000000 } );
-	let lines = [];
-
-	text.addAfterUpdate( function () {
-
-		// remove all lines previously added
-		for ( let i = 0; i < lines.length; i++ ) {
-			const lineMesh = lines[ i ];
-			text.remove( lineMesh );
-		}
-		lines = [];
-
-
-
-		// retrieve all lines sent by InlineManager for the textBlock
-		for ( let i = 0; i < text.lines.length; i++ ) {
-
-			const line = text.lines[ i ];
-
-			if ( !line[ 0 ] ) continue;
-
-			const lineHeight = line.lineHeight;
-			const lineBase = line.lineBase;
-
-			const deltaLine = lineHeight - lineBase;
-
-			// TextBackground
-			const lineGeo = new PlaneGeometry( line.width, lineHeight );
-			const lineMesh = new Mesh( lineGeo, lineMat );
-			lineMesh.name = 'DevLineMesh';
-
-			lineMesh.position.x = line[0].offsetX + line.width/2;
-			lineMesh.position.y = line[0].offsetY + line.lineBase / 2 - deltaLine / 4;
-
-			lines.push( lineMesh );
-			text.add( lineMesh );
-
-			// baseline
-			const baselineMesh = new Mesh( new PlaneGeometry( line.width, 0.002 ), baseMat );
-			baselineMesh.position.x = lineMesh.position.x;
-			// baselineMesh.position.y = line.y -  // Baseline
-			baselineMesh.position.y = lineMesh.position.y - lineBase/2 + 0.002;
-
-			lines.push( baselineMesh );
-			text.add( baselineMesh );
-
-
-			// Median
-			const medianMesh = new Mesh( new PlaneGeometry( line.width, 0.002 ), medianMat );
-
-			medianMesh.position.x = lineMesh.position.x;
-			medianMesh.position.y =  lineMesh.position.y + deltaLine/2 - 0.002; // Baseline
-
-			lines.push( medianMesh );
-			text.add( medianMesh );
-
-			baselineMesh.position.z = medianMesh.position.z = text.children[0].position.z + 0.006;
-
-
-		}
-
-
-	});
-
+	new TypographicLayoutBehavior( text ).attach();
 
 }
 
@@ -156,6 +91,7 @@ import { exampleCameraOrthographic, exampleCameraOrthographicResize } from 'thre
 import exampleGUI from 'three-mesh-ui/examples/_setup/gui/exampleGUI';
 import { DefaultValues, FontLibrary, Inline } from 'three-mesh-ui';
 import { Mesh, MeshBasicMaterial, PlaneGeometry, Texture } from 'three';
+import TypographicLayoutBehavior from 'three-mesh-ui/examples/behaviors/helpers/TypographicLayoutBehavior';
 /* eslint-disable no-unused-vars */
 
 // building three setup
@@ -267,6 +203,7 @@ function baselineGUI() {
 	p.letter = 'a';
 	p.yoffset = charDesc.yoffset;
 	p.lineHeight = text._lineHeight._value;
+	p.textAlign = text._textAlign._value;
 	p.textContent = text._textContent._value;
 	p.export = () => {
 		console.log( `{MSDFVariant}.adjustTypographicGlyphs ( ${JSON.stringify(alterations, null, 2 )} );` );
@@ -284,6 +221,11 @@ function baselineGUI() {
 
 	gui.add( p, 'lineHeight', 1,3,0.01).onChange( v => {
 		text.set({lineHeight:v});
+		exampleRender();
+	});
+
+	gui.add( p, 'textAlign', ['left','center','right']).onChange( v => {
+		text.set({textAlign:v});
 		exampleRender();
 	})
 

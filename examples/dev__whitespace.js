@@ -11,6 +11,7 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 
 import ThreeMeshUI, { FontLibrary, MSDFFontMaterialUtils, ShaderChunkUI } from 'three-mesh-ui';
 import ROBOTO_ADJUSTMENT from 'three-mesh-ui/examples/assets/fonts/msdf/roboto/adjustment';
+import TypographicLayoutBehavior from 'three-mesh-ui/examples/behaviors/helpers/TypographicLayoutBehavior';
 
 const WIDTH = window.innerWidth;
 const HEIGHT = window.innerHeight;
@@ -20,22 +21,20 @@ let scene, camera, renderer, controls;
 window.addEventListener( 'load', preloadFonts );
 window.addEventListener( 'resize', onWindowResize );
 
-function preloadFonts(){
+function preloadFonts() {
 	FontLibrary.prepare(
-
 		FontLibrary
-			.addFontFamily("Roboto")
-			.addVariant("400", "normal", "./assets/fonts/msdf/roboto/regular.json", "./assets/fonts/msdf/roboto/regular.png" )
-
+			.addFontFamily( 'Roboto' )
+			.addVariant( '400', 'normal', './assets/fonts/msdf/roboto/regular.json', './assets/fonts/msdf/roboto/regular.png' )
 	).then( () => {
 
 		// Adjusting font variants
-		const FF = FontLibrary.getFontFamily("Roboto");
-		FF.getVariant('400','normal').adjustTypographicGlyphs( ROBOTO_ADJUSTMENT );
+		const FF = FontLibrary.getFontFamily( 'Roboto' );
+		FF.getVariant( '400', 'normal' ).adjustTypographicGlyphs( ROBOTO_ADJUSTMENT );
 
 		init();
 
-	});
+	} );
 
 
 }
@@ -116,7 +115,7 @@ function makeUI() {
 	//
 
 	container.set( {
-		fontFamily: "Roboto"
+		fontFamily: 'Roboto'
 	} );
 
 	const textContent = 'The spiny bush viper is known for its extremely keeled dorsal scales.';
@@ -127,74 +126,7 @@ function makeUI() {
 		textContent,
 	} );
 
-	// Lines properties. Lines are planes manually added behind each text lines
-	// in order to perceive and validate line width
-
-	const lineMat = new MeshBasicMaterial( { color: 0x9e9e9e, opacity: 1 } );
-	const baseMat = new MeshBasicMaterial( { color: 0xfff9900 } );
-	const medianMat = new MeshBasicMaterial( { color: 0x99ff00 } );
-	let lines = [];
-
-	textBlock.addAfterUpdate( function () {
-
-		// remove all lines previously added
-		for ( let i = 0; i < lines.length; i++ ) {
-			const lineMesh = lines[ i ];
-			textBlock.remove( lineMesh );
-		}
-		lines = [];
-
-
-		// retrieve all lines sent by InlineManager for the textBlock
-		for ( let i = 0; i < textBlock.lines.length; i++ ) {
-
-			const line = textBlock.lines[ i ];
-
-			if ( !line[ 0 ] ) continue;
-
-			const lineHeight = line.lineHeight;
-			const lineBase = line.lineBase;
-
-			const deltaLine = lineHeight - lineBase;
-
-			// TextBackground
-			const lineGeo = new PlaneGeometry( line.width, lineHeight );
-			const lineMesh = new Mesh( lineGeo, lineMat );
-			lineMesh.name = 'DevLineMesh';
-
-			lineMesh.position.x = line[0].offsetX + line.width/2;
-			// lineMesh.position.y = line[0].offsetY + line.lineHeight/2 - deltaLine / 2
-			lineMesh.position.y = line[0].offsetY + line.lineBase / 2 - deltaLine / 4;
-
-			lines.push( lineMesh );
-			textBlock.add( lineMesh );
-
-			// baseline
-			const baselineMesh = new Mesh( new PlaneGeometry( line.width, 0.001 ), baseMat );
-			baselineMesh.position.x = lineMesh.position.x;
-			// baselineMesh.position.y = line.y + lineBase/2 - (lineHeight-lineBase); // Baseline
-			baselineMesh.position.y = lineMesh.position.y - lineBase/2 - 0.0005;
-
-			lines.push( baselineMesh );
-			textBlock.add( baselineMesh );
-
-
-			// Median
-			const medianMesh = new Mesh( new PlaneGeometry( line.width, 0.001 ), medianMat );
-
-			medianMesh.position.x = lineMesh.position.x;
-			medianMesh.position.y =  lineMesh.position.y + deltaLine/2 + 0.0005; // Baseline
-
-			lines.push( medianMesh );
-			textBlock.add( medianMesh );
-
-			baselineMesh.position.z = medianMesh.position.z = textBlock.children[0].position.z + 0.026;
-
-
-		}
-
-
-	});
+	new TypographicLayoutBehavior( textBlock, 0x9e9e9e, 0x000000 ).attach();
 
 	textBlock.add( text );
 

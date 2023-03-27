@@ -9,6 +9,7 @@ import { BoxLineGeometry } from 'three/examples/jsm/geometries/BoxLineGeometry.j
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 
 import ThreeMeshUI, { FontLibrary } from 'three-mesh-ui';
+import TypographicLayoutBehavior from 'three-mesh-ui/examples/behaviors/helpers/TypographicLayoutBehavior';
 
 // Add lil-gui
 const script = document.createElement( 'script' );
@@ -137,50 +138,7 @@ function makeUI(fixed = true ) {
 	// Lines properties. Lines are planes manually added behind each text lines
 	// in order to perceive and validate line width
 
-	const lineMat = new MeshBasicMaterial( { color: fixed ? 0x0099FF : 0xcacaca, opacity: 0.5 } );
-	let lines = [];
-
-	textBlock.addAfterUpdate( function () {
-
-
-		// only process when texts are not empty
-		if ( textBlock._children._inlines.length === 0 ) return;
-
-		// remove all lines previously added
-		for ( let i = 0; i < lines.length; i++ ) {
-			const line = lines[ i ];
-			textBlock.remove( line );
-		}
-
-		lines = [];
-
-		// retrieve all lines sent by InlineManager for the textBlock
-		for ( let i = 0; i < textBlock.lines.length; i++ ) {
-
-			const lineProperty = textBlock.lines[ i ];
-
-			if ( !lineProperty[ 0 ] ) continue;
-
-			// ( I was unable to quickly match lineHeight )
-			// lineHeight doesn't fit
-			// const lineHeight = lineProperty.lineHeight / 4;
-			const lineHeight = lineProperty.lineHeight;
-			const lineBase = lineProperty.lineBase;
-
-			// create a mesh for each line
-			const lineGeo = new PlaneGeometry( lineProperty.width, lineBase );
-			const lineMesh = new Mesh( lineGeo, lineMat );
-
-			lineMesh.position.x = lineProperty[ 0 ].offsetX + ( lineProperty.width / 2 );
-			lineMesh.position.y = lineProperty[ 0 ].offsetY + ( lineHeight / 2.915 );
-
-			lineMesh.position.z = text.position.z / 2;
-
-			lines.push( lineMesh );
-			textBlock.add( lineMesh );
-		}
-
-	});
+	new TypographicLayoutBehavior( text ).attach();
 
 
 	return textBlock;
@@ -220,7 +178,7 @@ function buildGUI() {
 
 		charDesc._yoffset = v;
 
-		text._renderer._needsRender = true;
+		text._layouter._needsProcess = true;
 
 	} );
 
