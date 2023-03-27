@@ -146,7 +146,7 @@ function init() {
 	);
 
 	const box = new THREE.Mesh(
-		new THREE.BoxBufferGeometry( 0.45, 0.45, 0.45 ),
+		new THREE.BoxGeometry( 0.45, 0.45, 0.45 ),
 		new THREE.MeshStandardMaterial( { color: 0x643de3, flatShading: true } )
 	);
 

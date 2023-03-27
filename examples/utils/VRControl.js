@@ -22,7 +22,7 @@ export default function VRControl( renderer ) {
 		transparent: true
 	} );
 
-	const geometry = new THREE.BoxBufferGeometry( 0.004, 0.004, 0.35 );
+	const geometry = new THREE.BoxGeometry( 0.004, 0.004, 0.35 );
 
 	geometry.translate( 0, 0, -0.15 );
 
