@@ -1943,9 +1943,27 @@ class StyleColorProperty extends SubStyleProperty {
 
 		if( this._input !== 'inherit' ) {
 
-			_setColor( this._input, this._value);
+			this._value.set(this._input);
 
 		}
+
+	}
+
+	set inline( value ) {
+
+		// Colors are too wide to performa validation checks each time
+		// if( ! this.isValidValue( value ) ) return;
+
+		if( value === this._inline ) {
+
+			if( value instanceof external_THREE_namespaceObject.Color ) this._needsUpdate = true;
+			return;
+
+		}
+
+		this._input = this._inline = value;
+
+		this._needsUpdate = true;
 
 	}
 
@@ -1960,24 +1978,6 @@ class StyleColorProperty extends SubStyleProperty {
 function _setColor( value, output ) {
 
 
-
-	if ( !( value instanceof external_THREE_namespaceObject.Color ) ) {
-
-		if ( output instanceof external_THREE_namespaceObject.Color ) {
-
-			output.set( value );
-
-		} else {
-
-			output = new external_THREE_namespaceObject.Color( value );
-
-		}
-
-	} else {
-
-		output.set(value);
-
-	}
 }
 
 
