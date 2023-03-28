@@ -17,8 +17,6 @@ export default class StyleColorProperty extends SubStyleProperty {
 		 */
 		this._value = new Color();
 
-		this._needsUpdate = false;
-
 		this.output = this._outputValue;
 	}
 
