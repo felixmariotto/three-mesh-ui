@@ -1987,8 +1987,6 @@ class StyleColorProperty extends SubStyleProperty {
 		 */
 		this._value = new external_three_namespaceObject.Color();
 
-		this._needsUpdate = false;
-
 		this.output = this._outputValue;
 	}
 
