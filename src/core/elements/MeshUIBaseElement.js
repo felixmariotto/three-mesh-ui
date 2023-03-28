@@ -298,6 +298,7 @@ export default class MeshUIBaseElement extends Object3D {
 		 */
 		this._components = [
 
+			this._textContent,
 			this._children,
 			this._parent,
 
@@ -312,7 +313,7 @@ export default class MeshUIBaseElement extends Object3D {
 
 			this._whiteSpace,
 
-			this._textContent,
+
 			this._glyphs,
 
 			this._inlines,

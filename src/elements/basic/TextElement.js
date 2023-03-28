@@ -27,10 +27,10 @@ export default class TextElement extends BoxElement {
 	/**
 	 *
 	 * @param {import('./../../core/elements/MeshUIBaseElement').Options} [values={}]
+	 * @param [properties={}]
 	 */
-	constructor( values = {}) {
+	constructor( values = {}, properties = {}) {
 
-		const properties = {};
 		TextElement.definePropertiesValues( properties, values );
 
 		super( properties, values );
@@ -87,7 +87,6 @@ export default class TextElement extends BoxElement {
 			this._layouter._needsProcess = true;
 		}
 
-
 		return this;
 
 	}
@@ -95,29 +94,15 @@ export default class TextElement extends BoxElement {
 
 	set textContent ( value ) {
 
-		for ( let i = this.children.length - 1 ; i >= 0; i-- ) {
-			const child = this.children[ i ];
-			if( child.isUI ) {
-
-				this.remove( child );
-				child.clear();
-
-			}
-
-		}
-
-		this._children._uis = [];
-
-		if( value ) {
-
-			this.add( new InlineElement({name:'anonymousInline',textContent:value}));
-
-		}
+		this._textContent.value = value;
 
 	}
 
-	get textContent ( ) {
+	// Must redefine getter also, or issue.
+	get textContent() {
+
 		return super.textContent;
+
 	}
 
 	set invertAlpha( value ) {
