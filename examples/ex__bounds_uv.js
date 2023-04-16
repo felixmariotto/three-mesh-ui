@@ -37,10 +37,10 @@ function preloadFonts() {
 
 		ThreeMeshUI.FontLibrary
 			.addFontFamily("Roboto")
-			.addVariant("400", "normal", "./assets/fonts/msdf/roboto/regular.json", "./assets/fonts/msdf/roboto/regular.png" )
-			.addVariant("700", "italic", "./assets/fonts/msdf/roboto/bold-italic.json", "./assets/fonts/msdf/roboto/bold-italic.png" )
-			.addVariant("700", "normal", "./assets/fonts/msdf/roboto/bold.json", "./assets/fonts/msdf/roboto/bold.png" )
-			.addVariant("400", "italic", "./assets/fonts/msdf/roboto/italic.json", "./assets/fonts/msdf/roboto/italic.png" )
+			.addVariant("normal", "normal", "./assets/fonts/msdf/roboto/regular.json", "./assets/fonts/msdf/roboto/regular.png" )
+			.addVariant("bold", "italic", "./assets/fonts/msdf/roboto/bold-italic.json", "./assets/fonts/msdf/roboto/bold-italic.png" )
+			.addVariant("bold", "normal", "./assets/fonts/msdf/roboto/bold.json", "./assets/fonts/msdf/roboto/bold.png" )
+			.addVariant("normal", "italic", "./assets/fonts/msdf/roboto/italic.json", "./assets/fonts/msdf/roboto/italic.png" )
 
 	).then( init );
 
@@ -53,10 +53,10 @@ function init() {
 
 	// adjust fonts
 	// @see TODO:adjustDocumentation
-	FF.getVariant('700','normal').adjustTypographicGlyphs( ROBOTO_ADJUSTMENT );
-	FF.getVariant('700','italic').adjustTypographicGlyphs( ROBOTO_ADJUSTMENT );
-	FF.getVariant('400','italic').adjustTypographicGlyphs( ROBOTO_ADJUSTMENT );
-	FF.getVariant('400','normal').adjustTypographicGlyphs( ROBOTO_ADJUSTMENT );
+	FF.getVariant('bold','normal').adjustTypographicGlyphs( ROBOTO_ADJUSTMENT );
+	FF.getVariant('bold','italic').adjustTypographicGlyphs( ROBOTO_ADJUSTMENT );
+	FF.getVariant('normal','italic').adjustTypographicGlyphs( ROBOTO_ADJUSTMENT );
+	FF.getVariant('normal','normal').adjustTypographicGlyphs( ROBOTO_ADJUSTMENT );
 
 
 	scene = new THREE.Scene();
@@ -201,13 +201,13 @@ function buildEffectContainer( title, subtitle, bindedTo) {
 
 	titleContainer.add( new ThreeMeshUI.Inline({
 		textContent: title+"\n",
-		fontWeight: '700',
+		fontWeight: 'bold',
 		color: 0xffffff,
 		fontSize: 0.055
 	}),
 		new ThreeMeshUI.Inline({
 			textContent: subtitle,
-			fontWeight: '400',
+			fontWeight: 'normal',
 			color: 0xffffff,
 			fontSize: 0.035
 		}));

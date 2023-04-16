@@ -25,7 +25,7 @@ function example() {
 		alignItems: 'center',
 		color: color,
 		fontFamily: RobotoFontFamily,
-		fontWeight: "700",
+		fontWeight: "bold",
 		fontSize: 0.25,
 		lineHeight: 0.9
 	});

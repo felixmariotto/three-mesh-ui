@@ -69,7 +69,8 @@ export default class FontProperty extends BaseProperty{
 
 
 			const fontFamily = element._fontFamily._value;
-			if( fontFamily ) {
+
+			if( typeof fontFamily !== 'string'  ) {
 
 				this._fontVariant = fontFamily.getVariant(
 					element._fontWeight._value,

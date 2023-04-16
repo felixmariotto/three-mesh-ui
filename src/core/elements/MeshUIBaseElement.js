@@ -53,6 +53,8 @@ import { uniformOrUserDataTransformer } from '../../utils/mediator/transformers/
 import { Color, Texture, Vector4, Mesh, Material, ShaderMaterial } from 'three';
 import BaseProperty from './../properties/BaseProperty';
 import FontFamily from '../../font/FontFamily';
+import { DefaultValues } from '../../three-mesh-ui';
+import VerticalAlignProperty from '../properties/style-properties/font/VerticalAlignProperty';
 /* eslint-enable no-unused-vars */
 
 export default class MeshUIBaseElement extends Object3D {
@@ -75,14 +77,26 @@ export default class MeshUIBaseElement extends Object3D {
 			}
 		);
 
+		let uiType = values.uiType || 'default';
+		if( values.uiType ){
+			delete values.uiType;
+		}
+
+		Object.defineProperties( this, {
+				uiType: {
+					configurable: false,
+					enumerable: true,
+					value: uiType
+				}
+			}
+		);
+
 		/**
 		 *
 		 * @type {Mesh|null}
 		 * @internal
 		 */
 		this._backgroundMesh = null;
-
-
 
 		/**
 		 *
@@ -152,6 +166,8 @@ export default class MeshUIBaseElement extends Object3D {
 
 		// Children lists
 
+
+		const defaults = DefaultValues.get(null, this.uiType );
 		/**
 		 *
 		 * @type {EmptyProperty|ChildrenBox|ChildrenText}
@@ -165,10 +181,10 @@ export default class MeshUIBaseElement extends Object3D {
 		this.addEventListener( 'removed', this._rebuildParentUI );
 
 		//material properties
-		this._backgroundSide = new SideProperty( 'backgroundSide' );
-		this._fontSide = new SideProperty( 'fontSide' );
-		this._backgroundAlphaTest = new NumberProperty( 'backgroundAlphaTest', 0.02 );
-		this._fontAlphaTest = new NumberProperty( 'fontAlphaTest', 0.02 );
+		this._backgroundSide = new SideProperty( 'backgroundSide', defaults.backgroundSide );
+		this._fontSide = new SideProperty( 'fontSide', defaults.fontSide );
+		this._backgroundAlphaTest = new NumberProperty( 'backgroundAlphaTest', defaults.backgroundAlphaTest );
+		this._fontAlphaTest = new NumberProperty( 'fontAlphaTest', defaults.fontAlphaTest );
 
 		// mesh properties
 		this._visible = new VisibleProperty( 'visible', true );
@@ -197,11 +213,11 @@ export default class MeshUIBaseElement extends Object3D {
 
 		this._order = new OrderProperty();
 
-		this._padding = new PaddingProperty();
-		this._margin = new MarginProperty();
+		this._padding = new PaddingProperty( defaults.padding );
+		this._margin = new MarginProperty( defaults.margin );
 
 
-		this._position = new PositionProperty();
+		this._position = new PositionProperty( defaults.position );
 
 		/**
 		 *
@@ -220,19 +236,19 @@ export default class MeshUIBaseElement extends Object3D {
 		this._width = new WidthProperty();
 		this._height = new HeightProperty();
 
-		this._backgroundColor = properties.backgroundColor ? new properties.backgroundColor() : new BackgroundColorProperty();
-		this._backgroundOpacity = new StyleFactorProperty('backgroundOpacity', 0.5);
+		this._backgroundColor = properties.backgroundColor ? new properties.backgroundColor( defaults.backgroundColor ) : new BackgroundColorProperty(defaults.backgroundColor);
+		this._backgroundOpacity = new StyleFactorProperty('backgroundOpacity', defaults.backgroundOpacity);
 		this._backgroundImage = new BackgroundImage();
 		this._backgroundSize = new BackgroundSize( 'cover' );
 
-		this._color = properties.color ? new properties.color() : new StyleColorProperty('color', 'inherit');
+		this._color = properties.color ? new properties.color( defaults.color ) : new StyleColorProperty('color', defaults.color);
 		this._fontOpacity = new StyleFactorProperty( 'fontOpacity', 'inherit');
 
 		this._whiteSpace = properties.whiteSpace ? new properties.whiteSpace() : new WhiteSpaceProperty();
 
 		this._fontFamily = properties.fontFamily ? new properties.fontFamily() : new FontFamilyProperty();
-		this._fontStyle = properties.fontStyle ? new properties.fontStyle() : new FontStyleProperty( 'normal' );
-		this._fontWeight = properties.fontWeight ? new properties.fontWeight() : new FontWeightProperty();
+		this._fontStyle = properties.fontStyle ? new properties.fontStyle(defaults.fontStyle) : new FontStyleProperty( defaults.fontStyle );
+		this._fontWeight = properties.fontWeight ? new properties.fontWeight( defaults.fontWeight ) : new FontWeightProperty(defaults.fontWeight);
 		this._fontSize = properties.fontSize ? new properties.fontSize() : new FontSizeProperty();
 
 		this._lineHeight = properties.lineHeight ? new properties.lineHeight() : new LineHeightProperty();
@@ -242,10 +258,10 @@ export default class MeshUIBaseElement extends Object3D {
 
 		this._overflow = new Overflow( 'visible' );
 
-		this._borderRadius = new BorderRadius( 0 );
-		this._borderWidth = new BorderWidth( 0 );
-		this._borderColor = new StyleColorProperty( 'borderColor', 0xff00ff );
-		this._borderOpacity = new StyleFactorProperty( 'borderOpacity', 1);
+		this._borderRadius = new BorderRadius( defaults.borderRadius );
+		this._borderWidth = new BorderWidth( defaults.borderWidth );
+		this._borderColor = properties.borderColor ? new properties.borderColor() : new StyleColorProperty( 'borderColor', defaults.borderColor );
+		this._borderOpacity = new StyleFactorProperty( 'borderOpacity', defaults.borderOpacity);
 
 		// styles ---;
 
@@ -280,6 +296,8 @@ export default class MeshUIBaseElement extends Object3D {
 		this._inlineJustificator = new InlineJustificator();
 
 		this._textAlign = properties.textAlign ? new properties.textAlign() : new TextAlignProperty();
+
+		this._verticalAlign = properties.verticalAlign ? new properties.verticalAlign() : new VerticalAlignProperty();
 
 		this._autoSize = properties.autoSize ? new properties.autoSize() : new EmptyProperty("autoSize");
 
@@ -333,6 +351,8 @@ export default class MeshUIBaseElement extends Object3D {
 			this._segments,
 			// styles ---;
 
+			this._fontSize,
+
 			this._padding,
 			this._margin,
 			this._width,
@@ -352,19 +372,22 @@ export default class MeshUIBaseElement extends Object3D {
 
 
 			this._display,
+
+			this._fontOpacity,
+			this._color,
+
 			this._backgroundColor,
 			this._backgroundOpacity,
 			this._backgroundImage,
 			this._backgroundSize,
-			this._fontOpacity,
-			this._color,
+
 
 
 			// font : update order : WhiteSpace > Glyph > Inlines > Kerning > newlineBreakability > LineBreak > FontSize
 			// font : process order : ??
 			// this._font,
 
-			this._fontSize,
+
 			this._lineHeight,
 			this._fontKerning,
 			this._letterSpacing,
@@ -377,6 +400,8 @@ export default class MeshUIBaseElement extends Object3D {
 			// styles ---;
 			this._lineBreak,
 			this._offset,
+
+			this._verticalAlign,
 			this._layouter,
 
 			this._inlineJustificator,
@@ -515,7 +540,8 @@ export default class MeshUIBaseElement extends Object3D {
 				if ( !fontFamily ) {
 
 					const fontStyle = options.fontStyle ? options.fontStyle : 'normal';
-					const fontWeight = options.fontWeight ? options.fontWeight : '400';
+					// const fontWeight = options.fontWeight ? options.fontWeight : '400';
+					const fontWeight = options.fontWeight ? options.fontWeight : 'normal';
 
 					fontFamily = FontLibrary.addFontFamily( fontName )
 						.addVariant( fontWeight, fontStyle, options.fontFamily, options.fontTexture );
@@ -627,6 +653,8 @@ export default class MeshUIBaseElement extends Object3D {
 					case 'overflow' :
 					case 'order':
 					case 'boxSizing':
+					case 'position':
+					case 'verticalAlign':
 						if( this[`_${prop}`] ){
 							this[`_${prop}`].inline = value;
 						}
@@ -710,7 +738,12 @@ export default class MeshUIBaseElement extends Object3D {
 
 					default:
 
+						console.log(prop)
+
 						if( this[ prop ] !== undefined ) {
+
+							console.log(`--		${prop} has setter`)
+
 							this[ prop ] = value
 						}else if( this[`_${prop}`] !== undefined ) {
 							this[`_${prop}`].value = value;
@@ -1291,8 +1324,8 @@ export default class MeshUIBaseElement extends Object3D {
 
 			this.remove( this._fontMesh );
 
-			if ( this._fontMesh.material ) this._fontMesh.material.dispose();
-			if ( this._fontMesh.geometry ) this._fontMesh.geometry.dispose();
+			if ( this._fontMesh.material ) this._fontMesh.material.dispose?.();
+			if ( this._fontMesh.geometry ) this._fontMesh.geometry.dispose?.();
 
 			this._fontMesh = null;
 			// deepDelete( this._fontMesh );
@@ -1520,5 +1553,8 @@ export default class MeshUIBaseElement extends Object3D {
  * @property [options.whiteSpace] {"normal"|"nowrap"|"pre"|"pre-line"|"pre-wrap"}
  * @property [options.fontTexture] {Texture|string} @deprecated
  * @property [options.textContent] {string}
+ *
+ * @property [options.verticalAlign] {"baseline","super","sub","inherit"}
+ *
  *
  */

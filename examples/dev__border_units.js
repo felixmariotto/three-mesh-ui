@@ -4,7 +4,7 @@ import { VRButton } from 'three/examples/jsm/webxr/VRButton.js';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import { BoxLineGeometry } from 'three/examples/jsm/geometries/BoxLineGeometry.js';
 
-import ThreeMeshUI from 'three-mesh-ui';
+import ThreeMeshUI, { DefaultValues } from 'three-mesh-ui';
 import Stats from 'three/examples/jsm/libs/stats.module';
 
 const WIDTH = window.innerWidth;
@@ -67,7 +67,8 @@ function init() {
 		width:3.25,
 		flexDirection: 'column',
 		justifyContent: 'center',
-		alignItems: 'center'
+		alignItems: 'center',
+		backgroundOpacity: 0,
 	});
 
 	const titleBlock = new ThreeMeshUI.Block({width:3.10,height:0.25});
@@ -90,7 +91,7 @@ function init() {
 	for ( let i = 0; i < b1.blocks.length; i++ ) {
 		const block = b1.blocks[ i ];
 		block._borderRadius.units = 'rem';
-		block.set({borderRadius: 0.1});
+		block.set({borderRadius: 0.1, backgroundOpacity: 1});
 		block.set({backgroundImage: uvTexture, backgroundSize:'stretch',backgroundColor:new THREE.Color(0xFFFFFF)});
 	}
 	columnContainer.add(b1);
@@ -99,8 +100,7 @@ function init() {
 	for ( let i = 0; i < b2.blocks.length; i++ ) {
 		const block = b2.blocks[ i ];
 		block._borderRadius.units = 'em';
-		// block.set({borderTopLeftRadius: 0.5})
-		block.set({borderRadius: 0.1});
+		block.set({borderRadius: 0.1, backgroundOpacity: 1});
 		block.set({backgroundImage: uvTexture, backgroundSize:'stretch',backgroundColor:new THREE.Color(0xFFFFFF)});
 	}
 
@@ -111,7 +111,7 @@ function init() {
 	for ( let i = 0; i < b3.blocks.length; i++ ) {
 		const block = b3.blocks[ i ];
 		block._borderRadius.units = '%';
-		block.set({borderRadius: 10})
+		block.set({borderRadius: 10, backgroundOpacity: 1})
 	}
 	columnContainer.add(b3);
 

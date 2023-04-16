@@ -16,10 +16,10 @@ export default class RendererPropertyInline extends BaseProperty{
 		if( !element._inlines._value || !element._inlines._value.length ) return;
 
 			const charactersAsGeometries = element._inlines._value.map(
-				inline =>
-					element._font._fontVariant.getGeometricGlyph( inline, element )
+				inline => {
+					return element._font._fontVariant.getGeometricGlyph( inline, element )
 						.translate( inline.offsetX, inline.offsetY, 0 )
-
+				}
 			);
 
 			const mergedGeom = mergeBufferGeometries( charactersAsGeometries );

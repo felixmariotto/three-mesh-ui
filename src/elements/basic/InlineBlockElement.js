@@ -1,7 +1,6 @@
 import LineBreakProperty from '../../core/properties/LineBreakProperty';
 import ChildrenInline from '../../core/properties/hierarchy/ChildrenInline';
 import FontKerningProperty from '../../core/properties/style-properties/font/FontKerningProperty';
-import BackgroundColorProperty from '../../core/properties/style-properties/background/BackgroundColorProperty';
 import MeshUIBaseElement from '../../core/elements/MeshUIBaseElement';
 import InlineLayouter from '../../core/properties/InlineLayouter';
 import Inline from '../../core/elements/glyphs/Inline';
@@ -16,6 +15,9 @@ import WhiteSpacePropertyInline from '../../core/properties/style-properties/fon
 import FontFamilyPropertyInline from '../../core/properties/style-properties/font/FontFamilyPropertyInline';
 import FontWeightPropertyInline from '../../core/properties/style-properties/font/FontWeightPropertyInline';
 import FontStylePropertyInline from '../../core/properties/style-properties/font/FontStylePropertyInline';
+import BackgroundColorPropertyInlineBlock from '../../core/properties/style-properties/background/BackgroundColorPropertyInlineBlock';
+import ColorPropertyInlineBlock from '../../core/properties/style-properties/font/ColorPropertyInlineBlock';
+import BorderColorPropertyInlineBlock from '../../core/properties/style-properties/border/BorderColorPropertyInlineBlock';
 
 export default class InlineBlockElement extends MeshUIBaseElement {
 
@@ -127,12 +129,16 @@ export default class InlineBlockElement extends MeshUIBaseElement {
 		if( !properties.fontStyle ) properties.fontStyle = FontStylePropertyInline;
 		if( !properties.fontSize ) properties.fontSize = FontSizePropertyInline;
 
-		if( !properties.backgroundColor ) properties.backgroundColor = BackgroundColorProperty;
+		if( !properties.backgroundColor ) properties.backgroundColor = BackgroundColorPropertyInlineBlock;
+		if( !properties.borderColor ) properties.borderColor = BorderColorPropertyInlineBlock;
+		if( !properties.color ) properties.color = ColorPropertyInlineBlock;
 
 		if( !properties.lineBreak ) properties.lineBreak = LineBreakProperty;
 		if( !properties.letterSpacing ) properties.letterSpacing = LetterSpacingPropertyInline;
 		if( !properties.whiteSpace ) properties.whiteSpace = WhiteSpacePropertyInline;
 		if( !properties.fontKerning ) properties.fontKerning = FontKerningProperty;
+
+		if( values.backgroundOpacity === undefined) values.backgroundOpacity = 1;
 
 		if( !values.backgroundSize ) values.backgroundSize = 'cover';
 		if( !values.width ) values.width = '100%';

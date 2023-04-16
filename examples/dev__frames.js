@@ -30,7 +30,7 @@ FontLibrary.prepare(
 		.addVariant(
 			// The weight of the variant '100'|'200'|'300'|'400'|'600'|'700'|'800'|'900'
 			//														LIGHTER					NORMAL			BOLD				BOLDER
-			'400',
+			'normal',
 
 			// The style of the variant 'normal'|'italic'|'oblique'|'oblique(x deg)'
 			"normal",
@@ -43,9 +43,9 @@ FontLibrary.prepare(
 		)
 
 		// Registering additional variants
-		.addVariant("700", "italic", "./assets/fonts/msdf/roboto/bold-italic.json", "./assets/fonts/msdf/roboto/bold-italic.png" )
-		.addVariant("700", "normal", "./assets/fonts/msdf/roboto/bold.json", "./assets/fonts/msdf/roboto/bold.png" )
-		.addVariant("400", "italic", "./assets/fonts/msdf/roboto/italic.json", "./assets/fonts/msdf/roboto/italic.png" )
+		.addVariant("bold", "italic", "./assets/fonts/msdf/roboto/bold-italic.json", "./assets/fonts/msdf/roboto/bold-italic.png" )
+		.addVariant("bold", "normal", "./assets/fonts/msdf/roboto/bold.json", "./assets/fonts/msdf/roboto/bold.png" )
+		.addVariant("normal", "italic", "./assets/fonts/msdf/roboto/italic.json", "./assets/fonts/msdf/roboto/italic.png" )
 
 // FontLibrary.prepare() returns a Promise, we can therefore add a callback to be executed when all files are loaded
 ).then( () => {
@@ -54,7 +54,7 @@ FontLibrary.prepare(
 	const RobotoFamily = FontLibrary.getFontFamily("Roboto");
 
 	// And then retrieve a fontVariant defined in this Family
-	const RobotoRegular = RobotoFamily.getVariant('400','normal');
+	const RobotoRegular = RobotoFamily.getVariant('normal','normal');
 
 	// Having font variant allows us to perform some modifications
 	// 1. Adjustments
@@ -73,14 +73,14 @@ FontLibrary.prepare(
 	// 1. Material
 	// Instead of assigning custom materials to Text one by one
 	// We can assign a Material(class) to a font variant (Here the bold one)
-	RobotoFamily.getVariant('700','normal').fontMaterial = MSDFNormalMaterial;
+	RobotoFamily.getVariant('bold','normal').fontMaterial = MSDFNormalMaterial;
 	// Once set, any three-mesh-ui Text using this font variant will use the defined material
 
 	// We may encounter the following lines in other examples,
 	// they are adjusting font variants to display a nice baseline
-	RobotoFamily.getVariant('700','normal').adjustTypographicGlyphs( ROBOTO_ADJUSTMENT );
-	RobotoFamily.getVariant('700','italic').adjustTypographicGlyphs( ROBOTO_ADJUSTMENT );
-	RobotoFamily.getVariant('400','italic').adjustTypographicGlyphs( ROBOTO_ADJUSTMENT );
+	RobotoFamily.getVariant('bold','normal').adjustTypographicGlyphs( ROBOTO_ADJUSTMENT );
+	RobotoFamily.getVariant('bold','italic').adjustTypographicGlyphs( ROBOTO_ADJUSTMENT );
+	RobotoFamily.getVariant('bold','italic').adjustTypographicGlyphs( ROBOTO_ADJUSTMENT );
 
 	// Now that the font are loaded and adjusted,
 

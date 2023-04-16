@@ -12,4 +12,12 @@ export default class FontStylePropertyInline extends FontStyleProperty {
 		this.computeOutputValue = this._computeFromInherited;
 	}
 
+	_computeFromInherited( element ) {
+
+		super._computeFromInherited(element);
+
+		element._font._needsUpdate = true;
+
+	}
+
 }

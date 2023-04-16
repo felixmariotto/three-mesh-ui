@@ -100,7 +100,6 @@ function step2BuildThreeMeshUIElements() {
 		name: 'rootBlock',
 		// A Block must define its "box-sizing" properties
 		width: 1.2,
-		height: 'auto', // the text will define the output height
 		padding: 0.05,
 		boxSizing: 'border-box',
 
@@ -111,6 +110,7 @@ function step2BuildThreeMeshUIElements() {
 
 		borderRadius: 0.015,
 
+		color: 0xffffff,
 		backgroundColor : 0x000000,
 		backgroundOpacity : 0.5,
 
@@ -126,6 +126,8 @@ function step2BuildThreeMeshUIElements() {
 
 	} );
 
+	rootBlock.add( new ThreeMeshUI.Text({textContent:'Hellow'}))
+
 
 	// three-mesh-ui root elements must be added on threejs display stack
 	// In the scene, or in another Object3D of our choice
@@ -136,7 +138,9 @@ function step2BuildThreeMeshUIElements() {
 	rootBlock.position.set( 0, 1, -1.8 );
 	rootBlock.rotation.x = -0.55;
 
-	const blockText = new ThreeMeshUI.Text({ textContent: "Block arrows", width: 'auto' });
+
+
+	const blockText = new ThreeMeshUI.Text({ textContent: "Block arrows" });
 
 
 
@@ -153,24 +157,22 @@ function step2BuildThreeMeshUIElements() {
 	Arrows( arrowBottom, 0.04, "bottom", 0xffffff );
 
 
-	const blockArrows = new ThreeMeshUI.Block({flexDirection:'row',margin: '0.05 0'});
+	const blockArrows = new ThreeMeshUI.Block({flexDirection:'row', margin: '0.05 0'});
 
 
 	blockArrows.add(
 
-		arrowLeft, arrowRight, arrowTop, arrowBottom,
+		arrowLeft , arrowRight, arrowTop, arrowBottom
 
 	);
 
 	rootBlock.add( blockText, blockArrows)
 
-
-
-	const blockInlineText = new ThreeMeshUI.Text({ textContent: "Inline arrows", width: 'auto' });
+	const blockInlineText = new ThreeMeshUI.Text({ textContent: "Inline arrows"});
 
 
 
-	const arrowInlineLeft = new ThreeMeshUI.InlineBlock({width:'50%', height:'50%',} );
+	const arrowInlineLeft = new ThreeMeshUI.InlineBlock({width:'50%', height:'50%', backgroundOpacity:1, opacity:1, color: 0xff0099,backgroundColor:0xff9900} );
 	const arrowInlineRight = new ThreeMeshUI.InlineBlock({width:'50%', height:'50%',} );
 	const arrowInlineTop = new ThreeMeshUI.InlineBlock({width:'50%', height:'50%', marginLeft: 0.025} );
 	const arrowInlineBottom = new ThreeMeshUI.InlineBlock({width:'50%', height:'50%', marginLeft: 0.025} );
@@ -183,19 +185,19 @@ function step2BuildThreeMeshUIElements() {
 	Arrows( arrowInlineBottom, 0.008, "bottom", 0xffffff );
 
 
-	const inlineArrows = new ThreeMeshUI.Text({textContent:"text arrows : "});
+	const inlineArrows = new ThreeMeshUI.Text();
 
 
 	inlineArrows.add(
 
-		arrowInlineLeft, arrowInlineRight, arrowInlineTop, arrowInlineBottom,
+		arrowInlineLeft, arrowInlineRight, arrowInlineTop, arrowInlineBottom
 
 	);
 
 	rootBlock.add( blockInlineText, inlineArrows)
 
 
-	const but = new ThreeMeshUI.Text({textContent:"re-ordered"});
+	const but = new ThreeMeshUI.Text();
 	const arrow1 = new ThreeMeshUI.InlineBlock({width:'50%',height:'50%', order: -2});
 	const arrow2 = new ThreeMeshUI.InlineBlock({width:'50%',height:'50%', order: -1, marginRight: 0.025});
 	Arrows( arrow1, 0.014, 'right', 0x00ff99 );
@@ -206,14 +208,14 @@ function step2BuildThreeMeshUIElements() {
 	Arrows( arrow3, 0.014, 'left', 0x00ff99 );
 	Arrows( arrow4, 0.014, 'left', 0x00ff99 );
 
-	but.add( arrow1, arrow2, arrow3, arrow4 );
+	but.add( new ThreeMeshUI.Inline({textContent:"re-ordered"}), arrow1, arrow2, arrow3, arrow4 );
 
 	rootBlock.add( but );
 
 
 	// but2
 
-	const but2 = new ThreeMeshUI.Text({textContent:"re-ordered"});
+	const but2 = new ThreeMeshUI.Text();
 	const arrow21 = new ThreeMeshUI.InlineBlock({width:'50%',height:'50%', order: -2});
 	const arrow22 = new ThreeMeshUI.InlineBlock({width:'50%',height:'50%', order: -1, marginRight: 0.025});
 	Arrows( arrow21, 0.014, 'left', 0x00ff99 );
@@ -226,13 +228,9 @@ function step2BuildThreeMeshUIElements() {
 	// const arrow2 = arrow1.clone()
 
 
-	but2.add( arrow21, arrow22, arrow23, arrow24 );
+	but2.add( new ThreeMeshUI.Inline({textContent:"re-ordered"}), arrow21, arrow22, arrow23, arrow24 );
 
 	rootBlock.add( but2 );
-
-
-	ThreeMeshUI.update();
-	console.log( arrow2._margin._value );
 
 }
 

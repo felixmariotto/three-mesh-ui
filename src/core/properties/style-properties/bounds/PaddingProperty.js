@@ -1,11 +1,12 @@
 import StyleVector4Property from '../StyleVector4Property';
 import { Vector4 } from 'three';
+import { DefaultValues } from '../../../../three-mesh-ui';
 
 export default class PaddingProperty extends StyleVector4Property {
 
-	constructor() {
+	constructor( defaultValue ) {
 
-		super('padding', new Vector4(0,0,0,0) )
+		super('padding', defaultValue )
 
 	}
 

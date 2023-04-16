@@ -18,6 +18,8 @@ export default class TextContentText extends TextContentEmpty{
 
 			this._value = value;
 
+			console.log( this._value );
+
 			this._needsUpdate = true;
 
 		}
@@ -45,8 +47,20 @@ export default class TextContentText extends TextContentEmpty{
 		element._children._uis = [];
 
 		// If a value, add a child
-		if( this._value ) element.add( new InlineElement({name:'anonymousInline',textContent:this._value}));
+		if( this._value ) {
+			element.add( new InlineElement({name:'anonymousInline',textContent:this._value}));
+		}
 
+
+	}
+
+	process( element ) {
+
+		// If not already updated, return raw values
+		if( this._needsUpdate ) return this._value;
+
+		// or default traverse all children to concat textContent
+		return super.process(element);
 
 	}
 

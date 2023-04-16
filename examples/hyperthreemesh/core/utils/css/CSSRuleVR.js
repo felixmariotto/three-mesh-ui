@@ -44,13 +44,24 @@ export default class CSSRuleVR {
 
 			if( value.match(/rem|px|em/g) ) {
 
-				value = parseFloat( value.replace(/rem|px|em/g, '') );
+				if( styleProperty.startsWith('font')){
+					console.error( styleProperty, value)
+				}
+
+				if( value.match(/[\d\s]em/g) && styleProperty.startsWith('font') ){
+					// allow
+					console.error( "allowed", value, styleProperty)
+
+				}else{
+					value = parseFloat( value.replace( /rem|px|em/g, '' ) );
+				}
+
 			}
 
 			if( styleProperty.indexOf('color') !== -1 ) {
 
 				// if the value comes with packed alpha
-				if( value.indexOf('rgba') === 0 ) {
+				if( value.indexOf('rgba') === 0 || value.indexOf('hsla') === 0 ) {
 
 					// extract rgba components
 					/* eslint-disable no-useless-escape */
@@ -77,6 +88,20 @@ export default class CSSRuleVR {
 				} else {
 
 					value = new Color( value );
+
+						// rgb, hsl, style or hex uses alpha 1
+						let alphaProperty = styleProperty.replace('color', 'opacity');
+						if( alphaProperty === 'opacity' ) {
+							alphaProperty = 'fontOpacity';
+						}
+
+						// If it is not previously defined
+						if( !styles[alphaProperty] || styles[alphaProperty] === "" ){
+							this._styles[_camelize(alphaProperty)] = 1.0;
+						}
+
+
+
 
 				}
 

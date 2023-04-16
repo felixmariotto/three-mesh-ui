@@ -22,6 +22,7 @@ import TextAlignPropertyInline from '../../core/properties/style-properties/font
 //JSDoc related imports
 /* eslint-disable no-unused-vars */
 import { Object3D } from 'three';
+import VerticalAlignPropertyInline from '../../core/properties/style-properties/font/VerticalAlignPropertyInline';
 /* eslint-enable no-unused-vars */
 
 export default class InlineElement extends MeshUIBaseElement {
@@ -129,10 +130,13 @@ export default class InlineElement extends MeshUIBaseElement {
 		if( !properties.whiteSpace ) properties.whiteSpace = WhiteSpacePropertyInline;
 		if( !properties.segments ) properties.segments = SegmentsPropertyInline;
 		if( !properties.textAlign ) properties.textAlign = TextAlignPropertyInline;
+		if( !properties.verticalAlign ) properties.verticalAlign = VerticalAlignPropertyInline;
 
 		if( !properties.fontKerning ) properties.fontKerning = FontKerningPropertyInline;
 
 		// if( !properties.inlines ) properties.inlines = InlinesProperty;
+
+		if( !values.uiType ) values.uiType = 'inline';
 
 	}
 

@@ -27,10 +27,11 @@ window.addEventListener( 'load', () => {
 	FontLibrary.prepare(
 		FontLibrary
 			.addFontFamily( 'Roboto' )
-			.addVariant( '400', 'normal', './assets/fonts/msdf/roboto/regular.json', './assets/fonts/msdf/roboto/regular.png' ),
+			.addVariant( 'normal', 'normal', './assets/fonts/msdf/roboto/regular.json?fixed=true', './assets/fonts/msdf/roboto/regular.png?fixed=true' ),
+
 		FontLibrary
 			.addFontFamily( 'Roboto-unfixed' )
-			.addVariant( '400', 'normal', './assets/fonts/msdf/roboto/regular.json', './assets/fonts/msdf/roboto/regular.png' )
+			.addVariant( 'normal', 'normal', './assets/fonts/msdf/roboto/regular.json', './assets/fonts/msdf/roboto/regular.png' )
 	).then( () => {
 		init();
 	} );
@@ -104,15 +105,6 @@ function init() {
  * @return {Block}
  */
 function makeUI(fixed = true ) {
-	// const container = new ThreeMeshUI.Block( {
-	// 	width: 0.85,
-	// 	justifyContent: 'center',
-	// 	alignItems: 'center',
-	//
-	// 	backgroundOpacity: fixed ? 1.0 : 0
-	// } );
-
-	//
 
 	const textBlock = new ThreeMeshUI.Text( {
 		width: 0.73,
@@ -122,11 +114,6 @@ function makeUI(fixed = true ) {
 		fontFamily: fixed ? 'Roboto' : 'Roboto-unfixed',
 		textContent : 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'
 	} );
-
-	// container.add( textBlock );
-
-
-	// const textContent = FontLibrary.getFontFamily("Roboto").getVariant('400',"normal").typographic.charset;
 
 	if( fixed ){
 
@@ -140,7 +127,6 @@ function makeUI(fixed = true ) {
 
 	new TypographicLayoutBehavior( text ).attach();
 
-
 	return textBlock;
 
 }
@@ -151,13 +137,15 @@ function buildGUI() {
 
 	const alterations = {};
 
+	console.log(text.textContent, text._textContent );
+
 	const letters = {};
 	for ( let i = 0; i < text.textContent.length; i++ ) {
 		const letter = text.textContent[ i ];
 		letters[ letter ] = letter;
 	}
 
-	const fontVariant = FontLibrary.getFontFamily( 'Roboto' ).getVariant( '400', 'normal' );
+	const fontVariant = FontLibrary.getFontFamily( 'Roboto' ).getVariant( 'normal', 'normal' );
 	let charDesc = fontVariant.getTypographicGlyph( 'a' );
 	const p = {
 		letter: 'a',

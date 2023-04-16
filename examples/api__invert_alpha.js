@@ -10,6 +10,7 @@ import { BoxLineGeometry } from 'three/examples/jsm/geometries/BoxLineGeometry.j
 
 import ThreeMeshUI, { FontLibrary } from 'three-mesh-ui';
 import ROBOTO_ADJUSTMENT from 'three-mesh-ui/examples/assets/fonts/msdf/roboto/adjustment';
+import MSDFNormalMaterial from 'three-mesh-ui/examples/materials/msdf/MSDFNormalMaterial';
 
 const WIDTH = window.innerWidth;
 const HEIGHT = window.innerHeight;
@@ -28,10 +29,10 @@ function preloadFonts() {
 
 		FontLibrary
 			.addFontFamily("Roboto")
-				.addVariant("400", "normal", "./assets/fonts/msdf/roboto/regular.json", "./assets/fonts/msdf/roboto/regular.png" )
-				.addVariant("700", "italic", "./assets/fonts/msdf/roboto/bold-italic.json", "./assets/fonts/msdf/roboto/bold-italic.png" )
-				.addVariant("700", "normal", "./assets/fonts/msdf/roboto/bold.json", "./assets/fonts/msdf/roboto/bold.png" )
-				.addVariant("400", "italic", "./assets/fonts/msdf/roboto/italic.json", "./assets/fonts/msdf/roboto/italic.png" )
+				.addVariant("normal", "normal", "./assets/fonts/msdf/roboto/regular.json", "./assets/fonts/msdf/roboto/regular.png" )
+				.addVariant("bold", "italic", "./assets/fonts/msdf/roboto/bold-italic.json", "./assets/fonts/msdf/roboto/bold-italic.png" )
+				.addVariant("bold", "normal", "./assets/fonts/msdf/roboto/bold.json", "./assets/fonts/msdf/roboto/bold.png" )
+				.addVariant("normal", "italic", "./assets/fonts/msdf/roboto/italic.json", "./assets/fonts/msdf/roboto/italic.png" )
 
 	).then( init );
 
@@ -45,10 +46,10 @@ function init() {
 	// adjust fonts
 	// @see TODO:adjustDocumentation
 	const FF = FontLibrary.getFontFamily("Roboto");
-	FF.getVariant('700','normal').adjustTypographicGlyphs( ROBOTO_ADJUSTMENT );
-	FF.getVariant('700','italic').adjustTypographicGlyphs( ROBOTO_ADJUSTMENT );
-	FF.getVariant('400','italic').adjustTypographicGlyphs( ROBOTO_ADJUSTMENT );
-	FF.getVariant('400','normal').adjustTypographicGlyphs( ROBOTO_ADJUSTMENT );
+	FF.getVariant('bold','normal').adjustTypographicGlyphs( ROBOTO_ADJUSTMENT );
+	FF.getVariant('bold','italic').adjustTypographicGlyphs( ROBOTO_ADJUSTMENT );
+	FF.getVariant('normal','italic').adjustTypographicGlyphs( ROBOTO_ADJUSTMENT );
+	FF.getVariant('normal','normal').adjustTypographicGlyphs( ROBOTO_ADJUSTMENT );
 
 	// Build three
 
@@ -110,7 +111,7 @@ function makeTextPanel() {
 
 	//
 
-	const infoBox = new ThreeMeshUI.Block( {
+	const infoBox = new ThreeMeshUI.Text( {
 		width: 2,
 		height: 0.175,
 		margin: 0.01,
@@ -118,23 +119,26 @@ function makeTextPanel() {
 		textAlign: 'center',
 	} );
 
-	infoBox.add( new ThreeMeshUI.Text( {
+	infoBox.add( new ThreeMeshUI.Inline( {
 		textContent: '.invertAlpha ',
-		fontWeight: '700',
+		fontWeight: 'bold',
 	} ) );
 
-	infoBox.add( new ThreeMeshUI.Text( {
-		textContent: '(* works on msdf font variants)',
+	infoBox.add( new ThreeMeshUI.Inline( {
+		textContent: 'msdf only',
 		fontStyle: 'italic',
-		fontSize: 0.035
+		fontWeight: 'bold',
+		verticalAlign: 'super',
+		fontMaterial: new MSDFNormalMaterial(),
+		fontSize: '0.5em'
 	} ) );
 
-	infoBox.add( new ThreeMeshUI.Text( {
+	infoBox.add( new ThreeMeshUI.Inline( {
 		textContent: ' inverts the alpha of the glyph.\n',
-		fontWeight: '700',
+		fontWeight: 'bold',
 	} ) );
 
-	infoBox.add( new ThreeMeshUI.Text( {
+	infoBox.add( new ThreeMeshUI.Inline( {
 		textContent: 'The rendering will be a boxed char, with transparent inner.\n',
 		letterSpacing: 0.05
 	} ) );
@@ -166,6 +170,7 @@ function makeKernedContainer( kerning ) {
 		padding: 0.025,
 		justifyContent: 'center',
 		backgroundColor: new Color( 0xff9900 ),
+		backgroundOpacity : 0.7,
 		textAlign: 'left'
 	} );
 
@@ -184,7 +189,7 @@ function makeKernedContainer( kerning ) {
 		justifyContent: 'center',
 		backgroundOpacity: 0,
 		fontSize: 0.08,
-		fontWeight: '700'
+		fontWeight: 'bold'
 	} );
 
 	textBox.add(

@@ -39,7 +39,7 @@ FontLibrary.prepare(
 				.addVariant(
 					// The weight of the variant '100'|'200'|'300'|'400'|'600'|'700'|'800'|'900'
 					//														LIGHTER					NORMAL			BOLD				BOLDER
-					"400",
+					"normal",
 
 					// The style of the variant 'normal'|'italic'|'oblique'|'oblique(x deg)'
 					"normal",
@@ -52,9 +52,9 @@ FontLibrary.prepare(
 				)
 
 				// Registering additional variants
-				.addVariant("700", "italic", "./assets/fonts/msdf/roboto/bold-italic.json", "./assets/fonts/msdf/roboto/bold-italic.png" )
-				.addVariant("700", "normal", "./assets/fonts/msdf/roboto/bold.json", "./assets/fonts/msdf/roboto/bold.png" )
-				.addVariant("400", "italic", "./assets/fonts/msdf/roboto/italic.json", "./assets/fonts/msdf/roboto/italic.png" )
+				.addVariant("bold", "italic", "./assets/fonts/msdf/roboto/bold-italic.json", "./assets/fonts/msdf/roboto/bold-italic.png" )
+				.addVariant("bold", "normal", "./assets/fonts/msdf/roboto/bold.json", "./assets/fonts/msdf/roboto/bold.png" )
+				.addVariant("normal", "italic", "./assets/fonts/msdf/roboto/italic.json", "./assets/fonts/msdf/roboto/italic.png" )
 
 // FontLibrary.prepare() returns a Promise, we can therefore add a callback to be executed when all files are loaded
 ).then( () => {
@@ -63,7 +63,7 @@ FontLibrary.prepare(
 	const RobotoFamily = FontLibrary.getFontFamily("Roboto");
 
 	// And then retrieve a fontVariant defined in this Family
-	const RobotoRegular = RobotoFamily.getVariant('400','normal');
+	const RobotoRegular = RobotoFamily.getVariant('normal','normal');
 
 	// Having font variant allows us to perform some modifications
 	// 1. Adjustments
@@ -82,14 +82,14 @@ FontLibrary.prepare(
 	// 1. Material
 	// Instead of assigning custom materials to Text one by one
 	// We can assign a Material(class) to a font variant (Here the bold one)
-	RobotoFamily.getVariant('700','normal').fontMaterial = MSDFNormalMaterial;
+	RobotoFamily.getVariant('bold','normal').fontMaterial = MSDFNormalMaterial;
 	// Once set, any three-mesh-ui Text using this font variant will use the defined material
 
 	// We may encounter the following lines in other examples,
 	// they are adjusting font variants to display a nice baseline
-	RobotoFamily.getVariant('700','normal').adjustTypographicGlyphs( ROBOTO_ADJUSTMENT );
-	RobotoFamily.getVariant('700','italic').adjustTypographicGlyphs( ROBOTO_ADJUSTMENT );
-	RobotoFamily.getVariant('400','italic').adjustTypographicGlyphs( ROBOTO_ADJUSTMENT );
+	RobotoFamily.getVariant('bold','normal').adjustTypographicGlyphs( ROBOTO_ADJUSTMENT );
+	RobotoFamily.getVariant('bold','italic').adjustTypographicGlyphs( ROBOTO_ADJUSTMENT );
+	RobotoFamily.getVariant('normal','italic').adjustTypographicGlyphs( ROBOTO_ADJUSTMENT );
 
 	// Now that the font are loaded and adjusted,
 	step1BuildThreeJSElements();
@@ -185,7 +185,7 @@ function step2BuildThreeMeshUIElements() {
 	// Lets build a first text that would be in bold, and use a MSDFNormalMaterial
 	const text1 = new ThreeMeshUI.Text( {
 			textContent: 'Managing fonts in three-mesh-ui',
-			fontWeight: '700',
+			fontWeight: 'bold',
 			fontSize: 0.08
 		} );
 
@@ -194,6 +194,11 @@ function step2BuildThreeMeshUIElements() {
 	// there is no more need to manually set its material to MSDFNormalMaterial
 	// text1.material = new MSDFNormalMaterial({});
 
+	const last = new ThreeMeshUI.Text( {
+		textContent: '\n\n* Managing and preloading fonts can display Text with no additional delays.',
+		fontStyle: 'italic',
+		fontSize: 0.035
+	} );
 
 	rootBlock.add(
 
@@ -205,9 +210,9 @@ function step2BuildThreeMeshUIElements() {
 
 		new ThreeMeshUI.Text({margin:'0.05 0 0.05 0.1'}).add(
 			new ThreeMeshUI.Inline({ textContent:"Regular "}),
-			new ThreeMeshUI.Inline({ textContent:"Bold ",fontWeight:'700', margin: 0.05}),
+			new ThreeMeshUI.Inline({ textContent:"Bold ",fontWeight:'bold', margin: 0.05}),
 			new ThreeMeshUI.Inline({ textContent:"Italic ",fontStyle:'italic'}),
-			new ThreeMeshUI.Inline({ textContent:"Bold+Italic",fontWeight:'700',fontStyle:'italic'}),
+			new ThreeMeshUI.Inline({ textContent:"Bold+Italic",fontWeight:'bold',fontStyle:'italic'}),
 		),
 
 		new ThreeMeshUI.Text( {
@@ -216,18 +221,20 @@ function step2BuildThreeMeshUIElements() {
 
 		new ThreeMeshUI.Text( {
 			textContent: 'MSDFNormalMaterial.',
-			fontWeight: '700',
+			fontWeight: 'bold',
 		} ),
 
-		new ThreeMeshUI.Text( {
-			textContent: '\n\n* Managing and preloading fonts can display Text with no additional delays.',
-			fontStyle: 'italic',
-			fontSize: 0.035
-		} )
+		last
 
 	);
 
 	ThreeMeshUI.update()
+
+	setInterval( ()=>{
+		text1.set({ fontWeight: Math.random()>0.5 ? 'bold' : 'normal', color:Math.random()*0xffffff});
+		last.set({ fontStyle: Math.random()>0.5 ? 'italic' : 'normal'});
+		ThreeMeshUI.update()
+	}, 500)
 
 }
 

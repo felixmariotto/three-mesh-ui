@@ -246,10 +246,10 @@ function makeTextPanel() {
 		innerContainer.classList.add('item__inner-container');
 
 		const block1 = HyperThreeMesh.createElement('div',{height: 0.1,
-			width: 0.1,backgroundColor:new THREE.Color(0x00ff99)});
+			width: 0.1,backgroundColor:new THREE.Color(0x00ff99), backgroundOpacity:1});
 			block1.classList.add('color-block');
 		const block2 = HyperThreeMesh.createElement('div',{height: 0.1,
-			width: 0.1,backgroundColor:new THREE.Color(0x0099ff)});
+			width: 0.1,backgroundColor:new THREE.Color(0x0099ff), backgroundOpacity:1});
 		block2.classList.add('color-block');
 
 		item.add( itemTitle, innerContainer );

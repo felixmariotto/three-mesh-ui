@@ -10,6 +10,9 @@ import HTMInlineBlockElement from 'three-mesh-ui/examples/hyperthreemesh/core/el
 import HTMButton from 'three-mesh-ui/examples/hyperthreemesh/elements/HTMButton';
 import HTMButtonToggle from 'three-mesh-ui/examples/hyperthreemesh/elements/HTMButtonToggle';
 import HTMButtonRadio from 'three-mesh-ui/examples/hyperthreemesh/elements/HTMButtonRadio';
+import HTMListItem from 'three-mesh-ui/examples/hyperthreemesh/elements/HTMListItem';
+import HTMList from 'three-mesh-ui/examples/hyperthreemesh/elements/HTMList';
+import HTMImage from 'three-mesh-ui/examples/hyperthreemesh/elements/HTMImage';
 
 
 /**
@@ -363,8 +366,6 @@ function _checkAndApplyCSSRules( forElement ){
 	// If at least one rule has matched
 	if( found ) {
 
-		console.log( computedStyles )
-
 		// Set computed styles
 		forElement.set( computedStyles );
 
@@ -417,6 +418,7 @@ export function _applyRules(){
 		for ( const target of targets ) {
 
 			target.set( rule.styles );
+
 		}
 	}
 }
@@ -460,7 +462,6 @@ function  _sortXSSRules( a, b ){
  * @private
  */
 const _lookUpTable = {
-	// flexDirection: "contentDirection",
 	rx: 'offset',
 	offsetDistance: 'offset'
 }
@@ -533,10 +534,19 @@ function createElement( tag, options = {} ){
 	if( !options.tagName ) options.tagName = tag;
 	switch ( tag.toLowerCase().replace(/\d/g, "") ) {
 
+		case "img":
+			return new HTMImage(options);
 		case "p":
-		case "h":
 		case "label":
+		case "h":
 				return new HTMTextElement(options);
+
+		case "ol":
+		case "ul":
+			return new HTMList(options);
+
+		case "li":
+			return new HTMListItem(options)
 
 		case "button":
 			return new HTMButton(options);
@@ -550,18 +560,22 @@ function createElement( tag, options = {} ){
 			return new HTMButtonRadio(options);
 
 		case "div":
-		case "li":
 		case "footer":
 		case "header":
+		case "section":
 			return new HTMBlockElement(options);
 
+		case "sup":
+		case "sub":
+			options.fontSize = '0.5em';
+			// falls through
+		case "text":
 		case "span":
 		case "em":
 		case "strong":
-		case "sup":
-		case "sub":
 		case "small":
 		case "link":
+		case "a":
 			return new HTMInlineElement(options);
 
 		case "icon":
@@ -571,11 +585,83 @@ function createElement( tag, options = {} ){
 			return new KeyboardHTM( options );
 
 		default:
-			throw new Error("HyperTextMesh::createElement() - The provided tagname is not implemented");
+			throw new Error(`HyperTextMesh::createElement() - The provided tagname (${tag})  is not implemented`);
 
 	}
 
 }
+
+/**
+ *
+ * @deprecated wip
+ * @param {HTMLElement} htmlElement
+ * @returns {HTMBaseElement}
+ */
+function copy( htmlElement ){
+
+
+
+	if( htmlElement.nodeType === 3 ) htmlElement.tagName = 'text';
+
+	const copied = createElement( htmlElement.tagName);
+
+	if ( htmlElement.nodeType === 3 ) {
+		copied.textContent = htmlElement.data;
+		return copied;
+	}
+
+	// paste attributes
+	const attributes = htmlElement.attributes;
+	for ( let i = 0; i < attributes.length; i++ ) {
+		const attribute = attributes[ i ];
+		copied.setAttribute( attribute.name, attribute.value);
+	}
+
+	// set classes
+	const iterator = htmlElement.classList.values();
+
+	for (const value of iterator) {
+		copied.classList.add( value );
+	}
+
+	if( (copied.isText || copied.isInline) && htmlElement.children.length === 0 ){
+		copied.textContent = htmlElement.textContent;
+	} else {
+
+		for ( let i = 0; i < htmlElement.childNodes.length; i++ ) {
+
+			const childNode = htmlElement.childNodes[i];
+
+			if( childNode.nodeType !== 3 && childNode.nodeType !== 1 ) continue;
+
+			// Text node
+			if( childNode.nodeType === 3 && childNode.data === "\n\t") continue;
+
+			// console.log( childNode );
+			// console.log( childNode.childNodes );
+
+			if( childNode.nodeType === 3 && !copied.isText ) {
+
+				console.warn("Text node can only be added in Text or Inline elements",)
+				console.warn( `Text (${JSON.stringify(childNode.data)}) in ${htmlElement} (${copied.copyAttributes()})` );
+				continue;
+			}
+
+			const child = copy( childNode );
+
+			copied.add( child );
+
+		}
+
+	}
+
+
+
+
+	return copied;
+
+}
+
 
 let _needsUpdate = true;
 function requestUpdate() {
@@ -591,4 +677,4 @@ function update() {
 
 export { loadSheets };
 
-export { createElement, requestUpdate, update, querySelectorAll };
+export { createElement, requestUpdate, update, copy, querySelectorAll };

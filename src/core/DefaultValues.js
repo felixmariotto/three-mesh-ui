@@ -4,7 +4,7 @@ const _values = {
 	fontSize: 0.05,
 	fontKerning: 'normal',
 	fontStyle: 'normal',
-	fontWeight : '400',
+	fontWeight : 'normal',
 	offset: 0.005,
 	lineHeight: 1.2,
 	lineBreak: '- ,.:?!\n',// added '\n' to also acts as friendly breaks when white-space:normal
@@ -17,7 +17,6 @@ const _values = {
 	boxSizing: 'content-box',
 	position: 'static',
 	color: 0xffffff,
-	fontColor: 0xffffff,
 	fontOpacity: 1,
 	opacity: 1,
 	fontPXRange: 4,
@@ -28,22 +27,48 @@ const _values = {
 	borderColor: 'black',
 	borderOpacity: 1,
 	backgroundSize: "cover",
-	backgroundColor: 0x222222,
-	backgroundOpacity: 0.5,
+	backgroundColor: 0x000000,
+	backgroundOpacity: 0,
 	overflow: 'visible',
 	letterSpacing: 0,
 	invertAlpha : false,
-	segments: 1
+	segments: 1,
+	backgroundSide : 0, //FrontSide
+	backgroundAlphaTest: 0.02,
+	fontSide: 0, // FrontSide
+	fontAlphaTest: 0.02,
+	padding: 0,
+	margin: 0,
+	verticalAlign: "baseline"
 };
+
+const _blocks = {
+
+};
+
+const _inlines = {
+	fontStyle: 'inherit',
+	fontWeight: 'inherit',
+	color: 'inherit'
+}
+
+const _registry = {
+	default: _values,
+	block: _blocks,
+	inline : _inlines
+}
 
 /**
  * @param {import('./../core/elements/MeshUIBaseElement').Options} overrideProperties
+ * @param [type='default']
  */
-export const set = function ( overrideProperties ) {
+export const set = function ( overrideProperties , type = 'default' ) {
+
+	const values = _registry[type] || _registry.default;
 
 	for ( const property in overrideProperties ) {
 
-		_values[property] = overrideProperties[property];
+		values[property] = overrideProperties[property];
 
 	}
 
@@ -54,14 +79,18 @@ export const set = function ( overrideProperties ) {
  * @param {string} property
  * @return {any}
  */
-export const get = function ( property ) {
+export const get = function ( property, type = 'default' ) {
 
-	if( !Object.prototype.hasOwnProperty.call( _values, property) ) {
+	const values = _registry[type] ? {..._values,..._registry[type]} : {..._registry.default};
+
+	if( !property ) return values;
+
+	if( !Object.prototype.hasOwnProperty.call( values, property) ) {
 
 		console.warn( `ThreeMeshUI::DefaultValues is trying to retrieve non-existing property '${property}'`);
 
 	}
 
-	return _values[property];
+	return values[property];
 
 }

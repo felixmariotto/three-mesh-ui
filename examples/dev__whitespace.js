@@ -25,12 +25,12 @@ function preloadFonts() {
 	FontLibrary.prepare(
 		FontLibrary
 			.addFontFamily( 'Roboto' )
-			.addVariant( '400', 'normal', './assets/fonts/msdf/roboto/regular.json', './assets/fonts/msdf/roboto/regular.png' )
+			.addVariant( 'normal', 'normal', './assets/fonts/msdf/roboto/regular.json', './assets/fonts/msdf/roboto/regular.png' )
 	).then( () => {
 
 		// Adjusting font variants
 		const FF = FontLibrary.getFontFamily( 'Roboto' );
-		FF.getVariant( '400', 'normal' ).adjustTypographicGlyphs( ROBOTO_ADJUSTMENT );
+		FF.getVariant( 'normal', 'normal' ).adjustTypographicGlyphs( ROBOTO_ADJUSTMENT );
 
 		init();
 

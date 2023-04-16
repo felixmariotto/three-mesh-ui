@@ -24,10 +24,10 @@ FontLibrary.prepare(
 
 				// This is where you can register font variant with you custom type implementation
 				// @see three-mesh-ui/examples/font/svg/SVGFontVariant.js which is the implementation
-				.addCustomImplementationVariant( new SVGFontVariant ( '400', 'normal', './assets/fonts/svg/flux/regular.svg' ) )
-				.addCustomImplementationVariant( new SVGFontVariant ( '400', 'italic', './assets/fonts/svg/flux/italic.svg' ) )
-				.addCustomImplementationVariant( new SVGFontVariant ( '700', 'normal', './assets/fonts/svg/flux/bold.svg' ) )
-				.addCustomImplementationVariant( new SVGFontVariant ( '700', 'italic', './assets/fonts/svg/flux/bold-italic.svg' ) )
+				.addCustomImplementationVariant( new SVGFontVariant ( 'normal', 'normal', './assets/fonts/svg/flux/regular.svg' ) )
+				.addCustomImplementationVariant( new SVGFontVariant ( 'normal', 'italic', './assets/fonts/svg/flux/italic.svg' ) )
+				.addCustomImplementationVariant( new SVGFontVariant ( 'bold', 'normal', './assets/fonts/svg/flux/bold.svg' ) )
+				.addCustomImplementationVariant( new SVGFontVariant ( 'bold', 'italic', './assets/fonts/svg/flux/bold-italic.svg' ) )
 
 // FontLibrary.prepare() returns a Promise, we can therefore add a callback to be executed when all files are loaded
 ).then( () => {
@@ -38,7 +38,7 @@ FontLibrary.prepare(
 	// 1. Material
 	// Instead of assigning custom materials to Text one by one
 	// We can assign a Material(class) to a font variant (Here the bold one)
-	FluxFamily.getVariant('700','normal').fontMaterial = MeshNormalMaterial;
+	FluxFamily.getVariant('bold','normal').fontMaterial = MeshNormalMaterial;
 	// Once set, any three-mesh-ui Text using this font variant will use the defined material
 
 	// Now that the font are loaded and adjusted,
@@ -135,12 +135,12 @@ function step2BuildThreeMeshUIElements() {
 			width: 'auto',
 			justifyContent: 'center',
 			textContent: 'Extending font types (SVG)',
-			fontWeight: '700',
+			fontWeight: 'bold',
 			fontSize: 0.08,
 			marginBottom: 0.025,
 			backgroundColor: 0x000000,
 			backgroundOpacity: 0.3,
-			padding: '0.01 0.05',
+			padding: '0.05 0.15 0.05 0.05',
 			borderRadius: 0.025,
 			borderColor: 0xffffff,
 			borderWidth: 0.01,
@@ -173,7 +173,7 @@ function step2BuildThreeMeshUIElements() {
 			new ThreeMeshUI.Inline( {
 				textContent: ' Bold',
 				margin: '0 0.05',
-				fontWeight: '700',
+				fontWeight: 'bold',
 			} ),
 
 			new ThreeMeshUI.Inline( {
@@ -183,7 +183,7 @@ function step2BuildThreeMeshUIElements() {
 
 			new ThreeMeshUI.Inline( {
 				textContent: ' Bold+Italic',
-				fontWeight: '700',
+				fontWeight: 'bold',
 				fontStyle: 'italic',
 			} ),
 		),
@@ -196,7 +196,7 @@ function step2BuildThreeMeshUIElements() {
 			textAlign: 'justify-left',
 		} ).add( new ThreeMeshUI.Inline( {
 			textContent: ' MeshNormalMaterial.',
-			fontWeight: '700',
+			fontWeight: 'bold',
 		} ), ),
 
 

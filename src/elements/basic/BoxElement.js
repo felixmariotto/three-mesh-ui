@@ -88,6 +88,8 @@ export default class BoxElement extends MeshUIBaseElement {
 		if ( !values.backgroundCastShadow ) values.backgroundCastShadow = false;
 		if ( !values.backgroundReceiveShadow ) values.backgroundReceiveShadow = false;
 
+		if( !values.uiType ) values.uiType = 'block';
+
 	}
 
 	/**

@@ -15,12 +15,12 @@ const _rotations = {
  */
 export default function ( element, width, side, color ) {
 
-	if ( element.isText ) {
-		console.warn( 'ThreeMeshUI::Arrows cannot process Text elements. Aborted');
-		return;
-	}
+	// if ( element.isText ) {
+	// 	console.warn( 'ThreeMeshUI::Arrows cannot process Text elements. Aborted');
+	// 	return;
+	// }
 
-	element.set({borderColor: color, borderWidth: [width,width,0,0], backgroundOpacity:0, backgroundColor: 0x000000});
+	element.set({borderColor: color, borderWidth: [width,width,0,0], borderOpacity:1, backgroundOpacity:0});
 	element._backgroundMesh.rotation.z = _rotations[side];
 
 

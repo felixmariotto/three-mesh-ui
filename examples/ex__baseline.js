@@ -109,14 +109,14 @@ FontLibrary.prepare(
 	registerRobotoAndVariants(),
 	FontLibrary.addFontFamily('imported')
 		.addVariant(
-			'400',
+			'normal',
 			'normal',
 			'./assets/fonts/msdf/rye/regular.json',
 			'./assets/fonts/msdf/rye/regular.png')
 ).then( () => {
 
 	fontFamily = FontLibrary.getFontFamily('imported');
-	fontVariant = fontFamily.getVariant('400', 'normal');
+	fontVariant = fontFamily.getVariant('normal', 'normal');
 
 
 	// preload fonts and run example() after
@@ -152,7 +152,7 @@ function additionalUI(){
 
 	const borderTitle = new Text({
 		textContent: `Adjusting glyphs`,
-		fontWeight: '700',
+		fontWeight: 'bold',
 		fontSize: 0.08,
 		lineHeight:1.5});
 
@@ -161,7 +161,7 @@ function additionalUI(){
 		textAlign: "left",
 	}).add(
 		new Inline({textContent:`If you look closely, you would notice that some glyphs of the "rye" font are not correctly placed.\nThat's the case for `}),
-		new Inline({textContent:`g, j, p, q, y and Q `, fontWeight: '700'}),
+		new Inline({textContent:`g, j, p, q, y and Q `, fontWeight: 'bold'}),
 		new Inline({textContent:`glyphs.`}),
 		new Inline({textContent:`\n\nUse the provided GUI to select one faulty glyph, and then adjust its yoffset property. Repeat that operation for each faulty glyphs in your charset.`}),
 		new Inline({textContent:` Once completed, you can export those adjustments.`}),
@@ -275,7 +275,7 @@ function baselineGUI() {
 		const ff = FontLibrary.addFontFamily( "import"+Math.random(), );
 		// Add a new variant
 		ff.addVariant('400', 'normal', x.json, new Texture(x.img), true );
-		fontVariant = ff.getVariant('400','normal');
+		fontVariant = ff.getVariant('normal','normal');
 
 		// Set the fontFamily on the text
 		text.set({fontFamily:ff});

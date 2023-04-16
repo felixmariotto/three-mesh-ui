@@ -1,22 +1,21 @@
-import { Color } from 'three';
 import StyleColorProperty from '../StyleColorProperty';
 
+//JSDoc related imports
+/* eslint-disable no-unused-vars */
+/* eslint-enable no-unused-vars */
 
-export default class BackgroundColorProperty extends StyleColorProperty {
+export default class BackgroundColorPropertyInlineBlock extends StyleColorProperty {
 
-	constructor( defaultValue ) {
+	constructor() {
 
-		super( 'backgroundColor', defaultValue, false );
+		super( 'backgroundColor', 'inherit', false );
 
-		this._input = new Color(defaultValue);
+		this._allowsInherit = false;
+
+		this._input = 'inherit';
 
 	}
 
-	/* eslint-disable no-unused-vars */
-	/**
-	 *
-	 * @param {MeshUIBaseElement} element
-	 */
 	computeOutputValue( element ) { /* eslint-enable no-unused-vars */
 
 		element._backgroundMesh.visible = !(this._input === 'none' || this._input === 'transparent');
@@ -30,6 +29,15 @@ export default class BackgroundColorProperty extends StyleColorProperty {
 			this._value.set( this._input );
 
 		}
+
+	}
+
+	// background color of inlineBlock looks for parent color instead of backgroundColor
+	getInheritedInput( element ) {
+
+		if ( this._input !== 'inherit' ) return this._input;
+
+		return element._color._value;
 
 	}
 

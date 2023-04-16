@@ -169,7 +169,7 @@ export default class HTMBaseElement extends MeshUIBaseElement {
 	 */
 	copyAttributes() {
 
-		let output = this._tagName;
+		let output = this._tagName.toLowerCase();
 
 		if ( this._elementID ) {
 

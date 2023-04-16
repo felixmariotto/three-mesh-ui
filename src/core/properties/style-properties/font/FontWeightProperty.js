@@ -3,9 +3,9 @@ import SubStyleProperty from '../SubStyleProperty';
 
 export default class FontWeightProperty extends SubStyleProperty {
 
-	constructor( ) {
+	constructor( def ) {
 
-		super( 'fontWeight', 'inherit', true );
+		super( 'fontWeight', def , true );
 
 		this.isValid = _isValid;
 	}

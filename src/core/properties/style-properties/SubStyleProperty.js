@@ -66,6 +66,9 @@ export default class SubStyleProperty extends BaseProperty{
 		for ( const childUIElement of element._children._uis ) {
 
 			const property = childUIElement[`_${this._id}`];
+
+			if( !property ) continue;
+
 			const target = property._input ? property._input : property._value;
 
 			if( target === 'inherit' ) childUIElement[`_${this._id}`]._needsUpdate = true;
@@ -155,6 +158,10 @@ export default class SubStyleProperty extends BaseProperty{
 
 		const parent = element._parent._value;
 		if( parent ) {
+
+			const parentProperty = parent[`_${this._id}`];
+
+			if( !parentProperty ) return this.getDefaultValue();
 
 			return parent[`_${this._id}`].getInheritedInput( parent )
 
