@@ -20,26 +20,12 @@
  * update() in their render loop.
  */
 declare class UpdateManager {
-    static requestUpdate(component: any, updateParsing: any, updateLayout: any, updateInner: any): void;
-    /** Register a passed component for later updates */
     static register(component: any): void;
-    /** Unregister a component (when it's deleted for instance) */
-    static disposeOf(component: any): void;
-    /** Trigger all requested updates of registered components */
+    static remove(component: any): void;
     static update(): void;
-    /**
-     * Calls parseParams update of all components from parent to children
-     * @private
-     */
-    private static traverseParsing;
-    /**
-     * Calls updateLayout and updateInner functions of components that need an update
-     * @private
-     */
-    private static traverseUpdates;
 }
 declare namespace UpdateManager {
-    const components: any[];
-    const requestedUpdates: {};
+    const elements: Array<MeshUIBaseElement>;
 }
 export default UpdateManager;
+import MeshUIBaseElement from "./../../core/elements/MeshUIBaseElement";

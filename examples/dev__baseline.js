@@ -1,17 +1,15 @@
 /* global lil */
 
+// import FontJSON from './assets/Roboto-msdf.json';
+// import FontImage from './assets/Roboto-msdf.png';
 import * as THREE from 'three';
+import { Mesh, MeshBasicMaterial, PlaneGeometry } from 'three';
 import { VRButton } from 'three/examples/jsm/webxr/VRButton.js';
 import { BoxLineGeometry } from 'three/examples/jsm/geometries/BoxLineGeometry.js';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 
 import ThreeMeshUI, { FontLibrary } from 'three-mesh-ui';
-
-// import FontJSON from './assets/Roboto-msdf.json';
-// import FontImage from './assets/Roboto-msdf.png';
-
-
-import { Mesh, MeshBasicMaterial, PlaneBufferGeometry } from 'three';
+import TypographicLayoutBehavior from 'three-mesh-ui/examples/behaviors/helpers/TypographicLayoutBehavior';
 
 // Add lil-gui
 const script = document.createElement( 'script' );
@@ -22,17 +20,18 @@ document.body.appendChild( script );
 const WIDTH = window.innerWidth;
 const HEIGHT = window.innerHeight;
 
-let scene, camera, renderer, controls, text, container;
+let scene, camera, renderer, controls, text;
 
 window.addEventListener( 'load', () => {
 
 	FontLibrary.prepare(
 		FontLibrary
 			.addFontFamily( 'Roboto' )
-			.addVariant( '400', 'normal', './assets/fonts/msdf/roboto/regular.json', './assets/fonts/msdf/roboto/regular.png' ),
+			.addVariant( 'normal', 'normal', './assets/fonts/msdf/roboto/regular.json?fixed=true', './assets/fonts/msdf/roboto/regular.png?fixed=true' ),
+
 		FontLibrary
 			.addFontFamily( 'Roboto-unfixed' )
-			.addVariant( '400', 'normal', './assets/fonts/msdf/roboto/regular.json', './assets/fonts/msdf/roboto/regular.png' )
+			.addVariant( 'normal', 'normal', './assets/fonts/msdf/roboto/regular.json', './assets/fonts/msdf/roboto/regular.png' )
 	).then( () => {
 		init();
 	} );
@@ -78,11 +77,21 @@ function init() {
 
 	// TEXT PANEL
 
-	container = makeUI();
-	scene.add( container );
+	const rootBlock = new ThreeMeshUI.Block({
+		alignItems: 'center',
+		padding: 0.05,
+		borderRadius: 0.01,
+		backgroundColor : 0x000000,
+		backgroundOpacity : 0.8
+	})
 
-	const cont2 = makeUI(false);
-	scene.add( cont2 );
+	rootBlock.position.set( 0, 0.930, -1.8 );
+
+	scene.add( rootBlock );
+
+	rootBlock.add( makeUI() );
+
+	rootBlock.add( makeUI(false) );
 	//
 
 	renderer.setAnimationLoop( loop );
@@ -96,44 +105,19 @@ function init() {
  * @return {Block}
  */
 function makeUI(fixed = true ) {
-	const container = new ThreeMeshUI.Block( {
-		height: 0.55,
-		width: 0.85,
-		justifyContent: 'center',
-		alignItems: 'center',
-		fontFamily: fixed ? 'Roboto' : 'Roboto-unfixed',
-		backgroundOpacity: fixed ? 1.0 : 0
-	} );
 
-	container.position.set( 0, fixed ? 1.0 : 0.930, -1.8 );
-
-	//
-
-	const textBlock = new ThreeMeshUI.Block( {
-		height: 0.4,
+	const textBlock = new ThreeMeshUI.Text( {
 		width: 0.73,
-		margin: 0.05,
-		textAlign: 'right',
+		textAlign: 'left',
 		justifyContent: 'center',
-		padding: 0.03,
-		interLine: 0.08,
-		letterSpacing: 0,
-		backgroundOpacity:0,
-	} );
-
-	container.add( textBlock );
-
-
-	// const textContent = FontLibrary.getFontFamily("Roboto").getVariant('400',"normal").typographic.charset;
-	const textContent = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
-	const _text = new ThreeMeshUI.Text( {
 		fontSize: 0.06,
-		content: textContent,
+		fontFamily: fixed ? 'Roboto' : 'Roboto-unfixed',
+		textContent : 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'
 	} );
 
 	if( fixed ){
 
-		text = _text;
+		text = textBlock;
 
 	}
 
@@ -141,53 +125,9 @@ function makeUI(fixed = true ) {
 	// Lines properties. Lines are planes manually added behind each text lines
 	// in order to perceive and validate line width
 
-	const lineMat = new MeshBasicMaterial( { color: fixed ? 0x0099FF : 0xcacaca, opacity: 0.5 } );
-	let lines = [];
+	new TypographicLayoutBehavior( text ).attach();
 
-	_text.addAfterUpdate( function () {
-
-
-		// only process when texts are not empty
-		if ( _text.children.length == 0 ) return;
-
-		// remove all lines previously added
-		for ( let i = 0; i < lines.length; i++ ) {
-			const line = lines[ i ];
-			container.remove( line );
-		}
-		lines = [];
-
-		// retrieve all lines sent by InlineManager for the textBlock
-		for ( let i = 0; i < textBlock.lines.length; i++ ) {
-
-			const lineProperty = textBlock.lines[ i ];
-
-			if ( !lineProperty[ 0 ] ) continue;
-
-			// ( I was unable to quickly match lineHeight )
-			// lineHeight doesn't fit
-			// const lineHeight = lineProperty.lineHeight / 4;
-			const lineHeight = lineProperty.lineHeight;
-			const lineBase = lineProperty.lineBase;
-
-			// create a mesh for each line
-			const lineGeo = new PlaneBufferGeometry( lineProperty.width, lineBase );
-			const lineMesh = new Mesh( lineGeo, lineMat );
-
-			lineMesh.position.x = lineProperty[ 0 ].offsetX + ( lineProperty.width / 2 );
-			lineMesh.position.y = lineProperty[ 0 ].offsetY + ( lineHeight / 2.89 );
-
-			lineMesh.position.z = 0.018;
-
-			lines.push( lineMesh );
-			container.add( lineMesh );
-		}
-
-	});
-
-	textBlock.add( _text );
-
-	return container;
+	return textBlock;
 
 }
 
@@ -197,13 +137,15 @@ function buildGUI() {
 
 	const alterations = {};
 
+	console.log(text.textContent, text._textContent );
+
 	const letters = {};
-	for ( let i = 0; i < text.content.length; i++ ) {
-		const letter = text.content[ i ];
+	for ( let i = 0; i < text.textContent.length; i++ ) {
+		const letter = text.textContent[ i ];
 		letters[ letter ] = letter;
 	}
 
-	const fontVariant = FontLibrary.getFontFamily( 'Roboto' ).getVariant( '400', 'normal' );
+	const fontVariant = FontLibrary.getFontFamily( 'Roboto' ).getVariant( 'normal', 'normal' );
 	let charDesc = fontVariant.getTypographicGlyph( 'a' );
 	const p = {
 		letter: 'a',
@@ -223,8 +165,8 @@ function buildGUI() {
 		alterations[ p.letter ] = v;
 
 		charDesc._yoffset = v;
-		text.update( true, true, true );
-		container.update( true, true, true );
+
+		text._layouter._needsProcess = true;
 
 	} );
 

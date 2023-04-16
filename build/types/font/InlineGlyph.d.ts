@@ -4,7 +4,7 @@ export default class InlineGlyph extends Inline {
      * @param {TypographicGlyph} characterDesc
      */
     constructor(characterDesc: TypographicGlyph);
-    /** @protected */ protected _typographic: TypographicGlyph;
+
     /**
      *
      * @returns {TypographicGlyph}
@@ -16,5 +16,5 @@ export default class InlineGlyph extends Inline {
      */
     get char(): string;
 }
-import Inline from "../components/core/Inline";
+import Inline from "../core/elements/glyphs/Inline";
 import TypographicGlyph from "./TypographicGlyph";

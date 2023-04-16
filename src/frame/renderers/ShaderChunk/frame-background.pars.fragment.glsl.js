@@ -1,4 +1,8 @@
-export default /* glsl */`
+/**
+ *
+ * @type {string}
+ */
+const program = /* glsl */`
 
 #ifdef USE_MAP
 
@@ -45,4 +49,6 @@ vec4 sampleTexture() {
 
 }
 #endif
-`
+`;
+
+export default program;

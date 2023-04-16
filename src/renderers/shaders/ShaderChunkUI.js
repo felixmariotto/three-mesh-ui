@@ -13,18 +13,36 @@ import frameBackgroundFragmentGlsl from '../../frame/renderers/ShaderChunk/frame
 
 
 /* eslint-disable camelcase */
+
+/**
+ * @typedef {Object} ChunksUI
+ * @property msdf_alphaglyph_vertex {string}
+ * @property frame_border_fragment {string}
+ * @property frame_background_pars_fragment {string}
+ * @property frame_common_pars {string}
+ * @property msdf_alphaglyph_pars_vertex {string}
+ * @property frame_border_pars_fragment {string}
+ * @property msdf_offset_vertex {string}
+ * @property frame_border_pars_vertex {string}
+ * @property msdf_alphaglyph_pars_fragment {string}
+ * @property frame_border_vertex {string}
+ * @property frame_background_fragment {string}
+ * @property msdf_alphaglyph_fragment {string}
+ */
+
+
 export const ShaderChunkUI = {
-	msdf_alphaglyph_pars_vertex: msdfAlphaglyphParsVertexGlsl,
-	msdf_alphaglyph_vertex: msdfAlphaglyphVertexGlsl,
-	msdf_offset_vertex: msdfOffsetglyphVertexGlsl,
-	msdf_alphaglyph_pars_fragment: msdfAlphaglyphParsFragmentGlsl,
-	msdf_alphaglyph_fragment: msdfAlphaglyphFragmentGlsl,
-	frame_border_pars_vertex: frameBorderParsVertexGlsl,
-	frame_border_vertex: frameBorderVertexGlsl,
-	frame_common_pars: frameCommonParsFragmentGlsl,
-	frame_border_pars_fragment: frameBorderParsFragmentGlsl,
-	frame_border_fragment: frameBorderFragmentGlsl,
-	frame_background_pars_fragment: frameBackgroundParsFragmentGlsl,
-	frame_background_fragment: frameBackgroundFragmentGlsl,
+	msdfAlphaglyphParsVertexGlsl,
+	msdfAlphaglyphVertexGlsl,
+	msdfOffsetglyphVertexGlsl,
+	msdfAlphaglyphParsFragmentGlsl,
+	msdfAlphaglyphFragmentGlsl,
+	frameBorderParsVertexGlsl,
+	frameBorderVertexGlsl,
+	frameCommonParsFragmentGlsl,
+	frameBorderParsFragmentGlsl,
+	frameBorderFragmentGlsl,
+	frameBackgroundParsFragmentGlsl,
+	frameBackgroundFragmentGlsl,
 };
 /* eslint-enable camelcase */

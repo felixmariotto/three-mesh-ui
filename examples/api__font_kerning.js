@@ -1,3 +1,6 @@
+// xfg:title FontKerning
+// xfg:category learn
+
 import * as THREE from 'three';
 import { VRButton } from 'three/examples/jsm/webxr/VRButton.js';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
@@ -87,7 +90,7 @@ function makeTextPanel() {
 	} );
 
 	infoBox.add( new ThreeMeshUI.Text( {
-		content: '.fontKerning adds spaces between pairs of characters that are defined in font files.\n',
+		textContent: '.fontKerning adds spaces between pairs of characters that are defined in font files.\n',
 	} ) );
 
 	container.add( infoBox );
@@ -103,11 +106,9 @@ function makeKernedContainer( kerning ) {
 		width: 1.8,
 		height: 0.12,
 		padding: 0.05,
-		contentDirection: "row",
+		flexDirection: "row",
 		justifyContent: 'center',
 		textAlign: 'left',
-		fontFamily: FontJSON,
-		fontTexture: FontImage,
 		backgroundOpacity: 0
 	} );
 
@@ -122,7 +123,7 @@ function makeKernedContainer( kerning ) {
 	} );
 
 	const title = new ThreeMeshUI.Text( {
-		content: `.set({fontKerning: "${kerning}"})`,
+		textContent: `.set({fontKerning: "${kerning}"})`,
 		fontSize: 0.055
 	} );
 
@@ -139,7 +140,7 @@ function makeKernedContainer( kerning ) {
 
 	textBox.add(
 		new ThreeMeshUI.Text( {
-			content: '"LYON F. to ATLANTA GA. Via ALTOONA PA."',
+			textContent: '"LYON F. to ATLANTA GA. Via ALTOONA PA."',
 			fontKerning: kerning,
 		} )
 	);

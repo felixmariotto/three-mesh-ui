@@ -1,19 +1,20 @@
 import { EventDispatcher } from 'three';
-import FontLibrary from './FontLibrary';
+
 
 // JSDoc related imports
 /* eslint-disable no-unused-vars */
-import TypographicFont from './TypographicFont';
-import InlineGlyph from './InlineGlyph';
-import MSDFTypographicGlyph from './msdf/MSDFTypographicGlyph';
 import { BufferGeometry, Material, ShaderMaterial, Texture } from 'three';
+import InlineGlyph from './InlineGlyph';
+import MeshUIBaseElement from './../core/elements/MeshUIBaseElement';
+import TypographicFont from './TypographicFont';
+import TypographicGlyph from './TypographicGlyph';
 /* eslint-enable no-unused-vars */
 
 
 /**
  * @abstract
  */
-export default class FontVariant extends EventDispatcher {
+class FontVariant extends EventDispatcher {
 
 	/**
 	 *
@@ -115,16 +116,17 @@ export default class FontVariant extends EventDispatcher {
 	/**
 	 *
 	 * @param {string} character
-	 * @returns {MSDFTypographicGlyph}
+	 * @returns {TypographicGlyph}
 	 */
 	getTypographicGlyph( character ) {
 
 		let typographicGlyph = this._chars[ character ];
 		if ( typographicGlyph ) return typographicGlyph;
 
+		// Auto generate whitespace chars
 		if ( character.match( /\s/ ) ) return this._chars[ " " ];
 
-		const fallbackCharacter = FontLibrary.missingCharacter( this, character );
+		const fallbackCharacter = this._getFallbackCharacter( character );
 		if( fallbackCharacter ) {
 
 			typographicGlyph = this._chars[ fallbackCharacter ];
@@ -135,17 +137,28 @@ export default class FontVariant extends EventDispatcher {
 		throw Error( `FontVariant('${this.id}')::getTypographicGlyph() - character('${character}') and/or fallback character were not found in provided msdf charset.` );
 	}
 
+
 	/* eslint-disable no-unused-vars */
+	/**
+	 * @abstract
+	 * @protected
+	 * @param {string} missingChar
+	 * @returns {string|null}
+	 */
+	_getFallbackCharacter( missingChar ) {  /* eslint-enable no-unused-vars */
+		throw new Error(`FontVariant(${typeof this})::_getFallbackCharacter() is abstract and should therefore be overridden.`);
+	}
 
-
+	/* eslint-disable no-unused-vars */
 	/**
 	 * Convert an InlineCharacter to a geometry
 	 *
 	 * @abstract
 	 * @param {InlineGlyph} inline
+	 * @param {MeshUIBaseElement} element
 	 * @returns {BufferGeometry|Array.<BufferGeometry>}
 	 */
-	getGeometricGlyph( inline, segments = 1 ) {
+	getGeometricGlyph( inline, element ) {
 
 		throw new Error(`FontVariant(${typeof this})::getGeometryCharacter() is abstract and should therefore be overridden.`);
 
@@ -201,6 +214,18 @@ export default class FontVariant extends EventDispatcher {
 
 	}
 
+	/* eslint-disable no-unused-vars */
+	/**
+	 * @abstract
+	 * @param element
+	 * @internal
+	 */
+	_alterElementProperties( element ) {  /* eslint-enable no-unused-vars */
+
+		throw new Error(`FontVariant(${typeof this})::_alterElementProperties() is abstract and should therefore be overridden.`);
+
+	}
+
 	/**
 	 *
 	 * @abstract
@@ -237,3 +262,9 @@ function _setReady( fontVariant ) {
 
 }
 
+/**
+ * @typedef {Object.<string,number>} KerningPairs
+ *
+ */
+
+export default FontVariant;

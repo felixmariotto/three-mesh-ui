@@ -1,3 +1,6 @@
+// xfg:title BackgroundSize
+// xfg:category learn
+
 import * as THREE from 'three';
 import { TextureLoader } from 'three';
 import { VRButton } from 'three/examples/jsm/webxr/VRButton.js';
@@ -10,7 +13,6 @@ import ThreeMeshUI from 'three-mesh-ui';
 import UVImage from 'three-mesh-ui/examples/assets/uv_grid.jpg';
 import FontJSON from 'three-mesh-ui/examples/assets/fonts/msdf/roboto/regular.json';
 import FontImage from 'three-mesh-ui/examples/assets/fonts/msdf/roboto/regular.png';
-import FrameBasicMaterial from 'three-mesh-ui/examples/materials/frame/FrameBasicMaterial';
 
 const WIDTH = window.innerWidth;
 const HEIGHT = window.innerHeight;
@@ -70,7 +72,7 @@ function makePanels() {
 	const container = new ThreeMeshUI.Block( {
 		height: 1.6,
 		width: 2,
-		contentDirection: 'row',
+		flexDirection: 'row',
 		justifyContent: 'center',
 		backgroundOpacity: 0
 	} );
@@ -123,7 +125,7 @@ function makePanels() {
 	setTimeout( () => {
 		for ( let i = 0; i < imageBlocks.length; i++ ) {
 			const imageBlock = imageBlocks[ i ];
-			imageBlock.set({backgroundTexture:snakeTexture});
+			imageBlock.set({backgroundImage:snakeTexture});
 		}
 	}, 3000 );
 
@@ -137,7 +139,10 @@ function makeSection( texture, backgroundSize, text1, text2 ) {
 		height: 1.6,
 		width: 0.6,
 		margin: 0.05,
-		backgroundOpacity: 0
+		backgroundOpacity: 0,
+		flexDirection: 'column',
+		justifyContent: 'start',
+		alignItems: 'center'
 	} );
 
 	const imageHBlock = new ThreeMeshUI.Block( {
@@ -145,7 +150,7 @@ function makeSection( texture, backgroundSize, text1, text2 ) {
 		width: 0.6,
 		borderRadius: 0.05,
 		margin: 0.05,
-		backgroundTexture: texture,
+		backgroundImage: texture,
 		backgroundOpacity: 1,
 		backgroundColor: new THREE.Color(0xffffff),
 		backgroundSize
@@ -156,35 +161,38 @@ function makeSection( texture, backgroundSize, text1, text2 ) {
 		height: 0.9,
 		width: 0.6,
 		borderRadius: 0.05,
-		backgroundTexture: texture,
+		backgroundImage: texture,
 		backgroundOpacity: 1,
 		backgroundColor: new THREE.Color(0xffffff),
 		backgroundSize
 	} );
 
-	imageBlock.material = new FrameBasicMaterial();
+	window.block = imageBlock;
+
 	imageBlocks.push( imageHBlock, imageBlock );
 
 	const textBlock = new ThreeMeshUI.Block( {
-		height: 0.45,
-		width: 0.6,
+		height: 'auto',
+		width: 0.5,
 		margin: 0.05,
 		padding: 0.03,
+		borderRadius : 0.025,
 		justifyContent: 'center',
 		fontFamily: FontJSON,
 		fontTexture: FontImage,
-		backgroundOpacity: 0.7,
+		backgroundColor: 0x000000,
+		backgroundOpacity: 0.3,
 		fontSize: 0.04
 	} );
 
 	textBlock.add(
 		new ThreeMeshUI.Text( {
-			content: text1 + '\n',
-			fontColor: new THREE.Color( 0x96ffba )
+			textContent: text1 + '\n',
+			color: new THREE.Color( 0x96ffba )
 		} ),
 
 		new ThreeMeshUI.Text( {
-			content: text2
+			textContent: text2
 		} )
 	);
 

@@ -9,19 +9,19 @@ export default class FontFamily extends EventDispatcher<import("three").Event> {
      * @type {string}
      * @private
      */
-    private _name;
+
     /**
      *
      * @type {Array.<FontVariant>}
      * @private
      */
-    private _variants;
+
     /**
      *
      * @type {boolean}
      * @private
      */
-    private _isReady;
+
     get isReady(): boolean;
     /**
      *
@@ -50,7 +50,7 @@ export default class FontFamily extends EventDispatcher<import("three").Event> {
      * @return {string}
      */
     get name(): string;
-    _checkReadiness: () => void;
+
 }
 import { EventDispatcher } from "three/src/core/EventDispatcher";
 import { Texture } from "three/src/textures/Texture";

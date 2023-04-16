@@ -1,5 +1,10 @@
-// import { ShaderChunkUI } from 'three-mesh-ui';
-import { ShaderChunkUI } from '../../../renderers/shaders/ShaderChunkUI';
+import frameBorderParsVertexGlsl from '../ShaderChunk/frame-border.pars.vertex.glsl';
+import frameBorderVertexGlsl from '../ShaderChunk/frame-border.vertex.glsl';
+import frameBackgroundParsFragmentGlsl from '../ShaderChunk/frame-background.pars.fragment.glsl';
+import frameBorderParsFragmentGlsl from '../ShaderChunk/frame-border.pars.fragment.glsl';
+import frameCommonParsFragmentGlsl from '../ShaderChunk/frame-common.pars.fragment.glsl';
+import frameBackgroundFragmentGlsl from '../ShaderChunk/frame-background.fragment.glsl';
+import frameBorderFragmentGlsl from '../ShaderChunk/frame-border.fragment.glsl';
 
 export const vertexShader = /* glsl */`
 // Would be automatic on three materials and from USE_UV
@@ -7,7 +12,7 @@ export const vertexShader = /* glsl */`
 varying vec2 vUv;
 #endif
 
-${ShaderChunkUI.frame_border_pars_vertex}
+${frameBorderParsVertexGlsl}
 
 #include <clipping_planes_pars_vertex>
 
@@ -17,7 +22,7 @@ void main() {
 	vUv = uv;
 	#endif
 
-	${ShaderChunkUI.frame_border_vertex}
+	${frameBorderVertexGlsl}
 
 	vec4 mvPosition = modelViewMatrix * vec4( position, 1.0 );
 	gl_Position = projectionMatrix * mvPosition;
@@ -33,9 +38,13 @@ export const fragmentShader = /* glsl */`
 uniform vec3 diffuse;
 uniform float opacity;
 
-${ShaderChunkUI.frame_common_pars}
+#ifdef USE_ALPHATEST
+	uniform float alphaTest;
+#endif
 
-${ShaderChunkUI.frame_border_pars_fragment}
+${frameCommonParsFragmentGlsl}
+
+${frameBorderParsFragmentGlsl}
 
 
 #ifdef USE_MAP
@@ -43,7 +52,7 @@ varying vec2 vUv;
 uniform sampler2D map;
 #endif
 
-${ShaderChunkUI.frame_background_pars_fragment}
+${frameBackgroundParsFragmentGlsl}
 
 #include <clipping_planes_pars_fragment>
 
@@ -52,11 +61,15 @@ void main() {
 	vec4 diffuseColor = vec4( diffuse, opacity );
 
 	// map
-	${ShaderChunkUI.frame_background_fragment}
+	${frameBackgroundFragmentGlsl}
 
-	${ShaderChunkUI.frame_border_fragment}
+	${frameBorderFragmentGlsl}
 
-	if( diffuseColor.a < 0.02 ) discard;
+	#ifdef USE_ALPHATEST
+
+	if ( diffuseColor.a < alphaTest ) discard;
+
+	#endif
 
 	// output
 	gl_FragColor = diffuseColor;

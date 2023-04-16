@@ -1,24 +1,31 @@
-import { BufferAttribute, PlaneBufferGeometry } from 'three';
+import { BufferAttribute, PlaneGeometry } from 'three';
 import { Mesh } from 'three';
+
+//JSDoc related imports
+/* eslint-disable no-unused-vars */
+import MeshUIBaseElement from '../core/elements/MeshUIBaseElement';
+/* eslint-enable no-unused-vars */
 
 /**
  * Returns a basic plane mesh.
  */
 export default class Frame extends Mesh {
 
-	constructor( material ) {
+	/**
+	 *
+	 * @param {MeshUIBaseElement} element
+	 */
+	constructor( element ) {
 
-		const geometry = new PlaneBufferGeometry();
+		const geometry = new PlaneGeometry( 1, 1, element._segments.value, element._segments.value );
 
-		// Add uv for borders computations by copying uv
-		geometry.setAttribute('uvB', new BufferAttribute(
-			new Float32Array(
-				geometry.getAttribute('uv').array
-			), 2)).name = 'uvB';
+		// Add additional uv for borders computations by copying initial uv
+		const uvB = new BufferAttribute( new Float32Array( geometry.getAttribute('uv').array ), 2);
+		geometry.setAttribute('uvB', uvB ).name = 'uvB';
 
-		super( geometry, material );
+		super( geometry, element.backgroundMaterial );
 
-		this.name = 'MeshUI-Frame';
+		this.name = 'UIBackgroundBox';
 
 	}
 

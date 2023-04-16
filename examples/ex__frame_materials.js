@@ -1,3 +1,6 @@
+// xfg:title Background Materials
+// xfg:category extend
+
 import * as THREE from 'three';
 import * as ThreeMeshUI from 'three-mesh-ui';
 
@@ -8,12 +11,11 @@ function example() {
 		width: 3.2,
 		height: 3.2,
 		backgroundOpacity: 0,
-		interLine:-0.05,
-		contentDirection: 'row',
+		flexDirection: 'row',
 		justifyContent: 'center',
 		alignItems: 'center',
 		fontFamily: RobotoFontFamily,
-		fontWeight: ThreeMeshUI.FontWeight.BOLD,
+		fontWeight: "700",
 		fontSize: 0.25,
 	});
 
@@ -29,19 +31,19 @@ function example() {
 	const defaults = new ThreeMeshUI.Block(COLUMN).add( fillDefault, borderDefault, fullDefault );
 
 	const fillStandard = new ThreeMeshUI.Block(FILL_BLOCK);
-	fillStandard.material = new FrameStandardMaterial({});
+	fillStandard.backgroundMaterial = new FrameStandardMaterial({});
 	const borderStandard = new ThreeMeshUI.Block(BORDER_BLOCK);
-	borderStandard.material = new FrameStandardMaterial({});
+	borderStandard.backgroundMaterial = new FrameStandardMaterial({});
 	const fullStandard = new ThreeMeshUI.Block(FULL_BLOCK);
-	fullStandard.material = new FrameStandardMaterial({});
+	fullStandard.backgroundMaterial = new FrameStandardMaterial({});
 	const standards = new ThreeMeshUI.Block(COLUMN).add( fillStandard, borderStandard, fullStandard );
 
 	const fillPhysical = new ThreeMeshUI.Block({...FILL_BLOCK, ...PHYSICAL_OVERRIDE} );
-	fillPhysical.material = new FramePhysicalMaterial(PHYSICAL_MATERIAL_OPTIONS);
+	fillPhysical.backgroundMaterial = new FramePhysicalMaterial(PHYSICAL_MATERIAL_OPTIONS);
 	const borderPhysical = new ThreeMeshUI.Block({...BORDER_BLOCK, ...PHYSICAL_OVERRIDE});
-	borderPhysical.material = new FramePhysicalMaterial(PHYSICAL_MATERIAL_OPTIONS);
+	borderPhysical.backgroundMaterial = new FramePhysicalMaterial(PHYSICAL_MATERIAL_OPTIONS);
 	const fullPhysical = new ThreeMeshUI.Block({...FULL_BLOCK, ...PHYSICAL_OVERRIDE});
-	fullPhysical.material = new FramePhysicalMaterial(PHYSICAL_MATERIAL_OPTIONS);
+	fullPhysical.backgroundMaterial = new FramePhysicalMaterial(PHYSICAL_MATERIAL_OPTIONS);
 	const physicals = new ThreeMeshUI.Block(COLUMN).add( fillPhysical, borderPhysical, fullPhysical );
 
 
@@ -57,8 +59,8 @@ const BACKGROUND_COLOR = new THREE.Color( 0xff9900 );
 const BORDER_COLOR = new THREE.Color( 0xff9900 );
 const WHITE_COLOR = new THREE.Color( 0xffffff );
 
-const COLUMN = { width:0.45, height: 0.45, margin: 0.02, contentDirection: 'column', justifyContent: "center", backgroundOpacity: 0 };
-const FILL_BLOCK = { width: 0.45, height: 0.45, margin:0.02, borderRadius:0.05,backgroundColor:BACKGROUND_COLOR, borderColor: BORDER_COLOR };
+const COLUMN = { width:0.45, height: 0.45, margin: 0.02, flexDirection: 'column', justifyContent: "center", backgroundOpacity: 0 };
+const FILL_BLOCK = { boxSizing: 'border-box', width: 0.45, height: 0.45, margin:0.02, borderRadius:0.05,backgroundColor:BACKGROUND_COLOR, borderColor: BORDER_COLOR };
 const BORDER_BLOCK = { ...FILL_BLOCK, backgroundOpacity:0, borderWidth:0.05 };
 const FULL_BLOCK = { ...FILL_BLOCK, borderWidth: 0.05 };
 const PHYSICAL_MATERIAL_OPTIONS = {
@@ -110,14 +112,20 @@ const PHYSICAL_OVERRIDE = {borderColor: WHITE_COLOR, backgroundColor: WHITE_COLO
 import { exampleAddUpdate, exampleThreeSetup } from 'three-mesh-ui/examples/_setup/ThreeSetup';
 import { exampleThreePointLight, rollPointLightUpdate } from 'three-mesh-ui/examples/_setup/ThreePointLight';
 import { exampleThreeCube, rollCubeUpdate } from 'three-mesh-ui/examples/_setup/ThreeCube';
-import { exampleFontPreloadAll } from 'three-mesh-ui/examples/_setup/RobotoFont';
+import { exampleFontPreloadRoboto } from 'three-mesh-ui/examples/_setup/RobotoFont';
 import FrameStandardMaterial from 'three-mesh-ui/examples/materials/frame/FrameStandardMaterial';
 import FramePhysicalMaterial from 'three-mesh-ui/examples/materials/frame/FramePhysicalMaterial';
+import { exampleCameraPerspective } from 'three-mesh-ui/examples/_setup/CameraPerspective';
+import { exampleRoomVR } from 'three-mesh-ui/examples/_setup/RoomVR';
 
 /* eslint-disable no-unused-vars */
 
 // building three setup
-const { scene, camera, renderer, controls, stats } = exampleThreeSetup();
+const { camera } = exampleCameraPerspective();
+const { scene, renderer, controls, stats } = exampleThreeSetup( camera );
+
+
+const { roomVR } = exampleRoomVR( scene );
 
 // building pointLight
 const {pointLightContainer, pointLight, pointLightHelper} = exampleThreePointLight(scene);
@@ -130,5 +138,5 @@ const cube = exampleThreeCube( scene );
 exampleAddUpdate( rollCubeUpdate );
 
 // preload fonts and run example() after
-const RobotoFontFamily = exampleFontPreloadAll( example );
+const RobotoFontFamily = exampleFontPreloadRoboto( example );
 

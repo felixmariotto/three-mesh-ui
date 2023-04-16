@@ -1,24 +1,94 @@
 import * as THREE from 'three';
-import { Color, DoubleSide, Mesh, MeshStandardMaterial, PlaneBufferGeometry, PointLight, SpotLight, SpotLightHelper } from 'three';
+import { Color, DoubleSide, Mesh, MeshStandardMaterial, PlaneGeometry, PointLight, SpotLight, SpotLightHelper } from 'three';
 import { VRButton } from 'three/examples/jsm/webxr/VRButton.js';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import { BoxLineGeometry } from 'three/examples/jsm/geometries/BoxLineGeometry.js';
 
-import ThreeMeshUI from 'three-mesh-ui';
+import ThreeMeshUI, { FontLibrary } from 'three-mesh-ui';
 
-import FontJSON from 'three-mesh-ui/examples/assets/fonts/msdf/roboto/regular.json';
-import FontImage from 'three-mesh-ui/examples/assets/fonts/msdf/roboto/regular.png';
 import Stats from 'three/examples/jsm/libs/stats.module';
 import FrameDepthMaterial from '../src/frame/materials/FrameDepthMaterial';
 import FramePhysicalMaterial from 'three-mesh-ui/examples/materials/frame/FramePhysicalMaterial';
 import FrameBasicMaterial from 'three-mesh-ui/examples/materials/frame/FrameBasicMaterial';
+import MSDFNormalMaterial from 'three-mesh-ui/examples/materials/msdf/MSDFNormalMaterial';
+import ROBOTO_ADJUSTMENT from 'three-mesh-ui/examples/assets/fonts/msdf/roboto/adjustment';
 
 const WIDTH = window.innerWidth;
 const HEIGHT = window.innerHeight;
 
-let scene, camera, renderer, controls, panel, panelScale, lightHelper, stats, topLeft, topMiddleRight, topRight;
+let scene, camera, renderer, controls, panel, panelScale, lightHelper, stats, topLeft, topMiddleRight, topRight, bottomMiddle;
 
-window.addEventListener( 'load', init );
+// Using `ThreeMeshUI.FontLibrary.prepare( fontFamily, [...fontFamily] )
+// We can ensure any fontFamily passed in that function and theirs variants are properly loaded and setup
+FontLibrary.prepare(
+
+	FontLibrary
+		// Registering a fontFamily called "Roboto", the name is up to us.
+		.addFontFamily("Roboto")
+		// On the fontFamily added, lets add a variant
+		// a font variant usually requires 4 parameters
+		.addVariant(
+			// The weight of the variant '100'|'200'|'300'|'400'|'600'|'700'|'800'|'900'
+			//														LIGHTER					NORMAL			BOLD				BOLDER
+			'normal',
+
+			// The style of the variant 'normal'|'italic'|'oblique'|'oblique(x deg)'
+			"normal",
+
+			// The json definition of the msdf font 'urlToLoad'|loadedObject
+			"./assets/fonts/msdf/roboto/regular.json",
+
+			// The texture of the msdf font 'urlToLoad'|Texture
+			"./assets/fonts/msdf/roboto/regular.png"
+		)
+
+		// Registering additional variants
+		.addVariant("bold", "italic", "./assets/fonts/msdf/roboto/bold-italic.json", "./assets/fonts/msdf/roboto/bold-italic.png" )
+		.addVariant("bold", "normal", "./assets/fonts/msdf/roboto/bold.json", "./assets/fonts/msdf/roboto/bold.png" )
+		.addVariant("normal", "italic", "./assets/fonts/msdf/roboto/italic.json", "./assets/fonts/msdf/roboto/italic.png" )
+
+// FontLibrary.prepare() returns a Promise, we can therefore add a callback to be executed when all files are loaded
+).then( () => {
+
+	// Once font are registered, we can get the font family
+	const RobotoFamily = FontLibrary.getFontFamily("Roboto");
+
+	// And then retrieve a fontVariant defined in this Family
+	const RobotoRegular = RobotoFamily.getVariant('normal','normal');
+
+	// Having font variant allows us to perform some modifications
+	// 1. Adjustments
+	// If you look closely the `Getting started - Basic Setup` you may have noticed that :
+	// 		- the `h` character is slightly below the baseline
+	// This can be adjusted per fontVariant
+	RobotoRegular.adjustTypographicGlyphs( {
+		// 'h' character must change some of its properties defined in the json
+		h: {
+			// the yoffset property should be 2 (instead of 4 in the json)
+			yoffset: 2
+		}
+	} );
+	// Once adjusted, any three-mesh-ui Text using this font variant will use the adjusted properties
+
+	// 1. Material
+	// Instead of assigning custom materials to Text one by one
+	// We can assign a Material(class) to a font variant (Here the bold one)
+	RobotoFamily.getVariant('bold','normal').fontMaterial = MSDFNormalMaterial;
+	// Once set, any three-mesh-ui Text using this font variant will use the defined material
+
+	// We may encounter the following lines in other examples,
+	// they are adjusting font variants to display a nice baseline
+	RobotoFamily.getVariant('bold','normal').adjustTypographicGlyphs( ROBOTO_ADJUSTMENT );
+	RobotoFamily.getVariant('bold','italic').adjustTypographicGlyphs( ROBOTO_ADJUSTMENT );
+	RobotoFamily.getVariant('bold','italic').adjustTypographicGlyphs( ROBOTO_ADJUSTMENT );
+
+	// Now that the font are loaded and adjusted,
+
+	init();
+
+
+});
+
 window.addEventListener( 'resize', onWindowResize );
 
 //
@@ -63,7 +133,7 @@ function init() {
 	// LIGHTS
 
 	const floor = new Mesh(
-		new PlaneBufferGeometry(6,6,5,5),
+		new PlaneGeometry(6,6,5,5),
 		new MeshStandardMaterial( {color:0xffffff} )
 	);
 	floor.rotation.x = - Math.PI / 2;
@@ -102,18 +172,19 @@ function init() {
 	// TEXT PANEL
 
 	const container = makeTextPanel();
-	window.container = container;
-	container.frame.visible = false;
+	window.rootBlock = container;
+	// container.frame.visible = false;
 
 	const top = makeRow();
 	container.add( top );
-	top.frame.visible = false;
+
+	// // top.frame.visible = false;
 	topLeft = makeBoxForBorder('borderTopLeft');
-	topLeft.set({borderTopLeftRadius:0.1, borderWidth:0.05, borderColor: new Color(0xff0000)});
+	topLeft.set({borderRadius:'0.1 0 0 0', borderWidth:0.05, borderColor: new Color(0xff0000)});
 	const topMiddleLeft = makeBoxForBorder('TopMiddleLeft?');
 	topMiddleLeft.set({borderRadius:'0.05 0.25', borderLeftWidth:0.1})
 	const topMiddle = makeBoxForBorder('borderTop');
-	topMiddle.set({borderTopRadius: 0.05})
+	topMiddle.set({borderRadius: '0.05 0.05 0 0'})
 	topMiddleRight = makeBoxForBorder('TopMiddleRight?');
 	topMiddleRight.set({borderRadius: [0.25, 0.05], borderColor: new Color(0xff9900), borderWidth: 0.02});
 	topRight = makeBoxForBorder('BorderTopRight');
@@ -122,29 +193,35 @@ function init() {
 	//
 
 	const middle = makeRow();
-	middle.frame.visible = false;
 	container.add( middle );
+
+
 	const middleLeft = makeBoxForBorder('borderMiddleLeft');
-	middleLeft.set({borderLeftRadius:0.1});
+	middleLeft.set({borderRadius:"0.05 0 0 0.05"});
 	const middleMiddleLeft = makeBoxForBorder('MiddleMiddleLeft?');
-	middleMiddleLeft.set({height: 0.2 ,borderTopRightRadius: 1, borderBottomRightRadius:0.05, borderTopLeftRadius: 0.05});
+	middleMiddleLeft.set({height: 0.2 , borderRadius: '0.05 1 0.05 0'});
 	const middleMiddle = makeBoxForBorder('borderMiddle');
 	panel = middleMiddle;
 	const middleMiddleRight = makeBoxForBorder('MiddleMiddleRight?');
-	middleMiddleRight.set({borderRightRadius:0.5, borderWidth:'0 0 0 0.05', borderColor: new Color(0x99ff00)});
+	middleMiddleRight.set({borderRadius: "0 0.5 0.5 0", borderWidth:'0 0 0 0.05', borderColor: new Color(0x99ff00)});
 	const middleRight = makeBoxForBorder('BorderMiddleRight');
-	middleRight.set({borderRadiusRight:0.3});
+	middleRight.set({borderRadius: "0 0.3 0.3 0"});
 	middle.add( middleLeft, middleMiddleLeft, middleMiddle, middleMiddleRight, middleRight)
 
 	const bottom = makeRow();
-	bottom.frame.visible = false;
 	container.add( bottom );
+
+
+
 	const bottomLeft = makeBoxForBorder('borderBottomLeft');
-	bottomLeft.set({borderBottomLeftRadius:0.1});
+
+	bottomLeft.set({flexDirection:"row"})
+
+	bottomLeft.set({borderRadius: '0 0 0 0.1'});
 	const bottomMiddleLeft = makeBoxForBorder('BottomMiddleLeft?');
-	bottomMiddleLeft.backgroundColor = new Color(0xffffff);
-	bottomMiddleLeft.set({borderRadius:'0.2 0.1'})
-	bottomMiddleLeft.material = new FramePhysicalMaterial({
+	// bottomMiddleLeft.backgroundColor = new Color(0xffffff);
+	bottomMiddleLeft.set({borderRadius:'0.2 0.1', backgroundColor: 0xffffff, backgroundOpacity:1});
+	bottomMiddleLeft.backgroundMaterial = new FramePhysicalMaterial({
 		side:DoubleSide,
 		transmission: 1,
 		opacity: 1,
@@ -154,18 +231,18 @@ function init() {
 		thickness: 0.1,
 		specularIntensity: 1,
 		envMapIntensity: 1});
-	const bottomMiddle = makeBoxForBorder('borderBottom');
-	bottomMiddle.set({borderBottomRadius:0.1})
+	bottomMiddle = makeBoxForBorder('borderBottom');
+	bottomMiddle.set({borderRadius:'0 0 0.1 0.1'})
 	const bottomMiddleRight = makeBoxForBorder('BottomMiddleRight?');
 	bottomMiddleRight.set({borderRadius:0.5,
-		borderBottomWidth:0.05,borderColor:new Color(0xff9900)})
-	bottomMiddleRight.material = new FrameBasicMaterial({side:DoubleSide});
+		borderWidth:'0 0 0.05 0',borderColor:new Color(0xff9900)});
+	bottomMiddleRight.backgroundMaterial = new FrameBasicMaterial({side:DoubleSide});
 	panelScale = bottomMiddleRight;
 	const bottomRight = makeBoxForBorder('BorderBottomRight');
-	bottomRight.set({borderWidth:'0.1 0.2 0.3 0.05', borderRadius:0.5, borderColor: new Color(0x99ffff)});
+	bottomRight.set({borderWidth:'0.1 0.2 0.1 0.05', borderRadius:0.5, borderColor: new Color(0x99ffff)});
 
 	bottom.add( bottomLeft, bottomMiddleLeft, bottomMiddle, bottomMiddleRight, bottomRight)
-	console.log( bottom.frame.customDepthMaterial );
+	// console.log( bottom.frame.customDepthMaterial );
 
 
 	renderer.setAnimationLoop( loop );
@@ -177,42 +254,22 @@ function init() {
 function makeTextPanel() {
 
 	const panel = new ThreeMeshUI.Block( {
-		width: 3.1,
-		height: 1.8,
+		width: 3.25,
+		height: 3,
 		fontSize: 0.045,
+		flexDirection: 'column',
+		alignItems: 'center',
 		textAlign: 'center',
 		justifyContent: 'space-evenly',
-		backgroundOpacity: 0,
-		fontFamily: FontJSON,
-		fontTexture: FontImage
+		// backgroundOpacity: 0.5,
+		// backgroundColor: 0xff9900,
+		fontFamily: "Roboto",
 	} );
 
 	panel.position.set( 0, 1, -1.8 );
 	panel.rotation.x = -0.55;
+	panel.backgroundCastShadow = true;
 	scene.add( panel );
-
-	return panel;
-
-}
-
-function makeBoxForBorder( text ) {
-
-	const panel = new ThreeMeshUI.Block( {
-		width: 0.5,
-		height: 0.5,
-		justifyContent: 'center',
-		textAlign: 'center',
-		side: DoubleSide,
-		castShadow: true,
-		customDepthMaterial : new FrameDepthMaterial()
-	} );
-
-	//
-	panel.add(
-		// new ThreeMeshUI.Text( {
-		// 	content: text,
-		// } )
-	);
 
 	return panel;
 
@@ -221,14 +278,48 @@ function makeBoxForBorder( text ) {
 function makeRow() {
 
 	return new ThreeMeshUI.Block({
-		width:3.1,
-		height:0.5,
-		contentDirection: 'row',
-		justifyContent: 'space-evenly',
-		backgroundOpacity: 0
+
+		// height: 0.9,
+		// margin: 0.05,
+		flexDirection: 'row',
+		justifyContent: 'center',
+		alignItems: 'center',
+		backgroundOpacity: 0.25,
 	});
 
 }
+
+
+function makeBoxForBorder( text, visible = true ) {
+
+	const panel = new ThreeMeshUI.Block( {
+		width: 0.5,
+		height: 0.5,
+		margin: 0.05,
+		justifyContent: 'center',
+		textAlign: 'center',
+		boxSizing: 'border-box',
+		visible,
+		backgroundColor: 0x000000,
+		backgroundOpacity : 0.5,
+	} );
+
+	panel.backgroundSide = DoubleSide;
+	panel.backgroundCastShadow = true;
+	panel.backgroundCustomDepthMaterial = new FrameDepthMaterial();
+
+	//
+	panel.add(
+		new ThreeMeshUI.Text( {
+			textContent: text,
+			backgroundColor: 'yellow'
+		} )
+	);
+
+	return panel;
+
+}
+
 
 // handles resizing the renderer when the viewport is resized
 
@@ -252,11 +343,11 @@ function loop() {
 		borderOpacity: 1
 	} );
 
-	topMiddleRight.set({ borderWidth: Math.abs( 0.25 * Math.sin( Date.now() / 500 ) ) })
+	topMiddleRight.set({ borderWidth: Math.abs( 0.15 * Math.sin( Date.now() / 500 ) ) })
 
-	topLeft.set({borderRadiusTopLeft: Math.abs( 0.5 * Math.sin( Date.now() / 500 ) )  })
+	topLeft.set({borderRadius: [Math.abs( 0.5 * Math.sin( Date.now() / 500 ) ),0,0,0]  })
 
-	const size = 0.25 + Math.abs(0.25 * Math.sin( Date.now() / 500 ) );
+	const size = 0.15 + Math.abs(0.35 * Math.sin( Date.now() / 500 ) );
 	panelScale.set( {width: size, height: size});
 
 	lightHelper.update();
@@ -264,6 +355,7 @@ function loop() {
 	// Don't forget, ThreeMeshUI must be updated manually.
 	// This has been introduced in version 3.0.0 in order
 	// to improve performance
+	// ThreeMeshUI.update();
 	ThreeMeshUI.update();
 
 	controls.update();

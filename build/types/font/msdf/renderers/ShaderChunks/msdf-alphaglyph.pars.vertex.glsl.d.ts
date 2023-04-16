@@ -1,2 +1,6 @@
-declare var _default: "\nattribute vec2 uvG;\nvarying vec2 vUvG;\n";
-export default _default;
+export default program;
+/**
+ *
+ * @type {string}
+ */
+declare const program: string;

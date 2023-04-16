@@ -1,3 +1,6 @@
+// xfg:title Manual Positioning
+// xfg:category learn
+
 import * as THREE from 'three';
 import { VRButton } from 'three/examples/jsm/webxr/VRButton.js';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
@@ -90,10 +93,12 @@ function makeTextPanel() {
 		backgroundOpacity: 0.5,
 		justifyContent: 'end',
 		alignItems: 'end',
-		fontColor: new THREE.Color( 0x333333 ),
+		color: new THREE.Color( 0x333333 ),
 		fontFamily: FontJSON,
 		fontTexture: FontImage
 	} );
+
+	window.rootBlock = outerContainer;
 
 	outerContainer.position.set( 0, 1, -1.8 );
 	outerContainer.rotation.x = -0.55;
@@ -126,7 +131,7 @@ function makeAbsoluteBlock( string, x, y ) {
 		backgroundOpacity: 0.2
 	} );
 
-	text.add( new ThreeMeshUI.Text( { content: string } ) );
+	text.add( new ThreeMeshUI.Text( { textContent: string } ) );
 
 	text.autoLayout = false;
 	text.position.set( x, y, 0 );

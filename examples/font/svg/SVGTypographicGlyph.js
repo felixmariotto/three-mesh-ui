@@ -43,6 +43,8 @@ export default class SVGTypographicGlyph extends TypographicGlyph {
 
 			}
 
+			this._yoffset = this.height/2;
+
 			const paths = _transformSVGPath( svgElement.getAttribute('d') );
 			// this._shapePath = paths.toShapes( ShapeUtils.isClockWise( paths.subPaths[0].getPoints()));
 			this._shapePath = SVGLoader.createShapes( paths );
@@ -392,6 +394,6 @@ function _transformSVGPath( pathStr ) {
 
 	return path;
 
-};
+}
 
 

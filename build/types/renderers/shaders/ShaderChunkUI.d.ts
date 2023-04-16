@@ -1,17 +1,31 @@
 export namespace ShaderChunkUI {
-    export { msdfAlphaglyphParsVertexGlsl as msdf_alphaglyph_pars_vertex };
-    export { msdfAlphaglyphVertexGlsl as msdf_alphaglyph_vertex };
-    export { msdfOffsetglyphVertexGlsl as msdf_offset_vertex };
-    export { msdfAlphaglyphParsFragmentGlsl as msdf_alphaglyph_pars_fragment };
-    export { msdfAlphaglyphFragmentGlsl as msdf_alphaglyph_fragment };
-    export { frameBorderParsVertexGlsl as frame_border_pars_vertex };
-    export { frameBorderVertexGlsl as frame_border_vertex };
-    export { frameCommonParsFragmentGlsl as frame_common_pars };
-    export { frameBorderParsFragmentGlsl as frame_border_pars_fragment };
-    export { frameBorderFragmentGlsl as frame_border_fragment };
-    export { frameBackgroundParsFragmentGlsl as frame_background_pars_fragment };
-    export { frameBackgroundFragmentGlsl as frame_background_fragment };
+    export { msdfAlphaglyphParsVertexGlsl };
+    export { msdfAlphaglyphVertexGlsl };
+    export { msdfOffsetglyphVertexGlsl };
+    export { msdfAlphaglyphParsFragmentGlsl };
+    export { msdfAlphaglyphFragmentGlsl };
+    export { frameBorderParsVertexGlsl };
+    export { frameBorderVertexGlsl };
+    export { frameCommonParsFragmentGlsl };
+    export { frameBorderParsFragmentGlsl };
+    export { frameBorderFragmentGlsl };
+    export { frameBackgroundParsFragmentGlsl };
+    export { frameBackgroundFragmentGlsl };
 }
+export type ChunksUI = {
+
+
+
+
+
+
+
+
+
+
+
+
+};
 import msdfAlphaglyphParsVertexGlsl from "../../font/msdf/renderers/ShaderChunks/msdf-alphaglyph.pars.vertex.glsl";
 import msdfAlphaglyphVertexGlsl from "../../font/msdf/renderers/ShaderChunks/msdf-alphaglyph.vertex.glsl";
 import msdfOffsetglyphVertexGlsl from "../../font/msdf/renderers/ShaderChunks/msdf-offsetglyph.vertex.glsl";

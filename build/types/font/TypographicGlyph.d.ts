@@ -8,18 +8,18 @@ export default class TypographicGlyph {
      * @param {TypographicFont} typographicFont
      */
     constructor(typographicFont: TypographicFont);
-    /** @protected */ protected _char: string;
-    /** @protected */ protected _width: number;
-    /** @protected */ protected _heigth: number;
-    /** @protected */ protected _xadvance: number;
-    /** @protected */ protected _xoffset: number;
-    /** @protected */ protected _yoffset: number;
+
+
+
+
+
+
     /**
      *
      * @type {TypographicFont}
      * @protected
      */
-    protected _font: TypographicFont;
+
     /**
      *
      * @returns {TypographicFont}
@@ -60,6 +60,13 @@ export default class TypographicGlyph {
      * @returns {number}
      */
     get yoffset(): number;
+    /**
+     *
+     * @abstract
+     * @param {string} otherChar
+     * @returns {TypographicGlyph}
+     */
+    clone(otherChar: string): TypographicGlyph;
     /**
      *
      * @abstract

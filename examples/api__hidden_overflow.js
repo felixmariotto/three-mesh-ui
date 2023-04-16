@@ -1,3 +1,6 @@
+// xfg:title Overflow
+// xfg:category learn
+
 import * as THREE from 'three';
 import { VRButton } from 'three/examples/jsm/webxr/VRButton.js';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
@@ -65,7 +68,7 @@ function init() {
 
 function makeTextPanel() {
 
-	const title = new ThreeMeshUI.Block( {
+	const title = new ThreeMeshUI.Text( {
 		height: 0.2,
 		width: 1.2,
 		fontSize: 0.09,
@@ -73,10 +76,13 @@ function makeTextPanel() {
 		fontFamily: FontJSON,
 		fontTexture: FontImage,
 		backgroundColor: new THREE.Color( 'blue' ),
-		backgroundOpacity: 0.2
+		backgroundOpacity: 0.2,
+		renderOrder: 150
 	} ).add(
-		new ThreeMeshUI.Text( { content: 'hiddenOverflow attribute :' } )
+		new ThreeMeshUI.Inline( { textContent: 'hiddenOverflow attribute :' } )
 	);
+
+	window.title = title;
 
 	title.position.set( 0, 1.8, -2 );
 	scene.add( title );
@@ -86,12 +92,13 @@ function makeTextPanel() {
 	// forget to enable local clipping with renderer.localClippingEnabled = true;
 
 	container = new ThreeMeshUI.Block( {
-		height: 0.6,
-		width: 0.9,
-		boxSizing: 'content-box',
+		height: 1,
+		width: 1,
+		boxSizing: 'border-box',
 		// padding: '0 0.1 0.2 0',
-		padding: '0.05 0.1 0.2 0.025',
-		// padding: 0.1,
+		// padding: '0.05 0.1 0.2 0.025',
+		padding: '0.1 0.2 0.1 0.1',
+		borderRadius: 0.05,
 		// padding: 0.09,
 		justifyContent: 'center',
 		borderOpacity: 1,
@@ -99,21 +106,22 @@ function makeTextPanel() {
 		borderColor: new THREE.Color(0xff99ff),
 		backgroundOpacity: 1,
 		backgroundColor: new THREE.Color(0xffffff),
-		backgroundTexture : new TextureLoader().load("./assets/uv_grid.jpg"),
-		backgroundSize: 'stretch'
+		backgroundImage : new TextureLoader().load("./assets/uv_grid.jpg"),
+		backgroundSize: 'stretch',
+		overflow: 'hidden'
 	} );
 
-	container.setupState( {
-		state: 'hidden-on',
-		attributes: { hiddenOverflow: true }
-	} );
-
-	container.setupState( {
-		state: 'hidden-off',
-		attributes: { hiddenOverflow: false }
-	} );
-
-	container.setState( 'hidden-on' );
+	// container.setupState( {
+	// 	state: 'hidden-on',
+	// 	attributes: { hiddenOverflow: true }
+	// } );
+	//
+	// container.setupState( {
+	// 	state: 'hidden-off',
+	// 	attributes: { hiddenOverflow: false }
+	// } );
+	//
+	// container.setState( 'hidden-on' );
 
 	container.position.set( 0, 1, -1.8 );
 	// container.rotation.x = -0.55;
@@ -122,25 +130,29 @@ function makeTextPanel() {
 	//
 
 	textContainer = new ThreeMeshUI.Block( {
-		width: 1,
-		height: 1,
-		offset: 0.001,
+		width: 1.3,
+		height: 1.3,
+		offset: 0.025,
 		// padding: 0.09,
 		backgroundColor: new THREE.Color( 'blue' ),
-		backgroundOpacity: 0.2,
+		backgroundOpacity: 0.5,
 		justifyContent: 'center'
 	} );
+
+	window.textContainer = textContainer;
 
 	container.add( textContainer );
 
 	//
 
 	const text = new ThreeMeshUI.Text( {
-		content: 'hiddenOverflow '.repeat( 28 ),
+		textContent: 'hiddenOverflow '.repeat( 28 ),
 		fontSize: 0.054,
 		fontFamily: FontJSON,
 		fontTexture: FontImage
 	} );
+
+	window.text = text;
 
 	textContainer.add( text );
 
@@ -148,15 +160,26 @@ function makeTextPanel() {
 
 	setInterval( () => {
 
-		if ( container.currentState === 'hidden-on' ) {
+		// console.log( container.get('overflow') );
+		if( container.get('overflow') === 'hidden' ) {
 
-			container.setState( 'hidden-off' );
+			container.set({ overflow:'visible'});
 
 		} else {
 
-			container.setState( 'hidden-on' );
+			container.set({ overflow: 'hidden'});
 
 		}
+		// if ( container.get('overflow'))
+		// if ( container.currentState === 'hidden-on' ) {
+		//
+		// 	container.setState( 'hidden-off' );
+		//
+		// } else {
+		//
+		// 	container.setState( 'hidden-on' );
+		//
+		// }
 
 	}, 1500 );
 
@@ -186,6 +209,8 @@ function loop() {
 
 	textContainer.position.x = x * 0.6;
 	textContainer.position.y = y * 0.6;
+
+	container._overflow._needsUpdate = true;
 
 	// Don't forget, ThreeMeshUI must be updated manually.
 	// This has been introduced in version 3.0.0 in order

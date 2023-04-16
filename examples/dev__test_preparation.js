@@ -85,7 +85,7 @@ function step2BuildThreeMeshUIElements() {
 
 	// const padding = '0.1 0 0.3 0';
 	const padding = '0.1 0.5 0.2 0.2';
-	const contentDirection = 'row';
+	const flexDirection = 'row';
 	const justifyContent = 'center';
 	const alignItems = 'center';
 
@@ -98,12 +98,12 @@ function step2BuildThreeMeshUIElements() {
 		boxSizing: 'border-box',
 
 
-		contentDirection,
+		flexDirection,
 		justifyContent,
 		alignItems,
 
 		backgroundColor: new THREE.Color(0xffffff),
-		backgroundTexture : new TextureLoader().load("./assets/uv_grid.jpg"),
+		backgroundImage : new TextureLoader().load("./assets/uv_grid.jpg"),
 
 		// borderWidth: 0.1,
 		// borderWidth: '0 0.2 .05 0.2',
@@ -111,8 +111,8 @@ function step2BuildThreeMeshUIElements() {
 
 		// A Block can also define "text" properties that will propagate to any of its Text children
 		fontSize: 0.055,
-		fontFamily: '/assets/fonts/msdf/roboto/regular.json',
-		fontTexture: '/assets/fonts/msdf/roboto/regular.png',
+		fontFamily: './assets/fonts/msdf/roboto/regular.json',
+		fontTexture: './assets/fonts/msdf/roboto/regular.png',
 
 
 	} );
@@ -153,12 +153,6 @@ function step2BuildThreeMeshUIElements() {
 	new BoxLayoutBehavior( rootBlock ).attach();
 	new BoxAnchorsBehavior( rootBlock ).attach();
 
-	rootBlock.addAfterUpdate( () => {
-
-		console.log( child1.position.x , child1.position.y )
-
-	});
-
 	const rootBlock2 = new ThreeMeshUI.Block( {
 
 		// A Block must define its "box-sizing" properties
@@ -168,13 +162,13 @@ function step2BuildThreeMeshUIElements() {
 		boxSizing: 'content-box',
 
 		// A Block can define its "layout" properties
-		// contentDirection: 'row-reverse',
-		contentDirection,
+		// flexDirection: 'row-reverse',
+		flexDirection,
 		justifyContent,
 		alignItems,
 
 		backgroundColor: new THREE.Color(0xffffff),
-		backgroundTexture : new TextureLoader().load("./assets/uv_grid.jpg"),
+		backgroundImage : new TextureLoader().load("./assets/uv_grid.jpg"),
 		backgroundSize: 'stretch',
 
 		// borderWidth: 0.1,
@@ -183,13 +177,13 @@ function step2BuildThreeMeshUIElements() {
 
 		// A Block can also define "text" properties that will propagate to any of its Text children
 		fontSize: 0.055,
-		fontFamily: '/assets/fonts/msdf/roboto/regular.json',
-		fontTexture: '/assets/fonts/msdf/roboto/regular.png',
+		fontFamily: './assets/fonts/msdf/roboto/regular.json',
+		fontTexture: './assets/fonts/msdf/roboto/regular.png',
 
 
 	} );
 
-	rootBlock2.material = new FrameBasicMaterial({});
+	rootBlock2.backgroundMaterial = new FrameBasicMaterial({});
 
 
 	scene.add( rootBlock2 );
@@ -236,16 +230,14 @@ function step2BuildThreeMeshUIElements() {
 
 	rootBlock2.addAfterUpdate( () => {
 
-		console.log( child11.position.x, child11.position.y );
+		rootBlock2.backgroundMaterial.map.matrixAutoUpdate = true;
 
-		rootBlock2.frame.material.map.matrixAutoUpdate = true;
-
-		rootBlock2.frame.material.map.offset.set(
+		rootBlock2.backgroundMaterial.map.offset.set(
 			-rootBlock2._padding.w,
 			-rootBlock2._padding.z
 		);
 
-		rootBlock2.frame.material.map.repeat.set(
+		rootBlock2.backgroundMaterial.map.repeat.set(
 			rootBlock2.offsetWidth / rootBlock2.innerWidth,
 			rootBlock2.offsetHeight / rootBlock2.innerHeight
 		);

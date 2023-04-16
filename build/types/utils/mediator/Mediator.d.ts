@@ -16,7 +16,7 @@ export default class Mediator {
      * @param {MeshUIComponent} subject
      * @param {any} target
      * @param {Object.<(string|number), any>} options
-     * @param {Object.<{subjectProperty:string, trans?:(target:any, targetProperty:string, value:any) => void}>} mediationDefinitions
+     * @param {Object.<{subjectProperty:string, t?:(target:any, targetProperty:string, value:any) => void}>} mediationDefinitions
      * @param {any} [secondTarget=null]
      */
     static mediate(subject: MeshUIComponent, target: any, options: any, mediationDefinitions: any, secondTarget?: any): void;
@@ -30,7 +30,7 @@ export default class Mediator {
      * @type {MediationDefinition}
      * @private
      */
-    private _definition;
+
     /**
      *
      * @param {MediationDefinition} value
@@ -38,15 +38,16 @@ export default class Mediator {
     set definition(arg: any);
     /**
      *
-     * @param {MeshUIComponent} subject
+     * @param {MeshUIBaseElement} subject
      * @param {any} target
      * @param {Object.<(string|number), any>} options
      * @param {any} [secondTarget=null]
      */
-    mediate(subject: MeshUIComponent, target: any, options: any, secondTarget?: any): void;
+    mediate(subject: MeshUIBaseElement, target: any, options: any, secondTarget?: any): void;
 }
 /**
  * An option function to transform value from subject to target
  */
 export type MediationTransformer = (target: any, targetProperty: string, value: any) => void;
 export type MediationDefinition = any;
+import MeshUIBaseElement from "../../core/elements/MeshUIBaseElement";

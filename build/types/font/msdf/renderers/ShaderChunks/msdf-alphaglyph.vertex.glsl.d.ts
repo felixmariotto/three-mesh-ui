@@ -1,2 +1,6 @@
-declare var _default: "\nvUvG = uvG;\n";
-export default _default;
+export default program;
+/**
+ *
+ * @type {string}
+ */
+declare const program: string;

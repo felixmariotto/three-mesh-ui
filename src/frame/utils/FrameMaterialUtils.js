@@ -1,10 +1,16 @@
-import { Vector2, Vector4 } from 'three';
+import { Vector2, Vector3, Vector4 } from 'three';
 
 //JSDoc related import
 /* eslint-disable no-unused-vars */
 import { Material, ShaderMaterial } from 'three';
-import { ShaderChunkUI } from '../../renderers/shaders/ShaderChunkUI';
 import { alphaTestTransformer, asPreprocessorValueTransformer, uniformOrUserDataTransformer } from '../../utils/mediator/transformers/MaterialTransformers';
+import frameBorderParsVertexGlsl from '../renderers/ShaderChunk/frame-border.pars.vertex.glsl';
+import frameBorderVertexGlsl from '../renderers/ShaderChunk/frame-border.vertex.glsl';
+import frameBackgroundParsFragmentGlsl from '../renderers/ShaderChunk/frame-background.pars.fragment.glsl';
+import frameBorderParsFragmentGlsl from '../renderers/ShaderChunk/frame-border.pars.fragment.glsl';
+import frameCommonParsFragmentGlsl from '../renderers/ShaderChunk/frame-common.pars.fragment.glsl';
+import frameBackgroundFragmentGlsl from '../renderers/ShaderChunk/frame-background.fragment.glsl';
+import frameBorderFragmentGlsl from '../renderers/ShaderChunk/frame-border.fragment.glsl';
 /* eslint-enable no-unused-vars */
 
 
@@ -53,14 +59,14 @@ export default class FrameMaterialUtils {
 		threeMaterial.userData.borderColor = { value: null };
 		threeMaterial.userData.borderRadius = { value: new Vector4(0,0,0,0) };
 		// Store corners based on borderRadiuses
-		threeMaterial.userData.cornerTL = { value : new Vector2(0,0) };
-		threeMaterial.userData.cornerTR = { value : new Vector2(0,0) };
-		threeMaterial.userData.cornerBR = { value : new Vector2(0,0) };
+		threeMaterial.userData.cornerTL = { value : new Vector2(0,1) };
+		threeMaterial.userData.cornerTR = { value : new Vector2(1,1) };
+		threeMaterial.userData.cornerBR = { value : new Vector2(1,0) };
 		threeMaterial.userData.cornerBL = { value : new Vector2(0,0) };
 
 		threeMaterial.userData.borderWidth = { value: new Vector4(0,0,0,0) };
 		threeMaterial.userData.borderOpacity = { value: null };
-		threeMaterial.userData.frameSize = { value: new Vector2( 1, 1 ) };
+		threeMaterial.userData.frameSize = { value: new Vector3( 1, 1, 1 ) };
 		threeMaterial.userData.textureSize = { value: new Vector2( 1, 1 ) };
 
 	}
@@ -103,13 +109,13 @@ export default class FrameMaterialUtils {
 	static injectVertexShaderChunks( shader ) {
 		shader.vertexShader = shader.vertexShader.replace(
 			'#include <uv_pars_vertex>',
-			'#include <uv_pars_vertex>\n' + ShaderChunkUI.frame_border_pars_vertex
+			'#include <uv_pars_vertex>\n' + frameBorderParsVertexGlsl
 		);
 
 		// vertex chunks
 		shader.vertexShader = shader.vertexShader.replace(
 			'#include <uv_vertex>',
-			'#include <uv_vertex>\n' + ShaderChunkUI.frame_border_vertex
+			'#include <uv_vertex>\n' + frameBorderVertexGlsl
 		)
 
 	}
@@ -121,30 +127,29 @@ export default class FrameMaterialUtils {
 	static injectFragmentShaderChunks( shader ) {
 		shader.fragmentShader = shader.fragmentShader.replace(
 			'#include <map_pars_fragment>',
-			'#include <map_pars_fragment>\n' + ShaderChunkUI.frame_background_pars_fragment
+			'#include <map_pars_fragment>\n' + frameBackgroundParsFragmentGlsl
 		)
 
 		shader.fragmentShader = shader.fragmentShader.replace(
 			'#include <map_pars_fragment>',
-			'#include <map_pars_fragment>\n' + ShaderChunkUI.frame_border_pars_fragment
+			'#include <map_pars_fragment>\n' + frameBorderParsFragmentGlsl
 		)
 
 		shader.fragmentShader = shader.fragmentShader.replace(
 			'#include <map_pars_fragment>',
-			'#include <map_pars_fragment>\n' + ShaderChunkUI.frame_common_pars
+			'#include <map_pars_fragment>\n' + frameCommonParsFragmentGlsl
 		)
 
 		// fragment chunks
 		shader.fragmentShader = shader.fragmentShader.replace(
 			'#include <map_fragment>',
-			ShaderChunkUI.frame_background_fragment
+			frameBackgroundFragmentGlsl
 		)
 
 		shader.fragmentShader = shader.fragmentShader.replace(
 			'#include <alphamap_fragment>',
-			ShaderChunkUI.frame_border_fragment+'\n#include <alphamap_fragment>'
+			frameBorderFragmentGlsl+'\n#include <alphamap_fragment>'
 		)
-
 
 	}
 
@@ -164,50 +169,45 @@ const _backgroundSizeTransformer = function( target, property, value ) {
 
 }
 
-/**
- *
- * @param {*} target
- * @param {string} property
- * @param {*} value
- * @private
- */
-const _linkCornersOutput = function( target, property, value ) {
+// /**
+//  *
+//  * @type {Object.<{m:string, t?:(fontMaterial:Material|ShaderMaterial, materialProperty:string, value:any) => void}>}
+//  */
+// const _mediationDefinitions = {
+// 	alphaTest: { m: 'alphaTest', t: alphaTestTransformer },
+// 	backgroundTexture: { m: 'map' },
+// 	backgroundColor: { m: 'color' },
+// 	backgroundOpacity: { m:'opacity' },
+// 	backgroundSize: { m: 'u_backgroundMapping', t: _backgroundSizeTransformer },
+// 	_borderWidthComponent: { m: 'borderWidth', t: _linkComponentOutput },
+// 	borderColor: { m: 'borderColor', t: uniformOrUserDataTransformer },
+// 	_borderRadiusComponent: { m: 'computedCorners', t: _linkCornersOutput },
+// 	borderOpacity: { m: 'borderOpacity', t: uniformOrUserDataTransformer },
+// 	size: { m: 'frameSize', t: uniformOrUserDataTransformer },
+// 	tSize: { m: 'textureSize', t: uniformOrUserDataTransformer }
+// }
 
-	uniformOrUserDataTransformer(target,'cornerTL', value._cornerTL);
-	uniformOrUserDataTransformer(target,'cornerTR', value._cornerTR);
-	uniformOrUserDataTransformer(target,'cornerBL', value._cornerBL);
-	uniformOrUserDataTransformer(target,'cornerBR', value._cornerBR);
-
-}
-
-/**
- *
- * @param {*} target
- * @param {string} property
- * @param {*} value
- * @private
- */
-const _linkComponentOutput = function( target, property, value ) {
-
-	uniformOrUserDataTransformer(target,property, value.output);
-
-}
 
 /**
- *
+ * 7xx
  * @type {Object.<{m:string, t?:(fontMaterial:Material|ShaderMaterial, materialProperty:string, value:any) => void}>}
  */
 const _mediationDefinitions = {
-	alphaTest: { m: 'alphaTest', t: alphaTestTransformer },
-	backgroundTexture: { m: 'map' },
+	clippingPlanes : {m: 'clippingPlanes'},
+	backgroundAlphaTest: { m: 'alphaTest', t: alphaTestTransformer },
+	backgroundSide: { m: 'side' },
+	// backgroundTexture: { m: 'map' },
+	backgroundImage: { m: 'map'},
 	backgroundColor: { m: 'color' },
 	backgroundOpacity: { m:'opacity' },
-	backgroundSize: { m: 'u_backgroundMapping', t: _backgroundSizeTransformer },
-	_borderWidthComponent: { m: 'borderWidth', t: _linkComponentOutput },
+	backgroundSize: { m: 'computedBackgroundSize', t: _backgroundSizeTransformer },
+	borderWidth: { m: 'borderWidth', t: uniformOrUserDataTransformer },
 	borderColor: { m: 'borderColor', t: uniformOrUserDataTransformer },
-	_borderRadiusComponent: { m: 'computedCorners', t: _linkCornersOutput },
+	cornerTL : { m: 'cornerTL', t: uniformOrUserDataTransformer },
+	cornerTR : { m: 'cornerTR', t: uniformOrUserDataTransformer },
+	cornerBR : { m: 'cornerBR', t: uniformOrUserDataTransformer },
+	cornerBL : { m: 'cornerBL', t: uniformOrUserDataTransformer },
 	borderOpacity: { m: 'borderOpacity', t: uniformOrUserDataTransformer },
 	size: { m: 'frameSize', t: uniformOrUserDataTransformer },
 	tSize: { m: 'textureSize', t: uniformOrUserDataTransformer }
 }
-

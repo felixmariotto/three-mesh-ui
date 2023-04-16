@@ -1,15 +1,13 @@
+/**
+
+ */
 export default class MSDFTypographicGlyph extends TypographicGlyph {
     /**
      * @param {MSDFTypographicFont} fontDescription
      * @param {import('./MSDFFontVariant').MSDFJsonChar} characterData
      */
     constructor(fontDescription: MSDFTypographicFont, characterData: import('./MSDFFontVariant').MSDFJsonChar);
-    _uv: {
-        left: number;
-        right: number;
-        top: number;
-        bottom: number;
-    };
+
     /**
      *
      * @returns {{left: number, right: number, top: number, bottom: number}|null}
@@ -20,6 +18,12 @@ export default class MSDFTypographicGlyph extends TypographicGlyph {
         top: number;
         bottom: number;
     };
+    /**
+     * @override
+     * @param {string} otherChar
+     * @returns {MSDFTypographicGlyph}
+     */
+    override clone(otherChar: string): MSDFTypographicGlyph;
     /**
      * @override
      * @returns {MSDFInlineGlyph}

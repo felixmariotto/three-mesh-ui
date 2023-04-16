@@ -1,13 +1,14 @@
 import { FileLoader, LinearFilter, Texture, TextureLoader, Vector2 } from 'three';
-import FontVariant from '../FontVariant';
 import MSDFTypographicFont from './MSDFTypographicFont';
 import MSDFTypographicGlyph from './MSDFTypographicGlyph';
 import MSDFGeometricGlyph from './MSDFGeometricGlyph';
 import MSDFFontMaterial from './materials/MSDFFontMaterial';
+import FontVariant from '../FontVariant';
 
 //JSDoc related imports
 /* eslint-disable no-unused-vars */
-import MSDFInlineGlyph from './MSDFInlineGlyph';
+import InlineGlyph from './../InlineGlyph';
+import FontLibrary from '../FontLibrary';
 /* eslint-enable no-unused-vars */
 
 /**
@@ -34,11 +35,16 @@ export default class MSDFFontVariant extends FontVariant {
 
 		if ( texture instanceof Texture ) {
 
+			this._texture = texture;
 			this._buildTexture( texture );
+
+		} else if( typeof(texture) === 'string' || texture instanceof String ){
+
+			_loadTexture( this, texture );
 
 		} else {
 
-			_loadTexture( this, texture );
+			throw new Error(`ThreeMeshUI::MSDFVariant provided 'texture' parameter is '${typeof texture}'. Only Texture and String allowed.`)
 
 		}
 
@@ -92,9 +98,17 @@ export default class MSDFFontVariant extends FontVariant {
 
 		this._font = new MSDFTypographicFont( json );
 
+		/**
+		 *
+		 * @type {import('../FontVariant').KerningPairs}
+		 * @private
+		 */
 		this._kernings = this._buildKerningPairs( json );
 		this._chars = this._buildCharacters( json );
+
 		this._chars[ " " ] = this._buildCharacterWhite( json );
+		this._chars[ "\n" ] = this._buildCharacterWhite( json, '\n' , 0.001, 1);
+		this._chars[ "\t" ] = this._buildCharacterWhite( json, '\t' , 4, 1);
 
 		this._size = json.info.size;
 		this._lineHeight = json.common.lineHeight;
@@ -107,6 +121,7 @@ export default class MSDFFontVariant extends FontVariant {
 		// "I would suggest precomputing unitRange as a uniform variable instead of pxRange for better performance."
 		this._unitRange = new Vector2(this._distanceRange, this._distanceRange)
 			.divide( new Vector2( json.common.scaleW, json.common.scaleH ) );
+
 	}
 
 	/**
@@ -125,13 +140,25 @@ export default class MSDFFontVariant extends FontVariant {
 	}
 
 	/**
+	 * @abstract
+	 * @protected
+	 * @param {string} missingChar
+	 * @returns {string|null}
+	 */
+	_getFallbackCharacter( missingChar ) {
+		return FontLibrary.missingCharacter( this, missingChar );
+	}
+
+	/**
 	 *
-	 * @param {MSDFInlineGlyph} inline
+	 * @override
+	 * @param {import('./../InlineGlyph').default|import('./MSDFInlineGlyph').default} inline
+	 * @param {import('./../../core/elements/MeshUIBaseElement').default} element
 	 * @returns {MSDFGeometricGlyph}
 	 */
-	getGeometricGlyph( inline, segments = 1 ) {
+	getGeometricGlyph( inline, element ) {
 
-		return new MSDFGeometricGlyph( inline, segments );
+		return new MSDFGeometricGlyph( inline, element );
 
 	}
 
@@ -143,7 +170,7 @@ export default class MSDFFontVariant extends FontVariant {
 	 */
 	_readyCondition() {
 
-		return this._chars && this._texture;
+		return this._chars && this._texture && this._texture.image;
 
 	}
 
@@ -152,8 +179,7 @@ export default class MSDFFontVariant extends FontVariant {
 	 * @see src/font/msdf/FontVariantMSDF.js for an implementation
 	 *
 	 * @param {MSDFJson} json
-	 *
-	 * @returns {Object.<string, number>}
+	 * @returns {import('../FontVariant').KerningPairs}
 	 * @private
 	 */
 	_buildKerningPairs( json ) {
@@ -205,17 +231,28 @@ export default class MSDFFontVariant extends FontVariant {
 	/**
 	 *
 	 * @param {MSDFJson} json
+	 * @param char
+	 * @param scaleX
+	 * @param scaleY
 	 * @private
 	 */
-	_buildCharacterWhite( json ) {
+	_buildCharacterWhite( json, char = " ", scaleX = 1, scaleY = 1 ) {
 		return new MSDFTypographicGlyph( this._font,
 			{
-				char: ' ',
-				width: json.info.size / 3,
-				height: json.info.size * 0.7,
+				char,
+				width: (json.info.size / 3)*scaleX,
+				height: (json.info.size * 0.7)*scaleY,
 			});
 	}
 
+
+	/* eslint-disable no-unused-vars */
+	/**
+	 *
+	 * @param element
+	 * @private
+	 */
+	_alterElementProperties( element ) { /* eslint-enable no-unused-vars */ }
 }
 
 /***********************************************************************************************************************
@@ -263,7 +300,6 @@ function _loadTexture( fontVariant, textureUrl ) {
  * MSDF FILE FORMAT DESCRIPTION
  * @see https://www.angelcode.com/products/bmfont/doc/file_format.html
  **********************************************************************************************************************/
-
 
 /**
  * @typedef {Object} MSDFJson
@@ -333,7 +369,8 @@ function _loadTexture( fontVariant, textureUrl ) {
  * @property {number} xadvance How much the current position should be advanced after drawing the character.
  * @property {string} page The texture page where the character image is found.
  * @property {number} chnl The texture channel where the character image is found (1 = blue, 2 = green, 4 = red, 8 = alpha, 15 = all channels).
- */
+ * @property {Object} [uv]
+ * /
 
 
 

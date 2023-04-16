@@ -24,10 +24,10 @@ FontLibrary.prepare(
 
 				// This is where you can register font variant with you custom type implementation
 				// @see three-mesh-ui/examples/font/svg/SVGFontVariant.js which is the implementation
-				.addCustomImplementationVariant( new SVGFontVariant ( '400', 'normal', './assets/fonts/svg/flux/regular.svg' ) )
-				.addCustomImplementationVariant( new SVGFontVariant ( '400', 'italic', './assets/fonts/svg/flux/italic.svg' ) )
-				.addCustomImplementationVariant( new SVGFontVariant ( '700', 'normal', './assets/fonts/svg/flux/bold.svg' ) )
-				.addCustomImplementationVariant( new SVGFontVariant ( '700', 'italic', './assets/fonts/svg/flux/bold-italic.svg' ) )
+				.addCustomImplementationVariant( new SVGFontVariant ( 'normal', 'normal', './assets/fonts/svg/flux/regular.svg' ) )
+				.addCustomImplementationVariant( new SVGFontVariant ( 'normal', 'italic', './assets/fonts/svg/flux/italic.svg' ) )
+				.addCustomImplementationVariant( new SVGFontVariant ( 'bold', 'normal', './assets/fonts/svg/flux/bold.svg' ) )
+				.addCustomImplementationVariant( new SVGFontVariant ( 'bold', 'italic', './assets/fonts/svg/flux/bold-italic.svg' ) )
 
 // FontLibrary.prepare() returns a Promise, we can therefore add a callback to be executed when all files are loaded
 ).then( () => {
@@ -38,7 +38,7 @@ FontLibrary.prepare(
 	// 1. Material
 	// Instead of assigning custom materials to Text one by one
 	// We can assign a Material(class) to a font variant (Here the bold one)
-	FluxFamily.getVariant('700','normal').fontMaterial = MeshNormalMaterial;
+	FluxFamily.getVariant('bold','normal').fontMaterial = MeshNormalMaterial;
 	// Once set, any three-mesh-ui Text using this font variant will use the defined material
 
 	// Now that the font are loaded and adjusted,
@@ -102,14 +102,10 @@ function step1BuildThreeJSElements() {
 //
 function step2BuildThreeMeshUIElements() {
 
-	// Retrieve font families defined
-	const RobotoFamily = FontLibrary.getFontFamily("Roboto");
-
 	// A rootBlock element
 	const rootBlock = new ThreeMeshUI.Block( {
 		// box sizing properties
 		width: 1.85,
-		height: 0.82,
 		padding: 0.05,
 
 		// layout properties
@@ -117,6 +113,11 @@ function step2BuildThreeMeshUIElements() {
 		textAlign: 'left',
 
 		fontKerning: 'none',
+		backgroundColor: 0x000000,
+		backgroundOpacity : 0.25,
+
+		// lineHeight:0,
+		borderRadius: 0.025,
 
 		// text properties
 		fontSize: 0.05,
@@ -131,61 +132,92 @@ function step2BuildThreeMeshUIElements() {
 
 	// Lets build a first text that would be in bold, and use a MSDFNormalMaterial
 	const text1 = new ThreeMeshUI.Text( {
-			content: 'Extending font types (SVG)',
-			fontWeight: '700',
-			fontSize: 0.08
+			width: 'auto',
+			justifyContent: 'center',
+			textContent: 'Extending font types (SVG)',
+			fontWeight: 'bold',
+			fontSize: 0.08,
+			marginBottom: 0.025,
+			backgroundColor: 0x000000,
+			backgroundOpacity: 0.3,
+			padding: '0.05 0.15 0.05 0.05',
+			borderRadius: 0.025,
+			borderColor: 0xffffff,
+			borderWidth: 0.01,
 		} );
+
+
 
 	// as text1 explicitely requires the font variant `fontWeight:'700'`
 	// and that we have set that font variant to use the MSDFNormalMaterial
 	// there is no more need to manually set its material to MSDFNormalMaterial
 	// text1.material = new MSDFNormalMaterial({});
 
+	window.rootBlock = rootBlock;
 
 	rootBlock.add(
 
 		text1,
 
 		new ThreeMeshUI.Text( {
-			content: '\nIn this examples, 4 variants of the "FluxArchitect" font in svg format are registered.',
+			width: '100%',
+			textContent: 'In this examples, 4 variants of the "FluxArchitect" font in svg format are registered.',
+			marginBottom: 0.025,
 		} ),
 
-		new ThreeMeshUI.Text( {
-			content: '\n\nRegular',
-		} ),
+		new ThreeMeshUI.Text({}).add(
+			new ThreeMeshUI.Inline( {
+				textContent: '\n\nRegular',
+			} ),
+
+			new ThreeMeshUI.Inline( {
+				textContent: ' Bold',
+				margin: '0 0.05',
+				fontWeight: 'bold',
+			} ),
+
+			new ThreeMeshUI.Inline( {
+				textContent: ' Italic',
+				fontStyle: 'italic',
+			} ),
+
+			new ThreeMeshUI.Inline( {
+				textContent: ' Bold+Italic',
+				fontWeight: 'bold',
+				fontStyle: 'italic',
+			} ),
+		),
+
+
 
 		new ThreeMeshUI.Text( {
-			content: ' Bold',
-			fontWeight: '700',
-		} ),
+			textContent: 'The registered bold variant in this example, will automatically set the material of a Text to use',
+			margin: '0.025 0',
+			textAlign: 'justify-left',
+		} ).add( new ThreeMeshUI.Inline( {
+			textContent: ' MeshNormalMaterial.',
+			fontWeight: 'bold',
+		} ), ),
+
+
 
 		new ThreeMeshUI.Text( {
-			content: ' Italic',
-			fontStyle: 'italic',
-		} ),
-
-		new ThreeMeshUI.Text( {
-			content: ' Bold+Italic',
-			fontWeight: '700',
-			fontStyle: 'italic',
-		} ),
-
-		new ThreeMeshUI.Text( {
-			content: '\n\nThe registered bold variant in this example, will automatically set the material of a Text to use',
-		} ),
-
-		new ThreeMeshUI.Text( {
-			content: ' MeshNormalMaterial.',
-			fontWeight: '700',
-		} ),
-
-		new ThreeMeshUI.Text( {
-			content: '\n\n* Some font type implementation, such as this one, will allow to have 3D glyphs and additional parameters such as depth, ...',
+			width: '100%',
+			textContent: '* Some font type implementation, such as this one, will allow to have 3D glyphs and additional parameters such as depth, ...',
 			fontSize: 0.035,
-			fontColor: new THREE.Color(0x00ff99)
+			color: new THREE.Color(0x00ff99)
 		} )
 
 	);
+
+	// If we want to have to ability to control fontDepth from parent, to children,
+	// we need to register them here
+	SVGFontVariant.appendProperties( rootBlock, ...rootBlock.children );
+	SVGFontVariant.appendProperties( text1, ...rootBlock.children );
+
+	// now we can control parent value, cascading to inherited children
+	text1.set({fontDepth:0.02});
+	rootBlock.set({fontDepth:0.006});
 
 }
 

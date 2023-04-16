@@ -1,13 +1,13 @@
+// xfg:title MSDF-Geometry alteration
+// xfg:category extend
+
 import * as THREE from 'three';
-import { AmbientLight, Color, DoubleSide, Mesh, MeshStandardMaterial, PlaneBufferGeometry, SpotLight, SpotLightHelper } from 'three';
+import { AmbientLight, DoubleSide, Mesh, MeshStandardMaterial, PlaneGeometry, SpotLight, SpotLightHelper } from 'three';
 import { VRButton } from 'three/examples/jsm/webxr/VRButton.js';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import { BoxLineGeometry } from 'three/examples/jsm/geometries/BoxLineGeometry.js';
 
 import ThreeMeshUI, { FontLibrary } from 'three-mesh-ui';
-
-import * as FontWeight from '../src/utils/font/FontWeight';
-import * as FontStyle from '../src/utils/font/FontStyle';
 import ROBOTO_ADJUSTMENT from 'three-mesh-ui/examples/assets/fonts/msdf/roboto/adjustment';
 import MSDFToonMaterial from 'three-mesh-ui/examples/materials/msdf/MSDFToonMaterial';
 import MSDFDepthMaterial from '../src/font/msdf/materials/MSDFDepthMaterial';
@@ -31,15 +31,15 @@ async function preload() {
 
 		FontLibrary
 			.addFontFamily("Roboto")
-			.addVariant(FontWeight.NORMAL, FontStyle.NORMAL, "./assets/fonts/msdf/roboto/regular.json", "./assets/fonts/msdf/roboto/regular.png" )
-			.addVariant(FontWeight.BOLD, FontStyle.ITALIC, "./assets/fonts/msdf/roboto/bold-italic.json", "./assets/fonts/msdf/roboto/bold-italic.png" )
-			.addVariant(FontWeight.BOLD, FontStyle.NORMAL, "./assets/fonts/msdf/roboto/bold.json", "./assets/fonts/msdf/roboto/bold.png" )
-			.addVariant(FontWeight.NORMAL, FontStyle.ITALIC, "./assets/fonts/msdf/roboto/italic.json", "./assets/fonts/msdf/roboto/italic.png" ),
+			.addVariant("400", "normal", "./assets/fonts/msdf/roboto/regular.json", "./assets/fonts/msdf/roboto/regular.png" )
+			.addVariant("700", "italic", "./assets/fonts/msdf/roboto/bold-italic.json", "./assets/fonts/msdf/roboto/bold-italic.png" )
+			.addVariant("700", "normal", "./assets/fonts/msdf/roboto/bold.json", "./assets/fonts/msdf/roboto/bold.png" )
+			.addVariant("400", "italic", "./assets/fonts/msdf/roboto/italic.json", "./assets/fonts/msdf/roboto/italic.png" ),
 
 
 		FontLibrary
 				.addFontFamily("RobotoAltered")
-					.addVariant(FontWeight.BOLD, FontStyle.NORMAL, "./assets/fonts/msdf/roboto/bold.json", "./assets/fonts/msdf/roboto/bold.png" )
+					.addVariant("700", "normal", "./assets/fonts/msdf/roboto/bold.json", "./assets/fonts/msdf/roboto/bold.png" )
 
 	);
 
@@ -53,14 +53,14 @@ async function preload() {
 	const defaultGeometry = boldVariant.getGeometricGlyph;
 
 	// And let's re define what will happend when running its factory method
-	boldVariant.getGeometricGlyph = function ( inline, segments = 1 ) {
+	boldVariant.getGeometricGlyph = function ( inline, element ) {
 
 		// let's get the default geometry
-		const characterGeometry = defaultGeometry( inline, segments );
+		const characterGeometry = defaultGeometry( inline, element );
 
 		// and now alter it
 		const frequency = 0.85; // Decrease this value to reduce the amount of vertices to be moved
-		const amplitudeMax = 0.15; // Decrease or increase this value to set the move offset maximum
+		const amplitudeMax = 0.25; // Decrease or increase this value to set the move offset maximum
 
 
 		// loop through each vertices
@@ -86,7 +86,7 @@ async function preload() {
 	}
 
 	// And why not setting the default material of this variant to-*TOon
-	boldVariant.fontMaterial = MSDFToonMaterial;
+	// boldVariant.fontMaterial = MSDFToonMaterial;
 
 
 	// adjust fonts
@@ -141,8 +141,8 @@ function init() {
 	spotLight.castShadow = true;
 
 	//Set up shadow properties for the light
-	spotLight.shadow.mapSize.width = 1024; // default
-	spotLight.shadow.mapSize.height = 1024; // default
+	spotLight.shadow.mapSize.width = 2048; // default
+	spotLight.shadow.mapSize.height = 2048; // default
 	spotLight.shadow.camera.near = 0.5; // default
 	spotLight.shadow.camera.far = 500; // default
 
@@ -164,7 +164,7 @@ function init() {
 	scene.add( room );
 
 	const wall = new Mesh(
-		new PlaneBufferGeometry(6,6,5,5),
+		new PlaneGeometry(6,6,5,5),
 		new MeshStandardMaterial( {color:0xffffff} )
 	);
 	wall.position.y = 3;
@@ -197,23 +197,27 @@ function makeTextPanel() {
 		backgroundOpacity: 0,
 	} );
 
-	container.frame.visible = false;
+	window.rootBlock = container;
+	// container.frame.visible = false;
 
 	container.position.set( 0, 2, -1.8 );
 	scene.add( container );
 
 	//
 	const text1 = new ThreeMeshUI.Text( {
-			content: 'Geometry',
+			textContent: 'Geometry',
 			fontWeight: '700',
-			fontColor: new Color(0x00ff99),
+			color: 0x00ff99,
 			fontSize: 0.7,
 			segments: 4,
 			letterSpacing: -0.08,
-			castShadow: true,
-			customDepthMaterial: new MSDFDepthMaterial({}),
-			side: DoubleSide
+			fontCastShadow: true,
+			fontMaterial : new MSDFToonMaterial({}),
+			fontCustomDepthMaterial: new MSDFDepthMaterial({}),
+			fontSide: DoubleSide
 		} );
+
+	window.textBlock = text1;
 
 	container.add(
 
@@ -237,39 +241,39 @@ function makeTextPanel() {
 
 	//
 
-	const infoBox = new ThreeMeshUI.Block( {
+	const infoBox = new ThreeMeshUI.Text( {
 		width: 2,
-		height: 0.175,
-		margin: 0.01,
+		margin: '0.2 0.01 0.01 0.01',
 		padding: 0.025,
 		textAlign: 'center',
-		side: DoubleSide,
-		castShadow: true
+		backgroundColor: 0x000000,
 	} );
 
 
-	infoBox.add( new ThreeMeshUI.Text( {
-		content: 'This example shows how to alter glyph ................... from',
+	infoBox.add( new ThreeMeshUI.Inline( {
+		textContent: 'This example shows how to alter glyph ................... from',
 		fontWeight: '700',
 	} ) );
 
-	infoBox.add( new ThreeMeshUI.Text( {
-		content: ' FontVariant.\n',
+	infoBox.add( new ThreeMeshUI.Inline( {
+		textContent: ' FontVariant.\n',
 		fontWeight: '700',
 		fontStyle: 'italic',
 	} ) );
 
-	infoBox.add( new ThreeMeshUI.Text( {
-		content: 'It also shows ',
+	infoBox.add( new ThreeMeshUI.Inline( {
+		textContent: 'It also shows ',
 		fontStyle: 'italic',
 		letterSpacing: 0.05
 	} ) );
 
-	infoBox.add( new ThreeMeshUI.Text( {
-		content: 'MSDFToonMaterial',
+	infoBox.add( new ThreeMeshUI.Inline( {
+		textContent: 'MSDFToonMaterial',
 		fontStyle: 'italic',
 		fontWeight: '700',
-		letterSpacing: 0.05
+		letterSpacing: 0.05,
+		color: 0x00ff99,
+		fontMaterial: new MSDFToonMaterial({})
 	} ) );
 
 	container2.add( infoBox );
@@ -289,16 +293,17 @@ function onWindowResize() {
 
 //
 
+// let speed = 0.005;
 let speed = 0.005;
 function loop() {
 
 	spotLight.target.position.x += speed;
 	spotLight.position.x += speed;
-	if( spotLight.target.position.x <= -1 ){
+	if( spotLight.target.position.x <= -1 ) {
 		spotLight.target.position.x = -1;
 		spotLight.position.x = -1;
 		speed*=-1;
-	}else if( spotLight.target.position.x >= 1 ){
+	} else if( spotLight.target.position.x >= 1 ) {
 		spotLight.target.position.x = 1;
 		spotLight.position.x = 1;
 		speed*=-1;

@@ -1,13 +1,11 @@
 import * as THREE from 'three';
+import { Color, TextureLoader } from 'three';
 import { VRButton } from 'three/examples/jsm/webxr/VRButton.js';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import { BoxLineGeometry } from 'three/examples/jsm/geometries/BoxLineGeometry.js';
 
 import ThreeMeshUI from 'three-mesh-ui';
 import Stats from 'three/examples/jsm/libs/stats.module';
-import * as FontWeight from '../src/utils/font/FontWeight';
-import * as FontStyle from '../src/utils/font/FontStyle';
-import { Color, TextureLoader } from 'three';
 
 const WIDTH = window.innerWidth;
 const HEIGHT = window.innerHeight;
@@ -60,14 +58,14 @@ function init() {
 	// Fonts
 	ThreeMeshUI.FontLibrary
 		.addFontFamily("Roboto")
-		.addVariant( FontWeight.NORMAL, FontStyle.NORMAL,"./assets/fonts/msdf/roboto/regular.json","./assets/fonts/msdf/roboto/regular.png" );
+		.addVariant( "normal", "normal","./assets/fonts/msdf/roboto/regular.json","./assets/fonts/msdf/roboto/regular.png" );
 
 	const uvTexture = new TextureLoader().load("./assets/uv_grid.jpg");
 
 	// TEXT PANEL
 	rootBlock = new ThreeMeshUI.Block({
 		width:3.25,
-		contentDirection: 'column',
+		flexDirection: 'column',
 		justifyContent: 'center',
 		alignItems: 'center'
 	});
@@ -76,7 +74,7 @@ function init() {
 	const title = new ThreeMeshUI.Text({
 		fontFamily: 'Roboto',
 		fontSize: 0.055,
-		content: 'Border - Units and radiuses'
+		textContent: 'Border - Units and radiuses'
 	})
 
 	titleBlock.add( title );
@@ -84,25 +82,25 @@ function init() {
 
 	rootBlock.position.set(0,1,-2);
 
-	columnContainer = new ThreeMeshUI.Block({width:3.25,contentDirection:'row', alignItems:'start', justifyContent: 'space-between'});
+	columnContainer = new ThreeMeshUI.Block({width:3.25,flexDirection:'row', alignItems:'start', justifyContent: 'space-between'});
 
 	rootBlock.add(columnContainer)
 
 	const b1 = createColumn('WorldUnits = rem');
 	for ( let i = 0; i < b1.blocks.length; i++ ) {
 		const block = b1.blocks[ i ];
-		block._borderWidthComponent.units = 'rem';
+		block._borderWidth.units = 'rem';
 		block.set({borderWidth: 0.1,borderOpacity:0.6, borderColor:new Color(0xff99ff)});
-		block.set({backgroundTexture: uvTexture, backgroundSize:'stretch',backgroundColor:new THREE.Color(0xFFFFFF)});
+		block.set({backgroundImage: uvTexture, backgroundSize:'stretch',backgroundColor:new THREE.Color(0xFFFFFF)});
 	}
 	columnContainer.add(b1);
 
 	const b2 = createColumn('UV = em');
 	for ( let i = 0; i < b2.blocks.length; i++ ) {
 		const block = b2.blocks[ i ];
-		block._borderWidthComponent.units = 'em';
+		block._borderWidth.units = 'em';
 		block.set({borderWidth: 0.1,borderOpacity:0.6, borderColor:new Color(0xff99ff)});
-		block.set({backgroundTexture: uvTexture, backgroundSize:'stretch',backgroundColor:new THREE.Color(0xFFFFFF)});
+		block.set({backgroundImage: uvTexture, backgroundSize:'stretch',backgroundColor:new THREE.Color(0xFFFFFF)});
 	}
 
 
@@ -111,8 +109,8 @@ function init() {
 	const b3 = createColumn('Percent');
 	for ( let i = 0; i < b3.blocks.length; i++ ) {
 		const block = b3.blocks[ i ];
-		block._borderWidthComponent.units = '%';
-		block.set({borderWidth: 10,borderOpacity:0.6, borderColor:new Color(0xff99ff)})
+		block._borderWidth.units = '%';
+		block.set({borderWidth: 0.1,borderOpacity:0.6, borderColor:new Color(0xff99ff)})
 	}
 	columnContainer.add(b3);
 
@@ -123,13 +121,13 @@ function init() {
 
 function createColumn(text){
 
-	const column = new ThreeMeshUI.Block({width:1, contentDirection: 'column', alignItems:'center', justifyContent: 'start'});
+	const column = new ThreeMeshUI.Block({width:1, flexDirection: 'column', alignItems:'center', justifyContent: 'start'});
 
 	const titleBlock = new ThreeMeshUI.Block({width:1,height:0.25});
 	const title = new ThreeMeshUI.Text({
 		fontFamily: 'Roboto',
 		fontSize: 0.035,
-		content: text
+		textContent: text
 	})
 
 	titleBlock.add( title );

@@ -1,5 +1,9 @@
 import { directTransfer } from './transformers/CommonTransformers';
 
+//JSDoc related imports
+/* eslint-disable no-unused-vars */
+import MeshUIBaseElement from '../../core/elements/MeshUIBaseElement';
+/* eslint-enable no-unused-vars */
 /**
  * An option function to transform value from subject to target
  * @typedef {(target:any, targetProperty:string, value:any) => void} MediationTransformer
@@ -41,7 +45,7 @@ export default class Mediator{
 
 	/**
 	 *
-	 * @param {MeshUIComponent} subject
+	 * @param {MeshUIBaseElement} subject
 	 * @param {any} target
 	 * @param {Object.<(string|number), any>} options
 	 * @param {any} [secondTarget=null]
@@ -81,42 +85,13 @@ export default class Mediator{
 	 * @param {MeshUIComponent} subject
 	 * @param {any} target
 	 * @param {Object.<(string|number), any>} options
-	 * @param {Object.<{subjectProperty:string, trans?:(target:any, targetProperty:string, value:any) => void}>} mediationDefinitions
+	 * @param {Object.<{subjectProperty:string, t?:(target:any, targetProperty:string, value:any) => void}>} mediationDefinitions
 	 * @param {any} [secondTarget=null]
 	 */
 	static mediate( subject, target, options, mediationDefinitions, secondTarget = null ) {
 
 		// Cannot mediate if target not defined
 		if( !target ) return;
-
-		// if no options found, retrieve all need options
-		if( !options ){
-
-			options = {};
-			for ( const materialProperty in mediationDefinitions ) {
-
-				let value = subject[materialProperty];
-				if( value === undefined ){
-
-					const upperCaseProperty = materialProperty[0].toUpperCase() + materialProperty.substring(1)
-					if( subject["get"+upperCaseProperty] ) {
-
-						value = subject["get"+upperCaseProperty]();
-
-					}
-
-				}
-
-				if( value !== undefined ) {
-
-					options[materialProperty] = value;
-
-				}
-
-			}
-
-		}
-
 
 		// Mediate each subject properties to material
 		for ( const subjectProperty in mediationDefinitions ) {

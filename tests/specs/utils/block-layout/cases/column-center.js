@@ -3,7 +3,7 @@ import { preloadFonts } from '../../../../utils/TestFonts.js';
 import { fiveBlockContainer } from '../../../../utils/TestStructure.js';
 import { imprecise } from '../../../../utils/TestNumber.js';
 
-describe('Layout Case : {contentDirection:"column", justifyContent:"center"}', function () {
+describe('Layout Case : {flexDirection:"column", justifyContent:"center"}', function () {
 
 	let scene, camera, renderer, render;
 	let fontFamily;
@@ -35,8 +35,8 @@ describe('Layout Case : {contentDirection:"column", justifyContent:"center"}', f
 
 	beforeEach( function () {
 
-		containerBB.set({contentDirection: 'column', justifyContent:'center'});
-		containerCB.set({contentDirection: 'column', justifyContent:'center'});
+		containerBB.set({flexDirection: 'column', justifyContent:'center'});
+		containerCB.set({flexDirection: 'column', justifyContent:'center'});
 
 
 
@@ -46,8 +46,8 @@ describe('Layout Case : {contentDirection:"column", justifyContent:"center"}', f
 
 	it("Third child should snap on container center", function () {
 
-		expect( imprecise( child3BB.position.y) ).equals( containerBB.centerY );
-		expect( imprecise( child3CB.position.y) ).equals( containerCB.centerY );
+		expect( imprecise( child3BB.position.y) ).equals( containerBB._bounds._centerY );
+		expect( imprecise( child3CB.position.y) ).equals( containerCB._bounds._centerY );
 
 	});
 
@@ -60,8 +60,8 @@ describe('Layout Case : {contentDirection:"column", justifyContent:"center"}', f
 
 		render();
 
-		expect( imprecise( child3BB.position.y) ).equals( containerBB.centerY + ( - child3BB._margin.x + child3BB._margin.z) / 2 );
-		expect( imprecise( child3CB.position.y) ).equals( containerCB.centerY + ( - child3CB._margin.x + child3CB._margin.z) / 2 );
+		expect( imprecise( child3BB.position.y) ).equals( containerBB._bounds._centerY + ( - child3BB._margin._value.x + child3BB._margin._value.z) / 2 );
+		expect( imprecise( child3CB.position.y) ).equals( containerCB._bounds._centerY + ( - child3CB._margin._value.x + child3CB._margin._value.z) / 2 );
 	});
 
 	it("Third child should snap on container center minus margin mixed", function () {
@@ -74,8 +74,8 @@ describe('Layout Case : {contentDirection:"column", justifyContent:"center"}', f
 
 		render();
 
-		expect( imprecise( child3BB.position.y) ).equals( containerBB.centerY + ( - child3BB._margin.x + child3BB._margin.z ) / 2);
-		expect( imprecise( child3CB.position.y) ).equals( containerCB.centerY + ( - child3CB._margin.x + child3CB._margin.z ) / 2);
+		expect( imprecise( child3BB.position.y) ).equals( containerBB._bounds._centerY + ( - child3BB._margin._value.x + child3BB._margin._value.z ) / 2);
+		expect( imprecise( child3CB.position.y) ).equals( containerCB._bounds._centerY + ( - child3CB._margin._value.x + child3CB._margin._value.z ) / 2);
 	});
 
 	describe('+ {alignItems:"center"}', function() {
@@ -91,8 +91,8 @@ describe('Layout Case : {contentDirection:"column", justifyContent:"center"}', f
 			render();
 
 
-			expect( imprecise( child3BB.position.x) ).equals( containerBB.centerX );
-			expect( imprecise( child3CB.position.x) ).equals( containerCB.centerX );
+			expect( imprecise( child3BB.position.x) ).equals( containerBB._bounds._centerX );
+			expect( imprecise( child3CB.position.x) ).equals( containerCB._bounds._centerX );
 		});
 
 		it("Any child should snap on container center minus margin", function () {
@@ -102,8 +102,8 @@ describe('Layout Case : {contentDirection:"column", justifyContent:"center"}', f
 
 			render();
 
-			expect( imprecise( child3BB.position.x) ).equals( containerBB.centerX + ( - child3BB._margin.y + child3BB._margin.w) / 2 );
-			expect( imprecise( child3CB.position.x) ).equals( containerCB.centerX + ( - child3CB._margin.y + child3CB._margin.w) / 2 );
+			expect( imprecise( child3BB.position.x) ).equals( containerBB._bounds._centerX + ( - child3BB._margin._value.y + child3BB._margin._value.w) / 2 );
+			expect( imprecise( child3CB.position.x) ).equals( containerCB._bounds._centerX + ( - child3CB._margin._value.y + child3CB._margin._value.w) / 2 );
 		});
 
 		it("Any child should snap on container center minus margin mixed", function () {
@@ -113,8 +113,8 @@ describe('Layout Case : {contentDirection:"column", justifyContent:"center"}', f
 
 			render();
 
-			expect( imprecise( child3BB.position.x) ).equals( containerBB.centerX + ( - child3BB._margin.y + child3BB._margin.w ) / 2);
-			expect( imprecise( child3CB.position.x) ).equals( containerCB.centerX + ( - child3CB._margin.y + child3CB._margin.w ) / 2);
+			expect( imprecise( child3BB.position.x) ).equals( containerBB._bounds._centerX + ( - child3BB._margin._value.y + child3BB._margin._value.w ) / 2);
+			expect( imprecise( child3CB.position.x) ).equals( containerCB._bounds._centerX + ( - child3CB._margin._value.y + child3CB._margin._value.w ) / 2);
 		});
 
 	});
@@ -131,8 +131,8 @@ describe('Layout Case : {contentDirection:"column", justifyContent:"center"}', f
 
 			render();
 
-			expect( imprecise( child3BB.position.x) ).equals( containerBB.centerX - containerBB.offsetWidth/2 + child3BB.offsetWidth/2 );
-			expect( imprecise( child3CB.position.x) ).equals( containerCB.centerX - containerCB.offsetWidth/2 + child3CB.offsetWidth/2 );
+			expect( imprecise( child3BB.position.x) ).equals( containerBB._bounds._centerX - containerBB._bounds._offsetWidth/2 + child3BB._bounds._offsetWidth/2 );
+			expect( imprecise( child3CB.position.x) ).equals( containerCB._bounds._centerX - containerCB._bounds._offsetWidth/2 + child3CB._bounds._offsetWidth/2 );
 		});
 
 		it("Any child should snap on container left minus margin", function () {
@@ -142,8 +142,8 @@ describe('Layout Case : {contentDirection:"column", justifyContent:"center"}', f
 
 			render();
 
-			expect( imprecise( child3BB.position.x) ).equals(containerBB.centerX - containerBB.offsetWidth/2 + child3BB.offsetWidth/2 + child3BB._margin.w );
-			expect( imprecise( child3CB.position.x) ).equals(containerCB.centerX - containerCB.offsetWidth/2 + child3CB.offsetWidth/2 + child3CB._margin.w );
+			expect( imprecise( child3BB.position.x) ).equals(containerBB._bounds._centerX - containerBB._bounds._offsetWidth/2 + child3BB._bounds._offsetWidth/2 + child3BB._margin._value.w );
+			expect( imprecise( child3CB.position.x) ).equals(containerCB._bounds._centerX - containerCB._bounds._offsetWidth/2 + child3CB._bounds._offsetWidth/2 + child3CB._margin._value.w );
 		});
 
 		it("Any child should snap on container center minus margin mixed", function () {
@@ -153,8 +153,8 @@ describe('Layout Case : {contentDirection:"column", justifyContent:"center"}', f
 
 			render();
 
-			expect( imprecise( child3BB.position.x) ).equals(containerBB.centerX - containerBB.offsetWidth/2 + child3BB.offsetWidth/2 + child3BB._margin.w );
-			expect( imprecise( child3CB.position.x) ).equals(containerCB.centerX - containerCB.offsetWidth/2 + child3CB.offsetWidth/2 + child3CB._margin.w );
+			expect( imprecise( child3BB.position.x) ).equals(containerBB._bounds._centerX - containerBB._bounds._offsetWidth/2 + child3BB._bounds._offsetWidth/2 + child3BB._margin._value.w );
+			expect( imprecise( child3CB.position.x) ).equals(containerCB._bounds._centerX - containerCB._bounds._offsetWidth/2 + child3CB._bounds._offsetWidth/2 + child3CB._margin._value.w );
 		});
 
 	});
@@ -171,8 +171,8 @@ describe('Layout Case : {contentDirection:"column", justifyContent:"center"}', f
 
 			render();
 
-			expect( imprecise( child3BB.position.x) ).equals( containerBB.centerX + containerBB.offsetWidth/2 - child3BB.offsetWidth/2 );
-			expect( imprecise( child3CB.position.x) ).equals( containerCB.centerX + containerCB.offsetWidth/2 - child3CB.offsetWidth/2 );
+			expect( imprecise( child3BB.position.x) ).equals( containerBB._bounds._centerX + containerBB._bounds._offsetWidth/2 - child3BB._bounds._offsetWidth/2 );
+			expect( imprecise( child3CB.position.x) ).equals( containerCB._bounds._centerX + containerCB._bounds._offsetWidth/2 - child3CB._bounds._offsetWidth/2 );
 		});
 
 		it("Any child should snap on container right minus margin", function () {
@@ -182,8 +182,8 @@ describe('Layout Case : {contentDirection:"column", justifyContent:"center"}', f
 
 			render();
 
-			expect( imprecise( child3BB.position.x) ).equals(containerBB.centerX + containerBB.offsetWidth/2 - child3BB.offsetWidth/2 - child3BB._margin.y );
-			expect( imprecise( child3CB.position.x) ).equals(containerCB.centerX + containerCB.offsetWidth/2 - child3CB.offsetWidth/2 - child3CB._margin.y );
+			expect( imprecise( child3BB.position.x) ).equals(containerBB._bounds._centerX + containerBB._bounds._offsetWidth/2 - child3BB._bounds._offsetWidth/2 - child3BB._margin._value.y );
+			expect( imprecise( child3CB.position.x) ).equals(containerCB._bounds._centerX + containerCB._bounds._offsetWidth/2 - child3CB._bounds._offsetWidth/2 - child3CB._margin._value.y );
 		});
 
 		it("Any child should snap on container right minus margin mixed", function () {
@@ -193,8 +193,8 @@ describe('Layout Case : {contentDirection:"column", justifyContent:"center"}', f
 
 			render();
 
-			expect( imprecise( child3BB.position.x) ).equals(containerBB.centerX + containerBB.offsetWidth/2 - child3BB.offsetWidth/2 - child3BB._margin.y );
-			expect( imprecise( child3CB.position.x) ).equals(containerCB.centerX + containerCB.offsetWidth/2 - child3CB.offsetWidth/2 - child3CB._margin.y );
+			expect( imprecise( child3BB.position.x) ).equals(containerBB._bounds._centerX + containerBB._bounds._offsetWidth/2 - child3BB._bounds._offsetWidth/2 - child3BB._margin._value.y );
+			expect( imprecise( child3CB.position.x) ).equals(containerCB._bounds._centerX + containerCB._bounds._offsetWidth/2 - child3CB._bounds._offsetWidth/2 - child3CB._margin._value.y );
 		});
 
 	});

@@ -28,7 +28,7 @@ describe("JustifyContent", function () {
 
 	beforeEach( function () {
 
-		container.set({contentDirection: 'column'});
+		container.set({flexDirection: 'column'});
 
 	});
 
@@ -37,7 +37,7 @@ describe("JustifyContent", function () {
 
 		beforeEach( () => {
 
-			container.set({contentDirection:'column', justifyContent: 'start'});
+			container.set({flexDirection:'column', justifyContent: 'start'});
 			render();
 
 		})
@@ -52,7 +52,7 @@ describe("JustifyContent", function () {
 			const dyChild5 = container.position.y - child5.position.y;
 			expect(dyChild1*dyChild1).greaterThan(dyChild5*dyChild5);
 
-			container.set({contentDirection: 'row'});
+			container.set({flexDirection: 'row'});
 			render();
 
 			// row -> horizontal -> x diffs
@@ -70,7 +70,7 @@ describe("JustifyContent", function () {
 			expect( child3.position.x ).equals( child4.position.x );
 			expect( child4.position.x ).equals( child5.position.x );
 
-			container.set({contentDirection: 'row'});
+			container.set({flexDirection: 'row'});
 			render();
 
 			// row -> horizontal -> y shared
@@ -88,7 +88,7 @@ describe("JustifyContent", function () {
 
 		beforeEach( () => {
 
-			container.set({contentDirection:'column', justifyContent: 'end'});
+			container.set({flexDirection:'column', justifyContent: 'end'});
 			render();
 
 		})
@@ -103,7 +103,7 @@ describe("JustifyContent", function () {
 			const dyChild5 = container.position.y - child5.position.y;
 			expect(dyChild1*dyChild1).lessThan(dyChild5*dyChild5);
 
-			container.set({contentDirection: 'row'});
+			container.set({flexDirection: 'row'});
 			render();
 
 			// row -> horizontal -> x diffs
@@ -121,7 +121,7 @@ describe("JustifyContent", function () {
 			expect( child3.position.x ).equals( child4.position.x );
 			expect( child4.position.x ).equals( child5.position.x );
 
-			container.set({contentDirection: 'row'});
+			container.set({flexDirection: 'row'});
 			render();
 
 			// row -> horizontal -> y shared
@@ -138,7 +138,7 @@ describe("JustifyContent", function () {
 	describe(".CENTER", function() {
 
 		beforeEach( () => {
-			container.set({contentDirection:'column', justifyContent: 'center'});
+			container.set({flexDirection:'column', justifyContent: 'center'});
 			render();
 		})
 
@@ -148,7 +148,7 @@ describe("JustifyContent", function () {
 			// row -> horizontal -> y center
 			expect( imprecise( child3.position.y ) ).equals(0 );
 
-			container.set({contentDirection: 'row'});
+			container.set({flexDirection: 'row'});
 			render();
 
 			// row -> horizontal -> x center
@@ -168,7 +168,7 @@ describe("JustifyContent", function () {
 			const dyChild5 = container.position.y - child5.position.y;
 			expect(imprecise( dyChild1*dyChild1 ) ).equals(imprecise( dyChild5*dyChild5 ) );
 
-			container.set({contentDirection: 'row'});
+			container.set({flexDirection: 'row'});
 			render();
 
 			// row -> horizontal -> x diffs
@@ -190,7 +190,7 @@ describe("JustifyContent", function () {
 			expect( child3.position.x ).equals( child4.position.x );
 			expect( child4.position.x ).equals( child5.position.x );
 
-			container.set({contentDirection: 'row'});
+			container.set({flexDirection: 'row'});
 			render();
 
 			// row -> horizontal -> y shared
@@ -207,7 +207,7 @@ describe("JustifyContent", function () {
 	describe(".SPACE_EVENLY", function() {
 
 		beforeEach( () => {
-			container.set({contentDirection:'column', justifyContent: 'space-evenly'});
+			container.set({flexDirection:'column', justifyContent: 'space-evenly'});
 			render();
 		})
 
@@ -217,7 +217,7 @@ describe("JustifyContent", function () {
 			// row -> horizontal -> y center
 			expect( imprecise( child3.position.y ) ).equals(0 );
 
-			container.set({contentDirection: 'row'});
+			container.set({flexDirection: 'row'});
 			render();
 
 			// row -> horizontal -> x center
@@ -233,13 +233,13 @@ describe("JustifyContent", function () {
 			const dyChild4to5 = child5.position.y - child4.position.y;
 			expect( imprecise( dyChild1to2*dyChild1to2 ) ).equals( imprecise( dyChild4to5*dyChild4to5 ) );
 
-			const dyBorderTop = -container.getOffsetHeight()/2 + child1.position.y;
-			const dyBorderBottom = container.getOffsetHeight()/2 + child5.position.y;
+			const dyBorderTop = -container._bounds._offsetHeight /2 + child1.position.y;
+			const dyBorderBottom = container._bounds._offsetHeight /2 + child5.position.y;
 
 			expect( imprecise( dyBorderTop*dyBorderTop )  ).equals( imprecise( dyBorderBottom*dyBorderBottom  ) );
-			expect( imprecise( dyBorderTop - child1.height/2 )  ).equals( imprecise( dyChild1to2 )  );
+			expect( imprecise( dyBorderTop - child1._height._value/2 )  ).equals( imprecise( dyChild1to2 )  );
 
-			container.set({contentDirection: 'row'});
+			container.set({flexDirection: 'row'});
 			render();
 
 
@@ -248,11 +248,11 @@ describe("JustifyContent", function () {
 			const dxChild4to5 = child5.position.x - child4.position.x;
 			expect(imprecise( dxChild1to2*dxChild1to2 ) ).equals( imprecise( dxChild4to5*dxChild4to5 ) );
 
-			const dxBorderLeft = container.getOffsetWidth()/2 + child1.position.x;
-			const dxBorderRight = -container.getOffsetWidth()/2 + child5.position.x;
+			const dxBorderLeft = container._bounds._offsetWidth/2 + child1.position.x;
+			const dxBorderRight = -container._bounds._offsetWidth/2 + child5.position.x;
 
 			expect( imprecise( dxBorderLeft*dxBorderLeft )  ).equals( imprecise( dxBorderRight*dxBorderRight )  );
-			expect( imprecise( dxBorderLeft + child1.width/2  ) ).equals( imprecise( dxChild1to2 )  );
+			expect( imprecise( dxBorderLeft + child1._width._value/2  ) ).equals( imprecise( dxChild1to2 )  );
 
 		});
 
@@ -264,7 +264,7 @@ describe("JustifyContent", function () {
 			expect( child3.position.x ).equals( child4.position.x );
 			expect( child4.position.x ).equals( child5.position.x );
 
-			container.set({contentDirection: 'row'});
+			container.set({flexDirection: 'row'});
 			render();
 
 			// row -> horizontal -> y shared
@@ -281,7 +281,7 @@ describe("JustifyContent", function () {
 	describe(".SPACE_AROUND", function() {
 
 		beforeEach( () => {
-			container.set({contentDirection:'column', justifyContent: 'space-around'});
+			container.set({flexDirection:'column', justifyContent: 'space-around'});
 			render();
 		})
 
@@ -291,7 +291,7 @@ describe("JustifyContent", function () {
 			// row -> horizontal -> y center
 			expect( imprecise( child3.position.y ) ).equals(0 );
 
-			container.set({contentDirection: 'row'});
+			container.set({flexDirection: 'row'});
 			render();
 
 			// row -> horizontal -> x center
@@ -308,15 +308,15 @@ describe("JustifyContent", function () {
 			expect(imprecise( dyChild1to2*dyChild1to2 ) ).equals( imprecise( dyChild4to5*dyChild4to5 ) );
 
 			// prevent precision issue
-			let dyBorderTop = -container.getOffsetHeight()/2 + child1.position.y;
+			let dyBorderTop = -container._bounds._offsetHeight /2 + child1.position.y;
 			dyBorderTop = parseFloat(dyBorderTop.toFixed(4));
-			let dyBorderBottom = container.getOffsetHeight()/2 + child5.position.y;
+			let dyBorderBottom = container._bounds._offsetHeight /2 + child5.position.y;
 			dyBorderBottom = parseFloat(dyBorderBottom.toFixed(4));
 
 			expect( imprecise( dyBorderTop*dyBorderTop ) ).equals( imprecise( dyBorderBottom*dyBorderBottom ) );
 			expect( imprecise( dyBorderTop ) ).equals( imprecise( dyChild1to2 / 2 ) );
 
-			container.set({contentDirection: 'row'});
+			container.set({flexDirection: 'row'});
 			render();
 
 
@@ -326,9 +326,9 @@ describe("JustifyContent", function () {
 			expect(imprecise( dxChild1to2*dxChild1to2 ) ).equals(imprecise( dxChild4to5*dxChild4to5 ));
 
 			// prevent precision issue
-			let dxBorderLeft = container.getOffsetWidth()/2 + child1.position.x;
+			let dxBorderLeft = container._bounds._offsetWidth/2 + child1.position.x;
 			dxBorderLeft = parseFloat(dxBorderLeft.toFixed(4));
-			let dxBorderRight = -container.getOffsetWidth()/2 + child5.position.x;
+			let dxBorderRight = -container._bounds._offsetWidth/2 + child5.position.x;
 			dxBorderRight = parseFloat(dxBorderRight.toFixed(4));
 
 			expect( imprecise( dxBorderLeft*dxBorderLeft ) ).equals( imprecise( dxBorderRight*dxBorderRight ) );
@@ -344,7 +344,7 @@ describe("JustifyContent", function () {
 			expect( child3.position.x ).equals( child4.position.x );
 			expect( child4.position.x ).equals( child5.position.x );
 
-			container.set({contentDirection: 'row'});
+			container.set({flexDirection: 'row'});
 			render();
 
 			// row -> horizontal -> y shared
@@ -361,7 +361,7 @@ describe("JustifyContent", function () {
 	describe(".SPACE_BETWEEN", function() {
 
 		beforeEach( () => {
-			container.set({contentDirection:'column', justifyContent: 'space-between'});
+			container.set({flexDirection:'column', justifyContent: 'space-between'});
 			render();
 		})
 
@@ -371,7 +371,7 @@ describe("JustifyContent", function () {
 			// row -> horizontal -> y center
 			expect( imprecise(child3.position.y) ).equals(0 );
 
-			container.set({contentDirection: 'row'});
+			container.set({flexDirection: 'row'});
 			render();
 
 			// row -> horizontal -> x center
@@ -384,22 +384,22 @@ describe("JustifyContent", function () {
 			// column -> vertical -> y diffs
 
 			// prevent precision issue
-			const dyBorderTop = -container.getOffsetHeight()/2 + child1.position.y;
-			const dyBorderBottom = container.getOffsetHeight()/2 + child5.position.y;
+			const dyBorderTop = -container._bounds._offsetHeight /2 + child1.position.y;
+			const dyBorderBottom = container._bounds._offsetHeight /2 + child5.position.y;
 
-			expect( Math.abs( imprecise(dyBorderTop) ) ).equals( child1.height/2 );
-			expect( Math.abs( imprecise(dyBorderBottom) ) ).equals( child5.height/2 );
+			expect( Math.abs( imprecise(dyBorderTop) ) ).equals( child1._height._value/2 );
+			expect( Math.abs( imprecise(dyBorderBottom) ) ).equals( child5._height._value/2 );
 
-			container.set({contentDirection: 'row'});
+			container.set({flexDirection: 'row'});
 			render();
 
 
 			// column -> vertical -> x diffs
-			const dxBorderLeft = container.getOffsetWidth()/2 + child1.position.x;
-			const dxBorderRight = -container.getOffsetWidth()/2 + child5.position.x;
+			const dxBorderLeft = container._bounds._offsetWidth/2 + child1.position.x;
+			const dxBorderRight = -container._bounds._offsetWidth/2 + child5.position.x;
 
-			expect( Math.abs( imprecise( dxBorderLeft ) ) ).equals( child1.width/2 );
-			expect( Math.abs( imprecise( dxBorderRight ) ) ).equals( child5.width/2 );
+			expect( Math.abs( imprecise( dxBorderLeft ) ) ).equals( child1._width._value/2 );
+			expect( Math.abs( imprecise( dxBorderRight ) ) ).equals( child5._width._value/2 );
 
 		});
 
@@ -411,7 +411,7 @@ describe("JustifyContent", function () {
 			expect( child3.position.x ).equals( child4.position.x );
 			expect( child4.position.x ).equals( child5.position.x );
 
-			container.set({contentDirection: 'row'});
+			container.set({flexDirection: 'row'});
 			render();
 
 			// row -> horizontal -> y shared

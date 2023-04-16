@@ -1,25 +1,29 @@
+export default FontVariant;
+export type KerningPairs = {
+    [x: string]: number;
+};
 /**
  * @abstract
  */
-export default class FontVariant extends EventDispatcher<import("three").Event> {
+declare class FontVariant extends EventDispatcher<import("three").Event> {
     /**
      *
      * @param {string} weight
      * @param {string} style
      */
     constructor(weight: string, style: string);
-    /** @private */ private _isReady;
-    /** @protected */ protected _weight: string;
-    /** @protected */ protected _style: string;
-    /** @protected */ protected _size: number;
-    /** @protected */ protected _lineHeight: number;
-    /** @protected */ protected _lineBase: number;
+
+
+
+
+
+
     /**
      *
      * @type {TypographicFont}
      * @protected
      */
-    protected _font: TypographicFont;
+
     /**
      *
      * @returns {TypographicFont}
@@ -63,17 +67,25 @@ export default class FontVariant extends EventDispatcher<import("three").Event> 
     /**
      *
      * @param {string} character
-     * @returns {MSDFTypographicGlyph}
+     * @returns {TypographicGlyph}
      */
-    getTypographicGlyph(character: string): MSDFTypographicGlyph;
+    getTypographicGlyph(character: string): TypographicGlyph;
+    /**
+     * @abstract
+     * @protected
+     * @param {string} missingChar
+     * @returns {string|null}
+     */
+
     /**
      * Convert an InlineCharacter to a geometry
      *
      * @abstract
      * @param {InlineGlyph} inline
+     * @param {MeshUIBaseElement} element
      * @returns {BufferGeometry|Array.<BufferGeometry>}
      */
-    getGeometricGlyph(inline: InlineGlyph, segments?: number): BufferGeometry | Array<BufferGeometry>;
+    getGeometricGlyph(inline: InlineGlyph, element: MeshUIBaseElement): BufferGeometry | Array<BufferGeometry>;
     /**
      * Obtain the kerning amount of a glyphPair
      * @param {string} glyphPair
@@ -93,18 +105,25 @@ export default class FontVariant extends EventDispatcher<import("three").Event> 
      *
      * @private
      */
-    private _checkReadiness;
+
+    /**
+     * @abstract
+     * @param element
+     * @internal
+     */
+
     /**
      *
      * @abstract
      * @returns {boolean}
      * @protected
      */
-    protected _readyCondition(): boolean;
+
 }
 import { EventDispatcher } from "three/src/core/EventDispatcher";
 import TypographicFont from "./TypographicFont";
 import { Texture } from "three/src/textures/Texture";
-import MSDFTypographicGlyph from "./msdf/MSDFTypographicGlyph";
+import TypographicGlyph from "./TypographicGlyph";
 import InlineGlyph from "./InlineGlyph";
+import MeshUIBaseElement from "./../core/elements/MeshUIBaseElement";
 import { BufferGeometry } from "three/src/core/BufferGeometry";

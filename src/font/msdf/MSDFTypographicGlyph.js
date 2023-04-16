@@ -7,6 +7,9 @@ import MSDFTypographicFont from './MSDFTypographicFont';
 /* eslint-enable no-unused-vars */
 
 
+/**
+ * @property {MSDFTypographicFont} _font
+ */
 export default class MSDFTypographicGlyph extends TypographicGlyph {
 
 	/**
@@ -15,7 +18,7 @@ export default class MSDFTypographicGlyph extends TypographicGlyph {
 	 */
 	constructor( fontDescription, characterData ) {
 
-		super(fontDescription);
+		super( fontDescription );
 
 		this._char = characterData.char;
 		this._width = characterData.width;
@@ -26,9 +29,9 @@ export default class MSDFTypographicGlyph extends TypographicGlyph {
 		this._yoffset = characterData.yoffset ? characterData.yoffset : 0;
 
 		// Msdf requires uvs
-		this._uv = null;
+		this._uv = characterData.uv ? characterData.uv : null;
 
-		if( !isNaN( characterData.x ) ) {
+		if ( !isNaN( characterData.x ) ) {
 			// transform absolute pixel values into uv values [0,1]
 			this._uv = {
 				left: characterData.x / fontDescription.textureWidth,
@@ -49,6 +52,28 @@ export default class MSDFTypographicGlyph extends TypographicGlyph {
 		return this._uv;
 
 	}
+
+	/**
+	 * @override
+	 * @param {string} otherChar
+	 * @returns {MSDFTypographicGlyph}
+	 */
+	clone( otherChar ) {
+
+		return new MSDFTypographicGlyph( this._font, {
+			char: otherChar,
+			width: this._width,
+			height: this._heigth,
+			xadvance: this._xadvance,
+			xoffset: this._xoffset,
+			yoffset: this._yoffset,
+
+			// Msdf requires uvs
+			uv: null
+		} );
+
+	}
+
 
 	/**
 	 * @override

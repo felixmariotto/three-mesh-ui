@@ -44,7 +44,7 @@ export default class FontFamily extends EventDispatcher {
 
 	/**
 	 *
-	 * @param {string} weight
+	 * @param {string|number} weight
 	 * @param {string} style
 	 * @param {string|Object} json
 	 * @param {string|Texture} texture
@@ -115,7 +115,7 @@ export default class FontFamily extends EventDispatcher {
 
 	/**
 	 *
-	 * @param {string} weight
+	 * @param {string|number} weight
 	 * @param {string} style
 	 * @returns {FontVariant|null}
 	 */

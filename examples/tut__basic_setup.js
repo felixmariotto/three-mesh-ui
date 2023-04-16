@@ -1,3 +1,5 @@
+//xfg:title Basic setup
+
 import * as THREE from 'three';
 import { VRButton } from 'three/examples/jsm/webxr/VRButton.js';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
@@ -10,8 +12,7 @@ const HEIGHT = window.innerHeight;
 
 let scene, camera, renderer, controls;
 
-window.addEventListener( 'load', step1BuildThreeJSElements );
-window.addEventListener( 'resize', onWindowResize );
+window.addEventListener('load', step1BuildThreeJSElements );
 
 /***********************************************************************************************************************
  * THREE-MESH-UI - BASIC SETUP
@@ -50,12 +51,14 @@ function step1BuildThreeJSElements() {
 	controls.update();
 
 	// ROOM
+
 	const room = new THREE.LineSegments(
 		new BoxLineGeometry( 6, 6, 6, 10, 10, 10 ).translate( 0, 3, 0 ),
 		new THREE.LineBasicMaterial( { color: 0x808080 } )
 	);
 
 	scene.add( room );
+
 
 	// Now that we have the threejs stuff up and running, we can build our three-mesh-ui stuff
 	// Let's read that function
@@ -64,6 +67,8 @@ function step1BuildThreeJSElements() {
 	// three-mesh-ui requires to be updated prior each threejs render, let's go see what is in step3AnimationLoop()
 	renderer.setAnimationLoop( step3AnimationLoop );
 
+
+	window.addEventListener( 'resize', onWindowResize );
 }
 
 //
@@ -72,27 +77,36 @@ function step2BuildThreeMeshUIElements() {
 	// If we are going to display ThreeMeshUI Text elements
 	// It is important to know that a Text MUST have a Block as parent
 	// Using three-mesh-ui, we would usually have one or more rootBlock elements
-	const rootBlock = new ThreeMeshUI.Block( {
+	const rootBlock = new ThreeMeshUI.Text( {
 
+		name: 'rootBlock',
 		// A Block must define its "box-sizing" properties
 		width: 1.2,
-		height: 0.5,
+		height: 'auto', // the text will define the output height
 		padding: 0.05,
+		boxSizing: 'border-box',
 
 		// A Block can define its "layout" properties
 		justifyContent: 'center',
 		textAlign: 'left',
 
+		borderRadius: 0.015,
+
+		backgroundColor : 0x000000,
+		backgroundOpacity : 0.5,
+
 		// A Block can also define "text" properties that will propagate to any of its Text children
 		fontSize: 0.055,
-		fontFamily: '/assets/fonts/msdf/roboto/regular.json',
-		fontTexture: '/assets/fonts/msdf/roboto/regular.png',
+
+		fontFamily: './assets/fonts/msdf/roboto/regular.json',
+		fontTexture: './assets/fonts/msdf/roboto/regular.png',
 		// @Note: setting fontFamily
 		// This looks very easy, but this isn't the best way for handling fonts
 		// However it is perfect for a first glance on how to get started with three-mesh-ui
 		// Be sure you next step will be `Getting started - Preload fonts`
 
 	} );
+
 
 	// three-mesh-ui root elements must be added on threejs display stack
 	// In the scene, or in another Object3D of our choice
@@ -104,41 +118,45 @@ function step2BuildThreeMeshUIElements() {
 	rootBlock.rotation.x = -0.55;
 
 
-	// Now that we have a three-mesh-ui Block, we can add three-mesh-ui Text's in it
 	rootBlock.add(
 
 
-		new ThreeMeshUI.Text( {
+		new ThreeMeshUI.Inline( {
 			// three-mesh-ui Text should defined their content to display
-			content: 'This library supports line-break-friendly-characters,',
+			textContent: 'This library supports line-break-friendly-characters,',
 
 			// if a Text is going to use the exact same Text properties as defined in its parent
 			// there is no need to set those properties again
 			// fontSize: 0.055,
-			// fontFamily: '/assets/fonts/msdf/roboto/regular.json',
-			// fontTexture: '/assets/fonts/msdf/roboto/regular.png',
+			// fontFamily: './assets/fonts/msdf/roboto/regular.json',
+			// fontTexture: './assets/fonts/msdf/roboto/regular.png',
 
 		} ),
 
-
-		new ThreeMeshUI.Text( {
-			content: ' As well as multi-font-size lines with consistent vertical',
+		new ThreeMeshUI.Inline( {
+			textContent: ' As well as multi-font-size lines with consistent vertical',
 
 			// If a Text must have different Text properties as defined in its parent
 			// We just have to define it on a specific Text
 			fontSize: 0.08,
-			fontFamily: '/assets/fonts/msdf/roboto/italic.json',
-			fontTexture: '/assets/fonts/msdf/roboto/italic.png',
+			fontFamily: './assets/fonts/msdf/roboto/italic.json',
+			fontTexture: './assets/fonts/msdf/roboto/italic.png',
 		} ),
 
-		new ThreeMeshUI.Text( {
-			content: ' spacing!',
+		new ThreeMeshUI.Inline( {
+			textContent: ' spacing!',
 			fontSize: 0.08,
-			fontFamily: '/assets/fonts/msdf/roboto/bold-italic.json',
-			fontTexture: '/assets/fonts/msdf/roboto/bold-italic.png',
+			fontFamily: './assets/fonts/msdf/roboto/bold-italic.json',
+			fontTexture: './assets/fonts/msdf/roboto/bold-italic.png',
 		} )
 
 	);
+
+
+	setInterval( ()=>{
+		rootBlock.textContent = "'./assets/fonts/msdf/roboto/bold-italic.json'",
+			rootBlock.set({textContent:"'./assets/fonts/msdf/roboto/bold-italic.json'", color:0xff9900})
+	},2500)
 
 }
 

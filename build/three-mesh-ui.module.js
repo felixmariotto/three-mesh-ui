@@ -36,1507 +36,1499 @@ var __webpack_exports__ = {};
 
 // EXPORTS
 __webpack_require__.d(__webpack_exports__, {
-  "g1": () => (/* reexport */ AlignItems_namespaceObject),
-  "gO": () => (/* reexport */ Block),
-  "km": () => (/* reexport */ ContentDirection_namespaceObject),
+  "w8": () => (/* reexport */ BaseProperty),
+  "cg": () => (/* reexport */ Behavior),
+  "gO": () => (/* reexport */ BlockElement),
+  "wb": () => (/* reexport */ DefaultValues_namespaceObject),
   "zV": () => (/* reexport */ font_FontLibrary),
-  "ol": () => (/* reexport */ InlineBlock),
-  "uM": () => (/* reexport */ JustifyContent_namespaceObject),
-  "N1": () => (/* reexport */ Keyboard),
-  "xv": () => (/* reexport */ Text),
-  "PH": () => (/* reexport */ TextAlign_namespaceObject),
-  "UH": () => (/* reexport */ Whitespace_namespaceObject),
+  "HS": () => (/* reexport */ font_FontVariant),
+  "Ec": () => (/* reexport */ InheritableProperty),
+  "gF": () => (/* reexport */ InlineElement),
+  "ol": () => (/* reexport */ InlineBlockElement),
+  "pz": () => (/* reexport */ InlineGlyph),
+  "tx": () => (/* reexport */ MSDFFontMaterialUtils),
+  "hj": () => (/* reexport */ MaterialTransformers_namespaceObject),
+  "FV": () => (/* reexport */ MeshUIBaseElement),
+  "sV": () => (/* reexport */ ShaderChunkUI),
+  "xv": () => (/* reexport */ TextElement),
+  "mx": () => (/* reexport */ TypographicFont),
+  "gE": () => (/* reexport */ TypographicGlyph),
   "ZP": () => (/* binding */ three_mesh_ui),
   "Vx": () => (/* binding */ update)
 });
 
-// NAMESPACE OBJECT: ./src/utils/block-layout/ContentDirection.js
-var ContentDirection_namespaceObject = {};
-__webpack_require__.r(ContentDirection_namespaceObject);
-__webpack_require__.d(ContentDirection_namespaceObject, {
-  "COLUMN": () => (COLUMN),
-  "COLUMN_REVERSE": () => (COLUMN_REVERSE),
-  "ROW": () => (ROW),
-  "ROW_REVERSE": () => (ROW_REVERSE),
-  "contentDirection": () => (contentDirection)
+// NAMESPACE OBJECT: ./src/core/DefaultValues.js
+var DefaultValues_namespaceObject = {};
+__webpack_require__.r(DefaultValues_namespaceObject);
+__webpack_require__.d(DefaultValues_namespaceObject, {
+  "get": () => (get),
+  "set": () => (set)
 });
 
-// NAMESPACE OBJECT: ./src/utils/block-layout/AlignItems.js
-var AlignItems_namespaceObject = {};
-__webpack_require__.r(AlignItems_namespaceObject);
-__webpack_require__.d(AlignItems_namespaceObject, {
-  "CENTER": () => (CENTER),
-  "END": () => (END),
-  "START": () => (START),
-  "STRETCH": () => (STRETCH),
-  "alignItems": () => (alignItems),
-  "warnAboutDeprecatedAlignItems": () => (warnAboutDeprecatedAlignItems)
+// NAMESPACE OBJECT: ./src/utils/mediator/transformers/MaterialTransformers.js
+var MaterialTransformers_namespaceObject = {};
+__webpack_require__.r(MaterialTransformers_namespaceObject);
+__webpack_require__.d(MaterialTransformers_namespaceObject, {
+  "alphaTestTransformer": () => (alphaTestTransformer),
+  "asPreprocessorValueTransformer": () => (asPreprocessorValueTransformer),
+  "toPreprocessorTriggerTransformer": () => (toPreprocessorTriggerTransformer),
+  "toUserDataTransformer": () => (toUserDataTransformer),
+  "uniformOrUserDataTransformer": () => (uniformOrUserDataTransformer)
 });
 
-// NAMESPACE OBJECT: ./src/utils/block-layout/JustifyContent.js
-var JustifyContent_namespaceObject = {};
-__webpack_require__.r(JustifyContent_namespaceObject);
-__webpack_require__.d(JustifyContent_namespaceObject, {
-  "CENTER": () => (JustifyContent_CENTER),
-  "END": () => (JustifyContent_END),
-  "SPACE_AROUND": () => (SPACE_AROUND),
-  "SPACE_BETWEEN": () => (SPACE_BETWEEN),
-  "SPACE_EVENLY": () => (SPACE_EVENLY),
-  "START": () => (JustifyContent_START),
-  "justifyContent": () => (justifyContent)
-});
+;// CONCATENATED MODULE: ./src/core/DefaultValues.js
+/** List the default values of the lib components */
+const _values = {
+	fontFamily: null,
+	fontSize: 0.05,
+	fontKerning: 'normal',
+	fontStyle: 'normal',
+	fontWeight : 'normal',
+	offset: 0.005,
+	lineHeight: 1.2,
+	lineBreak: '- ,.:?!\n',// added '\n' to also acts as friendly breaks when white-space:normal
+	whiteSpace: 'pre-line',
+	flexDirection : 'column',
+	justifyContent : 'start',
+	alignItems : 'start',
+	backgroundImage: null,
+	textAlign : 'left',
+	boxSizing: 'content-box',
+	position: 'static',
+	color: 0xffffff,
+	fontOpacity: 1,
+	opacity: 1,
+	fontPXRange: 4,
+	fontSupersampling: true,
+	fontSmooth: 'antialiased',
+	borderRadius: 0,
+	borderWidth: 0,
+	borderColor: 'black',
+	borderOpacity: 1,
+	backgroundSize: "cover",
+	backgroundColor: 0x000000,
+	backgroundOpacity: 0,
+	overflow: 'visible',
+	letterSpacing: 0,
+	invertAlpha : false,
+	segments: 1,
+	backgroundSide : 0, //FrontSide
+	backgroundAlphaTest: 0.02,
+	fontSide: 0, // FrontSide
+	fontAlphaTest: 0.02,
+	padding: 0,
+	margin: 0,
+	verticalAlign: "baseline"
+};
 
-// NAMESPACE OBJECT: ./src/utils/inline-layout/Whitespace.js
-var Whitespace_namespaceObject = {};
-__webpack_require__.r(Whitespace_namespaceObject);
-__webpack_require__.d(Whitespace_namespaceObject, {
-  "NORMAL": () => (NORMAL),
-  "NOWRAP": () => (NOWRAP),
-  "PRE": () => (PRE),
-  "PRE_LINE": () => (PRE_LINE),
-  "PRE_WRAP": () => (PRE_WRAP),
-  "WHITE_CHARS": () => (WHITE_CHARS),
-  "collapseWhitespaceOnInlines": () => (collapseWhitespaceOnInlines),
-  "collapseWhitespaceOnString": () => (collapseWhitespaceOnString),
-  "isValid": () => (isValid),
-  "newlineBreakability": () => (newlineBreakability),
-  "shouldBreak": () => (Whitespace_shouldBreak)
-});
+const _blocks = {
 
-// NAMESPACE OBJECT: ./src/utils/inline-layout/TextAlign.js
-var TextAlign_namespaceObject = {};
-__webpack_require__.r(TextAlign_namespaceObject);
-__webpack_require__.d(TextAlign_namespaceObject, {
-  "CENTER": () => (TextAlign_CENTER),
-  "JUSTIFY": () => (JUSTIFY),
-  "JUSTIFY_CENTER": () => (JUSTIFY_CENTER),
-  "JUSTIFY_LEFT": () => (JUSTIFY_LEFT),
-  "JUSTIFY_RIGHT": () => (JUSTIFY_RIGHT),
-  "LEFT": () => (LEFT),
-  "RIGHT": () => (RIGHT),
-  "textAlign": () => (textAlign)
-});
+};
+
+const _inlines = {
+	fontStyle: 'inherit',
+	fontWeight: 'inherit',
+	color: 'inherit'
+}
+
+const _registry = {
+	default: _values,
+	block: _blocks,
+	inline : _inlines
+}
+
+/**
+ * @param {import('./../core/elements/MeshUIBaseElement').Options} overrideProperties
+ * @param [type='default']
+ */
+const set = function ( overrideProperties , type = 'default' ) {
+
+	const values = _registry[type] || _registry.default;
+
+	for ( const property in overrideProperties ) {
+
+		values[property] = overrideProperties[property];
+
+	}
+
+}
+
+/**
+ *
+ * @param {string} property
+ * @return {any}
+ */
+const get = function ( property, type = 'default' ) {
+
+	const values = _registry[type] ? {..._values,..._registry[type]} : {..._registry.default};
+
+	if( !property ) return values;
+
+	if( !Object.prototype.hasOwnProperty.call( values, property) ) {
+
+		console.warn( `ThreeMeshUI::DefaultValues is trying to retrieve non-existing property '${property}'`);
+
+	}
+
+	return values[property];
+
+}
+
+;// CONCATENATED MODULE: ./src/core/properties/BaseProperty.js
+
+
+//JSDoc related imports
+/* eslint-disable no-unused-vars */
+
+/* eslint-enable no-unused-vars */
+
+class BaseProperty {
+
+	/**
+	 *
+	 * @param {string} propertyId
+	 * @param {any} [value=null]
+	 * @param primitive
+	 */
+	constructor( propertyId, value = null, primitive = true ) {
+
+		/**
+		 *
+		 * @type {string}
+		 * @internal
+		 */
+		this._id = propertyId;
+
+		/**
+		 *
+		 * @type {any}
+		 * @internal
+		 */
+		this._value = value;
+
+		/**
+		 *
+		 * @type {boolean}
+		 * @internal
+		 */
+		this._needsUpdate = true;
+
+		/**
+		 *
+		 * @type {boolean}
+		 * @internal
+		 */
+		this._needsProcess = false;
+
+		/**
+		 *
+		 * @type {boolean}
+		 * @internal
+		 */
+		this._needsRender = false;
+
+		/**
+		 *
+		 * @type {boolean}
+		 * @protected
+		 */
+		this._isPrimitive = primitive;
+
+	}
+
+	/**
+	 *
+	 * @return {string}
+	 */
+	get id() { return this._id; }
+
+	/**
+	 *
+	 * @return {any}
+	 */
+	get value() { return this._value; }
+
+	/**
+	 *
+	 * @param {any} value
+	 */
+	set value( value ) {
+
+		if( ! this.isValid( value) ) return;
+
+		if( this._value !== value ) {
+
+			this._value = value;
+
+			this._needsUpdate = true;
+
+		}
+
+	}
+
+	/* eslint-disable no-unused-vars */
+	/**
+	 *
+	 * @param element
+	 * @param {Object.<string,any>} out
+	 */
+	update( element , out ) { 	/* eslint-enable no-unused-vars */
+
+		// the value has been updated from setter
+		// if there is no additional logic
+		// then just output it
+		// => out[this._id] = this._value;
+		this.output( out );
+
+
+		// ??
+		//this.computeOutputValue( element );
+		// if( this._isPrimitive ) this.output( out );
+
+	}
+
+	/* eslint-disable no-unused-vars */
+	/**
+	 * Output this property in a dictionnary
+	 * @param {Object.<string,any>} out
+	 */
+	output( out ) { 	/* eslint-enable no-unused-vars */
+
+		// ie:
+		// out['borderRadius'] = this;
+		// out[this._id] = this._value;
+
+	}
+
+
+
+	/**
+	 *
+	 * @param {Out} out
+	 */
+	_outputValue( out ) {
+
+		out[this._id] = this._value;
+
+	}
+
+	/* eslint-disable no-unused-vars */
+	/**
+	 * Execute additional process after all properties have been updated
+	 * @param {MeshUIBaseElement} element
+	 */
+	process( element ) { /* eslint-enable no-unused-vars */ }
+
+	/* eslint-disable no-unused-vars */
+	/**
+	 * Execute additional process after all properties have been updated
+	 * @param {MeshUIBaseElement} element
+	 */
+	render( element ) { /* eslint-enable no-unused-vars */ }
+
+	/**
+	 *
+	 * @param {MeshUIBaseElement} element
+	 */
+	getInheritedInput ( element ) {
+
+		if( this._value !== 'inherit' ) return this._value;
+
+		const parent = element._parent._value;
+		if( parent && parent[`_${this._id}`] ) {
+
+			return parent[`_${this._id}`].getInheritedInput( parent )
+
+		}
+
+		return this.getDefaultValue();
+
+	}
+
+	/**
+	 *
+	 * @return {any}
+	 */
+	getDefaultValue() {
+
+		return get( this._id );
+
+	}
+
+	/* eslint-disable no-unused-vars */
+	/**
+	 *
+	 * @param {any} value
+	 * @return {boolean}
+	 */
+	isValid( value ) { 	/* eslint-enable no-unused-vars */
+
+		return true;
+
+	}
+
+	/**
+	 *
+	 */
+	emptyStrategyLogic () {
+
+		throw new Error( `ThreeMeshUI::${this.constructor.name} has empty strategy. Update has not been processed.` );
+
+	}
+
+}
+
+
+/**
+ * @typedef Out
+ * @type {Object & Object.<string,any>}
+ */
+
+;// CONCATENATED MODULE: ./src/core/properties/RenderOrderProperty.js
+
+
+class RenderOrderProperty extends BaseProperty{
+
+	constructor() {
+
+		super( 'renderOrder', 'auto', true);
+
+		this.output = this._outputValue;
+
+		this._actualValue = 0;
+	}
+
+	/**
+	 *
+	 * @param {number} value
+	 */
+	set value( value ) {
+
+		if( ! this.isValid( value) ) return;
+
+		this._value = value;
+
+		this._needsUpdate = true;
+
+	}
+
+	update( element, out ) {
+
+		if( this._value !== 'auto' ) {
+
+			this._actualValue = this._value;
+
+		} else {
+
+			const parent = element._parent._value;
+			if( parent !== null ) {
+
+				const parentIndex = parent._renderOrder._actualValue;
+				const positionInParent = 1 + parent._children._uis.indexOf( element );
+
+				this._actualValue = parentIndex + positionInParent;
+
+			}
+
+		}
+
+		// update any children
+		for ( const childUIElement of element._children._uis ) {
+
+			const property = childUIElement[`_renderOrder`];
+			if( property._value === 'auto' ) childUIElement[`_renderOrder`]._needsUpdate = true;
+
+		}
+
+		this._outputValue( out );
+
+	}
+
+	_outputValue( out ) {
+
+		out[this._id] = this._actualValue;
+
+	}
+
+
+	/**
+	 *
+	 * @return {number}
+	 */
+	get value() { return this._value; }
+
+}
+
+;// CONCATENATED MODULE: ./src/core/properties/InheritableProperty.js
+
+
+class InheritableProperty extends BaseProperty {
+
+	/**
+	 *
+	 * @param {string} propertyId
+	 * @param {any} [value=null]
+	 * @param primitive
+	 */
+	constructor( propertyId, value = null, primitive = true ) {
+
+		super( propertyId, value, primitive );
+
+		// @TODO : I would like to remove this rules ( here )
+		this.output = this._outputValue;
+
+		this._notInheritedValue = null;
+	}
+
+	update( element , out ) { 	/* eslint-enable no-unused-vars */
+
+		this._notInheritedValue = this._value;
+
+		if( this._notInheritedValue === 'inherit' )
+		{
+			this._notInheritedValue = this.getInheritedInput( element );
+		}
+		// else
+		// {
+		// 	this.propagate( element );
+		// }
+
+		// @TODO: Evaluate. This might be too much
+		this.propagate( element );
+
+		this._outputValue( out );
+
+	}
+
+	propagate( element ) {
+
+		// rebuild same properties on children 'inheritance'
+		for ( const childUIElement of element._children._uis ) {
+
+			const property = childUIElement[`_${this._id}`];
+			if( property !== undefined && property._value === 'inherit' ) {
+				childUIElement[`_${this._id}`]._needsUpdate = true;
+			}
+
+		}
+	}
+
+	/**
+	 * Output this property in a dictionnary
+	 * @override
+	 */
+	_outputValue( out ) { 	/* eslint-enable no-unused-vars */
+
+		out[this._id] = this._notInheritedValue;
+
+	}
+
+	set value ( value ) {
+
+		if( ! this.isValid( value) ) return;
+
+		if( this._value !== value ) {
+
+			this._value = value;
+
+			this._needsUpdate = true;
+
+		}
+
+	}
+	/**
+	 *
+	 * @override
+	 * @return {any|"inherit"}
+	 */
+	get value() {
+
+		if( this._value === 'inherit' ) return this._notInheritedValue;
+
+		return this._value;
+
+	}
+
+}
+
+;// CONCATENATED MODULE: ./src/core/properties/OffsetProperty.js
+
+
+class OffsetProperty extends InheritableProperty {
+
+	constructor( ) {
+
+		super( 'offset', 'inherit', false );
+
+	}
+
+
+	/* eslint-disable no-unused-vars */ update( element, out ) { /* eslint-enable no-unused-vars */
+
+		super.update( element, out);
+
+		// only process if element has ui parent
+		if( element._parent._value !== null ) element.position.z = this._notInheritedValue;
+
+	}
+
+
+}
+
+;// CONCATENATED MODULE: ./src/core/properties/FontSmoothProperty.js
+
+
+class FontSmoothProperty extends InheritableProperty{
+
+	constructor() {
+
+		super( 'fontSmooth', 'inherit', true);
+
+		// configure
+		this._needsUpdate = false;
+		this.isValid = _isValid;
+		this.output = this._outputValue;
+	}
+
+}
+
+const AVAILABLE_VALUES = ['inherit','none','antialiased'];
+
+/**
+ *
+ * @param {string} value
+ * @return {boolean}
+ * @private
+ */
+function _isValid( value ) {
+
+	if(  AVAILABLE_VALUES.indexOf( value ) === -1 ) {
+
+		console.warn(`.fontSmoothing value '${value}' is not valid. Aborted`);
+		return false;
+
+	}
+
+	return true;
+
+}
 
 ;// CONCATENATED MODULE: external "three"
 var x = y => { var x = {}; __webpack_require__.d(x, y); return x; }
 var y = x => () => x
-const external_three_namespaceObject = x({ ["BufferAttribute"]: () => __WEBPACK_EXTERNAL_MODULE_three__.BufferAttribute, ["BufferGeometry"]: () => __WEBPACK_EXTERNAL_MODULE_three__.BufferGeometry, ["CanvasTexture"]: () => __WEBPACK_EXTERNAL_MODULE_three__.CanvasTexture, ["Color"]: () => __WEBPACK_EXTERNAL_MODULE_three__.Color, ["EventDispatcher"]: () => __WEBPACK_EXTERNAL_MODULE_three__.EventDispatcher, ["FileLoader"]: () => __WEBPACK_EXTERNAL_MODULE_three__.FileLoader, ["LinearFilter"]: () => __WEBPACK_EXTERNAL_MODULE_three__.LinearFilter, ["Mesh"]: () => __WEBPACK_EXTERNAL_MODULE_three__.Mesh, ["Object3D"]: () => __WEBPACK_EXTERNAL_MODULE_three__.Object3D, ["Plane"]: () => __WEBPACK_EXTERNAL_MODULE_three__.Plane, ["PlaneBufferGeometry"]: () => __WEBPACK_EXTERNAL_MODULE_three__.PlaneBufferGeometry, ["PlaneGeometry"]: () => __WEBPACK_EXTERNAL_MODULE_three__.PlaneGeometry, ["ShaderMaterial"]: () => __WEBPACK_EXTERNAL_MODULE_three__.ShaderMaterial, ["Texture"]: () => __WEBPACK_EXTERNAL_MODULE_three__.Texture, ["TextureLoader"]: () => __WEBPACK_EXTERNAL_MODULE_three__.TextureLoader, ["Vector2"]: () => __WEBPACK_EXTERNAL_MODULE_three__.Vector2, ["Vector3"]: () => __WEBPACK_EXTERNAL_MODULE_three__.Vector3 });
-;// CONCATENATED MODULE: ./src/utils/block-layout/ContentDirection.js
-const ROW = "row";
-const ROW_REVERSE = "row-reverse";
-const COLUMN = "column";
-const COLUMN_REVERSE = "column-reverse";
+const external_three_namespaceObject = x({ ["BackSide"]: () => __WEBPACK_EXTERNAL_MODULE_three__.BackSide, ["BufferAttribute"]: () => __WEBPACK_EXTERNAL_MODULE_three__.BufferAttribute, ["BufferGeometry"]: () => __WEBPACK_EXTERNAL_MODULE_three__.BufferGeometry, ["Color"]: () => __WEBPACK_EXTERNAL_MODULE_three__.Color, ["DoubleSide"]: () => __WEBPACK_EXTERNAL_MODULE_three__.DoubleSide, ["EventDispatcher"]: () => __WEBPACK_EXTERNAL_MODULE_three__.EventDispatcher, ["FileLoader"]: () => __WEBPACK_EXTERNAL_MODULE_three__.FileLoader, ["FrontSide"]: () => __WEBPACK_EXTERNAL_MODULE_three__.FrontSide, ["LinearFilter"]: () => __WEBPACK_EXTERNAL_MODULE_three__.LinearFilter, ["Mesh"]: () => __WEBPACK_EXTERNAL_MODULE_three__.Mesh, ["Object3D"]: () => __WEBPACK_EXTERNAL_MODULE_three__.Object3D, ["Plane"]: () => __WEBPACK_EXTERNAL_MODULE_three__.Plane, ["PlaneGeometry"]: () => __WEBPACK_EXTERNAL_MODULE_three__.PlaneGeometry, ["ShaderMaterial"]: () => __WEBPACK_EXTERNAL_MODULE_three__.ShaderMaterial, ["Texture"]: () => __WEBPACK_EXTERNAL_MODULE_three__.Texture, ["TextureLoader"]: () => __WEBPACK_EXTERNAL_MODULE_three__.TextureLoader, ["Vector2"]: () => __WEBPACK_EXTERNAL_MODULE_three__.Vector2, ["Vector3"]: () => __WEBPACK_EXTERNAL_MODULE_three__.Vector3, ["Vector4"]: () => __WEBPACK_EXTERNAL_MODULE_three__.Vector4 });
+;// CONCATENATED MODULE: ./src/core/properties/style-properties/SubStyleProperty.js
 
-function contentDirection( container, DIRECTION, startPos, REVERSE ){
 
-	// end to end children
-	let accu = startPos;
+//JSDoc related imports
+/* eslint-disable no-unused-vars */
 
-	let childGetSize = "getWidth";
-	let axisPrimary = "x";
-	let axisSecondary = "y";
+/* eslint-enable no-unused-vars */
 
-	if( DIRECTION.indexOf( COLUMN ) === 0 ){
+/* eslint-disable no-unused-vars */
+class SubStyleProperty extends BaseProperty{
 
-		childGetSize = "getHeight";
-		axisPrimary = "y";
-		axisSecondary = "x";
+	/**
+	 *
+	 * @param {string} propertyId
+	 * @param {boolean} [primitive=true]
+	 * @param {any} defaultValue
+	 */
+	constructor( propertyId, defaultValue, primitive = true) {
 
-	}
-
-	// Refactor reduce into fori in order to get rid of this keyword
-	for ( let i = 0; i < container.childrenBoxes.length; i++ ) {
-
-		const child = container.childrenBoxes[ i ];
-
-		const CHILD_ID = child.id;
-		const CHILD_SIZE = child[childGetSize]();
-		const CHILD_MARGIN = child.margin || 0;
-
-		accu += CHILD_MARGIN * REVERSE;
-
-		container.childrenPos[ CHILD_ID ] = {
-			[axisPrimary]: accu + ( ( CHILD_SIZE / 2 ) * REVERSE ),
-			[axisSecondary]: 0
-		};
-
-		// update accu for next children
-		accu += ( REVERSE * ( CHILD_SIZE + CHILD_MARGIN ) );
-
-	}
-
-}
-
-;// CONCATENATED MODULE: ./src/utils/block-layout/AlignItems.js
-
-
-
-const START = "start";
-const CENTER = "center";
-const END = "end";
-const STRETCH = "stretch"; // Still bit experimental
-
-function alignItems( boxComponent, DIRECTION){
-
-	const ALIGNMENT = boxComponent.getAlignItems();
-	if( AVAILABLE_ALIGN_ITEMS.indexOf(ALIGNMENT) === -1 ){
-
-		console.warn( `alignItems === '${ALIGNMENT}' is not supported` );
-
-	}
-
-	let getSizeMethod = "getWidth";
-	let axis = "x";
-	if( DIRECTION.indexOf( ROW ) === 0 ){
-
-		getSizeMethod = "getHeight";
-		axis = "y";
-
-	}
-	const AXIS_TARGET = ( boxComponent[getSizeMethod]() / 2 ) - ( boxComponent.padding || 0 );
-
-	boxComponent.childrenBoxes.forEach( ( child ) => {
-
-		let offset;
-
-		switch ( ALIGNMENT ){
-
-			case END:
-			case 'right': // @TODO : Deprecated and will be remove upon 7.x.x
-			case 'bottom': // @TODO : Deprecated and will be remove upon 7.x.x
-				if( DIRECTION.indexOf( ROW ) === 0 ){
-
-					offset = - AXIS_TARGET + ( child[getSizeMethod]() / 2 ) + ( child.margin || 0 );
-
-				}else{
-
-					offset = AXIS_TARGET - ( child[getSizeMethod]() / 2 ) - ( child.margin || 0 );
-
-				}
-
-				break;
-
-			case START:
-			case 'left': // @TODO : Deprecated and will be remove upon 7.x.x
-			case 'top': // @TODO : Deprecated and will be remove upon 7.x.x
-				if( DIRECTION.indexOf( ROW ) === 0 ){
-
-					offset = AXIS_TARGET - ( child[getSizeMethod]() / 2 ) - ( child.margin || 0 );
-
-				}else{
-
-					offset = - AXIS_TARGET + ( child[getSizeMethod]() / 2 ) + ( child.margin || 0 );
-
-				}
-
-				break;
-		}
-
-		boxComponent.childrenPos[ child.id ][axis] = offset || 0;
-
-	} );
-
-}
-
-/**
- * @deprecated
- * // @TODO: Be remove upon 7.x.x
- * @param alignment
- */
-function warnAboutDeprecatedAlignItems( alignment ){
-
-	if( DEPRECATED_ALIGN_ITEMS.indexOf(alignment) !== - 1){
-
-		console.warn(`alignItems === '${alignment}' is deprecated and will be remove in 7.x.x. Fallback are 'start'|'end'`)
-
-	}
-
-}
-
-const AVAILABLE_ALIGN_ITEMS = [
-	START,
-	CENTER,
-	END,
-	STRETCH,
-	'top', // @TODO: Be remove upon 7.x.x
-	'right', // @TODO: Be remove upon 7.x.x
-	'bottom', // @TODO: Be remove upon 7.x.x
-	'left' // @TODO: Be remove upon 7.x.x
-];
-
-// @TODO: Be remove upon 7.x.x
-const DEPRECATED_ALIGN_ITEMS = [
-	'top',
-	'right',
-	'bottom',
-	'left'
-];
-
-
-;// CONCATENATED MODULE: ./src/utils/block-layout/JustifyContent.js
-const JustifyContent_START = "start";
-const JustifyContent_CENTER = "center";
-const JustifyContent_END = "end";
-const SPACE_AROUND = 'space-around';
-const SPACE_BETWEEN = 'space-between';
-const SPACE_EVENLY = 'space-evenly';
-
-function justifyContent( boxComponent, direction, startPos, REVERSE){
-
-	const JUSTIFICATION = boxComponent.getJustifyContent();
-	if ( AVAILABLE_JUSTIFICATIONS.indexOf( JUSTIFICATION ) === -1 ) {
-
-		console.warn( `justifyContent === '${ JUSTIFICATION }' is not supported` );
-
-	}
-
-	const side = direction.indexOf('row') === 0 ? 'width' : 'height'
-	const usedDirectionSpace = boxComponent.getChildrenSideSum( side );
-
-	const INNER_SIZE = side === 'width' ? boxComponent.getInnerWidth() : boxComponent.getInnerHeight();
-	const remainingSpace = INNER_SIZE - usedDirectionSpace;
-
-	// Items Offset
-	const axisOffset = ( startPos * 2 ) - ( usedDirectionSpace * Math.sign( startPos ) );
-	// const axisOffset = ( startPos * 2 ) - ( usedDirectionSpace * REVERSE );
-	const justificationOffset = _getJustificationOffset( JUSTIFICATION, axisOffset );
-
-	// Items margin
-	const justificationMargins = _getJustificationMargin( boxComponent.childrenBoxes, remainingSpace, JUSTIFICATION, REVERSE );
-
-	// Apply
-	const axis = direction.indexOf( 'row' ) === 0 ? "x" : "y"
-	boxComponent.childrenBoxes.forEach( ( child , childIndex ) => {
-
-		boxComponent.childrenPos[ child.id ][axis] -= justificationOffset - justificationMargins[childIndex];
-
-	} );
-}
-
-const AVAILABLE_JUSTIFICATIONS = [
-	JustifyContent_START,
-	JustifyContent_CENTER,
-	JustifyContent_END,
-	SPACE_AROUND,
-	SPACE_BETWEEN,
-	SPACE_EVENLY
-];
-
-/**
- *
- * @param {string} justification
- * @param {number} axisOffset
- * @returns {number}
- */
-function _getJustificationOffset( justification, axisOffset ){
-
-	// Only end and center have justification offset
-	switch ( justification ){
-
-		case JustifyContent_END:
-			return axisOffset;
-
-		case JustifyContent_CENTER:
-			return axisOffset / 2;
-	}
-
-	return 0;
-}
-
-/**
- *
- * @param items
- * @param spaceToDistribute
- * @param justification
- * @param reverse
- * @returns {any[]}
- */
-function _getJustificationMargin( items, spaceToDistribute, justification, reverse ){
-
-	const justificationMargins = Array( items.length ).fill( 0 );
-
-	if ( spaceToDistribute > 0 ) {
-
-		// Only space-*  have justification margin betweem items
-		switch ( justification ) {
-
-			case SPACE_BETWEEN:
-				// only one children would act as start
-				if ( items.length > 1 ) {
-
-					const margin = spaceToDistribute / ( items.length - 1 ) * reverse;
-					// set this margin for any children
-
-					// except for first child
-					justificationMargins[ 0 ] = 0;
-
-					for ( let i = 1; i < items.length; i++ ) {
-
-						justificationMargins[ i ] = margin * i;
-
-					}
-
-				}
-
-				break;
-
-			case SPACE_EVENLY:
-				// only one children would act as start
-				if ( items.length > 1 ) {
-
-					const margin = spaceToDistribute / ( items.length + 1 ) * reverse;
-
-					// set this margin for any children
-					for ( let i = 0; i < items.length; i++ ) {
-
-						justificationMargins[ i ] = margin * ( i + 1 );
-
-					}
-
-				}
-
-				break;
-
-			case SPACE_AROUND:
-				// only one children would act as start
-				if ( items.length > 1 ) {
-
-					const margin = spaceToDistribute / ( items.length ) * reverse;
-
-					const start = margin / 2;
-					justificationMargins[ 0 ] = start;
-
-					// set this margin for any children
-					for ( let i = 1; i < items.length; i++ ) {
-
-						justificationMargins[ i ] = start + margin * i;
-
-					}
-
-				}
-
-				break;
-
-		}
-
-	}
-
-	return justificationMargins;
-
-}
-
-;// CONCATENATED MODULE: ./src/components/core/BoxComponent.js
-/**
-
-Job: Handle everything related to a BoxComponent element dimensioning and positioning
-
-Knows: Parents and children dimensions and positions
-
-It's worth noting that in three-mesh-ui, it's the parent Block that computes
-its children position. A Block can only have either only box components (Block)
-as children, or only inline components (Text, InlineBlock).
-
- */
-
-
-
-
-
-function BoxComponent( Base ) {
-
-	return class BoxComponent extends Base {
-
-		constructor( options ) {
-
-			super( options );
-
-			this.isBoxComponent = true;
-			this.childrenPos = {};
-
-		}
-
-
-		/** Get width of this component minus its padding */
-		getInnerWidth() {
-
-			const DIRECTION = this.getContentDirection();
-
-			switch ( DIRECTION ) {
-
-				case 'row' :
-				case 'row-reverse' :
-					return this.width - ( this.padding * 2 || 0 ) || this.getChildrenSideSum( 'width' );
-
-				case 'column' :
-				case 'column-reverse' :
-					return this.getHighestChildSizeOn( 'width' );
-
-				default :
-					console.error( `Invalid contentDirection : ${DIRECTION}` );
-					break;
-
-			}
-
-		}
-
-		/** Get height of this component minus its padding */
-		getInnerHeight() {
-
-			const DIRECTION = this.getContentDirection();
-
-			switch ( DIRECTION ) {
-
-				case 'row' :
-				case 'row-reverse' :
-					return this.getHighestChildSizeOn( 'height' );
-
-				case 'column' :
-				case 'column-reverse' :
-					return this.height - ( this.padding * 2 || 0 ) || this.getChildrenSideSum( 'height' );
-
-				default :
-					console.error( `Invalid contentDirection : ${DIRECTION}` );
-					break;
-
-			}
-
-		}
-
-		/** Return the sum of all this component's children sides + their margin */
-		getChildrenSideSum( dimension ) {
-
-			return this.childrenBoxes.reduce( ( accu, child ) => {
-
-				const margin = ( child.margin * 2 ) || 0;
-
-				const CHILD_SIZE = ( dimension === 'width' ) ?
-					( child.getWidth() + margin ) :
-					( child.getHeight() + margin );
-
-				return accu + CHILD_SIZE;
-
-			}, 0 );
-
-		}
-
-		/** Look in parent record what is the instructed position for this component, then set its position */
-		setPosFromParentRecords() {
-
-			if ( this.parentUI && this.parentUI.childrenPos[ this.id ] ) {
-
-				this.position.x = ( this.parentUI.childrenPos[ this.id ].x );
-				this.position.y = ( this.parentUI.childrenPos[ this.id ].y );
-
-			}
-
-		}
-
-		/** Position inner elements according to dimensions and layout parameters. */
-		computeChildrenPosition() {
-
-			if ( this.children.length > 0 ) {
-
-				const DIRECTION = this.getContentDirection();
-				let directionalOffset;
-
-				switch ( DIRECTION ) {
-
-					case ROW :
-						directionalOffset = - this.getInnerWidth() / 2;
-						break;
-
-					case ROW_REVERSE :
-						directionalOffset = this.getInnerWidth() / 2;
-						break;
-
-					case COLUMN :
-						directionalOffset = this.getInnerHeight() / 2;
-						break;
-
-					case COLUMN_REVERSE :
-						directionalOffset = - this.getInnerHeight() / 2;
-						break;
-
-				}
-
-				const REVERSE = - Math.sign( directionalOffset );
-
-				contentDirection(this, DIRECTION, directionalOffset, REVERSE );
-				justifyContent(this, DIRECTION, directionalOffset, REVERSE );
-				alignItems( this, DIRECTION );
-			}
-
-		}
+		super( propertyId, 'unset', primitive );
 
 		/**
-		 * Returns the highest linear dimension among all the children of the passed component
-		 * MARGIN INCLUDED
+		 * @type {any}
+		 * @internal
 		 */
-		getHighestChildSizeOn( direction ) {
-
-			return this.childrenBoxes.reduce( ( accu, child ) => {
-
-				const margin = child.margin || 0;
-				const maxSize = direction === 'width' ?
-					child.getWidth() + ( margin * 2 ) :
-					child.getHeight() + ( margin * 2 );
-
-				return Math.max( accu, maxSize );
-
-			}, 0 );
-
-		}
+		this._input = 'inherit';
 
 		/**
-		 * Get width of this element
-		 * With padding, without margin
+		 *
+		 * @type {boolean}
+		 * @protected
 		 */
-		getWidth() {
-
-
-			// This is for stretch alignment
-			// @TODO : Conceive a better performant way
-			if( this.parentUI && this.parentUI.getAlignItems() === 'stretch' ){
-
-				if( this.parentUI.getContentDirection().indexOf('column') !== -1 ){
-
-					return this.parentUI.getWidth() -  ( this.parentUI.padding * 2 || 0 );
-
-				}
-
-			}
-
-
-			return this.width || this.getInnerWidth() + ( this.padding * 2 || 0 );
-
-		}
+		this._allowsInherit = true;
 
 		/**
-		 * Get height of this element
-		 * With padding, without margin
+		 * The input value that won't be 'inherit'
+		 * @type {any}
+		 * @protected
 		 */
-		getHeight() {
-
-			// This is for stretch alignment
-			// @TODO : Conceive a better performant way
-			if( this.parentUI && this.parentUI.getAlignItems() === 'stretch' ){
-
-				if( this.parentUI.getContentDirection().indexOf('row') !== -1 ){
-
-					return this.parentUI.getHeight() - ( this.parentUI.padding * 2 || 0 );
-
-				}
-
-			}
-
-			return this.height || this.getInnerHeight() + ( this.padding * 2 || 0 );
-
-		}
-
-	};
-
-}
-
-
-;// CONCATENATED MODULE: ./src/utils/inline-layout/Whitespace.js
-/**
- * @see https://developer.mozilla.org/en-US/docs/Web/API/Document_Object_Model/Whitespace#whitespace_helper_functions
- *
- * Throughout, whitespace is defined as one of the characters
- *  "\t" TAB \u0009
- *  "\n" LF  \u000A
- *  "\r" CR  \u000D
- *  " "  SPC \u0020
- *
- * This does not use Javascript's "\s" because that includes non-breaking
- * spaces (and also some other characters).
- **/
-const WHITE_CHARS = { '\t': '\u0009', '\n': '\u000A', '\r': '\u000D', ' ': '\u0020' };
-
-const NORMAL = 'normal';
-const NOWRAP = 'nowrap';
-const PRE = 'pre';
-const PRE_LINE = 'pre-line';
-const PRE_WRAP = 'pre-wrap';
-
-const AVAILABLE_VALUES = [ NORMAL, NOWRAP, PRE, PRE_LINE, PRE_WRAP ];
-
-/**
- * Check the validity of a whitespace
- * @param value
- * @returns {string}
- */
-function isValid ( value ){
-
-	if( AVAILABLE_VALUES.indexOf(value) === -1 ){
-
-		console.warn(`Whitespace::isValid() The provided white-space value ('${value}') is not valid !`);
-		console.warn(`    - Automatic fallback to ('${PRE_LINE}')`);
-
-		value = PRE_LINE;
-
-	}
-
-	return value;
-
-}
-
-/**
- * Collapse whitespaces and sequence of whitespaces on string
- *
- * @param textContent
- * @param whiteSpace
- * @returns {*}
- */
-const collapseWhitespaceOnString = function ( textContent, whiteSpace ) {
-
-	switch ( whiteSpace ) {
-
-		case NOWRAP:
-		case NORMAL:
-			// newlines are treated as other whitespace characters
-			textContent = textContent.replace( /\n/g, ' ' );
-		//falls through
-
-		case PRE_LINE:
-			// collapsed white spaces sequences
-			textContent = textContent.replace( /[ ]{2,}/g, ' ' );
-			break;
-
-		default:
-
-	}
-
-	return textContent;
-
-};
-
-/**
- * Get the breakability of a newline character according to white-space property
- *
- * @param whiteSpace
- * @returns {string|null}
- */
-const newlineBreakability = function ( whiteSpace ) {
-
-	switch ( whiteSpace ) {
-
-		case PRE:
-		case PRE_WRAP:
-		case PRE_LINE:
-			return 'mandatory';
-	}
-
-	// case NOWRAP:
-	// case NORMAL:
-	// default:
-
-	return null;
-
-};
-
-/**
- * Check for breaks in inlines according to whiteSpace value
- *
- * @param inlines
- * @param i
- * @param lastInlineOffset
- * @param options
- * @returns {boolean}
- */
-const Whitespace_shouldBreak = function( inlines, i, lastInlineOffset, options){
-	const inline = inlines[i];
-
-	switch ( options.WHITESPACE ){
-
-		case NORMAL:
-		case PRE_LINE:
-		case PRE_WRAP:
-
-			// prevent additional computation if line break is mandatory
-			if( inline.lineBreak === 'mandatory' ) return true;
-
-			// Part of inline now
-			// const kerning = inline.kerning ? inline.kerning : 0;
-			// const xoffset = inline.xoffset ? inline.xoffset : 0;
-			// const xadvance = inline.xadvance ? inline.xadvance : inline.width;
-
-
-			// ?? Missing letterSpacing ?
-			// prevent additional computation if this character already exceed the available size
-			if( lastInlineOffset + inline.xadvance + inline.xoffset + inline.kerning > options.INNER_WIDTH ) return true;
-
-
-			const nextBreak = _distanceToNextBreak( inlines, i, options );
-			return _shouldFriendlyBreak( inlines[ i - 1 ], lastInlineOffset, nextBreak, options );
-
-		case PRE:
-			return inline.lineBreak === 'mandatory';
-
-		case NOWRAP:
-		default:
-			return false;
-	}
-}
-
-
-/**
- * Alter a line of inlines according to white-space property
- * @param line
- * @param {('normal'|'pre-wrap'|'pre-line')} whiteSpace
- */
-const collapseWhitespaceOnInlines = function ( line, whiteSpace ) {
-
-	const firstInline = line[ 0 ];
-	const lastInline = line[ line.length - 1 ];
-
-	// @see https://developer.mozilla.org/en-US/docs/Web/API/Document_Object_Model/Whitespace
-	//
-	// current implementation is 'pre-line'
-	// if the breaking character is a space, get the previous one
-	switch ( whiteSpace ) {
-
-		// trim/collapse first and last whitespace characters of a line
-		case PRE_WRAP:
-			// only process whiteChars glyphs inlines
-			// if( firstInline.glyph && whiteChars[firstInline.glyph] && line.length > 1 ){
-			if ( firstInline.char && firstInline.char === '\n' && line.length > 1 ) {
-
-				_collapseLeftInlines( [ firstInline ], line[ 1 ] );
-
-			}
-
-			// if( lastInline.glyph && whiteChars[lastInline.glyph] && line.length > 1 ){
-			if ( lastInline.char && lastInline.char === '\n' && line.length > 1 ) {
-
-				_collapseRightInlines( [ lastInline ], line[ line.length - 2 ] );
-
-			}
-
-			break;
-
-
-		case PRE_LINE:
-		case NOWRAP:
-		case NORMAL:
-			let inlinesToCollapse = [];
-			let collapsingTarget;
-			// collect starting whitespaces to collapse
-			for ( let i = 0; i < line.length; i++ ) {
-
-				const inline = line[ i ];
-
-				if ( inline.char && WHITE_CHARS[ inline.char ] && line.length > i ) {
-
-					inlinesToCollapse.push( inline );
-					collapsingTarget = line[ i + 1 ];
-					continue;
-
-				}
-
-				break;
-
-			}
-
-			_collapseLeftInlines( inlinesToCollapse, collapsingTarget );
-
-
-			inlinesToCollapse = [];
-			collapsingTarget = null;
-			// collect ending whitespace to collapse
-			for ( let i = line.length - 1; i > 0; i-- ) {
-
-				const inline = line[ i ];
-				if ( inline.char && WHITE_CHARS[ inline.char ] && i > 0 ) {
-
-					inlinesToCollapse.push( inline );
-					collapsingTarget = line[ i - 1 ];
-					continue;
-
-				}
-
-				break;
-
-			}
-
-			_collapseRightInlines( inlinesToCollapse, collapsingTarget );
-			break;
-
-		case PRE:
-			break;
-
-
-		default:
-			console.warn( `whiteSpace: '${whiteSpace}' is not valid` );
-			return 0;
-
-	}
-
-	return firstInline.offsetX;
-
-};
-
-
-/***********************************************************************************************************************
- * Internal logics
- **********************************************************************************************************************/
-
-
-/**
- * Visually collapse inlines from right to left ( endtrim )
- * @param {Array} inlines
- * @param targetInline
- * @private
- */
-function _collapseRightInlines( inlines, targetInline ) {
-
-	if ( !targetInline ) return;
-
-	for ( let i = 0; i < inlines.length; i++ ) {
-
-		const inline = inlines[ i ];
-
-		// inline.width = 0;
-		// inline.height = 0;
-		inline.fontFactor = 0;
-		inline.offsetX = targetInline.offsetX + targetInline.width;
-
-	}
-
-}
-
-/**
- * Visually collapse inlines from left to right (starttrim)
- * @param {Array} inlines
- * @param targetInline
- * @private
- */
-function _collapseLeftInlines( inlines, targetInline ) {
-
-	if ( !targetInline ) return;
-
-	for ( let i = 0; i < inlines.length; i++ ) {
-
-		const inline = inlines[ i ];
-
-		// inline.width = 0;
-		// inline.height = 0;
-		inline.fontFactor = 0;
-		inline.offsetX = targetInline.offsetX;
-
-	}
-
-}
-
-/**
- * get the distance in world coord to the next glyph defined
- * as break-line-safe ( like whitespace for instance )
- * @private
- */
-function _distanceToNextBreak( inlines, currentIdx, options, accu ) {
-
-	accu = accu || 0;
-
-	// end of the text
-	if ( !inlines[ currentIdx ] ) return accu;
-
-	const inline = inlines[ currentIdx ];
-
-	// const kerning = inline.kerning ? inline.kerning : 0;
-	// const xoffset = inline.xoffset ? inline.xoffset : 0;
-	// const xadvance = inline.xadvance ? inline.xadvance : inline.width;
-
-	// if inline.lineBreak is set, it is 'mandatory' or 'possible'
-	if ( inline.lineBreak ) return accu + inline.xadvance;
-
-	// no line break is possible on this character
-	return _distanceToNextBreak(
-		inlines,
-		currentIdx + 1,
-		options,
-		accu + inline.xadvance + inline.xoffset + inline.kerning + options.LETTERSPACING
-	);
-
-}
-
-/**
- * Test if we should line break here even if the current glyph is not out of boundary.
- * It might be necessary if the last glyph was break-line-friendly (whitespace, hyphen..)
- * and the distance to the next friendly glyph is out of boundary.
- */
-function _shouldFriendlyBreak( prevChar, lastInlineOffset, nextBreak, options ) {
-
-	// We can't check if last glyph is break-line-friendly it does not exist
-	if ( !prevChar || !prevChar.char ) return false;
-
-	// Next break-line-friendly glyph is inside boundary
-	if ( lastInlineOffset + nextBreak < options.INNER_WIDTH ) return false;
-
-	// Previous glyph was break-line-friendly
-	return options.BREAKON.indexOf( prevChar.char ) > -1;
-
-}
-
-;// CONCATENATED MODULE: ./src/utils/inline-layout/TextAlign.js
-const LEFT = 'left';
-const RIGHT = 'right';
-const TextAlign_CENTER = 'center';
-const JUSTIFY = 'justify';
-const JUSTIFY_LEFT = 'justify-left';
-const JUSTIFY_RIGHT = 'justify-right';
-const JUSTIFY_CENTER = 'justify-center';
-
-/**
- *
- * @param {Array.<Array.<InlineCharacter>>} lines
- * @param ALIGNMENT
- * @param INNER_WIDTH
- */
-function textAlign( lines, ALIGNMENT, INNER_WIDTH ) {
-
-	// Start the alignment by sticking to directions : left, right, center
-	for ( let i = 0; i < lines.length; i++ ) {
-
-		const line = lines[ i ];
-
-		// compute the alignment offset of the line
-		const offsetX = _computeLineOffset( line, ALIGNMENT, INNER_WIDTH, i === lines.length - 1 );
-
-		// apply the offset to each characters of the line
-		for ( let j = 0; j < line.length; j++ ) {
-
-			line[ j ].offsetX += offsetX;
-
-		}
-
-	}
-
-	// last operations for justifications alignments
-	if ( ALIGNMENT.indexOf( JUSTIFY ) === 0 ) {
-
-		for ( let i = 0; i < lines.length; i++ ) {
-
-			const line = lines[ i ];
-
-
-			// do not process last line for justify-left or justify-right
-			if ( ALIGNMENT.indexOf( '-' ) !== -1 && i === lines.length - 1 ) return;
-
-			// can only justify is space is remaining
-			const REMAINING_SPACE = INNER_WIDTH - line.width;
-			if ( REMAINING_SPACE <= 0 ) return;
-
-			// count the valid spaces to extend
-			// Do not take the first nor the last space into account
-			let validSpaces = 0;
-			for ( let j = 1; j < line.length - 1; j++ ) {
-
-				validSpaces += line[ j ].char === ' ' ? 1 : 0;
-
-			}
-			const additionalSpace = REMAINING_SPACE / validSpaces;
-
-
-			// for right justification, process the loop in reverse
-			let inverter = 1;
-			if ( ALIGNMENT === JUSTIFY_RIGHT ) {
-
-				line.reverse();
-				inverter = -1;
-
-			}
-
-			let incrementalOffsetX = 0;
-
-			// start at ONE to avoid first space
-			for ( let j = 1; j <= line.length - 1; j++ ) {
-
-				// apply offset on each char
-				const inlineCharacter = line[ j ];
-				inlineCharacter.offsetX += incrementalOffsetX * inverter;
-
-				// and increase it when space
-				incrementalOffsetX += inlineCharacter.char === ' ' ? additionalSpace : 0;
-
-			}
-
-			// for right justification, the loop was processed in reverse
-			if ( ALIGNMENT === JUSTIFY_RIGHT ) {
-				line.reverse();
-			}
-
-
-		}
-
-	}
-
-}
-
-
-const _computeLineOffset = ( line, ALIGNMENT, INNER_WIDTH, lastLine ) => {
-
-	switch ( ALIGNMENT ) {
-
-		case JUSTIFY_LEFT:
-		case JUSTIFY:
-		case LEFT:
-			return -INNER_WIDTH / 2;
-
-		case JUSTIFY_RIGHT:
-		case RIGHT:
-			return -line.width + ( INNER_WIDTH / 2 );
-
-
-		case TextAlign_CENTER:
-			return -line.width / 2;
-
-		case JUSTIFY_CENTER:
-			if ( lastLine ) {
-
-				// center alignement
-				return -line.width / 2;
-
-			}
-
-				// left alignment
-				return -INNER_WIDTH / 2;
-
-		default:
-			console.warn( `textAlign: '${ALIGNMENT}' is not valid` );
-
-	}
-
-};
-
-;// CONCATENATED MODULE: ./src/components/core/InlineManager.js
-/**
-
-Job: Positioning inline elements according to their dimensions inside this component
-
-Knows: This component dimensions, and its children dimensions
-
-This module is used for Block composition (Object.assign). A Block is responsible
-for the positioning of its inline elements. In order for it to know what is the
-size of these inline components, parseParams must be called on its children first.
-
-It's worth noting that a Text is not positioned as a whole, but letter per letter,
-in order to create a line break when necessary. It's Text that merge the various letters
-in its own updateLayout function.
-
- */
-
-
-
-function InlineManager( Base ) {
-
-	return class InlineManager extends Base {
-
-		/** Compute children .inlines objects position, according to their pre-computed dimensions */
-		computeInlinesPosition() {
-
-			// computed by BoxComponent
-			const INNER_WIDTH = this.getWidth() - ( this.padding * 2 || 0 );
-			const INNER_HEIGHT = this.getHeight() - ( this.padding * 2 || 0 );
-
-			// got by MeshUIComponent
-			const JUSTIFICATION = this.getJustifyContent();
-			const ALIGNMENT = this.getTextAlign();
-
-			const INTERLINE = this.getInterLine();
-
-			// Compute lines
-			const lines = this.computeLines();
-
-			/////////////////////////////////////////////////////////////////
-			// Position lines according to justifyContent and contentAlign
-			/////////////////////////////////////////////////////////////////
-
-			// individual vertical offset
-
-			let textHeight = lines.reduce( ( offsetY, line, i, arr ) => {
-
-				const charAlignement = line.lineHeight - line.lineBase;
-
-				line.forEach( ( inline ) => {
-
-					inline.offsetY = offsetY - line.lineHeight + charAlignement + arr[ 0 ].lineHeight;
-
-				} );
-
-				return offsetY - line.lineHeight - INTERLINE;
-
-			}, 0 ) + INTERLINE;
-
-			//
-
-			textHeight = Math.abs( textHeight );
-
-			// Line vertical positioning
-
-			const justificationOffset = ( () => {
-				switch ( JUSTIFICATION ) {
-
-					case 'start':
-						return ( INNER_HEIGHT / 2 ) - lines[ 0 ].lineHeight;
-					case 'end':
-						return textHeight - lines[ 0 ].lineHeight - ( INNER_HEIGHT / 2 ) + ( lines[ lines.length - 1 ].lineHeight - lines[ lines.length - 1 ].lineHeight );
-					case 'center':
-						return ( textHeight / 2 ) - lines[ 0 ].lineHeight;
-					default:
-						console.warn( `justifyContent: '${JUSTIFICATION}' is not valid` );
-
-				}
-			} )();
-
-			// const justificationOffset = 0;
-
-			//
-
-			lines.forEach( ( line ) => {
-
-				line.forEach( ( inline ) => {
-
-					inline.offsetY += justificationOffset;
-
-				} );
-
-			} );
-
-			// Horizontal positioning
-			textAlign( lines, ALIGNMENT, INNER_WIDTH );
-
-
-			// Make lines accessible to provide helpful informations
-			this.lines = lines;
-
-		}
-
-
-		calculateBestFit( bestFit ) {
-
-			if ( this.childrenInlines.length === 0 ) return;
-
-			switch ( bestFit ) {
-				case 'grow':
-					this.calculateGrowFit();
-					break;
-				case 'shrink':
-					this.calculateShrinkFit();
-					break;
-				case 'auto':
-					this.calculateAutoFit();
-					break;
-			}
-
-		}
-
-		calculateGrowFit() {
-
-			const INNER_HEIGHT = this.getHeight() - ( this.padding * 2 || 0 );
-
-			//Iterative method to find a fontSize of text children that text will fit into container
-			let iterations = 1;
-			const heightTolerance = 0.075;
-			const firstText = this.childrenInlines.find( inlineComponent => inlineComponent.isText );
-
-			let minFontMultiplier = 1;
-			let maxFontMultiplier = 2;
-			let fontMultiplier = firstText._fitFontSize ? firstText._fitFontSize / firstText.getFontSize() : 1;
-			let textHeight;
-
-			do {
-
-				textHeight = this.calculateHeight( fontMultiplier );
-
-				if ( textHeight > INNER_HEIGHT ) {
-
-					if ( fontMultiplier <= minFontMultiplier ) { // can't shrink text
-
-						this.childrenInlines.forEach( inlineComponent => {
-
-							if ( inlineComponent.isInlineBlock ) return;
-
-							// ensure fontSize does not shrink
-							inlineComponent._fitFontSize = inlineComponent.getFontSize();
-
-						} );
-
-						break;
-
-					}
-
-					maxFontMultiplier = fontMultiplier;
-					fontMultiplier -= ( maxFontMultiplier - minFontMultiplier ) / 2;
-
-				} else {
-
-					if ( Math.abs( INNER_HEIGHT - textHeight ) < heightTolerance ) break;
-
-					if ( Math.abs( fontMultiplier - maxFontMultiplier ) < 5e-10 ) maxFontMultiplier *= 2;
-
-					minFontMultiplier = fontMultiplier;
-					fontMultiplier += ( maxFontMultiplier - minFontMultiplier ) / 2;
-
-				}
-
-			} while ( ++iterations <= 10 );
-
-		}
-
-		calculateShrinkFit() {
-
-			const INNER_HEIGHT = this.getHeight() - ( this.padding * 2 || 0 );
-
-			// Iterative method to find a fontSize of text children that text will fit into container
-			let iterations = 1;
-			const heightTolerance = 0.075;
-			const firstText = this.childrenInlines.find( inlineComponent => inlineComponent.isText );
-
-			let minFontMultiplier = 0;
-			let maxFontMultiplier = 1;
-			let fontMultiplier = firstText._fitFontSize ? firstText._fitFontSize / firstText.getFontSize() : 1;
-			let textHeight;
-
-			do {
-
-				textHeight = this.calculateHeight( fontMultiplier );
-
-				if ( textHeight > INNER_HEIGHT ) {
-
-					maxFontMultiplier = fontMultiplier;
-					fontMultiplier -= ( maxFontMultiplier - minFontMultiplier ) / 2;
-
-				} else {
-
-					if ( fontMultiplier >= maxFontMultiplier ) { // can't grow text
-
-						this.childrenInlines.forEach( inlineComponent => {
-
-							if ( inlineComponent.isInlineBlock ) return;
-
-							// ensure fontSize does not grow
-							inlineComponent._fitFontSize = inlineComponent.getFontSize();
-
-						} );
-
-						break;
-
-					}
-
-					if ( Math.abs( INNER_HEIGHT - textHeight ) < heightTolerance ) break;
-
-					minFontMultiplier = fontMultiplier;
-					fontMultiplier += ( maxFontMultiplier - minFontMultiplier ) / 2;
-
-				}
-
-			} while ( ++iterations <= 10 );
-		}
-
-		calculateAutoFit()  {
-
-			const INNER_HEIGHT = this.getHeight() - ( this.padding * 2 || 0 );
-
-			//Iterative method to find a fontSize of text children that text will fit into container
-			let iterations = 1;
-			const heightTolerance = 0.075;
-			const firstText = this.childrenInlines.find( inlineComponent => inlineComponent.isText );
-
-			let minFontMultiplier = 0;
-			let maxFontMultiplier = 2;
-			let fontMultiplier = firstText._fitFontSize ? firstText._fitFontSize / firstText.getFontSize() : 1;
-			let textHeight;
-
-			do {
-
-				textHeight = this.calculateHeight( fontMultiplier );
-
-				if ( textHeight > INNER_HEIGHT ) {
-
-					maxFontMultiplier = fontMultiplier;
-					fontMultiplier -= ( maxFontMultiplier - minFontMultiplier ) / 2;
-
-				} else {
-
-					if ( Math.abs( INNER_HEIGHT - textHeight ) < heightTolerance ) break;
-
-					if ( Math.abs( fontMultiplier - maxFontMultiplier ) < 5e-10 ) maxFontMultiplier *= 2;
-
-					minFontMultiplier = fontMultiplier;
-					fontMultiplier += ( maxFontMultiplier - minFontMultiplier ) / 2;
-
-				}
-
-			} while ( ++iterations <= 10 );
-		}
+		this._inheritedInput = undefined;
 
 		/**
-		 * computes lines based on children's inlines array.
+		 *
+		 * @type {any}
+		 * @internal
+		 */
+		this._inline = undefined;
+
+	}
+
+	/**
+	 *
+	 * @param {MeshUIBaseElement} element
+	 * @param {Object.<string,any> } out
+	 */
+	update( element, out ) {
+
+		if( !this._allowsInherit ) {
+
+			this._inheritedInput = this.getInheritedInput( element );
+
+		}
+
+		this.computeOutputValue( element );
+
+		// rebuild same properties on children 'inheritance'
+		for ( const childUIElement of element._children._uis ) {
+
+			const property = childUIElement[`_${this._id}`];
+
+			if( !property ) continue;
+
+			const target = property._input ? property._input : property._value;
+
+			if( target === 'inherit' ) childUIElement[`_${this._id}`]._needsUpdate = true;
+
+		}
+
+		this.output( out );
+
+	}
+
+	/**
+	 *
+	 * @param {MeshUIBaseElement} element
+	 */
+	computeOutputValue( element ) {
+
+		this._value = this._input;
+
+	}
+
+	/**
+	 *
+	 * @param {MeshUIBaseElement} element
+	 */
+	_computeFromInherited( element ) {
+
+		this._value = this._inheritedInput;
+
+	}
+
+
+	/**
+	 * @override
+	 * @deprecated
+	 * @param {any} v
+	 */
+	set value( v ) {
+
+		console.warn(".(style) sub-property cannot be directly set. It must comes from inline or computed setter.")
+
+	}
+
+	/**
+	 *
+	 * @param {any} value
+	 */
+	set inline( value ) {
+
+		if( ! this.isValidValue( value ) ) return;
+
+		if( value === this._inline ) {
+
+			// do nothing no update, the value hasn't changed
+			return;
+
+		}
+
+		this._input = this._inline = value;
+
+		this._needsUpdate = true;
+
+	}
+
+	/**
+	 *
+	 * @return {any}
+	 */
+	get inline() { return this._inline; }
+
+	/**
+	 *
+	 * @param {any} value
+	 * @return {boolean}
+	 */
+	isValidValue( value ) {
+
+		return true;
+
+	}
+
+	/**
+	 * @param {MeshUIBaseElement} element
+	 */
+	getInheritedInput ( element ) {
+
+		if( this._input !== 'inherit' ) return this._input;
+
+		const parent = element._parent._value;
+		if( parent ) {
+
+			const parentProperty = parent[`_${this._id}`];
+
+			if( !parentProperty ) return this.getDefaultValue();
+
+			return parent[`_${this._id}`].getInheritedInput( parent )
+
+		}
+
+		return this.getDefaultValue();
+
+	}
+
+}
+/* eslint-enable no-unused-vars */
+
+;// CONCATENATED MODULE: ./src/core/properties/style-properties/StyleVector4Property.js
+
+
+
+class StyleVector4Property extends SubStyleProperty {
+
+	constructor( propertyId, defaultValue ) {
+
+		super( propertyId, defaultValue, false );
+
+		/**
+		 *
+		 * @type {Vector4}
 		 * @private
 		 */
-		computeLines() {
+		this._input = this._vector4ValueSetter( new external_three_namespaceObject.Vector4(0,0,0,0), defaultValue);
 
-			// computed by BoxComponent
-			const INNER_WIDTH = this.getWidth() - ( this.padding * 2 || 0 );
+		/**
+		 *
+		 * @type {any}
+		 * @internal
+		 */
+		this._inline = null;
 
-			// Will stock the characters of each line, so that we can
-			// correct lines position before to merge
-			const lines = [ [] ];
+		/**
+		 * @override
+		 * @type {Vector4}
+		 * @protected
+		 */
+		this._value = new external_three_namespaceObject.Vector4(0,0,0,0);
 
-			this.childrenInlines.reduce( ( lastInlineOffset, inlineComponent ) => {
+	}
 
-					// Abort condition
+	/**
+	 * @override
+	 * @return {Vector4}
+	 */
+	get value(){
 
-					if ( !inlineComponent.inlines ) return;
+		return this._value;
 
-					//////////////////////////////////////////////////////////////
-					// Compute offset of each children according to its dimensions
-					//////////////////////////////////////////////////////////////
+	}
 
-					const FONTSIZE = inlineComponent._fitFontSize || inlineComponent.getFontSize();
-					const LETTERSPACING = inlineComponent.isText ? inlineComponent.getLetterSpacing() * FONTSIZE : 0;
-					const WHITESPACE = inlineComponent.getWhiteSpace();
-					const BREAKON = inlineComponent.getBreakOn();
+	/* eslint-disable no-unused-vars */
+	/**
+	 * @override
+	 */
+	computeOutputValue( element ) { /* eslint-enable no-unused-vars */
 
-					const whiteSpaceOptions = {
-						WHITESPACE,
-						LETTERSPACING,
-						BREAKON,
-						INNER_WIDTH
-					}
+		this._vector4ValueSetter( this._value, this._input, element );
 
-					const currentInlineInfo = inlineComponent.inlines.reduce( ( lastInlineOffset, inline, i, inlines ) => {
+	}
 
-						// Line break
-						const shouldBreak = Whitespace_shouldBreak(inlines,i,lastInlineOffset, whiteSpaceOptions );
+	set inline( value ) {
 
-						if ( shouldBreak ) {
+		this._vector4ValueSetter( this._input, value );
 
-							lines.push( [ inline ] );
+		if( this._input.equals( this._value) ) return;
 
-							inline.offsetX = inline.xoffset;
+		this._needsUpdate = true;
 
-							// restart the lastInlineOffset as zero.
-							if ( inline.width === 0 ) return 0;
+	}
 
-							// compute lastInlineOffset normally
-							// except for kerning which won't apply
-							// as there is visually no lefthanded glyph to kern with
-							return inline.xadvance + LETTERSPACING;
+	/**
+	 *
+	 * @param {Number} v
+	 */
+	set top( v ) {
 
-						}
+		if( this._input.x === v ) return;
 
-						lines[ lines.length - 1 ].push( inline );
+		this._input.x = v;
+		this._needsUpdate = true;
 
-						inline.offsetX = lastInlineOffset + inline.xoffset + inline.kerning;
+	}
 
-						return lastInlineOffset + inline.xadvance + inline.kerning + LETTERSPACING;
 
-					}, lastInlineOffset );
+	/**
+	 *
+	 * @returns {number}
+	 */
+	get top() { return this._input.x; }
 
-					//
+	/**
+	 *
+	 * @param {Number} v
+	 */
+	set right( v ) {
 
-					return currentInlineInfo;
+		if( this._input.y === v ) return;
 
-				}, 0 );
+		this._input.y = v;
+		this._needsUpdate = true;
+	}
 
-			// Compute lines dimensions
+	/**
+	 *
+	 * @returns {number}
+	 */
+	get right() { return this._input.y; }
 
-			lines.forEach( ( line ) => {
+	/**
+	 *
+	 * @param {Number} v
+	 */
+	set bottom( v ) {
+		if( this._input.z === v ) return;
 
-				//
+		this._input.z = v;
+		this._needsUpdate = true;
+	}
 
-				line.lineHeight = line.reduce( ( height, inline ) => {
+	/**
+	 *
+	 * @returns {number}
+	 */
+	get bottom() { return this._input.z; }
 
-					const charHeight = inline.lineHeight !== undefined ? inline.lineHeight : inline.height;
-					// const charHeight = inline.height;
+	/**
+	 *
+	 * @param {Number} v
+	 */
+	set left( v ) {
 
-					return Math.max( height, charHeight );
+		if( this._input.w === v ) return;
 
-				}, 0 );
+		this._input.w = v;
+		this._needsUpdate = true;
+	}
 
-				//
 
-				line.lineBase = line.reduce( ( lineBase, inline ) => {
+	/**
+	 *
+	 * @returns {number}
+	 */
+	get left() { return this._input.w; }
 
-					const newLineBase = inline.lineBase !== undefined ? inline.lineBase : inline.height;
-					// const newLineBase = inline.height;
+	dispose(){
 
-					return Math.max( lineBase, newLineBase );
+		this._computed = null;
+		this._inline = null;
+		this._input = null;
+		this._output = null;
 
-				}, 0 );
+	}
 
-				//
+	/**
+	 *
+	 * @param {Vector4} vector4
+	 * @param {Vector4|Array.<Number>|Number|String} value
+	 * @protected
+	 */
+	_vector4ValueSetter( vector4, value ) {
 
-				line.width = 0;
-				const lineHasInlines = line[ 0 ];
+		if ( value instanceof external_three_namespaceObject.Vector4 ) {
 
-				if ( lineHasInlines ) {
+			return vector4.copy( value );
 
-					// starts by processing whitespace, it will return a collapsed left offset
-					const WHITESPACE = this.getWhiteSpace();
-					const whiteSpaceOffset = collapseWhitespaceOnInlines( line, WHITESPACE );
+		}
 
-					// apply the collapsed left offset to ensure the starting offset is 0
-					line.forEach( ( inline ) => {
+		if ( typeof value === 'string' || value instanceof String ) {
 
-						inline.offsetX -= whiteSpaceOffset;
+			value = value.split( ' ' );
 
-					} );
+		}
 
-					// compute its width: length from firstInline:LEFT to lastInline:RIGHT
-					line.width = this.computeLineWidth( line );
+		if ( Array.isArray( value ) ) {
+
+			value = value.map( v => parseFloat( v ) );
+
+			switch ( value.length ) {
+
+				case 1:
+					return vector4.setScalar( value[ 0 ] );
+
+				case 2:
+					vector4.x = vector4.z = value[ 0 ];
+					vector4.y = vector4.w = value[ 1 ];
+					return vector4;
+
+				case 3:
+					vector4.x = value[ 0 ];
+					vector4.y = value[ 1 ];
+					vector4.z = value[ 2 ];
+					return vector4;
+
+				case 4:
+					vector4.x = value[ 0 ];
+					vector4.y = value[ 1 ];
+					vector4.z = value[ 2 ];
+					vector4.w = value[ 3 ];
+					return vector4;
+
+				default:
+					console.error( 'StyleVector4Property::set() Four Dimension property had more than four values' );
+					return;
+
+			}
+
+		}
+
+		if ( !isNaN( value ) ) {
+
+			vector4.setScalar( value );
+
+		}
+
+		return vector4;
+
+	}
+
+}
+
+
+
+;// CONCATENATED MODULE: ./src/core/properties/style-properties/bounds/PaddingProperty.js
+
+
+
+
+class PaddingProperty extends StyleVector4Property {
+
+	constructor( defaultValue ) {
+
+		super('padding', defaultValue )
+
+	}
+
+	computeOutputValue( element ) {
+
+		super.computeOutputValue( element );
+
+		element._bounds._needsUpdate = true;
+		element._bounds._needsRender = true;
+		element._layouter._needsProcess = true;
+		element._renderer._needsRender = true;
+
+		if( element._parent._value ){
+			element._parent._value._layouter._needsProcess = true;
+		}
+	}
+
+}
+
+;// CONCATENATED MODULE: ./src/core/properties/style-properties/Style4DimensionsProperty.js
+
+
+
+
+class Style4DimensionsProperty extends StyleVector4Property {
+
+	constructor( propertyId, defaultValue ) {
+
+		super( propertyId, defaultValue, false );
+
+	}
+
+	computeOutputValue( element ) { /* eslint-enable no-unused-vars */
+
+		console.log( this._value, this._input)
+		this._vector4ValueSetterFinal( this._value, this._input, element );
+
+	}
+
+	set inline( value ) {
+
+		this._input = value;
+
+		this._needsUpdate = true;
+
+	}
+
+	/**
+	 *
+	 * @param {Vector4} vector4
+	 * @param {Vector4|Array.<Number>|Number|String} value
+	 * @protected
+	 */
+	_vector4ValueSetterFinal( vector4, value, element ) {
+
+		if ( value instanceof external_three_namespaceObject.Vector4 ) {
+
+			return vector4.copy( value );
+
+		}
+
+		if ( typeof value === 'string' || value instanceof String ) {
+
+			value = value.split( ' ' );
+
+		}
+
+		if ( Array.isArray( value ) ) {
+
+			switch ( value.length ) {
+
+				case 1:
+					return vector4.setScalar( this._parseValue( value[ 0 ], element ) );
+
+				case 2:
+					vector4.x = vector4.z = this._parseValue(value[ 0 ]);
+					vector4.y = vector4.w = this._parseValue(value[ 1 ]);
+					return vector4;
+
+				case 3:
+					vector4.x = this._parseValue(value[ 0 ]);
+					vector4.y = this._parseValue(value[ 1 ]);
+					vector4.z = this._parseValue(value[ 2 ]);
+					return vector4;
+
+				case 4:
+					vector4.x = this._parseValue(value[ 0 ]);
+					vector4.y = this._parseValue(value[ 1 ]);
+					vector4.z = this._parseValue(value[ 2 ]);
+					vector4.w = this._parseValue(value[ 3 ]);
+					return vector4;
+
+				default:
+					console.error( 'StyleVector4Property::set() Four Dimension property had more than four values' );
+					return;
+
+			}
+
+		}
+
+		if ( !isNaN( value ) ) {
+
+			vector4.setScalar( value );
+
+		}
+
+		return vector4;
+
+	}
+
+
+	_parseValue( v , element ){
+
+		if( !isNaN(v) ) return parseFloat(v);
+
+		if( v.endsWith('em') ) {
+
+			return parseFloat( v.replace(/[^0-9.]+/,"") ) * element._fontSize._value;
+
+		}
+
+	}
+
+}
+
+
+
+;// CONCATENATED MODULE: ./src/core/properties/style-properties/bounds/MarginProperty.js
+
+
+
+
+// export default class MarginProperty extends StyleVector4Property {
+class MarginProperty extends Style4DimensionsProperty {
+
+	constructor() {
+
+		super('margin', new external_three_namespaceObject.Vector4(0,0,0,0) )
+
+	}
+
+	computeOutputValue( element ) {
+
+		super.computeOutputValue( element );
+
+		element._renderer._needsRender = true;
+
+		if( element._parent._value ){
+			element._parent._value._flexDirection._needsProcess = true;
+		}
+	}
+
+}
+
+;// CONCATENATED MODULE: ./src/utils/mediator/transformers/CommonTransformers.js
+/**
+ * Transfer the alphaTest value from MeshUIComponent to material
+ * @type {import('../Mediator').MediationTransformer}
+ */
+const directTransfer = function ( target, targetProperty, value ) {
+
+	target[targetProperty] = value;
+
+}
+
+const directTransferNotNull = function( target, targetProperty, value ) {
+
+	if( value === null ) return;
+
+	target[targetProperty] = value;
+
+}
+
+;// CONCATENATED MODULE: ./src/utils/mediator/Mediator.js
+
+
+//JSDoc related imports
+/* eslint-disable no-unused-vars */
+
+/* eslint-enable no-unused-vars */
+/**
+ * An option function to transform value from subject to target
+ * @typedef {(target:any, targetProperty:string, value:any) => void} MediationTransformer
+ *
+ */
+
+/**
+ * @typedef {Object.<{subjectProperty:string, trans?:MediationTransformer}>} MediationDefinition
+ *
+ */
+
+class Mediator{
+
+	/**
+	 * @constructor
+	 * @param {MediationDefinition} definition
+	 */
+	constructor( definition ) {
+
+		/**
+		 *
+		 * @type {MediationDefinition}
+		 * @private
+		 */
+		this._definition = definition;
+
+	}
+
+	/**
+	 *
+	 * @param {MediationDefinition} value
+	 */
+	set definition( value ) {
+
+		this._definition = value;
+
+	}
+
+
+	/**
+	 *
+	 * @param {MeshUIBaseElement} subject
+	 * @param {any} target
+	 * @param {Object.<(string|number), any>} options
+	 * @param {any} [secondTarget=null]
+	 */
+	mediate( subject, target, options, secondTarget = null ) {
+
+		// Mediate each subject properties to material
+		for ( const subjectProperty in this._definition ) {
+			const mediationDefinition = this._definition[subjectProperty];
+
+			if ( options[subjectProperty] !== undefined ) {
+
+				// retrieve the mediation transformer to use for this property
+				const mediationTransformer = mediationDefinition.t ? mediationDefinition.t : directTransfer;
+				mediationTransformer( target, mediationDefinition.m, options[subjectProperty] );
+
+				// Also transfert to second target is isset
+				if( secondTarget ) {
+
+					mediationTransformer( secondTarget, mediationDefinition.m, options[subjectProperty] );
 
 				}
 
-			} );
-
-			return lines;
-		}
-
-		calculateHeight( fontMultiplier ) {
-
-			this.childrenInlines.forEach( inlineComponent => {
-
-				if ( inlineComponent.isInlineBlock ) return;
-
-				// Set font size and recalculate dimensions
-				inlineComponent._fitFontSize = inlineComponent.getFontSize() * fontMultiplier;
-				inlineComponent.calculateInlines( inlineComponent._fitFontSize );
-
-			} );
-
-			const lines = this.computeLines();
-
-			const INTERLINE = this.getInterLine();
-
-			const textHeight = lines.reduce( ( offsetY, line ) => {
-
-				return offsetY - line.lineHeight - INTERLINE;
-
-			}, 0 ) + INTERLINE;
-
-			return Math.abs( textHeight );
-		}
-
-		/**
-		 * Compute the width of a line
-		 * @param line
-		 * @returns {number}
-		 */
-		computeLineWidth( line ) {
-
-			// only by the length of its extremities
-			const firstInline = line[ 0 ];
-
-			const lastInline = line[ line.length - 1 ];
-
-			// Right + Left ( left is negative )
-			return (lastInline.offsetX + lastInline.width) + firstInline.offsetX;
+			}
 
 		}
 
-	};
+	}
+
+
+	/***********************************************************************************************************************
+	 * STATIC
+	 **********************************************************************************************************************/
+
+	/**
+	 *
+	 * @param {MeshUIComponent} subject
+	 * @param {any} target
+	 * @param {Object.<(string|number), any>} options
+	 * @param {Object.<{subjectProperty:string, t?:(target:any, targetProperty:string, value:any) => void}>} mediationDefinitions
+	 * @param {any} [secondTarget=null]
+	 */
+	static mediate( subject, target, options, mediationDefinitions, secondTarget = null ) {
+
+		// Cannot mediate if target not defined
+		if( !target ) return;
+
+		// Mediate each subject properties to material
+		for ( const subjectProperty in mediationDefinitions ) {
+			const definition = mediationDefinitions[subjectProperty];
+
+			if ( options[subjectProperty] !== undefined ) {
+
+				// retrieve the mediation transformer to use for this property
+				const mediationTransformer = definition.t ? definition.t : directTransfer;
+				mediationTransformer( target, definition.m, options[subjectProperty] );
+
+				// Also transfert to second target is isset
+				if( secondTarget ) {
+
+					mediationTransformer( secondTarget, definition.m, options[subjectProperty] );
+
+				}
+
+			}
+
+		}
+
+	}
+
+
+}
+
+;// CONCATENATED MODULE: ./src/core/properties/hierarchy/ParentProperty.js
+
+
+//JSDoc related imports
+/* eslint-disable no-unused-vars */
+
+/* eslint-enable no-unused-vars */
+
+class ParentProperty extends BaseProperty {
+
+	constructor() {
+
+		super('parent', null, false);
+
+	}
+
+	/* eslint-disable no-unused-vars */
+	/**
+	 * Update when :
+	 * 		- element has been added
+	 * 		- element has been removed
+	 *
+	 * @param element
+	 * @param out
+	 */
+	update( element, out ) {
+		/* eslint-enable no-unused-vars */
+
+		if ( element.parent && element.parent.isUI ) {
+
+			this._value = element.parent;
+			// this.position.z = this.getOffset();
+
+		} else {
+
+			this._value = null;
+
+		}
+
+		// @TODO : parentElement
+		// // set elements as root
+		// if ( element.isBlock && !this._value ) {
+		//
+		// 	ThreeMeshUI.addRoot( element );
+		// 	element.pseudoClassList.add('root');
+		//
+		// } else {
+		//
+		// 	ThreeMeshUI.removeRoot( element );
+		// 	element.pseudoClassList.remove('root');
+		//
+		// }
+
+
+	}
+
+	set value( value ) {
+
+		console.warn('ParentProperty is readonly');
+
+	}
+
+	/**
+	 *
+	 * @return {MeshUIBaseElement}
+	 */
+	get value() { return this._value; }
+
+
+	/**
+	 *
+	 * @param {(p:Object3D)=>boolean } conditionCallback
+	 */
+	find( conditionCallback ) {
+
+		if( this._value ) {
+
+			if( conditionCallback( this._value) ) {
+
+				return this._value;
+
+			}
+
+			return this._value._parent.find( conditionCallback );
+
+		}
+
+		return null;
+
+	}
+
+
+	/**
+	 *
+	 */
+	dispose() {
+
+		this._value = null;
+
+	}
+
+
+}
+
+;// CONCATENATED MODULE: ./src/utils/NumberUtils.js
+/**
+ * Get rid of the precision issue
+ * @param numA
+ * @param numB
+ * @param precision
+ * @return {boolean}
+ */
+const numberEquals = function ( numA, numB, precision = 6 ) {
+
+	return numA.toFixed(precision) === numB.toFixed(precision)
+
+}
+
+/**
+ *
+ * @param unprecisedNumber
+ * @param precision
+ * @return {number}
+ */
+const numberPrecise = function ( unprecisedNumber, precision = 6 ) {
+
+	return parseFloat( unprecisedNumber.toFixed( precision ) );
+
+}
+
+;// CONCATENATED MODULE: ./src/core/properties/NumberProperty.js
+
+
+
+class NumberProperty extends BaseProperty{
+
+	/**
+	 *
+	 * @param {string} propertyId
+	 * @param {number} [value]
+	 */
+	constructor( propertyId, value ) {
+
+		super( propertyId, value, true);
+
+		this.output = this._outputValue;
+	}
+
+	/**
+	 *
+	 * @param {number} value
+	 */
+	set value( value ) {
+
+		if( ! this.isValid( value) ) return;
+
+		if( numberEquals(this._value, value) ) return;
+
+		this._value = value;
+
+		this._needsUpdate = true;
+
+	}
+
+
+
+	/**
+	 *
+	 * @return {number}
+	 */
+	get value() { return this._value; }
+
+}
+
+;// CONCATENATED MODULE: ./src/core/properties/SideProperty.js
+
+
+
+/**
+ * @property {number|"inherit"} value
+ */
+class SideProperty extends InheritableProperty {
+
+	/**
+	 *
+	 * @param {string} propertyId
+	 */
+	constructor( propertyId ) {
+
+		super( propertyId, 'inherit', true);
+
+		this.isValid = SideProperty_isValid;
+
+	}
+
+}
+
+const SideProperty_AVAILABLE_VALUES = [ external_three_namespaceObject.FrontSide, external_three_namespaceObject.BackSide, external_three_namespaceObject.DoubleSide ];
+
+/**
+ *
+ * @param {any} value
+ * @return {boolean}
+ * @private
+ */
+function SideProperty_isValid( value ) {
+
+	if( SideProperty_AVAILABLE_VALUES.indexOf( value) === -1 ){
+
+		console.warn(`SideProperty value '${value}' is not valid. Abort`);
+		return false;
+
+	}
+
+	return true;
 
 }
 
@@ -1544,29 +1536,43 @@ function InlineManager( Base ) {
 
 
 
+// JSDoc related imports
+/* eslint-disable no-unused-vars */
+
+
+
+
+
+/* eslint-enable no-unused-vars */
+
 
 /**
  * @abstract
  */
 class FontVariant extends external_three_namespaceObject.EventDispatcher {
 
+	/**
+	 *
+	 * @param {string} weight
+	 * @param {string} style
+	 */
 	constructor( weight, style ) {
 
 		super();
 
-		this._isReady = false;
+		/** @private */ this._isReady = false;
 
-		this._weight = weight;
-		this._style = style;
+		/** @protected */ this._weight = weight;
+		/** @protected */ this._style = style;
 
-		this._size = 42;
-		this._lineHeight = 42;
-		this._lineBase = 42;
+		/** @protected */ this._size = 42;
+		/** @protected */ this._lineHeight = 42;
+		/** @protected */ this._lineBase = 42;
 
 		/**
 		 *
-		 * @type {TypographyFont}
-		 * @private
+		 * @type {TypographicFont}
+		 * @protected
 		 */
 		this._font = null;
 
@@ -1574,34 +1580,70 @@ class FontVariant extends external_three_namespaceObject.EventDispatcher {
 
 	/**
 	 *
-	 * @returns {TypographyFont}
+	 * @returns {TypographicFont}
 	 */
 	get typographic() { return this._font; }
 
+	/**
+	 *
+	 * @returns {boolean}
+	 */
 	get isReady() {
 
 		return this._isReady;
 
 	}
 
+	/**
+	 *
+	 * @returns {string}
+	 */
 	get weight() {
 
 		return this._weight;
 
 	}
 
+	/**
+	 *
+	 * @returns {string}
+	 */
 	get style() {
 
 		return this._style;
 
 	}
 
+	/**
+	 *
+	 * @returns {Texture}
+	 */
 	get texture() {
 
 		return this._texture;
 
 	}
 
+	/**
+	 * @param {Function.<ShaderMaterial|Material>} v
+	 * @abstract
+	 */
+	set fontMaterial( v ) {
+		throw Error( `FontVariant('${this.id}')::fontMaterial - is abstract.` );
+	}
+
+	/**
+	 * @return {Function.<ShaderMaterial|Material>}
+	 * @abstract
+	 */
+	get fontMaterial() {
+		throw Error( `FontVariant('${this.id}')::fontMaterial - is abstract.` );
+	}
+
+	/**
+	 *
+	 * @returns {string}
+	 */
 	get id(){
 		return `${this._name}(w:${this.weight},s:${this.style})`;
 	}
@@ -1609,37 +1651,49 @@ class FontVariant extends external_three_namespaceObject.EventDispatcher {
 	/**
 	 *
 	 * @param {string} character
-	 * @returns {MSDFTypographyCharacter}
+	 * @returns {TypographicGlyph}
 	 */
-	getTypographyCharacter( character ) {
+	getTypographicGlyph( character ) {
 
-		let typographyCharacter = this._chars[ character ];
-		if ( typographyCharacter ) return typographyCharacter;
+		let typographicGlyph = this._chars[ character ];
+		if ( typographicGlyph ) return typographicGlyph;
 
+		// Auto generate whitespace chars
 		if ( character.match( /\s/ ) ) return this._chars[ " " ];
 
-		const fallbackCharacter = font_FontLibrary.missingCharacter( this, character );
+		const fallbackCharacter = this._getFallbackCharacter( character );
 		if( fallbackCharacter ) {
 
-			typographyCharacter = this._chars[ fallbackCharacter ];
-			if ( typographyCharacter ) return typographyCharacter;
+			typographicGlyph = this._chars[ fallbackCharacter ];
+			if ( typographicGlyph ) return typographicGlyph;
 
 		}
 
-		throw Error( `FontVariant('${this.id}')::getTypographyCharacter() - character('${character}') and/or fallback character were not found in provided msdf charset.` );
+		throw Error( `FontVariant('${this.id}')::getTypographicGlyph() - character('${character}') and/or fallback character were not found in provided msdf charset.` );
+	}
+
+
+	/* eslint-disable no-unused-vars */
+	/**
+	 * @abstract
+	 * @protected
+	 * @param {string} missingChar
+	 * @returns {string|null}
+	 */
+	_getFallbackCharacter( missingChar ) {  /* eslint-enable no-unused-vars */
+		throw new Error(`FontVariant(${typeof this})::_getFallbackCharacter() is abstract and should therefore be overridden.`);
 	}
 
 	/* eslint-disable no-unused-vars */
-
-
 	/**
 	 * Convert an InlineCharacter to a geometry
 	 *
 	 * @abstract
-	 * @param {InlineCharacter} inline
-	 * @returns {THREE.BufferGeometry|Array.<THREE.BufferGeometry>}
+	 * @param {InlineGlyph} inline
+	 * @param {MeshUIBaseElement} element
+	 * @returns {BufferGeometry|Array.<BufferGeometry>}
 	 */
-	getGeometryCharacter( inline ) {
+	getGeometricGlyph( inline, element ) {
 
 		throw new Error(`FontVariant(${typeof this})::getGeometryCharacter() is abstract and should therefore be overridden.`);
 
@@ -1663,17 +1717,17 @@ class FontVariant extends external_three_namespaceObject.EventDispatcher {
 
 	/**
 	 * Perform some changes on the character description of this font
-	 * @param {Object} adjustmentObject
+	 * @param {Object.<string,Object.<string,number|string>>} adjustmentObject
 	 */
-	adjustTypographyCharacters( adjustmentObject ){
+	adjustTypographicGlyphs( adjustmentObject ){
 
 		for ( const char in adjustmentObject ) {
 
-			const desc = this.getTypographyCharacter( char );
-			const characterAdjustment = adjustmentObject[ char ];
-			for ( const propertyToAdjust in characterAdjustment ) {
+			const typographicGlyph = this.getTypographicGlyph( char );
+			const glyphAdjustment = adjustmentObject[ char ];
+			for ( const propertyToAdjust in glyphAdjustment ) {
 
-				desc["_"+propertyToAdjust] = adjustmentObject[char][propertyToAdjust];
+				typographicGlyph["_"+propertyToAdjust] = adjustmentObject[char][propertyToAdjust];
 
 			}
 
@@ -1695,6 +1749,18 @@ class FontVariant extends external_three_namespaceObject.EventDispatcher {
 
 	}
 
+	/* eslint-disable no-unused-vars */
+	/**
+	 * @abstract
+	 * @param element
+	 * @internal
+	 */
+	_alterElementProperties( element ) {  /* eslint-enable no-unused-vars */
+
+		throw new Error(`FontVariant(${typeof this})::_alterElementProperties() is abstract and should therefore be overridden.`);
+
+	}
+
 	/**
 	 *
 	 * @abstract
@@ -1704,7 +1770,7 @@ class FontVariant extends external_three_namespaceObject.EventDispatcher {
 	_readyCondition () {
 
 		// ie: MSDFFontVariant
-		// Must have chards and a texture
+		// Must have chars and a texture
 		// return this._chars && this._texture
 
 		throw new Error(`FontVariant(${typeof this})::_readyCondition() is abstract and should therefore be overridden.`);
@@ -1721,7 +1787,7 @@ const _readyEvent = { type: 'ready' };
 
 /**
  * Set the ready status of a fontVariant
- * @param fontVariant
+ * @param {FontVariant} fontVariant
  * @private
  */
 function _setReady( fontVariant ) {
@@ -1732,127 +1798,2331 @@ function _setReady( fontVariant ) {
 }
 
 /**
- * @typedef {Object} MSDFJson
- * @see https://www.angelcode.com/products/bmfont/doc/file_format.html
+ * @typedef {Object.<string,number>} KerningPairs
  *
- * @property {MSDFJsonInfo} info
- * @property {MSDFJsonCommon} common
- * @property {Array.<MSDFJsonPage>} pages
- * @property {Array.<MSDFJsonChar>} chars
- * @property {Array.<MSDFJsonKerning>} kernings
  */
+
+/* harmony default export */ const font_FontVariant = (FontVariant);
+
+;// CONCATENATED MODULE: ./src/core/properties/FontProperty.js
+
+
+
+class FontProperty extends BaseProperty{
+
+	/**
+	 *
+	 * @param {FontVariant} [value=null]
+	 */
+	constructor( value = null ) {
+
+		super( 'font', value, false);
+
+		this._needsUpdate = false;
+
+		/**
+		 *
+		 * @type {FontVariant|null}
+		 * @internal
+		 */
+		this._fontVariant = null;
+
+
+		/**
+		 * @typedef ReadyClosure
+		 * @type { ()=> void|null }
+		 */
+
+		/**
+		 *
+		 * @type {ReadyClosure}
+		 * @private
+		 */
+		this._handleFontReadyClosure = null;
+
+		/**
+		 * @override
+		 */
+		this.isValid = FontProperty_isValid;
+
+	}
+
+	output( out ) {
+
+		out[this._id] = this._fontVariant;
+
+	}
+
+	/* eslint-disable no-unused-vars */
+	/**
+	 *
+	 * @override
+	 */
+	update( element, out ) { 	/* eslint-enable no-unused-vars */
+
+		// if a previous font isset, be sure no event remains
+		if ( this._fontVariant && !this._fontVariant.isReady ) {
+
+			this._fontVariant.removeEventListener( 'ready', this._handleFontReadyClosure );
+
+		}
+
+		// obtain font from value or from style combinaison
+		if( this._value && this._value instanceof font_FontVariant ) {
+
+			this._fontVariant = this._value;
+
+		} else {
+
+
+			const fontFamily = element._fontFamily._value;
+
+			if( typeof fontFamily !== 'string'  ) {
+
+				this._fontVariant = fontFamily.getVariant(
+					element._fontWeight._value,
+					element._fontStyle._value,
+				);
+
+			}
+
+		}
+
+		if( !this._fontVariant ) return;
+
+		this._fontVariant._alterElementProperties( element );
+
+		this._handleFontReadyClosure = _readyClosure( element, this );
+
+		// new font, means rebuild inlines, now or soon
+		if ( !this._fontVariant.isReady ) {
+
+			// @TODO : clear inlines components
+			// this.inlines = null;
+
+			this._fontVariant.addEventListener( 'ready', this._handleFontReadyClosure );
+
+		} else {
+
+			this._handleFontReadyClosure();
+
+		}
+
+		// Set the default material
+		if( !element._fontMaterial._defaultMaterial || !(element._fontMaterial._defaultMaterial instanceof this._fontVariant.fontMaterial) ) {
+
+			element._fontMaterial._defaultMaterial = new this._fontVariant.fontMaterial();
+			element._fontMaterial._needsUpdate = true;
+
+		}
+
+	}
+
+	/**
+	 * @override
+	 * @param {FontVariant} value
+	 */
+	set value( value ) {
+
+		if( ! this.isValid( value) ) return;
+
+		if( this._value !== value ) {
+
+			this._value = value;
+
+			this._needsUpdate = true;
+
+		}
+
+	}
+
+	/**
+	 *
+	 * @return {FontVariant}
+	 */
+	get value() { return this._value; }
+
+
+	/**
+	 *
+	 * @return {FontVariant|null}
+	 */
+	get fontVariant() { return this._fontVariant; }
+
+	/**
+	 *
+	 */
+	dispose () {
+
+		if( this._handleFontReadyClosure ) {
+
+			this._fontVariant.removeEventListener( 'ready', this._handleFontReadyClosure );
+			this._handleFontReadyClosure = null;
+
+		}
+
+		this._value = null;
+		this._fontVariant = null;
+
+	}
+
+}
+
 
 /**
  *
- * @typedef {Object} MSDFJsonInfo
- * @see https://www.angelcode.com/products/bmfont/doc/file_format.html
- *
- * @property {string} face This is the name of the true type font.
- * @property {number} size The size of the true type font.
- * @property {boolean} bold The font is bold.
- * @property {boolean} italic The font is italic.
- * @property {string[]} charset The name of the OEM charset used (when not unicode).
- * @property {boolean} unicode 	Set to 1 if it is the unicode charset.
- * @property {number} stretchH The font height stretch in percentage. 100% means no stretch.
- * @property {number} smooth Set to 1 if smoothing was turned on.
- * @property {number} aa The supersampling level used. 1 means no supersampling was used.
- * @property {Array.<number>} padding TThe padding for each character (up, right, down, left).
- * @property {Array.<number>} spacing The spacing for each character (horizontal, vertical).
- * @property {number} outline (not found) The outline thickness for the characters.
+ * @param {number} value
+ * @return {boolean}
+ * @private
  */
+function FontProperty_isValid( value ) {
+
+	if( ! ( value instanceof font_FontVariant )  ) {
+
+		console.warn(`.font value '${value}' is not valid. It requires a FontVariant instance. Aborted`);
+		return false;
+
+	}
+
+	return true;
+
+}
 
 /**
  *
- * @typedef {Object} MSDFJsonCommon
- * @see https://www.angelcode.com/products/bmfont/doc/file_format.html
- *
- * @property {number} lineHeight This is the distance in pixels between each line of text.
- * @property {number} base The number of pixels from the absolute top of the line to the base of the characters.
- * @property {number} scaleW The width of the texture, normally used to scale the x pos of the character image.
- * @property {number} scaleH The height of the texture, normally used to scale the y pos of the character image.
- * @property {number} pages The number of texture pages included in the font.
- * @property {boolean} packed
- * @property {number} alphaChnl
- * @property {number} redChnl
- * @property {number} greenChnl
- * @property {number[]} blueChnl
+ * @param {MeshUIBaseElement} element
+ * @param {FontProperty} fontProperty
+ * @return {() => void}
+ * @private
  */
+function _readyClosure( element, fontProperty ) {
+	return function () {
+
+		fontProperty._needsUpdate = true;// ? update itself?
+		element._glyphs._needsProcess = true;
+
+		// this._transferToMaterial();
+
+		// request parse update and parent layout
+		// this.update( true, true, false );
+		// this.getHighestParent().update( false, true, false );
+
+		// remove the listener
+		fontProperty._fontVariant.removeEventListener( 'ready', fontProperty._handleFontReadyClosure );
+		fontProperty._handleFontReadyClosure = null;
+
+	}
+}
+
+;// CONCATENATED MODULE: ./src/core/properties/style-properties/visibility/Display.js
+
+
+
+class Display extends SubStyleProperty {
+
+	constructor( defaultValue ) {
+
+		super( 'display', defaultValue );
+
+		// configure
+		this._value = 'flex';
+		this._allowsInherit = false;
+		this._needsUpdate = false;
+
+
+		this.isValidValue = Display_isValid;
+
+	}
+
+	computeOutputValue( element ) {
+
+		element._visible._value = this._output !== 'none';
+
+	}
+}
+
+const Display_AVAILABLE_VALUES = ['none','flex'];
 
 /**
  *
- * @typedef {Object} MSDFJsonPage
- * @see https://www.angelcode.com/products/bmfont/doc/file_format.html
- *
- * @property {string} id The page id.
- * @property {string} file The texture file name.
+ * @param {any} value
+ * @return {boolean}
+ * @private
  */
+function Display_isValid( value ) {
+
+	if( Display_AVAILABLE_VALUES.indexOf( value ) === -1 ) {
+
+		console.warn( `(.style) display value '${value}' is not valid. Aborted` );
+		return false;
+
+	}
+
+	return true;
+
+}
+
+;// CONCATENATED MODULE: ./src/core/properties/style-properties/bounds/BoxSizing.js
+
+
+
+class BoxSizing extends SubStyleProperty {
+
+	constructor( defaultValue ) {
+
+		super( 'boxSizing', defaultValue );
+
+		// Configure
+		this._allowsInherit = false;
+
+		this.isValidValue = BoxSizing_isValid;
+
+	}
+
+	computeOutputValue( element ) {
+
+		this._value = this._inheritedInput;
+
+		element._bounds._needsUpdate = true;
+
+	}
+
+}
+
 
 /**
  *
- * @typedef {Object} MSDFJsonChar
- * @see https://www.angelcode.com/products/bmfont/doc/file_format.html
- *
- * @property {number} id The character id.
- * @property {number} index The character index.
- * @property {string} char The character.
- * @property {number} x The left position of the character image in the texture.
- * @property {number} y The top position of the character image in the texture.
- * @property {number} width The width of the character image in the texture.
- * @property {number} height The height of the character image in the texture.
- * @property {number} xoffset How much the current position should be offset when copying the image from the texture to the screen.
- * @property {number} yoffset How much the current position should be offset when copying the image from the texture to the screen.
- * @property {number} xadvance How much the current position should be advanced after drawing the character.
- * @property {string} page The texture page where the character image is found.
- * @property {number} chnl The texture channel where the character image is found (1 = blue, 2 = green, 4 = red, 8 = alpha, 15 = all channels).
+ * @type {Array.<string>}
  */
+const BoxSizing_AVAILABLE_VALUES = ['border-box', 'content-box'];
+
+/**
+ *
+ * @param {any} value
+ * @return {boolean}
+ * @private
+ */
+function BoxSizing_isValid( value ) {
+
+	if( BoxSizing_AVAILABLE_VALUES.indexOf( value ) === -1 ) {
+
+		console.warn( `(.style) boxSizing value '${value}' is not valid. Aborted` );
+		return false;
+
+	}
+
+	return true;
+
+}
+
+;// CONCATENATED MODULE: ./src/core/properties/style-properties/StyleColorProperty.js
+
+
+
+//JSDoc related imports
+/* eslint-disable no-unused-vars */
+/* eslint-enable no-unused-vars */
+
+class StyleColorProperty extends SubStyleProperty {
+
+	constructor( propertyId, defaultValue ) {
+
+		super( propertyId, defaultValue, false );
+
+		/**
+		 * @type {Color|string|number}
+		 * @private
+		 */
+		this._input = defaultValue;
+
+		/**
+		 * @type {Color}
+		 * @protected
+		 */
+		this._value = new external_three_namespaceObject.Color();
+
+		this.output = this._outputValue;
+	}
+
+	/* eslint-disable no-unused-vars */
+	/**
+	 * @override
+	 */
+	computeOutputValue( element ) { /* eslint-enable no-unused-vars */
+
+		if( this._input !== 'inherit' ) {
+
+			this._value.set(this._input);
+
+		}
+
+	}
+
+	set inline( value ) {
+
+		// Colors are too wide to perform validation checks each time
+		// if( ! this.isValidValue( value ) ) return;
+
+		this._input = this._inline = value;
+
+		this._needsUpdate = true;
+
+	}
+
+}
+
+
+
+;// CONCATENATED MODULE: ./src/core/properties/style-properties/StyleFactorProperty.js
+
+
+class StyleFactorProperty extends SubStyleProperty {
+
+	/**
+	 *
+	 * @param {string} propertyId
+	 * @param {any} defaultValue
+	 */
+	constructor( propertyId, defaultValue ) {
+
+		super( propertyId, defaultValue, true );
+
+		this.isValidValue = StyleFactorProperty_isValid;
+
+		this._allowsInherit = false;
+
+		this._input = defaultValue;
+
+		this._value = defaultValue;
+
+		this.output = this._outputValue;
+
+		this.computeOutputValue = this._computeFromInherited;
+
+	}
+
+
+	_outputValue( out ) {
+
+		out[this._id] = this._inheritedInput;
+
+	}
+
+
+
+}
+
+/**
+ *
+ * @param {any} value
+ * @return {boolean}
+ * @private
+ */
+function StyleFactorProperty_isValid( value ) {
+
+	if ( value < 0 && value > 1.0 ) {
+
+		console.warn( `(.style) styleFactorProperty('${this.id}') value '${value}' is not valid)` );
+		return false;
+
+	}
+
+	return true;
+
+}
+
+
+
+;// CONCATENATED MODULE: ./src/core/properties/style-properties/background/BackgroundImage.js
+
+//JSDoc related imports
+/* eslint-disable no-unused-vars */
+
+/* eslint-enable no-unused-vars */
+
+
+class BackgroundImage extends SubStyleProperty {
+
+	constructor( defaultValue ) {
+
+		super( 'backgroundImage', defaultValue, true );
+
+
+		this._input = null;
+
+		// configure
+		this._allowsInherit = false;
+
+		/**
+		 *
+		 * @type {Vector2}
+		 * @internal
+		 */
+		this._textureSize = new external_three_namespaceObject.Vector2( 1,1 );
+
+		this.isValidValue = BackgroundImage_isValid;
+
+	}
+
+	/**
+	 * @override
+	 * @return {any|Texture|null}
+	 */
+	get value() {
+
+		return this._value;
+
+	}
+
+	output( out ) {
+
+		out[this._id] = this._value;
+
+		out['tSize'] = this._textureSize;
+
+	}
+
+
+	/* eslint-disable no-unused-vars */ computeOutputValue( element ) { /* eslint-enable no-unused-vars */
+
+		// @TODO : URL
+		this._value = this._inheritedInput;
+
+		// ?
+		// out[this.id] = this._value;
+
+		if( this._value instanceof external_three_namespaceObject.Texture && !this._value.image ) {
+			console.warn( `ThreeMeshUI - .backgroundImage :: Please provide preloaded texture in order to have accurate sizing.`);
+			return;
+		}
+
+		this._needsProcess = true;
+
+	}
+
+	/* eslint-disable no-unused-vars */
+	/**
+	 *
+	 * @param element
+	 */
+	process( element ) { /* eslint-enable no-unused-vars */
+
+		if( this._value ) {
+
+			this._textureSize.set( this._value.image.width, this._value.image.height );
+
+		} else {
+
+			this._textureSize.set( 1 , 1 );
+
+		}
+
+	}
+
+}
+
+/* eslint-disable no-unused-vars */
+/**
+ *
+ * @param {any} value
+ * @return {boolean}
+ * @private
+ */
+function BackgroundImage_isValid( value ) { /* eslint-enable no-unused-vars */
+
+	// @TODO : Texture or URL() or String or ID ?
+	//console.log( "todo, validate image value", value);
+
+	return true;
+
+}
+
+;// CONCATENATED MODULE: ./src/core/properties/style-properties/background/BackgroundSize.js
 
 
 
 /**
- *
- * @typedef {Object} MSDFJsonKerning
- * @see https://www.angelcode.com/products/bmfont/doc/file_format.html
- *
- * @property {number} first The first character id.
- * @property {number} second The second character id.
- * @property {number} amount How much the x position should be adjusted when drawing the second character immediately following the first.
- *
+ * @property {"cover"|"contain"|"stretch"} value
  */
+class BackgroundSize extends SubStyleProperty {
 
-;// CONCATENATED MODULE: ./src/font/TypographyFont.js
-class TypographyFont {
+	constructor( defaultValue ) {
+
+		super( 'backgroundSize', defaultValue, true );
+
+		this.isValidValue = BackgroundSize_isValid;
+
+		this.output = this._outputValue;
+	}
+
+}
+
+const BackgroundSize_AVAILABLE_VALUES = ['cover','contain','stretch'];
+
+/**
+ *
+ * @param {any} value
+ * @return {boolean}
+ * @private
+ */
+function BackgroundSize_isValid( value ) {
+
+	if( BackgroundSize_AVAILABLE_VALUES.indexOf( value ) === -1 ) {
+
+		console.warn( `(.style) backgroundSize value '${value}' is not valid. Aborted` );
+		return false;
+
+	}
+
+	return true;
+
+}
+
+;// CONCATENATED MODULE: ./src/core/properties/style-properties/visibility/Overflow.js
+
+
+
+
+class Overflow extends SubStyleProperty {
+
+	constructor( defaultValue ) {
+
+		super( 'overflow', defaultValue, true );
+
+		this.isValidValue = Overflow_isValid;
+
+		/**
+		 *
+		 * @type {Array.<Plane>|null}
+		 * @internal
+		 */
+		this._clippingPlanes = null;
+
+		this._renderStrategy = this._emptyRender;
+	}
+
+	/**
+	 * Update of overflow is a bit different, as parent may trigger changes on it
+	 * @override
+	 */
+	update( element, out ) {
+
+		// in any case, it will compute value. It doesn't have updateRequire evaluation
+		// let updateRequired = true;
+
+		// Inline has priority if set
+		if ( this._inline !== undefined && this._inline !== 'unset' ) {
+
+			this._input = this._inline;
+
+		}
+		// or fallback on computed
+		else if ( this._computed !== undefined ) {
+
+			this._input = this._computed;
+
+		}
+
+		if ( !this._allowsInherit ) {
+
+			this._inheritedInput = this.getInheritedInput( element );
+
+		}
+
+		this.computeOutputValue( element );
+
+		// rebuild same properties on children 'inheritance'
+		for ( const childUIElement of element._children._uis ) {
+			childUIElement[ `_overflow` ]._needsUpdate = true;
+		}
+
+		this.output( out );
+
+	}
+
+	output( out ) {
+
+		out['clippingPlanes'] = this._clippingPlanes;
+
+	}
+
+	computeOutputValue( element ) {
+
+		// update self --------------------
+		super.computeOutputValue( element );
+
+		if( this._value === 'hidden' ) {
+
+			this._renderStrategy = this._propagateRender;
+
+		}else{
+
+			this._renderStrategy = this._emptyRender;
+			this._clippingPlanes = null;
+		}
+
+
+		const parent = element._parent._value;
+		if( parent !== null ) {
+
+			// Check that parent is hiddenOverflow or has clippingPlanes
+			const overflowParent = parent._overflow;
+			if ( ( overflowParent._value === 'hidden' || overflowParent._clippingPlanes !== null ) && !this._clippingPlanes ) {
+
+				// add planes and render
+				this._clippingPlanes =  [
+					// top
+					new external_three_namespaceObject.Plane( new external_three_namespaceObject.Vector3( 0, -1, 0 ), 1 ),
+					// right
+					new external_three_namespaceObject.Plane( new external_three_namespaceObject.Vector3( -1, 0, 0 ), 1 ),
+					// bottom
+					new external_three_namespaceObject.Plane( new external_three_namespaceObject.Vector3( 0, 1, 0 ), 1 ),
+					// left
+					new external_three_namespaceObject.Plane( new external_three_namespaceObject.Vector3( 1, 0, 0 ), 1 ),
+				];
+
+				// bind the parent to the clipping plane in a custom property
+				for ( let i = 0; i < this._clippingPlanes.length; i++ ) {
+					this._clippingPlanes[ i ].parent = parent;
+				}
+
+				// Also add parent clipping planes if isset
+				if( overflowParent._clippingPlanes !== null ) {
+					this._clippingPlanes.push( ...overflowParent._clippingPlanes );
+				}
+
+				this._renderStrategy = this._hiddenRender;
+				this._needsRender = true;
+
+			} else if ( ( overflowParent._value === 'visible' || overflowParent._clippingPlanes === null ) && this._clippingPlanes !== null ){
+
+				// remove planes and render
+				this._clippingPlanes = null;
+				this._renderStrategy = this._emptyRender;
+				this._needsRender = true;
+
+			}
+
+		}
+
+	}
+
+	render( element) {
+
+		this._renderStrategy( element );
+
+	}
+
+	/* eslint-disable no-unused-vars */	_emptyRender( element ) { /* eslint-enable no-unused-vars */ }
+
+	_hiddenRender( element ) {
+
+
+		const parentUI = element._parent._value;
+
+		const yLimit = parentUI._bounds._offsetHeight;
+		const xLimit = parentUI._bounds._offsetWidth;
+		const padding = parentUI._padding._value;
+		const border = parentUI._borderWidth._value;
+
+		for ( let i = 0; i < 4 && i < this._clippingPlanes.length ; i++ ) {
+			const clippingPlane = this._clippingPlanes[ i ];
+
+			switch ( i % 4 ) {
+				// top
+				case 0:
+					clippingPlane.constant = yLimit / 2 - ( padding.x + border.x );
+					break;
+
+				// right
+				case 1:
+					clippingPlane.constant = xLimit / 2 - ( padding.y + border.y );
+					break;
+
+				// bottom
+				case 2:
+					clippingPlane.constant = yLimit / 2 - ( padding.z + border.z );
+					break;
+
+				// left
+				case 3:
+					clippingPlane.constant = xLimit / 2 - ( padding.w + border.w );
+					break;
+			}
+
+			clippingPlane.applyMatrix4( parentUI.matrixWorld )
+
+		}
+
+		for ( let i = 0; i < element._children._uis.length; i++ ) {
+			const ui = element._children._uis[ i ];
+			ui._overflow._needsRender = true;
+		}
+
+	}
+
+	_propagateRender( element ) {
+
+		for ( let i = 0; i < element._children._uis.length; i++ ) {
+			const ui = element._children._uis[ i ];
+			ui._overflow._needsRender = true;
+		}
+
+	}
+
+}
+
+const Overflow_AVAILABLE_VALUES = ['visible', 'hidden'];
+function Overflow_isValid( value ) {
+
+	if( Overflow_AVAILABLE_VALUES.indexOf( value ) === -1 ) {
+
+		console.warn( `(.style) overflow value '${value}' is not valid. Aborted` );
+		return false;
+
+	}
+
+	return true;
+
+}
+
+;// CONCATENATED MODULE: ./src/utils/Units.js
+const WORLD_UNITS = 'rem';
+
+//
+const CENTIMETERS = 'cm';
+const MILLIMETERS = 'mm';
+const INCHES = 'in';
+
+const UV = 'em';
+const PERCENT = '%';
+
+const availableUnits = [ WORLD_UNITS, UV, PERCENT ];
+
+
+/**
+ * Obtain a valid unit
+ * @param {string} requestedUnits
+ * @returns {string}
+ */
+const validateUnits = function( requestedUnits ) {
+
+	// Sent default units if requested units not available
+	if( availableUnits.indexOf( requestedUnits) === -1 ) return WORLD_UNITS;
+
+	return requestedUnits;
+
+}
+
+;// CONCATENATED MODULE: ./src/core/properties/style-properties/border/BorderRadius.js
+
+
+
+
+//JSDoc related imports
+/* eslint-disable no-unused-vars */
+
+/* eslint-enable no-unused-vars */
+
+class BorderRadius extends StyleVector4Property {
+
+	/**
+	 *
+	 * @param {Vector4} defaultValue
+	 */
+	constructor( defaultValue ) {
+
+		super( 'borderRadius', defaultValue );
+
+		/**
+		 *
+		 * @type {Vector4}
+		 * @private
+		 */
+		this._valueUV = this._value.clone();
+
+		/**
+		 *
+		 * @type {Vector4}
+		 * @private
+		 */
+		this._input = this._vector4ValueSetter(new external_three_namespaceObject.Vector4(0,0,0,0), defaultValue);
+		/**
+		 *
+		 * @type {boolean}
+		 * @private
+		 */
+		this._mediation = true;
+
+		/**
+		 *
+		 * @type {Vector2}
+		 * @private
+		 */
+		this._cornerTL = new external_three_namespaceObject.Vector2(0, 1);
+
+		/**
+		 *
+		 * @type {Vector2}
+		 * @private
+		 */
+		this._cornerTR = new external_three_namespaceObject.Vector2(1, 1);
+
+		/**
+		 *
+		 * @type {Vector2}
+		 * @private
+		 */
+		this._cornerBR = new external_three_namespaceObject.Vector2(1, 0);
+
+		/**
+		 *
+		 * @type {Vector2}
+		 * @private
+		 */
+		this._cornerBL = new external_three_namespaceObject.Vector2(0, 0);
+
+		const mediationTop = new BorderRadiusMediator( this._valueUV, [ 'x', 'y' ] ); // bottom
+		const mediationBottom = new BorderRadiusMediator( this._valueUV, [ 'z', 'w'] ); // top
+		const mediationLeft = new BorderRadiusMediator( this._valueUV, [ 'x', 'w'] ); // right
+		const mediationRight = new BorderRadiusMediator( this._valueUV, [ 'y', 'z'] ); // left
+
+		mediationTop.complementaryMediation = mediationBottom;
+		mediationBottom.complementaryMediation = mediationTop;
+		mediationLeft.complementaryMediation = mediationRight;
+		mediationRight.complementaryMediation = mediationLeft;
+
+		/**
+		 *
+		 * @type {Array.<BorderRadiusMediator>}
+		 * @private
+		 */
+		this._sideMediators = [ mediationTop, mediationBottom, mediationLeft, mediationRight ];
+
+		this._units = WORLD_UNITS;
+
+	}
+
+	/**
+	 *
+	 * @param {string} units
+	 */
+	set units( units ) {
+
+		this._units = validateUnits( units );
+
+		this._needsProcess = true;
+
+	}
+
+	/**
+	 *
+	 * @returns {string}
+	 */
+	get units() { return this._units; }
+
+	/**
+	 *
+	 * @param {boolean} v
+	 */
+	set mediation ( v) {
+
+		if( v !== this._mediation ){
+
+			this._mediation = v;
+
+			this._needsUpdate = true;
+
+		}
+
+	}
+
+	/**
+	 *
+	 * @returns {boolean}
+	 */
+	get mediation () { return this._mediation; }
+
+
+	/**
+	 *
+	 * @param {Object.<string,any>} out
+	 */
+
+	output( out ) {
+
+		out["cornerTL"] = this._cornerTL;
+		out["cornerTR"] = this._cornerTR;
+		out["cornerBR"] = this._cornerBR;
+		out["cornerBL"] = this._cornerBL;
+
+	}
+
+	/**
+	 *
+	 * @override
+	 */
+	/* eslint-disable no-unused-vars */ computeOutputValue( element ) { /* eslint-enable no-unused-vars */
+
+		this._vector4ValueSetter( this._value, this._input );
+
+		this._needsProcess = true;
+
+	}
+
+
+	/* eslint-disable no-unused-vars */
+	/**
+	 *
+	 * @override
+	 */
+	process( element ){ /* eslint-enable no-unused-vars */
+
+		this._needsRender = true;
+
+	}
+
+	/**
+	 *
+	 * @override
+	 */
+	render( element ){
+
+		this._valueUV.copy( this._value );
+
+		const elementWidth = element._bounds._offsetWidth;
+		const elementHeight = element._bounds._offsetHeight;
+
+		// @TODO: Units process could be strategies
+		if( this._units === PERCENT ) {
+			this._valueUV.divideScalar(100);
+		}
+
+		// @TODO: Units process could be strategies
+		if( this._units === WORLD_UNITS ) {
+			this._valueUV.divideScalar( Math.min(elementWidth , elementHeight) );
+		}
+
+
+
+		/**
+		 * mediate
+		 * Be sure no side is greater than 1 (uv units)
+		 */
+		if( this._mediation ) {
+
+			do {
+
+				this._sideMediators.forEach( srm => srm.computeValue() );
+				this._sideMediators.sort( ( a, b ) => {
+					return a.value < b.value ? 1 : -1
+				} );
+
+				if ( this._sideMediators[ 0 ].value > 1.0 ) {
+					this._sideMediators[ 0 ].mediate();
+				}
+
+			} while ( this._sideMediators[ 0 ].value > 1.0 );
+
+		}
+
+
+		let sX = elementWidth > elementHeight ? elementHeight/elementWidth : 1;
+		let sY = elementWidth < elementHeight ? elementWidth/elementHeight : 1;
+
+		// Do not scale pourcentages, allowing ovals
+		if( this._units === PERCENT ){
+			sX = sY = 1.0;
+		}
+
+		this._cornerTL.x = this._valueUV.x * sX;
+		this._cornerTL.y = 1 - (this._valueUV.x * sY );
+
+		this._cornerTR.x = 1 - (this._valueUV.y * sX );
+		this._cornerTR.y = 1 - (this._valueUV.y * sY );
+
+		this._cornerBR.x = 1 - (this._valueUV.z * sX );
+		this._cornerBR.y = this._valueUV.z * sY;
+
+		this._cornerBL.x = this._valueUV.w * sX;
+		this._cornerBL.y = this._valueUV.w * sY;
+
+	}
+
+	/**
+	 *
+	 */
+	dispose() {
+
+		for ( const sideMediator of this._sideMediators ) {
+
+			sideMediator.dispose();
+
+		}
+
+		this._sideMediators = null;
+
+		this._cornerTL = null;
+		this._cornerTR = null;
+		this._cornerBR = null;
+		this._cornerBL = null;
+
+		super.dispose();
+
+	}
+
+	/**
+	 *
+	 * @param {Number} v
+	 */
+	set topLeft( v ) {
+
+		if( this._input.x === v ) return;
+
+		this._input.x = v;
+		this._needsUpdate = true;
+
+	}
+
+	/**
+	 *
+	 * @returns {number}
+	 */
+	get topLeft() { return this._input.x; }
+
+	/**
+	 *
+	 * @param {Number} v
+	 */
+	set topRight( v ) {
+
+		if( this._input.y === v ) return;
+
+		this._input.y = v;
+		this._needsUpdate = true;
+	}
+
+	/**
+	 *
+	 * @returns {number}
+	 */
+	get topRight() { return this._input.y; }
+
+	/**
+	 *
+	 * @param {Number} v
+	 */
+	set bottomRight( v ) {
+		if( this._input.z === v ) return;
+
+		this._input.z = v;
+		this._needsUpdate = true;
+	}
+
+	/**
+	 *
+	 * @returns {number}
+	 */
+	get bottomRight() { return this._input.z; }
+
+	/**
+	 *
+	 * @param {Number} v
+	 */
+	set bottomLeft( v ) {
+
+		if( this._input.w === v ) return;
+
+		this._input.w = v;
+		this._needsUpdate = true;
+	}
+
+	/**
+	 *
+	 * @returns {number}
+	 */
+	get bottomLeft() { return this._input.w; }
+
+
+	/**
+	 * @override
+	 * @param {Number} v
+	 */
+	set top( v ) {
+
+		if( this._input.x === v && this._input.y === v ) return;
+
+		this._input.x = this._input.y = v;
+		this._needsUpdate = true;
+
+	}
+
+	/**
+	 * @override
+	 * @returns {number}
+	 */
+	get top() { return (this._input.x + this._input.y) / 2; }
+
+	/**
+	 * @override
+	 * @param {Number} v
+	 */
+	set right( v ) {
+
+		if( this._input.y === v && this._input.z === v ) return;
+
+		this._input.y = this._input.z = v;
+		this._needsUpdate = true;
+	}
+
+	/**
+	 * @override
+	 * @returns {number}
+	 */
+	get right() { return (this._input.y + this._input.z) / 2; }
+
+	/**
+	 * @override
+	 * @param {Number} v
+	 */
+	set bottom( v ) {
+		if( this._input.z === v && this._input.w === v ) return;
+
+		this._input.z = this._input.w = v;
+		this._needsUpdate = true;
+	}
+
+	/**
+	 * @override
+	 * @returns {number}
+	 */
+	get bottom() { return (this._input.z + this._input.w) / 2; }
+
+	/**
+	 * @override
+	 * @param {Number} v
+	 */
+	set left( v ) {
+
+		if( this._input.w === v && this._input.x === v ) return;
+
+		this._input.w = this._input.x = v;
+		this._needsUpdate = true;
+	}
+
+	/**
+	 * @override
+	 * @returns {number}
+	 */
+	get left() { return (this._input.w + this._input.x) / 2; }
+
+}
+
+/**
+ * Job: Contains two border radiuses values of the same side
+ * 			If their sums is greater than 1 (uv units) mediation could occurs
+ */
+class BorderRadiusMediator {
+
+	/**
+	 *
+	 * @param {Vector4} borderRadiuses
+	 * @param {Array.<string>} sideProperties
+	 */
+	constructor( borderRadiuses, sideProperties ) {
+
+		/**
+		 *
+		 * @type {Vector4}
+		 * @private
+		 */
+		this._borderRadiuses = borderRadiuses;
+
+		/**
+		 *
+		 * @type {Array<string>}
+		 * @private
+		 */
+		this._sideProperties = sideProperties;
+
+		/**
+		 *
+		 * @type {BorderRadiusMediator|null}
+		 * @private
+		 */
+		this._complementaryMediation = null;
+
+		/**
+		 *
+		 * @type {number}
+		 * @private
+		 */
+		this._value = 0;
+	}
+
+	/**
+	 * The sum of the border radius of that side
+	 * @returns {number}
+	 */
+	get value(){ return this._value; }
+
+	/**
+	 * A complementary side mediation ie: For top, complementary is bottom
+	 * @param {BorderRadiusMediator} brm
+	 */
+	set complementaryMediation( brm ){
+
+		this._complementaryMediation = brm;
+
+	}
+
+	/**
+	 * Adds all side property to compute the value of that side
+	 */
+	computeValue(){
+
+		let totalRadius = 0;
+
+		for ( const radius of this._sideProperties ) {
+
+			totalRadius += this._borderRadiuses[radius];
+
+		}
+
+		this._value = totalRadius;
+	}
+
+	/**
+	 *
+	 * @param {boolean} [mediateOpposite=true]
+	 */
+	mediate( mediateOpposite = true ){
+
+		// Mediation only occurs when sum of radius are greater than 1 (uv units)
+		if( this._value < 1.0 ) return;
+
+		// Simply divide each component by the sum
+		for ( const radius of this._sideProperties ) {
+
+			this._borderRadiuses[radius] /= this._value;
+
+		}
+
+		if( mediateOpposite ) {
+
+			// and also mediate the complementary
+			this._complementaryMediation.mediate( false );
+
+		}
+
+	}
+
+	/**
+	 *
+	 */
+	dispose() {
+
+		this._complementaryMediation = null;
+		this._borderRadiuses = null;
+
+	}
+
+}
+
+;// CONCATENATED MODULE: ./src/core/properties/style-properties/border/BorderWidth.js
+
+
+
+class BorderWidth extends StyleVector4Property{
+
+	/**
+	 *
+	 * @param defaultValue
+	 */
+	constructor( defaultValue ) {
+
+		super ( 'borderWidth', defaultValue, false );
+
+
+		this._valueUV = this._value.clone();
+
+		// configure
+		this.output = this._outputValue;
+
+		this._units = WORLD_UNITS;
+
+	}
+
+	/**
+	 *
+	 * @param {string} units
+	 */
+	set units( units ) {
+
+		this._units = validateUnits( units );
+
+		this._needsUpdate = true;
+
+	}
+
+	/**
+	 *
+	 * @returns {string}
+	 */
+	get units() { return this._units; }
+
+	/* eslint-disable no-unused-vars */
+	/**
+	 *
+	 * @override
+	 */
+	computeOutputValue( element) { /* eslint-enable no-unused-vars */
+
+		this._vector4ValueSetter( this._value, this._input );
+
+		this._needsProcess = true;
+
+		element._bounds._needsUpdate = true;
+		element._layouter._needsUpdate = true;
+
+		// for ( let i = 0; i < element._children._uis.length; i++ ) {
+		// 	const child = element._children._uis[ i ];
+		// 	element._bounds._needsUpdate = true;
+		// }
+
+	}
+
+	_outputValue( out ) {
+		out[this._id] = this._valueUV;
+	}
+
+	/**
+	 *
+	 * @override
+	 */
+	process( element ) {
+		this._needsRender = true;
+		element._borderRadius._needsRender = true;
+	}
+
+	/**
+	 * @override
+	 */
+	render( element ) {
+
+		this._valueUV.copy( this._value );
+
+		const offsetWidth = element._bounds._offsetWidth;
+		const offsetHeight = element._bounds._offsetHeight;
+
+		// @TODO: Units process could be strategies
+		if( this._units === PERCENT ){
+
+			console.log( "Percent" );
+			// this._valueUV.divideScalar( 100 );
+			console.log( this._valueUV );
+
+		}
+
+		// @TODO: Units process could be strategies
+		if( this._units === WORLD_UNITS ) {
+
+			if( offsetWidth !== 0) {
+				this._valueUV.w /= offsetWidth;
+				this._valueUV.y /= offsetWidth;
+			}
+
+
+			if( offsetHeight !== 0 ) {
+				this._valueUV.x /= offsetHeight;
+				this._valueUV.z /= offsetHeight;
+			}
+
+
+		} else if( this._units === UV ) {
+
+			// @TODO: Units process could be strategies
+
+			if( offsetWidth !== 0 ) {
+				const sX = offsetWidth > offsetHeight ? offsetHeight/offsetWidth : 1;
+				this._valueUV.y *= sX;
+				this._valueUV.w *= sX;
+			}
+
+			if( offsetHeight !== 0 ) {
+				const sY = offsetWidth < offsetHeight ? offsetWidth/offsetHeight : 1;
+
+				this._valueUV.x *= sY;
+				this._valueUV.z *= sY;
+			}
+
+		}
+
+	}
+
+}
+
+;// CONCATENATED MODULE: ./src/core/properties/VisibleProperty.js
+
+
+class VisibleProperty extends BaseProperty{
+
+	/**
+	 *
+	 * @param {string} propertyId
+	 * @param {any} [value=null]
+	 */
+	constructor( propertyId, value = true ) {
+
+		super( 'visible', value, true );
+
+		this._needsUpdate = false;
+
+	}
+
+	/* eslint-disable no-unused-vars */ update( element, out ) { 	/* eslint-enable no-unused-vars */
+
+		element.visible = this._value;
+
+		if( element._parent._value ) {
+
+			element._parent._value._children._needsUpdate = true;
+
+		}
+
+	}
+
+	set value( value ) {
+
+		if( ! this.isValid( value) ) return;
+
+		if( this._value !== value ) {
+
+			this._value = value;
+
+			this._needsUpdate = true;
+
+		}
+
+	}
+
+	/**
+	 *
+	 * @return {boolean}
+	 */
+	get value() { return this._value; }
+
+}
+
+;// CONCATENATED MODULE: ./src/core/properties/style-properties/background/BackgroundColorProperty.js
+
+
+
+
+class BackgroundColorProperty extends StyleColorProperty {
+
+	constructor( defaultValue ) {
+
+		super( 'backgroundColor', defaultValue, false );
+
+		this._input = new external_three_namespaceObject.Color(defaultValue);
+
+	}
+
+	/* eslint-disable no-unused-vars */
+	/**
+	 *
+	 * @param {MeshUIBaseElement} element
+	 */
+	computeOutputValue( element ) { /* eslint-enable no-unused-vars */
+
+		element._backgroundMesh.visible = !(this._input === 'none' || this._input === 'transparent');
+
+		if( this._input === 'inherit' ) {
+
+			this._value.set(this.getInheritedInput( element ));
+
+		} else {
+
+			this._value.set( this._input );
+
+		}
+
+	}
+
+	/**
+	 *
+	 * @param {any} value
+	 */
+	set inline( value ) {
+
+		if( ! this.isValidValue( value ) ) return;
+
+		if( value === this._inline ) {
+
+			// do nothing no update, the value hasn't changed
+			return;
+
+		}
+
+		this._input = this._inline = value;
+
+		this._needsUpdate = true;
+
+	}
+
+}
+
+
+
+;// CONCATENATED MODULE: ./src/core/properties/EmptyProperty.js
+
+
+class EmptyProperty extends BaseProperty {
+
+	/**
+	 *
+	 * @param {string} propertyId
+	 */
+	constructor( propertyId = 'untitled' ) {
+
+		super( propertyId, undefined, false );
+
+	}
+
+	/* eslint-disable no-unused-vars */
+	/**
+	 *
+	 * @param element
+	 * @param {Object.<string,any>} out
+	 */
+	update( element , out ) { /* eslint-enable no-unused-vars */ }
+
+	/* eslint-disable no-unused-vars */
+	/**
+	 * Output this property in a dictionnary
+	 * @param {Object.<string,any>} out
+	 */
+	output( out ) { /* eslint-enable no-unused-vars */ }
+
+}
+
+;// CONCATENATED MODULE: ./src/core/properties/InlineJustificator.js
+
+
+class InlineJustificator extends BaseProperty {
+
+	constructor() {
+		super( 'inlineJustificator', null, false );
+
+		/**
+		 *
+		 * @type {Lines}
+		 * @private
+		 */
+		this._value = null;
+	}
+
+
+	/* eslint-disable no-unused-vars */ update( element, out ) { /* eslint-enable no-unused-vars */ }
+
+	/**
+	 *
+	 * @override
+	 */
+	process( element ) {
+
+		const INNER_HEIGHT = element._bounds._innerHeight;
+		const lines = element._layouter._value;
+
+		const textHeight = Math.abs( lines.height );
+
+
+		// Line vertical positioning
+		let justificationOffset = ( () => {
+
+			switch ( element._alignItems._value ) {
+
+				case 'inherit':
+				case 'start':
+					return INNER_HEIGHT / 2 ;
+
+				case 'end':
+					return textHeight - ( INNER_HEIGHT / 2 );
+
+
+				case 'stretch': // @TODO : Stretch should trigger an error in own property
+				case 'center':
+					return textHeight/2;
+
+			}
+		} )();
+
+		//console.log( justificationOffset );
+
+		// Apply padding
+		const padding = element._padding._value;
+		const border = element._borderWidth._value;
+
+		justificationOffset += ( - padding.x + padding.z ) / 2 + ( - border.x + border.z ) / 2;
+
+		//
+
+		lines.forEach( ( line ) => {
+
+			line.y += justificationOffset;
+
+			line.forEach( ( inline ) => {
+
+				inline.offsetY += justificationOffset;
+
+			} );
+
+		} );
+
+	}
+
+}
+
+;// CONCATENATED MODULE: ./src/core/properties/style-properties/flex/AlignItemsProperty.js
+
+
+/**
+ *
+ * @type {Array.<string>}
+ */
+const AlignItemsProperty_AVAILABLE_VALUES = ['start', 'center', 'end', 'stretch'];
+
+/**
+ *
+ * @param {any} value
+ * @return {boolean}
+ * @private
+ */
+const AlignItemsProperty_isValid = function ( value ) {
+
+	if( AlignItemsProperty_AVAILABLE_VALUES.indexOf( value ) === -1 ) {
+
+		console.warn( `(.style) alignItems value '${value}' is not valid. Aborted` );
+		return false;
+
+	}
+
+	return true;
+
+}
+
+class AlignItemsProperty extends SubStyleProperty {
 
 	constructor() {
 
-		this._size = 42;
-		this._lineHeight = 42;
-		this._lineBase = 38;
+		super( 'alignItems', 'inherit', true );
 
-		this._name = "-";
+		this.isValidValue = AlignItemsProperty_isValid;
 
-		this._charset = "";
 	}
 
+}
+
+;// CONCATENATED MODULE: ./src/core/properties/style-properties/font/TextAlignProperty.js
+
+
+
+class TextAlignProperty extends SubStyleProperty {
+
+	constructor() {
+
+		super( 'textAlign', 'inherit', true );
+
+		this.isValidValue = TextAlignProperty_isValid;
+
+	}
+
+}
+
+/**
+ *
+ * @type {Array.<string>}
+ */
+const TextAlignProperty_AVAILABLE_VALUES = ['left', 'right', 'center', 'justify', 'justify-left', 'justify-right','justify-center'];
+
+/**
+ *
+ * @param {any} value
+ * @return {boolean}
+ * @private
+ */
+const TextAlignProperty_isValid = function ( value ) {
+
+	if( TextAlignProperty_AVAILABLE_VALUES.indexOf( value ) === -1 ) {
+
+		console.warn( `(.style) textAlign value '${value}' is not valid. Aborted` );
+		return false;
+
+	}
+
+	return true;
+
+}
+
+;// CONCATENATED MODULE: ./src/core/properties/style-properties/flex/FlexDirectionProperty.js
+
+
+
+//JSDoc related imports
+/* eslint-disable no-unused-vars */
+
+/* eslint-enable no-unused-vars */
+
+class FlexDirectionProperty extends SubStyleProperty {
+
+	constructor() {
+
+		super( 'flexDirection', 'inherit', true );
+
+		// configure
+
+		this.isValid = FlexDirectionProperty_isValid;
+
+	}
+
+}
+
+const FlexDirectionProperty_AVAILABLE_VALUES = ['row','row-reverse', 'column', 'column-reverse'];
+
+/**
+ *
+ * @param {any} value
+ * @return {boolean}
+ * @private
+ */
+function FlexDirectionProperty_isValid( value ) {
+
+	if( FlexDirectionProperty_AVAILABLE_VALUES.indexOf( value ) === -1 ) {
+
+		console.warn( `(.style) flexDirection value '${value}' is not valid. Aborted` );
+		return false;
+
+	}
+
+	return true;
+
+}
+
+;// CONCATENATED MODULE: ./src/core/properties/style-properties/flex/JustifyContentProperty.js
+
+
+class JustifyContentProperty extends SubStyleProperty {
+
+	constructor() {
+
+		super( 'justifyContent', 'inherit', true );
+
+		/**
+		 *
+		 * @override
+		 */
+		this.isValidValue = JustifyContentProperty_isValid;
+
+	}
+
+}
+
+/**
+ *
+ * @type {Array.<string>}
+ */
+const JustifyContentProperty_AVAILABLE_VALUES = [ 'start', 'center', 'end', 'space-between', 'space-around', 'space-evenly' ];
+
+/**
+ *
+ * @param {any} value
+ * @return {boolean}
+ * @private
+ */
+function JustifyContentProperty_isValid( value ) {
+
+	if ( JustifyContentProperty_AVAILABLE_VALUES.indexOf( value ) === -1 ) {
+
+		console.warn( `(.style) justifyContent value '${value}' is not valid. Aborted` );
+		return false;
+
+	}
+
+	return true;
+
+}
+
+
+;// CONCATENATED MODULE: ./src/core/properties/style-properties/flex/OrderProperty.js
+
+
+class OrderProperty extends SubStyleProperty {
+
+	constructor( ) {
+
+		super( 'order', 0, true );
+
+		this._value = 0;
+
+		this._input = 0;
+
+		// configure
+		this._allowsInherit = false;
+	}
+
+	/* eslint-disable no-unused-vars */computeOutputValue( element ) { /* eslint-enable no-unused-vars */
+
+		this._value = this._inheritedInput;
+
+		// require parent children (order) update, which will require layout update
+		if( element._parent._value ) {
+
+			element._parent._value._children._needsProcess = true;
+
+		}
+
+	}
+
+}
+
+
+
+;// CONCATENATED MODULE: ./src/core/properties/style-properties/PositionProperty.js
+
+
+
+class PositionProperty extends SubStyleProperty {
+
+	constructor( ) {
+
+		super( 'position', 'static', true );
+
+		// configure
+		this._allowsInherit = false;
+
+		this._value = 'static';
+		this._needsUpdate = false;
+
+		this.computeOutputValue = this._computeFromInherited;
+
+		this.isValidValue = PositionProperty_isValid;
+
+	}
+
+	_computeFromInherited( element ) {
+		super._computeFromInherited( element );
+
+		//console.log( "Position update")
+		// require parent to compute children -> bounds -> etc...
+		if( element._parent._value ) element._parent._value._children._needsProcess = true;
+	}
+
+}
+
+const PositionProperty_AVAILABLE_VALUES = ['static', 'absolute'];
+
+function PositionProperty_isValid( value ) {
+
+	if( PositionProperty_AVAILABLE_VALUES.indexOf( value ) === -1 ) {
+
+		console.warn( `(.style) position value '${value}' is not valid. Aborted` );
+		return false;
+
+	}
+
+	return true;
+
+}
+
+;// CONCATENATED MODULE: ./src/core/properties/style-properties/bounds/StyleSideProperty.js
+
+
+class StyleSideProperty extends SubStyleProperty {
+
+	/**
+	 *
+	 * @param {string} propertyId
+	 * @param {number} defaultValue
+	 */
+	constructor( propertyId, defaultValue = null ) {
+
+		super( propertyId, defaultValue, true );
+
+		/**
+		 * @type {any}
+		 * @internal
+		 */
+		this._input = 'auto';
+
+		/**
+		 *
+		 * @type {boolean}
+		 * @internal
+		 */
+		this._auto = true;
+
+		/**
+		 *
+		 * @type {boolean}
+		 * @internal
+		 */
+		this._relative = false;
+
+		this._updateRequired = true;
+
+
+
+	}
+
+	/**
+	 *
+	 * @param {any} value
+	 */
+	set inline( value ) {
+
+		if( ! this.isValidValue( value ) ) return;
+
+		if( value === this._inline ) {
+
+			// do nothing no update, the value hasn't changed
+			return;
+
+		}
+
+		this._inline = value;
+
+		if( this._input === this._inline ) return;
+
+		this._parseInput();
+
+	}
+
+	get inline() { return this._inline; }
+
+	_parseInput() {
+
+		let updateRequired = true;
+
+		// Inline has priority if set
+		if( this._inline !== undefined && this._inline !== 'unset' ) {
+
+			this._input = this._inline;
+
+		}
+		// or fallback on computed
+		else if( this._computed !== undefined ) {
+
+			// do not require an update if the value remains
+			if( this._computed === this._input ) updateRequired = false;
+			this._input = this._computed;
+
+		}
+		// or fallback on default value
+		else {
+
+			updateRequired = this._input === 'inherit';
+
+		}
+
+		if( updateRequired ) {
+
+			this._auto = !this._input || this._input === 'auto';
+
+
+			if ( !this._auto ) {
+
+				// string can be percentages
+				// console.log( this._input, typeof this._input, this._input.endsWith('%'))
+				if ( ( typeof this._input === 'string' || this._input instanceof String ) && this._input.endsWith( '%' ) ) {
+
+
+					this._relative = true;
+					this._value = 0;
+
+
+					const floatValue = parseFloat( this._input.replace( '%', '' ).trim() );
+					if ( !isNaN( floatValue ) ) {
+
+						this._value = floatValue / 100;
+
+					}
+
+				} else {
+
+					this._relative = false;
+					this._value = this._input;
+
+				}
+
+			} else {
+
+
+				this._relative = false;
+
+			}
+
+			this._needsUpdate = this._updateRequired = updateRequired;
+
+		}
+
+	}
+
+	update( element, out ) {
+
+		if( this._updateRequired ) {
+
+			this._updateRequired = false;
+
+			if( !this._allowsInherit ) {
+
+				this._inheritedInput = this.getInheritedInput( element );
+
+			}
+
+			this.computeOutputValue( element );
+
+			// rebuild same properties on children 'inheritance'
+			for ( const childUIElement of element._children._uis ) {
+
+				childUIElement[`_${this._id}`]._needsUpdate = true;
+
+			}
+
+			this.output( out );
+
+			if( element._parent._value ) element._parent._value._layouter._needsProcess = true;
+
+		}
+
+	}
+
+	/* eslint-disable no-unused-vars */ computeOutputValue( element ) { /* eslint-enable no-unused-vars */
+
+		element._bounds._needsUpdate = true;
+		element._renderer._needsRender = true;
+		// element._autoSize._needsProcess = true;
+
+	}
+
+	getInheritedInput ( element ) {
+
+		if( this._input !== 'inherit' && !this._auto ) return this._input;
+
+		const parent = element._parent._value;
+		if( parent ) {
+
+			return parent[`_${this._id}`].getInheritedInput( parent )
+
+		}
+
+		return this.getDefaultValue();
+
+	}
+
+	getDefaultValue() {
+
+		return 0;
+
+	}
+
+	/**
+	 *
+	 * @return {number}
+	 */
+	get value() { return this._value; }
+
+}
+
+
+
+;// CONCATENATED MODULE: ./src/core/properties/style-properties/bounds/WidthProperty.js
+
+
+class WidthProperty extends StyleSideProperty {
+
+	constructor() {
+
+		super( 'width' );
+
+	}
+
+}
+
+
+
+;// CONCATENATED MODULE: ./src/core/properties/style-properties/bounds/HeightProperty.js
+
+
+class HeightProperty extends StyleSideProperty {
+
+	constructor() {
+
+		super( 'height' );
+
+	}
+
+	computeOutputValue( element ) {
+
+		super.computeOutputValue( element );
+
+	}
+
+}
+
+
+
+;// CONCATENATED MODULE: ./src/core/properties/TextContentEmpty.js
+
+
+class TextContentEmpty extends EmptyProperty{
+
+	constructor() {
+
+		super( "textContent" );
+
+		this._needsUpdate = false;
+
+	}
+
+
+	/* eslint-disable no-unused-vars */ set value( v ) { 	/* eslint-enable no-unused-vars */ }
+
+
+	/* eslint-disable no-unused-vars */ process( element ) { /* eslint-enable no-unused-vars */
+
+		let content = "";
+		for ( let i = 0; i < element.children.length; i++ ) {
+			const child = element.children[i];
+
+			if( child.isUI ) {
+
+				content += child.textContent;
+
+			}
+
+		}
+
+		this._value = content;
+
+	}
+
+
+}
+
+;// CONCATENATED MODULE: ./src/core/properties/style-properties/font/FontStyleProperty.js
+
+
+
+class FontStyleProperty extends SubStyleProperty {
+
+	constructor( defaultValue ) {
+
+		super( 'fontStyle', defaultValue, true );
+
+		this.isValidValue = FontStyleProperty_isValid;
+
+	}
+
+}
+
+
+const FontStyleProperty_AVAILABLE_VALUES = ['normal', 'italic'];
+function FontStyleProperty_isValid( value ) {
+
+	if( FontStyleProperty_AVAILABLE_VALUES.indexOf( value ) === -1 ) {
+
+		console.warn( `(.style) fontStyle value '${value}' is not valid. Aborted` );
+		return false;
+
+	}
+
+	return true;
+
+}
+
+;// CONCATENATED MODULE: ./src/core/properties/style-properties/font/FontWeightProperty.js
+
+
+
+class FontWeightProperty extends SubStyleProperty {
+
+	constructor( def ) {
+
+		super( 'fontWeight', def , true );
+
+		this.isValid = FontWeightProperty_isValid;
+	}
+
+}
+
+const FontWeightProperty_AVAILABLE_VALUES = ['100','200','300','400','500','600','700','800','900','light','normal','bold','bolder'];
+function FontWeightProperty_isValid( value ) {
+
+	if( FontWeightProperty_AVAILABLE_VALUES.indexOf( value.toString() ) === -1 ) {
+
+		console.warn( `(.style) fontWeight value '${value}' is not valid. Aborted` );
+		return false;
+
+	}
+
+	return true;
+
+}
+
+;// CONCATENATED MODULE: ./src/font/TypographicFont.js
+class TypographicFont {
+
+	constructor() {
+
+		/** @protected */ this._size = 42;
+		/** @protected */ this._lineHeight = 42;
+		/** @protected */ this._lineBase = 38;
+		/** @protected */ this._name = "-";
+		/** @protected */ this._charset = "";
+
+	}
+
+	/**
+	 *
+	 * @returns {number}
+	 */
 	get size() { return this._size; }
 
+	/**
+	 *
+	 * @returns {number}
+	 */
 	get lineHeight() { return this._lineHeight; }
 
+	/**
+	 *
+	 * @returns {number}
+	 */
 	get lineBase() { return this._lineBase; }
 
+	/**
+	 *
+	 * @returns {string}
+	 */
 	get name() { return this._name; }
 
+	/**
+	 *
+	 * @returns {string}
+	 */
 	get charset() { return this._charset; }
 
 }
 
-;// CONCATENATED MODULE: ./src/font/msdf/MSDFTypographyFont.js
+;// CONCATENATED MODULE: ./src/font/msdf/MSDFTypographicFont.js
 
 
-class MSDFTypographyFont extends TypographyFont{
+class MSDFTypographicFont extends TypographicFont{
 
 	/**
 	 *
-	 * @param {MSDFJson} json
+	 * @param {import('./MSDFFontVariant').MSDFJson} json
 	 */
 	constructor( json ) {
 
@@ -1873,38 +4143,58 @@ class MSDFTypographyFont extends TypographyFont{
 
 	}
 
+	/**
+	 *
+	 * @returns {number}
+	 */
 	get textureWidth() { return this._textureWidth; }
 
+	/**
+	 *
+	 * @returns {number}
+	 */
 	get textureHeight() { return this._textureHeight; }
 
 }
 
-;// CONCATENATED MODULE: ./src/font/TypographyCharacter.js
+;// CONCATENATED MODULE: ./src/font/TypographicGlyph.js
+//JSDoc related imports
+/* eslint-disable no-unused-vars */
+
+
+/* eslint-enable no-unused-vars */
+
 /**
+ * @class
  * @abstract
  */
-class TypographyCharacter {
+class TypographicGlyph {
 
 	/**
 	 *
-	 * @param {TypographyFont} typographicFont
+	 * @param {TypographicFont} typographicFont
 	 */
 	constructor( typographicFont ) {
 
-		this._char = "";
-		this._width = this._heigth = this._xadvance = 1;
-		this._xoffset = this._yoffset = 0;
+		/** @protected */ this._char = "";
+		/** @protected */ this._width = 1;
+		/** @protected */ this._heigth = 1;
+		/** @protected */ this._xadvance = 1;
+		/** @protected */ this._xoffset = 0;
+		/** @protected */ this._yoffset = 0;
 
 		/**
 		 *
-		 * @private
+		 * @type {TypographicFont}
+		 * @protected
 		 */
 		this._font = typographicFont;
+
 	}
 
 	/**
 	 *
-	 * @returns {TypographyFont}
+	 * @returns {TypographicFont}
 	 */
 	get font() {
 
@@ -1922,36 +4212,60 @@ class TypographyCharacter {
 
 	}
 
+	/**
+	 *
+	 * @returns {number}
+	 */
 	get width() {
 
 		return this._width;
 
 	}
 
+	/**
+	 *
+	 * @returns {number}
+	 */
 	get height() {
 
 		return this._heigth;
 
 	}
 
+	/**
+	 *
+	 * @returns {number}
+	 */
 	get xadvance() {
 
 		return this._xadvance;
 
 	}
 
+	/**
+	 *
+	 * @returns {number}
+	 */
 	get xoffset() {
 
 		return this._xoffset;
 
 	}
 
+	/**
+	 *
+	 * @returns {number}
+	 */
 	get yoffset() {
 
 		return this._yoffset;
 
 	}
 
+	/**
+	 *
+	 * @param value
+	 */
 	set yoffset( value ) {
 
 		this._yoffset = value;
@@ -1961,9 +4275,21 @@ class TypographyCharacter {
 	/**
 	 *
 	 * @abstract
-	 * @returns {InlineCharacter}
+	 * @param {string} otherChar
+	 * @returns {TypographicGlyph}
 	 */
-	asInlineCharacter() {
+	/* eslint-disable no-unused-vars */ clone( otherChar ) { /* eslint-enable no-unused-vars */
+
+		throw new Error("Abstract... Need to be implemented");
+
+	}
+
+	/**
+	 *
+	 * @abstract
+	 * @returns {InlineGlyph}
+	 */
+	asInlineGlyph() {
 
 		throw new Error("Abstract... Need to be implemented")
 
@@ -1971,37 +4297,299 @@ class TypographyCharacter {
 
 }
 
-;// CONCATENATED MODULE: ./src/font/InlineCharacter.js
-class InlineCharacter {
+;// CONCATENATED MODULE: ./src/core/elements/glyphs/Inline.js
+/**
+ * This is the abstract/base class / interface of any inline
+ * Inline can be positioned according to text rules
+ */
+class Inline {
+
+	constructor() {
+
+		/** @protected */ this._offsetX = 0;
+		/** @protected */ this._offsetY = 0;
+
+		/** @protected */ this._lineBreak = null;
+
+		/** @protected */ this._kerning = 0;
+
+		/** @protected */ this._fontFactor = 1;
+		/** @protected */ this._fontSize = 0;
+
+		/** @protected */ this._cumulativeWidth = 0;
+
+		/** @protected */ this._paddingLeft = 0;
+		/** @protected */ this._paddingRight = 0;
+
+		/** @protected */ this._marginLeft = 0;
+		/** @protected */ this._marginRight = 0;
+
+	}
 
 	/**
-	 *
-	 * @param {TypographyCharacter} characterDesc
+	 * @returns {void}
 	 */
-	constructor( characterDesc ) {
-
-		this._typographic = characterDesc;
-
-		this._fontFactor = 1;
-		this._lineBreak = null;
-
-		this._fontSize = 0;
-		this._kerning = 0;
-
-		this._offsetX = 0;
-		this._offsetY = 0;
-
-	}
-
-	get typographic(){
-
-		return this._typographic;
-
-	}
-
 	resetOffsets() {
 
 		this._offsetX = this._offsetY = 0;
+		this._cumulativeWidth = 0;
+
+	}
+
+	/**
+	 * The horizontal distance this inline fills
+	 * @returns {number}
+	 */
+	get xadvance() { return 0 }
+
+	/**
+	 * The offset x of this inline in a line
+	 * @returns {number}
+	 */
+	get xoffset() { return 0 }
+
+	/**
+	 * The offset y of this inline in a line
+	 * @returns {number}
+	 */
+	get yoffset() { return 0 }
+
+	/**
+	 *
+	 * @returns {number}
+	 */
+	get width() { return 0 }
+
+	/**
+	 *
+	 * @returns {number}
+	 */
+	get height() { return 0 }
+
+	/**
+	 *
+	 * @param {string|null} value
+	 */
+	set lineBreak( value ) {
+
+		this._lineBreak = value;
+
+	}
+
+	/**
+	 *
+	 * @returns {string|null}
+	 */
+	get lineBreak() { return this._lineBreak; }
+
+	/**
+	 *
+	 * @returns {number}
+	 */
+	get anchor() { return 0 }
+
+	/**
+	 *
+	 * @returns {number}
+	 */
+	get kerning() { return this._kerning * this._fontFactor; }
+
+	/**
+	 *
+	 * @param {number} value
+	 */
+	set kerning( value ) {
+
+		this._kerning = value;
+
+	}
+
+	/**
+	 *
+	 * @returns {number}
+	 */
+	get fontSize() { return this._fontSize }
+
+	/**
+	 *
+	 * @param {number} value
+	 */
+	set fontSize( value ) {
+
+		this._fontSize = value;
+
+	}
+
+	/**
+	 *
+	 * @returns {number}
+	 */
+	get lineHeight() { return 0 }
+
+	/**
+	 *
+	 * @returns {number}
+	 */
+	get offsetX() { return this._offsetX; }
+
+	/**
+	 *
+	 * @param value
+	 */
+	set offsetX( value ){
+
+		this._offsetX = value;
+
+	}
+
+	/**
+	 *
+	 * @returns {number}
+	 */
+	get offsetY() { return this._offsetY; }
+
+	/**
+	 *
+	 * @param {number} value
+	 */
+	set offsetY( value ){
+
+		this._offsetY = value;
+
+	}
+
+	/**
+	 *
+	 * @return {number}
+	 */
+	get cumulativeWidth() { return this._cumulativeWidth; }
+
+	/**
+	 *
+	 * @param {number} value
+	 */
+	set cumulativeWidth( value ) {
+
+		this._cumulativeWidth = value;
+
+	}
+
+	/**
+	 *
+	 * @return {number}
+	 */
+	get marginLeft() { return this._marginLeft; }
+
+	/**
+	 *
+	 * @param {number} value
+	 */
+	set marginLeft( value ) {
+
+		this._marginLeft = value;
+
+	}
+
+	/**
+	 *
+	 * @return {number}
+	 */
+	get marginRight() { return this._marginRight; }
+
+	/**
+	 *
+	 * @param {number} value
+	 */
+	set marginRight( value ) {
+
+		this._marginRight = value;
+
+	}
+
+	/**
+	 *
+	 * @return {number}
+	 */
+	get paddingLeft() { return this._paddingLeft; }
+
+	/**
+	 *
+	 * @param {number} value
+	 */
+	set paddingLeft( value ) {
+
+		this._paddingLeft = value;
+
+	}
+
+	/**
+	 *
+	 * @return {number}
+	 */
+	get paddingRight() { return this._paddingRight; }
+
+	/**
+	 *
+	 * @param {number} value
+	 */
+	set paddingRight( value ) {
+
+		this._paddingRight = value;
+
+	}
+
+	/**
+	 *
+	 * @returns {number}
+	 */
+	get lineBase() { return 0 }
+
+	/**
+	 *
+	 * @param {number} value
+	 */
+	set fontFactor( value ){
+
+		this._fontFactor = value;
+
+	}
+
+	/**
+	 *
+	 * @returns {number}
+	 */
+	get fontFactor() { return this._fontFactor }
+}
+
+;// CONCATENATED MODULE: ./src/font/InlineGlyph.js
+
+
+//JSDoc related imports
+/* eslint-disable no-unused-vars */
+
+/* eslint-enable no-unused-vars */
+
+class InlineGlyph extends Inline {
+
+	/**
+	 *
+	 * @param {TypographicGlyph} characterDesc
+	 */
+	constructor( characterDesc ) {
+
+		super();
+
+		/** @protected */ this._typographic = characterDesc;
+
+	}
+
+	/**
+	 *
+	 * @returns {TypographicGlyph}
+	 */
+	get typographic(){
+
+		return this._typographic;
 
 	}
 
@@ -2009,14 +4597,34 @@ class InlineCharacter {
 	 * GETTERS FROM CHARACTER DESCRIPTION
 	 ********************************************************************************************************************/
 
+	/**
+	 * @override
+	 * @returns {number}
+	 */
 	get xadvance() { return this._typographic.xadvance * this._fontFactor; }
 
+	/**
+	 * @override
+	 * @returns {number}
+	 */
 	get xoffset() { return this._typographic.xoffset * this._fontFactor; }
 
+	/**
+	 * @override
+	 * @returns {number}
+	 */
 	get yoffset() { return this._typographic.yoffset * this._fontFactor; }
 
+	/**
+	 * @override
+	 * @returns {number}
+	 */
 	get width() { return this._typographic.width * this._fontFactor ; }
 
+	/**
+	 * @override
+	 * @returns {number}
+	 */
 	get height() { return this._typographic.height * this._fontFactor; }
 
 	/**
@@ -2025,78 +4633,52 @@ class InlineCharacter {
 	 */
 	get char() { return this._typographic.char; }
 
-	set lineBreak( value ){
-
-		this._lineBreak = value;
-
-	}
-
-	get lineBreak() { return this._lineBreak; }
-
+	/**
+	 * @override
+	 * @returns {number}
+	 */
 	get anchor() {
 
-		const lineHeight = this._typographic.font.lineHeight;
-		const lineBase = this._typographic.font.lineBase;
+		// const lineHeight = this._typographic.font.lineHeight;
+		// const lineBase = this._typographic.font.lineBase;
+		//
+		// return ( ( this._typographic.yoffset + this._typographic.height - lineBase ) * this._fontSize ) / lineHeight;
 
-		return ( ( this._typographic.yoffset + this._typographic.height - lineBase ) * this._fontSize ) / lineHeight;
-
-	}
-
-	get kerning() { return this._kerning * this._fontFactor; }
-
-	set kerning( value ) {
-
-		this._kerning = value;
+		return this.yoffset;
 
 	}
 
-	get fontSize() { return this._fontSize }
-
-	set fontSize( value ) {
-
-		this._fontSize = value;
-
-	}
-
-
-
+	/**
+	 * @override
+	 * @returns {number}
+	 */
 	get lineHeight() { return this._typographic.font.lineHeight * this._fontFactor; }
 
-	get offsetX() { return this._offsetX; }
-
-	set offsetX( value ){
-
-		this._offsetX = value;
-
-	}
-
-	get offsetY() { return this._offsetY; }
-
-	set offsetY( value ){
-
-		this._offsetY = value;
-
-	}
-
-
+	/**
+	 * @override
+	 * @returns {number}
+	 */
 	get lineBase() { return this._typographic.font.lineBase * this._fontFactor; }
 
-	set fontFactor( value ){
-
-		this._fontFactor = value;
-
-	}
 
 }
 
-;// CONCATENATED MODULE: ./src/font/msdf/MSDFInlineCharacter.js
+;// CONCATENATED MODULE: ./src/font/msdf/MSDFInlineGlyph.js
 
 
-class MSDFInlineCharacter extends InlineCharacter{
+//JSDoc related imports
+/* eslint-disable no-unused-vars */
+
+/* eslint-enable no-unused-vars */
+
+/**
+ * @extends InlineGlyph
+ */
+class MSDFInlineGlyph extends InlineGlyph{
 
 	/**
 	 *
-	 * @param {MSDFTypographyCharacter} characterDesc
+	 * @param {MSDFTypographicGlyph} characterDesc
 	 */
 	constructor( characterDesc ) {
 
@@ -2104,23 +4686,36 @@ class MSDFInlineCharacter extends InlineCharacter{
 
 	}
 
+	/**
+	 *
+	 * @returns {{left:number, right:number, top:number, bottom:number}|null}
+	 */
 	get uv() { return this.typographic.uv; }
 
 }
 
-;// CONCATENATED MODULE: ./src/font/msdf/MSDFTypographyCharacter.js
+;// CONCATENATED MODULE: ./src/font/msdf/MSDFTypographicGlyph.js
 
 
 
-class MSDFTypographyCharacter extends TypographyCharacter {
+//JSDoc related imports
+/* eslint-disable no-unused-vars */
+
+/* eslint-enable no-unused-vars */
+
+
+/**
+ * @property {MSDFTypographicFont} _font
+ */
+class MSDFTypographicGlyph extends TypographicGlyph {
 
 	/**
-	 * @param {MSDFTypographyFont} fontDescription
-	 * @param {MSDFJsonChar} characterData
+	 * @param {MSDFTypographicFont} fontDescription
+	 * @param {import('./MSDFFontVariant').MSDFJsonChar} characterData
 	 */
 	constructor( fontDescription, characterData ) {
 
-		super(fontDescription);
+		super( fontDescription );
 
 		this._char = characterData.char;
 		this._width = characterData.width;
@@ -2131,9 +4726,9 @@ class MSDFTypographyCharacter extends TypographyCharacter {
 		this._yoffset = characterData.yoffset ? characterData.yoffset : 0;
 
 		// Msdf requires uvs
-		this._uv = null;
+		this._uv = characterData.uv ? characterData.uv : null;
 
-		if( !isNaN( characterData.x ) ) {
+		if ( !isNaN( characterData.x ) ) {
 			// transform absolute pixel values into uv values [0,1]
 			this._uv = {
 				left: characterData.x / fontDescription.textureWidth,
@@ -2156,42 +4751,82 @@ class MSDFTypographyCharacter extends TypographyCharacter {
 	}
 
 	/**
-	 * Abstraction
-	 *
-	 * @returns {MSDFInlineCharacter}
+	 * @override
+	 * @param {string} otherChar
+	 * @returns {MSDFTypographicGlyph}
 	 */
-	asInlineCharacter() {
+	clone( otherChar ) {
 
-		return new MSDFInlineCharacter( this );
+		return new MSDFTypographicGlyph( this._font, {
+			char: otherChar,
+			width: this._width,
+			height: this._heigth,
+			xadvance: this._xadvance,
+			xoffset: this._xoffset,
+			yoffset: this._yoffset,
+
+			// Msdf requires uvs
+			uv: null
+		} );
+
+	}
+
+
+	/**
+	 * @override
+	 * @returns {MSDFInlineGlyph}
+	 */
+	asInlineGlyph() {
+
+		return new MSDFInlineGlyph( this );
 
 	}
 
 }
 
-;// CONCATENATED MODULE: ./src/font/msdf/MSDFGeometryCharacter.js
+;// CONCATENATED MODULE: ./src/font/msdf/MSDFGeometricGlyph.js
 
 
-class MSDFGeometryCharacter extends external_three_namespaceObject.PlaneBufferGeometry {
+//JSDoc related imports
+/* eslint-disable no-unused-vars */
+
+
+/* eslint-enable no-unused-vars */
+
+class MSDFGeometricGlyph extends external_three_namespaceObject.PlaneGeometry {
 
 	/**
 	 *
-	 * @param {MSDFInlineCharacter} inline
+	 * @param {MSDFInlineGlyph} inline
+	 * @param {MeshUIBaseElement} element
 	 */
-	constructor( inline ) {
+	constructor( inline, element ) {
 
-		super( inline.width, inline.height );
+
+		// default w & h segments
+		let wS = 1, hS=1;
+
+		// If charOBJ, try to distribute segments proportionally
+		const typographicFontSize = inline.typographic.font.size;
+
+		const segments = element._segments.value;
+
+		wS = Math.ceil((inline.typographic.width / typographicFontSize) * segments );
+		hS = Math.ceil((inline.typographic.height / typographicFontSize) * segments );
+
+		super( inline.width, inline.height, wS, hS );
 
 		// If inline has UVs
 		if ( inline.uv ) {
 
-			this.mapUVs( inline );
+			this._mapUVs( inline );
 
-			this.transformGeometry( inline );
+			this._transformGeometry( inline );
 
 			// White spaces (we don't want our plane geometry to have a visual width nor a height)
 		} else {
 
-			this.nullifyUVs();
+			this._nullifyUVs();
 
 			this.scale( 0, 0, 1 );
 
@@ -2199,59 +4834,60 @@ class MSDFGeometryCharacter extends external_three_namespaceObject.PlaneBufferGe
 
 		}
 
+		this.name = "GlyphGeometry";
+		// Demo alter geometry
+		// const maxOffset = inline.fontSize / 10;
+		// this.translate(0 , -maxOffset + Math.random() * maxOffset*2, 0 )
+		// this.rotateZ(-0.1 + 0.2 * Math.random() )
+
 	}
 
 	/**
 	 * Compute the right UVs that will map the MSDF texture so that the passed character
 	 * will appear centered in full size
+	 * @param {MSDFInlineGlyph} inline
 	 * @private
 	 */
-	mapUVs( inline ) {
+	_mapUVs( inline ) {
 
-		const uvAttribute = this.attributes.uv;
 
-		for ( let i = 0; i < uvAttribute.count; i++ ) {
+		const width = inline.uv.right - inline.uv.left;
+		const height = inline.uv.bottom - inline.uv.top;
 
-			let u = uvAttribute.getX( i );
-			let v = uvAttribute.getY( i );
+		const originalUvArray = this.getAttribute('uv').array.slice()
 
-			[ u, v ] = ( () => {
+		const uvGlyph = [];
+		for (let i = 0; i < originalUvArray.length; i += 2) {
+			const u = originalUvArray[i];
+			const v = originalUvArray[i + 1];
 
-				switch ( i ) {
-
-					case 0 :
-						// return [ xMin, yMax ];
-						return [ inline.uv.left, inline.uv.bottom ];
-					case 1 :
-						// return [ xMax, yMax ];
-						return [ inline.uv.right, inline.uv.bottom ];
-					case 2 :
-						// return [ xMin, yMin ];
-						return [ inline.uv.left, inline.uv.top ];
-					case 3 :
-						// return [ xMax, yMin ];
-						return [ inline.uv.right, inline.uv.top ];
-
-				}
-
-			} )();
-
-			uvAttribute.setXY( i, u, v );
-
+			uvGlyph.push(inline.uv.left + width * u);
+			uvGlyph.push(inline.uv.top + height * v);
 		}
+		this.setAttribute('uvG', new external_three_namespaceObject.BufferAttribute(new Float32Array(uvGlyph), 2));
 
 	}
 
-	/** Set all UVs to 0, so that none of the glyphs on the texture will appear */
-	nullifyUVs() {
+	/**
+	 * Set all UVs to 0, so that none of the glyphs on the texture will appear
+	 * @private
+	 * */
+	_nullifyUVs() {
 
-		const uvAttribute = this.attributes.uv;
+		// const uvAttribute = this.attributes.uv;
+		//
+		// for ( let i = 0; i < uvAttribute.count; i++ ) {
+		//
+		// 	uvAttribute.setXY( i, 0, 0 );
+		//
+		// }
 
-		for ( let i = 0; i < uvAttribute.count; i++ ) {
-
-			uvAttribute.setXY( i, 0, 0 );
-
+		const uvGlyph = [];
+		const length = this.getAttribute('uv').array.length;
+		for ( let i = 0; i < length; i++ ) {
+			uvGlyph.push(0);
 		}
+		this.setAttribute('uvG', new external_three_namespaceObject.BufferAttribute(new Float32Array(uvGlyph), 2));
 
 	}
 
@@ -2259,19 +4895,694 @@ class MSDFGeometryCharacter extends external_three_namespaceObject.PlaneBufferGe
 	 *
 	 * @TODO: Apply pivot properties when splitText isset
 	 * Gives the previously computed scale and offset to the geometry
-	 * @param {MSDFInlineCharacter} inline
+	 * @param {MSDFInlineGlyph} inline
+	 * @private
 	 */
-	transformGeometry( inline ) {
+	_transformGeometry( inline ) {
 
 		//
 
 		// @TODO : Evaluate this as being a property. It can wait until splitGeometry
 		this.translate(
 			inline.width / 2,
-			( inline.height / 2 ) - inline.anchor,
+			-inline.height/2,
 			0
 		);
 
+	}
+
+}
+
+;// CONCATENATED MODULE: ./src/font/msdf/renderers/ShaderChunks/msdf-alphaglyph.pars.vertex.glsl.js
+/**
+ *
+ * @type {string}
+ */
+const program = /* glsl */`
+attribute vec2 uvG;
+varying vec2 vUvG;
+`;
+
+/* harmony default export */ const msdf_alphaglyph_pars_vertex_glsl = (program);
+
+;// CONCATENATED MODULE: ./src/font/msdf/renderers/ShaderChunks/msdf-alphaglyph.vertex.glsl.js
+/**
+ *
+ * @type {string}
+ */
+const msdf_alphaglyph_vertex_glsl_program = /* glsl */ `
+vUvG = uvG;
+`;
+
+/* harmony default export */ const msdf_alphaglyph_vertex_glsl = (msdf_alphaglyph_vertex_glsl_program);
+
+;// CONCATENATED MODULE: ./src/font/msdf/renderers/ShaderChunks/msdf-offsetglyph.vertex.glsl.js
+/**
+ *
+ * @type {string}
+ */
+const msdf_offsetglyph_vertex_glsl_program = /* glsl */`
+gl_Position.z -= 0.00001;
+`;
+
+/* harmony default export */ const msdf_offsetglyph_vertex_glsl = (msdf_offsetglyph_vertex_glsl_program);
+
+;// CONCATENATED MODULE: ./src/font/msdf/renderers/ShaderChunks/msdf-alphaglyph.pars.fragment.glsl.js
+/**
+ *
+ * @type {string}
+ */
+const msdf_alphaglyph_pars_fragment_glsl_program = /* glsl */`
+varying vec2 vUvG;
+uniform sampler2D glyphMap;
+uniform vec2 unitRange;
+// functions from the original msdf repo:
+// https://github.com/Chlumsky/msdfgen#using-a-multi-channel-distance-field
+float median(float r, float g, float b) {
+	return max(min(r, g), min(max(r, g), b));
+}
+float screenPxRange() {
+
+	// precomputed unitRange as recommended by Chlumsky
+	// vec2 unitRange = vec2(pxRange)/vec2(textureSize(glyphMap, 0));
+	vec2 screenTexSize = vec2(1.0)/fwidth(vUvG);
+	return max(0.5*dot(unitRange, screenTexSize), 1.0);
+}
+float tap(vec2 offsetUV) {
+	vec3 msd = texture( glyphMap, offsetUV ).rgb;
+	float sd = median(msd.r, msd.g, msd.b);
+	float screenPxDistance = screenPxRange() * (sd - 0.5);
+	float alpha = clamp(screenPxDistance + 0.5, 0.0, 1.0);
+	return alpha;
+}
+`;
+
+/* harmony default export */ const msdf_alphaglyph_pars_fragment_glsl = (msdf_alphaglyph_pars_fragment_glsl_program);
+
+;// CONCATENATED MODULE: ./src/font/msdf/renderers/ShaderChunks/msdf-alphaglyph.fragment.glsl.js
+/**
+ *
+ * @type {string}
+ */
+const msdf_alphaglyph_fragment_glsl_program = /* glsl */`
+	float alpha;
+#ifdef NO_RGSS
+
+	alpha = tap( vUvG );
+
+#else
+
+	// shader-based supersampling based on https://bgolus.medium.com/sharper-mipmapping-using-shader-based-supersampling-ed7aadb47bec
+	// per pixel partial derivatives
+	vec2 dx = dFdx(vUvG);
+	vec2 dy = dFdy(vUvG);
+	// rotated grid uv offsets
+	vec2 uvOffsets = vec2(0.125, 0.375);
+	vec2 offsetUV = vec2(0.0, 0.0);
+	// supersampled using 2x2 rotated grid
+	alpha = 0.0;
+	offsetUV.xy = vUvG + uvOffsets.x * dx + uvOffsets.y * dy;
+	alpha += tap(offsetUV);
+	offsetUV.xy = vUvG - uvOffsets.x * dx - uvOffsets.y * dy;
+	alpha += tap(offsetUV);
+	offsetUV.xy = vUvG + uvOffsets.y * dx - uvOffsets.x * dy;
+	alpha += tap(offsetUV);
+	offsetUV.xy = vUvG - uvOffsets.y * dx + uvOffsets.x * dy;
+	alpha += tap(offsetUV);
+	alpha *= 0.25;
+
+#endif
+
+	alpha = clamp( alpha, 0.0, 1.0 );
+
+#ifdef INVERT_ALPHA
+
+	alpha = 1.0 - alpha;
+
+#endif
+
+	diffuseColor.a *= alpha;
+`;
+
+/* harmony default export */ const msdf_alphaglyph_fragment_glsl = (msdf_alphaglyph_fragment_glsl_program);
+
+;// CONCATENATED MODULE: ./src/utils/mediator/transformers/MaterialTransformers.js
+
+/**
+ * Transfer the alphaTest value from MeshUIComponent to material
+ * @type {import('../Mediator').MediationTransformer}
+ */
+const alphaTestTransformer = function ( target, targetProperty, value) {
+
+	// set the value in the material
+	target.alphaTest = value;
+
+	toPreprocessorTriggerTransformer(target, 'USE_ALPHATEST', value > 0 );
+
+}
+
+/**
+ * Transform a value as a preprocessor trigger
+ * @type {import('../Mediator').MediationTransformer}
+ */
+const toPreprocessorTriggerTransformer = function ( target, targetProperty, value) {
+
+	if( !target.defines ) return;
+
+	if ( value ) {
+
+		if( target.defines[targetProperty] === undefined ) {
+
+			target.defines[targetProperty] = '';
+			target.needsUpdate = true;
+
+		}
+
+	} else if( target.defines[targetProperty] !== undefined ) {
+
+		delete target.defines[targetProperty];
+		target.needsUpdate = true;
+
+	}
+
+}
+
+/**
+ * Transform a value as a preprocessor value
+ * @type {import('../Mediator').MediationTransformer}
+ */
+const asPreprocessorValueTransformer = function ( target, targetProperty, value) {
+
+	// abort if nothing to update, same value
+	if( target.defines[targetProperty] && target.defines[targetProperty] === value ) return;
+
+	// or change the preprocessor and update
+	target.defines[targetProperty] = value;
+	target.needsUpdate = true;
+
+}
+
+/**
+ * Transform a value as a uniform or userData value
+ * Non primitive values are bounds
+ * @type {import('../Mediator').MediationTransformer}
+ */
+const uniformOrUserDataTransformer = function( material, property, value ) {
+
+	if( material.userData[property] ) {
+
+		material.userData[property].value = value;
+
+	}else{
+
+		material.uniforms[property].value = value;
+
+	}
+
+}
+
+const toUserDataTransformer = function( material, property, value ) {
+
+	material.userData[property].value = value;
+
+}
+
+;// CONCATENATED MODULE: ./src/font/msdf/utils/MSDFFontMaterialUtils.js
+
+
+
+
+
+
+
+/* eslint-disable no-unused-vars */
+
+
+/* eslint-enable no-unused-vars */
+
+/**
+ * MSDFFontMaterialUtils provides utilities
+ * for customizing other threejs or custom materials
+ * into a three-mesh-ui MSDFFontMaterial
+ */
+class MSDFFontMaterialUtils {
+
+	/**
+	 * Alter a material options with required fontMaterial options and or default values
+	 * @param {Object.<string,any>} materialOptions
+	 */
+	static ensureMaterialOptions( materialOptions ) {
+		materialOptions.transparent = true;
+		materialOptions.alphaTest = materialOptions.alphaTest || 0.02;
+	}
+
+	/**
+	 * As three-mesh-ui FontMaterial relies on webgl preprocessors,
+	 * lets force the material to have a proper defines object
+	 * @param {Material|ShaderMaterial} threeMaterial
+	 */
+	static ensureDefines( threeMaterial ) {
+		if ( !threeMaterial.defines ) {
+			threeMaterial.defines = {};
+		}
+	}
+
+	/**
+	 *
+	 * @param {Material|ShaderMaterial} threeMaterial
+	 * @param {Object.<string,any>} materialOptions
+	 */
+	static ensureUserData( threeMaterial, materialOptions ) {
+		threeMaterial.userData.glyphMap = { value: materialOptions.glyphMap };
+		threeMaterial.userData.unitRange = { value: new external_three_namespaceObject.Vector2() };
+	}
+
+	/**
+	 *
+	 * @param {any} shader
+	 * @param {Material|ShaderMaterial} threeMaterial
+	 */
+	static bindUniformsWithUserData( shader, threeMaterial ) {
+
+		shader.uniforms.glyphMap = threeMaterial.userData.glyphMap;
+		shader.uniforms.unitRange = threeMaterial.userData.unitRange;
+	}
+
+	/**
+	 *
+	 * @param shader
+	 */
+	static injectShaderChunks( shader ) {
+		MSDFFontMaterialUtils.injectVertexShaderChunks( shader );
+		MSDFFontMaterialUtils.injectFragmentShaderChunks( shader );
+	}
+
+	/**
+	 *
+	 * @param shader
+	 */
+	static injectVertexShaderChunks( shader ) {
+		shader.vertexShader = shader.vertexShader.replace(
+			'#include <uv_pars_vertex>',
+			'#include <uv_pars_vertex>\n' + msdf_alphaglyph_pars_vertex_glsl
+		);
+
+		// vertex chunks
+		shader.vertexShader = shader.vertexShader.replace(
+			'#include <uv_vertex>',
+			'#include <uv_vertex>\n' + msdf_alphaglyph_vertex_glsl
+		)
+
+		shader.vertexShader = shader.vertexShader.replace(
+			'#include <project_vertex>',
+			'#include <project_vertex>\n' + msdf_offsetglyph_vertex_glsl
+		)
+	}
+
+	/**
+	 *
+	 * @param shader
+	 */
+	static injectFragmentShaderChunks( shader ) {
+		shader.fragmentShader = shader.fragmentShader.replace(
+			'#include <uv_pars_fragment>',
+			'#include <uv_pars_fragment>\n' + msdf_alphaglyph_pars_fragment_glsl
+		)
+
+		// fragment chunks
+		shader.fragmentShader = shader.fragmentShader.replace(
+			'#include <alphamap_fragment>',
+			'#include <alphamap_fragment>\n' + msdf_alphaglyph_fragment_glsl
+		)
+	}
+
+
+
+	/**
+	 * Mix a threejs Material into a three-mesh-ui FontMaterial
+	 * @param {typeof Material|ShaderMaterial} materialClass
+	 * @returns {typeof Material|ShaderMaterial}
+	 */
+	static from( materialClass ) {
+
+		return class extends materialClass {
+
+			/**
+			 *
+			 * @abstract
+			 * @returns {Object.<{m:string, t?:(fontMaterial:Material|ShaderMaterial, materialProperty:string, value:any) => void}>}
+			 */
+			static get fontMaterialProperties() {
+				return MSDFFontMaterialUtils.mediation;
+			}
+
+			constructor( options = {} ) {
+
+				// same as FontMaterial extension
+				MSDFFontMaterialUtils.ensureMaterialOptions( options );
+				super( options );
+				MSDFFontMaterialUtils.ensureDefines( this );
+				MSDFFontMaterialUtils.ensureUserData( this, options );
+
+				// defines two internal properties in order to kept
+				// user allowed to use onBeforeCompile for its own stuff
+				// 1- store an callback for user
+				/* eslint-disable no-unused-vars */
+				this._userDefinedOnBeforeCompile = (shader) => {};
+				/* eslint-enable no-unused-vars */
+				// 2- store the cumulative callback
+				this._onBeforeCompile = this._cumulativeOnBeforeCompile;
+			}
+
+			////////////////////////////
+			// OnBeforeCompile Override
+			///////////////////////////
+
+			/**
+			 * Override the setter of onBeforeCompile in order to never overwrite
+			 * the three-mesh-ui fontMaterial onBeforeCompile
+			 * @param { (shader:any) => void }fct
+			 */
+			set onBeforeCompile( fct ) {
+				// only store it as userDefinedCallback
+				this._userDefinedOnBeforeCompile = fct;
+			}
+
+			/**
+			 * Override the getter of onBeforeCompile in order to
+			 * always deliver the cumulativeCallbacks to threejs
+			 * @returns { (shader:any) => void }
+			 */
+			get onBeforeCompile() {
+				return this._onBeforeCompile;
+			}
+
+			/**
+			 *
+			 * On before compile that first run three-mesh-ui fontMaterial
+			 * then user defined onBeforeCompile
+			 * @param shader
+			 * @private
+			 */
+			_cumulativeOnBeforeCompile = ( shader ) => {
+				// bind uniforms
+				MSDFFontMaterialUtils.bindUniformsWithUserData( shader, this );
+
+				// inject both vertex and fragment shaders
+				MSDFFontMaterialUtils.injectShaderChunks( shader );
+
+				// user defined additional onBeforeCompile
+				this._userDefinedOnBeforeCompile( shader );
+			}
+		}
+	}
+
+	/**
+	 *
+	 * @returns {Object<{m: string, t?: (function((Material|ShaderMaterial), string, *): void)}>}
+	 */
+	static get mediation() {
+
+		return mediationDefinitions;
+
+	}
+
+}
+
+/**
+ * Convert a fontVariant to a material glyphMap texture
+ * @type {(fontMaterial:Material|ShaderMaterial, materialProperty:string, value:any) => void }
+ * @private
+ */
+const _fontToGlyphMapTransformer = function( fontMaterial, materialProperty, value) {
+
+	const texture = value ? value.texture : null;
+	const unitRange = value ? value.unitRange : new external_three_namespaceObject.Vector2();
+
+	if( fontMaterial[materialProperty] !== undefined ) {
+
+		fontMaterial.glyphMap = texture;
+		fontMaterial.unitRange = unitRange;
+		return;
+	}
+
+	if( fontMaterial.userData && fontMaterial.userData.glyphMap ) {
+
+		fontMaterial.userData.glyphMap.value = texture;
+		fontMaterial.userData.unitRange.value = unitRange;
+
+	}
+
+}
+
+/**
+ *
+ * @type {(fontMaterial:Material|ShaderMaterial, materialProperty:string, value:any) => void }
+ * @private
+ */
+const _RGSSTransformer = function( fontMaterial, materialProperty, value){
+
+	if ( value && value !== 'antialiased' ) {
+
+		fontMaterial.defines['NO_RGSS'] = '';
+
+	} else {
+
+		delete fontMaterial.defines['NO_RGSS'];
+
+	}
+
+	fontMaterial.needsUpdate = true;
+
+}
+
+
+/**
+ *
+ * @type {Object.<{m:string, t?:(fontMaterial:Material|ShaderMaterial, materialProperty:string, value:any) => void}>}
+ */
+const mediationDefinitions = {
+	clippingPlanes: { m: 'clippingPlanes' },
+	fontAlphaTest: { m: 'alphaTest', t: alphaTestTransformer },
+	fontSide: { m: 'side' },
+	font: { m: "glyphMap", t: _fontToGlyphMapTransformer },
+	color: { m: 'color' },
+	fontOpacity: { m: 'opacity' },
+	fontSmooth: { m: 'NO_RGSS', t: _RGSSTransformer },
+	invertAlpha: { m: 'INVERT_ALPHA', t: toPreprocessorTriggerTransformer },
+}
+
+;// CONCATENATED MODULE: ./src/font/msdf/renderers/ShaderLib/msdf-fontmaterial.glsl.js
+
+
+
+
+
+
+/**
+ *
+ * @type {string}
+ */
+const vertexShader = /* glsl */`
+${msdf_alphaglyph_pars_vertex_glsl}
+#include <clipping_planes_pars_vertex>
+void main() {
+	${msdf_alphaglyph_vertex_glsl}
+	#include <begin_vertex>
+	#include <project_vertex>
+	${msdf_offsetglyph_vertex_glsl}
+	#include <clipping_planes_vertex>
+}
+`
+
+/**
+ *
+ * @type {string}
+ */
+const fragmentShader = /* glsl */`
+uniform vec3 diffuse;
+uniform float opacity;
+${msdf_alphaglyph_pars_fragment_glsl}
+#include <alphatest_pars_fragment>
+#include <clipping_planes_pars_fragment>
+void main() {
+	// instead of <color_fragment> : vec4 diffuseColor
+	vec4 diffuseColor = vec4( diffuse, opacity );
+	${msdf_alphaglyph_fragment_glsl}
+	#include <alphatest_fragment>
+	// instead of <output_fragment>
+	gl_FragColor = diffuseColor;
+	#include <clipping_planes_fragment>
+}
+`
+
+;// CONCATENATED MODULE: ./src/font/msdf/materials/MSDFFontMaterial.js
+
+
+
+
+// JSDoc related import
+/* eslint-disable no-unused-vars */
+
+/* eslint-enable no-unused-vars */
+
+const ALPHA_TEST = 0.02;
+
+
+/**
+ * This material implements the msdf rendering shader
+ */
+class MSDFFontMaterial extends external_three_namespaceObject.ShaderMaterial {
+
+	/**
+	 * This static method is mandatory for extending ThreeMeshUI.MSDFFontMaterial
+	 * It will provide a transfer description for properties from ThreeMeshUI.Text to THREE.Material
+	 * @see {MSDFFontMaterialUtils.mediation}
+	 * @returns {Object.<{m:string, t?:(fontMaterial:Material|ShaderMaterial, materialProperty:string, value:any) => void}>}
+	 */
+	static get mediation() {
+
+		return MSDFFontMaterialUtils.mediation;
+
+	}
+
+	constructor( materialOptions = {} ) {
+
+		super( {
+
+			uniforms: {
+				'glyphMap': { value: null }, // texture
+				'diffuse': { value: null }, // vec3
+				'opacity': { value: 1 },
+				'unitRange': { value: new external_three_namespaceObject.Vector2(0,0) }, // vec2
+				'alphaTest': { value: ALPHA_TEST },
+			},
+			transparent: true,
+			clipping: true,
+			vertexShader: vertexShader,
+			fragmentShader: fragmentShader,
+			extensions: {
+				derivatives: true
+			},
+		} );
+
+		// webgl preprocessor AlphaTest set by default
+		this.defines[ 'USE_ALPHATEST' ] = '';
+		this.needsUpdate = true;
+
+		// initiate additional properties
+		this.noRGSS = materialOptions.noRGSS || false;
+
+	}
+
+	/**
+	 * The color will be the diffuse uniform
+	 * @returns {Color}
+	 */
+	get color() {
+
+		return this.uniforms.diffuse.value;
+
+	}
+
+	/**
+	 *
+	 * @param {Color} v
+	 */
+	set color( v ) {
+
+		this.uniforms.diffuse.value = v;
+
+	}
+
+	/**
+	 *
+	 * @param {number} v
+	 */
+	set opacity( v ) {
+
+		if( this.uniforms )
+			this.uniforms.opacity.value = v;
+
+	}
+
+	/**
+	 * The color will be the diffuse uniform
+	 * @returns {number}
+	 */
+	get opacity() {
+
+		return this.uniforms.opacity.value;
+
+	}
+
+
+
+
+	/**
+	 * The color will be the diffuse uniform
+	 * @returns {Vector2}
+	 */
+	get unitRange() {
+
+		return this.uniforms.unitRange.value;
+
+	}
+
+	/**
+	 *
+	 * @param {Vector2} v
+	 */
+	set unitRange( v ) {
+
+		this.uniforms.unitRange.value.copy( v );
+
+	}
+
+	/**
+	 *
+	 * @returns {Texture}
+	 */
+	get glyphMap() {
+
+		return this.uniforms.glyphMap.value;
+
+	}
+
+	/**
+	 *
+	 * @param {Texture} v
+	 */
+	set glyphMap( v ) {
+
+		this.uniforms.glyphMap.value = v;
+
+	}
+
+	/**
+	 * Is this a default fontMaterial instance
+	 * @returns {boolean}
+	 */
+	get isDefault() {
+
+		return this.constructor === MSDFFontMaterial;
+
+	}
+
+	/**
+	 *
+	 * @returns {number}
+	 */
+	get alphaTest() {
+		return this.uniforms.alphaTest.value;
+	}
+
+	/**
+	 *
+	 * @param {number} v
+	 */
+	set alphaTest( v ) {
+		this.uniforms.alphaTest.value = v;
 	}
 
 }
@@ -2284,11 +5595,23 @@ class MSDFGeometryCharacter extends external_three_namespaceObject.PlaneBufferGe
 
 
 
-class MSDFFontVariant extends FontVariant {
+//JSDoc related imports
+/* eslint-disable no-unused-vars */
+
+
+/* eslint-enable no-unused-vars */
+
+/**
+ * @extends {FontVariant}
+ */
+class MSDFFontVariant extends font_FontVariant {
 
 	constructor( weight, style, json, texture ) {
 
 		super(weight, style);
+
+		// provide default values
+		this._unitRange = new external_three_namespaceObject.Vector2( 1, 1 );
 
 		if ( json.pages ) {
 
@@ -2302,13 +5625,21 @@ class MSDFFontVariant extends FontVariant {
 
 		if ( texture instanceof external_three_namespaceObject.Texture ) {
 
+			this._texture = texture;
 			this._buildTexture( texture );
 
-		} else {
+		} else if( typeof(texture) === 'string' || texture instanceof String ){
 
 			_loadTexture( this, texture );
 
+		} else {
+
+			throw new Error(`ThreeMeshUI::MSDFVariant provided 'texture' parameter is '${typeof texture}'. Only Texture and String allowed.`)
+
 		}
+
+		this._defaultMaterialClass = MSDFFontMaterial;
+
 
 		this._checkReadiness();
 
@@ -2321,6 +5652,33 @@ class MSDFFontVariant extends FontVariant {
 
 	}
 
+	get unitRange() {
+
+		return this._unitRange;
+
+	}
+
+	/**
+	 * @param {Function.<Material|ShaderMaterial>} v
+	 * @override
+	 */
+	set fontMaterial( v ) {
+
+		this._defaultMaterialClass = v;
+
+	}
+
+	/**
+	 *
+	 * @override
+	 * @returns {Function.<Material|ShaderMaterial>}
+	 */
+	get fontMaterial() {
+
+		return this._defaultMaterialClass;
+
+	}
+
 	/**
 	 *
 	 * @param {MSDFJson} json
@@ -2328,15 +5686,31 @@ class MSDFFontVariant extends FontVariant {
 	 */
 	_buildData( json ) {
 
-		this._font = new MSDFTypographyFont( json );
+		this._font = new MSDFTypographicFont( json );
 
+		/**
+		 *
+		 * @type {import('../FontVariant').KerningPairs}
+		 * @private
+		 */
 		this._kernings = this._buildKerningPairs( json );
 		this._chars = this._buildCharacters( json );
+
 		this._chars[ " " ] = this._buildCharacterWhite( json );
+		this._chars[ "\n" ] = this._buildCharacterWhite( json, '\n' , 0.001, 1);
+		this._chars[ "\t" ] = this._buildCharacterWhite( json, '\t' , 4, 1);
 
 		this._size = json.info.size;
 		this._lineHeight = json.common.lineHeight;
 		this._lineBase = json.common.base;
+
+		this._distanceRange = json.distanceField.distanceRange;
+
+		// precompute the unit range as recommended by chlumsky
+		// @see https://github.com/Chlumsky/msdfgen
+		// "I would suggest precomputing unitRange as a uniform variable instead of pxRange for better performance."
+		this._unitRange = new external_three_namespaceObject.Vector2(this._distanceRange, this._distanceRange)
+			.divide( new external_three_namespaceObject.Vector2( json.common.scaleW, json.common.scaleH ) );
 
 	}
 
@@ -2347,8 +5721,6 @@ class MSDFFontVariant extends FontVariant {
 	 */
 	_buildTexture( texture ) {
 
-		this._texture = texture;
-
 		texture.generateMipmaps = false;
 		texture.minFilter = external_three_namespaceObject.LinearFilter;
 		texture.magFilter = external_three_namespaceObject.LinearFilter;
@@ -2358,13 +5730,25 @@ class MSDFFontVariant extends FontVariant {
 	}
 
 	/**
-	 *
-	 * @param {MSDFInlineCharacter} inline
-	 * @returns {MSDFGeometryCharacter}
+	 * @abstract
+	 * @protected
+	 * @param {string} missingChar
+	 * @returns {string|null}
 	 */
-	getGeometryCharacter( inline ) {
+	_getFallbackCharacter( missingChar ) {
+		return font_FontLibrary.missingCharacter( this, missingChar );
+	}
 
-		return new MSDFGeometryCharacter( inline );
+	/**
+	 *
+	 * @override
+	 * @param {import('./../InlineGlyph').default|import('./MSDFInlineGlyph').default} inline
+	 * @param {import('./../../core/elements/MeshUIBaseElement').default} element
+	 * @returns {MSDFGeometricGlyph}
+	 */
+	getGeometricGlyph( inline, element ) {
+
+		return new MSDFGeometricGlyph( inline, element );
 
 	}
 
@@ -2376,7 +5760,7 @@ class MSDFFontVariant extends FontVariant {
 	 */
 	_readyCondition() {
 
-		return this._chars && this._texture;
+		return this._chars && this._texture && this._texture.image;
 
 	}
 
@@ -2385,8 +5769,7 @@ class MSDFFontVariant extends FontVariant {
 	 * @see src/font/msdf/FontVariantMSDF.js for an implementation
 	 *
 	 * @param {MSDFJson} json
-	 *
-	 * @returns {Object.<string, number>}
+	 * @returns {import('../FontVariant').KerningPairs}
 	 * @private
 	 */
 	_buildKerningPairs( json ) {
@@ -2427,7 +5810,7 @@ class MSDFFontVariant extends FontVariant {
 		for ( let i = 0; i < json.chars.length; i++ ) {
 			const charOBJ = json.chars[ i ];
 
-			friendlyChars[ charOBJ.char ] = new MSDFTypographyCharacter( this._font, charOBJ );
+			friendlyChars[ charOBJ.char ] = new MSDFTypographicGlyph( this._font, charOBJ );
 
 		}
 
@@ -2438,17 +5821,28 @@ class MSDFFontVariant extends FontVariant {
 	/**
 	 *
 	 * @param {MSDFJson} json
+	 * @param char
+	 * @param scaleX
+	 * @param scaleY
 	 * @private
 	 */
-	_buildCharacterWhite( json ) {
-		return new MSDFTypographyCharacter( this._font,
+	_buildCharacterWhite( json, char = " ", scaleX = 1, scaleY = 1 ) {
+		return new MSDFTypographicGlyph( this._font,
 			{
-				char: ' ',
-				width: json.info.size / 3,
-				height: json.info.size * 0.7,
+				char,
+				width: (json.info.size / 3)*scaleX,
+				height: (json.info.size * 0.7)*scaleY,
 			});
 	}
 
+
+	/* eslint-disable no-unused-vars */
+	/**
+	 *
+	 * @param element
+	 * @private
+	 */
+	_alterElementProperties( element ) { /* eslint-enable no-unused-vars */ }
 }
 
 /***********************************************************************************************************************
@@ -2483,7 +5877,7 @@ function _loadJson( fontVariant, jsonUrl ) {
  */
 function _loadTexture( fontVariant, textureUrl ) {
 
-	new external_three_namespaceObject.TextureLoader().load( textureUrl, ( texture ) => {
+	fontVariant._texture = new external_three_namespaceObject.TextureLoader().load( textureUrl, ( texture ) => {
 
 		fontVariant._buildTexture( texture );
 		fontVariant._checkReadiness();
@@ -2492,21 +5886,25 @@ function _loadTexture( fontVariant, textureUrl ) {
 
 }
 
+/***********************************************************************************************************************
+ * MSDF FILE FORMAT DESCRIPTION
+ * @see https://www.angelcode.com/products/bmfont/doc/file_format.html
+ **********************************************************************************************************************/
+
 /**
  * @typedef {Object} MSDFJson
- * @see https://www.angelcode.com/products/bmfont/doc/file_format.html
  *
  * @property {MSDFJsonInfo} info
  * @property {MSDFJsonCommon} common
  * @property {Array.<MSDFJsonPage>} pages
  * @property {Array.<MSDFJsonChar>} chars
+ * @property {{fieldType:string, distanceRange:number}} distanceField
  * @property {Array.<MSDFJsonKerning>} kernings
  */
 
 /**
  *
  * @typedef {Object} MSDFJsonInfo
- * @see https://www.angelcode.com/products/bmfont/doc/file_format.html
  *
  * @property {string} face This is the name of the true type font.
  * @property {number} size The size of the true type font.
@@ -2525,7 +5923,6 @@ function _loadTexture( fontVariant, textureUrl ) {
 /**
  *
  * @typedef {Object} MSDFJsonCommon
- * @see https://www.angelcode.com/products/bmfont/doc/file_format.html
  *
  * @property {number} lineHeight This is the distance in pixels between each line of text.
  * @property {number} base The number of pixels from the absolute top of the line to the base of the characters.
@@ -2540,9 +5937,7 @@ function _loadTexture( fontVariant, textureUrl ) {
  */
 
 /**
- *
  * @typedef {Object} MSDFJsonPage
- * @see https://www.angelcode.com/products/bmfont/doc/file_format.html
  *
  * @property {string} id The page id.
  * @property {string} file The texture file name.
@@ -2551,7 +5946,6 @@ function _loadTexture( fontVariant, textureUrl ) {
 /**
  *
  * @typedef {Object} MSDFJsonChar
- * @see https://www.angelcode.com/products/bmfont/doc/file_format.html
  *
  * @property {number} id The character id.
  * @property {number} index The character index.
@@ -2565,14 +5959,14 @@ function _loadTexture( fontVariant, textureUrl ) {
  * @property {number} xadvance How much the current position should be advanced after drawing the character.
  * @property {string} page The texture page where the character image is found.
  * @property {number} chnl The texture channel where the character image is found (1 = blue, 2 = green, 4 = red, 8 = alpha, 15 = all channels).
- */
+ * @property {Object} [uv]
+ * /
 
 
 
 /**
  *
  * @typedef {Object} MSDFJsonKerning
- * @see https://www.angelcode.com/products/bmfont/doc/file_format.html
  *
  * @property {number} first The first character id.
  * @property {number} second The second character id.
@@ -2583,20 +5977,42 @@ function _loadTexture( fontVariant, textureUrl ) {
 ;// CONCATENATED MODULE: ./src/font/FontFamily.js
 
 
+//JSDoc related imports
+
+/* eslint-disable no-unused-vars */
+
+
+/* eslint-enable no-unused-vars */
 
 class FontFamily extends external_three_namespaceObject.EventDispatcher {
 
 	/**
 	 *
-	 * @param name
+	 * @param {string} name
 	 */
 	constructor( name ) {
 
 		super();
 
+		/**
+		 *
+		 * @type {string}
+		 * @private
+		 */
 		this._name = name;
+
+		/**
+		 *
+		 * @type {Array.<FontVariant>}
+		 * @private
+		 */
 		this._variants = [];
 
+		/**
+		 *
+		 * @type {boolean}
+		 * @private
+		 */
 		this._isReady = false;
 
 	}
@@ -2605,11 +6021,11 @@ class FontFamily extends external_three_namespaceObject.EventDispatcher {
 
 	/**
 	 *
-	 * @param weight
-	 * @param style
-	 * @param json
-	 * @param texture
-	 * @param override
+	 * @param {string|number} weight
+	 * @param {string} style
+	 * @param {string|Object} json
+	 * @param {string|Texture} texture
+	 * @param {boolean} [override=false]
 	 */
 	addVariant( weight, style, json, texture, override = false){
 
@@ -2676,9 +6092,9 @@ class FontFamily extends external_three_namespaceObject.EventDispatcher {
 
 	/**
 	 *
-	 * @param weight
-	 * @param style
-	 * @returns {FontVariant}
+	 * @param {string|number} weight
+	 * @param {string} style
+	 * @returns {FontVariant|null}
 	 */
 	getVariant( weight, style ){
 
@@ -2686,6 +6102,10 @@ class FontFamily extends external_three_namespaceObject.EventDispatcher {
 
 	}
 
+	/**
+	 *
+	 * @return {string}
+	 */
 	get name(){ return this._name; }
 
 	_checkReadiness = () => {
@@ -2717,6 +6137,12 @@ function FontFamily_setReady( fontFamily ) {
 ;// CONCATENATED MODULE: ./src/font/FontLibrary.js
 
 
+// JSDoc related imports
+/* eslint-disable no-unused-vars */
+
+/* eslint-enable no-unused-vars */
+
+
 const _fontFamilies = {};
 
 /* eslint-disable no-unused-vars */
@@ -2726,7 +6152,7 @@ const _fontFamilies = {};
  * @param {FontFamily} fontFamily
  * @returns {Promise<unknown>}
  */
-function prepare( fontFamily ) {
+const prepare = function ( fontFamily ) {
 
 	/**
 	 *
@@ -2800,7 +6226,7 @@ function prepare( fontFamily ) {
  * @param {string} name
  * @returns {FontFamily}
  */
-function addFontFamily( name ) {
+const addFontFamily = function ( name ) {
 
 	if ( _fontFamilies[ name ] ) {
 		console.error( `FontLibrary::addFontFamily - Font('${name}') is already registered` );
@@ -2817,7 +6243,7 @@ function addFontFamily( name ) {
  * @param {string} name
  * @returns {FontFamily}
  */
-function getFontFamily( name ) {
+const getFontFamily = function( name ) {
 
 	return _fontFamilies[ name ];
 
@@ -2828,23 +6254,11 @@ function getFontFamily( name ) {
  *
  * @param { (fontVariant:FontVariant, character:string ) => string|null } handler
  */
-function setMissingCharacterHandler( handler ) {
+const setMissingCharacterHandler = function ( handler ) {
 
 	_missingCharacterHandler = handler;
 
 }
-
-//
-
-const FontLibrary = {
-	addFontFamily,
-	getFontFamily,
-	prepare,
-	setMissingCharacterHandler,
-	missingCharacter
-};
-
-/* harmony default export */ const font_FontLibrary = (FontLibrary);
 
 /**
  *
@@ -2875,8 +6289,2052 @@ function missingCharacter( fontVariant, character ) {
 }
 
 
+//
+
+const FontLibrary = {
+	addFontFamily,
+	getFontFamily,
+	prepare,
+	setMissingCharacterHandler,
+	missingCharacter
+};
+
+/* harmony default export */ const font_FontLibrary = (FontLibrary);
+
+;// CONCATENATED MODULE: ./src/core/properties/style-properties/font/FontFamilyProperty.js
+
+
+
+
+
+class FontFamilyProperty extends SubStyleProperty {
+
+	constructor( ) {
+
+		super( 'fontFamily', 'inherit' , true );
+
+	}
+
+
+	/* eslint-disable no-unused-vars */
+	/**
+	 *
+	 * @param element
+	 */
+	computeOutputValue( element ) { /* eslint-enable no-unused-vars */
+
+		if( this._input instanceof FontFamily ) {
+
+			this._value = this._input;
+
+		} else if ( this._input === 'inherit' ) {
+
+			// do nothing
+
+		} else if ( typeof this._input === 'string' ) {
+
+			// string - family
+			const fontFamily = font_FontLibrary.getFontFamily( this._input );
+
+			if( fontFamily ) {
+
+				this._value = fontFamily;
+
+			} else {
+
+				console.warn( `(.style) fontFamily, the font '${this._input}' is not registered. Aborted.`)
+
+			}
+
+		} else {
+
+			console.warn( `(.style) fontFamily requires a registered fontFamily instance, or the id of a registered fontFamily.`);
+			console.warn( `If you want to set a specific font, please use .font property instead.`);
+
+		}
+
+	}
+
+	/**
+	 * @override
+	 * @return {any|FontFamily|null}
+	 */
+	get value() { return this._value; }
+
+	getInheritedInput ( element ) {
+
+		if( this._input !== 'inherit' ) return this._input;
+
+		const parent = element._parent._value;
+		if( parent ) {
+
+			return parent[`_${this._id}`].getInheritedInput( parent )
+
+		}
+
+		return this.getDefaultValue();
+
+	}
+
+}
+
+;// CONCATENATED MODULE: ./src/core/properties/style-properties/font/LineHeightProperty.js
+
+
+class LineHeightProperty extends SubStyleProperty {
+
+	/**
+	 *
+	 */
+	constructor() {
+
+		super( 'lineHeight', 'inherit', true );
+
+	}
+
+	update( element, out ) {
+		super.update( element, out );
+
+		element._layouter._needsProcess = true;
+	}
+
+}
+
+
+
+;// CONCATENATED MODULE: ./src/core/properties/style-properties/font/WhiteSpaceProperty.js
+
+
+
+class WhiteSpaceProperty extends SubStyleProperty {
+
+	constructor() {
+
+		super( 'whiteSpace', 'inherit' );
+
+		this.isValidValue = WhiteSpaceProperty_isValid;
+
+	}
+
+}
+
+/**
+ *
+ * @type {Array.<string>}
+ */
+const WhiteSpaceProperty_AVAILABLE_VALUES = ['normal', 'nowrap', 'pre', 'pre-line', 'pre-wrap'];
+
+/**
+ *
+ * @param {any} value
+ * @return {boolean}
+ * @private
+ */
+function WhiteSpaceProperty_isValid( value ) {
+
+	if( WhiteSpaceProperty_AVAILABLE_VALUES.indexOf( value ) === -1 ) {
+
+		console.warn( `(.style) whiteSpace value '${value}' is not valid. Aborted` );
+		return false;
+
+	}
+
+	return true;
+
+}
+
+;// CONCATENATED MODULE: ./src/core/properties/style-properties/font/LetterSpacingProperty.js
+
+
+class LetterSpacingProperty extends SubStyleProperty {
+
+	constructor() {
+
+		super( 'letterSpacing', 'inherit', true );
+
+	}
+
+}
+
+
+
+;// CONCATENATED MODULE: ./src/core/properties/style-properties/font/FontSizeProperty.js
+
+
+class FontSizeProperty extends SubStyleProperty {
+
+	constructor() {
+
+		super( 'fontSize', 'inherit', true );
+
+		this._fontRelative = false;
+	}
+
+	/**
+	 *
+	 * @param {MeshUIBaseElement} element
+	 * @param {Object.<string,any> } out
+	 */
+	update( element, out ) {
+
+		console.log("fontSize update")
+		// /if( !this._allowsInherit ) {
+
+			this._inheritedInput = this.getInheritedInput( element );
+			console.log( 'inherit?', this._inheritedInput )
+			this._value = _parseValue( this._inheritedInput, element );
+
+		// }else{
+		//
+		// 	console.log( this._input )
+		// 	this._value = _parseValue( this._input, element )
+		// }
+
+		console.log( "    = ", this._value )
+
+		this.computeOutputValue( element );
+
+		// rebuild same properties on children 'inheritance'
+		for ( const childUIElement of element._children._uis ) {
+
+			const property = childUIElement[`_${this._id}`];
+
+			if( !property ) continue;
+
+			const target = property._input ? property._input : property._value;
+
+			if( target === 'inherit' || property._fontRelative ) childUIElement[`_${this._id}`]._needsUpdate = true;
+
+		}
+
+		this.output( out );
+
+	}
+
+	computeOutputValue( element ) {}
+
+}
+
+function _parseValue( v, element ){
+
+	element._fontSize._fontRelative = false;
+
+	if( !isNaN(v) ) return v;
+
+	if( v.endsWith('em') ) {
+
+		element._fontSize._fontRelative = true;
+
+		console.log("VVVVVV", v);
+
+		return parseFloat( v.replace(/[^0-9.]+/,"") ) * element._parent._value._fontSize.getInheritedInput(element._parent._value);
+
+	}
+}
+
+
+
+;// CONCATENATED MODULE: ./src/core/properties/geometry/SegmentsProperty.js
+
+
+class SegmentsProperty extends BaseProperty {
+
+	constructor() {
+
+		super( 'segments', 1, false );
+
+	}
+
+}
+
+;// CONCATENATED MODULE: ./src/core/properties/InvertAlphaProperty.js
+
+
+/**
+ * Class definition
+ * @property {boolean|"inherit"} value - propriety description
+ *
+ */
+class InvertAlphaProperty extends InheritableProperty {
+
+	constructor() {
+
+		super( 'invertAlpha', 'inherit' );
+
+	}
+
+}
+
+;// CONCATENATED MODULE: ./src/core/properties/style-properties/font/FontKerningProperty.js
+
+
+
+class FontKerningProperty extends SubStyleProperty {
+
+	constructor() {
+
+		super( 'fontKerning', 'inherit' );
+
+		this.isValidValue = FontKerningProperty_isValid;
+
+	}
+
+}
+
+
+const FontKerningProperty_AVAILABLE_VALUES = ['normal', 'none', 'inherit'];
+
+function FontKerningProperty_isValid( value ) {
+
+	if( FontKerningProperty_AVAILABLE_VALUES.indexOf( value ) === -1 ) {
+
+		console.warn( `(.style) fontKerning value '${value}' is not valid. Aborted` );
+		return false;
+
+	}
+
+	return true;
+
+}
+
+;// CONCATENATED MODULE: ./src/core/properties/InheritableBooleanProperty.js
+
+
+/**
+ * @property {boolean|"inherit"} value
+ */
+class InheritableBooleanProperty extends InheritableProperty {
+
+	/**
+	 *
+	 * @param {string} propertyId
+	 */
+	constructor( propertyId) {
+
+		super( propertyId, 'inherit', true );
+
+	}
+
+}
+
+;// CONCATENATED MODULE: ./src/core/properties/InheritableMaterialProperty.js
+
+
+
+/**
+ * @property {Material|null|"inherit"} value
+ */
+class InheritableMaterialProperty extends InheritableProperty {
+
+	/**
+	 *
+	 * @param {string} propertyId
+	 */
+	constructor( propertyId ) {
+
+		super( propertyId, 'inherit', false );
+
+		/**
+		 *
+		 * @type {Object.<{m:string, t?:(target:any, targetProperty:string, value:any) => void}>}
+		 * @internal
+		 */
+		this._mediation = {};
+
+		/**
+		 *
+		 * @type {null}
+		 * @internal
+		 */
+		this._defaultMaterial = null;
+
+	}
+
+	update( element, out ) { 	/* eslint-enable no-unused-vars */
+
+		this._notInheritedValue = this._value;
+
+		if ( this._notInheritedValue === 'inherit' ) {
+			this._notInheritedValue = this.getInheritedInput( element );
+		} else {
+			this.propagate( element );
+		}
+
+		// no material
+		if ( !this._notInheritedValue ) {
+
+			// reset mediation
+			this._mediation = {};
+
+		} else if ( this._notInheritedValue.constructor.mediation ) {
+
+			this._mediation = { ...this._notInheritedValue.constructor.mediation };
+
+		} else {
+
+			this._mediation = {
+				clippingPlanes: { m: 'clippingPlanes' },
+				fontAlphaTest: { m: 'alphaTest', t: alphaTestTransformer },
+				fontSide: { m: 'side' },
+				color: { m: 'color' },
+				fontOpacity: { m: 'opacity' }
+			};
+
+		}
+
+		element._transferToFontMaterial();
+
+		// dispatch to children
+
+
+		this._outputValue( out );
+
+	}
+
+	/**
+	 * @override
+	 */
+	getInheritedInput( element ) {
+
+		if ( this._value !== 'inherit' ) return this._value;
+
+		let recursiveParent = element;
+		let inheritedValue = null;
+		while ( recursiveParent._parent._value ) {
+
+			recursiveParent = recursiveParent._parent._value;
+			if ( recursiveParent[ `_${this._id}` ]._value !== 'inherit' ) {
+
+				inheritedValue = recursiveParent[ `_${this._id}` ]._value;
+				break;
+			}
+
+		}
+
+		if ( inheritedValue !== null ) {
+			return inheritedValue;
+		}
+
+		return this.getDefaultValue();
+
+	}
+
+	getDefaultValue() {
+		return this._defaultMaterial;
+	}
+
+
+}
+
+;// CONCATENATED MODULE: ./src/core/properties/style-properties/font/VerticalAlignProperty.js
+
+
+
+class VerticalAlignProperty extends SubStyleProperty {
+
+	constructor() {
+
+		super( 'verticalAlign', 'inherit', true );
+
+		this.isValidValue = VerticalAlignProperty_isValid;
+
+	}
+
+}
+
+/**
+ *
+ * @type {Array.<string>}
+ */
+const VerticalAlignProperty_AVAILABLE_VALUES = ['inherit', 'baseline', 'sub', 'super'];
+
+/**
+ *
+ * @param {any} value
+ * @return {boolean}
+ * @private
+ */
+const VerticalAlignProperty_isValid = function ( value ) {
+
+	if( VerticalAlignProperty_AVAILABLE_VALUES.indexOf( value ) === -1 ) {
+
+		console.warn( `(.style) verticalAlign value '${value}' is not valid. Aborted` );
+		return false;
+
+	}
+
+	return true;
+
+}
+
+;// CONCATENATED MODULE: ./src/core/elements/MeshUIBaseElement.js
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//JSDoc related imports
+/* eslint-disable no-unused-vars */
+
+
+
+
+
+/* eslint-enable no-unused-vars */
+
+class MeshUIBaseElement extends external_three_namespaceObject.Object3D {
+
+	/**
+	 *
+	 * @param {Properties} properties
+	 * @param {Options} values
+	 */
+	constructor( properties, values) {
+
+		super();
+
+		Object.defineProperties( this, {
+				isUI: {
+					configurable: false,
+					enumerable: true,
+					value: true
+				}
+			}
+		);
+
+		let uiType = values.uiType || 'default';
+		if( values.uiType ){
+			delete values.uiType;
+		}
+
+		Object.defineProperties( this, {
+				uiType: {
+					configurable: false,
+					enumerable: true,
+					value: uiType
+				}
+			}
+		);
+
+		/**
+		 *
+		 * @type {Mesh|null}
+		 * @internal
+		 */
+		this._backgroundMesh = null;
+
+		/**
+		 *
+		 * @type {Material}
+		 * @internal
+		 */
+		this._backgroundMaterial = null;
+
+		/**
+		 *
+		 * @type {Material}
+		 * @protected
+		 */
+		this._backgroundCustomDepthMaterial = null;
+
+		/**
+		 *
+		 * @type {Object.<{m:string, t?:(target:any, targetProperty:string, value:any) => void}>}
+		 * @protected
+		 */
+		this._backgroundMaterialMediation = {};
+
+		/**
+		 *
+		 * @type {Object.<{m:string, t?:(value:any) => any}>}
+		 * @private
+		 */
+		this._backgroundMeshMediation = {
+			backgroundCastShadow: { m: 'castShadow' },
+			backgroundReceiveShadow: { m: 'receiveShadow' },
+			renderOrder: {m: 'renderOrder' }
+		};
+
+		/**
+		 *
+		 * @type {Mesh|null}
+		 * @internal
+		 */
+		this._fontMesh = null;
+
+		/**
+		 *
+		 * @type {InheritableMaterialProperty}
+		 * @internal
+		 */
+		this._fontMaterial = new InheritableMaterialProperty('fontMaterial');
+
+		/**
+		 *
+		 * @type {InheritableMaterialProperty}
+		 * @private
+		 */
+		this._fontCustomDepthMaterial = new InheritableMaterialProperty('fontCustomDepthMaterial');
+
+		/**
+		 *
+		 * @type {Object.<{m:string, t?:(value:any) => any}>}
+		 * @private
+		 */
+		this._fontMeshMediation = {
+			fontMaterial: { m: 'material' },
+			fontCustomDepthMaterial: { m : 'customDepthMaterial', t:directTransferNotNull},
+			fontCastShadow: { m: 'castShadow' },
+			fontReceiveShadow: { m: 'receiveShadow' },
+			renderOrder: {m: 'renderOrder' }
+		};
+
+		// Children lists
+
+
+		const defaults = get(null, this.uiType );
+		/**
+		 *
+		 * @type {EmptyProperty|ChildrenBox|ChildrenText}
+		 * @internal
+		 */
+		this._children = properties.children ? new properties.children : new EmptyProperty("children");
+		this._parent = new ParentProperty();
+
+		// update parentUI when this component will be added or removed
+		this.addEventListener( 'added', this._rebuildParentUI );
+		this.addEventListener( 'removed', this._rebuildParentUI );
+
+		//material properties
+		this._backgroundSide = new SideProperty( 'backgroundSide', defaults.backgroundSide );
+		this._fontSide = new SideProperty( 'fontSide', defaults.fontSide );
+		this._backgroundAlphaTest = new NumberProperty( 'backgroundAlphaTest', defaults.backgroundAlphaTest );
+		this._fontAlphaTest = new NumberProperty( 'fontAlphaTest', defaults.fontAlphaTest );
+
+		// mesh properties
+		this._visible = new VisibleProperty( 'visible', true );
+
+		this._backgroundCastShadow = new InheritableBooleanProperty( 'backgroundCastShadow' );
+		this._fontCastShadow = new InheritableBooleanProperty( 'fontCastShadow' );
+		this._backgroundReceiveShadow = new InheritableBooleanProperty( 'backgroundReceiveShadow' );
+		this._fontReceiveShadow = new InheritableBooleanProperty( 'fontReceiveShadow' );
+
+		// @TODO: RenderOrder for background and fonts
+		this._renderOrder = new RenderOrderProperty();
+
+		// @TODO : background & Text
+		this._segments = properties.segments ? new properties.segments() : new SegmentsProperty();
+
+
+		/**
+		 *
+		 * @type {BoundsBox|BoundsText|EmptyProperty}
+		 * @ignore
+		 * @internal
+		 */
+		this._bounds = properties.bounds ? new properties.bounds() : new EmptyProperty("bounds");
+
+		// styles ---;
+
+		this._order = new OrderProperty();
+
+		this._padding = new PaddingProperty( defaults.padding );
+		this._margin = new MarginProperty( defaults.margin );
+
+
+		this._position = new PositionProperty( defaults.position );
+
+		/**
+		 *
+		 * @type {FlexDirectionProperty}
+		 * @internal
+		 */
+		this._flexDirection = properties.flexDirection ? new properties.flexDirection() : new FlexDirectionProperty();
+
+		this._justifyContent = properties.justifyContent ? new properties.justifyContent() : new JustifyContentProperty();
+
+		this._alignItems = properties.alignItems ? new properties.alignItems() : new AlignItemsProperty();
+
+		this._display = new Display( 'flex' );
+
+		this._boxSizing = new BoxSizing( 'border-box' );
+		this._width = new WidthProperty();
+		this._height = new HeightProperty();
+
+		this._backgroundColor = properties.backgroundColor ? new properties.backgroundColor( defaults.backgroundColor ) : new BackgroundColorProperty(defaults.backgroundColor);
+		this._backgroundOpacity = new StyleFactorProperty('backgroundOpacity', defaults.backgroundOpacity);
+		this._backgroundImage = new BackgroundImage();
+		this._backgroundSize = new BackgroundSize( 'cover' );
+
+		this._color = properties.color ? new properties.color( defaults.color ) : new StyleColorProperty('color', defaults.color);
+		this._fontOpacity = new StyleFactorProperty( 'fontOpacity', 'inherit');
+
+		this._whiteSpace = properties.whiteSpace ? new properties.whiteSpace() : new WhiteSpaceProperty();
+
+		this._fontFamily = properties.fontFamily ? new properties.fontFamily() : new FontFamilyProperty();
+		this._fontStyle = properties.fontStyle ? new properties.fontStyle(defaults.fontStyle) : new FontStyleProperty( defaults.fontStyle );
+		this._fontWeight = properties.fontWeight ? new properties.fontWeight( defaults.fontWeight ) : new FontWeightProperty(defaults.fontWeight);
+		this._fontSize = properties.fontSize ? new properties.fontSize() : new FontSizeProperty();
+
+		this._lineHeight = properties.lineHeight ? new properties.lineHeight() : new LineHeightProperty();
+
+		this._fontKerning = properties.fontKerning ? new properties.fontKerning() : new FontKerningProperty();
+		this._letterSpacing = properties.letterSpacing ? new properties.letterSpacing() : new LetterSpacingProperty();
+
+		this._overflow = new Overflow( 'visible' );
+
+		this._borderRadius = new BorderRadius( defaults.borderRadius );
+		this._borderWidth = new BorderWidth( defaults.borderWidth );
+		this._borderColor = properties.borderColor ? new properties.borderColor() : new StyleColorProperty( 'borderColor', defaults.borderColor );
+		this._borderOpacity = new StyleFactorProperty( 'borderOpacity', defaults.borderOpacity);
+
+		// styles ---;
+
+		this._font = new FontProperty();
+
+		this._lineBreak = properties.lineBreak ? new properties.lineBreak() : new EmptyProperty("lineBreak");
+
+		/**
+		 *
+		 * @type {TextContentEmpty|TextContentText|TextContentInline}
+		 * @internal
+		 */
+		this._textContent = properties.textContent ? new properties.textContent() : new TextContentEmpty();
+
+		/**
+		 *
+		 * @type {GlyphsProperty}
+		 * @internal
+		 */
+		this._glyphs = properties.glyphs ? new properties.glyphs() : new EmptyProperty("glyphs");
+
+		this._inlines = properties.inlines ? new properties.inlines() : new EmptyProperty("inlines");
+
+
+		/**
+		 *
+		 * @type {BoxLayouter|TextLayouter|EmptyProperty}
+		 * @internal
+		 */
+		this._layouter = properties.layouter ? new properties.layouter() : new EmptyProperty("layouter");
+
+		this._inlineJustificator = new InlineJustificator();
+
+		this._textAlign = properties.textAlign ? new properties.textAlign() : new TextAlignProperty();
+
+		this._verticalAlign = properties.verticalAlign ? new properties.verticalAlign() : new VerticalAlignProperty();
+
+		this._autoSize = properties.autoSize ? new properties.autoSize() : new EmptyProperty("autoSize");
+
+		this._renderer = properties.renderer ? new properties.renderer() : new EmptyProperty("renderer");
+
+		this._offset = new OffsetProperty();
+
+		// adds
+		this._invertAlpha = new InvertAlphaProperty();
+		this._fontSmooth = properties.fontSmooth ? new properties.fontSmooth() : new FontSmoothProperty();
+
+		/**
+		 *
+		 * @type {Array.<BaseProperty>}
+		 * @internal
+		 */
+		this._components = [
+
+			this._textContent,
+			this._children,
+			this._parent,
+
+
+			this._autoSize,
+
+
+			this._fontFamily,
+			this._fontStyle,
+			this._fontWeight,
+			this._font,
+
+			this._whiteSpace,
+
+
+			this._glyphs,
+
+			this._inlines,
+
+			this._visible,
+
+			// Meshes interfaces
+			this._backgroundSide,
+			this._fontSide,
+			this._backgroundAlphaTest,
+			this._fontAlphaTest,
+			this._backgroundCastShadow,
+			this._fontCastShadow,
+			this._backgroundReceiveShadow,
+			this._fontReceiveShadow,
+			this._renderOrder,
+			this._segments,
+			// styles ---;
+
+			this._fontSize,
+
+			this._padding,
+			this._margin,
+			this._width,
+			this._height,
+			this._borderWidth,
+			this._boxSizing,
+
+			this._bounds,
+
+			this._position,
+
+
+			this._flexDirection,
+			this._justifyContent,
+			this._alignItems,
+			this._order,
+
+
+			this._display,
+
+			this._fontOpacity,
+			this._color,
+
+			this._backgroundColor,
+			this._backgroundOpacity,
+			this._backgroundImage,
+			this._backgroundSize,
+
+
+
+			// font : update order : WhiteSpace > Glyph > Inlines > Kerning > newlineBreakability > LineBreak > FontSize
+			// font : process order : ??
+			// this._font,
+
+
+			this._lineHeight,
+			this._fontKerning,
+			this._letterSpacing,
+
+			this._borderRadius,
+			this._borderColor,
+			this._borderOpacity,
+
+			// this._styles,
+			// styles ---;
+			this._lineBreak,
+			this._offset,
+
+			this._verticalAlign,
+			this._layouter,
+
+			this._inlineJustificator,
+			this._textAlign,
+
+
+			// !! this._renderer renderer MUST NOT BE in components !!
+
+			this._invertAlpha,
+			this._fontSmooth,
+
+			this._fontMaterial,
+			this._fontCustomDepthMaterial,
+			this._overflow,
+			this._renderer,
+
+		]
+
+
+		/**
+		 *
+		 * @type {*[]}
+		 * @private
+		 */
+		this._onAfterUpdates = [];
+
+
+		// breaks inheritance chains
+		// if( !values ) values = {};
+		if( !values.backgroundSide ) values.backgroundSide = 0; // FrontSide
+
+
+		if( values ) this.set( values );
+
+	}
+
+
+	///////////////
+	///  UPDATE
+	///////////////
+
+	update( ) {
+
+
+		// console.log( "Update Element", this.name , this.constructor.name );
+
+		const out = {};
+		for ( const component of this._components ) {
+
+			if( component._needsUpdate ) {
+
+				// console.log( '    ', component.id )
+				component.update( this, out );
+				component._needsUpdate = false;
+
+			}
+
+		}
+
+		this._transferToBackgroundMesh( out );
+		this._transferToFontMesh( out );
+
+		this._transferToBackgroundMaterial( out );
+		this._transferToFontMaterial( out );
+
+
+		// update children
+		for ( const child of this._children._uis ) {
+			child.update();
+		}
+
+	}
+
+	process() {
+
+		// process first time : Natural size
+		for ( const child of this._children._uis ) {
+			child.process();
+		}
+
+
+		// console.log( 'Process ', this.name );
+		for ( const component of this._components ) {
+
+			if( component._needsProcess ) {
+
+				// console.log( '    ', component.id );
+				component.process( this );
+				component._needsProcess = false;
+
+			}
+
+		}
+
+	}
+
+	render() {
+
+		// console.log( 'render ', this.name );
+		for ( let i = 0; i < this._components.length; i++ ) {
+			const component = this._components[ i ];
+			if( component._needsRender ) {
+				// console.log( '    ', component.id);
+				component.render( this );
+				component._needsRender = false;
+			}
+		}
+
+		// render all children
+		for ( const child of this._children._uis ) {
+			child.render();
+		}
+
+	}
+
+
+	/**
+	 *
+	 * @param {Options} options
+	 */
+	set( options ) {
+
+		// Retro compatibility, when not recommended way
+		// 2. < v7.x.x way
+		if( options.fontTexture ) {
+
+			console.warn( "ThreeMeshUI::set( {fontTexture} ) is deprecated. Please use fontLibrary to register font families and variants.")
+
+			if( options.fontFamily ) {
+
+				// Set from old way, check if that family is already registered
+				const fontName = options.fontFamily.pages ? options.fontFamily.info.face : options.fontFamily;
+
+				let fontFamily = font_FontLibrary.getFontFamily( fontName );
+
+				if ( !fontFamily ) {
+
+					const fontStyle = options.fontStyle ? options.fontStyle : 'normal';
+					// const fontWeight = options.fontWeight ? options.fontWeight : '400';
+					const fontWeight = options.fontWeight ? options.fontWeight : 'normal';
+
+					fontFamily = font_FontLibrary.addFontFamily( fontName )
+						.addVariant( fontWeight, fontStyle, options.fontFamily, options.fontTexture );
+
+				}
+
+				options['fontFamily'] = fontFamily;
+
+				delete options['fontTexture'];
+
+			}
+
+		}
+
+
+
+		for ( let prop of Object.keys( options ) ) {
+
+			const value = options[prop];
+
+			// 1. replace deprecated properties
+			switch ( prop ){
+				case 'contentDirection':
+					console.warn('ThreeMeshUI v7xx: property `contentDirection` is deprecated and has been renamed as `flexDirection`');
+					prop = 'flexDirection';
+					break;
+
+				case 'interLine':
+					console.warn('ThreeMeshUI v7xx: property `interLine` is deprecated and has been renamed as `lineHeight`');
+					prop = 'lineHeight';
+					break;
+
+				case 'content':
+					console.warn( 'ThreeMeshUI v7xx: property `content` is deprecated and has been renamed as `textContent`');
+					prop = 'textContent';
+					break;
+
+				case 'fontColor':
+					console.warn( 'ThreeMeshUI v7xx: property `fontColor` is deprecated and has been renamed as `color`');
+					prop = 'color';
+					break;
+
+				case 'hiddenOverflow':
+					console.warn( 'ThreeMeshUI v7xx: property `hiddenOverflow` is deprecated and has been renamed as `overflow`');
+					prop = 'overflow';
+					break;
+
+				case 'backgroundTexture':
+					console.warn( 'ThreeMeshUI v7xx: property `backgroundTexture` is deprecated and has been renamed as `backgroundImage`');
+					prop = 'backgroundImage';
+					break;
+
+				case 'alignContent':
+					console.warn( 'ThreeMeshUI v7xx: property `alignContent` is deprecated and has been renamed as `alignItems`');
+					prop = 'alignItems';
+					break;
+
+				case "borderTopColor":
+				case "borderBottomColor":
+				case "borderLeftColor":
+				case "borderRightColor":
+					prop = 'borderColor';
+					break;
+			}
+
+				switch ( prop ) {
+
+				// properties
+
+				// As textContent property might alter the hierarchy, do not wait until update
+				// 	case 'textContent' :
+
+					case 'fontSmooth':
+					case 'renderOrder':
+					case 'segments' :
+					case 'visible' :
+					case 'offset':
+						this[`_${prop}`].value = value;
+						break;
+
+					// styles properties
+					case 'flexDirection' :
+					case 'justifyContent' :
+					case 'alignItems' :
+					case 'color' :
+					case 'fontFamily' :
+					case 'fontOpacity' :
+					case 'fontKerning' :
+					case 'fontSize' :
+					case 'fontStyle' :
+					case 'fontWeight' :
+					case 'textAlign' :
+					case 'letterSpacing' :
+					case 'lineHeight' :
+					case 'whiteSpace':
+					case 'breakOn': // Not valid anymore?
+					case 'width' :
+					case 'height' :
+					case 'padding':
+					case 'margin' :
+					case 'backgroundColor' :
+					case 'backgroundOpacity' :
+					case 'backgroundImage' :
+					case 'backgroundSize' :
+					case 'borderColor' :
+					case 'borderOpacity' :
+					case 'borderRadius' :
+					case 'borderWidth':
+					case 'overflow' :
+					case 'order':
+					case 'boxSizing':
+					case 'position':
+					case 'verticalAlign':
+						if( this[`_${prop}`] ){
+							this[`_${prop}`].inline = value;
+						}
+						break;
+
+					case 'paddingTop':
+						this._padding.top = value;
+						break;
+					case 'paddingRight':
+						this._padding.right = value;
+						break;
+					case 'paddingBottom':
+						this._padding.bottom = value;
+						break;
+					case 'paddingLeft':
+						this._padding.left = value;
+						break;
+
+					case 'marginTop':
+						this._margin.top = value;
+						break;
+					case 'marginRight':
+						this._margin.right = value;
+						break;
+					case 'marginBottom':
+						this._margin.bottom = value;
+						break;
+					case 'marginLeft':
+						this._margin.left = value;
+						break;
+
+					case 'borderTopWidth':
+						this._borderWidth.top = value;
+						break;
+					case 'borderRightWidth':
+						this._borderWidth.right = value;
+						break;
+					case 'borderBottomWidth':
+						this._borderWidth.bottom = value;
+						break;
+					case 'borderLeftWidth':
+						this._borderWidth.left = value;
+						break;
+
+					case 'borderTopLeftRadius':
+						this._borderRadius.topLeft = value;
+						break;
+					case 'borderTopRightRadius':
+						this._borderRadius.topRight = value;
+						break;
+					case 'borderBottomRightRadius':
+						this._borderRadius.bottomRight = value;
+						break;
+					case 'borderBottomLeftRadius':
+						this._borderRadius.bottomLeft = value;
+						break;
+
+
+					// Back & Front linked properties
+					case 'side':
+					case 'castShadow':
+					case 'receiveShadow':
+						const upperCamelCaseProperty = prop.charAt(0).toUpperCase()+prop.substr(1);
+						this[`_background${upperCamelCaseProperty}`].value = value;
+						this[`_font${upperCamelCaseProperty}`].value = value;
+						break;
+
+
+						// Meshes & material properties
+					case 'fontSide':
+					case 'backgroundSide':
+					case 'fontCastShadow':
+					case 'backgroundCastShadow':
+					case 'fontReceiveShadow':
+					case 'backgroundReceiveShadow':
+					case 'fontMaterial':
+					case 'fontCustomDepthMaterial':
+						this[`_${prop}`].value = value;
+						break;
+
+
+					default:
+
+						console.log(prop)
+
+						if( this[ prop ] !== undefined ) {
+
+							console.log(`--		${prop} has setter`)
+
+							this[ prop ] = value
+						}else if( this[`_${prop}`] !== undefined ) {
+							this[`_${prop}`].value = value;
+						} else {
+							// error
+						}
+				}
+
+		}
+
+	}
+
+	get ( property ) {
+
+		switch ( property ) {
+
+			case 'overflow':
+			case 'width' :
+			case 'height' :
+				return this[`_${property}`].inline;
+		}
+
+	}
+
+	/**
+	 * Filters children in order to compute only one times children lists
+	 * @private
+	 */
+	_rebuildChildrenLists() {
+
+		//console.log( this.name, 'child added' );
+		this._children._needsUpdate = true;
+
+	}
+
+	/**
+	 * Try to retrieve parentUI after each structural change
+	 * @protected
+	 */
+	_rebuildParentUI = () => {
+
+		this._parent._needsUpdate = true;
+
+		// set elements as root
+		if ( this.parent && !this.parent.isUI ) {
+
+			UpdateManager.register( this );
+			this.activatePseudoState('root');
+
+		} else {
+
+			UpdateManager.remove( this );
+			this.deactivatePseudoState('root');
+		}
+
+
+	};
+
+	/**
+	 * When the user calls component.add, it registers for updates,
+	 * then call THREE.Object3D.add.
+	 */
+
+	/* eslint-disable no-unused-vars */
+	/**
+	 *
+	 * @override
+	 * @param {...Object3D} object
+	 * @return {this}
+	 */
+	add( object ) {
+
+		let addedUIChildren = false;
+		for ( let i = 0; i < arguments.length; i++ ) {
+
+			super.add( arguments[ i ] );
+
+			if( arguments[i].isUI ) {
+				addedUIChildren = true;
+			}
+
+		}
+
+		if( addedUIChildren ) this._rebuildChildrenLists();
+
+		return this;
+
+	}
+
+
+	/**
+	 * When the user calls component.remove, it registers for updates,
+	 * then call THREE.Object3D.remove.
+	 * @override
+	 * @param {...Object3D} object
+	 * @return {this}
+	 */
+	remove( object ) {
+
+		for ( const id of Object.keys( arguments ) ) {
+
+			// An inline component relies on its parent for positioning
+			if ( arguments[ id ].isInline ) this.update( null, true );
+
+		}
+
+		super.remove( ...arguments );
+
+		this._rebuildChildrenLists();
+
+		return this;
+
+	}
+
+	/**
+	 *
+	 * @return {Object3D}
+	 */
+	clear() {
+
+		this.removeFromParent();
+
+		this.traverse( ( obj ) => {
+
+			if ( obj.material ) obj.material.dispose();
+			if ( obj.geometry ) obj.geometry.dispose();
+
+		} );
+
+		super.clear();
+
+		// remove properties
+		this._backgroundMesh = null;
+		this._backgroundMaterial = null;
+		this._backgroundMaterialMediation = null;
+		this._backgroundMeshMediation = null;
+
+		this._children.dispose();
+		this._children = null;
+
+		this._parent.dispose();
+		this._parent = null;
+
+		this._backgroundSide = null;
+		this._backgroundAlphaTest = null;
+		this._visible = null;
+		this._backgroundCastShadow = null;
+		this._backgroundReceiveShadow = null;
+		this._renderOrder = null;
+		this._segments = null;
+		this._bounds = null;
+
+		// styles properties
+		this._boxSizing = null;
+		this._padding = null;
+		this._margin = null;
+		this._position = null;
+		this._flexDirection = null;
+		this._justifyContent = null;
+		this._alignItems = null;
+		this._display = null;
+		this._backgroundColor = null;
+		this._backgroundOpacity = null;
+		this._backgroundSize = null;
+		this._fontOpacity = null;
+		this._color = null;
+		this._whiteSpace = null;
+		this._fontFamily = null;
+		this._fontStyle = null;
+		this._fontWeight = null;
+		this._lineHeight = null;
+		this._fontKerning = null;
+		this._letterSpacing = null;
+		this._overflow = null;
+		this._textAlign = null;
+
+		this._font = null;
+		this._lineBreak = null;
+		this._layouter = null;
+
+		return this;
+	}
+
+	/**
+	 *
+	 * @return {string}
+	 */
+	get textContent() {
+
+		this._textContent.process( this );
+
+		return this._textContent._value;
+
+	}
+
+	/***********************************************************************************************************************
+	 * TO MATERIAL HOLDER
+	 **********************************************************************************************************************/
+
+	/**
+	 *
+	 * @returns {Material|ShaderMaterial}
+	 */
+	get backgroundMaterial() { return this._backgroundMaterial; }
+
+	/**
+	 *
+	 * @param {Material|ShaderMaterial} material
+	 */
+	set backgroundMaterial( material ) {
+
+		this._backgroundMaterial = material;
+
+		// Update the fontMaterialProperties that need to be transferred to
+		this._backgroundMaterialMediation = { ...material.constructor.mediation };
+
+		// transfer all the properties to material
+		this._transferToBackgroundMaterial();
+
+		if ( this._backgroundMesh ) {
+
+			this._backgroundMesh.material = this._backgroundMaterial;
+			uniformOrUserDataTransformer( material, 'frameSize', this._backgroundMesh.scale );
+
+		}
+
+	}
+
+	/**
+	 *
+	 * @param {Material|null} material
+	 */
+	set backgroundCustomDepthMaterial( material ) {
+
+		this._backgroundCustomDepthMaterial = material;
+
+		this._transferToBackgroundMaterial();
+
+		if ( this._backgroundMesh ) {
+			// transfer to the main if isset
+			this._backgroundMesh.customDepthMaterial = this._backgroundCustomDepthMaterial;
+
+		}
+
+	}
+
+	/**
+	 *
+	 * @returns {Material|null}
+	 */
+	get backgroundCustomDepthMaterial() { return this._backgroundCustomDepthMaterial; }
+
+	/**
+	 * According to the list of materialProperties
+	 * some properties are sent to material
+	 * @param {Object} [options=null]
+	 * @private
+	 */
+	_transferToBackgroundMaterial( options = null ) {
+
+		if( !options ) {
+
+			options = {};
+
+			for ( const component of this._components ) {
+				component.output( options );
+			}
+
+		}
+
+		Mediator.mediate( this, this._backgroundMaterial, options, this._backgroundMaterialMediation, this._backgroundCustomDepthMaterial );
+
+	}
+
+	/**
+	 *
+	 * @param {number} value
+	 */
+	set backgroundSide( value ) {
+
+		this._backgroundSide.value = value;
+
+		if ( this._backgroundMaterial ) this._backgroundMaterial.side = value;
+
+	}
+
+	/**
+	 *
+	 * @return {number}
+	 */
+	get backgroundSide() { return this._backgroundSide.value; }
+
+	/**
+	 *
+	 * @param {number} value
+	 */
+	set backgroundAlphaTest ( value ) {
+
+		this._backgroundAlphaTest.value = value;
+
+		if( this._backgroundMaterial ) this._backgroundMaterial.alphaTest = value;
+
+	}
+
+	/**
+	 *
+	 * @return {number}
+	 */
+	get backgroundAlphaTest () { return this._backgroundAlphaTest.value; }
+
+	/** Font Material ----------------------------------------------------------*/
+
+	/**
+	 *
+	 * @returns {Material|ShaderMaterial}
+	 */
+	// get fontMaterial() { return this._fontMaterial__; }
+	get fontMaterial() { return this._fontMaterial.value; }
+
+	/**
+	 *
+	 * @param {Material|ShaderMaterial} material
+	 */
+	set fontMaterial( material ) {
+
+		this._fontMaterial.value = material;
+
+	}
+
+	/**
+	 *
+	 * @param {Material|null} material
+	 */
+	set fontCustomDepthMaterial( material ) {
+
+		this._fontCustomDepthMaterial.value = material;
+
+	}
+
+	/**
+	 *
+	 * @returns {Material|null}
+	 */
+	get fontCustomDepthMaterial() { return this._fontCustomDepthMaterial.value; }
+
+	/**
+	 * According to the list of materialProperties
+	 * some properties are sent to material
+	 * @param {Object} [options=null]
+	 * @private
+	 */
+	_transferToFontMaterial( options = null ) {
+
+		const fontMat = this._fontMaterial.value;
+		if( !fontMat ) return;
+
+		if( !options ) {
+
+			options = {};
+
+			for ( const component of this._components ) {
+				component.output( options );
+			}
+
+		}
+
+		Mediator.mediate( this, fontMat, options, this._fontMaterial._mediation, this._fontCustomDepthMaterial.value );
+
+	}
+
+	/**
+	 *
+	 * @param {number} value
+	 */
+	set fontSide( value ) {
+
+		this._fontSide.value = value;
+
+	}
+
+	/**
+	 *
+	 * @return {number}
+	 */
+	get fontSide() { return this._fontSide.value; }
+
+	/**
+	 *
+	 * @param {number} value
+	 */
+	set fontAlphaTest ( value ) {
+
+		this._fontAlphaTest.value = value;
+
+	}
+
+	/**
+	 *
+	 * @return {number}
+	 */
+	get fontAlphaTest () { return this._fontAlphaTest.value; }
+
+	/*********************************************************************************************************************
+	 * MESH MEDIATION
+	 ********************************************************************************************************************/
+
+	/**
+	 * According to the list of meshProperties
+	 * some properties are sent to mesh
+	 * @param {Object} [options=null]
+	 * @private
+	 */
+	_transferToBackgroundMesh( options = null ) {
+
+		if( !options ) {
+
+			options = {};
+
+			for ( const component of this._components ) {
+				component.output( options );
+			}
+
+
+		}
+
+		Mediator.mediate( this, this._backgroundMesh, options, this._backgroundMeshMediation );
+
+	}
+
+	/**
+	 * @internal
+	 * @param {Mesh|Array.<Mesh>|null} mesh
+	 */
+	setBackgroundMesh( mesh ) {
+
+		if( this._backgroundMesh ) {
+
+			this.remove( this._backgroundMesh );
+			this.unbindBackgroundMeshProperties();
+
+		}
+
+		this._backgroundMesh = mesh;
+
+		if ( this._backgroundMesh ) {
+
+			this.bindBackgroundMeshProperties();
+
+			if( this._backgroundCustomDepthMaterial ) {
+				this._backgroundMesh.customDepthMaterial = this._backgroundCustomDepthMaterial;
+			}
+
+			if( this._backgroundMaterial ) {
+				uniformOrUserDataTransformer( this._backgroundMaterial, 'frameSize', this._backgroundMesh.scale );
+			}
+
+			this._transferToBackgroundMesh();
+
+			this.add( this._backgroundMesh );
+
+		}
+
+	}
+
+	/**
+	 *
+	 */
+	bindBackgroundMeshProperties () { }
+
+	/**
+	 *
+	 */
+	unbindBackgroundMeshProperties () { }
+
+
+	activatePseudoState ( state ) {
+
+	}
+
+	deactivatePseudoState ( state ) {
+
+	}
+
+	togglePseudoState ( state ) {
+
+	}
+
+
+	hasPseudoState( state ) {
+		return false;
+	}
+
+	set borderRadiusMediation ( value ) {
+		this._borderRadius.mediation = value;
+	}
+
+	/**
+	 *
+	 * @param {boolean} value
+	 */
+	set backgroundCastShadow( value ) {
+
+		if( this._backgroundCastShadow ) this._backgroundCastShadow.value = value;
+
+	}
+
+	/**
+	 *
+	 * @return {boolean}
+	 */
+	get backgroundCastShadow() { return this._backgroundCastShadow; }
+
+	/**
+	 *
+	 * @param {boolean} value
+	 */
+	set backgroundReceiveShadow( value ) {
+
+		if( this._backgroundReceiveShadow ) this._backgroundReceiveShadow.value = value;
+
+	}
+
+	/**
+	 *
+	 * @return {boolean}
+	 */
+	get backgroundReceiveShadow() { return this._backgroundReceiveShadow; }
+
+	/**
+	 *
+	 * @param {number} value
+	 */
+	set renderOrder( value ) {
+
+		if( this._renderOrder ) this._renderOrder.value = value;
+
+	}
+
+	/**
+	 *
+	 * @return {number}
+	 */
+	get renderOrder() { return this._renderOrder.value; }
+
+	/** Font Mesh --------------------------------------------------------------*/
+
+	/**
+	 * According to the list of meshProperties
+	 * some properties are sent to mesh
+	 * @param {Object} [options=null]
+	 * @private
+	 */
+	_transferToFontMesh( options = null ) {
+
+		if( !this._fontMesh ) return;
+
+		if( !options ) {
+
+			options = {};
+
+			for ( const component of this._components ) {
+				component.output( options );
+			}
+
+		}
+
+		Mediator.mediate( this, this._fontMesh, options, this._fontMeshMediation );
+
+	}
+
+	/**
+	 * @internal
+	 * @param {Mesh|Array.<Mesh>|null} mesh
+	 */
+	setFontMesh( mesh ) {
+
+		if( this._fontMesh ) {
+
+			this.remove( this._fontMesh );
+
+			if ( this._fontMesh.material ) this._fontMesh.material.dispose?.();
+			if ( this._fontMesh.geometry ) this._fontMesh.geometry.dispose?.();
+
+			this._fontMesh = null;
+			// deepDelete( this._fontMesh );
+
+			this.unbindFontMeshProperties();
+
+		}
+
+		this._fontMesh = mesh;
+
+		if ( this._fontMesh ) {
+
+			this._fontMesh.raycast = () => {};
+
+			this.bindFontMeshProperties();
+
+			this._transferToFontMaterial();
+			this._transferToFontMesh();
+
+			this.add( this._fontMesh );
+
+		}
+
+	}
+
+	/**
+	 *
+	 */
+	bindFontMeshProperties () { }
+
+	/**
+	 *
+	 */
+	unbindFontMeshProperties () { }
+
+	/**
+	 *
+	 * @param {boolean} value
+	 */
+	set fontCastShadow( value ) {
+
+		if( this._fontCastShadow ) this._fontCastShadow.value = value;
+
+	}
+
+	/**
+	 *
+	 * @return {boolean}
+	 */
+	get fontCastShadow() { return this._fontCastShadow; }
+
+	/**
+	 *
+	 * @param {boolean} value
+	 */
+	set fontReceiveShadow( value ) {
+
+		if( this._fontReceiveShadow ) this._fontReceiveShadow.value = value;
+
+	}
+
+	/**
+	 *
+	 * @return {boolean}
+	 */
+	get fontReceiveShadow() { return this._fontReceiveShadow; }
+
+	/***********************************************************************************************************************
+	 * GEOMETRY
+	 **********************************************************************************************************************/
+
+	/**
+	 *
+	 * @param {Number} v
+	 */
+	set segments (v) {
+
+		this._segments.value = v;
+
+		// @TODO : Geometry Update
+
+	}
+
+	/**
+	 *
+	 * @return {number}
+	 */
+	get segments () { return this._segments.value; }
+
+
+	/***********************************************************************************************************************
+	 * HOOKS & ALTERS
+	 **********************************************************************************************************************/
+
+	/**
+	 *
+	 * @param {Function} func
+	 */
+	set onAfterUpdate( func ) {
+
+		console.warn( 'ThreeMeshUI v7xx : `onAfterUpdate()` property has been deprecated, please rely on `addAfterUpdate` instead.' );
+		this.addAfterUpdate( func );
+
+	}
+
+	/**
+	 *
+	 * @param {Function} func
+	 */
+	addAfterUpdate( func ) {
+
+		this._onAfterUpdates.push( func );
+
+	}
+
+	/**
+	 *
+	 * @param {Function} func
+	 */
+	removeAfterUpdate( func ) {
+
+		const index = this._onAfterUpdates.indexOf( func );
+		if ( index !== -1 ) {
+
+			this._onAfterUpdates.splice( index, 1 );
+
+		}
+
+	}
+
+	/**
+	 * @todo: afterUpdate not called anymore
+	 */
+	performAfterUpdate() {
+
+		for ( let i = 0; i < this._onAfterUpdates.length; i++ ) {
+
+			this._onAfterUpdates[ i ]();
+
+		}
+
+	}
+
+	/**
+	 *
+	 * @param {string} name
+	 * @param {BaseProperty} instance
+	 * @returns {void}
+	 */
+	appendProperty( name, instance ) {
+
+		this[`_${name}`] = instance;
+		this._components.push( instance );
+
+	}
+
+	/**
+	 *
+	 * @param {string} name
+	 * @param {BaseProperty} instance
+	 * @returns {BaseProperty}
+	 */
+	replaceProperty( name, instance ) {
+
+		const oldProperty = this[`_${name}`];
+
+		const index = this._components.indexOf( oldProperty );
+
+		this._components[index] = this[`_${name}`] = instance;
+		instance.needsUpdate = true;
+
+		return oldProperty;
+
+	}
+
+}
+
+/**
+ * @typedef Properties
+ * @type {Object.<string,Function>}
+ */
+
+/**
+ * @typedef Options
+ * @type {DocumentedOptions & Object.<string,any>}
+ */
+
+/**
+ *
+ * @typedef {Object} DocumentedOptions
+ *
+ * @property [options.name] {string}
+ * @property [options.flexDirection] {"row"|"row-reverse"|"column"|"column-reverse"}
+ * @property [options.justifyContent] {"start"|"center"|"end"|"space-around"|"space-between"|"space-evenly"}
+ * @property [options.alignItems] {"start"|"center"|"end"|"stretch"}
+ * @property [options.overflow] {"visible"|"hidden"}
+ * @property [options.fontKerning] {"normal"|"none"}
+ * @property [options.segments] {number}
+ * @property [options.fontFamily] {FontFamily|string}
+ * @property [options.fontStyle] {"normal"|"italic"}
+ * @property [options.fontWeight] {"light"|"normal"|"bold"|"bolder"|100|200|300|400|500|600|700|800|900}
+ *
+ * @property [options.color]{Color|number|string} The font color
+ *
+ * @property [options.backgroundColor]{Color|number|string} The background color
+ * @property [options.backgroundOpacity] {number}
+ * @property [options.backgroundSize] {"cover"|"contain"|"stretch"}
+ * @property [options.backgroundImage] {Texture|string}
+ *
+ *
+ * @property [options.borderRadius] {Vector4|Array.<number>|number|string}
+ * @property [options.borderWidth] {Vector4|Array.<number>|number|string}
+ * @property [options.borderColor] {Color|number|string}
+ *
+ * @property [options.boxSizing] {"content-box"|"border-box"}
+ * @property [options.width] {number|string|"100%"|"auto"}
+ * @property [options.height] {number|string|"100%"|"auto"}
+ * @property [options.padding] {Vector4|Array.<number>|number|string}
+ * @property [options.margin] {Vector4|Array.<number>|number|string}
+ *
+ * @property [options.textAlign] {"left"|"right"|"center"|"justify"|"justify-left"|"justify-right"}
+ * @property [options.visible] {boolean}
+ * @property [options.letterSpacing] {number}
+ *
+ * @property [options.whiteSpace] {"normal"|"nowrap"|"pre"|"pre-line"|"pre-wrap"}
+ * @property [options.fontTexture] {Texture|string} @deprecated
+ * @property [options.textContent] {string}
+ *
+ * @property [options.verticalAlign] {"baseline","super","sub","inherit"}
+ *
+ *
+ */
 
 ;// CONCATENATED MODULE: ./src/components/core/UpdateManager.js
+//JSDoc related imports
+/* eslint-disable no-unused-vars */
+
+/* eslint-enable no-unused-vars */
+
 /**
  * Job:
  * - recording components required updates
@@ -2900,1606 +8358,4212 @@ function missingCharacter( fontVariant, character ) {
  */
 class UpdateManager {
 
-	/*
-	 * get called by MeshUIComponent when component.set has been used.
-	 * It registers this component and all its descendants for the different types of updates that were required.
-	 */
-	static requestUpdate( component, updateParsing, updateLayout, updateInner ) {
 
-		component.traverse( ( child ) => {
-
-			if ( !child.isUI ) return;
-
-			// request updates for all descendants of the passed components
-			if ( !this.requestedUpdates[ child.id ] ) {
-
-				this.requestedUpdates[ child.id ] = {
-					updateParsing,
-					updateLayout,
-					updateInner,
-					needCallback: ( updateParsing || updateLayout || updateInner )
-				};
-
-			} else {
-
-				if ( updateParsing ) this.requestedUpdates[ child.id ].updateParsing = true;
-				if ( updateLayout ) this.requestedUpdates[ child.id ].updateLayout = true;
-				if ( updateInner ) this.requestedUpdates[ child.id ].updateInner = true;
-
-			}
-
-		} );
-
-	}
-
-	/** Register a passed component for later updates */
 	static register( component ) {
 
-		if ( !this.components.includes( component ) ) {
+		if ( !this.elements.includes( component ) ) {
 
-			this.components.push( component );
-
-		}
-
-	}
-
-	/** Unregister a component (when it's deleted for instance) */
-	static disposeOf( component ) {
-
-		const idx = this.components.indexOf( component );
-
-		if ( idx > -1 ) {
-
-			this.components.splice( idx, 1 );
+				this.elements.push( component );
 
 		}
 
 	}
 
-	/** Trigger all requested updates of registered components */
+	static remove( component ) {
+
+		const index = this.elements.indexOf( component );
+		if ( index !== -1 ) {
+
+			this.elements.splice( index, 1 );
+
+		}
+
+	}
+
+
 	static update() {
 
-		if ( Object.keys( this.requestedUpdates ).length > 0 ) {
+		for ( const UIElement of this.elements ) {
+			UIElement.update();
 
-			const roots = this.components.filter( ( component ) => {
+			UIElement.process(); // Natural process
+			UIElement.process(); // Actual process (optional) - For auto size and stretch
 
-				return !component.parentUI;
+			UIElement.render();
+		}
 
-			} );
+	}
 
-			roots.forEach( root => this.traverseParsing( root ) );
-			roots.forEach( root => this.traverseUpdates( root ) );
+}
+
+/**
+ * @internal
+ * @type {Array.<MeshUIBaseElement>}
+ */
+UpdateManager.elements = [];
+
+;// CONCATENATED MODULE: ./src/frame/renderers/ShaderChunk/frame-border.pars.vertex.glsl.js
+/**
+ *
+ * @type {string}
+ */
+const frame_border_pars_vertex_glsl_program = /* glsl */`
+
+// FrameBorder vertex pars
+attribute vec2 uvB;
+varying vec2 vUvB;
+
+`;
+
+/* harmony default export */ const frame_border_pars_vertex_glsl = (frame_border_pars_vertex_glsl_program);
+
+;// CONCATENATED MODULE: ./src/frame/renderers/ShaderChunk/frame-border.vertex.glsl.js
+/**
+ *
+ * @type {string}
+ */
+const frame_border_vertex_glsl_program = /* glsl */`
+
+	// FrameBorder vertex shader
+	vUvB = uvB;
+
+`;
+
+/* harmony default export */ const frame_border_vertex_glsl = (frame_border_vertex_glsl_program);
+
+;// CONCATENATED MODULE: ./src/frame/renderers/ShaderChunk/frame-border.pars.fragment.glsl.js
+/**
+ *
+ * @type {string}
+ */
+const frame_border_pars_fragment_glsl_program = /* glsl */`
+
+// borders sequences are : x:TOP, y:RIGHT, z:BOTTOM, w:LEFT
+uniform vec4 borderWidth;
+uniform vec3 borderColor;
+uniform float borderOpacity;
+uniform vec4 borderRadius;
+
+uniform vec2 cornerTL;
+uniform vec2 cornerTR;
+uniform vec2 cornerBR;
+uniform vec2 cornerBL;
+
+varying vec2 vUvB;
+
+float getEllipticFactor( vec2 uv, vec2 center, float radiusX, float radiusY )
+{
+
+		float edx = uv.x - center.x;
+		float edy = uv.y - center.y;
+
+		float ddx = (edx * edx) / (radiusX * radiusX);
+		float ddy = (edy * edy) / (radiusY * radiusY);
+
+		return ddx + ddy;
+
+}
+
+`;
+
+/* harmony default export */ const frame_border_pars_fragment_glsl = (frame_border_pars_fragment_glsl_program);
+
+;// CONCATENATED MODULE: ./src/frame/renderers/ShaderChunk/frame-border.fragment.glsl.js
+/**
+ *
+ * @type {string}
+ */
+const frame_border_fragment_glsl_program = /* glsl */`
+
+vec4 borderColor = vec4( borderColor, borderOpacity );
+
+// This could be tweak to produce more smoothing
+float mult = 1.0;
+
+// Step 1 ----------------------------------------------
+// Draw the four borders ( top - right - bottom - left )
+// Without worrying about radiuses ( Straight boorders )
+
+// Top
+float topBorderUVy = 1.0 - borderWidth.x;
+if( borderWidth.x > 0.0 && vUvB.y > topBorderUVy )
+{
+
+	float w = fwidth( 1.0 - vUvB.y ) * mult;
+	float step = smoothstep( topBorderUVy , topBorderUVy + w , vUvB.y );
+	diffuseColor = mix( diffuseColor, borderColor, step );
+
+}
+
+// Left
+float leftBorderUVx = borderWidth.w;
+if( borderWidth.w > 0.0 && vUvB.x < leftBorderUVx )
+{
+
+	float w = fwidth( vUvB.x ) * mult ;
+	float step = smoothstep( leftBorderUVx , leftBorderUVx - w , vUvB.x );
+	diffuseColor = mix( diffuseColor, borderColor, step );
+
+}
+
+// Bottom
+float bottomBorderUVy = borderWidth.z;
+if( borderWidth.z > 0.0 && vUvB.y < bottomBorderUVy )
+{
+	float w = fwidth( vUvB.y ) * mult;
+	float step = smoothstep( bottomBorderUVy , bottomBorderUVy - w , vUvB.y );
+	diffuseColor = mix( diffuseColor, borderColor, step );
+}
+
+// Right
+float rightBorderUVx = 1.0 - borderWidth.y;
+if( borderWidth.y > 0.0 && vUvB.x > rightBorderUVx )
+{
+	float w = fwidth( 1.0 - vUvB.x ) * mult;
+	float step = smoothstep( rightBorderUVx , rightBorderUVx + w , vUvB.x );
+	diffuseColor = mix( diffuseColor, borderColor, step );
+}
+
+
+// Step 2 ----------------------------------------------
+// Process each corners ( topLeft, topRight, bottomRight, bottomLeft )
+// To transparentize outside radiuses
+// To draw ellipse border on the corner
+
+
+// Top Left corner
+if( vUvB.x < cornerTL.x && vUvB.y > cornerTL.y ) {
+
+		// Only draw border if width is set
+		if( borderWidth.w + borderWidth.x > 0.0 ){
+
+			float borderFactor = getEllipticFactor( vUvB, cornerTL, cornerTL.x - borderWidth.w,  ( 1.0 - cornerTL.y ) - borderWidth.x );
+			float step = smoothstep( 1.0, 1.0 + fwidth( borderFactor ) * mult, borderFactor );
+			diffuseColor = mix( diffuseColor, borderColor, step );
+
+		}
+
+		// Then then radius
+		float radiusFactor = getEllipticFactor( vUvB, cornerTL, cornerTL.x, 1.0 - cornerTL.y );
+		float alphaStep = smoothstep( 1.0 , 1.0 + fwidth(radiusFactor) * mult , radiusFactor );
+		diffuseColor.a = mix( diffuseColor.a, 0.0, alphaStep );
+
+}
+// Bottom Left
+if( vUvB.x < cornerBL.x && vUvB.y < cornerBL.y ) {
+
+		if( borderWidth.w + borderWidth.z > 0.0 ){
+
+			float borderFactor = getEllipticFactor( vUvB, cornerBL, cornerBL.x - borderWidth.w,  cornerBL.y - borderWidth.z );
+			float step = smoothstep( 1.0, 1.0 + fwidth( borderFactor ) * mult, borderFactor );
+			diffuseColor = mix( diffuseColor, borderColor, step );
+
+		}
+
+
+		float radiusFactor = getEllipticFactor( vUvB, cornerBL, cornerBL.x, cornerBL.y );
+		float alphaStep = smoothstep( 1.0 , 1.0 + fwidth(radiusFactor) * mult , radiusFactor );
+		diffuseColor.a = mix( diffuseColor.a, 0.0, alphaStep );
+
+}
+// Top Right
+if( vUvB.x > cornerTR.x && vUvB.y > cornerTR.y ) {
+
+		if( borderWidth.y + borderWidth.x > 0.0 ){
+
+			float borderFactor = getEllipticFactor( vUvB, cornerTR, ( 1.0 - cornerTR.x ) - borderWidth.y,  ( 1.0 - cornerTR.y ) - borderWidth.x );
+			float step = smoothstep( 1.0, 1.0 + fwidth( borderFactor ) * mult, borderFactor );
+			diffuseColor = mix( diffuseColor, borderColor, step );
+
+		}
+
+		float radiusFactor = getEllipticFactor( vUvB, cornerTR, 1.0 - cornerTR.x, 1.0 - cornerTR.y );
+		float alphaStep = smoothstep( 1.0 , 1.0 + fwidth(radiusFactor) * mult , radiusFactor );
+		diffuseColor.a = mix( diffuseColor.a, 0.0, alphaStep );
+
+}
+// Bottom Right
+if( vUvB.x > cornerBR.x && vUvB.y < cornerBR.y ) {
+
+		if( borderWidth.y + borderWidth.z > 0.0 ){
+
+			float borderFactor = getEllipticFactor( vUvB, cornerBR, ( 1.0 - cornerBR.x ) - borderWidth.y,  cornerBR.y - borderWidth.z );
+			float step = smoothstep( 1.0, 1.0 + fwidth( borderFactor ) * mult, borderFactor );
+			diffuseColor = mix( diffuseColor, borderColor, step );
+
+		}
+
+		float radiusFactor = getEllipticFactor( vUvB, cornerBR, 1.0 - cornerBR.x, cornerBR.y );
+		float alphaStep = smoothstep( 1.0 , 1.0 + fwidth(radiusFactor) * mult , radiusFactor );
+		diffuseColor.a = mix( diffuseColor.a, 0.0, alphaStep );
+
+}
+
+`;
+
+/* harmony default export */ const frame_border_fragment_glsl = (frame_border_fragment_glsl_program);
+
+;// CONCATENATED MODULE: ./src/frame/renderers/ShaderChunk/frame-common.pars.fragment.glsl.js
+/**
+ *
+ * @type {string}
+ */
+const frame_common_pars_fragment_glsl_program = /* glsl */`
+
+// To be removed - required for both border and background
+uniform vec3 frameSize;
+uniform vec2 textureSize;
+
+`;
+
+/* harmony default export */ const frame_common_pars_fragment_glsl = (frame_common_pars_fragment_glsl_program);
+
+;// CONCATENATED MODULE: ./src/frame/renderers/ShaderChunk/frame-background.pars.fragment.glsl.js
+/**
+ *
+ * @type {string}
+ */
+const frame_background_pars_fragment_glsl_program = /* glsl */`
+
+#ifdef USE_MAP
+
+vec4 sampleTexture() {
+
+	vec2 uv = vUv;
+
+	// default stretch
+	#if BACKGROUND_MAPPING != 0
+
+	float textureRatio = textureSize.x / textureSize.y;
+	float panelRatio = frameSize.x / frameSize.y;
+	float ratio = panelRatio / textureRatio;
+	float ratio2 = textureRatio / panelRatio;
+
+		// contain
+		#if BACKGROUND_MAPPING == 1
+		if ( textureRatio < panelRatio ) { // repeat on X
+			float newX = uv.x * ratio;
+			newX += 0.5 - 0.5 * ratio;
+			uv.x = newX;
+		} else { // repeat on Y
+			float newY = uv.y * ratio2;
+			newY += 0.5 - 0.5 * ratio2;
+			uv.y = newY;
+		}
+		#else
+		// cover
+		if ( textureRatio < panelRatio ) { // stretch on Y
+			float newY = uv.y * ratio2;
+			newY += 0.5 - 0.5 * ratio2;
+			uv.y = newY;
+		} else { // stretch on X
+			float newX = uv.x * ratio;
+			newX += 0.5 - 0.5 * ratio;
+			uv.x = newX;
+		}
+
+		#endif
+
+	#endif
+
+	return texture2D( map, uv );
+
+}
+#endif
+`;
+
+/* harmony default export */ const frame_background_pars_fragment_glsl = (frame_background_pars_fragment_glsl_program);
+
+;// CONCATENATED MODULE: ./src/frame/renderers/ShaderChunk/frame-background.fragment.glsl.js
+/**
+ *
+ * @type {string}
+ */
+const frame_background_fragment_glsl_program = /* glsl */`
+#ifdef USE_MAP
+
+	vec4 textureSample = sampleTexture();
+	diffuseColor *= textureSample;
+
+#endif
+`;
+
+/* harmony default export */ const frame_background_fragment_glsl = (frame_background_fragment_glsl_program);
+
+;// CONCATENATED MODULE: ./src/renderers/shaders/ShaderChunkUI.js
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* eslint-disable camelcase */
+
+/**
+ * @typedef {Object} ChunksUI
+ * @property msdf_alphaglyph_vertex {string}
+ * @property frame_border_fragment {string}
+ * @property frame_background_pars_fragment {string}
+ * @property frame_common_pars {string}
+ * @property msdf_alphaglyph_pars_vertex {string}
+ * @property frame_border_pars_fragment {string}
+ * @property msdf_offset_vertex {string}
+ * @property frame_border_pars_vertex {string}
+ * @property msdf_alphaglyph_pars_fragment {string}
+ * @property frame_border_vertex {string}
+ * @property frame_background_fragment {string}
+ * @property msdf_alphaglyph_fragment {string}
+ */
+
+
+const ShaderChunkUI = {
+	msdfAlphaglyphParsVertexGlsl: msdf_alphaglyph_pars_vertex_glsl,
+	msdfAlphaglyphVertexGlsl: msdf_alphaglyph_vertex_glsl,
+	msdfOffsetglyphVertexGlsl: msdf_offsetglyph_vertex_glsl,
+	msdfAlphaglyphParsFragmentGlsl: msdf_alphaglyph_pars_fragment_glsl,
+	msdfAlphaglyphFragmentGlsl: msdf_alphaglyph_fragment_glsl,
+	frameBorderParsVertexGlsl: frame_border_pars_vertex_glsl,
+	frameBorderVertexGlsl: frame_border_vertex_glsl,
+	frameCommonParsFragmentGlsl: frame_common_pars_fragment_glsl,
+	frameBorderParsFragmentGlsl: frame_border_pars_fragment_glsl,
+	frameBorderFragmentGlsl: frame_border_fragment_glsl,
+	frameBackgroundParsFragmentGlsl: frame_background_pars_fragment_glsl,
+	frameBackgroundFragmentGlsl: frame_background_fragment_glsl,
+};
+/* eslint-enable camelcase */
+
+;// CONCATENATED MODULE: ./src/frame/renderers/ShaderLib/framematerial.glsl.js
+
+
+
+
+
+
+
+
+const framematerial_glsl_vertexShader = /* glsl */`
+// Would be automatic on three materials and from USE_UV
+#ifdef USE_MAP
+varying vec2 vUv;
+#endif
+
+${frame_border_pars_vertex_glsl}
+
+#include <clipping_planes_pars_vertex>
+
+void main() {
+
+	#ifdef USE_MAP
+	vUv = uv;
+	#endif
+
+	${frame_border_vertex_glsl}
+
+	vec4 mvPosition = modelViewMatrix * vec4( position, 1.0 );
+	gl_Position = projectionMatrix * mvPosition;
+
+	#include <clipping_planes_vertex>
+
+}
+`
+
+const framematerial_glsl_fragmentShader = /* glsl */`
+
+// Basic
+uniform vec3 diffuse;
+uniform float opacity;
+
+#ifdef USE_ALPHATEST
+	uniform float alphaTest;
+#endif
+
+${frame_common_pars_fragment_glsl}
+
+${frame_border_pars_fragment_glsl}
+
+
+#ifdef USE_MAP
+varying vec2 vUv;
+uniform sampler2D map;
+#endif
+
+${frame_background_pars_fragment_glsl}
+
+#include <clipping_planes_pars_fragment>
+
+void main() {
+
+	vec4 diffuseColor = vec4( diffuse, opacity );
+
+	// map
+	${frame_background_fragment_glsl}
+
+	${frame_border_fragment_glsl}
+
+	#ifdef USE_ALPHATEST
+
+	if ( diffuseColor.a < alphaTest ) discard;
+
+	#endif
+
+	// output
+	gl_FragColor = diffuseColor;
+
+
+	#include <clipping_planes_fragment>
+}
+`
+
+;// CONCATENATED MODULE: ./src/frame/utils/FrameMaterialUtils.js
+
+
+//JSDoc related import
+/* eslint-disable no-unused-vars */
+
+
+
+
+
+
+
+
+
+/* eslint-enable no-unused-vars */
+
+
+class FrameMaterialUtils {
+
+
+
+	/**
+	 *
+	 * @returns {Object<{m: string, t?: (function((Material|ShaderMaterial), string, *): void)}>}
+	 */
+	static get mediation() {
+
+		return _mediationDefinitions;
+
+	}
+
+
+	/**
+	 * Alter a material options with required fontMaterial options and or default values
+	 * @param {Object.<string,any>} materialOptions
+	 */
+	static ensureMaterialOptions( materialOptions ) {
+		materialOptions.transparent = true;
+		materialOptions.alphaTest = materialOptions.alphaTest || 0.02;
+	}
+
+	/**
+	 * As three-mesh-ui FontMaterial relies on webgl preprocessors,
+	 * lets force the material to have a proper defines object
+	 * @param {Material|ShaderMaterial} threeMaterial
+	 */
+	static ensureDefines( threeMaterial ) {
+		if ( !threeMaterial.defines ) {
+			threeMaterial.defines = {};
+		}
+	}
+
+	/* eslint-disable no-unused-vars */
+	/**
+	 *
+	 * @param {Material|ShaderMaterial} threeMaterial
+	 * @param {Object.<string,any>} materialOptions
+	 */
+	static ensureUserData( threeMaterial, materialOptions ) {
+		threeMaterial.userData.borderColor = { value: null };
+		threeMaterial.userData.borderRadius = { value: new external_three_namespaceObject.Vector4(0,0,0,0) };
+		// Store corners based on borderRadiuses
+		threeMaterial.userData.cornerTL = { value : new external_three_namespaceObject.Vector2(0,1) };
+		threeMaterial.userData.cornerTR = { value : new external_three_namespaceObject.Vector2(1,1) };
+		threeMaterial.userData.cornerBR = { value : new external_three_namespaceObject.Vector2(1,0) };
+		threeMaterial.userData.cornerBL = { value : new external_three_namespaceObject.Vector2(0,0) };
+
+		threeMaterial.userData.borderWidth = { value: new external_three_namespaceObject.Vector4(0,0,0,0) };
+		threeMaterial.userData.borderOpacity = { value: null };
+		threeMaterial.userData.frameSize = { value: new external_three_namespaceObject.Vector3( 1, 1, 1 ) };
+		threeMaterial.userData.textureSize = { value: new external_three_namespaceObject.Vector2( 1, 1 ) };
+
+	}
+	/* eslint-enable no-unused-vars */
+
+	/**
+	 *
+	 * @param {any} shader
+	 * @param {Material|ShaderMaterial} threeMaterial
+	 */
+	static bindUniformsWithUserData( shader, threeMaterial ) {
+
+		shader.uniforms.borderColor = threeMaterial.userData.borderColor;
+		// Border radiuses and corners
+		shader.uniforms.borderRadius = threeMaterial.userData.borderRadius;
+		shader.uniforms.cornerTL = threeMaterial.userData.cornerTL;
+		shader.uniforms.cornerTR = threeMaterial.userData.cornerTR;
+		shader.uniforms.cornerBR = threeMaterial.userData.cornerBR;
+		shader.uniforms.cornerBL = threeMaterial.userData.cornerBL;
+
+		shader.uniforms.borderWidth = threeMaterial.userData.borderWidth;
+		shader.uniforms.borderOpacity = threeMaterial.userData.borderOpacity;
+		shader.uniforms.frameSize = threeMaterial.userData.frameSize;
+		shader.uniforms.textureSize = threeMaterial.userData.textureSize;
+	}
+
+	/**
+	 *
+	 * @param shader
+	 */
+	static injectShaderChunks( shader ) {
+		FrameMaterialUtils.injectVertexShaderChunks( shader );
+		FrameMaterialUtils.injectFragmentShaderChunks( shader );
+	}
+
+	/**
+	 *
+	 * @param shader
+	 */
+	static injectVertexShaderChunks( shader ) {
+		shader.vertexShader = shader.vertexShader.replace(
+			'#include <uv_pars_vertex>',
+			'#include <uv_pars_vertex>\n' + frame_border_pars_vertex_glsl
+		);
+
+		// vertex chunks
+		shader.vertexShader = shader.vertexShader.replace(
+			'#include <uv_vertex>',
+			'#include <uv_vertex>\n' + frame_border_vertex_glsl
+		)
+
+	}
+
+	/**
+	 *
+	 * @param shader
+	 */
+	static injectFragmentShaderChunks( shader ) {
+		shader.fragmentShader = shader.fragmentShader.replace(
+			'#include <map_pars_fragment>',
+			'#include <map_pars_fragment>\n' + frame_background_pars_fragment_glsl
+		)
+
+		shader.fragmentShader = shader.fragmentShader.replace(
+			'#include <map_pars_fragment>',
+			'#include <map_pars_fragment>\n' + frame_border_pars_fragment_glsl
+		)
+
+		shader.fragmentShader = shader.fragmentShader.replace(
+			'#include <map_pars_fragment>',
+			'#include <map_pars_fragment>\n' + frame_common_pars_fragment_glsl
+		)
+
+		// fragment chunks
+		shader.fragmentShader = shader.fragmentShader.replace(
+			'#include <map_fragment>',
+			frame_background_fragment_glsl
+		)
+
+		shader.fragmentShader = shader.fragmentShader.replace(
+			'#include <alphamap_fragment>',
+			frame_border_fragment_glsl+'\n#include <alphamap_fragment>'
+		)
+
+	}
+
+}
+
+/**
+ *
+ * @param target
+ * @param property
+ * @param value
+ * @private
+ */
+const _backgroundSizeTransformer = function( target, property, value ) {
+
+	value = ['stretch','contain','cover'].indexOf(value);
+	asPreprocessorValueTransformer(target, 'BACKGROUND_MAPPING', value);
+
+}
+
+// /**
+//  *
+//  * @type {Object.<{m:string, t?:(fontMaterial:Material|ShaderMaterial, materialProperty:string, value:any) => void}>}
+//  */
+// const _mediationDefinitions = {
+// 	alphaTest: { m: 'alphaTest', t: alphaTestTransformer },
+// 	backgroundTexture: { m: 'map' },
+// 	backgroundColor: { m: 'color' },
+// 	backgroundOpacity: { m:'opacity' },
+// 	backgroundSize: { m: 'u_backgroundMapping', t: _backgroundSizeTransformer },
+// 	_borderWidthComponent: { m: 'borderWidth', t: _linkComponentOutput },
+// 	borderColor: { m: 'borderColor', t: uniformOrUserDataTransformer },
+// 	_borderRadiusComponent: { m: 'computedCorners', t: _linkCornersOutput },
+// 	borderOpacity: { m: 'borderOpacity', t: uniformOrUserDataTransformer },
+// 	size: { m: 'frameSize', t: uniformOrUserDataTransformer },
+// 	tSize: { m: 'textureSize', t: uniformOrUserDataTransformer }
+// }
+
+
+/**
+ * 7xx
+ * @type {Object.<{m:string, t?:(fontMaterial:Material|ShaderMaterial, materialProperty:string, value:any) => void}>}
+ */
+const _mediationDefinitions = {
+	clippingPlanes : {m: 'clippingPlanes'},
+	backgroundAlphaTest: { m: 'alphaTest', t: alphaTestTransformer },
+	backgroundSide: { m: 'side' },
+	// backgroundTexture: { m: 'map' },
+	backgroundImage: { m: 'map'},
+	backgroundColor: { m: 'color' },
+	backgroundOpacity: { m:'opacity' },
+	backgroundSize: { m: 'computedBackgroundSize', t: _backgroundSizeTransformer },
+	borderWidth: { m: 'borderWidth', t: uniformOrUserDataTransformer },
+	borderColor: { m: 'borderColor', t: uniformOrUserDataTransformer },
+	cornerTL : { m: 'cornerTL', t: uniformOrUserDataTransformer },
+	cornerTR : { m: 'cornerTR', t: uniformOrUserDataTransformer },
+	cornerBR : { m: 'cornerBR', t: uniformOrUserDataTransformer },
+	cornerBL : { m: 'cornerBL', t: uniformOrUserDataTransformer },
+	borderOpacity: { m: 'borderOpacity', t: uniformOrUserDataTransformer },
+	size: { m: 'frameSize', t: uniformOrUserDataTransformer },
+	tSize: { m: 'textureSize', t: uniformOrUserDataTransformer }
+}
+
+;// CONCATENATED MODULE: ./src/frame/materials/FrameMaterial.js
+
+
+
+
+class FrameMaterial extends external_three_namespaceObject.ShaderMaterial {
+
+
+	/**
+	 * This static method is mandatory for extending ThreeMeshUI.FrameMaterial
+	 * It will provide a transfer description for properties from ThreeMeshUI.Text to THREE.Material
+	 * @see {FrameMaterialUtils.mediation}
+	 * @returns {Object.<{m:string, t?:(frameMaterial:Material|ShaderMaterial, materialProperty:string, value:any) => void}>}
+	 */
+	static get mediation() {
+
+		return FrameMaterialUtils.mediation;
+
+	}
+
+	constructor() {
+		super ( {
+			uniforms: {
+				alphaTest: { value: 0.02 },
+				map: { value: null },
+				diffuse: { value: new external_three_namespaceObject.Color(0xffffff) },
+				opacity: { value: 1.0 },
+				borderColor: { value: new external_three_namespaceObject.Color(0x000000) },
+				borderOpacity: { value: 0 },
+				borderRadius: { value: new external_three_namespaceObject.Vector4(0,0,0,0) },
+				// Corners for customized radius not all starting on center [0.5,0.5];
+				// Corners will be generated from borderRadiuses
+				cornerTL: { value : new external_three_namespaceObject.Vector2(0,1) },
+				cornerTR: { value : new external_three_namespaceObject.Vector2(1,1) },
+				cornerBR: { value : new external_three_namespaceObject.Vector2(1,0) },
+				cornerBL: { value : new external_three_namespaceObject.Vector2(0,0) },
+				borderWidth: { value: new external_three_namespaceObject.Vector4(0,0,0,0) },
+
+				frameSize: { value: new external_three_namespaceObject.Vector3( 1, 1, 1 ) },
+				textureSize: { value: new external_three_namespaceObject.Vector2( 1, 1 ) }
+			},
+			side: external_three_namespaceObject.FrontSide,
+			transparent: true,
+			clipping: true,
+			vertexShader: framematerial_glsl_vertexShader,
+			fragmentShader: framematerial_glsl_fragmentShader,
+			extensions: {
+				derivatives: true
+			}
+		} );
+
+		// webgl preprocessor AlphaTest set by default
+		this.defines[ 'USE_ALPHATEST' ] = '';
+		this.needsUpdate = true;
+	}
+
+	set map( value ) {
+
+		this.uniforms.map.value = value;
+		if( !value ) {
+
+			if( this.defines['USE_UV'] !== undefined ) {
+
+				delete this.defines['USE_UV'];
+				this.needsUpdate = true;
+
+			}
+
+		} else if( this.defines['USE_UV'] === undefined ) {
+
+			this.defines['USE_UV'] = '';
+			this.needsUpdate = true;
+
+		}
+
+		this.needsUpdate = true;
+
+	}
+
+	get map(){
+		return this.uniforms.map.value;
+	}
+
+	/**
+	 *
+	 * @returns {number}
+	 */
+	get alphaTest() {
+
+		return this.uniforms.alphaTest.value;
+
+	}
+
+
+
+	/**
+	 *
+	 * @param {number} v
+	 */
+	set alphaTest( v ) {
+		this.uniforms.alphaTest.value = v;
+	}
+
+	/**
+	 *
+	 * @param {number} v
+	 */
+	set opacity( v ) {
+
+		if( this.uniforms )
+			this.uniforms.opacity.value = v;
+
+	}
+
+	/**
+	 * The color will be the diffuse uniform
+	 * @returns {number}
+	 */
+	get opacity() {
+
+		return this.uniforms.opacity.value;
+
+	}
+
+	/**
+	 * The color will be the diffuse uniform
+	 * @returns {Color}
+	 */
+	get color() {
+
+		return this.uniforms.diffuse.value;
+
+	}
+
+	/**
+	 *
+	 * @param {Color} v
+	 */
+	set color( v ) {
+
+		this.uniforms.diffuse.value = v;
+
+	}
+
+}
+
+;// CONCATENATED MODULE: ./src/core/properties/hierarchy/ChildrenBox.js
+
+
+//JSDoc related imports
+/* eslint-disable no-unused-vars */
+
+/* eslint-enable no-unused-vars */
+
+class ChildrenBox extends BaseProperty {
+
+	constructor() {
+
+		super( 'children', null, false );
+
+		/**
+		 *
+		 * @type {Array.<MeshUIBaseElement>}
+		 * @private
+		 */
+		this._uis = [];
+
+		/**
+		 *
+		 * @type {Array.<MeshUIBaseElement>}
+		 * @internal
+		 */
+		this._boxes = [];
+
+	}
+
+
+	/* eslint-disable no-unused-vars */
+	/**
+	 * Update requested when :
+	 * 		- New child has been added
+	 * 		- Existing child has been removed
+	 *
+	 * @param element
+	 * @param out
+	 */
+	update( element, out ) { /* eslint-enable no-unused-vars */
+
+		this._compute( element );
+
+		element._layouter._needsUpdate = true;
+		element._renderOrder._needsUpdate = true;
+
+	}
+
+
+	/**
+	 * Process when :
+	 * 		- Existing child visibility changed
+	 *
+	 * @param element
+	 */
+	process( element ) {
+
+		this._compute( element );
+
+		element._flexDirection._needsProcess = true;
+		element._layouter._needsProcess = true;
+
+		element._overflow._needsRender = true;
+
+	}
+
+	_compute( element ) {
+
+		// Stores all children that are box
+		this._uis = element.children.filter( child => child.visible && child.isUI );
+		this._boxes = this._uis.filter( child => child.isBox ).sort( this._sortOrder );
+
+		// @TODO: check if it has changes boxes values? with array join to 'fingerprint'?
+		// 				computation to remove computation? Does it worth it? When would it worth it?
+		//				// Changed order property of children but doesn't impact the output of boxes => Order have change, okay to have more computation
+		//				// Removed the Added the same element, at the same position => Rare case
+		// 		Conclusion : Not worth it at the time of writing
+
+
+
+	}
+
+
+
+	/**
+	 *
+	 */
+	dispose() {
+
+		this._uis = null;
+		this._boxes = null;
+
+	}
+
+	/**
+	 *
+	 * Sort children according to their .style.order property or fallback on children index
+	 *
+	 * @param {HTMLElementVR} a
+	 * @param {HTMLElementVR} b
+	 * @return {number}
+	 * @private
+	 */
+	_sortOrder = ( a, b ) => {
+
+		if( a._order._value < b._order._value ) return -1;
+		if( a._order._value > b._order._value ) return 1;
+
+		// if both children have the same order value, use their children index to order them
+		if( this._uis.indexOf(a) < this._uis.indexOf(b) ) {
+			return -1;
+		}
+
+		return 1;
+
+	}
+
+}
+
+;// CONCATENATED MODULE: ./src/core/properties/BoundsBox.js
+
+
+
+
+class BoundsBox extends BaseProperty {
+
+	constructor() {
+
+		super( 'bounds', null, false );
+
+		/**
+		 *
+		 * @type {Vector3}
+		 * @internal
+		 */
+		this._size = new external_three_namespaceObject.Vector3( 1, 1, 1 );
+
+		/**
+		 *
+		 * @type {number}
+		 * @internal
+		 */
+		this._offsetWidth = 0;
+
+		/**
+		 *
+		 * @type {number}
+		 * @internal
+		 */
+		this._offsetHeight = 0;
+
+		/**
+		 *
+		 * @type {number}
+		 * @internal
+		 */
+		this._innerWidth = 0;
+
+		/**
+		 *
+		 * @type {number}
+		 * @internal
+		 */
+		this._innerHeight = 0;
+
+		/**
+		 *
+		 * @type {number}
+		 * @internal
+		 */
+		this._centerX = 0.5;
+
+		/**
+		 *
+		 * @type {number}
+		 * @internal
+		 */
+		this._centerY = 0.5;
+
+
+		this._needsProcess = true;
+
+	}
+
+	/**
+	 * Set the value of the width 100%
+	 * @param element
+	 * @param value
+	 */
+	setReferenceWidth( element, value ) {
+
+		const width = element._width;
+		const padding = element._padding._value;
+		const borderWidth = element._borderWidth._value;
+		const margin = element._margin._value;
+
+		const factor = width._auto ? 1 : width._value;
+		// const newOffsetWidth = (value * factor) - (margin.y + margin.w);
+		const newOffsetWidth = (value * factor) - (margin.y + margin.w);
+		if ( numberEquals( newOffsetWidth, this._offsetWidth ) ) return;
+
+		this._offsetWidth = newOffsetWidth;
+		this._innerWidth = this._offsetWidth - ( padding.y + padding.w + borderWidth.y + borderWidth.w );
+
+		this._centerX = _computeCenterX( element );
+
+		this._propagateWidth( element );
+
+		this._triggerCascadingDependencies( element );
+
+	}
+
+	/**
+	 * Set the value of the height 100%
+	 * @param element
+	 * @param value
+	 */
+	setReferenceHeight( element, value ) {
+
+		const height = element._height;
+		const padding = element._padding._value;
+		const borderWidth = element._borderWidth._value;
+		const margin = element._margin._value;
+
+		const factor = height._auto ? 1 : height._value;
+
+		const newOffsetHeight = (value * factor) - ( margin.x + margin.z );
+		if ( numberEquals( newOffsetHeight, this._offsetHeight ) ) return;
+
+		this._offsetHeight = newOffsetHeight;
+		this._innerHeight = this._offsetHeight - ( padding.x + padding.z + borderWidth.x + borderWidth.z );
+		this._centerY = _computeCenterY( element );
+
+		this._propagateHeight( element );
+
+		this._triggerCascadingDependencies( element );
+
+	}
+
+	setChildrenWidth( element, value ) {
+
+		const padding = element._padding._value;
+		const border = element._borderWidth._value;
+
+		this._innerWidth = value;
+		this._offsetWidth = this._innerWidth + ( padding.y + padding.w + border.y + border.w )
+
+		this._centerX = _computeCenterX( element );
+
+		this._propagateWidth( element );
+		this._triggerCascadingDependencies( element );
+
+
+	}
+
+	setChildrenHeight( element, value ) {
+
+		const padding = element._padding._value;
+		const border = element._borderWidth._value;
+
+		this._innerHeight = value;
+		this._offsetHeight = this._innerHeight + ( padding.x + padding.z + border.x + border.z )
+
+		this._centerY = _computeCenterY( element );
+
+		this._propagateHeight( element );
+		this._triggerCascadingDependencies( element );
+
+	}
+
+
+	/* eslint-disable no-unused-vars */ update( element, out ) { /* eslint-enable no-unused-vars */
+
+		const padding = element._padding._value;
+		const border = element._borderWidth._value;
+
+		// only compute new width if explicitely defined
+		const width = element._width;
+		if( !width._auto && !width._relative ) {
+
+			if ( element._boxSizing._value === 'content-box' ) {
+
+				this._innerWidth = width._value;
+				this._offsetWidth = this._innerWidth + padding.y + padding.w + border.y + border.w;
+
+			} else {
+
+				this._offsetWidth = width._value;
+				this._innerWidth = this._offsetWidth - ( padding.y + padding.w + border.y + border.w );
+
+			}
+
+			this._centerX = _computeCenterX( element );
+			this._needsProcess = true;
+
+			// tells children width has changed
+			this._propagateWidth( element );
+			this._triggerCascadingDependencies( element );
+
+		}
+
+		const height = element._height;
+		if( !height._auto && !height._relative ) {
+
+			if ( element._boxSizing._value === 'content-box' ) {
+
+				this._innerHeight = height._value;
+				this._offsetHeight = this._innerHeight + padding.x + padding.z + border.x + border.z;
+
+			} else {
+
+				this._offsetHeight = height._value;
+				this._innerHeight = this._offsetHeight - ( padding.x + padding.z + border.x + border.z );
+
+			}
+
+			this._centerY = _computeCenterY( element );
+			this._needsProcess = true;
+
+			// tells children height has changed
+			this._propagateHeight( element );
+			this._triggerCascadingDependencies( element );
 
 		}
 
 	}
 
-	/**
-	 * Calls parseParams update of all components from parent to children
-	 * @private
-	 */
-	static traverseParsing( component ) {
+	/* eslint-disable no-unused-vars */ render( element ) { /* eslint-enable no-unused-vars */
 
-		const request = this.requestedUpdates[ component.id ];
+		this._size.x = this._offsetWidth;
+		this._size.y = this._offsetHeight;
 
-		if ( request && request.updateParsing ) {
-
-			component.parseParams();
-
-			request.updateParsing = false;
-
-		}
-
-		component.childrenUIs.forEach( child => this.traverseParsing( child ) );
+		element._renderer._needsRender = true;
 
 	}
 
 	/**
-	 * Calls updateLayout and updateInner functions of components that need an update
-	 * @private
+	 *
+	 * @param {Object.<string,any>} out
 	 */
-	static traverseUpdates( component ) {
+	output( out ) {
 
-		const request = this.requestedUpdates[ component.id ];
-		// instant remove the requested update,
-		// allowing code below ( especially onAfterUpdate ) to add it without being directly remove
-		delete this.requestedUpdates[ component.id ];
+		out[ 'size' ] = this._size;
 
-		//
+	}
 
-		if ( request && request.updateLayout ) {
 
-			request.updateLayout = false;
+	/* eslint-disable no-unused-vars */
+	/**
+	 * @override
+	 */
+	process( element ) { /* eslint-enable no-unused-vars */
 
-			component.updateLayout();
+		// this._triggerCascadingDependencies( element )
+
+		//console.log( 'process bounds box', element.name );
+
+		// update primitives or unbinded values
+
+		// require cascading processes
+
+		element._overflow._needsRender = true;
+
+
+	}
+
+	/**
+	 *
+	 * @param element
+	 * @internal
+	 */
+	_computeChildrenSideWidth( element ) {
+
+		return _computeChildrenSideWidth( element );
+
+	}
+
+	/**
+	 *
+	 * @param element
+	 * @internal
+	 */
+	_computeChildrenSideHeight( element ) {
+
+		return _computeChildrenSideHeight( element );
+
+	}
+
+	_propagateWidth( element ) {
+
+		for ( let i = 0; i < element._children._boxes.length; i++ ) {
+
+			const box = element._children._boxes[ i ];
+			const width = box._width;
+
+			if( width._relative ) box._bounds.setReferenceWidth( box, this._innerWidth );
 
 		}
 
+	}
+
+	_propagateHeight( element ) {
+
+		for ( let i = 0; i < element._children._boxes.length; i++ ) {
+
+			const box = element._children._boxes[ i ];
+			const height = box._height;
+
+			if( height._relative ) box._bounds.setReferenceHeight( box, this._innerHeight );
+
+		}
+
+	}
+
+	_triggerCascadingDependencies( element ) {
+
+		// also change parent when require
+		if ( element._parent._value ) {
+			element._parent._value._autoSize._needsProcess = true;
+		}
+
+		element._flexDirection._needsProcess = true;
+		element._fontSize._needsProcess = true;
+		element._layouter._needsProcess = true;
+
+		this._needsRender = true;
+
+		element._borderWidth._needsRender = true;
+		element._borderRadius._needsRender = true;
+
+		element._overflow._needsRender = true;
+
+	}
+
+}
+
+
+
+
+/***********************************************************************************************************************
+ * INTERNAL FUNCTIONS
+ **********************************************************************************************************************/
+
+/**
+ * Retrieve the center X according to box sized dimensions
+ * @param {MeshUIBaseElement} element
+ * @return {number}
+ */
+function _computeCenterX( element ) {
+
+	const padding = element._padding._value;
+	const borderWidth = element._borderWidth._value;
+
+	const leftSide = padding.w + borderWidth.w;
+	const rightSide = padding.y + borderWidth.y;
+
+	return ( leftSide - rightSide ) / 2;
+}
+
+/**
+ * Retrieve the center Y according to box sized dimensions
+ * @param {MeshUIBaseElement} element
+ * @return {number}
+ */
+function _computeCenterY( element ) {
+
+
+	const padding = element._padding._value;
+	const borderWidth = element._borderWidth._value;
+
+	const topSide = padding.x + borderWidth.x;
+	const bottomSide = padding.z + borderWidth.z;
+
+	return ( bottomSide - topSide ) / 2;
+}
+
+/**
+ * Return the sum of all this component's children width
+ * @param {MeshUIBaseElement} element
+ * @return {number}
+ */
+function _computeChildrenSideWidth( element ) {
+
+	return element._children._boxes.reduce( ( accu, child ) => {
+
+		// if ( child._bounds._needsProcess ) child._bounds.process( child );
+
+		const margin = child._margin._value;
+		const CHILD_SIZE = child._bounds._offsetWidth + margin.y + margin.w;
+
+		return accu + CHILD_SIZE;
+
+	}, 0 );
+
+}
+
+/**
+ * Return the sum of all this component's children width
+ * @param {MeshUIBaseElement} element
+ * @return {number}
+ */
+function _computeChildrenSideHeight( element ) {
+
+	return element._children._boxes.reduce( ( accu, child ) => {
+
+
+		// if ( child._bounds._needsProcess ) child._bounds.process( child );
+
+		const margin = child._margin._value;
+
+		const CHILD_SIZE = child._bounds._offsetHeight + margin.x + margin.z;
+
+		return accu + CHILD_SIZE;
+
+	}, 0 );
+
+}
+
+
+;// CONCATENATED MODULE: ./src/core/properties/style-properties/flex/AlignItemsPropertyBox.js
+
+
+//JSDoc related imports
+/* eslint-disable no-unused-vars */
+
+/* eslint-enable no-unused-vars */
+
+class AlignItemsPropertyBox extends AlignItemsProperty {
+
+	constructor( ) {
+
+		super();
+
+		// configure this property
+		this._allowsInherit = false;
+		this._needsUpdate = true;
+
+		// strategies
+		/**
+		 *
+		 * @type {(element:MeshUIBaseElement, (child:MeshUIBaseElement, parentOffset:number )=> number ) =>  void  }
+		 * @private
+		 */
+		this._process = this.emptyStrategyLogic;
+
+		/**
+		 *
+		 * @type {(child:MeshUIBaseElement, parentOffset:number )=> number}
+		 * @private
+		 */
+		this._childAlign = this.emptyStrategyLogic;
+
+	}
+
+	/**
+	 *
+	 * @param {MeshUIBaseElement} element
+	 */
+	computeOutputValue( element ) {
+
+		// Stretch : Current or previous requires a bounds update of children
+		// if( this._value === 'stretch' || this._input === 'stretch' ) {
 		//
+		// 	for ( let i = 0; i < element._children._boxes.length; i++ ) {
+		// 		element._children._boxes[ i ]._bounds._needsProcess = true;
+		// 	}
+		//
+		// }
 
-		if ( request && request.updateInner ) {
+		this._value = this._inheritedInput;
 
-			request.updateInner = false;
+		switch( element._flexDirection._value ) {
 
-			component.updateInner();
+			case 'row':
+			case 'row-reverse':
+				this._process = _processRow;
+				switch ( this._value ) {
+					case 'start':
+						this._childAlign = _alignChildRowStart;
+						break;
+					case 'end':
+						this._childAlign = _alignChildRowEnd;
+						break;
+
+					default:
+						this._childAlign = _alignChild;
+				}
+				break;
+
+			case 'column':
+			case 'column-reverse':
+				this._process = _processColumn;
+
+				switch ( this._value ) {
+					case 'start':
+						this._childAlign = _alignChildColumnStart;
+						break;
+					case 'end':
+						this._childAlign = _alignChildColumnEnd;
+						break;
+
+					default:
+						this._childAlign = _alignChild;
+				}
+
+				break;
+
+		}
+
+		this._needsProcess = true;
+		// @TODO: Store children here
+		element._autoSize._needsProcess = true;
+
+		element._flexDirection._needsProcess = true; //not mandatory
+		element._justifyContent._needsProcess = true;
+
+		this._needsProcess = true;
+		element._fontSize._needsProcess = true;
+		element._layouter._needsProcess = true;
+
+	}
+
+	/**
+	 *
+	 * @param element
+	 */
+	process( element ) {
+
+		// return;
+		// if( !element._children._boxes.length ) return;
+
+		this._process( element, this._childAlign );
+
+		// @TODO : Could be strategized
+		let snap = 'center';
+		let snapXon = 'center';
+		let snapYon = 'center';
+
+		const padding = element._padding._value;
+		const border = element._borderWidth._value;
+
+		if( element._flexDirection._value.indexOf('column') !== -1 ) {
+
+			if( this._value === 'start' ) {
+				snap = snapXon = 'left';
+			}else if( this._value === 'end' ){
+				snap = snapXon ='right';
+			}else {
+				snap = 'centerX';
+			}
+
+		} else {
+
+			/* eslint-disable no-lonely-if */
+			if( this._value === 'start' ) {
+				snap = snapYon = 'top';
+			}else if( this._value === 'end' ){
+				snap = snapYon ='bottom';
+			}else{
+				snap = 'centerY';
+			}
+			/* eslint-enable no-lonely-if */
+
+		}
+
+		// apply 4 directional padding and borders
+		let y = -(padding.x - padding.z) / 2 - (border.x - border.z)  / 2;
+		let x = -(padding.y - padding.w) / 2 - ( border.y - border.w ) / 2;
+
+
+		if( snapXon === 'left' ) {
+
+			x = (padding.w - padding.y) / 2 + (border.w - border.y) / 2;
+
+		} else if( snapXon === 'right' ) {
+
+			x = - ( padding.y - padding.w ) / 2 - ( border.y - border.w ) / 2;
+
+		}
+
+		if( snapYon === 'top' ) {
+
+			y = - (padding.x - padding.z) / 2 - (border.x - border.z)  / 2;
+
+		} else if( snapYon === 'bottom' ) {
+
+			y = (padding.z - padding.x) / 2 + (border.z - border.x)  / 2;
 
 		}
 
 
-		// Update any child
-		component.childrenUIs.forEach( ( childUI ) => {
+		element._children._boxes.forEach( ( child ) => {
 
-			this.traverseUpdates( childUI );
+			let marginX = 0;
+			let marginY = 0;
+			// let marginY = ( -child._margin._value.x + child._margin._value.z ) /2;
+			// let marginY = ( -child._margin._value.x + child._margin._value.z ) /2;
+
+			if( snap === 'top' ) {
+
+				marginY = - child._margin._value.x;
+
+			} else if( snap === 'bottom' ) {
+
+				marginY = child._margin._value.z;
+
+			} else if( snap === 'left' ) {
+
+				marginX = child._margin._value.w;
+
+			} else if( snap === 'right' ) {
+
+				marginX = - child._margin._value.y;
+
+			} else if( snap === 'centerX' ) {
+
+				marginX = ( child._margin._value.w - child._margin._value.y ) /2;
+
+			} else if( snap === 'centerY' ) {
+
+				marginY = ( - child._margin._value.x + child._margin._value.z ) /2;
+
+			}
+
+			element._layouter._childrenPos[ child.id ].x += x + marginX;
+			element._layouter._childrenPos[ child.id ].y += y + marginY;
 
 		} );
 
-		// before sending onAfterUpdate
-		if ( request && request.needCallback ) {
-
-			component.onAfterUpdate();
-
-		}
-
 	}
 
 }
 
-// TODO move these into the class (Webpack unfortunately doesn't understand
-// `static` property syntax, despite browsers already supporting this)
-UpdateManager.components = [];
-UpdateManager.requestedUpdates = {};
+/***********************************************************************************************************************
+ * STRATEGIES
+ **********************************************************************************************************************/
 
-;// CONCATENATED MODULE: ./src/utils/font/FontWeight.js
-const LIGHTER = '100';
-const _100 = '100';
-const _200 = '200';
-const _300 = '300';
-const FontWeight_NORMAL = '400';
-const _400 = '400';
-const _500 = '500';
-const _600 = '600';
-const BOLD = '700';
-const _700 = '700';
-const _800 = '800';
-const BOLDER = '900';
-const _900 = '900';
-
-
-
-;// CONCATENATED MODULE: ./src/utils/font/FontStyle.js
-const FontStyle_NORMAL = "normal";
-const ITALIC = "italic";
-const OBLIQUE = "oblique";
-
-const MAX_OBLIQUE_ANGLE = 90;
+function _alignChild() {
+	return 0;
+}
 
 /**
- * Get the oblique style with custom angle
- * @param angleInDegree
+ *
+ * @param child
+ * @param parentOffset
+ * @return {number}
+ * @private
  */
-function obliqueCustomAngle( angleInDegree ){
+function _alignChildRowEnd( child, parentOffset ) {
+	return - parentOffset + ( child._bounds._offsetHeight / 2 );
+}
 
-	// Clamp the angle
-	angleInDegree = angleInDegree < - MAX_OBLIQUE_ANGLE ? - MAX_OBLIQUE_ANGLE : angleInDegree > MAX_OBLIQUE_ANGLE ? MAX_OBLIQUE_ANGLE : angleInDegree;
+function _alignChildRowStart( child, parentOffset ) {
+	return parentOffset - ( child._bounds._offsetHeight / 2 );
+}
 
-	return `${OBLIQUE} ${angleInDegree}deg`;
+function _alignChildColumnEnd( child, parentOffset ) {
+	return parentOffset - ( child._bounds._offsetWidth / 2 );
+}
+
+function _alignChildColumnStart( child, parentOffset ) {
+	return - parentOffset + ( child._bounds._offsetWidth / 2 );
+}
+
+function _processColumn( element, childAligner ) {
+
+	const AXIS_TARGET = element._bounds._innerWidth / 2;
+
+	element._children._boxes.forEach( ( child ) => {
+
+		element._layouter._childrenPos[ child.id ].x = childAligner( child, AXIS_TARGET );
+
+	} );
 
 }
 
+function _processRow( element, childAligner ) {
 
-;// CONCATENATED MODULE: ./src/utils/Defaults.js
+	const AXIS_TARGET = element._bounds._innerHeight / 2;
+
+	element._children._boxes.forEach( ( child ) => {
+
+		element._layouter._childrenPos[ child.id ].y = childAligner( child, AXIS_TARGET );
+
+	} );
+
+}
+
+;// CONCATENATED MODULE: ./src/core/properties/style-properties/flex/FlexDirectionPropertyBox.js
 
 
+//JSDoc related imports
+/* eslint-disable no-unused-vars */
 
+/* eslint-enable no-unused-vars */
 
+class FlexDirectionPropertyBox extends FlexDirectionProperty {
 
+	constructor( ) {
 
+		super();
 
+		// Configure
+		this._allowsInherit = false;
+		this._needsUpdate = true;
 
+		/**
+		 *
+		 * @type {number}
+		 * @internal
+		 */
+		this._offset = 0;
 
+		/**
+		 *
+		 * @type {number}
+		 * @internal
+		 */
+		this._reverse = 1;
 
-
-/** List the default values of the lib components */
-/* harmony default export */ const Defaults = ({
-	container: null,
-	fontFamily: null,
-	fontSize: 0.05,
-	fontKerning: 'normal', // FontKerning would act like css : "none"|"normal"|"auto"("auto" not yet implemented)
-	fontStyle: FontStyle_NORMAL,
-	fontWeight: FontWeight_NORMAL,
-	bestFit: 'none',
-	offset: 0.01,
-	interLine: 0.01,
-	breakOn: '- ,.:?!\n',// added '\n' to also acts as friendly breaks when white-space:normal
-	whiteSpace: PRE_LINE,
-	contentDirection: COLUMN,
-	alignItems: CENTER,
-	justifyContent: JustifyContent_START,
-	fontTexture: null,
-	textAlign: TextAlign_CENTER,
-	fontColor: new external_three_namespaceObject.Color( 0xffffff ),
-	fontOpacity: 1,
-	fontPXRange: 4,
-	fontSupersampling: true,
-	borderRadius: 0.01,
-	borderWidth: 0,
-	borderColor: new external_three_namespaceObject.Color( 'black' ),
-	borderOpacity: 1,
-	backgroundSize: "cover",
-	backgroundColor: new external_three_namespaceObject.Color( 0x222222 ),
-	backgroundWhiteColor: new external_three_namespaceObject.Color( 0xffffff ),
-	backgroundOpacity: 0.8,
-	backgroundOpaqueOpacity: 1.0,
-	// this default value is a function to avoid initialization issues (see issue #126)
-	backgroundTexture: makeBackgroundTexture,
-	hiddenOverflow: false,
-	letterSpacing: 0
-});
-
-//
-let defaultBgTexture;
-
-function makeBackgroundTexture() {
-
-	if ( !defaultBgTexture ) {
-
-		const ctx = document.createElement( 'canvas' ).getContext( '2d' );
-		ctx.canvas.width = 1;
-		ctx.canvas.height = 1;
-		ctx.fillStyle = '#ffffff';
-		ctx.fillRect( 0, 0, 1, 1 );
-		defaultBgTexture = new external_three_namespaceObject.CanvasTexture( ctx.canvas );
-		defaultBgTexture.isDefault = true;
+		/**
+		 *
+		 * @param { (element:MeshUIBaseElement) => void} element
+		 * @private
+		 */
+		this._process = this.emptyStrategyLogic;
 
 	}
 
-	return defaultBgTexture;
+	computeOutputValue( element ) {
+
+		this._value = this._inheritedInput;
+
+		switch ( this._value ) {
+			case "row":
+				this._process = FlexDirectionPropertyBox_processRow;
+				// this._offset = - element._bounds._innerWidth / 2;
+				break;
+
+			case "row-reverse":
+				this._process = _processRowReverse;
+				// this._offset = element._bounds._innerWidth / 2;
+				break;
+
+			case "column":
+				this._process = FlexDirectionPropertyBox_processColumn;
+				// this._offset = element._bounds._innerHeight / 2;
+				break;
+
+			case "column-reverse":
+				this._process = _processColumnReverse;
+				// this._offset = - element._bounds._innerHeight / 2;
+				break;
+		}
+
+		// also update dependencies
+		if( !element._justifyContent._needsUpdate ) element._justifyContent.computeOutputValue( element );
+		if( !element._alignItems._needsUpdate ) element._alignItems.computeOutputValue( element );
+
+		this._needsProcess = true;
+
+	}
+
+	process( element ) {
+		// this will be defined from strategy
+
+		//console.log( element.name, 'flexDirection process');
+
+
+		switch ( this._value ) {
+			case "row":
+				this._offset = - element._bounds._innerWidth / 2;
+				break;
+
+			case "row-reverse":
+				this._offset = element._bounds._innerWidth / 2;
+				break;
+
+			case "column":
+				this._offset = element._bounds._innerHeight / 2;
+				break;
+
+			case "column-reverse":
+				this._offset = - element._bounds._innerHeight / 2;
+				break;
+		}
+
+		this._reverse = -Math.sign( this._offset );
+		if( this._reverse === 0 ) {
+			this._reverse = 1;
+		}
+
+
+		this._process( element );
+
+		element._justifyContent._needsProcess = true;
+		element._layouter._needsProcess = true;
+
+	}
 
 }
 
-;// CONCATENATED MODULE: ./src/components/core/MeshUIComponent.js
+/***********************************************************************************************************************
+ * STRATEGIES
+ **********************************************************************************************************************/
+
+function FlexDirectionPropertyBox_processRow( element ) {
+
+	// end to end children
+	let accu = element._flexDirection._offset;
+
+	const REVERSE = element._flexDirection._reverse;
+
+	const boxes = element._children._boxes;
+
+	// Refactor reduce into fori in order to get rid of this keyword
+	for ( let i = 0; i < boxes.length; i++ ) {
+
+		/**
+		 *
+		 * @type {MeshUIBaseElement}
+		 */
+		const child = boxes[ i ];
+
+		const CHILD_ID = child.id;
+
+		// @TODO : use getter instead of compute function if possible
+		const CHILD_SIZE = child._bounds._offsetWidth;
+
+		// increase with the left margin before placing the child
+		accu += child._margin._value.w * REVERSE;
+
+		const position = element._layouter._childrenPos[ CHILD_ID ];
+
+		position.x = accu + ( CHILD_SIZE / 2 ) * REVERSE;
+		position.y = 0;
 
 
+		// increase the next child with this child right margin
+		accu += REVERSE * ( CHILD_SIZE + child._margin._value.y ) ;
+
+	}
+
+}
+
+function _processRowReverse( element ) {
+
+	// end to end children
+	let accu = element._flexDirection._offset;
+	const REVERSE = element._flexDirection._reverse;
+
+	const boxes = element._children._boxes;
+
+	// Refactor reduce into fori in order to get rid of this keyword
+	for ( let i = 0; i < boxes.length; i++ ) {
+
+		/**
+		 *
+		 * @type {MeshUIBaseElement}
+		 */
+		const child = boxes[ i ];
+
+		const CHILD_ID = child.id;
+
+		// @TODO : use getter instead of compute function if possible
+		const CHILD_SIZE = child._bounds._offsetWidth;
+
+		// decrease with the right margin before placing the child
+		accu += child._margin._value.y * REVERSE;
 
 
+		const position = element._layouter._childrenPos[ CHILD_ID ];
+
+		position.x = accu + ( CHILD_SIZE / 2 ) * REVERSE;
+		position.y = 0;
+
+		// decrease the next child with this child left margin
+		accu += (CHILD_SIZE + child._margin._value.w) * REVERSE ;
+
+	}
+
+}
+
+function FlexDirectionPropertyBox_processColumn( element ) {
+
+	// end to end children
+	let accu = element._flexDirection._offset;
+	const REVERSE = element._flexDirection._reverse;
+
+	const boxes = element._children._boxes;
+
+	// Refactor reduce into fori in order to get rid of this keyword
+	for ( let i = 0; i < boxes.length; i++ ) {
+
+		const child = boxes[ i ];
+
+		const CHILD_ID = child.id;
+
+		// @TODO : use getter instead of compute function if possible
+		const CHILD_SIZE = child._bounds._offsetHeight;
+
+		// increase with the top margin before placing the child
+		accu += child._margin._value.x * REVERSE;
+
+		const position = element._layouter._childrenPos[ CHILD_ID ];
+
+		position.x = 0;
+		position.y = accu + ( CHILD_SIZE / 2 ) * REVERSE;
+
+		// increase the next child with this child bottom margin
+		accu += (CHILD_SIZE + child._margin._value.z) * REVERSE ;
+
+	}
+
+}
+
+function _processColumnReverse( element ) {
+
+	// end to end children
+	let accu = element._flexDirection._offset;
+	const REVERSE = element._flexDirection._reverse;
+
+	const boxes = element._children._boxes;
+
+	// Refactor reduce into fori in order to get rid of this keyword
+	for ( let i = 0; i < boxes.length; i++ ) {
+
+		const child = boxes[ i ];
+
+		const CHILD_ID = child.id;
+
+		// @TODO : use getter instead of compute function if possible
+		const CHILD_SIZE = child._bounds._offsetHeight;
+
+		// decrease with the bottom margin before placing the child
+		accu += child._margin._value.z * REVERSE;
+
+		const position = element._layouter._childrenPos[ CHILD_ID ];
+
+		position.x = 0;
+		position.y = accu + ( CHILD_SIZE / 2 ) * REVERSE;
+
+		// decrease the next child with this child top margin
+		accu += ( CHILD_SIZE + child._margin._value.x ) * REVERSE ;
+
+	}
+
+}
+
+;// CONCATENATED MODULE: ./src/core/properties/style-properties/flex/JustifyContentPropertyBox.js
 
 
+class JustifyContentPropertyBox extends JustifyContentProperty {
+
+	constructor( defaultValue ) {
+
+		super( 'justifyContent', defaultValue, true );
+
+		// configure
+		this._allowsInherit = false;
+		this._needsUpdate = true;
+
+		// strategies
+		/**
+		 *
+		 * @type {(axisOffset:number) => number}
+		 * @private
+		 */
+		this._computeOffset = this.emptyStrategyLogic;
+
+		/**
+		 *
+		 * @type {(element:MeshUIBaseElement, availableSpace:number, reverse:number) => Array.<number> }
+		 * @private
+		 */
+		this._computeMargin = this.emptyStrategyLogic;
+
+		/**
+		 *
+		 * @type {(element:MeshUIBaseElement) => void}
+		 * @private
+		 */
+		this._process = this.emptyStrategyLogic;
+
+	}
 
 
+	computeOutputValue( element ) {
+
+		this._value = this._inheritedInput;
+
+		//console.log( element._flexDirection._value );
+		switch ( element._flexDirection._value ) {
+
+			case 'column-reverse':
+			case 'column':
+				this._process = _column.bind( this );
+				break;
 
 
+			case 'row-reverse':
+			case 'row':
+				this._process = _row.bind( this );
+				break;
 
+		}
+
+		switch ( this._value ) {
+			case 'end':
+				this._computeOffset = _justificationOffsetEnd;
+				this._computeMargin = _justificationMargin;
+				break;
+
+			case 'center':
+				this._computeOffset = _justificationOffsetCenter;
+				this._computeMargin = _justificationMargin;
+				break;
+
+			case 'start':
+				this._computeOffset = _justificationOffset;
+				this._computeMargin = _justificationMargin;
+				break;
+
+			case 'space-between':
+				this._computeOffset = _justificationOffset;
+				this._computeMargin = _justificationMarginSpaceBetween;
+				break;
+
+			case 'space-around':
+				this._computeOffset = _justificationOffset;
+				this._computeMargin = _justificationMarginSpaceAround;
+				break;
+
+			case 'space-evenly':
+				this._computeOffset = _justificationOffset;
+				this._computeMargin = _justificationMarginSpaceEvenly;
+				break;
+		}
+
+		// @TODO : 	If flexDirection was keeping its children position,
+		//  				it won't be necessary to compute the same result again
+		//					but it will increase the memory footprint
+		element._flexDirection._needsProcess = true;
+
+	}
+
+	process( element ) {
+
+		this._process( element );
+
+		element._alignItems._needsProcess = true; // not mandatory : Layout could sum each
+
+	}
+
+}
+
+function _row( element ) {
+
+	const startPos = element._flexDirection._offset;
+
+	const { usedDirectionSpace, remainingSpace } = _rowRemainingSpace( element );
+
+	// Items Offset
+	const axisOffset = ( startPos * 2 ) - ( usedDirectionSpace * Math.sign( startPos ) );
+	const justificationOffset = this._computeOffset( axisOffset );
+
+	// Items margin
+	// const justificationMargins = _getJustificationMargin( boxComponent.childrenBoxes, remainingSpace, JUSTIFICATION, REVERSE );
+	const justificationMargins = this._computeMargin( element, remainingSpace, element._flexDirection._reverse );
+
+
+	// Apply
+	element._children._boxes.forEach( ( child, childIndex ) => {
+
+		element._layouter._childrenPos[ child.id ].x -= justificationOffset - justificationMargins[ childIndex ];
+
+	} );
+
+}
+
+function _column( element ) {
+
+
+	const startPos = element._flexDirection._offset;
+
+	const { usedDirectionSpace, remainingSpace } = _columnRemainingSpace( element );
+
+	// Items Offset
+	const axisOffset = ( startPos * 2 ) - ( usedDirectionSpace * Math.sign( startPos ) );
+	const justificationOffset = this._computeOffset( axisOffset );
+
+	// Items margin
+	const justificationMargins = this._computeMargin( element, remainingSpace, element._flexDirection._reverse );
+
+	// Apply
+	element._children._boxes.forEach( ( child, childIndex ) => {
+
+		element._layouter._childrenPos[ child.id ].y -= justificationOffset - justificationMargins[ childIndex ];
+
+	} );
+
+}
+
+/***********************************************************************************************************************
+ * STRATEGIES
+ **********************************************************************************************************************/
 
 /**
-
-Job:
-- Set this component attributes and call updates accordingly
-- Getting this component attribute, from itself or from its parents
-- Managing this component's states
-
-This is the core module of three-mesh-ui. Every component is composed with it.
-It owns the principal public methods of a component : set, setupState and setState.
-
+ *
+ * @param {MeshUIBaseElement} element
+ * @return {{usedDirectionSpace: *, remainingSpace: number}}
+ * @private
  */
-function MeshUIComponent( Base ) {
+function _rowRemainingSpace( element ) {
 
-	return class MeshUIComponent extends Base {
-
-		constructor( options ) {
-
-			super( options );
-
-			this.states = {};
-			this.currentState = undefined;
-			this.isUI = true;
-			this.autoLayout = true;
-
-			// children
-			this.childrenUIs = [];
-			this.childrenBoxes = [];
-			this.childrenTexts = [];
-			this.childrenInlines = [];
-
-			// parents
-			this.parentUI = null;
-			// update parentUI when this component will be added or removed
-			this.addEventListener( 'added', this._rebuildParentUI );
-			this.addEventListener( 'removed', this._rebuildParentUI );
-		}
-
-		/////////////
-		/// GETTERS
-		/////////////
-
-		getClippingPlanes() {
-
-			const planes = [];
-
-			if ( this.parentUI ) {
-
-				if ( this.isBlock && this.parentUI.getHiddenOverflow() ) {
-
-					const yLimit = ( this.parentUI.getHeight() / 2 ) - ( this.parentUI.padding || 0 );
-					const xLimit = ( this.parentUI.getWidth() / 2 ) - ( this.parentUI.padding || 0 );
-
-					const newPlanes = [
-						new external_three_namespaceObject.Plane( new external_three_namespaceObject.Vector3( 0, 1, 0 ), yLimit ),
-						new external_three_namespaceObject.Plane( new external_three_namespaceObject.Vector3( 0, -1, 0 ), yLimit ),
-						new external_three_namespaceObject.Plane( new external_three_namespaceObject.Vector3( 1, 0, 0 ), xLimit ),
-						new external_three_namespaceObject.Plane( new external_three_namespaceObject.Vector3( -1, 0, 0 ), xLimit )
-					];
-
-					newPlanes.forEach( plane => {
-
-						plane.applyMatrix4( this.parent.matrixWorld );
-
-					} );
-
-					planes.push( ...newPlanes );
-
-				}
-
-				if ( this.parentUI.parentUI ) {
-
-					planes.push( ...this.parentUI.getClippingPlanes() );
-
-				}
-
-			}
-
-			return planes;
-
-		}
-
-		/** Get the highest parent of this component (the parent that has no parent on top of it) */
-		getHighestParent() {
-
-			if ( !this.parentUI ) {
-
-				return this;
-
-			}
-
-			return this.parent.getHighestParent();
-
-
-		}
-
-		/**
-		 * look for a property in this object, and if does not find it, find in parents or return default value
-		 * @private
-		 */
-		_getProperty( propName ) {
-
-			if ( this[ propName ] === undefined && this.parentUI ) {
-
-				return this.parent._getProperty( propName );
-
-			} else if ( this[ propName ] !== undefined ) {
-
-				return this[ propName ];
-
-			}
-
-			return Defaults[ propName ];
-
-		}
-
-		//
-
-		getFontSize() {
-
-			return this._getProperty( 'fontSize' );
-
-		}
-
-		getFontKerning() {
-
-			return this._getProperty( 'fontKerning' );
-
-		}
-
-		getFontStyle() {
-
-			return this._getProperty( 'fontStyle' );
-
-		}
-
-		getFontWeight() {
-
-			return this._getProperty( 'fontWeight' );
-
-		}
-
-		getLetterSpacing() {
-
-			return this._getProperty( 'letterSpacing' );
-
-		}
-
-		getFontTexture() {
-
-			if( this._font && this._font.isReady ){
-
-				return this._font.texture;
-
-			}
-
-			return this._getProperty( 'fontTexture' );
-
-		}
-
-		getFontFamily() {
-
-			return this._getProperty( 'fontFamily' );
-
-		}
-
-		getBreakOn() {
-
-			return this._getProperty( 'breakOn' );
-
-		}
-
-		getWhiteSpace() {
-
-			return this._getProperty( 'whiteSpace' );
-
-		}
-
-		getTextAlign() {
-
-			return this._getProperty( 'textAlign' );
-
-		}
-
-		getFontColor() {
-
-			return this._getProperty( 'fontColor' );
-
-		}
-
-
-		getFontSupersampling() {
-
-			return this._getProperty( 'fontSupersampling' );
-
-		}
-
-		getFontOpacity() {
-
-			return this._getProperty( 'fontOpacity' );
-
-		}
-
-		getFontPXRange() {
-
-			return this._getProperty( 'fontPXRange' );
-
-		}
-
-		getBorderRadius() {
-
-			return this._getProperty( 'borderRadius' );
-
-		}
-
-		getBorderWidth() {
-
-			return this._getProperty( 'borderWidth' );
-
-		}
-
-		getBorderColor() {
-
-			return this._getProperty( 'borderColor' );
-
-		}
-
-		getBorderOpacity() {
-
-			return this._getProperty( 'borderOpacity' );
-
-		}
-
-		/// SPECIALS
-
-		/** return the first parent with a 'threeOBJ' property */
-		getContainer() {
-
-			if ( !this.threeOBJ && this.parent ) {
-
-				return this.parent.getContainer();
-
-			} else if ( this.threeOBJ ) {
-
-				return this;
-
-			}
-
-			return Defaults.container;
-
-
-		}
-
-		/** Get the number of UI parents above this elements (0 if no parent) */
-		getParentsNumber( i ) {
-
-			i = i || 0;
-
-			if ( this.parentUI ) {
-
-				return this.parentUI.getParentsNumber( i + 1 );
-
-			}
-
-			return i;
-
-		}
-
-		////////////////////////////////////
-		/// GETTERS WITH NO PARENTS LOOKUP
-		////////////////////////////////////
-
-		getBackgroundOpacity() {
-
-			return ( !this.backgroundOpacity && this.backgroundOpacity !== 0 ) ?
-				Defaults.backgroundOpacity : this.backgroundOpacity;
-
-		}
-
-		getBackgroundColor() {
-
-			return this.backgroundColor || Defaults.backgroundColor;
-
-		}
-
-		getBackgroundTexture() {
-
-			return this.backgroundTexture || Defaults.backgroundTexture();
-
-		}
-
-		/**
-		 * @deprecated
-		 * @returns {string}
-		 */
-		getAlignContent() {
-
-			return this.alignContent || Defaults.alignContent;
-
-		}
-
-		getAlignItems() {
-
-			return this.alignItems || Defaults.alignItems;
-
-		}
-
-		getContentDirection() {
-
-			return this.contentDirection || Defaults.contentDirection;
-
-		}
-
-		getJustifyContent() {
-
-			return this.justifyContent || Defaults.justifyContent;
-
-		}
-
-		getInterLine() {
-
-			return ( this.interLine === undefined ) ? Defaults.interLine : this.interLine;
-
-		}
-
-		getOffset() {
-
-			return ( this.offset === undefined ) ? Defaults.offset : this.offset;
-
-		}
-
-		getBackgroundSize() {
-
-			return ( this.backgroundSize === undefined ) ? Defaults.backgroundSize : this.backgroundSize;
-
-		}
-
-		getHiddenOverflow() {
-
-			return ( this.hiddenOverflow === undefined ) ? Defaults.hiddenOverflow : this.hiddenOverflow;
-
-		}
-
-		getBestFit() {
-
-			return ( this.bestFit === undefined ) ? Defaults.bestFit : this.bestFit;
-
-		}
-
-		///////////////
-		///  UPDATE
-		///////////////
-
-		/**
-		 * Filters children in order to compute only one times children lists
-		 * @private
-		 */
-		_rebuildChildrenLists() {
-
-			// Stores all children that are ui
-			this.childrenUIs = this.children.filter( child => child.isUI );
-
-			// Stores all children that are box
-			this.childrenBoxes = this.children.filter( child => child.isBoxComponent );
-
-			// Stores all children that are inline
-			this.childrenInlines = this.children.filter( child => child.isInline );
-
-			// Stores all children that are text
-			this.childrenTexts = this.children.filter( child => child.isText );
-		}
-
-		/**
-		 * Try to retrieve parentUI after each structural change
-		 * @private
-		 */
-		_rebuildParentUI = () => {
-
-			if ( this.parent && this.parent.isUI ) {
-
-				this.parentUI = this.parent;
-
-			} else {
-
-				this.parentUI = null;
-
-			}
-
-		};
-
-		/**
-		 * When the user calls component.add, it registers for updates,
-		 * then call THREE.Object3D.add.
-		 */
-		add() {
-
-			for ( const id of Object.keys( arguments ) ) {
-
-				// An inline component relies on its parent for positioning
-				if ( arguments[ id ].isInline ) this.update( null, true );
-
-			}
-
-			const result = super.add( ...arguments );
-
-			this._rebuildChildrenLists();
-
-			return result;
-
-		}
-
-		/**
-		 * When the user calls component.remove, it registers for updates,
-		 * then call THREE.Object3D.remove.
-		 */
-		remove() {
-
-			for ( const id of Object.keys( arguments ) ) {
-
-				// An inline component relies on its parent for positioning
-				if ( arguments[ id ].isInline ) this.update( null, true );
-
-			}
-
-			const result = super.remove( ...arguments );
-
-			this._rebuildChildrenLists();
-
-			return result;
-
-		}
-
-		//
-
-		update( updateParsing, updateLayout, updateInner ) {
-
-			UpdateManager.requestUpdate( this, updateParsing, updateLayout, updateInner );
-
-		}
-
-		onAfterUpdate() {
-
-		}
-
-		/**
-		 * Set this component's passed parameters.
-		 * If necessary, take special actions.
-		 * Update this component unless otherwise specified.
-		 */
-		set( options ) {
-
-			let parsingNeedsUpdate, layoutNeedsUpdate, innerNeedsUpdate;
-
-			// Register to the update manager, so that it knows when to update
-
-			UpdateManager.register( this );
-
-			// Abort if no option passed
-
-			if ( !options || JSON.stringify( options ) === JSON.stringify( {} ) ) return;
-
-			// DEPRECATION Warnings until -------------------------------------- 7.x.x ---------------------------------------
-
-			// Align content has been removed
-			if ( options[ 'alignContent' ] ) {
-
-				options[ 'alignItems' ] = options[ 'alignContent' ];
-
-				if ( !options[ 'textAlign' ] ) {
-
-					options[ 'textAlign' ] = options[ 'alignContent' ];
-
-				}
-
-				console.warn( '`alignContent` property has been deprecated, please rely on `alignItems` and `textAlign` instead.' );
-
-				delete options[ 'alignContent' ];
-
-			}
-
-			// Align items left top bottom right will be removed
-			if ( options[ 'alignItems' ] ) {
-
-				warnAboutDeprecatedAlignItems( options[ 'alignItems' ] );
-
-			}
-
-
-			// Set this component parameters according to options, and trigger updates accordingly
-			// The benefit of having two types of updates, is to put everthing that takes time
-			// in one batch, and the rest in the other. This way, efficient animation is possible with
-			// attribute from the light batch.
-
-			for ( const prop of Object.keys( options ) ) {
-
-				if ( this[ prop ] != options[ prop ] ) {
-
-					switch ( prop ) {
-
-						case 'content' :
-						case 'fontWeight' :
-						case 'fontStyle' :
-						case 'whiteSpace': // @TODO : Whitespace could also just be layouting
-							if ( this.isText ) parsingNeedsUpdate = true;
-							layoutNeedsUpdate = true;
-							this[ prop ] = options[ prop ];
-							break;
-
-						// Only layout now - Not anymore parsing
-						case 'fontSize' :
-						case 'fontKerning' :
-						case 'breakOn':
-							layoutNeedsUpdate = true;
-							this[ prop ] = options[ prop ];
-							break;
-
-						case 'bestFit' :
-							if ( this.isBlock ) {
-								parsingNeedsUpdate = true;
-								layoutNeedsUpdate = true;
-							}
-							this[ prop ] = options[ prop ];
-							break;
-
-						case 'width' :
-						case 'height' :
-						case 'padding' :
-							// @TODO: I don't think this is true anymore
-							if ( this.isInlineBlock || ( this.isBlock && this.getBestFit() != 'none' ) ) parsingNeedsUpdate = true;
-							layoutNeedsUpdate = true;
-							this[ prop ] = options[ prop ];
-							break;
-
-						case 'letterSpacing' :
-						case 'interLine' :
-							// @TODO: I don't think this is true anymore
-							if ( this.isBlock && this.getBestFit() != 'none' ) parsingNeedsUpdate = true;
-							layoutNeedsUpdate = true;
-							this[ prop ] = options[ prop ];
-							break;
-
-						case 'margin' :
-						case 'contentDirection' :
-						case 'justifyContent' :
-						case 'alignContent' :
-						case 'alignItems' :
-						case 'textAlign' :
-						case 'textType' :
-							layoutNeedsUpdate = true;
-							this[ prop ] = options[ prop ];
-							break;
-
-						case 'fontColor' :
-						case 'fontOpacity' :
-						case 'fontSupersampling' :
-						case 'offset' :
-						case 'backgroundColor' :
-						case 'backgroundOpacity' :
-						case 'backgroundTexture' :
-						case 'backgroundSize' :
-						case 'borderRadius' :
-						case 'borderWidth' :
-						case 'borderColor' :
-						case 'borderOpacity' :
-							innerNeedsUpdate = true;
-							this[ prop ] = options[ prop ];
-							break;
-
-						case 'hiddenOverflow' :
-							this[ prop ] = options[ prop ];
-							break;
-
-					}
-
-				}
-
-			}
-
-
-			// special cases, this.update() must be called only when some files finished loading
-
-			// Selection of fontFamily and font property
-			// 1. Preferred way, give a {FontFamily} property
-			if ( options.fontFamily instanceof FontFamily ) {
-
-				this.fontFamily = options.fontFamily;
-				this.font = options.fontFamily.getVariant( FontWeight_NORMAL, FontStyle_NORMAL );
-
-			}
-
-			// 1.1 Preferred way, a bit annoying to check options.fontTexture ( retro-compatibility )
-			else if( typeof options.fontFamily === 'string' && !options.fontTexture ) {
-
-				const fontFamily = font_FontLibrary.getFontFamily( options.fontFamily );
-
-				if( fontFamily ){
-
-					this.fontFamily = fontFamily;
-					this.font = fontFamily.getVariant( FontWeight_NORMAL, FontStyle_NORMAL );
-
-				}
-
-			}
-			// 2. < v7.x.x way
-			else if ( options.fontFamily && options.fontTexture ) {
-
-				// Set from old way, check if that family is already registered
-				const fontName = options.fontFamily.pages ? options.fontFamily.info.face : options.fontFamily;
-
-				let fontFamily = font_FontLibrary.getFontFamily( fontName );
-
-				if ( !fontFamily ) {
-
-					fontFamily = font_FontLibrary.addFontFamily( fontName )
-						.addVariant( FontWeight_NORMAL, FontStyle_NORMAL, options.fontFamily, options.fontTexture );
-
-				}
-
-				this.fontFamily = fontFamily;
-
-				// @TODO: Add more variant selection
-				this.font = fontFamily.getVariant( FontWeight_NORMAL, FontStyle_NORMAL );
-
-			}
-
-			// if font kerning changes for a child of a block with Best Fit enabled, we need to trigger parsing for the parent as well.
-			if ( this.parentUI && this.parentUI.getBestFit() != 'none' ) this.parentUI.update( true, true, false );
-
-			// Call component update
-
-			this.update( parsingNeedsUpdate, layoutNeedsUpdate, innerNeedsUpdate );
-
-
-			if ( layoutNeedsUpdate ) this.getHighestParent().update( false, true, false );
-
-		}
-
-		/////////////////////
-		// STATES MANAGEMENT
-		/////////////////////
-
-		/** Store a new state in this component, with linked attributes */
-		setupState( options ) {
-
-			this.states[ options.state ] = {
-				attributes: options.attributes,
-				onSet: options.onSet
-			};
-
-		}
-
-		/** Set the attributes of a stored state of this component */
-		setState( state ) {
-
-			const savedState = this.states[ state ];
-
-			if ( !savedState ) {
-				console.warn( `state "${state}" does not exist within this component` );
-				return;
-			}
-
-			if ( state === this.currentState ) return;
-
-			this.currentState = state;
-
-			if ( savedState.onSet ) savedState.onSet();
-
-			if ( savedState.attributes ) this.set( savedState.attributes );
-
-		}
-
-		/** Get completely rid of this component and its children, also unregister it for updates */
-		clear() {
-
-			this.traverse( ( obj ) => {
-
-				UpdateManager.disposeOf( obj );
-
-				if ( obj.material ) obj.material.dispose();
-
-				if ( obj.geometry ) obj.geometry.dispose();
-
-			} );
-
-		}
-
-	};
+	const usedDirectionSpace = element._bounds._computeChildrenSideWidth( element );
+	return { usedDirectionSpace, remainingSpace: element._bounds._innerWidth - usedDirectionSpace };
 
 }
 
-;// CONCATENATED MODULE: ./src/components/core/MaterialManager.js
-/* eslint-disable camelcase */
-//@TODO: Get rid of non camelcase uniforms
+function _columnRemainingSpace( element ) {
+
+	const usedDirectionSpace = element._bounds._computeChildrenSideHeight( element );
+	return { usedDirectionSpace, remainingSpace: element._bounds._innerHeight - usedDirectionSpace };
+
+}
 
 
+/* eslint-disable no-unused-vars */ function _justificationOffset( axisOffset ) { /* eslint-enable no-unused-vars */
 
+	return 0;
 
-/**
+}
 
-Job:
-- Host the materials of a given component.
-- Update a component's materials clipping planes.
-- Update a material uniforms and such.
+function _justificationOffsetEnd( axisOffset ) {
 
-Knows:
-- Its component materials.
-- Its component ancestors clipping planes.
+	return axisOffset;
 
- */
-function MaterialManager( Base ) {
+}
 
-	return class MaterialManager extends Base {
+function _justificationOffsetCenter( axisOffset ) {
 
-		constructor( options ) {
+	return axisOffset / 2;
 
-			super( options );
+}
 
-			this.textUniforms = {
-				u_texture: { value: null },
-				u_color: { value: null },
-				u_opacity: { value: null },
-				u_pxRange: { value: null },
-				u_useRGSS: { value: null },
-			};
+/* eslint-disable no-unused-vars */
+function _justificationMargin( element, availableSpace = 0, reverse = 1 ) { /* eslint-enable no-unused-vars */
 
-			this.backgroundUniforms = {
-				u_texture: { value: null },
-				u_color: { value: null },
-				u_opacity: { value: null },
-				u_backgroundMapping: { value: null },
-				u_borderWidth: { value: null },
-				u_borderColor: { value: null },
-				u_borderRadiusTopLeft: { value: null },
-				u_borderRadiusTopRight: { value: null },
-				u_borderRadiusBottomRight: { value: null },
-				u_borderRadiusBottomLeft: { value: null },
-				u_borderOpacity: { value: null },
-				u_size: { value: new external_three_namespaceObject.Vector2( 1, 1 ) },
-				u_tSize: { value: new external_three_namespaceObject.Vector2( 1, 1 ) }
-			};
+	return Array( element._children._boxes.length ).fill( 0 );
 
-		}
+}
 
-		/**
-		 * Update backgroundMaterial uniforms.
-		 * Used within MaterialManager and in Block and InlineBlock innerUpdates.
-		 */
-		updateBackgroundMaterial() {
+function _justificationMarginSpaceBetween( element, availableSpace = 0, reverse = 1 ) {
 
-			this.backgroundUniforms.u_texture.value = this.getBackgroundTexture();
+	const boxes = element._children._boxes;
+	const length = boxes.length;
+	const justificationMargins = Array( length ).fill( 0 );
 
-			this.backgroundUniforms.u_tSize.value.set(
-				this.backgroundUniforms.u_texture.value.image.width,
-				this.backgroundUniforms.u_texture.value.image.height
-			);
+	if ( availableSpace > 0 ) {
 
-			if ( this.size ) this.backgroundUniforms.u_size.value.copy( this.size );
+		// only one children would act as start
+		if ( length > 1 ) {
 
-			if ( this.backgroundUniforms.u_texture.value.isDefault ) {
+			const margin = availableSpace / ( length - 1 ) * reverse;
+			// set this margin for any children
 
-				this.backgroundUniforms.u_color.value = this.getBackgroundColor();
+			// except for first child
+			justificationMargins[ 0 ] = 0;
 
-				this.backgroundUniforms.u_opacity.value = this.getBackgroundOpacity();
+			for ( let i = 1; i < length; i++ ) {
 
-			} else {
-
-				this.backgroundUniforms.u_color.value = this.backgroundColor || Defaults.backgroundWhiteColor;
-
-				this.backgroundUniforms.u_opacity.value = ( !this.backgroundOpacity && this.backgroundOpacity !== 0 ) ?
-					Defaults.backgroundOpaqueOpacity :
-					this.backgroundOpacity;
-
-			}
-
-			this.backgroundUniforms.u_backgroundMapping.value = ( () => {
-
-				switch ( this.getBackgroundSize() ) {
-
-					case 'stretch':
-						return 0;
-					case 'contain':
-						return 1;
-					case 'cover':
-						return 2;
-
-				}
-
-			} )();
-
-			const borderRadius = this.getBorderRadius();
-			this.backgroundUniforms.u_borderWidth.value = this.getBorderWidth();
-			this.backgroundUniforms.u_borderColor.value = this.getBorderColor();
-			this.backgroundUniforms.u_borderOpacity.value = this.getBorderOpacity();
-
-			//
-
-			if ( Array.isArray( borderRadius ) ) {
-
-				this.backgroundUniforms.u_borderRadiusTopLeft.value = borderRadius[ 0 ];
-				this.backgroundUniforms.u_borderRadiusTopRight.value = borderRadius[ 1 ];
-				this.backgroundUniforms.u_borderRadiusBottomRight.value = borderRadius[ 2 ];
-				this.backgroundUniforms.u_borderRadiusBottomLeft.value = borderRadius[ 3 ];
-
-			} else {
-
-				this.backgroundUniforms.u_borderRadiusTopLeft.value = borderRadius;
-				this.backgroundUniforms.u_borderRadiusTopRight.value = borderRadius;
-				this.backgroundUniforms.u_borderRadiusBottomRight.value = borderRadius;
-				this.backgroundUniforms.u_borderRadiusBottomLeft.value = borderRadius;
+				justificationMargins[ i ] = margin * i;
 
 			}
 
 		}
-
-		/**
-		 * Update backgroundMaterial uniforms.
-		 * Used within MaterialManager and in Text innerUpdates.
-		 */
-		updateTextMaterial() {
-
-			this.textUniforms.u_texture.value = this.getFontTexture();
-			this.textUniforms.u_color.value = this.getFontColor();
-			this.textUniforms.u_opacity.value = this.getFontOpacity();
-			this.textUniforms.u_pxRange.value = this.getFontPXRange();
-			this.textUniforms.u_useRGSS.value = this.getFontSupersampling();
-
-		}
-
-		/** Called by Block, which needs the background material to create a mesh */
-		getBackgroundMaterial() {
-
-			if ( !this.backgroundMaterial || !this.backgroundUniforms ) {
-
-				this.backgroundMaterial = this._makeBackgroundMaterial();
-
-			}
-
-			return this.backgroundMaterial;
-
-		}
-
-		/** Called by Text to get the font material */
-		getFontMaterial() {
-
-			if ( !this.fontMaterial || !this.textUniforms ) {
-
-				this.fontMaterial = this._makeTextMaterial();
-
-			}
-
-			return this.fontMaterial;
-
-		}
-
-		/** @private */
-		_makeTextMaterial() {
-
-			return new external_three_namespaceObject.ShaderMaterial( {
-				uniforms: this.textUniforms,
-				transparent: true,
-				clipping: true,
-				vertexShader: textVertex,
-				fragmentShader: textFragment,
-				extensions: {
-					derivatives: true
-				}
-			} );
-
-		}
-
-		/** @private */
-		_makeBackgroundMaterial() {
-
-			return new external_three_namespaceObject.ShaderMaterial( {
-				uniforms: this.backgroundUniforms,
-				transparent: true,
-				clipping: true,
-				vertexShader: backgroundVertex,
-				fragmentShader: backgroundFragment,
-				extensions: {
-					derivatives: true
-				}
-			} );
-
-		}
-
-		/**
-		 * Update a component's materials clipping planes.
-		 * Called every frame.
-		 */
-		updateClippingPlanes( value ) {
-
-			const newClippingPlanes = value !== undefined ? value : this.getClippingPlanes();
-
-			if ( JSON.stringify( newClippingPlanes ) !== JSON.stringify( this.clippingPlanes ) ) {
-
-				this.clippingPlanes = newClippingPlanes;
-
-				if ( this.fontMaterial ) this.fontMaterial.clippingPlanes = this.clippingPlanes;
-
-				if ( this.backgroundMaterial ) this.backgroundMaterial.clippingPlanes = this.clippingPlanes;
-
-			}
-
-		}
-
-	};
-
-}
-
-////////////////
-// Text shaders
-////////////////
-
-const textVertex = `
-varying vec2 vUv;
-
-#include <clipping_planes_pars_vertex>
-
-void main() {
-
-	vUv = uv;
-	vec4 mvPosition = modelViewMatrix * vec4( position, 1.0 );
-	gl_Position = projectionMatrix * mvPosition;
-	gl_Position.z -= 0.00001;
-
-	#include <clipping_planes_vertex>
-
-}
-`;
-
-//
-
-const textFragment = `
-
-uniform sampler2D u_texture;
-uniform vec3 u_color;
-uniform float u_opacity;
-uniform float u_pxRange;
-uniform bool u_useRGSS;
-
-varying vec2 vUv;
-
-#include <clipping_planes_pars_fragment>
-
-// functions from the original msdf repo:
-// https://github.com/Chlumsky/msdfgen#using-a-multi-channel-distance-field
-
-float median(float r, float g, float b) {
-	return max(min(r, g), min(max(r, g), b));
-}
-
-float screenPxRange() {
-	vec2 unitRange = vec2(u_pxRange)/vec2(textureSize(u_texture, 0));
-	vec2 screenTexSize = vec2(1.0)/fwidth(vUv);
-	return max(0.5*dot(unitRange, screenTexSize), 1.0);
-}
-
-float tap(vec2 offsetUV) {
-	vec3 msd = texture( u_texture, offsetUV ).rgb;
-	float sd = median(msd.r, msd.g, msd.b);
-	float screenPxDistance = screenPxRange() * (sd - 0.5);
-	float alpha = clamp(screenPxDistance + 0.5, 0.0, 1.0);
-	return alpha;
-}
-
-void main() {
-
-	float alpha;
-
-	if ( u_useRGSS ) {
-
-		// shader-based supersampling based on https://bgolus.medium.com/sharper-mipmapping-using-shader-based-supersampling-ed7aadb47bec
-		// per pixel partial derivatives
-		vec2 dx = dFdx(vUv);
-		vec2 dy = dFdy(vUv);
-
-		// rotated grid uv offsets
-		vec2 uvOffsets = vec2(0.125, 0.375);
-		vec2 offsetUV = vec2(0.0, 0.0);
-
-		// supersampled using 2x2 rotated grid
-		alpha = 0.0;
-		offsetUV.xy = vUv + uvOffsets.x * dx + uvOffsets.y * dy;
-		alpha += tap(offsetUV);
-		offsetUV.xy = vUv - uvOffsets.x * dx - uvOffsets.y * dy;
-		alpha += tap(offsetUV);
-		offsetUV.xy = vUv + uvOffsets.y * dx - uvOffsets.x * dy;
-		alpha += tap(offsetUV);
-		offsetUV.xy = vUv - uvOffsets.y * dx + uvOffsets.x * dy;
-		alpha += tap(offsetUV);
-		alpha *= 0.25;
-
-	} else {
-
-		alpha = tap( vUv );
 
 	}
 
-
-	// apply the opacity
-	alpha *= u_opacity;
-
-	// this is useful to avoid z-fighting when quads overlap because of kerning
-	if ( alpha < 0.02) discard;
-
-
-	gl_FragColor = vec4( u_color, alpha );
-
-	#include <clipping_planes_fragment>
+	return justificationMargins;
 
 }
-`;
 
-//////////////////////
-// Background shaders
-//////////////////////
+function _justificationMarginSpaceEvenly( element, availableSpace = 0, reverse = 1 ) {
 
-const backgroundVertex = `
-varying vec2 vUv;
+	const boxes = element._children._boxes;
+	const length = boxes.length;
+	const justificationMargins = Array( length ).fill( 0 );
 
-#include <clipping_planes_pars_vertex>
+	if ( availableSpace > 0 ) {
 
-void main() {
+		const margin = availableSpace / ( length + 1 ) * reverse;
 
-	vUv = uv;
-	vec4 mvPosition = modelViewMatrix * vec4( position, 1.0 );
-	gl_Position = projectionMatrix * mvPosition;
+		// set this margin for any children
+		for ( let i = 0; i < length; i++ ) {
 
-	#include <clipping_planes_vertex>
+			justificationMargins[ i ] = margin * ( i + 1 );
 
-}
-`;
-
-//
-
-const backgroundFragment = `
-
-uniform sampler2D u_texture;
-uniform vec3 u_color;
-uniform float u_opacity;
-
-uniform float u_borderRadiusTopLeft;
-uniform float u_borderRadiusTopRight;
-uniform float u_borderRadiusBottomLeft;
-uniform float u_borderRadiusBottomRight;
-uniform float u_borderWidth;
-uniform vec3 u_borderColor;
-uniform float u_borderOpacity;
-uniform vec2 u_size;
-uniform vec2 u_tSize;
-uniform int u_backgroundMapping;
-
-varying vec2 vUv;
-
-#include <clipping_planes_pars_fragment>
-
-float getEdgeDist() {
-	vec2 ndc = vec2( vUv.x * 2.0 - 1.0, vUv.y * 2.0 - 1.0 );
-	vec2 planeSpaceCoord = vec2( u_size.x * 0.5 * ndc.x, u_size.y * 0.5 * ndc.y );
-	vec2 corner = u_size * 0.5;
-	vec2 offsetCorner = corner - abs( planeSpaceCoord );
-	float innerRadDist = min( offsetCorner.x, offsetCorner.y ) * -1.0;
-	if (vUv.x < 0.5 && vUv.y >= 0.5) {
-		float roundedDist = length( max( abs( planeSpaceCoord ) - u_size * 0.5 + u_borderRadiusTopLeft, 0.0 ) ) - u_borderRadiusTopLeft;
-		float s = step( innerRadDist * -1.0, u_borderRadiusTopLeft );
-		return mix( innerRadDist, roundedDist, s );
-	}
-	if (vUv.x >= 0.5 && vUv.y >= 0.5) {
-		float roundedDist = length( max( abs( planeSpaceCoord ) - u_size * 0.5 + u_borderRadiusTopRight, 0.0 ) ) - u_borderRadiusTopRight;
-		float s = step( innerRadDist * -1.0, u_borderRadiusTopRight );
-		return mix( innerRadDist, roundedDist, s );
-	}
-	if (vUv.x >= 0.5 && vUv.y < 0.5) {
-		float roundedDist = length( max( abs( planeSpaceCoord ) - u_size * 0.5 + u_borderRadiusBottomRight, 0.0 ) ) - u_borderRadiusBottomRight;
-		float s = step( innerRadDist * -1.0, u_borderRadiusBottomRight );
-		return mix( innerRadDist, roundedDist, s );
-	}
-	if (vUv.x < 0.5 && vUv.y < 0.5) {
-		float roundedDist = length( max( abs( planeSpaceCoord ) - u_size * 0.5 + u_borderRadiusBottomLeft, 0.0 ) ) - u_borderRadiusBottomLeft;
-		float s = step( innerRadDist * -1.0, u_borderRadiusBottomLeft );
-		return mix( innerRadDist, roundedDist, s );
-	}
-}
-
-vec4 sampleTexture() {
-	float textureRatio = u_tSize.x / u_tSize.y;
-	float panelRatio = u_size.x / u_size.y;
-	vec2 uv = vUv;
-	if ( u_backgroundMapping == 1 ) { // contain
-		if ( textureRatio < panelRatio ) { // repeat on X
-			float newX = uv.x * ( panelRatio / textureRatio );
-			newX += 0.5 - 0.5 * ( panelRatio / textureRatio );
-			uv.x = newX;
-		} else { // repeat on Y
-			float newY = uv.y * ( textureRatio / panelRatio );
-			newY += 0.5 - 0.5 * ( textureRatio / panelRatio );
-			uv.y = newY;
 		}
-	} else if ( u_backgroundMapping == 2 ) { // cover
-		if ( textureRatio < panelRatio ) { // stretch on Y
-			float newY = uv.y * ( textureRatio / panelRatio );
-			newY += 0.5 - 0.5 * ( textureRatio / panelRatio );
-			uv.y = newY;
-		} else { // stretch on X
-			float newX = uv.x * ( panelRatio / textureRatio );
-			newX += 0.5 - 0.5 * ( panelRatio / textureRatio );
-			uv.x = newX;
+
+	}
+
+	return justificationMargins;
+
+}
+
+function _justificationMarginSpaceAround( element, availableSpace = 0, reverse = 1 ) {
+
+	const boxes = element._children._boxes;
+	const length = boxes.length;
+	const justificationMargins = Array( length ).fill( 0 );
+
+	if ( availableSpace > 0 ) {
+
+
+		const margin = availableSpace / ( length ) * reverse;
+
+		const start = margin / 2;
+		justificationMargins[ 0 ] = start;
+
+		// set this margin for any children
+		for ( let i = 1; i < length; i++ ) {
+
+			justificationMargins[ i ] = start + margin * i;
+
 		}
-	}
-	return texture2D( u_texture, uv ).rgba;
-}
 
-void main() {
 
-	float edgeDist = getEdgeDist();
-	float change = fwidth( edgeDist );
-
-	vec4 textureSample = sampleTexture();
-	vec3 blendedColor = textureSample.rgb * u_color;
-
-	float alpha = smoothstep( change, 0.0, edgeDist );
-	float blendedOpacity = u_opacity * textureSample.a * alpha;
-
-	vec4 frameColor = vec4( blendedColor, blendedOpacity );
-
-	if ( u_borderWidth <= 0.0 ) {
-		gl_FragColor = frameColor;
-	} else {
-		vec4 borderColor = vec4( u_borderColor, u_borderOpacity * alpha );
-		float stp = smoothstep( edgeDist + change, edgeDist, u_borderWidth * -1.0 );
-		gl_FragColor = mix( frameColor, borderColor, stp );
 	}
 
-	#include <clipping_planes_fragment>
+	return justificationMargins;
+
 }
-`;
 
-;// CONCATENATED MODULE: ./src/content/Frame.js
+;// CONCATENATED MODULE: ./src/frame/Frame.js
 
 
+
+//JSDoc related imports
+/* eslint-disable no-unused-vars */
+
+/* eslint-enable no-unused-vars */
 
 /**
  * Returns a basic plane mesh.
  */
 class Frame extends external_three_namespaceObject.Mesh {
 
-	constructor( material ) {
+	/**
+	 *
+	 * @param {MeshUIBaseElement} element
+	 */
+	constructor( element ) {
 
-		const geometry = new external_three_namespaceObject.PlaneGeometry();
+		const geometry = new external_three_namespaceObject.PlaneGeometry( 1, 1, element._segments.value, element._segments.value );
 
-		super( geometry, material );
+		// Add additional uv for borders computations by copying initial uv
+		const uvB = new external_three_namespaceObject.BufferAttribute( new Float32Array( geometry.getAttribute('uv').array ), 2);
+		geometry.setAttribute('uvB', uvB ).name = 'uvB';
 
-		this.castShadow = true;
-		this.receiveShadow = true;
+		super( geometry, element.backgroundMaterial );
 
-		this.name = 'MeshUI-Frame';
+		this.name = 'UIBackgroundBox';
 
 	}
 
 }
 
-;// CONCATENATED MODULE: ./src/utils/mix.js
-let _Base = null;
+;// CONCATENATED MODULE: ./src/core/properties/rendering/RendererPropertyBox.js
 
-/**
- * A function for applying multiple mixins more tersely (less verbose)
- * @param {Function[]} mixins - All args to this function should be mixins that take a class and return a class.
- */
-function mix( ...mixins ) {
 
-	// console.log('initial Base: ', _Base);
 
-	if( !_Base ){
-		throw new Error("Cannot use mixins with Base null");
-	}
+class RendererPropertyBox extends BaseProperty{
 
-	let Base = _Base;
+	constructor() {
 
-	_Base = null;
-
-	let i = mixins.length;
-	let mixin;
-
-	while ( --i >= 0 ) {
-
-		mixin = mixins[ i ];
-		Base = mixin( Base );
+		super( 'renderer' );
 
 	}
 
-	return Base;
+
+	render( element ) {
+
+		if( !element._backgroundMesh ) {
+
+			element.setBackgroundMesh( new Frame(element) );
+
+		}
+
+		element.performAfterUpdate();
+
+	}
 
 }
 
-mix.withBase = ( Base ) => {
-
-	_Base = Base;
-
-	return mix;
-
-};
-
-;// CONCATENATED MODULE: ./src/components/Block.js
+;// CONCATENATED MODULE: ./src/core/properties/style-properties/PositionPropertyBox.js
 
 
+class PositionPropertyBox extends PositionProperty {
 
+	constructor( ) {
 
+		super( 'position' );
 
+	}
 
+	update( element, out ) {
 
+		super.update( element, out );
 
+		this._needsProcess = true;
+
+	}
+
+}
+
+;// CONCATENATED MODULE: ./src/core/properties/AutoSizePropertyBox.js
 
 
 /**
-
-Job:
-- Update a Block component
-- Calls BoxComponent's API to position its children box components
-- Calls InlineManager's API to position its children inline components
-- Call creation and update functions of its background planes
-
+ * Autosize are only trigger when natural size changed
  */
-class Block extends mix.withBase( external_three_namespaceObject.Object3D )(
-	BoxComponent,
-	InlineManager,
-	MaterialManager,
-	MeshUIComponent
-) {
+class AutoSizePropertyBox extends BaseProperty {
 
-	constructor( options ) {
+	constructor() {
 
-		super( options );
+		super( 'autosize' );
 
-		this.isBlock = true;
+		this._needsProcess = true;
+	}
 
-		//
+	process( element ) {
 
-		this.size = new external_three_namespaceObject.Vector2( 1, 1 );
+		// if( parent ) return;
 
-		this.frame = new Frame( this.getBackgroundMaterial() );
 
-		// This is for hiddenOverflow to work
-		this.frame.onBeforeRender = () => {
+		// has auto size get the height from children
+		if ( element._width._auto ) _processAutoWidth( element );
+		if ( element._height._auto ) _processAutoHeight( element );
 
-			if ( this.updateClippingPlanes ) {
+		const stretch = element._alignItems._value === 'stretch';
+		const stretchChildrenWidth = stretch && element._flexDirection._value.indexOf( 'column' ) !== -1;
+		const stretchChildrenHeight = stretch && !stretchChildrenWidth;
 
-				this.updateClippingPlanes();
+		for ( const box of element._children._boxes ) {
+
+			if ( ( box._width._auto && stretchChildrenWidth ) || box._width._relative ) {
+
+				box._bounds.setReferenceWidth( box, element._bounds._innerWidth );
 
 			}
 
-		};
+			if ( ( box._height._auto && stretchChildrenHeight ) || box._height._relative ) {
 
-		this.add( this.frame );
+				box._bounds.setReferenceHeight( box, element._bounds._innerHeight );
 
-		// Lastly set the options parameters to this object, which will trigger an update
+			}
 
-		this.set( options );
+		}
+
+		// // justify stretch - Not that easy
+		// const stretchD = element._justifyContent._value === 'stretch';
+		// const stretchChildrenWidthD = stretchD && element._flexDirection._value.indexOf( 'row' ) !== -1;
+		// const stretchChildrenHeightD = stretchD && !stretchChildrenWidthD;
+		//
+		//
+		// if ( stretchChildrenWidthD ) {
+		//
+		// 	const used = _computeChildrenSideWidth( element );
+		// 	const available = element._bounds._innerWidth - used;
+		// 	if ( available > 0 ) {
+		//
+		// 		const autoElement = element._children._uis.filter( c => c._width._auto );
+		// 		const distributed = available / autoElement.length;
+		//
+		// 		for ( const child of autoElement ) {
+		//
+		// 			const width = child._bounds._offsetWidth + distributed;
+		// 			child._bounds.setReferenceWidth( child, width );
+		//
+		// 		}
+		//
+		// 		element._layouter._needsProcess = true;
+		// 		element._flexDirection._needsProcess = true;
+		//
+		// 	}
+		//
+		// } else if ( stretchChildrenHeightD ) {
+		//
+		// 	const used = _computeChildrenSideHeight( element );
+		// 	const available = element._bounds._innerHeight - used;
+		// 	if ( available > 0 ) {
+		//
+		// 		const autoElement = element._children._uis.filter( c => c._height._auto );
+		// 		const distributed = available / autoElement.length;
+		//
+		// 		for ( const child of autoElement ) {
+		//
+		// 			const height = child._bounds._offsetHeight + distributed;
+		// 			child._bounds.setReferenceHeight( child, height );
+		//
+		// 		}
+		//
+		// 		element._layouter._needsProcess = true;
+		// 		element._flexDirection._needsProcess = true;
+		//
+		// 	}
+		//
+		// }
+
 
 	}
 
-	////////////
-	//  UPDATE
-	////////////
+}
 
-	parseParams() {
+function _processAutoWidth( element ) {
 
-		const bestFit = this.getBestFit();
+	// column : retrieve the biggest child width
+	// row : retrieve the sum of children width
+	element._bounds.setChildrenWidth( element, _computeAutoWidth( element ) );
 
-		if ( bestFit != 'none' && this.childrenTexts.length ) {
+}
 
-			this.calculateBestFit( bestFit );
+function _processAutoHeight( element ) {
+
+	// column : retrieve the sum of children height
+	// row : retrieve the biggest child height
+	element._bounds.setChildrenHeight( element, _computeAutoHeight( element ) );
+
+}
+
+/**
+ * Retrieve the automatic height from children boxes
+ * @param {MeshUIBaseElement} element
+ * @return {number}
+ */
+function _computeAutoHeight( element ) {
+
+	switch ( element._flexDirection._value ) {
+
+		case 'row' :
+		case 'row-reverse' :
+			return _computeHighestChildHeight( element );
+
+
+		case 'column' :
+		case 'column-reverse' :
+			return AutoSizePropertyBox_computeChildrenSideHeight( element );
+
+	}
+
+}
+
+/**
+ * @param {MeshUIBaseElement} element
+ * @return {number}
+ *
+ */
+function _computeAutoWidth( element ) {
+
+	switch ( element._flexDirection._value ) {
+
+		case 'row' :
+		case 'row-reverse' :
+			return AutoSizePropertyBox_computeChildrenSideWidth( element );
+
+
+		case 'column' :
+		case 'column-reverse' :
+			return _computeHighestChildWidth( element );
+
+	}
+
+}
+
+/**
+ * Return the sum of all this component's children width
+ * @param {MeshUIBaseElement} element
+ * @return {number}
+ */
+function AutoSizePropertyBox_computeChildrenSideWidth( element ) {
+
+	let sumWidth = 0;
+	for ( const box of element._children._boxes ) {
+
+		if ( box._position._value !== 'static' ) continue;
+
+		const margin = box._margin._value;
+		const width = box._bounds._offsetWidth + margin.y + margin.w;
+
+		sumWidth += width;
+
+	}
+
+	return sumWidth;
+
+}
+
+/**
+ * Return the sum of all this component's children width
+ * @param {MeshUIBaseElement} element
+ * @return {number}
+ */
+function AutoSizePropertyBox_computeChildrenSideHeight( element ) {
+
+	let sumHeight = 0;
+	for ( const box of element._children._boxes ) {
+
+		if ( box._position._value !== 'static' ) continue;
+
+		const margin = box._margin._value;
+		const height = box._bounds._offsetHeight + margin.x + margin.z;
+
+		sumHeight += height;
+
+	}
+
+	return sumHeight;
+
+}
+
+/**
+ * Returns the highest linear dimension among all the children of the passed component
+ * MARGIN INCLUDED
+ * @param {MeshUIBaseElement} element
+ * @return {number}
+ */
+function _computeHighestChildWidth( element ) {
+
+	let maxWidth = 0;
+	for ( const box of element._children._boxes ) {
+
+		if ( box._position._value !== 'static' ) continue;
+
+		const margin = box._margin._value;
+		const width = box._bounds._offsetWidth + margin.y + margin.w;
+
+		if ( width > maxWidth ) maxWidth = width;
+
+	}
+
+	return maxWidth;
+
+}
+
+/**
+ * Returns the highest linear dimension among all the children of the passed component
+ * MARGIN INCLUDED
+ * @param {MeshUIBaseElement} element
+ * @return {number}
+ */
+function _computeHighestChildHeight( element ) {
+
+	let maxHeight = 0;
+	for ( const box of element._children._boxes ) {
+
+		if ( box._position._value !== 'static' ) continue;
+
+		const margin = box._margin._value;
+		const height = box._bounds._offsetHeight + margin.x + margin.z;
+
+		if ( height > maxHeight ) maxHeight = height;
+
+	}
+
+	return maxHeight;
+
+}
+
+;// CONCATENATED MODULE: ./src/elements/basic/BoxElement.js
+
+
+
+
+
+
+
+
+
+
+
+
+//JSDoc related imports
+/* eslint-disable no-unused-vars */
+
+/* eslint-enable no-unused-vars */
+
+class BoxElement extends MeshUIBaseElement {
+
+	/**
+	 *
+	 * @param {import('./../../core/elements/MeshUIBaseElement').Properties} properties
+	 * @param {import('./../../core/elements/MeshUIBaseElement').Options} values
+	 */
+	constructor( properties, values) {
+
+		BoxElement.definePropertiesValues( properties, values );
+
+		super( properties, values );
+
+		BoxElement.init( this );
+
+	}
+
+	/**
+	 * When the backgroundMesh has been set, bind properties
+	 * @override
+	 */
+	bindBackgroundMeshProperties () {
+
+		// bind the background scale with bounds
+		this._bounds._size = this._backgroundMesh.scale;
+		this._bounds._needsProcess = true;
+
+	}
+
+	/**
+	 * When the backgroundMesh has been unset, unbind properties
+	 * @override
+	 */
+	unbindBackgroundMeshProperties () {
+
+		// detach bounds size
+		this._bounds._size = new external_three_namespaceObject.Vector3(1,1,1);
+		this._bounds._needsProcess = true;
+
+	}
+
+
+	/**
+	 *
+	 * @param {import('./../../core/elements/MeshUIBaseElement').Properties} properties
+	 * @param {import('./../../core/elements/MeshUIBaseElement').Options} values
+	 */
+	static definePropertiesValues( properties, values ) {
+
+		// customize property
+		if( !properties.children ) properties.children = ChildrenBox;
+		if( !properties.bounds ) properties.bounds = BoundsBox;
+		if( !properties.flexDirection ) properties.flexDirection = FlexDirectionPropertyBox;
+		if( !properties.justifyContent ) properties.justifyContent = JustifyContentPropertyBox;
+		if( !properties.alignItems ) properties.alignItems = AlignItemsPropertyBox;
+		if( !properties.position ) properties.position = PositionPropertyBox;
+		if( !properties.autoSize ) properties.autoSize = AutoSizePropertyBox;
+
+		if( !properties.renderer ) properties.renderer = RendererPropertyBox;
+
+
+		// configure
+		// /* ie: * /if ( !values.width ) values.width = '100%';
+
+
+		// break inheritance chains
+		if ( !values.fontSide ) values.fontSide = 0; // FrontSide;
+		if ( !values.invertAlpha ) values.invertAlpha = false;
+		if ( !values.fontCastShadow ) values.fontCastShadow = false;
+		if ( !values.fontReceiveShadow ) values.fontReceiveShadow = false;
+		if ( !values.backgroundCastShadow ) values.backgroundCastShadow = false;
+		if ( !values.backgroundReceiveShadow ) values.backgroundReceiveShadow = false;
+
+		if( !values.uiType ) values.uiType = 'block';
+
+	}
+
+	/**
+	 *
+	 * @param {MeshUIBaseElement} element
+	 */
+	static init( element ) {
+
+		Object.defineProperties( element, {
+				isBox: {
+					configurable: false,
+					enumerable: true,
+					value: true
+				}
+			}
+		);
+
+
+		element.backgroundMaterial = new FrameMaterial();
+		element._renderer.render( element );
+
+		element._backgroundMesh.visible = false;
+
+	}
+
+}
+
+;// CONCATENATED MODULE: ./src/core/elements/glyphs/Line.js
+//JSDoc related imports
+/* eslint-disable no-unused-vars */
+
+/* eslint-enable no-unused-vars */
+
+
+/**
+ * Line represents an horizontal combination of positioned inlines with additional properties
+ */
+class Line extends Array {
+
+	/**
+	 *
+	 * @param {Inline[]} items
+	 */
+	constructor(...items) {
+		super(...items);
+
+		/**
+		 * The width of this line
+		 * @type {number}
+		 */
+		this.width = 0;
+
+		/**
+		 * The maximum lineBase of this line of inlines
+		 * @type {number}
+		 */
+		this.lineBase = 0;
+
+		/**
+		 * The maximum lineHeight of this line of inlines
+		 * @type {number}
+		 */
+		this.lineHeight = 0;
+
+		/**
+		 * The vertical position of this line
+		 * @type {number}
+		 */
+		this.y = 0;
+
+	}
+
+}
+
+;// CONCATENATED MODULE: ./src/core/properties/BoxLayouter.js
+
+
+//JSDoc related imports
+/* eslint-disable no-unused-vars */
+
+
+
+/* eslint-enable no-unused-vars */
+
+class BoxLayouter extends BaseProperty {
+
+	constructor() {
+
+		super( 'layouter', null, false);
+
+		// configure
+		this._needsUpdate = true;
+
+		/**
+		 * @typedef ChildrenPos
+		 * @type {Object & Object.<string,Vector3>}
+		 */
+
+		/**
+		 *
+		 * @type {ChildrenPos}
+		 * @internal
+		 */
+		this._childrenPos = {};
+
+	}
+
+
+	/* eslint-disable no-unused-vars */
+	/**
+	 * Updated when :
+	 * 	- New child added
+	 * 	- Child removed
+	 * 	- Child position changed
+	 * 	- Child visibility changed
+	 * 	- ...?
+	 * 	@override
+	 */
+	update( element, out ) { 	/* eslint-enable no-unused-vars */
+
+		//console.log( "BoxLayouter update", element.name );
+		// reset
+		this._childrenPos = {};
+
+		for ( const uiBoxElement of element._children._boxes ) {
+
+			//console.log( uiBoxElement._position._value )
+			if( uiBoxElement._position._value === 'static' ) {
+
+				// bind position
+				this._childrenPos[ uiBoxElement.id ] = uiBoxElement.position;
+
+			}
+
+		}
+
+	}
+
+	/**
+	 *
+	 * @override
+	 */
+	/* eslint-disable no-unused-vars */ process( element ) { 	/* eslint-enable no-unused-vars */
+
+		// As _childrenPos are bounds with child.position, this is not required anymore
+		//
+		// element._position._needsProcess = true;
+		//
+		// for ( const box of element._children._boxes ) {
+		//
+		// 	if( this._childrenPos[box.id] ) {
+		//
+		// 		box.position.x = this._childrenPos[box.id].x;
+		// 		box.position.y = this._childrenPos[box.id].y;
+		//
+		// 	}
+		//
+		// }
+
+	}
+
+}
+
+;// CONCATENATED MODULE: ./src/elements/basic/BlockElement.js
+
+
+
+//JSDoc related imports
+/* eslint-disable no-unused-vars */
+
+
+/* eslint-enable no-unused-vars */
+
+
+class BlockElement extends BoxElement {
+
+	/**
+	 *
+	 * @param {import('./../../core/elements/MeshUIBaseElement').Options} [values={}]
+	 */
+	constructor( values = {} ) {
+
+		const properties = {};
+		BlockElement.definePropertiesValues( properties, values );
+
+		super( properties , values );
+
+		BlockElement.init( this );
+
+
+	}
+
+	/* eslint-disable no-unused-vars */
+	/**
+	 * A Block Element can only contains box elements
+	 * @override
+	 * @param {...Object3D} object
+	 * @return {this}
+	 */
+	add( object ) {
+		/* eslint-enable no-unused-vars */
+
+		/**
+		 *
+		 * @type {Array.<Object3D>}
+		 */
+		const validChildren = [];
+
+		for ( let i = 0; i < arguments.length; i++ ) {
+
+			const argument = arguments[ i ];
+
+			if ( !argument.isUI || argument.isBox ) {
+
+				validChildren.push( argument );
+
+			} else {
+
+				console.warn( 'Block element can only contain Box elements.', argument );
+
+			}
+
+		}
+
+		return super.add( ...validChildren );
+
+	}
+
+	/* eslint-disable no-unused-vars */
+	/**
+	 *
+	 * @param {import('./../../core/elements/MeshUIBaseElement').Properties} properties
+	 * @param {import('./../../core/elements/MeshUIBaseElement').Options} values
+	 */
+	static definePropertiesValues( properties, values ) {  /* eslint-enable no-unused-vars */
+
+		properties.layouter = BoxLayouter;
+
+	}
+
+	/**
+	 *
+	 * @param {MeshUIBaseElement} element
+	 */
+	static init ( element ) {
+
+		Object.defineProperties( element , {
+				isBlock: {
+					configurable: false,
+					enumerable: true,
+					value: true
+				}
+			}
+		);
+
+	}
+
+}
+
+;// CONCATENATED MODULE: ./src/core/properties/TextContentInline.js
+
+
+class TextContentInline extends BaseProperty{
+
+	constructor() {
+
+		super( "textContent", null, false );
+
+	}
+
+	/* eslint-disable no-unused-vars */ update( element, out ) { 	/* eslint-enable no-unused-vars */
+
+		element._glyphs._needsUpdate = true;
+		element._whiteSpace._needsProcess = true;
+
+	}
+
+
+}
+
+;// CONCATENATED MODULE: ./src/core/properties/InlinesProperty.js
+
+
+
+//JSDoc related imports
+/* eslint-disable no-unused-vars */
+
+/* eslint-enable no-unused-vars */
+
+class InlinesProperty extends BaseProperty{
+
+	constructor() {
+
+		super( "inlines", null, false );
+
+		/**
+		 *
+		 * @type {Array.<Inline>}
+		 * @private
+		 */
+		this._value = null;
+
+		// value
+
+		// 3. Inlines
+		// this._textContentInlines = this._textContentGlyphs.map( ( glyphBox ) => glyphBox.asInlineGlyph() );
+
+		// 4. kerning
+		// this._buildContentKernings();
+
+
+		// 5.? Apply margin and padding on first and last inlines
+		// if( this._textContentInlines.length ) {
+		//
+		// 	// First gets left side
+		// 	this._textContentInlines[0].paddingLeft = this._padding.w;
+		// 	this._textContentInlines[0].marginLeft = this._margin.w;
+		//
+		// 	// Last gets right side
+		// 	const lastIndex = this._textContentInlines.length - 1;
+		// 	this._textContentInlines[lastIndex].paddingRight = this._padding.y;
+		// 	this._textContentInlines[lastIndex].marginRight = this._margin.y;
+		//
+		// }
+
+	}
+
+	process( element ) {
+
+		this._value = element._glyphs._value.map( ( glyphBox ) => glyphBox.asInlineGlyph() );
+
+		if( this._value.length ) {
+
+			// First gets left side
+			this._value[0].paddingLeft = element._padding._value.w;
+			this._value[0].marginLeft = element._margin._value.w;
+
+			// Last gets right side
+			const lastIndex = this._value.length - 1;
+			this._value[lastIndex].paddingRight = element._padding._value.y;
+			this._value[lastIndex].marginRight = element._margin._value.y;
+
+		}
+
+
+		element._verticalAlign._needsProcess = true;
+		element._fontSize._needsProcess = true;
+		element._lineBreak._needsProcess = true;
+		element._fontKerning._needsProcess = true;
+		element._layouter._needsProcess = true;
+
+	}
+
+	/**
+	 *
+	 * @return {Array.<Inline>}
+	 */
+	get value() { return this._value; }
+
+}
+
+;// CONCATENATED MODULE: ./src/core/properties/GlyphsProperty.js
+
+
+//JSDoc related imports
+/* eslint-disable no-unused-vars */
+
+/* eslint-enable no-unused-vars */
+
+class GlyphsProperty extends BaseProperty{
+
+	constructor() {
+
+		super( "glyphs", null, false);
+
+		this._needsUpdate = false;
+
+		/**
+		 *
+		 * @type {Array.<TypographicGlyph>}
+		 * @private
+		 */
+		this._value = null;
+
+		// value
+
+		// 1. collapsed whiteSpace;
+		// this._textContent = Whitespace.collapseWhitespaceOnString( this.content, this.getWhiteSpace() );
+
+		// 2. glyphs
+		// this._textContentGlyphs = this._textContent.split( '' ).map( ( char ) => this._font.getTypographicGlyph( char ) );
+
+		// 3. Inlines
+		// this._textContentInlines = this._textContentGlyphs.map( ( glyphBox ) => glyphBox.asInlineGlyph() );
+
+		// 4. kerning
+		// this._buildContentKernings();
+
+
+		// 5.? Apply margin and padding on first and last inlines
+		// if( this._textContentInlines.length ) {
+		//
+		// 	// First gets left side
+		// 	this._textContentInlines[0].paddingLeft = this._padding.w;
+		// 	this._textContentInlines[0].marginLeft = this._margin.w;
+		//
+		// 	// Last gets right side
+		// 	const lastIndex = this._textContentInlines.length - 1;
+		// 	this._textContentInlines[lastIndex].paddingRight = this._padding.y;
+		// 	this._textContentInlines[lastIndex].marginRight = this._margin.y;
+		//
+		// }
+
+	}
+
+	process( element ) {
+
+		if( !element._font._fontVariant ) return;
+		if( !element._font._fontVariant.isReady ) return;
+
+		this._value = element._whiteSpace._whiteSpacedContent.split( '' ).map( ( char ) => element._font._fontVariant.getTypographicGlyph( char ) );
+
+		// @TODO : Even if the value is removed it should trigger a rebuild.
+		if( this._value ) element._inlines._needsProcess = true;
+
+	}
+
+	/**
+	 *
+	 * @return {Array.<TypographicGlyph>}
+	 */
+	get value() { return this._value; }
+
+}
+
+;// CONCATENATED MODULE: ./src/core/properties/style-properties/font/ColorProperty.js
+
+
+//JSDoc related imports
+/* eslint-disable no-unused-vars */
+
+/* eslint-enable no-unused-vars */
+
+class ColorProperty extends StyleColorProperty {
+
+	constructor( defaultValue ) {
+
+		super( 'color', defaultValue, false );
+
+		this._input = defaultValue;
+
+		this.output = this._outputValue;
+
+	}
+
+	/* eslint-disable no-unused-vars */
+	/**
+	 *
+	 * @param {MeshUIBaseElement} element
+	 */
+	computeOutputValue( element ) { /* eslint-enable no-unused-vars */
+
+		if( this._input === 'inherit' ) {
+
+			this._value.set( this.getInheritedInput( element ) );
 
 		} else {
 
-			this.childrenTexts.forEach( child => {
+			this._value.set( this._input);
 
-				child._fitFontSize = undefined;
+		}
 
-			} );
+	}
+
+}
+
+;// CONCATENATED MODULE: ./src/core/properties/LineBreakProperty.js
+
+
+
+//JSDoc related imports
+/* eslint-disable no-unused-vars */
+/* eslint-enable no-unused-vars */
+
+class LineBreakProperty extends BaseProperty{
+
+	constructor( defaultValue = "- ,.:?!\n" ) {
+
+		super( "lineBreak", defaultValue, true );
+
+		/**
+		 *
+		 * @type {"mandatory"|"possible"|null}
+		 * @private
+		 */
+		this._newLineBreakability = null;
+
+
+	}
+
+	/* eslint-disable no-unused-vars */ update( element, out ) { 	/* eslint-enable no-unused-vars */
+
+		this._needsProcess = true;
+
+	}
+
+	process( element ) {
+
+		const newLineBreakability = element._whiteSpace._newLineBreakability;
+
+		if( !element._inlines._value ) return;
+
+		// update inlines properties before inline placements in lines
+		for ( let i = 0; i < element._inlines._value.length; i++ ) {
+
+
+			const inline = element._inlines._value[ i ];
+			const char = inline.char;
+
+			// Whitespace Breakability ---------------------------------------------------------------------------------------
+			let lineBreak = null;
+
+			// could be inlineBlock without char
+			if( char !== undefined ) {
+
+				// @question : Does it worth to be strategy? I don't really think so
+				if ( newLineBreakability !== 'nowrap' ) {
+
+					if ( this._value.includes( char ) || char.match( /\s/g ) ) lineBreak = 'possible';
+
+				}
+
+				if ( char.match( /\n/g ) ) {
+
+					lineBreak = newLineBreakability;
+
+				}
+
+			}
+
+			inline.lineBreak = lineBreak;
+
+		}
+
+	}
+
+	/**
+	 * @override
+	 * @return {string}
+	 */
+	get value() { return this._value; }
+
+}
+
+;// CONCATENATED MODULE: ./src/core/properties/InlineLayouter.js
+
+
+class InlineLayouter extends BaseProperty {
+
+	constructor() {
+
+		super( 'layouter', null, false );
+
+		/**
+		 *
+		 * @type {MeshUIBaseElement}
+		 * @private
+		 */
+		this._value = null;
+
+	}
+
+
+	/* eslint-disable no-unused-vars */ update( element, out ) { 	/* eslint-enable no-unused-vars */
+
+		// find the first text parent;
+		this._value = element._parent.find( (p) => { return p.isUI && p.isText } );
+
+		this._needsProcess = true;
+
+	}
+
+	/* eslint-disable no-unused-vars */
+	/**
+	 *
+	 * @override
+	 */
+	process( element ) { 	/* eslint-enable no-unused-vars */
+
+
+		// layout has been changed
+		if( this._value ) {
+
+			this._value._layouter._needsProcess = true;
+
+		}
+
+	}
+
+}
+
+;// CONCATENATED MODULE: ./src/core/properties/style-properties/background/BackgroundColorPropertyInline.js
+
+
+
+//JSDoc related imports
+/* eslint-disable no-unused-vars */
+/* eslint-enable no-unused-vars */
+
+class BackgroundColorPropertyInline extends StyleColorProperty {
+
+	constructor( defaultValue ) {
+
+		super( 'backgroundColor', defaultValue, false );
+
+		this._allowsInherit = false;
+
+		this._input = 'transparent';
+
+
+	}
+
+	/* eslint-disable no-unused-vars */
+	/**
+	 *
+	 * @param {MeshUIBaseElement} element
+	 */
+	computeOutputValue( element ) { /* eslint-enable no-unused-vars */
+
+		// @TODO : Changes multiple mesh visibility
+		// element._backgroundMesh.visible = !(this._input === 'none' || this._input === 'transparent');
+
+		if( this._input === 'inherit' ) {
+
+			this._value.set(this.getInheritedInput( element ));
+
+		} else {
+
+			this._value.set( this._input );
+
+		}
+
+	}
+
+}
+
+
+
+;// CONCATENATED MODULE: ./src/core/properties/style-properties/font/FontStylePropertyInline.js
+
+
+
+class FontStylePropertyInline extends FontStyleProperty {
+
+	constructor() {
+
+		super();
+
+		// configure
+		this._allowsInherit = false;
+		this.computeOutputValue = this._computeFromInherited;
+	}
+
+	_computeFromInherited( element ) {
+
+		super._computeFromInherited(element);
+
+		element._font._needsUpdate = true;
+
+	}
+
+}
+
+;// CONCATENATED MODULE: ./src/core/properties/style-properties/font/FontWeightPropertyInline.js
+
+
+class FontWeightPropertyInline extends FontWeightProperty {
+
+	constructor( def ) {
+
+		super( def );
+
+	}
+
+	computeOutputValue( element ) {
+
+		const input = this.getInheritedInput( element );
+
+		const converted = LOOK_UP_TABLE[ input ];
+
+		if ( converted ) {
+
+			this._value = converted
+
+		} else {
+
+			this._value = input;
+
+		}
+
+		element._font._needsUpdate = true;
+
+	}
+
+}
+
+// @TODO : Evaluate the need
+const LOOK_UP_TABLE = {
+	// 'light'		: '100',
+	// 'normal'	: '400',
+	// 'bold' 		: '700',
+	// 'bolder' 	: '900'
+}
+
+
+;// CONCATENATED MODULE: ./src/core/properties/style-properties/font/FontFamilyPropertyInline.js
+
+
+
+
+
+class FontFamilyPropertyInline extends FontFamilyProperty {
+
+	constructor( ) {
+
+		super( 'fontFamily', 'inherit' , true );
+
+		this._input = 'inherit';
+		this._needsUpdate = true;
+
+		// configure
+		this._allowsInherit = false;
+
+	}
+
+	/* eslint-disable no-unused-vars */
+	/**
+	 *
+	 * @param element
+	 */
+	computeOutputValue( element ) { /* eslint-enable no-unused-vars */
+
+		let abstractedInput = this._inheritedInput;
+
+		if( abstractedInput === 'inherit' ) {
+			abstractedInput = this.getInheritedInput( element );
+		}
+
+		if( abstractedInput instanceof FontFamily ) {
+
+			this._value = abstractedInput;
+			element._font._needsUpdate = true;
+
+		} else if ( typeof abstractedInput === 'string' ) {
+
+			// string - family
+			const fontFamily = font_FontLibrary.getFontFamily(abstractedInput);
+
+			if( fontFamily ) {
+
+				this._value = fontFamily;
+				element._font._needsUpdate = true;
+
+			} else {
+
+				console.warn( `(.style) fontFamily, the font '${abstractedInput}' is not registered. Aborted.`)
+
+			}
+
+		} else {
+
+			console.warn( `(.style) fontFamily requires a registered fontFamily instance, or the id of a registered fontFamily.`);
+			console.warn( `If you want to set a specific font, please use .font property instead.`);
+
+		}
+
+	}
+
+	/**
+	 * @override
+	 * @return {any|FontFamilyPropertyInline|null}
+	 */
+	get value() { return this._value; }
+
+}
+
+;// CONCATENATED MODULE: ./src/core/properties/style-properties/font/WhiteSpacePropertyInline.js
+
+
+/**
+ * @typedef  StringCollapserStrategy
+ * @type {(textContent:{string}) => string}
+ */
+
+
+/**
+ * @typedef  InlineCollapserStrategy
+ * @type {(line:{Line}) => number }
+ */
+
+
+/**
+ * @typedef InlineWrapperStrategy
+ * @type {(inlines:{Array}, i:{number}, lastInlineOffset:{number}, options:Object<string,any>) => boolean}
+ */
+
+class WhiteSpacePropertyInline extends WhiteSpaceProperty {
+
+	constructor() {
+
+		super();
+
+		// configure
+		this._allowsInherit = false;
+		this.computeOutputValue = this._computeFromInherited;
+
+		this._whiteSpacedContent = '';
+
+		// strategies
+
+		/**
+		 *
+		 * @type {StringCollapserStrategy}
+		 * @internal
+		 */
+		this._stringCollapser = this.emptyStrategyLogic;
+
+		/**
+		 *
+		 * @type {InlineCollapserStrategy}
+		 * @internal
+		 */
+		this._inlineCollapser = this.emptyStrategyLogic;
+
+		/**
+		 *
+		 * @type {InlineWrapperStrategy}
+		 * @internal
+		 */
+		this._inlineWrapper = this.emptyStrategyLogic;
+	}
+
+	/* eslint-disable no-unused-vars */
+	/**
+	 *
+	 * @param element
+	 * @private
+	 */
+	_computeFromInherited( element ) { /* eslint-enable no-unused-vars */
+		super._computeFromInherited( element );
+
+		// set strategies
+		this._newLineBreakability = _newlineBreakability( this._value );
+
+		// REDO Whitespace Matrix
+		// https://developer.mozilla.org/en-US/docs/Web/CSS/white-space
+
+		switch ( this._value ) {
+
+			case 'nowrap':
+			case 'normal':
+				this._stringCollapser = _stringCollapseNewLine;
+				break;
+
+			case 'pre-line':
+				this._stringCollapser = _stringCollapseMultipleSpace;
+				break;
+
+			default:
+				this._stringCollapser = _stringCollapseNothing;
+
+		}
+
+		switch ( this._value ) {
+
+			case 'pre-line':
+			case 'nowrap':
+			case 'normal':
+				this._inlineCollapser = _inlineCollapseMultiple;
+				break;
+
+			case 'pre-wrap':
+				this._inlineCollapser = _inlineCollapseSingle;
+				break;
+
+			default:
+				this._inlineCollapser = _inlineCollapseNothing;
+
+		}
+
+		switch ( this._value ) {
+
+			case 'pre-line':
+			case 'pre-wrap':
+			case 'normal':
+				this._inlineWrapper = _lineBreakerWrapText;
+				break;
+
+			case 'pre':
+				this._inlineWrapper = _lineBreakerLineBreakOnly;
+				break;
+
+			default:
+				this._inlineWrapper = _lineBreakerNoWrap;
+
+		}
+
+
+		this._needsProcess = true;
+
+	}
+
+
+	process( element ) {
+
+		// @TODO: Make a property for Text -> inlineCollapser
+		if( element.isInline && !element.isInlineBlock ) {
+
+			this._whiteSpacedContent = this._stringCollapser( element._textContent._value );
+
+			element._glyphs._needsProcess = true;
+
 		}
 	}
 
-	updateLayout() {
+}
 
-		// Get temporary dimension
+/***********************************************************************************************************************
+ * STRATEGIES
+ **********************************************************************************************************************/
 
-		const WIDTH = this.getWidth();
+/**
+ * @see https://developer.mozilla.org/en-US/docs/Web/API/Document_Object_Model/Whitespace#whitespace_helper_functions
+ *
+ * Throughout, whitespace is defined as one of the characters
+ *  "\t" TAB \u0009
+ *  "\n" LF  \u000A
+ *  "\r" CR  \u000D
+ *  " "  SPC \u0020
+ *
+ * This does not use Javascript's "\s" because that includes non-breaking
+ * spaces (and also some other characters).
+ **/
+const WHITE_CHARS = { '\t': '\u0009', '\n': '\u000A', '\r': '\u000D', ' ': '\u0020' };
 
-		const HEIGHT = this.getHeight();
+/**
+ * Get the breakability of a newline character according to white-space property
+ *
+ * @param whiteSpace
+ * @returns {string|null}
+ */
+const _newlineBreakability = function ( whiteSpace ) {
 
-		if ( !WIDTH || !HEIGHT ) {
+	switch ( whiteSpace ) {
 
-			console.warn( 'Block got no dimension from its parameters or from children parameters' );
-			return;
+		case 'pre':
+		case 'pre-wrap':
+		case 'pre-line':
+			return 'mandatory';
+	}
+
+	// case NOWRAP:
+	// case NORMAL:
+	// default:
+
+	return null;
+
+};
+
+
+// STRING COLLAPSER -----------------------------------------------------
+
+/**
+ * Treat newlines as spaces
+ * @param textContentValue
+ * @return {*}
+ * @private
+ *
+ */
+function _stringCollapseNewLine( textContentValue ) {
+
+	return _stringCollapseMultipleSpace( textContentValue.replace( /\n/g, ' ' ) );
+
+}
+
+/**
+ * Treat sequences of spaces as only one space
+ * @param textContentValue
+ * @return {*}
+ * @private
+ */
+function _stringCollapseMultipleSpace( textContentValue ) {
+
+	return textContentValue.replace( /[ ]{2,}/g, ' ' );
+
+}
+
+/**
+ *
+ * @param textContentValue
+ * @return {*}
+ * @private
+ */
+function _stringCollapseNothing ( textContentValue ) {
+	return textContentValue;
+}
+
+// LineBreakers -----------------------------------------------------
+
+/**
+ *
+ * @param inlines
+ * @param i
+ * @param lastInlineOffset
+ * @param options
+ * @return {boolean}
+ * @private
+ */
+function _lineBreakerWrapText( inlines, i, lastInlineOffset, options ) {
+	const inline = inlines[ i ];
+
+	// prevent additional computation if line break is mandatory
+	if ( inline.lineBreak === 'mandatory' ) return true;
+
+	// ?? Missing letterSpacing ?
+	// prevent additional computation if this character already exceed the available size
+	if ( lastInlineOffset + inline.xadvance + inline.xoffset + inline.kerning > options.INNER_WIDTH ) return true;
+
+
+	const nextBreak = _distanceToNextBreak( inlines, i, options );
+	return _shouldFriendlyBreak( inlines[ i - 1 ], lastInlineOffset, nextBreak, options );
+}
+
+/* eslint-disable no-unused-vars */
+/**
+ *
+ * @param inlines
+ * @param i
+ * @param lastInlineOffset
+ * @param options
+ * @return {boolean}
+ * @private
+ */
+function _lineBreakerLineBreakOnly( inlines, i, lastInlineOffset, options ) { /* eslint-enable no-unused-vars */
+
+	return inlines[ i ].lineBreak === 'mandatory';
+
+}
+
+/**
+ *
+ * @return {boolean}
+ * @private
+ */
+function _lineBreakerNoWrap() {
+	return false;
+}
+
+// Inlines collapser -----------------------------------------------------
+
+/**
+ *
+ * @param line
+ * @return {number}
+ * @private
+ */
+function _inlineCollapseSingle( line ) {
+	if ( !line[ 0 ] ) return 0;
+
+	const firstInline = line[ 0 ];
+	const lastInline = line[ line.length - 1 ];
+
+	// only process whiteChars glyphs inlines
+	// if( firstInline.glyph && whiteChars[firstInline.glyph] && line.length > 1 ){
+	if ( firstInline.char && firstInline.char === '\n' && line.length > 1 ) {
+	// if ( firstInline.char && WHITE_CHARS[ firstInline.char ] && line.length > 1 ) {
+
+		_collapseLeftInlines( [ firstInline ], line[ 1 ] );
+
+	}
+
+	// if( lastInline.glyph && whiteChars[lastInline.glyph] && line.length > 1 ){
+	if ( lastInline.char && lastInline.char === '\n' && line.length > 1 ) {
+	// if ( lastInline.char && WHITE_CHARS[ firstInline.char ] && line.length > 1 ) {
+
+		_collapseRightInlines( [ lastInline ], line[ line.length - 2 ] );
+
+	}
+
+	return firstInline.offsetX;
+
+}
+
+function _inlineCollapseMultiple( line ) {
+
+	if ( !line[ 0 ] ) return 0;
+
+	let inlinesToCollapse = [];
+	let collapsingTarget;
+	// collect starting whitespaces to collapse
+	for ( let i = 0; i < line.length; i++ ) {
+
+		const inline = line[ i ];
+
+		if ( inline.char && WHITE_CHARS[ inline.char ] && line.length > i ) {
+
+			inlinesToCollapse.push( inline );
+			collapsingTarget = line[ i + 1 ];
+			continue;
 
 		}
 
-		this.size.set( WIDTH, HEIGHT );
-		this.frame.scale.set( WIDTH, HEIGHT, 1 );
+		break;
 
-		if ( this.frame ) this.updateBackgroundMaterial();
+	}
 
-		this.frame.renderOrder = this.getParentsNumber();
+	_collapseLeftInlines( inlinesToCollapse, collapsingTarget );
 
-		// Position this element according to earlier parent computation.
-		// Delegate to BoxComponent.
 
-		if ( this.autoLayout ) {
+	inlinesToCollapse = [];
+	collapsingTarget = null;
+	// collect ending whitespace to collapse
+	for ( let i = line.length - 1; i > 0; i-- ) {
 
-			this.setPosFromParentRecords();
+		const inline = line[ i ];
+		if ( inline.char && WHITE_CHARS[ inline.char ] && i > 0 ) {
 
-		}
-
-		// Position inner elements according to dimensions and layout parameters.
-		// Delegate to BoxComponent.
-
-		if ( this.childrenInlines.length ) {
-
-			this.computeInlinesPosition();
+			inlinesToCollapse.push( inline );
+			collapsingTarget = line[ i - 1 ];
+			continue;
 
 		}
 
-		this.computeChildrenPosition();
+		break;
 
-		// We check if this block is the root component,
-		// because most of the time the user wants to set the
-		// root component's z position themselves
-		if ( this.parentUI ) {
+	}
 
-			this.position.z = this.getOffset();
+	_collapseRightInlines( inlinesToCollapse, collapsingTarget );
+
+	return line[ 0 ].offsetX;
+
+}
+
+/**
+ *
+ * @param line
+ * @return {number|*}
+ * @private
+ */
+function _inlineCollapseNothing( line ) {
+
+	if ( !line[ 0 ] ) return 0;
+	return line[ 0 ].offsetX;
+
+}
+
+/***********************************************************************************************************************
+ * Internal logics
+ **********************************************************************************************************************/
+
+
+/**
+ * Visually collapse inlines from right to left ( endtrim )
+ * @param {Array} inlines
+ * @param targetInline
+ * @private
+ */
+function _collapseRightInlines( inlines, targetInline ) {
+
+	if ( !targetInline ) return;
+
+	for ( let i = 0; i < inlines.length; i++ ) {
+
+		const inline = inlines[ i ];
+
+		inline.fontFactor = 0;
+		inline.offsetX = targetInline.offsetX + targetInline.cumulativeWidth;
+		inline.cumulativeWidth = 0;
+
+	}
+
+}
+
+/**
+ * Visually collapse inlines from left to right (starttrim)
+ * @param {Array} inlines
+ * @param targetInline
+ * @private
+ */
+function _collapseLeftInlines( inlines, targetInline ) {
+
+	if ( !targetInline ) return;
+
+	for ( let i = 0; i < inlines.length; i++ ) {
+
+		const inline = inlines[ i ];
+
+		inline.fontFactor = 0;
+		// inline.offsetX += inline.cumulativeWidth;
+		inline.offsetX = targetInline.offsetX;
+		inline.cumulativeWidth = 0;
+
+	}
+
+}
+
+/**
+ * get the distance in world coord to the next glyph defined
+ * as break-line-safe ( like whitespace for instance )
+ * @private
+ */
+function _distanceToNextBreak( inlines, currentIdx, options, accu ) {
+
+	accu = accu || 0;
+
+	// end of the text
+	if ( !inlines[ currentIdx ] ) return accu;
+
+	const inline = inlines[ currentIdx ];
+
+	// const kerning = inline.kerning ? inline.kerning : 0;
+	// const xoffset = inline.xoffset ? inline.xoffset : 0;
+	// const xadvance = inline.xadvance ? inline.xadvance : inline.width;
+
+	// if inline.lineBreak is set, it is 'mandatory' or 'possible'
+	if ( inline.lineBreak ) return accu + inline.xadvance;
+
+	// no line break is possible on this character
+	return _distanceToNextBreak(
+		inlines,
+		currentIdx + 1,
+		options,
+		accu + inline.xadvance + inline.xoffset + inline.kerning + options.LETTERSPACING
+	);
+
+}
+
+/**
+ * Test if we should line break here even if the current glyph is not out of boundary.
+ * It might be necessary if the last glyph was break-line-friendly (whitespace, hyphen..)
+ * and the distance to the next friendly glyph is out of boundary.
+ */
+function _shouldFriendlyBreak( prevChar, lastInlineOffset, nextBreak, options ) {
+
+	// We can't check if last glyph is break-line-friendly it does not exist
+	if ( !prevChar || !prevChar.char ) return false;
+
+	// Next break-line-friendly glyph is inside boundary
+	if ( lastInlineOffset + nextBreak < options.INNER_WIDTH ) return false;
+
+	// Previous glyph was break-line-friendly
+	return options.BREAKON.indexOf( prevChar.char ) > -1;
+
+}
+
+;// CONCATENATED MODULE: ./src/core/properties/style-properties/font/LetterSpacingPropertyInline.js
+
+
+class LetterSpacingPropertyInline extends LetterSpacingProperty {
+
+	constructor() {
+
+		super();
+
+		// configure
+		this._input = 'inherit';
+		this._allowsInherit = false;
+
+		this.computeOutputValue = this._computeFromInherited;
+
+	}
+
+	_computeFromInherited( element ) {
+		super._computeFromInherited( element );
+
+
+		element._fontSize._needsProcess = true;
+		element._layouter._needsProcess = true;
+
+	}
+
+}
+
+
+
+;// CONCATENATED MODULE: ./src/core/properties/style-properties/font/FontSizePropertyInline.js
+
+
+
+class FontSizePropertyInline extends FontSizeProperty {
+
+	constructor( ) {
+
+		super();
+
+		// Configure
+		this._allowsInherit = false;
+
+	}
+
+	computeOutputValue( element ) {
+
+		// this._value = this._inheritedInput;
+
+		if( element._font._fontVariant ) {
+			element._bounds._needsProcess = true;
+			element._layouter._needsProcess = true;
+		}
+
+		// @TODO : FontRelatives properties?? instead of manual registering them?
+		// for em dimensions;
+		element._margin._needsProcess = true;
+
+	}
+
+	process( element ) {
+
+		if( !element._font._fontVariant || !element._font._fontVariant.isReady ) return;
+
+		const SCALE_MULT = this._value / element._font._fontVariant.typographic.size;
+
+		// First character won't be kerned with its void lefthanded peer
+		const inlines = element._inlines._value;
+
+		// update inlines properties before inline placements in lines
+		for ( let i = 0; i < inlines.length; i++ ) {
+
+			const inline = inlines[ i ];
+
+			inline.resetOffsets();
+
+			inline.fontSize = this._value;
+			inline.fontFactor = SCALE_MULT;
+
+		}
+
+		// element._layouter._needsProcess = true;
+
+	}
+
+	/**
+	 *
+	 * @return {number}
+	 */
+	get value() { return this._value; }
+
+}
+
+
+
+;// CONCATENATED MODULE: ./src/core/properties/geometry/SegmentsPropertyText.js
+
+
+class SegmentsPropertyText extends SegmentsProperty {
+
+	constructor() {
+
+		super( 'segments', 1, false );
+
+		this._notInheritedValue = undefined;
+
+	}
+
+
+	/* eslint-disable no-unused-vars */	update( element, out ) { 	/* eslint-enable no-unused-vars */
+
+		this._notInheritedValue = this._value;
+		if ( this._notInheritedValue === 'inherit' ) {
+
+			this._notInheritedValue = this.getInheritedInput( element );
+
+		}
+
+		element._layouter._needsUpdate = true;
+
+	}
+
+	/**
+	 *
+	 * @param {number|"inherit"} v
+	 */
+	set value( v ) {
+
+		if ( this._value === v ) return;
+
+		this._value = v;
+		this._needsUpdate = true;
+	}
+
+	/**
+	 *
+	 * @override
+	 * @return {number}
+	 */
+	get value() {
+
+		if ( this._value === 'inherit' ) return this._notInheritedValue;
+
+		return this._value;
+
+	}
+
+}
+
+;// CONCATENATED MODULE: ./src/core/properties/geometry/SegmentsPropertyInline.js
+
+
+class SegmentsPropertyInline extends SegmentsPropertyText {
+
+	constructor() {
+
+		super();
+
+		this._value = 'inherit';
+
+	}
+
+}
+
+;// CONCATENATED MODULE: ./src/core/properties/style-properties/font/FontKerningPropertyInline.js
+
+
+
+class FontKerningPropertyInline extends FontKerningProperty {
+
+	constructor() {
+
+		super();
+
+		// Configure
+		this._allowsInherit = false;
+		this.computeOutputValue = this._computeFromInherited;
+	}
+
+
+	_computeFromInherited( element ) {
+		super._computeFromInherited(element);
+
+		// this._needsProcess = true;
+		element._parent._value._layouter._needsProcess = false;
+	}
+
+	process( element ) {
+
+		// apply kerning on inlines
+		if ( this._value !== 'none' ) {
+
+			// First character won't be kerned with its void lefthanded peer
+			const whiteSpacedContent = element._whiteSpace._whiteSpacedContent;
+			const inlines = element._inlines._value;
+			for ( let i = 1; i < inlines.length; i++ ) {
+
+				const glyphPair = whiteSpacedContent[ i - 1 ] + whiteSpacedContent[ i ];
+
+				// retrieve the kerning from the font
+				// as set it on the characterInline
+				inlines[ i ].kerning = element._font._fontVariant.getKerningAmount( glyphPair );
+
+			}
+
+		}
+
+	}
+
+}
+
+;// CONCATENATED MODULE: ./src/core/properties/hierarchy/ChildrenInline.js
+
+
+//JSDoc related imports
+/* eslint-disable no-unused-vars */
+
+/* eslint-enable no-unused-vars */
+
+class ChildrenInline extends BaseProperty {
+
+	constructor() {
+
+		super( 'children', null, false );
+
+		/**
+		 *
+		 * @type {Array.<MeshUIBaseElement>}
+		 * @internal
+		 */
+		this._uis = [];
+
+	}
+
+	/* eslint-disable no-unused-vars */
+	/**
+	 * Update requested when :
+	 * 		- New child has been added
+	 * 		- Existing child has been removed
+	 *
+	 * @param element
+	 * @param out
+	 */
+	update( element, out ) { /* eslint-enable no-unused-vars */
+
+		// this._compute( element );
+		//
+		// this._needsProcess = true;
+
+	}
+
+
+	/* eslint-disable no-unused-vars */
+	/**
+	 * Process when :
+	 * 		- Existing child visibility changed
+	 *
+	 * @param element
+	 */
+	process( element ) { /* eslint-enable no-unused-vars */
+
+		// this._compute( element );
+
+	}
+
+	/* eslint-disable no-unused-vars */ _compute( element ) { /* eslint-enable no-unused-vars */
+
+		// this._uis = element.children.filter( child => child.visible && child.isUI );
+		//
+		// this._inlines = this._uis.filter( child => child.isInline );
+
+	}
+
+	/**
+	 *
+	 */
+	dispose() {
+
+		// this._inlines = null;
+
+	}
+
+}
+
+;// CONCATENATED MODULE: ./node_modules/three/examples/jsm/utils/BufferGeometryUtils.js
+
+
+function computeTangents() {
+
+	throw new Error( 'BufferGeometryUtils: computeTangents renamed to computeMikkTSpaceTangents.' );
+
+}
+
+function computeMikkTSpaceTangents( geometry, MikkTSpace, negateSign = true ) {
+
+	if ( ! MikkTSpace || ! MikkTSpace.isReady ) {
+
+		throw new Error( 'BufferGeometryUtils: Initialized MikkTSpace library required.' );
+
+	}
+
+	if ( ! geometry.hasAttribute( 'position' ) || ! geometry.hasAttribute( 'normal' ) || ! geometry.hasAttribute( 'uv' ) ) {
+
+		throw new Error( 'BufferGeometryUtils: Tangents require "position", "normal", and "uv" attributes.' );
+
+	}
+
+	function getAttributeArray( attribute ) {
+
+		if ( attribute.normalized || attribute.isInterleavedBufferAttribute ) {
+
+			const dstArray = new Float32Array( attribute.getCount() * attribute.itemSize );
+
+			for ( let i = 0, j = 0; i < attribute.getCount(); i ++ ) {
+
+				dstArray[ j ++ ] = attribute.getX( i );
+				dstArray[ j ++ ] = attribute.getY( i );
+
+				if ( attribute.itemSize > 2 ) {
+
+					dstArray[ j ++ ] = attribute.getZ( i );
+
+				}
+
+			}
+
+			return dstArray;
+
+		}
+
+		if ( attribute.array instanceof Float32Array ) {
+
+			return attribute.array;
+
+		}
+
+		return new Float32Array( attribute.array );
+
+	}
+
+	// MikkTSpace algorithm requires non-indexed input.
+
+	const _geometry = geometry.index ? geometry.toNonIndexed() : geometry;
+
+	// Compute vertex tangents.
+
+	const tangents = MikkTSpace.generateTangents(
+
+		getAttributeArray( _geometry.attributes.position ),
+		getAttributeArray( _geometry.attributes.normal ),
+		getAttributeArray( _geometry.attributes.uv )
+
+	);
+
+	// Texture coordinate convention of glTF differs from the apparent
+	// default of the MikkTSpace library; .w component must be flipped.
+
+	if ( negateSign ) {
+
+		for ( let i = 3; i < tangents.length; i += 4 ) {
+
+			tangents[ i ] *= - 1;
 
 		}
 
@@ -4507,88 +12571,23 @@ class Block extends mix.withBase( external_three_namespaceObject.Object3D )(
 
 	//
 
-	updateInner() {
+	_geometry.setAttribute( 'tangent', new BufferAttribute( tangents, 4 ) );
 
-		// We check if this block is the root component,
-		// because most of the time the user wants to set the
-		// root component's z position themselves
-		if ( this.parentUI ) {
+	if ( geometry !== _geometry ) {
 
-			this.position.z = this.getOffset();
-
-		}
-
-		if ( this.frame ) this.updateBackgroundMaterial();
+		geometry.copy( _geometry );
 
 	}
 
+	return geometry;
+
 }
 
-;// CONCATENATED MODULE: ./src/components/core/InlineComponent.js
 /**
-
-Job: nothing yet, but adding a isInline parameter to an inline component
-
-Knows: parent dimensions
-
+ * @param  {Array<BufferGeometry>} geometries
+ * @param  {Boolean} useGroups
+ * @return {BufferGeometry}
  */
-function InlineComponent( Base ) {
-
-	return class InlineComponent extends Base {
-
-		constructor( options ) {
-
-			super( options );
-
-			this.isInline = true;
-
-		}
-
-	};
-}
-
-;// CONCATENATED MODULE: ./src/utils/deepDelete.js
-
-
-/** Recursively erase THE CHILDREN of the passed object */
-function deepDelete( object3D ) {
-
-	object3D.children.forEach( ( child ) => {
-
-		if ( child.children.length > 0 ) deepDelete( child );
-
-		object3D.remove( child );
-
-		UpdateManager.disposeOf( child );
-
-		if ( child.material ) child.material.dispose();
-
-		if ( child.geometry ) child.geometry.dispose();
-
-	} );
-
-	object3D.children = [];
-
-}
-
-/* harmony default export */ const utils_deepDelete = (deepDelete);
-
-;// CONCATENATED MODULE: ./node_modules/three/examples/jsm/utils/BufferGeometryUtils.js
-
-
-
-function computeTangents( geometry ) {
-
-	geometry.computeTangents();
-	console.warn( 'THREE.BufferGeometryUtils: .computeTangents() has been removed. Use BufferGeometry.computeTangents() instead.' );
-
-}
-
-/**
-	 * @param  {Array<BufferGeometry>} geometries
-	 * @param  {Boolean} useGroups
-	 * @return {BufferGeometry}
-	 */
 function mergeBufferGeometries( geometries, useGroups = false ) {
 
 	const isIndexed = geometries[ 0 ].index !== null;
@@ -4862,7 +12861,7 @@ function interleaveAttributes( attributes ) {
 	let arrayLength = 0;
 	let stride = 0;
 
-	// calculate the the length and type of the interleavedBuffer
+	// calculate the length and type of the interleavedBuffer
 	for ( let i = 0, l = attributes.length; i < l; ++ i ) {
 
 		const attribute = attributes[ i ];
@@ -4915,6 +12914,97 @@ function interleaveAttributes( attributes ) {
 
 }
 
+// returns a new, non-interleaved version of the provided attribute
+function deinterleaveAttribute( attribute ) {
+
+	const cons = attribute.data.array.constructor;
+	const count = attribute.count;
+	const itemSize = attribute.itemSize;
+	const normalized = attribute.normalized;
+
+	const array = new cons( count * itemSize );
+	let newAttribute;
+	if ( attribute.isInstancedInterleavedBufferAttribute ) {
+
+		newAttribute = new InstancedBufferAttribute( array, itemSize, normalized, attribute.meshPerAttribute );
+
+	} else {
+
+		newAttribute = new BufferAttribute( array, itemSize, normalized );
+
+	}
+
+	for ( let i = 0; i < count; i ++ ) {
+
+		newAttribute.setX( i, attribute.getX( i ) );
+
+		if ( itemSize >= 2 ) {
+
+			newAttribute.setY( i, attribute.getY( i ) );
+
+		}
+
+		if ( itemSize >= 3 ) {
+
+			newAttribute.setZ( i, attribute.getZ( i ) );
+
+		}
+
+		if ( itemSize >= 4 ) {
+
+			newAttribute.setW( i, attribute.getW( i ) );
+
+		}
+
+	}
+
+	return newAttribute;
+
+}
+
+// deinterleaves all attributes on the geometry
+function deinterleaveGeometry( geometry ) {
+
+	const attributes = geometry.attributes;
+	const morphTargets = geometry.morphTargets;
+	const attrMap = new Map();
+
+	for ( const key in attributes ) {
+
+		const attr = attributes[ key ];
+		if ( attr.isInterleavedBufferAttribute ) {
+
+			if ( ! attrMap.has( attr ) ) {
+
+				attrMap.set( attr, deinterleaveAttribute( attr ) );
+
+			}
+
+			attributes[ key ] = attrMap.get( attr );
+
+		}
+
+	}
+
+	for ( const key in morphTargets ) {
+
+		const attr = morphTargets[ key ];
+		if ( attr.isInterleavedBufferAttribute ) {
+
+			if ( ! attrMap.has( attr ) ) {
+
+				attrMap.set( attr, deinterleaveAttribute( attr ) );
+
+			}
+
+			morphTargets[ key ] = attrMap.get( attr );
+
+		}
+
+	}
+
+}
+
 /**
  * @param {Array<BufferGeometry>} geometry
  * @return {number}
@@ -4941,7 +13031,7 @@ function estimateBytesUsed( geometry ) {
 /**
  * @param {BufferGeometry} geometry
  * @param {number} tolerance
- * @return {BufferGeometry>}
+ * @return {BufferGeometry}
  */
 function mergeVertices( geometry, tolerance = 1e-4 ) {
 
@@ -4959,22 +13049,33 @@ function mergeVertices( geometry, tolerance = 1e-4 ) {
 
 	// attributes and new attribute arrays
 	const attributeNames = Object.keys( geometry.attributes );
-	const attrArrays = {};
-	const morphAttrsArrays = {};
+	const tmpAttributes = {};
+	const tmpMorphAttributes = {};
 	const newIndices = [];
 	const getters = [ 'getX', 'getY', 'getZ', 'getW' ];
+	const setters = [ 'setX', 'setY', 'setZ', 'setW' ];
 
-	// initialize the arrays
+	// Initialize the arrays, allocating space conservatively. Extra
+	// space will be trimmed in the last step.
 	for ( let i = 0, l = attributeNames.length; i < l; i ++ ) {
 
 		const name = attributeNames[ i ];
+		const attr = geometry.attributes[ name ];
 
-		attrArrays[ name ] = [];
+		tmpAttributes[ name ] = new BufferAttribute(
+			new attr.array.constructor( attr.count * attr.itemSize ),
+			attr.itemSize,
+			attr.normalized
+		);
 
 		const morphAttr = geometry.morphAttributes[ name ];
 		if ( morphAttr ) {
 
-			morphAttrsArrays[ name ] = new Array( morphAttr.length ).fill().map( () => [] );
+			tmpMorphAttributes[ name ] = new BufferAttribute(
+				new morphAttr.array.constructor( morphAttr.count * morphAttr.itemSize ),
+				morphAttr.itemSize,
+				morphAttr.normalized
+			);
 
 		}
 
@@ -5012,26 +13113,27 @@ function mergeVertices( geometry, tolerance = 1e-4 ) {
 
 		} else {
 
-			// copy data to the new index in the attribute arrays
+			// copy data to the new index in the temporary attributes
 			for ( let j = 0, l = attributeNames.length; j < l; j ++ ) {
 
 				const name = attributeNames[ j ];
 				const attribute = geometry.getAttribute( name );
 				const morphAttr = geometry.morphAttributes[ name ];
 				const itemSize = attribute.itemSize;
-				const newarray = attrArrays[ name ];
-				const newMorphArrays = morphAttrsArrays[ name ];
+				const newarray = tmpAttributes[ name ];
+				const newMorphArrays = tmpMorphAttributes[ name ];
 
 				for ( let k = 0; k < itemSize; k ++ ) {
 
 					const getterFunc = getters[ k ];
-					newarray.push( attribute[ getterFunc ]( index ) );
+					const setterFunc = setters[ k ];
+					newarray[ setterFunc ]( nextIndex, attribute[ getterFunc ]( index ) );
 
 					if ( morphAttr ) {
 
 						for ( let m = 0, ml = morphAttr.length; m < ml; m ++ ) {
 
-							newMorphArrays[ m ].push( morphAttr[ m ][ getterFunc ]( index ) );
+							newMorphArrays[ m ][ setterFunc ]( nextIndex, morphAttr[ m ][ getterFunc ]( index ) );
 
 						}
 
@@ -5049,31 +13151,29 @@ function mergeVertices( geometry, tolerance = 1e-4 ) {
 
 	}
 
-	// Generate typed arrays from new attribute arrays and update
-	// the attributeBuffers
+	// generate result BufferGeometry
 	const result = geometry.clone();
-	for ( let i = 0, l = attributeNames.length; i < l; i ++ ) {
+	for ( const name in geometry.attributes ) {
 
-		const name = attributeNames[ i ];
-		const oldAttribute = geometry.getAttribute( name );
+		const tmpAttribute = tmpAttributes[ name ];
 
-		const buffer = new oldAttribute.array.constructor( attrArrays[ name ] );
-		const attribute = new BufferAttribute( buffer, oldAttribute.itemSize, oldAttribute.normalized );
+		result.setAttribute( name, new BufferAttribute(
+			tmpAttribute.array.slice( 0, nextIndex * tmpAttribute.itemSize ),
+			tmpAttribute.itemSize,
+			tmpAttribute.normalized,
+		) );
 
-		result.setAttribute( name, attribute );
+		if ( ! ( name in tmpMorphAttributes ) ) continue;
 
-		// Update the attribute arrays
-		if ( name in morphAttrsArrays ) {
+		for ( let j = 0; j < tmpMorphAttributes[ name ].length; j ++ ) {
 
-			for ( let j = 0; j < morphAttrsArrays[ name ].length; j ++ ) {
+			const tmpMorphAttribute = tmpMorphAttributes[ name ][ j ];
 
-				const oldMorphAttribute = geometry.morphAttributes[ name ][ j ];
-
-				const buffer = new oldMorphAttribute.array.constructor( morphAttrsArrays[ name ][ j ] );
-				const morphAttribute = new BufferAttribute( buffer, oldMorphAttribute.itemSize, oldMorphAttribute.normalized );
-				result.morphAttributes[ name ][ j ] = morphAttribute;
-
-			}
+			result.morphAttributes[ name ][ j ] = new BufferAttribute(
+				tmpMorphAttribute.array.slice( 0, nextIndex * tmpMorphAttribute.itemSize ),
+				tmpMorphAttribute.itemSize,
+				tmpMorphAttribute.normalized,
+			);
 
 		}
 
@@ -5090,7 +13190,7 @@ function mergeVertices( geometry, tolerance = 1e-4 ) {
 /**
  * @param {BufferGeometry} geometry
  * @param {number} drawMode
- * @return {BufferGeometry>}
+ * @return {BufferGeometry}
  */
 function toTrianglesDrawMode( geometry, drawMode ) {
 
@@ -5226,7 +13326,6 @@ function computeMorphedAttributes( object ) {
 
 	function _calculateMorphedAttributeData(
 		object,
-		material,
 		attribute,
 		morphAttribute,
 		morphTargetsRelative,
@@ -5242,7 +13341,7 @@ function computeMorphedAttributes( object ) {
 
 		const morphInfluences = object.morphTargetInfluences;
 
-		if ( material.morphTargets && morphAttribute && morphInfluences ) {
+		if ( morphAttribute && morphInfluences ) {
 
 			_morphA.set( 0, 0, 0 );
 			_morphB.set( 0, 0, 0 );
@@ -5315,7 +13414,7 @@ function computeMorphedAttributes( object ) {
 	const groups = geometry.groups;
 	const drawRange = geometry.drawRange;
 	let i, j, il, jl;
-	let group, groupMaterial;
+	let group;
 	let start, end;
 
 	const modifiedPosition = new Float32Array( positionAttribute.count * positionAttribute.itemSize );
@@ -5330,7 +13429,6 @@ function computeMorphedAttributes( object ) {
 			for ( i = 0, il = groups.length; i < il; i ++ ) {
 
 				group = groups[ i ];
-				groupMaterial = material[ group.materialIndex ];
 
 				start = Math.max( group.start, drawRange.start );
 				end = Math.min( ( group.start + group.count ), ( drawRange.start + drawRange.count ) );
@@ -5343,7 +13441,6 @@ function computeMorphedAttributes( object ) {
 
 					_calculateMorphedAttributeData(
 						object,
-						groupMaterial,
 						positionAttribute,
 						morphPosition,
 						morphTargetsRelative,
@@ -5353,7 +13450,6 @@ function computeMorphedAttributes( object ) {
 
 					_calculateMorphedAttributeData(
 						object,
-						groupMaterial,
 						normalAttribute,
 						morphNormal,
 						morphTargetsRelative,
@@ -5378,7 +13474,6 @@ function computeMorphedAttributes( object ) {
 
 				_calculateMorphedAttributeData(
 					object,
-					material,
 					positionAttribute,
 					morphPosition,
 					morphTargetsRelative,
@@ -5388,7 +13483,6 @@ function computeMorphedAttributes( object ) {
 
 				_calculateMorphedAttributeData(
 					object,
-					material,
 					normalAttribute,
 					morphNormal,
 					morphTargetsRelative,
@@ -5400,7 +13494,7 @@ function computeMorphedAttributes( object ) {
 
 		}
 
-	} else if ( positionAttribute !== undefined ) {
+	} else {
 
 		// non-indexed buffer geometry
 
@@ -5409,7 +13503,6 @@ function computeMorphedAttributes( object ) {
 			for ( i = 0, il = groups.length; i < il; i ++ ) {
 
 				group = groups[ i ];
-				groupMaterial = material[ group.materialIndex ];
 
 				start = Math.max( group.start, drawRange.start );
 				end = Math.min( ( group.start + group.count ), ( drawRange.start + drawRange.count ) );
@@ -5422,7 +13515,6 @@ function computeMorphedAttributes( object ) {
 
 					_calculateMorphedAttributeData(
 						object,
-						groupMaterial,
 						positionAttribute,
 						morphPosition,
 						morphTargetsRelative,
@@ -5432,7 +13524,6 @@ function computeMorphedAttributes( object ) {
 
 					_calculateMorphedAttributeData(
 						object,
-						groupMaterial,
 						normalAttribute,
 						morphNormal,
 						morphTargetsRelative,
@@ -5457,7 +13548,6 @@ function computeMorphedAttributes( object ) {
 
 				_calculateMorphedAttributeData(
 					object,
-					material,
 					positionAttribute,
 					morphPosition,
 					morphTargetsRelative,
@@ -5467,7 +13557,6 @@ function computeMorphedAttributes( object ) {
 
 				_calculateMorphedAttributeData(
 					object,
-					material,
 					normalAttribute,
 					morphNormal,
 					morphTargetsRelative,
@@ -5495,349 +13584,883 @@ function computeMorphedAttributes( object ) {
 
 }
 
+function mergeGroups( geometry ) {
 
+	if ( geometry.groups.length === 0 ) {
 
-
-
-;// CONCATENATED MODULE: ./src/components/Text.js
-
-
-
-
-
-
-
-
-
-
-
-
-
-/**
-
-Job:
-- computing its own size according to user measurements or content measurement
-- creating 'inlines' objects with info, so that the parent component can organise them in lines
-
-Knows:
-- Its text content (string)
-- Font attributes ('font', 'fontSize'.. etc..)
-- Parent block
-
- */
-class Text extends mix.withBase( external_three_namespaceObject.Object3D )(
-	InlineComponent,
-	MaterialManager,
-	MeshUIComponent
-) {
-
-	constructor( options ) {
-
-		super();
-
-		this.isText = true;
-
-		// adds internal properties
-		/**
-		 *
-		 * @type {string[]}
-		 * @private
-		 */
-		this._textContent = null;
-
-		/**
-		 *
-		 * @type {MSDFTypographyCharacter[]}
-		 * @private
-		 */
-		this._textContentGlyphs = null;
-
-		/**
-		 *
-		 * @type {MSDFInlineCharacter[]}
-		 * @private
-		 */
-		this._textContentInlines = null;
-
-		this.set( options );
-
-		this.addEventListener( 'added', this._acquireFont );
+		console.warn( 'THREE.BufferGeometryUtils.mergeGroups(): No groups are defined. Nothing to merge.' );
+		return geometry;
 
 	}
 
-	/**
-	 * Temporary code
-	 * @param {FontVariant} value
-	 */
-	set font( value ) {
+	let groups = geometry.groups;
 
-		// if a previous font isset, be sure not event remains
-		if ( this._font && !this._font.isReady ) {
+	// sort groups by material index
 
-			this._font.removeEventListener( 'ready', this._handleFontVariantReady );
+	groups = groups.sort( ( a, b ) => {
+
+		if ( a.materialIndex !== b.materialIndex ) return a.materialIndex - b.materialIndex;
+
+		return a.start - b.start;
+
+	} );
+
+	// create index for non-indexed geometries
+
+	if ( geometry.getIndex() === null ) {
+
+		const positionAttribute = geometry.getAttribute( 'position' );
+		const indices = [];
+
+		for ( let i = 0; i < positionAttribute.count; i += 3 ) {
+
+			indices.push( i, i + 1, i + 2 );
 
 		}
 
-		this._font = value;
+		geometry.setIndex( indices );
 
-		// new font, means rebuild inlines, now or soon
-		if ( !this._font.isReady ) {
+	}
 
-			this.inlines = null;
-			this._font.addEventListener( 'ready', this._handleFontVariantReady );
+	// sort index
+
+	const index = geometry.getIndex();
+
+	const newIndices = [];
+
+	for ( let i = 0; i < groups.length; i ++ ) {
+
+		const group = groups[ i ];
+
+		const groupStart = group.start;
+		const groupLength = groupStart + group.count;
+
+		for ( let j = groupStart; j < groupLength; j ++ ) {
+
+			newIndices.push( index.getX( j ) );
+
+		}
+
+	}
+
+	geometry.dispose(); // Required to force buffer recreation
+	geometry.setIndex( newIndices );
+
+	// update groups indices
+
+	let start = 0;
+
+	for ( let i = 0; i < groups.length; i ++ ) {
+
+		const group = groups[ i ];
+
+		group.start = start;
+		start += group.count;
+
+	}
+
+	// merge groups
+
+	let currentGroup = groups[ 0 ];
+
+	geometry.groups = [ currentGroup ];
+
+	for ( let i = 1; i < groups.length; i ++ ) {
+
+		const group = groups[ i ];
+
+		if ( currentGroup.materialIndex === group.materialIndex ) {
+
+			currentGroup.count += group.count;
 
 		} else {
 
-			this._handleFontVariantReady();
+			currentGroup = group;
+			geometry.groups.push( currentGroup );
 
 		}
+
+	}
+
+	return geometry;
+
+}
+
+
+
+;// CONCATENATED MODULE: ./src/core/properties/rendering/RendererPropertyInline.js
+
+
+
+
+class RendererPropertyInline extends BaseProperty{
+
+	constructor() {
+
+		super( 'renderer' );
+
+	}
+
+
+	render( element ) {
+
+		if( !element._inlines._value || !element._inlines._value.length ) return;
+
+			const charactersAsGeometries = element._inlines._value.map(
+				inline => {
+					return element._font._fontVariant.getGeometricGlyph( inline, element )
+						.translate( inline.offsetX, inline.offsetY, 0 )
+				}
+			);
+
+			const mergedGeom = mergeBufferGeometries( charactersAsGeometries );
+
+			element.setFontMesh( new external_three_namespaceObject.Mesh( mergedGeom, element.fontMaterial) );
+
+			element._fontMesh.renderOrder = Infinity;
+
+
+
+	}
+
+}
+
+;// CONCATENATED MODULE: ./src/core/properties/style-properties/font/TextAlignPropertyInline.js
+
+
+
+class TextAlignPropertyInline extends TextAlignProperty {
+
+	constructor() {
+
+		super();
+
+		// configure
+		this._allowsInherit = false;
+		this._needsUpdate = false;
+
+	}
+
+
+	/* eslint-disable no-unused-vars */ computeOutputValue( element ) { /* eslint-enable no-unused-vars */
+
+		this._value = this._inheritedInput;
+
+		element._layouter._needsProcess = true;
+
+	}
+
+}
+
+;// CONCATENATED MODULE: ./src/core/properties/style-properties/font/VerticalAlignPropertyInline.js
+
+
+
+class VerticalAlignPropertyInline extends VerticalAlignProperty {
+
+	constructor() {
+
+		super();
+
+		// configure
+		this._allowsInherit = false;
+		this._needsUpdate = false;
+
+	}
+
+
+	/* eslint-disable no-unused-vars */ computeOutputValue( element ) { /* eslint-enable no-unused-vars */
+
+		this._value = this._inheritedInput;
+
+		this._needsProcess = true;
+		element._layouter._needsProcess = true;
+
+	}
+
+	process( element ) {
+
+		if( !element._inlines.value ) return;
+
+		element._inlines.value.forEach( inline => {
+			inline.verticalAlign = this._value;
+		});
+
+	}
+
+}
+
+;// CONCATENATED MODULE: ./src/elements/basic/InlineElement.js
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//JSDoc related imports
+/* eslint-disable no-unused-vars */
+
+
+/* eslint-enable no-unused-vars */
+
+class InlineElement extends MeshUIBaseElement {
+
+	/**
+	 *
+	 * @param {import('./../../core/elements/MeshUIBaseElement').Options} [values={}]
+	 */
+	constructor( values = { }) {
+
+		const properties = {};
+		InlineElement.definePropertiesValues( properties, values );
+
+		super( properties, values );
+
+		InlineElement.init( this );
+
+	}
+
+	/* eslint-disable no-unused-vars */
+	/**
+	 * A Text Element can only contains inline elements
+	 * @override
+	 * @param {...Object3D} object
+	 * @return {this}
+	 */
+	add( object ) { /* eslint-enable no-unused-vars */
+
+		/**
+		 *
+		 * @type {Array.<Object3D>}
+		 */
+		const validChildren = [];
+
+		for ( let i = 0; i < arguments.length; i++ ) {
+
+			const argument = arguments[ i ];
+
+			if ( !argument.isUI || argument.isInline ) {
+
+				validChildren.push( argument );
+
+				argument.position.z = 0.005;
+
+			} else {
+
+				console.warn( 'Block element can only contain Box elements.', argument );
+
+			}
+
+		}
+
+		return super.add( ...validChildren );
+
+	}
+
+	_rebuildParentUI = () => {
+
+		super._rebuildParentUI();
+
+		this._layouter._needsUpdate = true;
+
+	}
+
+	set textContent( value ) {
+
+		this._textContent.value = value;
+
+	}
+
+	get textContent () { return this._textContent._value; }
+
+	set invertAlpha( value ) {
+
+		this._invertAlpha.value = value;
+
+	}
+
+	get invertAlpha () { return this._invertAlpha._value; }
+
+	/* eslint-disable no-unused-vars */
+	/**
+	 *
+	 * @param {import('./../../core/elements/MeshUIBaseElement').Properties} properties
+	 * @param {import('./../../core/elements/MeshUIBaseElement').Options} values
+	 */
+	static definePropertiesValues( properties, values ) {  /* eslint-enable no-unused-vars */
+
+		if( !properties.children ) properties.children = ChildrenInline;
+		if( !properties.textContent ) properties.textContent = TextContentInline;
+		if( !properties.glyphs ) properties.glyphs = GlyphsProperty;
+		if( !properties.inlines ) properties.inlines = InlinesProperty;
+		if( !properties.layouter ) properties.layouter = InlineLayouter;
+		if( !properties.renderer ) properties.renderer = RendererPropertyInline;
+
+
+		if( !properties.fontFamily ) properties.fontFamily = FontFamilyPropertyInline;
+		if( !properties.fontWeight ) properties.fontWeight = FontWeightPropertyInline;
+		if( !properties.fontStyle ) properties.fontStyle = FontStylePropertyInline;
+		if( !properties.fontSize ) properties.fontSize = FontSizePropertyInline;
+		if( !properties.color ) properties.color = ColorProperty;
+		if( !properties.backgroundColor ) properties.backgroundColor = BackgroundColorPropertyInline;
+		if( !properties.lineBreak ) properties.lineBreak = LineBreakProperty;
+		if( !properties.letterSpacing ) properties.letterSpacing = LetterSpacingPropertyInline;
+		if( !properties.whiteSpace ) properties.whiteSpace = WhiteSpacePropertyInline;
+		if( !properties.segments ) properties.segments = SegmentsPropertyInline;
+		if( !properties.textAlign ) properties.textAlign = TextAlignPropertyInline;
+		if( !properties.verticalAlign ) properties.verticalAlign = VerticalAlignPropertyInline;
+
+		if( !properties.fontKerning ) properties.fontKerning = FontKerningPropertyInline;
+
+		// if( !properties.inlines ) properties.inlines = InlinesProperty;
+
+		if( !values.uiType ) values.uiType = 'inline';
 
 	}
 
 	/**
 	 *
-	 * @private
+	 * @param {MeshUIBaseElement} element
 	 */
-	_handleFontVariantReady = () => {
+	static init( element ) {
 
-		// request parse update and parent layout
-		this.update( true, true, false );
-		this.getHighestParent().update( false, true, false );
+		Object.defineProperties( element, {
+				isInline: {
+					configurable: false,
+					enumerable: true,
+					value: true
+				}
+			}
+		);
 
-		// remove the listener
-		this._font.removeEventListener( 'ready', this._handleFontVariantReady );
+	}
+}
 
-	};
+;// CONCATENATED MODULE: ./src/core/properties/TextContentText.js
 
-	_acquireFont = () => {
 
-		if( !this._font ) {
 
-			let fontFamily = this.getFontFamily();
-			if ( fontFamily ) {
+class TextContentText extends TextContentEmpty{
 
-				if ( fontFamily instanceof FontFamily ) {
+	constructor() {
 
-					this.font = fontFamily.getVariant( this.getFontWeight(), this.getFontStyle() );
+		super( "textContent", null, false );
 
-				} else {
+		this._needsUpdate = false;
 
-					// Set from old way, check if that family is already registered
-					const fontName = fontFamily.pages ? fontFamily.info.face : fontFamily;
-					fontFamily = font_FontLibrary.getFontFamily( fontName );
-					if ( fontFamily ) {
+	}
 
-						this.font = fontFamily.getVariant( this.getFontWeight(), this.getFontStyle() );
+	set value( value ) {
+
+		// If content hasn't change, dont update it
+		if( this._value !== value ) {
+
+			this._value = value;
+
+			console.log( this._value );
+
+			this._needsUpdate = true;
+
+		}
+
+	}
+
+	/* eslint-disable no-unused-vars */ update( element, out ) { /* eslint-enable no-unused-vars */
+
+		// prevent multiple update
+		this._needsUpdate = false;
+
+		// Remove all its children (Inlines)
+		for ( let i = element.children.length - 1 ; i >= 0; i-- ) {
+			const child = element.children[ i ];
+			if( child.isUI ) {
+
+				element.remove( child );
+				child.clear();
+
+			}
+
+		}
+
+		// Rebuild its child list
+		element._children._uis = [];
+
+		// If a value, add a child
+		if( this._value ) {
+			element.add( new InlineElement({name:'anonymousInline',textContent:this._value}));
+		}
+
+
+	}
+
+	process( element ) {
+
+		// If not already updated, return raw values
+		if( this._needsUpdate ) return this._value;
+
+		// or default traverse all children to concat textContent
+		return super.process(element);
+
+	}
+
+}
+
+;// CONCATENATED MODULE: ./src/core/elements/glyphs/Lines.js
+//JSDoc related imports
+/* eslint-disable no-unused-vars */
+
+/* eslint-enable no-unused-vars */
+
+/**
+ * Lines represents a vertical succession of Line
+ */
+class Lines extends Array {
+
+	/**
+	 *
+	 * @param {Line} items
+	 */
+	constructor(...items) {
+		super(...items);
+
+		/**
+		 * The maximum width of Line items
+		 * @type {number}
+		 */
+		this.width = 0;
+
+		/**
+		 * The addition of height of any Line
+		 * @type {number}
+		 */
+		this.height = 0;
+
+	}
+
+}
+
+;// CONCATENATED MODULE: ./src/core/properties/TextLayouter.js
+
+
+
+
+class TextLayouter extends BaseProperty {
+
+	constructor() {
+
+		super( 'layouter', null, false );
+
+		/**
+		 *
+		 * @type {Lines}
+		 * @private
+		 */
+		this._value = null;
+	}
+
+
+	/* eslint-disable no-unused-vars */ update( element, out ) { 	/* eslint-enable no-unused-vars */ }
+
+	/**
+	 *
+	 * @override
+	 */
+	process( element ) {
+
+
+		let INNER_WIDTH = element._width._value;
+
+		if ( element._width._auto ) {
+
+			INNER_WIDTH = Infinity;
+
+		} else {
+
+			INNER_WIDTH = element._bounds._innerWidth;
+
+		}
+
+		// Compute lines
+
+		const INTERLINE = element._lineHeight._value;
+
+		// Will stock the characters of each line, so that we can
+		// correct lines position before to merge
+		const lines = new Lines( new Line() );
+
+		let lastInlineOffset = 0;
+		element._children._inlines.forEach( ( inlineElement ) => {
+
+			// Abort condition
+
+			if ( !inlineElement._inlines.value ) return;
+
+			this._resetInlines( inlineElement );
+
+			//////////////////////////////////////////////////////////////
+			// Compute offset of each children according to its dimensions
+			//////////////////////////////////////////////////////////////
+
+			// @TODO: Fontsize best fit
+			const FONTSIZE = inlineElement._fontSize._value;
+
+			const LETTERSPACING = inlineElement._letterSpacing._value * FONTSIZE;
+
+			const WHITESPACE = inlineElement._whiteSpace._value;
+
+			const BREAKON = inlineElement._lineBreak._value;
+
+			const POSITION = inlineElement._position._value;
+
+			const whiteSpaceOptions = {
+				WHITESPACE,
+				LETTERSPACING,
+				BREAKON,
+				INNER_WIDTH
+			}
+
+			const inlineWrapper = inlineElement._whiteSpace._inlineWrapper;
+
+			// @TODO : absolute inlines in Texts
+			var remember = lastInlineOffset;
+			if( POSITION === 'absolute' ){
+					lastInlineOffset = 0;
+			}
+
+
+			lastInlineOffset += inlineElement._margin._value.w + inlineElement._padding._value.w;
+
+			inlineElement._inlines.value.forEach( ( inline, i, inlines ) => {
+
+				const line = lines[lines.length - 1];
+
+				// Line break
+				const shouldBreak = inlineWrapper(inlines,i,lastInlineOffset, whiteSpaceOptions );
+
+				if ( shouldBreak ) {
+
+					lines.push( new Line( inline ) );
+
+					inline.offsetX = inline.xoffset;
+
+					// restart the lastInlineOffset as zero.
+					if ( inline.width === 0 ) {
+						lastInlineOffset = 0;
+						return;
+					}
+
+					// compute lastInlineOffset normally
+					// except for kerning which won't apply
+					// as there is visually no lefthanded glyph to kern with
+					inline.cumulativeWidth = inline.xadvance + LETTERSPACING;
+					lastInlineOffset = inline.cumulativeWidth;
+					return;
+
+				}
+
+				lines[ lines.length - 1 ].push( inline );
+				inline.offsetX = lastInlineOffset + inline.xoffset + inline.kerning;
+
+				inline.cumulativeWidth = inline.xadvance + inline.kerning + LETTERSPACING;
+				lastInlineOffset += inline.cumulativeWidth;
+
+				// in case of lineBreak mandatory
+				if( line.length-1 === 1) {
+
+					if ( line[ line.length - 2 ].width === 0 ) {
+
+						// remove the offset of the character following the newline
+						inline.offsetX -= inline.xoffset;
+						lastInlineOffset -= inline.xoffset;
 
 					}
 
 				}
 
+			} );
+
+			lastInlineOffset += inlineElement._margin._value.y + inlineElement._padding._value.y;
+
+			// @TODO : absolute inlines in Texts
+			if( POSITION === 'absolute'){
+				lastInlineOffset = remember;
 			}
+
+		} );
+
+		// Compute single line and combined lines dimensions
+		const inlineCollapser = element._whiteSpace._inlineCollapser;
+
+
+		let width = 0, height =0, lineOffsetY = 0;
+
+		// calculates lines
+		lines.forEach( ( line, i ) => {
+
+			// starts by processing whitespace, it will return a collapsed left offset
+			const whiteSpaceOffset = inlineCollapser( line );
+
+			//
+			let lineHeight = 0;
+			let lineBase = 0;
+
+			line.forEach( ( inline ) => {
+
+				lineHeight = Math.max( lineHeight, inline.lineHeight );
+				lineBase = Math.max( lineBase, inline.lineBase );
+
+				inline.offsetX -= whiteSpaceOffset;
+
+			});
+
+			line.lineHeight = lineHeight;
+			line.lineBase = lineBase;
+
+			const baseLineDelta = lineHeight - lineBase;
+
+			if( i === 0 ){
+				lineOffsetY = -(lineHeight*INTERLINE - lineHeight) * 0.5;
+			} else {
+				lineOffsetY -= lines[i-1].lineHeight*INTERLINE;
+			}
+
+			line.y = lineOffsetY;
+			line.x = 0;
+
+			// process yoffset
+			line.forEach( ( inline ) => {
+
+				inline.offsetY = lineOffsetY - inline.anchor;
+
+				// VERTICAL ALIGN
+				if( inline.lineHeight < line.lineHeight ){
+
+					if ( inline.verticalAlign === 'super' ) {
+						inline.offsetY += inline.lineBase / 5;
+					}else if( inline.verticalAlign === 'sub'){
+						inline.offsetY -= line.lineBase * 1.2 - inline.lineBase;
+					}else{
+						// Baseline
+							inline.offsetY -= line.lineBase- inline.lineBase;
+					}
+
+
+				}
+
+			});
+
+
+
+			height += ( line.lineHeight * INTERLINE );
+			// height += ( line.lineHeight);
+
+			//
+			line.width = 0;
+			// if this line have inlines
+			if ( line[ 0 ] ) {
+
+				// compute its width: length from firstInline:LEFT to lastInline:RIGHT
+				// only by the length of its extremities
+				const lastInline = line[ line.length - 1 ];
+
+				// Right + Left ( left is negative )
+				line.width = ( lastInline.offsetX + lastInline.cumulativeWidth + lastInline.paddingRight + lastInline.marginRight ) + line[ 0 ].offsetX;
+
+				width = Math.max( width, line.width);
+			}
+
+		} );
+
+		lines.height = height;
+		lines.width = width;
+
+		this._value = lines;
+
+		if( INNER_WIDTH === Infinity ) {
+
+			element._bounds.setChildrenWidth( element, lines.width );
 
 		}
 
-	}
+		if( element._height._auto ) {
 
-	_onBeforeRender = () => {
+			element._bounds.setChildrenHeight( element, lines.height );
 
-			if ( this.updateClippingPlanes ) {
+		}
 
-				this.updateClippingPlanes();
+		const parent = element._parent._value;
+		if( parent ) {
 
-			}
+			parent._autoSize._needsProcess = true;
+			parent._flexDirection._needsProcess = true;
+
+		}
+
+		element._inlineJustificator._needsProcess = true;
+		element._textAlign._needsProcess = true;
+
+		element._overflow._needsUpdate = true;
 
 	}
 
 	/**
 	 *
-	 * @returns {FontVariant}
+	 * @param inlineElement
+	 * @protected
 	 */
-	get font() {
-		return this._font;
-	}
+	_resetInlines ( inlineElement ) {
 
-	/*******************************************************************************************************************
-	 * GETTERS - SETTERS
-	 ******************************************************************************************************************/
-
-	// get whiteSpace(){
-	//
-	// 	// initialisation can look on parents
-	// 	if( !this._whiteSpace ) this._whiteSpace = this.getWhiteSpace();
-	//
-	// 	return this._whiteSpace;
-	//
-	// }
-	//
-	// set whiteSpace( value ) {
-	//
-	// 	if( this._whiteSpace === value ) return;
-	//
-	// 	value = Whitespace.isValid( value );
-	//
-	// 	this._whiteSpace = value;
-	//
-	// 	// request parse and layout
-	// 	this.update( true, true, false );
-	//
-	// }
-
-
-	_buildContentKernings(){
-
-		// apply kerning
-		if ( this.getFontKerning() !== 'none' ) {
-
-			// First character won't be kerned with its void lefthanded peer
-			for ( let i = 1; i < this._textContent.length; i++ ) {
-
-				const glyphPair = this._textContent[ i - 1 ] + this._textContent[ i ];
-
-				// retrieve the kerning from the font
-				// as set it on the characterInline
-				this._textContentInlines[ i ].kerning = this._font.getKerningAmount( glyphPair );
-
-			}
-		}
+		// ensure no collapsed remains
+		inlineElement._fontSize.process( inlineElement );
 
 	}
 
-	///////////
-	// UPDATES
-	///////////
+}
+
+;// CONCATENATED MODULE: ./src/core/properties/style-properties/font/TextAlignPropertyText.js
 
 
-	/**
-	 * Here we compute each glyph dimension, and we store it in this
-	 * component's inlines parameter. This way the parent Block will
-	 * compute each glyph position on updateLayout.
-	 */
-	parseParams() {
 
-		this._acquireFont();
+class TextAlignPropertyText extends TextAlignProperty {
 
-		if( !this.content || this.content.length === 0 ) return;
+	constructor() {
 
-		// won't parse without font or unready font
-		if( !this._font || !this._font.isReady ) return;
+		super();
 
-		// Apply whitespace on string characters themselves.
-		// Will possibly :
-		//  - l/r trim whitespace
-		//  - collapse whitespace sequences
-		//  - remove newlines / tabulations
-		this._textContent = collapseWhitespaceOnString( this.content, this.getWhiteSpace() );
+		// configure
+		this._allowsInherit = false;
+		this._needsUpdate = true;
 
-		// Now that we know exactly which characters will be printed
-		// Store the character description ( typographic properties )
-		this._textContentGlyphs = this._textContent.split( '' ).map( ( char ) => this._font.getTypographyCharacter( char ) );
-
-		// And from the descriptions ( which are static/freezed per character per font )
-		// Build the inline
-		this._textContentInlines = this._textContentGlyphs.map( ( glyphBox ) => glyphBox.asInlineCharacter() );
-		this.inlines = this._textContentInlines;
-
-
-		// this.calculateInlines( this._fitFontSize || this.getFontSize() );
-		this.calculateInlines( this._fitFontSize || this.getFontSize() );
+		//
+		// @TODO : strategies
 
 	}
 
-	/**
-	 * Create text content
-	 *
-	 * At this point, text.inlines should have been modified by the parent
-	 * component, to add xOffset and yOffset properties to each inlines.
-	 * This way, TextContent knows were to position each character.
-	 */
-	updateLayout() {
 
-		utils_deepDelete( this );
+	/* eslint-disable no-unused-vars */computeOutputValue( element ) { /* eslint-enable no-unused-vars */
 
-		if ( this.inlines ) {
+		this._value = this._inheritedInput;
 
-			const charactersAsGeometries = this.inlines.map(
-				inline =>
-					this._font.getGeometryCharacter( inline )
-						.translate( inline.offsetX, inline.offsetY, 0 )
+		this._needsProcess = true;
 
-			);
+	}
 
-			const mergedGeom = mergeBufferGeometries( charactersAsGeometries );
+	process( element ) {
 
-			this.textContent = new external_three_namespaceObject.Mesh( mergedGeom, this.getFontMaterial() );
+		_process( element );
 
-			this.textContent.renderOrder = Infinity;
+		element._renderer._needsRender = true;
 
-			// This is for hiddenOverflow to work
-			this.textContent.onBeforeRender = this._onBeforeRender
+	}
 
-			this.updateTextMaterial();
+}
 
-			this.add( this.textContent );
+function _process( element ) {
+
+	const lines = element._layouter._value;
+	const ALIGNMENT = element._textAlign._value;
+	const INNER_WIDTH = element._bounds._innerWidth;
+
+	// Start the alignment by sticking to directions : left, right, center
+	for ( let i = 0; i < lines.length; i++ ) {
+
+		const line = lines[ i ];
+
+		const padding = element._padding._value;
+		const border = element._borderWidth._value;
+
+		// compute the alignment offset of the line
+		const offsetX = _computeLineOffset( element, line, i === lines.length - 1 , padding);
+
+
+
+		// const paddingAmount = - ( padding.w + padding.y ) / 2 - ( border.w + border.y ) / 2;
+		// const paddingAmount = - ( padding.w + padding.y ) / 2;
+		const paddingAmount = ( - padding.w + padding.y ) / 2 + ( - border.w + border.y ) / 2;
+
+		line.x += offsetX;
+
+		// apply the offset to each characters of the line
+		for ( let j = 0; j < line.length; j++ ) {
+
+			line[ j ].offsetX += offsetX - paddingAmount;
+			// line[ j ].offsetX += offsetX;
 
 		}
 
-		this.position.z = this.getOffset();
+		// line.x = line[ 0 ].offsetX;
+
 
 	}
 
-	updateInner() {
+	// last operations for justifications alignments
+	if ( ALIGNMENT.indexOf( 'justify' ) === 0 ) {
 
-		this.position.z = this.getOffset();
+		for ( let i = 0; i < lines.length; i++ ) {
 
-		if ( this.textContent ) this.updateTextMaterial();
+			const line = lines[ i ];
 
-	}
 
-	calculateInlines( fontSize ) {
+			// do not process last line for justify-left or justify-right
+			if ( ALIGNMENT.indexOf( '-' ) !== -1 && i === lines.length - 1 ) return;
 
-		// Abort conditions
-		if ( !this._font || !this._font.isReady ) return;
-		if ( !this._textContent) return;
+			// can only justify is space is remaining
+			const REMAINING_SPACE = INNER_WIDTH - line.width;
+			if ( REMAINING_SPACE <= 0 ) return;
 
-		const whiteSpace = this.getWhiteSpace();
-		const newLineBreakability = newlineBreakability( whiteSpace )
+			// count the valid spaces to extend
+			// Do not take the first nor the last space into account
+			let validSpaces = 0;
+			for ( let j = 1; j < line.length - 1; j++ ) {
 
-		const breakChars = this.getBreakOn();
+				validSpaces += line[ j ].char === ' ' ? 1 : 0;
 
-		const SCALE_MULT = fontSize / this._font.typographic.size;
+			}
+			const additionalSpace = REMAINING_SPACE / validSpaces;
 
-		// update inlines properties before inline placements in lines
-		for ( let i = 0; i < this._textContent.length; i++ ) {
 
-			const char = this._textContent[ i ];
+			// for right justification, process the loop in reverse
+			let inverter = 1;
+			if ( ALIGNMENT === 'justify-right' ) {
 
-			/**
-			 *
-			 * @type {MSDFInlineCharacter}
-			 */
-			const inline = this._textContentInlines[ i ];
-
-			inline.resetOffsets();
-
-			// Whitespace Breakability ---------------------------------------------------------------------------------------
-			let lineBreak = null;
-			if ( whiteSpace !== NOWRAP ) {
-
-				if ( breakChars.includes( char ) || char.match( /\s/g ) ) lineBreak = 'possible';
+				line.reverse();
+				inverter = -1;
 
 			}
 
-			if ( char.match( /\n/g ) ) {
+			let incrementalOffsetX = 0;
 
-				lineBreak = newLineBreakability;
+			// start at ONE to avoid first space
+			for ( let j = 1; j <= line.length - 1; j++ ) {
+
+				// apply offset on each char
+				const inlineCharacter = line[ j ];
+				inlineCharacter.offsetX += incrementalOffsetX * inverter;
+
+				// and increase it when space
+				incrementalOffsetX += inlineCharacter.char === ' ' ? additionalSpace : 0;
 
 			}
 
-			inline.lineBreak = lineBreak;
-
-			// --------------------------------------------------------------------------------------  Whitespace Breakability
-
-			inline.fontSize = fontSize;
-
-			inline.fontFactor = SCALE_MULT;
+			// for right justification, the loop was processed in reverse
+			if ( ALIGNMENT === 'justify-right' ) {
+				line.reverse();
+			}
 
 
 		}
@@ -5846,1228 +14469,1147 @@ class Text extends mix.withBase( external_three_namespaceObject.Object3D )(
 
 }
 
-;// CONCATENATED MODULE: ./src/components/InlineBlock.js
+function _computeLineOffset ( element, line, lastLine, padding ) {
+
+	switch ( element._textAlign._value ) {
+
+		case 'justify-left':
+		case 'justify':
+		case 'left':
+			return - element._bounds._innerWidth / 2 + padding.w;
+
+		case 'justify-right':
+		case 'right':
+			return -line.width + ( element._bounds._innerWidth / 2 ) - padding.y;
 
 
+		case 'center':
+			return -line.width / 2;
 
+		case 'justify-center':
+			if ( lastLine ) {
 
-
-
-
-
-
-
-
-/**
- * Job:
- * - computing its own size according to user measurements or content measurement
- * - creating an 'inlines' object with info, so that the parent component can organise it along with other inlines
- *
- * Knows:
- * - Its measurements parameter
- * - Parent block
- */
-class InlineBlock extends mix.withBase( external_three_namespaceObject.Object3D )(
-	InlineComponent,
-	BoxComponent,
-	InlineManager,
-	MaterialManager,
-	MeshUIComponent
-) {
-
-	constructor( options ) {
-
-		super( options );
-
-		this.isInlineBlock = true;
-
-		//
-
-		this.size = new external_three_namespaceObject.Vector2( 1, 1 );
-
-		this.frame = new Frame( this.getBackgroundMaterial() );
-
-		// This is for hiddenOverflow to work
-		this.frame.onBeforeRender = () => {
-
-			if ( this.updateClippingPlanes ) {
-
-				this.updateClippingPlanes();
+				// center alignement
+				return -line.width / 2;
 
 			}
 
-		};
+			// left alignment
+			return - element._bounds._innerWidth / 2 + padding.w;
 
-		this.add( this.frame );
-
-		// Lastly set the options parameters to this object, which will trigger an update
-
-		this.set( options );
-
-	}
-
-	///////////
-	// UPDATES
-	///////////
-
-	parseParams() {
-
-		// Get image dimensions
-
-		if ( !this.width ) console.warn( 'inlineBlock has no width. Set to 0.3 by default' );
-		if ( !this.height ) console.warn( 'inlineBlock has no height. Set to 0.3 by default' );
-
-
-		// Add an object that can be seen and CharacterInline
-		this.inlines = [ {
-			lineBreak : 'possible',
-			kerning : 0,
-      offsetX : 0,
-			offsetY : 0,
-			width: this.width || 0.3,
-			height: this.height || 0.3,
-			anchor: 0, // @TODO: Could be useful
-			xadvance: this.width || 0.3,
-			xoffset: 0,
-			yoffset: 0,
-			lineHeight : this.height || 0.3,
-			lineBase: this.height || 0.3
-		}];
-
-	}
-
-	//
-
-
-	/**
-	 * Create text content
-	 *
-	 * At this point, text.inlines should have been modified by the parent
-	 * component, to add xOffset and yOffset properties to each inlines.
-	 * This way, TextContent knows were to position each character.
-	 *
-	 */
-	updateLayout() {
-
-		const WIDTH = this.getWidth();
-		const HEIGHT = this.getHeight();
-
-		if ( this.inlines ) {
-
-			const options = this.inlines[ 0 ];
-
-			// basic translation to put the plane's left bottom corner at the center of its space
-			this.position.set( options.width / 2, options.height / 2, 0 );
-
-			// translation required by inlineManager to position this component inline
-			this.position.x += options.offsetX;
-			this.position.y += options.offsetY;
-
-			this.position.y += options.anchor;
-
-		}
-
-		this.size.set( WIDTH, HEIGHT );
-		this.frame.scale.set( WIDTH, HEIGHT, 1 );
-
-		if ( this.frame ) this.updateBackgroundMaterial();
-
-		this.frame.renderOrder = this.getParentsNumber();
-
-		// Position inner elements according to dimensions and layout parameters.
-		// Delegate to BoxComponent.
-
-		if ( this.childrenInlines.length ) {
-
-			this.computeInlinesPosition();
-
-		}
-
-		this.computeChildrenPosition();
-
-		this.position.z = this.getOffset();
-
-	}
-
-	//
-
-	updateInner() {
-
-		this.position.z = this.getOffset();
-
-		if ( this.frame ) this.updateBackgroundMaterial();
+		default:
+			console.warn( `textAlign: '${element._textAlign._value}' is not valid` );
 
 	}
 
 }
 
-;// CONCATENATED MODULE: ./src/utils/Keymaps.js
-/**
-
-Contains key maps for the Keyboard component.
-Most languages need a specific keyboard. Therefore, Keyboard takes a language attribute
-and if not passed tries to detect the language. If not found, it uses the basic QZERTY layout.
-
- */
-/* harmony default export */ const Keymaps = ({
-
-	fr:
-		[
-			[
-				[
-					{ width: 0.1, chars: [ { lowerCase: 'a', upperCase: 'A' } ] },
-					{ width: 0.1, chars: [ { lowerCase: 'z', upperCase: 'Z' } ] },
-					{ width: 0.1, chars: [ { lowerCase: 'e', upperCase: 'E' } ] },
-					{ width: 0.1, chars: [ { lowerCase: 'r', upperCase: 'R' } ] },
-					{ width: 0.1, chars: [ { lowerCase: 't', upperCase: 'T' } ] },
-					{ width: 0.1, chars: [ { lowerCase: 'y', upperCase: 'Y' } ] },
-					{ width: 0.1, chars: [ { lowerCase: 'u', upperCase: 'U' } ] },
-					{ width: 0.1, chars: [ { lowerCase: 'i', upperCase: 'I' } ] },
-					{ width: 0.1, chars: [ { lowerCase: 'o', upperCase: 'O' } ] },
-					{ width: 0.1, chars: [ { lowerCase: 'p', upperCase: 'P' } ] }
-				],
-
-				[
-					{ width: 0.1, chars: [ { lowerCase: 'q', upperCase: 'Q' } ] },
-					{ width: 0.1, chars: [ { lowerCase: 's', upperCase: 'S' } ] },
-					{ width: 0.1, chars: [ { lowerCase: 'd', upperCase: 'D' } ] },
-					{ width: 0.1, chars: [ { lowerCase: 'f', upperCase: 'F' } ] },
-					{ width: 0.1, chars: [ { lowerCase: 'g', upperCase: 'G' } ] },
-					{ width: 0.1, chars: [ { lowerCase: 'h', upperCase: 'H' } ] },
-					{ width: 0.1, chars: [ { lowerCase: 'j', upperCase: 'J' } ] },
-					{ width: 0.1, chars: [ { lowerCase: 'k', upperCase: 'K' } ] },
-					{ width: 0.1, chars: [ { lowerCase: 'l', upperCase: 'L' } ] },
-					{ width: 0.1, chars: [ { lowerCase: 'm', upperCase: 'M' } ] }
-				],
-
-				[
-					{ width: 0.2, command: 'shift', chars: [ { icon: 'shift' } ] },
-					{ width: 0.1, chars: [ { lowerCase: 'w', upperCase: 'W' } ] },
-					{ width: 0.1, chars: [ { lowerCase: 'x', upperCase: 'X' } ] },
-					{ width: 0.1, chars: [ { lowerCase: 'c', upperCase: 'C' } ] },
-					{ width: 0.1, chars: [ { lowerCase: 'v', upperCase: 'V' } ] },
-					{ width: 0.1, chars: [ { lowerCase: 'b', upperCase: 'B' } ] },
-					{ width: 0.1, chars: [ { lowerCase: 'n', upperCase: 'N' } ] },
-					{ width: 0.2, command: 'backspace', chars: [ { icon: 'backspace' } ] }
-				],
-
-				[
-					{ width: 0.2, command: 'switch', chars: [ { lowerCase: '.?12' } ] },
-					{ width: 0.1, chars: [ { lowerCase: ',' } ] },
-					{ width: 0.4, command: 'space', chars: [ { icon: 'space' } ] },
-					{ width: 0.1, chars: [ { lowerCase: '.' } ] },
-					{ width: 0.2, command: 'enter', chars: [ { icon: 'enter' } ] }
-				]
-
-			],
-
-			[
-				[
-					{ width: 0.1, chars: [ { lowerCase: '1' } ] },
-					{ width: 0.1, chars: [ { lowerCase: '2' } ] },
-					{ width: 0.1, chars: [ { lowerCase: '3' } ] },
-					{ width: 0.1, chars: [ { lowerCase: '4' } ] },
-					{ width: 0.1, chars: [ { lowerCase: '5' } ] },
-					{ width: 0.1, chars: [ { lowerCase: '6' } ] },
-					{ width: 0.1, chars: [ { lowerCase: '7' } ] },
-					{ width: 0.1, chars: [ { lowerCase: '8' } ] },
-					{ width: 0.1, chars: [ { lowerCase: '9' } ] },
-					{ width: 0.1, chars: [ { lowerCase: '0' } ] }
-				],
-
-				[
-					{ width: 0.1, chars: [ { lowerCase: '@' } ] },
-					{ width: 0.1, chars: [ { lowerCase: '#' } ] },
-					{ width: 0.1, chars: [ { lowerCase: '|' } ] },
-					{ width: 0.1, chars: [ { lowerCase: '_' } ] },
-					{ width: 0.1, chars: [ { lowerCase: '&' } ] },
-					{ width: 0.1, chars: [ { lowerCase: '-' } ] },
-					{ width: 0.1, chars: [ { lowerCase: '+' } ] },
-					{ width: 0.1, chars: [ { lowerCase: '(' } ] },
-					{ width: 0.1, chars: [ { lowerCase: ')' } ] },
-					{ width: 0.1, chars: [ { lowerCase: '/' } ] }
-				],
-
-				[
-					{ width: 0.1, chars: [ { lowerCase: '=' } ] },
-					{ width: 0.1, chars: [ { lowerCase: '*' } ] },
-					{ width: 0.1, chars: [ { lowerCase: '"' } ] },
-					{ width: 0.1, chars: [ { lowerCase: '\'' } ] },
-					{ width: 0.1, chars: [ { lowerCase: ':' } ] },
-					{ width: 0.1, chars: [ { lowerCase: ';' } ] },
-					{ width: 0.1, chars: [ { lowerCase: '!' } ] },
-					{ width: 0.1, chars: [ { lowerCase: '?' } ] },
-					{ width: 0.2, command: 'backspace', chars: [ { icon: 'backspace' } ] }
-				],
-
-				[
-					{ width: 0.2, command: 'switch', chars: [ { lowerCase: '.?12' } ] },
-					{ width: 0.1, chars: [ { lowerCase: ',' } ] },
-					{ width: 0.4, command: 'space', chars: [ { icon: 'space' } ] },
-					{ width: 0.1, chars: [ { lowerCase: '.' } ] },
-					{ width: 0.2, command: 'enter', chars: [ { icon: 'enter' } ] }
-				]
-			]
-		],
-
-	///////////////////////////////////////////////////////////
-
-	eng:
-		[
-			[
-				[
-					{ width: 0.1, chars: [ { lowerCase: 'q', upperCase: 'Q' } ] },
-					{ width: 0.1, chars: [ { lowerCase: 'w', upperCase: 'W' } ] },
-					{ width: 0.1, chars: [ { lowerCase: 'e', upperCase: 'E' } ] },
-					{ width: 0.1, chars: [ { lowerCase: 'r', upperCase: 'R' } ] },
-					{ width: 0.1, chars: [ { lowerCase: 't', upperCase: 'T' } ] },
-					{ width: 0.1, chars: [ { lowerCase: 'y', upperCase: 'Y' } ] },
-					{ width: 0.1, chars: [ { lowerCase: 'u', upperCase: 'U' } ] },
-					{ width: 0.1, chars: [ { lowerCase: 'i', upperCase: 'I' } ] },
-					{ width: 0.1, chars: [ { lowerCase: 'o', upperCase: 'O' } ] },
-					{ width: 0.1, chars: [ { lowerCase: 'p', upperCase: 'P' } ] }
-				],
-
-				[
-					{ width: 0.1, chars: [ { lowerCase: 'a', upperCase: 'A' } ] },
-					{ width: 0.1, chars: [ { lowerCase: 's', upperCase: 'S' } ] },
-					{ width: 0.1, chars: [ { lowerCase: 'd', upperCase: 'D' } ] },
-					{ width: 0.1, chars: [ { lowerCase: 'f', upperCase: 'F' } ] },
-					{ width: 0.1, chars: [ { lowerCase: 'g', upperCase: 'G' } ] },
-					{ width: 0.1, chars: [ { lowerCase: 'h', upperCase: 'H' } ] },
-					{ width: 0.1, chars: [ { lowerCase: 'j', upperCase: 'J' } ] },
-					{ width: 0.1, chars: [ { lowerCase: 'k', upperCase: 'K' } ] },
-					{ width: 0.1, chars: [ { lowerCase: 'l', upperCase: 'L' } ] }
-				],
-
-				[
-					{ width: 0.15, command: 'shift', chars: [ { icon: 'shift' } ] },
-					{ width: 0.1, chars: [ { lowerCase: 'z', upperCase: 'Z' } ] },
-					{ width: 0.1, chars: [ { lowerCase: 'x', upperCase: 'X' } ] },
-					{ width: 0.1, chars: [ { lowerCase: 'c', upperCase: 'C' } ] },
-					{ width: 0.1, chars: [ { lowerCase: 'v', upperCase: 'V' } ] },
-					{ width: 0.1, chars: [ { lowerCase: 'b', upperCase: 'B' } ] },
-					{ width: 0.1, chars: [ { lowerCase: 'n', upperCase: 'N' } ] },
-					{ width: 0.1, chars: [ { lowerCase: 'm', upperCase: 'M' } ] },
-					{ width: 0.15, command: 'backspace', chars: [ { icon: 'backspace' } ] }
-				],
-
-				[
-					{ width: 0.2, command: 'switch', chars: [ { lowerCase: '.?12' } ] },
-					{ width: 0.1, chars: [ { lowerCase: ',' } ] },
-					{ width: 0.4, command: 'space', chars: [ { icon: 'space' } ] },
-					{ width: 0.1, chars: [ { lowerCase: '.' } ] },
-					{ width: 0.2, command: 'enter', chars: [ { icon: 'enter' } ] }
-				]
-
-			],
-
-			[
-				[
-					{ width: 0.1, chars: [ { lowerCase: '1' } ] },
-					{ width: 0.1, chars: [ { lowerCase: '2' } ] },
-					{ width: 0.1, chars: [ { lowerCase: '3' } ] },
-					{ width: 0.1, chars: [ { lowerCase: '4' } ] },
-					{ width: 0.1, chars: [ { lowerCase: '5' } ] },
-					{ width: 0.1, chars: [ { lowerCase: '6' } ] },
-					{ width: 0.1, chars: [ { lowerCase: '7' } ] },
-					{ width: 0.1, chars: [ { lowerCase: '8' } ] },
-					{ width: 0.1, chars: [ { lowerCase: '9' } ] },
-					{ width: 0.1, chars: [ { lowerCase: '0' } ] }
-				],
-
-				[
-					{ width: 0.1, chars: [ { lowerCase: '@' } ] },
-					{ width: 0.1, chars: [ { lowerCase: '#' } ] },
-					{ width: 0.1, chars: [ { lowerCase: '|' } ] },
-					{ width: 0.1, chars: [ { lowerCase: '_' } ] },
-					{ width: 0.1, chars: [ { lowerCase: '&' } ] },
-					{ width: 0.1, chars: [ { lowerCase: '-' } ] },
-					{ width: 0.1, chars: [ { lowerCase: '+' } ] },
-					{ width: 0.1, chars: [ { lowerCase: '(' } ] },
-					{ width: 0.1, chars: [ { lowerCase: ')' } ] },
-					{ width: 0.1, chars: [ { lowerCase: '/' } ] }
-				],
-
-				[
-					{ width: 0.1, chars: [ { lowerCase: '=' } ] },
-					{ width: 0.1, chars: [ { lowerCase: '*' } ] },
-					{ width: 0.1, chars: [ { lowerCase: '"' } ] },
-					{ width: 0.1, chars: [ { lowerCase: '\'' } ] },
-					{ width: 0.1, chars: [ { lowerCase: ':' } ] },
-					{ width: 0.1, chars: [ { lowerCase: ';' } ] },
-					{ width: 0.1, chars: [ { lowerCase: '!' } ] },
-					{ width: 0.1, chars: [ { lowerCase: '?' } ] },
-					{ width: 0.2, command: 'backspace', chars: [ { icon: 'backspace' } ] }
-				],
-
-				[
-					{ width: 0.2, command: 'switch', chars: [ { lowerCase: '.?12' } ] },
-					{ width: 0.1, chars: [ { lowerCase: ',' } ] },
-					{ width: 0.4, command: 'space', chars: [ { icon: 'space' } ] },
-					{ width: 0.1, chars: [ { lowerCase: '.' } ] },
-					{ width: 0.2, command: 'enter', chars: [ { icon: 'enter' } ] }
-				]
-			]
-		],
-
-	////////////////////////////////////////////////////////////
-
-	ru:
-		[
-			[
-				[
-					{ width: 1 / 12, chars: [ { lowerCase: 'й', upperCase: 'Й' }, { lowerCase: 'q', upperCase: 'Q' } ] },
-					{ width: 1 / 12, chars: [ { lowerCase: 'ц', upperCase: 'Ц' }, { lowerCase: 'w', upperCase: 'W' } ] },
-					{ width: 1 / 12, chars: [ { lowerCase: 'у', upperCase: 'У' }, { lowerCase: 'e', upperCase: 'E' } ] },
-					{ width: 1 / 12, chars: [ { lowerCase: 'к', upperCase: 'К' }, { lowerCase: 'r', upperCase: 'R' } ] },
-					{ width: 1 / 12, chars: [ { lowerCase: 'е', upperCase: 'Е' }, { lowerCase: 't', upperCase: 'T' } ] },
-					{ width: 1 / 12, chars: [ { lowerCase: 'н', upperCase: 'Н' }, { lowerCase: 'y', upperCase: 'Y' } ] },
-					{ width: 1 / 12, chars: [ { lowerCase: 'г', upperCase: 'Г' }, { lowerCase: 'u', upperCase: 'U' } ] },
-					{ width: 1 / 12, chars: [ { lowerCase: 'ш', upperCase: 'Ш' }, { lowerCase: 'i', upperCase: 'I' } ] },
-					{ width: 1 / 12, chars: [ { lowerCase: 'щ', upperCase: 'Щ' }, { lowerCase: 'o', upperCase: 'O' } ] },
-					{ width: 1 / 12, chars: [ { lowerCase: 'з', upperCase: 'З' }, { lowerCase: 'p', upperCase: 'P' } ] },
-					{ width: 1 / 12, chars: [ { lowerCase: 'х', upperCase: 'Х' }, { lowerCase: '{', upperCase: '[' } ] },
-					{ width: 1 / 12, chars: [ { lowerCase: 'ъ', upperCase: 'Ъ' }, { lowerCase: '}', upperCase: ']' } ] }
-				],
-
-				[
-					{ width: 1 / 12, chars: [ { lowerCase: 'ф', upperCase: 'Ф' }, { lowerCase: 'a', upperCase: 'A' } ] },
-					{ width: 1 / 12, chars: [ { lowerCase: 'ы', upperCase: 'Ы' }, { lowerCase: 's', upperCase: 'S' } ] },
-					{ width: 1 / 12, chars: [ { lowerCase: 'в', upperCase: 'В' }, { lowerCase: 'd', upperCase: 'D' } ] },
-					{ width: 1 / 12, chars: [ { lowerCase: 'а', upperCase: 'А' }, { lowerCase: 'f', upperCase: 'F' } ] },
-					{ width: 1 / 12, chars: [ { lowerCase: 'п', upperCase: 'П' }, { lowerCase: 'g', upperCase: 'G' } ] },
-					{ width: 1 / 12, chars: [ { lowerCase: 'р', upperCase: 'Р' }, { lowerCase: 'h', upperCase: 'H' } ] },
-					{ width: 1 / 12, chars: [ { lowerCase: 'о', upperCase: 'О' }, { lowerCase: 'j', upperCase: 'J' } ] },
-					{ width: 1 / 12, chars: [ { lowerCase: 'л', upperCase: 'Л' }, { lowerCase: 'k', upperCase: 'K' } ] },
-					{ width: 1 / 12, chars: [ { lowerCase: 'д', upperCase: 'Д' }, { lowerCase: 'l', upperCase: 'L' } ] },
-					{ width: 1 / 12, chars: [ { lowerCase: 'ж', upperCase: 'Ж' }, { lowerCase: ':', upperCase: ';' } ] },
-					{ width: 1 / 12, chars: [ { lowerCase: 'э', upperCase: 'Э' }, { lowerCase: '"', upperCase: '\'' } ] },
-					{ width: 1 / 12, chars: [ { lowerCase: 'ё', upperCase: 'Ё' }, { lowerCase: '|', upperCase: '\\' } ] }
-				],
-
-				[
-					{ width: 1.5 / 12, command: 'shift', chars: [ { icon: 'shift' } ] },
-					{ width: 1 / 12, chars: [ { lowerCase: 'я', upperCase: 'Я' }, { lowerCase: 'z', upperCase: 'Z' } ] },
-					{ width: 1 / 12, chars: [ { lowerCase: 'ч', upperCase: 'Ч' }, { lowerCase: 'x', upperCase: 'X' } ] },
-					{ width: 1 / 12, chars: [ { lowerCase: 'с', upperCase: 'С' }, { lowerCase: 'c', upperCase: 'C' } ] },
-					{ width: 1 / 12, chars: [ { lowerCase: 'м', upperCase: 'М' }, { lowerCase: 'v', upperCase: 'V' } ] },
-					{ width: 1 / 12, chars: [ { lowerCase: 'и', upperCase: 'И' }, { lowerCase: 'b', upperCase: 'B' } ] },
-					{ width: 1 / 12, chars: [ { lowerCase: 'т', upperCase: 'Т' }, { lowerCase: 'n', upperCase: 'N' } ] },
-					{ width: 1 / 12, chars: [ { lowerCase: 'ь', upperCase: 'Ь' }, { lowerCase: 'm', upperCase: 'M' } ] },
-					{ width: 1 / 12, chars: [ { lowerCase: 'б', upperCase: 'Б' }, { lowerCase: ',', upperCase: '' } ] },
-					{ width: 1 / 12, chars: [ { lowerCase: 'ю', upperCase: 'Ю' }, { lowerCase: '.', upperCase: '' } ] },
-					{ width: 1.5 / 12, command: 'backspace', chars: [ { icon: 'backspace' } ] }
-				],
-
-				[
-					{ width: 0.15, command: 'switch-set', chars: [ { lowerCase: 'eng' } ] },
-					{ width: 0.15, command: 'switch', chars: [ { lowerCase: '.?12' } ] },
-					{ width: 0.4, command: 'space', chars: [ { icon: 'space' } ] },
-					{ width: 0.1, chars: [ { lowerCase: '?' } ] },
-					{ width: 0.2, command: 'enter', chars: [ { icon: 'enter' } ] }
-				]
-			],
-
-			[
-				[
-					{ width: 0.1, chars: [ { lowerCase: '1' } ] },
-					{ width: 0.1, chars: [ { lowerCase: '2' } ] },
-					{ width: 0.1, chars: [ { lowerCase: '3' } ] },
-					{ width: 0.1, chars: [ { lowerCase: '4' } ] },
-					{ width: 0.1, chars: [ { lowerCase: '5' } ] },
-					{ width: 0.1, chars: [ { lowerCase: '6' } ] },
-					{ width: 0.1, chars: [ { lowerCase: '7' } ] },
-					{ width: 0.1, chars: [ { lowerCase: '8' } ] },
-					{ width: 0.1, chars: [ { lowerCase: '9' } ] },
-					{ width: 0.1, chars: [ { lowerCase: '0' } ] }
-				],
-
-				[
-					{ width: 0.1, chars: [ { lowerCase: '@' } ] },
-					{ width: 0.1, chars: [ { lowerCase: '#' } ] },
-					{ width: 0.1, chars: [ { lowerCase: '|' } ] },
-					{ width: 0.1, chars: [ { lowerCase: '_' } ] },
-					{ width: 0.1, chars: [ { lowerCase: '&' } ] },
-					{ width: 0.1, chars: [ { lowerCase: '-' } ] },
-					{ width: 0.1, chars: [ { lowerCase: '+' } ] },
-					{ width: 0.1, chars: [ { lowerCase: '(' } ] },
-					{ width: 0.1, chars: [ { lowerCase: ')' } ] },
-					{ width: 0.1, chars: [ { lowerCase: '/' } ] }
-				],
-
-				[
-					{ width: 0.1, chars: [ { lowerCase: '=' } ] },
-					{ width: 0.1, chars: [ { lowerCase: '*' } ] },
-					{ width: 0.1, chars: [ { lowerCase: '"' } ] },
-					{ width: 0.1, chars: [ { lowerCase: '\'' } ] },
-					{ width: 0.1, chars: [ { lowerCase: ':' } ] },
-					{ width: 0.1, chars: [ { lowerCase: ';' } ] },
-					{ width: 0.1, chars: [ { lowerCase: '!' } ] },
-					{ width: 0.1, chars: [ { lowerCase: '?' } ] },
-					{ width: 0.2, command: 'backspace', chars: [ { icon: 'backspace' } ] }
-				],
-
-				[
-					{ width: 0.3, command: 'switch', chars: [ { lowerCase: 'АБВ' } ] },
-					{ width: 0.4, command: 'space', chars: [ { icon: 'space' } ] },
-					{ width: 0.1, chars: [ { lowerCase: '.' } ] },
-					{ width: 0.2, command: 'enter', chars: [ { icon: 'enter' } ] }
-				]
-			]
-		],
-
-	/////////////////////////////////////////////////////////
-
-	de:
-		[
-			[
-				[
-					{ width: 1 / 11, chars: [ { lowerCase: 'q', upperCase: 'Q' } ] },
-					{ width: 1 / 11, chars: [ { lowerCase: 'w', upperCase: 'W' } ] },
-					{ width: 1 / 11, chars: [ { lowerCase: 'e', upperCase: 'E' } ] },
-					{ width: 1 / 11, chars: [ { lowerCase: 'r', upperCase: 'R' } ] },
-					{ width: 1 / 11, chars: [ { lowerCase: 't', upperCase: 'T' } ] },
-					{ width: 1 / 11, chars: [ { lowerCase: 'z', upperCase: 'Z' } ] },
-					{ width: 1 / 11, chars: [ { lowerCase: 'u', upperCase: 'U' } ] },
-					{ width: 1 / 11, chars: [ { lowerCase: 'i', upperCase: 'I' } ] },
-					{ width: 1 / 11, chars: [ { lowerCase: 'o', upperCase: 'O' } ] },
-					{ width: 1 / 11, chars: [ { lowerCase: 'p', upperCase: 'P' } ] },
-					{ width: 1 / 11, chars: [ { lowerCase: 'ü', upperCase: 'Ü' } ] }
-				],
-
-				[
-					{ width: 1 / 11, chars: [ { lowerCase: 'a', upperCase: 'A' } ] },
-					{ width: 1 / 11, chars: [ { lowerCase: 's', upperCase: 'S' } ] },
-					{ width: 1 / 11, chars: [ { lowerCase: 'd', upperCase: 'D' } ] },
-					{ width: 1 / 11, chars: [ { lowerCase: 'f', upperCase: 'F' } ] },
-					{ width: 1 / 11, chars: [ { lowerCase: 'g', upperCase: 'G' } ] },
-					{ width: 1 / 11, chars: [ { lowerCase: 'h', upperCase: 'H' } ] },
-					{ width: 1 / 11, chars: [ { lowerCase: 'j', upperCase: 'J' } ] },
-					{ width: 1 / 11, chars: [ { lowerCase: 'k', upperCase: 'K' } ] },
-					{ width: 1 / 11, chars: [ { lowerCase: 'l', upperCase: 'L' } ] },
-					{ width: 1 / 11, chars: [ { lowerCase: 'ö', upperCase: 'Ö' } ] },
-					{ width: 1 / 11, chars: [ { lowerCase: 'ä', upperCase: 'Ä' } ] }
-				],
-
-				[
-					{ width: 2 / 11, command: 'shift', chars: [ { icon: 'shift' } ] },
-					{ width: 1 / 11, chars: [ { lowerCase: 'y', upperCase: 'Y' } ] },
-					{ width: 1 / 11, chars: [ { lowerCase: 'x', upperCase: 'X' } ] },
-					{ width: 1 / 11, chars: [ { lowerCase: 'c', upperCase: 'C' } ] },
-					{ width: 1 / 11, chars: [ { lowerCase: 'v', upperCase: 'V' } ] },
-					{ width: 1 / 11, chars: [ { lowerCase: 'b', upperCase: 'B' } ] },
-					{ width: 1 / 11, chars: [ { lowerCase: 'n', upperCase: 'N' } ] },
-					{ width: 1 / 11, chars: [ { lowerCase: 'm', upperCase: 'M' } ] },
-					{ width: 2 / 11, command: 'backspace', chars: [ { icon: 'backspace' } ] }
-				],
-
-				[
-					{ width: 0.2, command: 'switch', chars: [ { lowerCase: '.?12' } ] },
-					{ width: 0.1, chars: [ { lowerCase: ',' } ] },
-					{ width: 0.4, command: 'space', chars: [ { icon: 'space' } ] },
-					{ width: 0.1, chars: [ { lowerCase: '.' } ] },
-					{ width: 0.2, command: 'enter', chars: [ { icon: 'enter' } ] }
-				]
-			],
-
-			[
-				[
-					{ width: 0.1, chars: [ { lowerCase: '1' } ] },
-					{ width: 0.1, chars: [ { lowerCase: '2' } ] },
-					{ width: 0.1, chars: [ { lowerCase: '3' } ] },
-					{ width: 0.1, chars: [ { lowerCase: '4' } ] },
-					{ width: 0.1, chars: [ { lowerCase: '5' } ] },
-					{ width: 0.1, chars: [ { lowerCase: '6' } ] },
-					{ width: 0.1, chars: [ { lowerCase: '7' } ] },
-					{ width: 0.1, chars: [ { lowerCase: '8' } ] },
-					{ width: 0.1, chars: [ { lowerCase: '9' } ] },
-					{ width: 0.1, chars: [ { lowerCase: '0' } ] }
-				],
-
-				[
-					{ width: 0.1, chars: [ { lowerCase: '@' } ] },
-					{ width: 0.1, chars: [ { lowerCase: '#' } ] },
-					{ width: 0.1, chars: [ { lowerCase: '|' } ] },
-					{ width: 0.1, chars: [ { lowerCase: '_' } ] },
-					{ width: 0.1, chars: [ { lowerCase: '&' } ] },
-					{ width: 0.1, chars: [ { lowerCase: '-' } ] },
-					{ width: 0.1, chars: [ { lowerCase: '+' } ] },
-					{ width: 0.1, chars: [ { lowerCase: '(' } ] },
-					{ width: 0.1, chars: [ { lowerCase: ')' } ] },
-					{ width: 0.1, chars: [ { lowerCase: '/' } ] }
-				],
-
-				[
-					{ width: 0.1, chars: [ { lowerCase: '=' } ] },
-					{ width: 0.1, chars: [ { lowerCase: '*' } ] },
-					{ width: 0.1, chars: [ { lowerCase: '"' } ] },
-					{ width: 0.1, chars: [ { lowerCase: '\'' } ] },
-					{ width: 0.1, chars: [ { lowerCase: ':' } ] },
-					{ width: 0.1, chars: [ { lowerCase: ';' } ] },
-					{ width: 0.1, chars: [ { lowerCase: '!' } ] },
-					{ width: 0.1, chars: [ { lowerCase: '?' } ] },
-					{ width: 0.2, command: 'backspace', chars: [ { icon: 'backspace' } ] }
-				],
-
-				[
-					{ width: 0.2, command: 'switch', chars: [ { lowerCase: '.?12' } ] },
-					{ width: 0.1, chars: [ { lowerCase: ',' } ] },
-					{ width: 0.4, command: 'space', chars: [ { icon: 'space' } ] },
-					{ width: 0.1, chars: [ { lowerCase: '.' } ] },
-					{ width: 0.2, command: 'enter', chars: [ { icon: 'enter' } ] }
-				]
-			]
-		],
-
-	///////////////////////////////////////////////////////////
-
-	es:
-		[
-			[
-				[
-					{ width: 0.1, chars: [ { lowerCase: 'q', upperCase: 'Q' } ] },
-					{ width: 0.1, chars: [ { lowerCase: 'w', upperCase: 'W' } ] },
-					{ width: 0.1, chars: [ { lowerCase: 'e', upperCase: 'E' } ] },
-					{ width: 0.1, chars: [ { lowerCase: 'r', upperCase: 'R' } ] },
-					{ width: 0.1, chars: [ { lowerCase: 't', upperCase: 'T' } ] },
-					{ width: 0.1, chars: [ { lowerCase: 'y', upperCase: 'Y' } ] },
-					{ width: 0.1, chars: [ { lowerCase: 'u', upperCase: 'U' } ] },
-					{ width: 0.1, chars: [ { lowerCase: 'i', upperCase: 'I' } ] },
-					{ width: 0.1, chars: [ { lowerCase: 'o', upperCase: 'O' } ] },
-					{ width: 0.1, chars: [ { lowerCase: 'p', upperCase: 'P' } ] }
-				],
-
-				[
-					{ width: 0.1, chars: [ { lowerCase: 'a', upperCase: 'A' } ] },
-					{ width: 0.1, chars: [ { lowerCase: 's', upperCase: 'S' } ] },
-					{ width: 0.1, chars: [ { lowerCase: 'd', upperCase: 'D' } ] },
-					{ width: 0.1, chars: [ { lowerCase: 'f', upperCase: 'F' } ] },
-					{ width: 0.1, chars: [ { lowerCase: 'g', upperCase: 'G' } ] },
-					{ width: 0.1, chars: [ { lowerCase: 'h', upperCase: 'H' } ] },
-					{ width: 0.1, chars: [ { lowerCase: 'j', upperCase: 'J' } ] },
-					{ width: 0.1, chars: [ { lowerCase: 'k', upperCase: 'K' } ] },
-					{ width: 0.1, chars: [ { lowerCase: 'l', upperCase: 'L' } ] },
-					{ width: 0.1, chars: [ { lowerCase: 'ñ', upperCase: 'Ñ' } ] }
-				],
-
-				[
-					{ width: 0.15, command: 'shift', chars: [ { icon: 'shift' } ] },
-					{ width: 0.1, chars: [ { lowerCase: 'z', upperCase: 'Z' } ] },
-					{ width: 0.1, chars: [ { lowerCase: 'x', upperCase: 'X' } ] },
-					{ width: 0.1, chars: [ { lowerCase: 'c', upperCase: 'C' } ] },
-					{ width: 0.1, chars: [ { lowerCase: 'v', upperCase: 'V' } ] },
-					{ width: 0.1, chars: [ { lowerCase: 'b', upperCase: 'B' } ] },
-					{ width: 0.1, chars: [ { lowerCase: 'n', upperCase: 'N' } ] },
-					{ width: 0.1, chars: [ { lowerCase: 'm', upperCase: 'M' } ] },
-					{ width: 0.15, command: 'backspace', chars: [ { icon: 'backspace' } ] }
-				],
-
-				[
-					{ width: 0.2, command: 'switch', chars: [ { lowerCase: '.?12' } ] },
-					{ width: 0.1, chars: [ { lowerCase: ',' } ] },
-					{ width: 0.4, command: 'space', chars: [ { icon: 'space' } ] },
-					{ width: 0.1, chars: [ { lowerCase: '.' } ] },
-					{ width: 0.2, command: 'enter', chars: [ { icon: 'enter' } ] }
-				]
-			],
-
-			[
-				[
-					{ width: 0.1, chars: [ { lowerCase: '1' } ] },
-					{ width: 0.1, chars: [ { lowerCase: '2' } ] },
-					{ width: 0.1, chars: [ { lowerCase: '3' } ] },
-					{ width: 0.1, chars: [ { lowerCase: '4' } ] },
-					{ width: 0.1, chars: [ { lowerCase: '5' } ] },
-					{ width: 0.1, chars: [ { lowerCase: '6' } ] },
-					{ width: 0.1, chars: [ { lowerCase: '7' } ] },
-					{ width: 0.1, chars: [ { lowerCase: '8' } ] },
-					{ width: 0.1, chars: [ { lowerCase: '9' } ] },
-					{ width: 0.1, chars: [ { lowerCase: '0' } ] }
-				],
-
-				[
-					{ width: 0.1, chars: [ { lowerCase: '@' } ] },
-					{ width: 0.1, chars: [ { lowerCase: '#' } ] },
-					{ width: 0.1, chars: [ { lowerCase: '|' } ] },
-					{ width: 0.1, chars: [ { lowerCase: '_' } ] },
-					{ width: 0.1, chars: [ { lowerCase: '&' } ] },
-					{ width: 0.1, chars: [ { lowerCase: '-' } ] },
-					{ width: 0.1, chars: [ { lowerCase: '+' } ] },
-					{ width: 0.1, chars: [ { lowerCase: '(' } ] },
-					{ width: 0.1, chars: [ { lowerCase: ')' } ] },
-					{ width: 0.1, chars: [ { lowerCase: '/' } ] }
-				],
-
-				[
-					{ width: 0.1, chars: [ { lowerCase: '=' } ] },
-					{ width: 0.1, chars: [ { lowerCase: '*' } ] },
-					{ width: 0.1, chars: [ { lowerCase: '"' } ] },
-					{ width: 0.1, chars: [ { lowerCase: '\'' } ] },
-					{ width: 0.1, chars: [ { lowerCase: ':' } ] },
-					{ width: 0.1, chars: [ { lowerCase: ';' } ] },
-					{ width: 0.1, chars: [ { lowerCase: '!' } ] },
-					{ width: 0.1, chars: [ { lowerCase: '?' } ] },
-					{ width: 0.2, command: 'backspace', chars: [ { icon: 'backspace' } ] }
-				],
-
-				[
-					{ width: 0.2, command: 'switch', chars: [ { lowerCase: '.?12' } ] },
-					{ width: 0.1, chars: [ { lowerCase: ',' } ] },
-					{ width: 0.4, command: 'space', chars: [ { icon: 'space' } ] },
-					{ width: 0.1, chars: [ { lowerCase: '.' } ] },
-					{ width: 0.2, command: 'enter', chars: [ { icon: 'enter' } ] }
-				]
-			]
-		],
-
-	//////////////////////////////////////////////////////////////////////
-
-	el:
-		[
-			[
-				[
-					{ width: 0.1, chars: [ { lowerCase: ';', upperCase: ':' }, { lowerCase: 'q', upperCase: 'Q' } ] },
-					{ width: 0.1, chars: [ { lowerCase: 'ς', upperCase: 'ς' }, { lowerCase: 'w', upperCase: 'W' } ] },
-					{ width: 0.1, chars: [ { lowerCase: 'ε', upperCase: 'Ε' }, { lowerCase: 'e', upperCase: 'E' } ] },
-					{ width: 0.1, chars: [ { lowerCase: 'ρ', upperCase: 'Ρ' }, { lowerCase: 'r', upperCase: 'R' } ] },
-					{ width: 0.1, chars: [ { lowerCase: 'τ', upperCase: 'Τ' }, { lowerCase: 't', upperCase: 'T' } ] },
-					{ width: 0.1, chars: [ { lowerCase: 'υ', upperCase: 'Υ' }, { lowerCase: 'y', upperCase: 'Y' } ] },
-					{ width: 0.1, chars: [ { lowerCase: 'θ', upperCase: 'Θ' }, { lowerCase: 'u', upperCase: 'U' } ] },
-					{ width: 0.1, chars: [ { lowerCase: 'ι', upperCase: 'Ι' }, { lowerCase: 'i', upperCase: 'I' } ] },
-					{ width: 0.1, chars: [ { lowerCase: 'ο', upperCase: 'Ο' }, { lowerCase: 'o', upperCase: 'O' } ] },
-					{ width: 0.1, chars: [ { lowerCase: 'π', upperCase: 'Π' }, { lowerCase: 'p', upperCase: 'P' } ] }
-				],
-
-				[
-					{ width: 0.1, chars: [ { lowerCase: 'α', upperCase: 'Α' }, { lowerCase: 'a', upperCase: 'A' } ] },
-					{ width: 0.1, chars: [ { lowerCase: 'σ', upperCase: 'Σ' }, { lowerCase: 's', upperCase: 'S' } ] },
-					{ width: 0.1, chars: [ { lowerCase: 'δ', upperCase: 'Δ' }, { lowerCase: 'd', upperCase: 'D' } ] },
-					{ width: 0.1, chars: [ { lowerCase: 'φ', upperCase: 'Φ' }, { lowerCase: 'f', upperCase: 'F' } ] },
-					{ width: 0.1, chars: [ { lowerCase: 'γ', upperCase: 'Γ' }, { lowerCase: 'g', upperCase: 'G' } ] },
-					{ width: 0.1, chars: [ { lowerCase: 'η', upperCase: 'Η' }, { lowerCase: 'h', upperCase: 'H' } ] },
-					{ width: 0.1, chars: [ { lowerCase: 'ξ', upperCase: 'Ξ' }, { lowerCase: 'j', upperCase: 'J' } ] },
-					{ width: 0.1, chars: [ { lowerCase: 'κ', upperCase: 'Κ' }, { lowerCase: 'k', upperCase: 'K' } ] },
-					{ width: 0.1, chars: [ { lowerCase: 'λ', upperCase: 'Λ' }, { lowerCase: 'l', upperCase: 'L' } ] }
-				],
-
-				[
-					{ width: 0.15, command: 'shift', chars: [ { icon: 'shift' } ] },
-					{ width: 0.1, chars: [ { lowerCase: 'ζ', upperCase: 'Ζ' }, { lowerCase: 'z', upperCase: 'Z' } ] },
-					{ width: 0.1, chars: [ { lowerCase: 'χ', upperCase: 'Χ' }, { lowerCase: 'x', upperCase: 'X' } ] },
-					{ width: 0.1, chars: [ { lowerCase: 'ψ', upperCase: 'Ψ' }, { lowerCase: 'c', upperCase: 'C' } ] },
-					{ width: 0.1, chars: [ { lowerCase: 'ω', upperCase: 'Ω' }, { lowerCase: 'v', upperCase: 'V' } ] },
-					{ width: 0.1, chars: [ { lowerCase: 'β', upperCase: 'Β' }, { lowerCase: 'b', upperCase: 'B' } ] },
-					{ width: 0.1, chars: [ { lowerCase: 'ν', upperCase: 'Ν' }, { lowerCase: 'n', upperCase: 'N' } ] },
-					{ width: 0.1, chars: [ { lowerCase: 'μ', upperCase: 'Μ' }, { lowerCase: 'm', upperCase: 'M' } ] },
-					{ width: 0.15, command: 'backspace', chars: [ { icon: 'backspace' } ] }
-				],
-
-				[
-					{ width: 0.15, command: 'switch-set', chars: [ { lowerCase: 'eng' } ] },
-					{ width: 0.15, command: 'switch', chars: [ { lowerCase: '.?12' } ] },
-					{ width: 0.4, command: 'space', chars: [ { icon: 'space' } ] },
-					{ width: 0.1, chars: [ { lowerCase: '?' } ] },
-					{ width: 0.2, command: 'enter', chars: [ { icon: 'enter' } ] }
-				]
-			],
-
-			[
-				[
-					{ width: 0.1, chars: [ { lowerCase: '1' } ] },
-					{ width: 0.1, chars: [ { lowerCase: '2' } ] },
-					{ width: 0.1, chars: [ { lowerCase: '3' } ] },
-					{ width: 0.1, chars: [ { lowerCase: '4' } ] },
-					{ width: 0.1, chars: [ { lowerCase: '5' } ] },
-					{ width: 0.1, chars: [ { lowerCase: '6' } ] },
-					{ width: 0.1, chars: [ { lowerCase: '7' } ] },
-					{ width: 0.1, chars: [ { lowerCase: '8' } ] },
-					{ width: 0.1, chars: [ { lowerCase: '9' } ] },
-					{ width: 0.1, chars: [ { lowerCase: '0' } ] }
-				],
-
-				[
-					{ width: 0.1, chars: [ { lowerCase: '@' } ] },
-					{ width: 0.1, chars: [ { lowerCase: '#' } ] },
-					{ width: 0.1, chars: [ { lowerCase: '|' } ] },
-					{ width: 0.1, chars: [ { lowerCase: '_' } ] },
-					{ width: 0.1, chars: [ { lowerCase: '&' } ] },
-					{ width: 0.1, chars: [ { lowerCase: '-' } ] },
-					{ width: 0.1, chars: [ { lowerCase: '+' } ] },
-					{ width: 0.1, chars: [ { lowerCase: '(' } ] },
-					{ width: 0.1, chars: [ { lowerCase: ')' } ] },
-					{ width: 0.1, chars: [ { lowerCase: '/' } ] }
-				],
-
-				[
-					{ width: 0.1, chars: [ { lowerCase: '=' } ] },
-					{ width: 0.1, chars: [ { lowerCase: '*' } ] },
-					{ width: 0.1, chars: [ { lowerCase: '"' } ] },
-					{ width: 0.1, chars: [ { lowerCase: '\'' } ] },
-					{ width: 0.1, chars: [ { lowerCase: ':' } ] },
-					{ width: 0.1, chars: [ { lowerCase: ';' } ] },
-					{ width: 0.1, chars: [ { lowerCase: '!' } ] },
-					{ width: 0.1, chars: [ { lowerCase: '?' } ] },
-					{ width: 0.2, command: 'backspace', chars: [ { icon: 'backspace' } ] }
-				],
-
-				[
-					{ width: 0.2, command: 'switch', chars: [ { lowerCase: '.?12' } ] },
-					{ width: 0.1, chars: [ { lowerCase: ',' } ] },
-					{ width: 0.4, command: 'space', chars: [ { icon: 'space' } ] },
-					{ width: 0.1, chars: [ { lowerCase: '.' } ] },
-					{ width: 0.2, command: 'enter', chars: [ { icon: 'enter' } ] }
-				]
-			]
-		],
-
-	////////////////////////////////////////////////////////////////////////////////
-
-	nord:
-		[
-			[
-				[
-					{ width: 1 / 11, chars: [ { lowerCase: 'q', upperCase: 'Q' } ] },
-					{ width: 1 / 11, chars: [ { lowerCase: 'w', upperCase: 'W' } ] },
-					{ width: 1 / 11, chars: [ { lowerCase: 'e', upperCase: 'E' } ] },
-					{ width: 1 / 11, chars: [ { lowerCase: 'r', upperCase: 'R' } ] },
-					{ width: 1 / 11, chars: [ { lowerCase: 't', upperCase: 'T' } ] },
-					{ width: 1 / 11, chars: [ { lowerCase: 'y', upperCase: 'Y' } ] },
-					{ width: 1 / 11, chars: [ { lowerCase: 'u', upperCase: 'U' } ] },
-					{ width: 1 / 11, chars: [ { lowerCase: 'i', upperCase: 'I' } ] },
-					{ width: 1 / 11, chars: [ { lowerCase: 'o', upperCase: 'O' } ] },
-					{ width: 1 / 11, chars: [ { lowerCase: 'p', upperCase: 'P' } ] },
-					{ width: 1 / 11, chars: [ { lowerCase: 'å', upperCase: 'Å' } ] }
-				],
-
-				[
-					{ width: 1 / 11, chars: [ { lowerCase: 'a', upperCase: 'A' } ] },
-					{ width: 1 / 11, chars: [ { lowerCase: 's', upperCase: 'S' } ] },
-					{ width: 1 / 11, chars: [ { lowerCase: 'd', upperCase: 'D' } ] },
-					{ width: 1 / 11, chars: [ { lowerCase: 'f', upperCase: 'F' } ] },
-					{ width: 1 / 11, chars: [ { lowerCase: 'g', upperCase: 'G' } ] },
-					{ width: 1 / 11, chars: [ { lowerCase: 'h', upperCase: 'H' } ] },
-					{ width: 1 / 11, chars: [ { lowerCase: 'j', upperCase: 'J' } ] },
-					{ width: 1 / 11, chars: [ { lowerCase: 'k', upperCase: 'K' } ] },
-					{ width: 1 / 11, chars: [ { lowerCase: 'l', upperCase: 'L' } ] },
-					{ width: 1 / 11, chars: [ { lowerCase: 'æ', upperCase: 'Æ' } ] },
-					{ width: 1 / 11, chars: [ { lowerCase: 'ø', upperCase: 'Ø' } ] }
-				],
-
-				[
-					{ width: 2 / 11, command: 'shift', chars: [ { icon: 'shift' } ] },
-					{ width: 1 / 11, chars: [ { lowerCase: 'z', upperCase: 'Z' } ] },
-					{ width: 1 / 11, chars: [ { lowerCase: 'x', upperCase: 'X' } ] },
-					{ width: 1 / 11, chars: [ { lowerCase: 'c', upperCase: 'C' } ] },
-					{ width: 1 / 11, chars: [ { lowerCase: 'v', upperCase: 'V' } ] },
-					{ width: 1 / 11, chars: [ { lowerCase: 'b', upperCase: 'B' } ] },
-					{ width: 1 / 11, chars: [ { lowerCase: 'n', upperCase: 'N' } ] },
-					{ width: 1 / 11, chars: [ { lowerCase: 'm', upperCase: 'M' } ] },
-					{ width: 2 / 11, command: 'backspace', chars: [ { icon: 'backspace' } ] }
-				],
-
-				[
-					{ width: 0.2, command: 'switch', chars: [ { lowerCase: '.?12' } ] },
-					{ width: 0.1, chars: [ { lowerCase: ',' } ] },
-					{ width: 0.4, command: 'space', chars: [ { icon: 'space' } ] },
-					{ width: 0.1, chars: [ { lowerCase: '.' } ] },
-					{ width: 0.2, command: 'enter', chars: [ { icon: 'enter' } ] }
-				]
-
-			],
-
-			[
-				[
-					{ width: 0.1, chars: [ { lowerCase: '1' } ] },
-					{ width: 0.1, chars: [ { lowerCase: '2' } ] },
-					{ width: 0.1, chars: [ { lowerCase: '3' } ] },
-					{ width: 0.1, chars: [ { lowerCase: '4' } ] },
-					{ width: 0.1, chars: [ { lowerCase: '5' } ] },
-					{ width: 0.1, chars: [ { lowerCase: '6' } ] },
-					{ width: 0.1, chars: [ { lowerCase: '7' } ] },
-					{ width: 0.1, chars: [ { lowerCase: '8' } ] },
-					{ width: 0.1, chars: [ { lowerCase: '9' } ] },
-					{ width: 0.1, chars: [ { lowerCase: '0' } ] }
-				],
-
-				[
-					{ width: 0.1, chars: [ { lowerCase: '@' } ] },
-					{ width: 0.1, chars: [ { lowerCase: '#' } ] },
-					{ width: 0.1, chars: [ { lowerCase: '|' } ] },
-					{ width: 0.1, chars: [ { lowerCase: '_' } ] },
-					{ width: 0.1, chars: [ { lowerCase: '&' } ] },
-					{ width: 0.1, chars: [ { lowerCase: '-' } ] },
-					{ width: 0.1, chars: [ { lowerCase: '+' } ] },
-					{ width: 0.1, chars: [ { lowerCase: '(' } ] },
-					{ width: 0.1, chars: [ { lowerCase: ')' } ] },
-					{ width: 0.1, chars: [ { lowerCase: '/' } ] }
-				],
-
-				[
-					{ width: 0.1, chars: [ { lowerCase: '=' } ] },
-					{ width: 0.1, chars: [ { lowerCase: '*' } ] },
-					{ width: 0.1, chars: [ { lowerCase: '"' } ] },
-					{ width: 0.1, chars: [ { lowerCase: '\'' } ] },
-					{ width: 0.1, chars: [ { lowerCase: ':' } ] },
-					{ width: 0.1, chars: [ { lowerCase: ';' } ] },
-					{ width: 0.1, chars: [ { lowerCase: '!' } ] },
-					{ width: 0.1, chars: [ { lowerCase: '?' } ] },
-					{ width: 0.2, command: 'backspace', chars: [ { icon: 'backspace' } ] }
-				],
-
-				[
-					{ width: 0.2, command: 'switch', chars: [ { lowerCase: '.?12' } ] },
-					{ width: 0.1, chars: [ { lowerCase: ',' } ] },
-					{ width: 0.4, command: 'space', chars: [ { icon: 'space' } ] },
-					{ width: 0.1, chars: [ { lowerCase: '.' } ] },
-					{ width: 0.2, command: 'enter', chars: [ { icon: 'enter' } ] }
-				]
-			]
-		]
-
-});
-
-;// CONCATENATED MODULE: ./src/components/Keyboard.js
-
-
-
-
-
-
-
-
-
-
-
-
-
-//
-
-const textureLoader = new external_three_namespaceObject.TextureLoader();
-
-//
+;// CONCATENATED MODULE: ./src/core/properties/style-properties/flex/FlexDirectionPropertyText.js
+
+
+//JSDoc related imports
+/* eslint-disable no-unused-vars */
+
+/* eslint-enable no-unused-vars */
+
+class FlexDirectionPropertyText extends FlexDirectionProperty {
+
+	constructor( ) {
+
+		super();
+
+		this._value = this._input = 'column';
+
+		// Configure
+		this._allowsInherit = false;
+		this._needsUpdate = true;
+
+	}
+
+	/* eslint-disable no-unused-vars */computeOutputValue( element ) { /* eslint-enable no-unused-vars */
+
+		// @TODO : Evaluate the needs of this property. Could be empty
+		this._value = this._inheritedInput;
+
+	}
+
+}
+
+;// CONCATENATED MODULE: ./src/core/properties/style-properties/font/LineHeightPropertyInline.js
+
+
+
+class LineHeightPropertyInline extends LineHeightProperty {
+
+	/**
+	 *
+	 */
+	constructor() {
+
+		super();
+
+		// configure
+		this._allowsInherit = false;
+		this.computeOutputValue = this._computeFromInherited;
+
+	}
+
+}
+
+
+
+;// CONCATENATED MODULE: ./src/core/properties/style-properties/font/FontKerningPropertyText.js
+
+
+
+class FontKerningPropertyText extends FontKerningProperty {
+
+	constructor() {
+
+		super();
+
+		this._value = this._input = this.getDefaultValue();
+
+		// Configure
+		this._allowsInherit = false;
+		this.computeOutputValue = this._computeFromInherited;
+
+	}
+
+
+	_computeFromInherited( element ) {
+		super._computeFromInherited(element);
+
+
+	}
+
+}
+
+;// CONCATENATED MODULE: ./src/core/properties/BoundsText.js
+
+
+class BoundsText extends BoundsBox {
+
+	constructor() {
+
+		super();
+
+		this._innerWidth = Infinity;
+		this._innerHeight = 0;
+
+	}
+
+}
+
+;// CONCATENATED MODULE: ./src/core/properties/hierarchy/ChildrenText.js
+
+
+//JSDoc related imports
+/* eslint-disable no-unused-vars */
+
+/* eslint-enable no-unused-vars */
+
+class ChildrenText extends BaseProperty {
+
+	constructor() {
+
+		super( 'children', null, false );
+
+		/**
+		 *
+		 * @type {Array.<MeshUIBaseElement>}
+		 * @internal
+		 */
+		this._uis = [];
+
+		/**
+		 *
+		 * @type {Array.<MeshUIBaseElement>}
+		 * @internal
+		 */
+		this._inlines = [];
+
+		/**
+		 *
+		 * @type {Array.<MeshUIBaseElement>}
+		 * @internal
+		 */
+		this._boxes = [];
+
+	}
+
+	/* eslint-disable no-unused-vars */
+	/**
+	 * Update requested when :
+	 * 		- New child has been added
+	 * 		- Existing child has been removed
+	 *
+	 * @param element
+	 * @param out
+	 */
+	update( element, out ) { /* eslint-enable no-unused-vars */
+
+		this._compute( element );
+
+		this._needsProcess = true;
+
+	}
+
+
+	/**
+	 * Process when :
+	 * 		- Existing child visibility changed
+	 *
+	 * @param element
+	 */
+	process( element ) {
+
+		this._compute( element );
+
+		element._overflow._needsRender = true;
+
+	}
+
+	_compute( element ) {
+
+		this._uis = element.children.filter( child => child.visible && child.isUI );
+
+		this._inlines = this._uis.filter( child => child.isInline ).sort( this._sortOrder );
+
+	}
+
+	/**
+	 *
+	 */
+	dispose() {
+
+		this._inlines = null;
+
+	}
+
+	/**
+	 *
+	 * Sort children according to their .style.order property or fallback on children index
+	 *
+	 * @param {HTMLElementVR} a
+	 * @param {HTMLElementVR} b
+	 * @return {number}
+	 * @private
+	 */
+	_sortOrder = ( a, b ) => {
+
+		if( a._order._value < b._order._value ) return -1;
+		if( a._order._value > b._order._value ) return 1;
+
+		// if both children have the same order value, use their children index to order them
+		if( this._uis.indexOf(a) < this._uis.indexOf(b) ) {
+			return -1;
+		}
+
+		return 1;
+
+	}
+
+}
+
+;// CONCATENATED MODULE: ./src/core/properties/AutoSizePropertyText.js
+
 
 /**
- * Job: high-level component that returns a keyboard
+ * Autosize are only trigger when natural size changed
  */
-class Keyboard extends mix.withBase( external_three_namespaceObject.Object3D )( BoxComponent, MeshUIComponent ) {
+class AutoSizePropertyText extends BaseProperty {
 
-	constructor( options ) {
+	constructor() {
 
-		// DEFAULTS
+		super( 'autosize' );
 
-		if ( !options ) options = {};
-		if ( !options.width ) options.width = 1;
-		if ( !options.height ) options.height = 0.4;
-		if ( !options.margin ) options.margin = 0.003;
-		if ( !options.padding ) options.padding = 0.01;
+	}
 
-		//
+	process( element ) {
 
-		super( options );
+		if( element._layouter._value && element._layouter._value.length ) {
 
-		this.currentPanel = 0;
+			const lines = element._layouter._value;
 
-		this.isLowerCase = true;
+			// as this is from children offsetWidth, it means parent innerWidth
+			const padding = element._padding._value;
+			const border = element._borderWidth._value;
 
-		this.charsetCount = 1;
+			// has auto size get the height from children
+			if ( element._width._auto ) {
 
-		//////////
-		// KEYMAP
-		//////////
-
-		// ../utils/Keymaps contains information about various keyboard layouts
-		// We select one depending on the user's browser language if
-		// there is no options.language
-
-		let keymap;
-
-		if ( options.language || navigator.language ) {
-
-			switch ( options.language || navigator.language ) {
-
-				case 'fr' :
-				case 'fr-CH' :
-				case 'fr-CA' :
-					keymap = Keymaps.fr;
-					break;
-
-				case 'ru' :
-					this.charsetCount = 2;
-					keymap = Keymaps.ru;
-					break;
-
-				case 'de' :
-				case 'de-DE' :
-				case 'de-AT' :
-				case 'de-LI' :
-				case 'de-CH' :
-					keymap = Keymaps.de;
-					break;
-
-				case 'es' :
-				case 'es-419' :
-				case 'es-AR' :
-				case 'es-CL' :
-				case 'es-CO' :
-				case 'es-ES' :
-				case 'es-CR' :
-				case 'es-US' :
-				case 'es-HN' :
-				case 'es-MX' :
-				case 'es-PE' :
-				case 'es-UY' :
-				case 'es-VE' :
-					keymap = Keymaps.es;
-					break;
-
-				case 'el' :
-					this.charsetCount = 2;
-					keymap = Keymaps.el;
-					break;
-
-				case 'nord' :
-					keymap = Keymaps.nord;
-					break;
-
-				default :
-					keymap = Keymaps.eng;
-					break;
+				element._bounds.setOffsetWidth( element, lines.width + padding.w + padding.y + border.w + border.y );
 
 			}
+
+			if ( element._height._auto ) {
+
+				element._bounds.setOffsetHeight( element, lines.height + padding.x + padding.z + border.x + border.z );
+
+			}
+
+		}
+
+	}
+
+}
+
+;// CONCATENATED MODULE: ./src/core/properties/rendering/RendererPropertyText.js
+
+
+class RendererPropertyText extends RendererPropertyBox{
+
+	constructor() {
+
+		super( 'renderer' );
+
+		this._needsUpdate = false;
+
+	}
+
+
+	render( element ) {
+
+		super.render( element );
+
+		for ( const inlineElement of element._children._inlines ) {
+
+			inlineElement._renderer.render( inlineElement );
+
+		}
+
+		element.performAfterUpdate();
+
+	}
+
+}
+
+;// CONCATENATED MODULE: ./src/elements/basic/TextElement.js
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//JSDoc related imports
+/* eslint-disable no-unused-vars */
+
+
+/* eslint-enable no-unused-vars */
+
+class TextElement extends BoxElement {
+
+	/**
+	 *
+	 * @param {import('./../../core/elements/MeshUIBaseElement').Options} [values={}]
+	 * @param [properties={}]
+	 */
+	constructor( values = {}, properties = {}) {
+
+		TextElement.definePropertiesValues( properties, values );
+
+		super( properties, values );
+
+		TextElement.init( this );
+
+
+	}
+
+	/* eslint-disable no-unused-vars */
+	/**
+	 * A Text Element can only contains inline elements
+	 * @override
+	 * @param {...Object3D} object
+	 * @return {this}
+	 */
+	add( object ) { /* eslint-enable no-unused-vars */
+
+		/**
+		 *
+		 * @type {Array.<Object3D>}
+		 */
+		const validChildren = [];
+		let updateLayout = false;
+
+		for ( let i = 0; i < arguments.length; i++ ) {
+
+			const argument = arguments[ i ];
+
+			if ( !argument.isUI || argument.isInline ) {
+
+				if( argument.isInline ) {
+					updateLayout = true;
+				}
+
+				validChildren.push( argument );
+
+			} else {
+
+				console.warn( 'Block element can only contain Box elements.', argument );
+
+			}
+
+		}
+
+		if( validChildren.length > 0 ) {
+
+			super.add( ...validChildren )
+
+		}
+
+		if( updateLayout ) {
+			this._children._needsUpdate = true;
+			this._layouter._needsProcess = true;
+		}
+
+		return this;
+
+	}
+
+
+	set textContent ( value ) {
+
+		this._textContent.value = value;
+
+	}
+
+	// Must redefine getter also, or issue.
+	get textContent() {
+
+		return super.textContent;
+
+	}
+
+	set invertAlpha( value ) {
+
+		this._invertAlpha.value = value;
+
+	}
+
+	get invertAlpha () { return this._invertAlpha._value; }
+
+	get lines() { return this._layouter._value; }
+
+	/**
+	 *
+	 * @param {import('./../../core/elements/MeshUIBaseElement').Properties} properties
+	 * @param {import('./../../core/elements/MeshUIBaseElement').Options} values
+	 */
+	static definePropertiesValues( properties, values ) {
+
+		properties.flexDirection = FlexDirectionPropertyText;
+		properties.justifyContent = JustifyContentProperty;
+		properties.alignItems = AlignItemsProperty;
+		properties.bounds = BoundsText;
+		properties.autoSize = AutoSizePropertyText;
+		properties.renderer = RendererPropertyText;
+
+		if( !properties.children ) properties.children = ChildrenText;
+		if( !properties.textContent ) properties.textContent = TextContentText;
+		if( !properties.layouter ) properties.layouter = TextLayouter;
+		if( !properties.lineHeight ) properties.lineHeight = LineHeightPropertyInline;
+		if( !properties.textAlign ) properties.textAlign = TextAlignPropertyText;
+		if( !properties.whiteSpace ) properties.whiteSpace = WhiteSpacePropertyInline;
+		if( !properties.fontKerning ) properties.fontKerning = FontKerningPropertyText;
+		if( !properties.segments ) properties.segments = SegmentsPropertyText;
+
+		// configure
+		if ( !values.width ) values.width = '100%';
+
+
+		// break inheritance chains
+		if ( !values.fontSide ) values.fontSide = 0; // FrontSide;
+
+	}
+
+	/**
+	 *
+	 * @param {MeshUIBaseElement} element
+	 */
+	static init( element ) {
+
+		Object.defineProperties( element, {
+				isText: {
+					configurable: false,
+					enumerable: true,
+					value: true
+				}
+			}
+		);
+
+	}
+}
+
+;// CONCATENATED MODULE: ./src/core/properties/InlinesPropertyInlineBlock.js
+
+
+
+//JSDoc related imports
+/* eslint-disable no-unused-vars */
+
+/* eslint-enable no-unused-vars */
+
+/**
+ * @property {Array.<InlineGlyph>} value
+ */
+class InlinesPropertyInlineBlock extends BaseProperty{
+
+	constructor() {
+
+		super( "inlines", null, false );
+
+		/**
+		 *
+		 * @type {Array.<Inline>}
+		 * @internal
+		 */
+		this._value = [];
+
+	}
+
+	process( element ) {
+
+		// First gets left side
+		this._value[0].paddingLeft = element._padding._value.w;
+		this._value[0].marginLeft = element._margin._value.w;
+
+		// Last gets right side
+		const lastIndex = this._value.length - 1;
+		this._value[lastIndex].paddingRight = element._padding._value.y;
+		this._value[lastIndex].marginRight = element._margin._value.y;
+
+	}
+
+}
+
+;// CONCATENATED MODULE: ./src/core/properties/rendering/RendererPropertyInlineBox.js
+
+
+
+class RendererPropertyInlineBox extends BaseProperty{
+
+	constructor() {
+
+		super( 'renderer' );
+
+	}
+
+
+	render( element ) {
+
+		if( !element._backgroundMesh ) {
+
+			element.setBackgroundMesh( new Frame(element) );
+
+		}
+
+		element._backgroundMesh.position.x = element._inlines._value[0].offsetX + element._inlines._value[0].width/2;
+		// element._backgroundMesh.position.y = element._inlines._value[0].offsetY + element._inlines._value[0].lineBase/4;
+		element._backgroundMesh.position.y = element._inlines._value[0].offsetY + element._inlines._value[0].lineBase/2;
+
+		element._bounds.render( element );
+
+	}
+
+}
+
+;// CONCATENATED MODULE: ./src/core/properties/BoundsInlineBlock.js
+
+
+
+class BoundsInlineBlock extends BaseProperty {
+
+	constructor() {
+
+		super( 'bounds', null, false );
+
+		/**
+		 *
+		 * @type {Vector3}
+		 * @internal
+		 */
+		this._size = new external_three_namespaceObject.Vector3( 1, 1, 1 );
+
+		this._offsetWidth = 0;
+		this._offsetHeight = 0;
+
+		this._innerWidth = 0;
+		this._innerHeight = 0;
+	}
+
+
+
+
+	/* eslint-disable no-unused-vars */ update( element, out ) { /* eslint-enable no-unused-vars */
+
+		this.output( out );
+
+		this._needsProcess = true;
+
+	}
+
+	process( element ) {
+
+		this._offsetWidth = this._innerWidth = element._inlines._value[0].width;
+		this._offsetHeight = this._innerHeight = element._inlines._value[0].height;
+
+		this._needsRender = true;
+
+		element._borderWidth._needsRender = true;
+		element._borderRadius._needsRender = true;
+
+	}
+
+	/* eslint-disable no-unused-vars */ render( element ) { /* eslint-enable no-unused-vars */
+
+		this._size.x = this._offsetWidth;
+		this._size.y = this._offsetHeight;
+
+	}
+
+	/**
+	 *
+	 * @param {Object.<string,any>} out
+	 */
+	output( out ) {
+
+		out[ 'size' ] = this._size;
+
+	}
+
+}
+
+
+;// CONCATENATED MODULE: ./src/core/properties/style-properties/background/BackgroundColorPropertyInlineBlock.js
+
+
+//JSDoc related imports
+/* eslint-disable no-unused-vars */
+/* eslint-enable no-unused-vars */
+
+class BackgroundColorPropertyInlineBlock extends StyleColorProperty {
+
+	constructor() {
+
+		super( 'backgroundColor', 'inherit', false );
+
+		this._allowsInherit = false;
+
+		this._input = 'inherit';
+
+	}
+
+	computeOutputValue( element ) { /* eslint-enable no-unused-vars */
+
+		element._backgroundMesh.visible = !(this._input === 'none' || this._input === 'transparent');
+
+		if( this._input === 'inherit' ) {
+
+			this._value.set(this.getInheritedInput( element ));
 
 		} else {
 
-			keymap = Keymaps.eng;
+			this._value.set( this._input );
 
 		}
 
-		////////////////////
-		// BLOCKS CREATION
-		////////////////////
+	}
 
-		// PANELS
+	// background color of inlineBlock looks for parent color instead of backgroundColor
+	getInheritedInput( element ) {
 
-		this.keys = [];
+		if ( this._input !== 'inherit' ) return this._input;
 
-		this.panels = keymap.map( ( panel ) => {
-
-			const lineHeight = ( options.height / panel.length ) - ( options.margin * 2 );
-
-			const panelBlock = new Block( {
-				width: options.width + ( options.padding * 2 ),
-				height: options.height + ( options.padding * 2 ),
-				offset: 0,
-				padding: options.padding,
-				fontFamily: options.fontFamily,
-				fontTexture: options.fontTexture,
-				backgroundColor: options.backgroundColor,
-				backgroundOpacity: options.backgroundOpacity
-			} );
-
-			panelBlock.charset = 0;
-
-			panelBlock.add( ...panel.map( ( line ) => {
-
-				const lineBlock = new Block( {
-					width: options.width,
-					height: lineHeight,
-					margin: options.margin,
-					contentDirection: 'row',
-					justifyContent: 'center'
-				} );
-
-				lineBlock.frame.visible = false;
-
-				const keys = [];
-
-				line.forEach( ( keyItem ) => {
-
-					const key = new Block( {
-						width: ( options.width * keyItem.width ) - ( options.margin * 2 ),
-						height: lineHeight,
-						margin: options.margin,
-						justifyContent: 'center',
-						offset: 0
-					} );
-
-					const char = keyItem.chars[ panelBlock.charset ].lowerCase || keyItem.chars[ panelBlock.charset ].icon || 'undif';
-
-					if (
-						( char === 'enter' && options.enterTexture ) ||
-						( char === 'shift' && options.shiftTexture ) ||
-						( char === 'backspace' && options.backspaceTexture )
-					) {
-
-						const url = ( () => {
-
-							switch ( char ) {
-
-								case 'backspace':
-									return options.backspaceTexture;
-								case 'enter':
-									return options.enterTexture;
-								case 'shift':
-									return options.shiftTexture;
-								default:
-									console.warn( 'There is no icon image for this key' );
-
-							}
-
-						} )();
-
-						textureLoader.load( url, ( texture ) => {
-
-							key.add(
-								new InlineBlock( {
-									width: key.width * 0.65,
-									height: key.height * 0.65,
-									backgroundSize: 'contain',
-									backgroundTexture: texture
-								} )
-							);
-
-						} );
-
-					} else {
-
-						key.add(
-							new Text( {
-								content: char,
-								offset: 0
-							} )
-						);
-
-					}
-
-					key.type = 'Key';
-
-					key.info = keyItem;
-					key.info.input = char;
-					key.panel = panelBlock;
-
-					// line's keys
-					keys.push( key );
-
-					// keyboard's keys
-					this.keys.push( key );
-
-				} );
-
-				lineBlock.add( ...keys );
-
-				return lineBlock;
-
-			} ) );
-
-			return panelBlock;
-
-		} );
-
-		this.add( this.panels[ 0 ] );
-
-		// Lastly set the options parameters to this object, which will trigger an update
-		this.set( options );
+		return element._color._value;
 
 	}
 
 	/**
-	 * Used to switch to an entirely different panel of this keyboard,
-	 * with potentially a completely different layout
+	 *
+	 * @param {any} value
 	 */
-	setNextPanel() {
+	set inline( value ) {
 
-		this.panels.forEach( ( panel ) => {
+		if( ! this.isValidValue( value ) ) return;
 
-			this.remove( panel );
+		if( value === this._inline ) {
 
-		} );
+			// do nothing no update, the value hasn't changed
+			return;
 
-		this.currentPanel = ( this.currentPanel + 1 ) % ( this.panels.length );
+		}
 
-		this.add( this.panels[ this.currentPanel ] );
+		this._input = this._inline = value;
 
-		this.update( true, true, true );
+		this._needsUpdate = true;
 
 	}
 
-	/*
-	 * Used to change the keys charset. Some layout support this,
-	 * like the Russian or Greek keyboard, to be able to switch to
-	 * English layout when necessary
+}
+
+
+
+;// CONCATENATED MODULE: ./src/core/properties/style-properties/font/ColorPropertyInlineBlock.js
+
+
+//JSDoc related imports
+/* eslint-disable no-unused-vars */
+/* eslint-enable no-unused-vars */
+
+class ColorPropertyInlineBlock extends StyleColorProperty {
+
+	constructor() {
+
+		super( 'color', 'inherit', false );
+
+		this._input = 'inherit';
+
+		this.output = this._outputValue;
+
+	}
+
+	/* eslint-disable no-unused-vars */
+	/**
+	 *
+	 * @param {MeshUIBaseElement} element
 	 */
-	setNextCharset() {
+	computeOutputValue( element ) { /* eslint-enable no-unused-vars */
 
-		this.panels[ this.currentPanel ].charset = ( this.panels[ this.currentPanel ].charset + 1 ) % this.charsetCount;
+		if( this._input === 'inherit' ) {
 
-		this.keys.forEach( ( key ) => {
+			this._value.set( this.getInheritedInput( element ) );
 
-			// Here we sort the keys, we only keep the ones that are part of the current panel.
+		} else {
 
-			const isInCurrentPanel = this.panels[ this.currentPanel ].getObjectById( key.id );
+			this._value.set( this._input);
 
-			if ( !isInCurrentPanel ) return;
+		}
 
-			//
-
-			const char = key.info.chars[ key.panel.charset ] || key.info.chars[ 0 ];
-
-			const newContent = this.isLowerCase || !char.upperCase ? char.lowerCase : char.upperCase;
-
-			if ( !key.childrenTexts.length ) return;
-
-			const textComponent = key.childrenTexts[0];
-
-			key.info.input = newContent;
-
-			textComponent.set( {
-				content: newContent
-			} );
-
-			textComponent.update( true, true, true );
-
-		} );
+		element._backgroundColor._needsUpdate = true;
+		element._borderColor._needsUpdate = true;
 
 	}
 
-	/** Toggle case for characters that support it. */
-	toggleCase() {
+}
 
-		this.isLowerCase = !this.isLowerCase;
+;// CONCATENATED MODULE: ./src/core/properties/style-properties/border/BorderColorPropertyInlineBlock.js
 
-		this.keys.forEach( ( key ) => {
 
-			const char = key.info.chars[ key.panel.charset ] || key.info.chars[ 0 ];
+//JSDoc related imports
+/* eslint-disable no-unused-vars */
+/* eslint-enable no-unused-vars */
 
-			const newContent = this.isLowerCase || !char.upperCase ? char.lowerCase : char.upperCase;
+class BorderColorPropertyInlineBlock extends StyleColorProperty {
 
-			if ( !key.childrenTexts.length ) return;
+	constructor() {
 
-			const textComponent = key.childrenTexts[0];
+		super( 'borderColor', 'inherit', false );
 
-			key.info.input = newContent;
+		this._allowsInherit = false;
 
-			textComponent.set( {
-				content: newContent
-			} );
-
-			textComponent.update( true, true, true );
-
-		} );
+		this._input = 'inherit';
 
 	}
 
-	////////////
-	//  UPDATE
-	////////////
+	computeOutputValue( element ) { /* eslint-enable no-unused-vars */
 
-	parseParams() {
+		if( this._input === 'inherit' ) {
+
+			this._value.set(this.getInheritedInput( element ));
+
+		} else {
+
+			this._value.set( this._input );
+
+		}
+
 	}
 
-	updateLayout() {
+	// background color of inlineBlock looks for parent color instead of backgroundColor
+	getInheritedInput( element ) {
+
+		if ( this._input !== 'inherit' ) return this._input;
+
+		return element._color._value;
+
 	}
 
-	updateInner() {
+}
+
+
+
+;// CONCATENATED MODULE: ./src/elements/basic/InlineBlockElement.js
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+class InlineBlockElement extends MeshUIBaseElement {
+
+	/**
+	 *
+	 * @param {import('./../../core/elements/MeshUIBaseElement').Options} [values={}]
+	 */
+	constructor( values = {}) {
+
+		const properties = {};
+		InlineBlockElement.definePropertiesValues( properties, values );
+
+		super( properties, values );
+
+		InlineBlockElement.init( this );
+
+	}
+
+	clear() {
+
+		// remove cross reference
+		for ( const inline of this._inlines._value ) {
+			inline.clear();
+		}
+
+		return super.clear();
+	}
+
+	/**
+	 * When the backgroundMesh has been set, bind properties
+	 * @override
+	 */
+	bindBackgroundMeshProperties () {
+
+		this._backgroundMesh.raycast = ()=>{};
+
+		// bind the background scale with bounds
+		this._bounds._size = this._backgroundMesh.scale;
+		this._bounds._needsUpdate = true;
+
+	}
+
+	/**
+	 * When the backgroundMesh has been unset, unbind properties
+	 * @override
+	 */
+	unbindBackgroundMeshProperties () {
+
+		// detach bounds size
+		this._bounds._size = new external_three_namespaceObject.Vector3(1,1,1);
+		this._bounds._needsUpdate = true;
+
+	}
+
+	/* eslint-disable no-unused-vars */
+	/**
+	 *
+	 * @override
+	 * @param {...Object3D} object
+	 * @return {this}
+	 */
+	add( object ) { /* eslint-enable no-unused-vars */
+
+		/**
+		 *
+		 * @type {Array.<Object3D>}
+		 */
+		const validChildren = [];
+
+		for ( let i = 0; i < arguments.length; i++ ) {
+
+			const argument = arguments[ i ];
+
+			if ( !argument.isUI ) {
+
+				validChildren.push( argument );
+
+				argument.position.z = 0.005;
+
+			} else {
+
+				console.warn( 'ThreeMeshUI::InlineBlockElement cannot contains UI Elements.', argument );
+
+			}
+
+		}
+
+		return super.add( ...validChildren );
+
+	}
+
+
+	/**
+	 *
+	 * @param {import('./../../core/elements/MeshUIBaseElement').Properties} properties
+	 * @param {import('./../../core/elements/MeshUIBaseElement').Options} values
+	 */
+	static definePropertiesValues( properties, values ) {
+
+		if( !properties.children ) properties.children = ChildrenInline;
+		if( !properties.bounds ) properties.bounds = BoundsInlineBlock;
+		if( !properties.inlines ) properties.inlines = InlinesPropertyInlineBlock;
+		if( !properties.layouter ) properties.layouter = InlineLayouter;
+		if( !properties.renderer ) properties.renderer = RendererPropertyInlineBox;
+
+		// reset inlineElement specificity
+		if( !properties.fontFamily ) properties.fontFamily = FontFamilyPropertyInline;
+		if( !properties.fontWeight ) properties.fontWeight = FontWeightPropertyInline;
+		if( !properties.fontStyle ) properties.fontStyle = FontStylePropertyInline;
+		if( !properties.fontSize ) properties.fontSize = FontSizePropertyInline;
+
+		if( !properties.backgroundColor ) properties.backgroundColor = BackgroundColorPropertyInlineBlock;
+		if( !properties.borderColor ) properties.borderColor = BorderColorPropertyInlineBlock;
+		if( !properties.color ) properties.color = ColorPropertyInlineBlock;
+
+		if( !properties.lineBreak ) properties.lineBreak = LineBreakProperty;
+		if( !properties.letterSpacing ) properties.letterSpacing = LetterSpacingPropertyInline;
+		if( !properties.whiteSpace ) properties.whiteSpace = WhiteSpacePropertyInline;
+		if( !properties.fontKerning ) properties.fontKerning = FontKerningProperty;
+
+		if( values.backgroundOpacity === undefined) values.backgroundOpacity = 1;
+
+		if( !values.backgroundSize ) values.backgroundSize = 'cover';
+		if( !values.width ) values.width = '100%';
+		if( !values.height ) values.height = '100%';
+		if( !values.boxSizing ) values.boxSizing = 'border-box';
+
+	}
+
+	/**
+	 *
+	 * @param {MeshUIBaseElement} element
+	 */
+	static init( element ) {
+
+		Object.defineProperties( element, {
+				isInline: {
+					configurable: false,
+					enumerable: true,
+					value: true
+				},
+				isInlineBlock: {
+					configurable: false,
+					enumerable: true,
+					value: true
+				}
+			}
+		);
+
+		element._inlines._value = [new InlineBlockInline(element)];
+
+		element.backgroundMaterial = new FrameMaterial();
+		element._renderer.render( element );
+
+	}
+
+}
+
+
+
+
+/**
+ * InlineBlock has its own Inline implementation
+ */
+class InlineBlockInline extends Inline {
+
+	/**
+	 *
+	 * @param {InlineBlockElement} parent
+	 */
+	constructor( parent ) {
+
+		super();
+
+		/**
+		 * @TODO: This currently make a circular reference that should ideally be removed
+		 * @type {InlineBlockElement}
+		 * @private
+		 */
+		this._uiElement = parent;
+
+	}
+
+	/**
+	 * Rely on the parent for size computation
+	 * @override
+	 * @returns {number}
+	 */
+	get xadvance() {
+
+		const padding = this._uiElement._padding._value;
+		const width = this._uiElement._width;
+		if( width._relative ) {
+			return width._value * this._uiElement._fontSize.getInheritedInput( this._uiElement );
+		}
+
+		return padding.w + padding.y + width.value ;
+	}
+
+	/**
+	 * Rely on the parent for size computation
+	 * @override
+	 * @returns {number}
+	 */
+	get width() {
+
+		const width = this._uiElement._width;
+
+		if( width._relative ) {
+			return width._value * this._uiElement._fontSize.getInheritedInput( this._uiElement );
+		}
+
+		return width.value;
+
+	}
+
+	/**
+	 * Rely on the parent for size computation
+	 * @override
+	 * @returns {number}
+	 */
+	get height() {
+
+		const height = this._uiElement._height;
+		if( height._relative ) {
+			return height._value * this._uiElement._fontSize.getInheritedInput( this._uiElement ) ;
+		}
+
+		return height.value;
+
+	}
+
+	get anchor(){
+		return this.height;
+	}
+
+
+	/**
+	 * Rely on the parent for size computation
+	 * @override
+	 * @returns {number}
+	 */
+	get lineHeight() {
+
+		const height = this._uiElement._height;
+		if( height._relative ) {
+			return height._value * this._uiElement._fontSize.getInheritedInput( this._uiElement );
+		}
+
+		return height.value;
+
+	}
+
+	/**
+	 * Rely on the parent for size computation
+	 * @override
+	 * @returns {number}
+	 */
+	get lineBase() {
+
+		const height = this._uiElement._height;
+		if( height._relative ) {
+			return height._value * this._uiElement._fontSize.getInheritedInput( this._uiElement );
+		}
+
+		return height.value;
+
+	}
+
+	/**
+	 *
+	 */
+	clear() {
+
+		this._uiElement = null;
+
+	}
+
+}
+
+
+;// CONCATENATED MODULE: ./src/utils/Behavior.js
+//JSDoc related imports
+/* eslint-disable no-unused-vars */
+
+/* eslint-enable no-unused-vars */
+
+
+class Behavior {
+
+	/**
+	 *
+	 * @param {MeshUIBaseElement} subject
+	 */
+	constructor( subject ) {
+
+		/**
+		 *
+		 * @type {MeshUIBaseElement}
+		 * @protected
+		 */
+		this._subject = subject;
+
+	}
+
+	/**
+	 * @abstract
+	 */
+	attach() {
+
+		console.error(`Behavior::attach() - Is abstract and therefore should be overridden in ${this.constructor.name}`);
+
+	}
+
+	/**
+	 * @abstract
+	 * @returns {void}
+	 */
+	act() {
+
+		throw new Error(`Behavior::act() - Is abstract and therefore should be overridden in ${this.constructor.name}`);
+
+	}
+
+	/**
+	 * @abstract
+	 */
+	detach() {
+
+		console.error(`Behavior::detach() - Is abstract and therefore should be overridden in ${this.constructor.name}`);
+
+	}
+
+	/**
+	 *
+	 */
+	clear() {
+
 	}
 
 }
@@ -7087,21 +15629,34 @@ class Keyboard extends mix.withBase( external_three_namespaceObject.Object3D )( 
 
 
 
+
+
+
+
+
+
+
+
+
+
 const update = () => UpdateManager.update();
 
 const ThreeMeshUI = {
-	Block: Block,
-	Text: Text,
-	InlineBlock: InlineBlock,
-	Keyboard: Keyboard,
+	Block: BlockElement,
+	Text : TextElement,
+	Inline: InlineElement,
+	InlineBlock : InlineBlockElement,
+	// Keyboard : KeyboardElement,
+	MeshUIBaseElement: MeshUIBaseElement,
 	FontLibrary: font_FontLibrary,
 	update,
-	TextAlign: TextAlign_namespaceObject,
-	Whitespace: Whitespace_namespaceObject,
-	JustifyContent: JustifyContent_namespaceObject,
-	AlignItems: AlignItems_namespaceObject,
-	ContentDirection: ContentDirection_namespaceObject
+	MSDFFontMaterialUtils: MSDFFontMaterialUtils,
+	ShaderChunkUI: ShaderChunkUI,
+	Behavior: Behavior,
+	FontVariant: font_FontVariant,
+	DefaultValues: DefaultValues_namespaceObject
 };
+
 
 if ( typeof global !== 'undefined' ) global.ThreeMeshUI = ThreeMeshUI;
 
@@ -7117,18 +15672,38 @@ if ( typeof global !== 'undefined' ) global.ThreeMeshUI = ThreeMeshUI;
 
 
 
+
+
+
+
+
+
+
 /* harmony default export */ const three_mesh_ui = (ThreeMeshUI);
 
-var __webpack_exports__AlignItems = __webpack_exports__.g1;
+console.warn("ThreeMeshUI v7.1.x - Three "+window.__THREE__)
+
+
+
+
+
+var __webpack_exports__BaseProperty = __webpack_exports__.w8;
+var __webpack_exports__Behavior = __webpack_exports__.cg;
 var __webpack_exports__Block = __webpack_exports__.gO;
-var __webpack_exports__ContentDirection = __webpack_exports__.km;
+var __webpack_exports__DefaultValues = __webpack_exports__.wb;
 var __webpack_exports__FontLibrary = __webpack_exports__.zV;
+var __webpack_exports__FontVariant = __webpack_exports__.HS;
+var __webpack_exports__InheritableProperty = __webpack_exports__.Ec;
+var __webpack_exports__Inline = __webpack_exports__.gF;
 var __webpack_exports__InlineBlock = __webpack_exports__.ol;
-var __webpack_exports__JustifyContent = __webpack_exports__.uM;
-var __webpack_exports__Keyboard = __webpack_exports__.N1;
+var __webpack_exports__InlineGlyph = __webpack_exports__.pz;
+var __webpack_exports__MSDFFontMaterialUtils = __webpack_exports__.tx;
+var __webpack_exports__MaterialTransformers = __webpack_exports__.hj;
+var __webpack_exports__MeshUIBaseElement = __webpack_exports__.FV;
+var __webpack_exports__ShaderChunkUI = __webpack_exports__.sV;
 var __webpack_exports__Text = __webpack_exports__.xv;
-var __webpack_exports__TextAlign = __webpack_exports__.PH;
-var __webpack_exports__Whitespace = __webpack_exports__.UH;
+var __webpack_exports__TypographicFont = __webpack_exports__.mx;
+var __webpack_exports__TypographicGlyph = __webpack_exports__.gE;
 var __webpack_exports__default = __webpack_exports__.ZP;
 var __webpack_exports__update = __webpack_exports__.Vx;
-export { __webpack_exports__AlignItems as AlignItems, __webpack_exports__Block as Block, __webpack_exports__ContentDirection as ContentDirection, __webpack_exports__FontLibrary as FontLibrary, __webpack_exports__InlineBlock as InlineBlock, __webpack_exports__JustifyContent as JustifyContent, __webpack_exports__Keyboard as Keyboard, __webpack_exports__Text as Text, __webpack_exports__TextAlign as TextAlign, __webpack_exports__Whitespace as Whitespace, __webpack_exports__default as default, __webpack_exports__update as update };
+export { __webpack_exports__BaseProperty as BaseProperty, __webpack_exports__Behavior as Behavior, __webpack_exports__Block as Block, __webpack_exports__DefaultValues as DefaultValues, __webpack_exports__FontLibrary as FontLibrary, __webpack_exports__FontVariant as FontVariant, __webpack_exports__InheritableProperty as InheritableProperty, __webpack_exports__Inline as Inline, __webpack_exports__InlineBlock as InlineBlock, __webpack_exports__InlineGlyph as InlineGlyph, __webpack_exports__MSDFFontMaterialUtils as MSDFFontMaterialUtils, __webpack_exports__MaterialTransformers as MaterialTransformers, __webpack_exports__MeshUIBaseElement as MeshUIBaseElement, __webpack_exports__ShaderChunkUI as ShaderChunkUI, __webpack_exports__Text as Text, __webpack_exports__TypographicFont as TypographicFont, __webpack_exports__TypographicGlyph as TypographicGlyph, __webpack_exports__default as default, __webpack_exports__update as update };

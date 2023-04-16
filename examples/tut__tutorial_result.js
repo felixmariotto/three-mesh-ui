@@ -1,3 +1,5 @@
+// xfg:title Tutorial result
+// xfg:category practice
 /* Import everything we need from Three.js */
 
 import * as THREE from "three";
@@ -65,6 +67,7 @@ function makeUI() {
     height: 1.5,
     width: 1,
     backgroundOpacity: 0,
+		alignItems: 'center'
   });
 
   container.position.set(0, 1, -1.8);
@@ -78,10 +81,12 @@ function makeUI() {
     width: 1,
   });
 
-  const textBlock = new ThreeMeshUI.Block({
-    height: 0.4,
+  const textBlock = new ThreeMeshUI.Text({
+		boxSizing: 'border-box',
     width: 0.8,
     margin: 0.05,
+		backgroundColor : 0x000000,
+		textContent : "The spiny bush viper is known for its extremely keeled dorsal scales."
   });
 
   container.add(imageBlock, textBlock);
@@ -92,7 +97,7 @@ function makeUI() {
 
   loader.load(SnakeImage, (texture) => {
     imageBlock.set({
-			backgroundTexture: texture,
+			backgroundImage: texture,
 			backgroundOpacity: 1,
 			backgroundColor: new THREE.Color(0xffffff)
 		});
@@ -105,35 +110,20 @@ function makeUI() {
     fontTexture: FontImage,
   });
 
-  const text = new ThreeMeshUI.Text({
-    content:
-      "The spiny bush viper is known for its extremely keeled dorsal scales.",
-  });
+	textBlock.add( new ThreeMeshUI.Inline({
+		textContent: " Mind your fingers.",
+		fontSize: 0.07,
+		color: new THREE.Color(0xefffe8),
+	}) )
 
-  textBlock.add(text);
-
-  //
-
-  text.set({
-    fontColor: new THREE.Color(0xd2ffbd),
-    fontSize: 0.06,
-  });
 
   textBlock.set({
+		color: new THREE.Color(0xd2ffbd),
+		fontSize: 0.06,
     textAlign: "right",
     justifyContent: "end",
     padding: 0.03,
   });
-
-  //
-
-  textBlock.add(
-    new ThreeMeshUI.Text({
-      content: " Mind your fingers.",
-      fontSize: 0.07,
-      fontColor: new THREE.Color(0xefffe8),
-    })
-  );
 }
 
 // Function that resize the renderer when the browser window is resized

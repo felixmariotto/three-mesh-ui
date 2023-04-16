@@ -1,5 +1,8 @@
+// xfg:title MSDF-Font shadows
+// xfg:category practice
+
 import * as THREE from 'three';
-import { DoubleSide, Mesh, MeshStandardMaterial, PlaneBufferGeometry, PointLight, SpotLight, SpotLightHelper } from 'three';
+import { DoubleSide, Mesh, MeshStandardMaterial, PlaneGeometry, PointLight, SpotLight, SpotLightHelper } from 'three';
 import { VRButton } from 'three/examples/jsm/webxr/VRButton.js';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import { BoxLineGeometry } from 'three/examples/jsm/geometries/BoxLineGeometry.js';
@@ -74,7 +77,7 @@ function init() {
 	scene.add( room );
 
 	const floor = new Mesh(
-		new PlaneBufferGeometry(6,6,5,5),
+		new PlaneGeometry(6,6,5,5),
 		new MeshStandardMaterial( {color:0xffffff} )
 	);
 	floor.rotation.x = - Math.PI / 2;
@@ -129,10 +132,9 @@ function makeTextPanel() {
 		padding: 0.05,
 		backgroundColor: new THREE.Color( 0x121212 ),
 		backgroundOpacity: 0,
-		interLine:0,
 		justifyContent: 'center',
 		alignItems: 'center',
-		// fontColor: new THREE.Color( 0xFF9900 ),
+		// color: new THREE.Color( 0xFF9900 ),
 		fontFamily: FontJSON,
 		fontTexture: FontImage,
 		fontSize: 0.25,
@@ -147,16 +149,16 @@ function makeTextPanel() {
 	// outerContainer.frame.visible = false;
 
 
-	const defaultText = new ThreeMeshUI.Text({content:"FontMaterial(default)\n", fontColor: new THREE.Color(0x0099ff), castShadow:true, side:DoubleSide});
-	const defaultTextInverted = new ThreeMeshUI.Text({content:"FontMaterial(default)\n", fontColor: new THREE.Color(0x0099ff), castShadow:true, side:DoubleSide});
+	const defaultText = new ThreeMeshUI.Text({textContent:"FontMaterial(default)", color: new THREE.Color(0x0099ff), fontCastShadow:true, fontSide:DoubleSide});
+	const defaultTextInverted = new ThreeMeshUI.Text({textContent:"FontMaterial(default)", color: new THREE.Color(0x0099ff), fontCastShadow:true, fontSide:DoubleSide});
 
-	const standardText = new ThreeMeshUI.Text({content:"MSDFStandardMaterial\n", fontColor: new THREE.Color(0x0099ff).convertSRGBToLinear(), castShadow:true, side:DoubleSide});
-	standardText.material = new MSDFStandardMaterial({});
-	standardText.customDepthMaterial =  new MSDFDepthMaterial({});
+	const standardText = new ThreeMeshUI.Text({textContent:"MSDFStandardMaterial", color: new THREE.Color(0x0099ff).convertSRGBToLinear(), fontCastShadow:true, fontSide:DoubleSide});
+	standardText.fontMaterial = new MSDFStandardMaterial({});
+	standardText.fontCustomDepthMaterial =  new MSDFDepthMaterial({});
 
-	const standardTextInverted = new ThreeMeshUI.Text({content:"MSDFStandardMaterial\n", fontColor: new THREE.Color(0x99ff00).convertSRGBToLinear(), invertAlpha: true, castShadow:true, side:DoubleSide});
-	standardTextInverted.material = new MSDFStandardMaterial({});
-	standardTextInverted.customDepthMaterial =  new MSDFDepthMaterial({});
+	const standardTextInverted = new ThreeMeshUI.Text({textContent:"MSDFStandardMaterial", color: new THREE.Color(0x99ff00).convertSRGBToLinear(), invertAlpha: true, fontCastShadow:true, fontSide:DoubleSide});
+	standardTextInverted.fontMaterial = new MSDFStandardMaterial({});
+	standardTextInverted.fontCustomDepthMaterial =  new MSDFDepthMaterial({});
 
 	outerContainer.add( defaultText, defaultTextInverted, standardText, standardTextInverted );
 

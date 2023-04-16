@@ -1,229 +1,94 @@
-import Behavior from '../../../src/utils/Behavior';
+import TextLayouterBestFit from './properties/TextLayouterBestFit';
+import { Behavior } from 'three-mesh-ui';
 
+/**
+ * Sample of Behavior that relies on AlteredProperties
+ */
 export default class BestFitBehavior extends Behavior {
 
 	constructor( subject, mode = 'auto') {
 
 		super( subject );
-		this.mode = mode;
 
-		this._subject.calculateHeight = _calculateHeight.bind( this._subject);
+		// Internally, three-mesh-ui Text will have a property called 'layouter' accessible through 'myText._layouter'
+		// This behavior will swap the default 'layouter' property of a text, with a custom one TextLayouterBestFit
+		this._overriddenTextLayouter = new TextLayouterBestFit(  );
+		this._overriddenTextLayouter._mode = this.mode;
+		// it will also store what was the property prior alteration,
+		// in order to restore it uppon detach().
+		this._previousLayouter = null;
+
+		this.mode = mode;
 
 	}
 
-	set mode( value ) {
+	/**
+	 * What should happen when attaching this behavior?
+	 */
+	attach() {
 
-		let algo = _calculateAutoFit;
-		switch ( value ) {
-			case 'grow':
-				algo = _calculateGrowFit;
-				break;
-			case 'shrink':
-				algo = _calculateShrinkFit;
-				break;
+		if( !this._previousLayouter ) {
+			// replace the default layouter property, with our custom one
+			// and store the previously working property in order to be able to restore it later
+			this._previousLayouter = this._subject.replaceProperty( 'layouter', this._overriddenTextLayouter );
+
 		}
+
+	}
+
+	/**
+	 * What should happend when detaching this behavior?
+	 */
+	detach() {
+
+		// If we alread swap properties
+		if( this._previousLayouter ) {
+
+			// we can re-swap it again. Replacing our custom one, with default one.
+			this._subject.replaceProperty( 'layouter', this._previousLayouter );
+			this._previousLayouter = null;
+
+		}
+
+	}
+
+	/**
+	 *
+	 */
+	act() {
+		// acts doesn't need anything here
+		// as properties are parts of three-mesh-ui main update loop
+		// but we should analyse the TextLayouterBestFit source code to understand what happen.
+	}
+
+	clear() {
+
+	}
+
+	/**
+	 * Setting the mode on this behavior
+	 * @param value
+	 */
+	set mode( value ) {
 
 		this._mode = value;
 
-		this._algo = algo.bind( this._subject );
+		// would also update the mode on the altered property
+		this._overriddenTextLayouter._mode = this._mode;
+
+		// force the property to be updated next frame
+		this._overriddenTextLayouter._needsUpdate = true;
 
 	}
 
+	/**
+	 *
+	 * @returns {*}
+	 */
 	get mode() {
 
 		return this._mode;
 
 	}
 
-	attach() {
-
-		this._subject.parseParams = () => {
-			if ( this._subject.childrenInlines.length === 0 ) return;
-
-			this._algo();
-		}
-
-		this._subject.update( true, true, false );
-
-	}
-
-	detach() {
-
-		this._subject.childrenTexts.forEach( child => {
-
-			child._fitFontSize = undefined;
-
-		} );
-
-		this._subject.update( true, true, false );
-
-	}
-
-	act() {
-		// acts doesn't need anything here
-	}
-
-	clear() {
-
-		delete this._subject.calculateHeight;
-
-	}
-
-}
-
-function _calculateHeight( fontMultiplier ) {
-
-	this.childrenInlines.forEach( inlineComponent => {
-
-		if ( inlineComponent.isInlineBlock ) return;
-
-		// Set font size and recalculate dimensions
-		inlineComponent._fitFontSize = inlineComponent.getFontSize() * fontMultiplier;
-		inlineComponent.calculateInlines( inlineComponent._fitFontSize );
-
-	} );
-
-	const lines = this.computeLines();
-
-	return lines.height;
-}
-
-function _calculateGrowFit() {
-
-	const INNER_HEIGHT = this.innerHeight;
-
-	//Iterative method to find a fontSize of text children that text will fit into container
-	let iterations = 1;
-	const heightTolerance = 0.075;
-	const firstText = this.childrenInlines.find( inlineComponent => inlineComponent.isText );
-
-	let minFontMultiplier = 1;
-	let maxFontMultiplier = 2;
-	let fontMultiplier = firstText._fitFontSize ? firstText._fitFontSize / firstText.getFontSize() : 1;
-	let textHeight;
-
-	do {
-
-		textHeight = this.calculateHeight( fontMultiplier );
-
-		if ( textHeight > INNER_HEIGHT ) {
-
-			if ( fontMultiplier <= minFontMultiplier ) { // can't shrink text
-
-				this.childrenInlines.forEach( inlineComponent => {
-
-					if ( inlineComponent.isInlineBlock ) return;
-
-					// ensure fontSize does not shrink
-					inlineComponent._fitFontSize = inlineComponent.getFontSize();
-
-				} );
-
-				break;
-
-			}
-
-			maxFontMultiplier = fontMultiplier;
-			fontMultiplier -= ( maxFontMultiplier - minFontMultiplier ) / 2;
-
-		} else {
-
-			if ( Math.abs( INNER_HEIGHT - textHeight ) < heightTolerance ) break;
-
-			if ( Math.abs( fontMultiplier - maxFontMultiplier ) < 5e-10 ) maxFontMultiplier *= 2;
-
-			minFontMultiplier = fontMultiplier;
-			fontMultiplier += ( maxFontMultiplier - minFontMultiplier ) / 2;
-
-		}
-
-	} while ( ++iterations <= 10 );
-
-}
-
-function _calculateShrinkFit() {
-
-	const INNER_HEIGHT = this.innerHeight;
-
-	// Iterative method to find a fontSize of text children that text will fit into container
-	let iterations = 1;
-	const heightTolerance = 0.075;
-	const firstText = this.childrenInlines.find( inlineComponent => inlineComponent.isText );
-
-	let minFontMultiplier = 0;
-	let maxFontMultiplier = 1;
-	let fontMultiplier = firstText._fitFontSize ? firstText._fitFontSize / firstText.getFontSize() : 1;
-	let textHeight;
-
-	do {
-
-		textHeight = this.calculateHeight( fontMultiplier );
-
-		if ( textHeight > INNER_HEIGHT ) {
-
-			maxFontMultiplier = fontMultiplier;
-			fontMultiplier -= ( maxFontMultiplier - minFontMultiplier ) / 2;
-
-		} else {
-
-			if ( fontMultiplier >= maxFontMultiplier ) { // can't grow text
-
-				this.childrenInlines.forEach( inlineComponent => {
-
-					if ( inlineComponent.isInlineBlock ) return;
-
-					// ensure fontSize does not grow
-					inlineComponent._fitFontSize = inlineComponent.getFontSize();
-
-				} );
-
-				break;
-
-			}
-
-			if ( Math.abs( INNER_HEIGHT - textHeight ) < heightTolerance ) break;
-
-			minFontMultiplier = fontMultiplier;
-			fontMultiplier += ( maxFontMultiplier - minFontMultiplier ) / 2;
-
-		}
-
-	} while ( ++iterations <= 10 );
-}
-
-function _calculateAutoFit()  {
-
-	const INNER_HEIGHT = this.innerHeight;
-
-	//Iterative method to find a fontSize of text children that text will fit into container
-	let iterations = 1;
-	const heightTolerance = 0.075;
-	const firstText = this.childrenInlines.find( inlineComponent => inlineComponent.isText );
-
-	let minFontMultiplier = 0;
-	let maxFontMultiplier = 2;
-	let fontMultiplier = firstText._fitFontSize ? firstText._fitFontSize / firstText.getFontSize() : 1;
-	let textHeight;
-
-	do {
-
-		textHeight = this.calculateHeight( fontMultiplier );
-
-		if ( textHeight > INNER_HEIGHT ) {
-
-			maxFontMultiplier = fontMultiplier;
-			fontMultiplier -= ( maxFontMultiplier - minFontMultiplier ) / 2;
-
-		} else {
-
-			if ( Math.abs( INNER_HEIGHT - textHeight ) < heightTolerance ) break;
-
-			if ( Math.abs( fontMultiplier - maxFontMultiplier ) < 5e-10 ) maxFontMultiplier *= 2;
-
-			minFontMultiplier = fontMultiplier;
-			fontMultiplier += ( maxFontMultiplier - minFontMultiplier ) / 2;
-
-		}
-
-	} while ( ++iterations <= 10 );
 }

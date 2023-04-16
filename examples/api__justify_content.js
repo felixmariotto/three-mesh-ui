@@ -1,3 +1,6 @@
+// xfg:title JustifyContent
+// xfg:category learn
+
 import * as THREE from 'three';
 import { VRButton } from 'three/examples/jsm/webxr/VRButton.js';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
@@ -60,9 +63,9 @@ function init() {
 	];
 
 	for ( let i = 0; i < justifications.length; i++ ) {
-		const contentDirection = justifications[ i ];
-		makeTextPanelColumn( i, contentDirection );
-		makeTextPanelRow( i, contentDirection );
+		const flexDirection = justifications[ i ];
+		makeTextPanelColumn( i, flexDirection );
+		makeTextPanelRow( i, flexDirection );
 	}
 
 	//
@@ -73,7 +76,7 @@ function init() {
 
 //
 
-function makeTextPanelColumn( index, contentDirection ) {
+function makeTextPanelColumn( index, flexDirection ) {
 
 
 	const group = new Object3D();
@@ -89,7 +92,7 @@ function makeTextPanelColumn( index, contentDirection ) {
 	} );
 
 	const titleText = new ThreeMeshUI.Text( {
-		content: contentDirection,
+		textContent: flexDirection,
 		fontSize: 0.075
 	} );
 
@@ -101,9 +104,9 @@ function makeTextPanelColumn( index, contentDirection ) {
 		width: 0.7,
 		height: 1,
 		padding: 0.05,
-		justifyContent: contentDirection,
+		justifyContent: flexDirection,
 		alignItems: 'center',
-		contentDirection: 'column',
+		flexDirection: 'column',
 		fontFamily: FontJSON,
 		fontTexture: FontImage
 	} );
@@ -113,7 +116,7 @@ function makeTextPanelColumn( index, contentDirection ) {
 
 	for ( let i = 0; i < letters.length; i ++ ) {
 
-		const blockText = new ThreeMeshUI.Block( {
+		const blockText = new ThreeMeshUI.Text( {
 			width: 0.125,
 			height: 0.125,
 			margin: 0.01,
@@ -121,16 +124,11 @@ function makeTextPanelColumn( index, contentDirection ) {
 			backgroundColor: new THREE.Color(colors[i]),
 			justifyContent: 'center',
 			alignItems: 'center',
-			offset:0.001
+			textAlign: 'center',
+			offset:0.001,
+			textContent: letters[ i ]
 		} );
 
-
-
-		const text = new ThreeMeshUI.Text( {
-			content: letters[ i ]
-		} );
-
-		blockText.add( text );
 		container.add( blockText );
 
 	}
@@ -144,7 +142,7 @@ function makeTextPanelColumn( index, contentDirection ) {
 
 }
 
-function makeTextPanelRow( index, contentDirection ) {
+function makeTextPanelRow( index, flexDirection ) {
 
 
 	const group = new Object3D();
@@ -161,7 +159,7 @@ function makeTextPanelRow( index, contentDirection ) {
 	} );
 
 	const titleText = new ThreeMeshUI.Text( {
-		content: `.set({justifyContent: "${contentDirection}"})`,
+		textContent: `.set({justifyContent: "${flexDirection}"})`,
 		fontSize: 0.075
 	} );
 
@@ -173,9 +171,9 @@ function makeTextPanelRow( index, contentDirection ) {
 		width: 3,
 		height: 0.2,
 		padding: 0.05,
-		justifyContent: contentDirection,
+		justifyContent: flexDirection,
 		alignItems: 'center',
-		contentDirection: 'row',
+		flexDirection: 'row',
 		fontFamily: FontJSON,
 		fontTexture: FontImage
 	} );
@@ -185,7 +183,7 @@ function makeTextPanelRow( index, contentDirection ) {
 
 	for ( let i = 0; i < letters.length; i ++ ) {
 
-		const blockText = new ThreeMeshUI.Block( {
+		const blockText = new ThreeMeshUI.Text( {
 			width: 0.125,
 			height: 0.125,
 			margin: 0.01,
@@ -193,16 +191,11 @@ function makeTextPanelRow( index, contentDirection ) {
 			backgroundColor: new THREE.Color(colors[i]),
 			justifyContent: 'center',
 			alignItems: 'center',
-			offset:0.001
+			textAlign: 'center',
+			offset:0.001,
+			textContent: letters[ i ]
 		} );
 
-
-
-		const text = new ThreeMeshUI.Text( {
-			content: letters[ i ]
-		} );
-
-		blockText.add( text );
 		container.add( blockText );
 
 	}

@@ -1,9 +1,9 @@
 export default class TypographicFont {
-    /** @protected */ protected _size: number;
-    /** @protected */ protected _lineHeight: number;
-    /** @protected */ protected _lineBase: number;
-    /** @protected */ protected _name: string;
-    /** @protected */ protected _charset: string;
+
+
+
+
+
     /**
      *
      * @returns {number}

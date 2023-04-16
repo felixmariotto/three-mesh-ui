@@ -1,3 +1,8 @@
+//JSDoc related imports
+/* eslint-disable no-unused-vars */
+import MeshUIBaseElement from './../../core/elements/MeshUIBaseElement';
+/* eslint-enable no-unused-vars */
+
 /**
  * Job:
  * - recording components required updates
@@ -21,151 +26,46 @@
  */
 export default class UpdateManager {
 
-	/*
-	 * get called by MeshUIComponent when component.set has been used.
-	 * It registers this component and all its descendants for the different types of updates that were required.
-	 */
-	static requestUpdate( component, updateParsing, updateLayout, updateInner ) {
 
-		component.traverse( ( child ) => {
-
-			if ( !child.isUI ) return;
-
-			// request updates for all descendants of the passed components
-			if ( !this.requestedUpdates[ child.id ] ) {
-
-				this.requestedUpdates[ child.id ] = {
-					updateParsing,
-					updateLayout,
-					updateInner,
-					needCallback: ( updateParsing || updateLayout || updateInner )
-				};
-
-			} else {
-
-				if ( updateParsing ) this.requestedUpdates[ child.id ].updateParsing = true;
-				if ( updateLayout ) this.requestedUpdates[ child.id ].updateLayout = true;
-				if ( updateInner ) this.requestedUpdates[ child.id ].updateInner = true;
-
-			}
-
-		} );
-
-	}
-
-	/** Register a passed component for later updates */
 	static register( component ) {
 
-		if ( !this.components.includes( component ) ) {
+		if ( !this.elements.includes( component ) ) {
 
-			this.components.push( component );
-
-		}
-
-	}
-
-	/** Unregister a component (when it's deleted for instance) */
-	static disposeOf( component ) {
-
-		const idx = this.components.indexOf( component );
-
-		if ( idx > -1 ) {
-
-			this.components.splice( idx, 1 );
+				this.elements.push( component );
 
 		}
 
 	}
 
-	/** Trigger all requested updates of registered components */
+	static remove( component ) {
+
+		const index = this.elements.indexOf( component );
+		if ( index !== -1 ) {
+
+			this.elements.splice( index, 1 );
+
+		}
+
+	}
+
+
 	static update() {
 
-		if ( Object.keys( this.requestedUpdates ).length > 0 ) {
+		for ( const UIElement of this.elements ) {
+			UIElement.update();
 
-			const roots = this.components.filter( ( component ) => {
+			UIElement.process(); // Natural process
+			UIElement.process(); // Actual process (optional) - For auto size and stretch
 
-				return !component.parentUI;
-
-			} );
-
-			roots.forEach( root => this.traverseParsing( root ) );
-			roots.forEach( root => this.traverseUpdates( root ) );
-
-		}
-
-	}
-
-	/**
-	 * Calls parseParams update of all components from parent to children
-	 * @private
-	 */
-	static traverseParsing( component ) {
-
-		const request = this.requestedUpdates[ component.id ];
-
-		if ( request && request.updateParsing ) {
-
-			component.parseParams();
-
-			request.updateParsing = false;
-
-		}
-
-		component.childrenUIs.forEach( child => this.traverseParsing( child ) );
-
-	}
-
-	/**
-	 * Calls updateLayout and updateInner functions of components that need an update
-	 * @private
-	 */
-	static traverseUpdates( component ) {
-
-		const request = this.requestedUpdates[ component.id ];
-		// instant remove the requested update,
-		// allowing code below ( especially onAfterUpdate ) to add it without being directly remove
-		delete this.requestedUpdates[ component.id ];
-
-		//
-
-		if ( request && request.updateLayout ) {
-
-			request.updateLayout = false;
-
-			component.updateLayout();
-
-		}
-
-		//
-
-		if ( request && request.updateInner ) {
-
-			request.updateInner = false;
-
-			component.updateInner();
-
-		}
-
-
-		// Update any child
-		component.childrenUIs.forEach( ( childUI ) => {
-
-			this.traverseUpdates( childUI );
-
-		} );
-
-		// before sending onAfterUpdate
-		if ( request && request.needCallback ) {
-
-			component.performAfterUpdate();
-
+			UIElement.render();
 		}
 
 	}
 
 }
 
-// TODO move these into the class (Webpack unfortunately doesn't understand
-// `static` property syntax, despite browsers already supporting this)
-UpdateManager.components = [];
-UpdateManager.requestedUpdates = {};
+/**
+ * @internal
+ * @type {Array.<MeshUIBaseElement>}
+ */
+UpdateManager.elements = [];

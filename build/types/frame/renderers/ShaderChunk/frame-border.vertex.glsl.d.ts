@@ -1,2 +1,6 @@
-declare var _default: "\n\n\t// FrameBorder vertex shader\n\tvUvB = uvB;\n\n";
-export default _default;
+export default program;
+/**
+ *
+ * @type {string}
+ */
+declare const program: string;

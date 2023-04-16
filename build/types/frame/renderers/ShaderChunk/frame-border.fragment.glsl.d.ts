@@ -1,2 +1,6 @@
-declare var _default: "\n\nfloat edgeDist = getEdgeDist();\nfloat change = fwidth( edgeDist );\n\nfloat alpha = smoothstep( change, 0.0, edgeDist );\ndiffuseColor.a *= alpha;\n\n// if the length square is not zerp\nif( borderWidth.x * borderWidth.x + borderWidth.y * borderWidth.y + borderWidth.z * borderWidth.z + borderWidth.w * borderWidth.w  > 0.0 )\n{\n\n\tvec4 borderColor = vec4( borderColor, borderOpacity * alpha );\n\tfloat stp = smoothstep( edgeDist + change, edgeDist, borderWidth.x * -1.0 );\n\n\t// @TODO: Implement border width sequence : top,right,bottom,left\n\t// if( vUvB.x <= borderWidth.w || vUvB.x >= 1.0 - borderWidth.y || vUvB.y >= 1.0 - borderWidth.x || vUvB.y <= borderWidth.z )\n\t// {\n\n\t//\t// would be nicer with smoothstep\n\t//\tdiffuseColor.rgb = borderColor.rgb;\n\n\t//}\n\n\tdiffuseColor = mix( diffuseColor, borderColor, stp );\n\n}\n";
-export default _default;
+export default program;
+/**
+ *
+ * @type {string}
+ */
+declare const program: string;

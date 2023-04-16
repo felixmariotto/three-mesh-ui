@@ -1,3 +1,6 @@
+// xfg:title InlineBlocks
+// xfg:category practice
+
 import * as THREE from 'three';
 import { VRButton } from 'three/examples/jsm/webxr/VRButton.js';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
@@ -61,7 +64,7 @@ function init() {
 
 function makeTextPanel() {
 
-	container = new ThreeMeshUI.Block( {
+	container = new ThreeMeshUI.Text( {
 		width: 2.2,
 		height: 0.95,
 		padding: 0.05,
@@ -70,7 +73,6 @@ function makeTextPanel() {
 		fontFamily: FontJSON,
 		fontTexture: FontImage,
 		fontSize: 0.05,
-		interLine: 0.05,
 		letterSpacing : 0
 	} );
 
@@ -82,47 +84,54 @@ function makeTextPanel() {
 
 	const loader = new THREE.TextureLoader();
 
+
+
 	loader.load( ThreeIcon, ( texture ) => {
 
+		window.icon1 = new ThreeMeshUI.InlineBlock( {
+			height: 0.2,
+			width: 0.4,
+			backgroundImage: texture,
+			backgroundOpacity: 0.75,
+			backgroundColor: 0xffffff,
+		} );
+
+
 		container.add(
-			new ThreeMeshUI.Text( {
+			new ThreeMeshUI.Inline( {
 				fontSize: 0.09,
-				content: 'three-mesh-ui supports inline blocks\n'
+				textContent: 'three-mesh-ui supports inline blocks\n'
 			} ),
 
-			new ThreeMeshUI.Text( {
+			new ThreeMeshUI.Inline( {
 				fontSize: 0.07,
-				content: 'Here is a first InlineBlock ',
-				fontColor: new THREE.Color( 0xffc654 )
+				textContent: 'Here is a first InlineBlock ',
+				color: new THREE.Color( 0xffc654 )
+			} ),
+
+			window.icon1,
+
+			new ThreeMeshUI.Inline( {
+				fontSize: 0.07,
+				textContent: '\nand this is a second ',
+				color: new THREE.Color( 0xffc654 )
 			} ),
 
 			new ThreeMeshUI.InlineBlock( {
 				height: 0.2,
 				width: 0.4,
-				backgroundTexture: texture
-			} ),
-
-			new ThreeMeshUI.Text( {
-				fontSize: 0.07,
-				content: ' and this is a second ',
-				fontColor: new THREE.Color( 0xffc654 )
-			} ),
-
-			new ThreeMeshUI.InlineBlock( {
-				height: 0.2,
-				width: 0.4,
-				backgroundTexture: texture,
+				backgroundImage: texture,
 				backgroundColor: new THREE.Color( 0x00ff00 ),
 				backgroundOpacity: 0.3
 			} ),
 
-			new ThreeMeshUI.Text( {
+			new ThreeMeshUI.Inline( {
 				fontSize: 0.07,
-				content: ' with modified color and opacity.',
-				fontColor: new THREE.Color( 0xffc654 )
+				textContent: ' with modified color and opacity.',
+				color: new THREE.Color( 0xffc654 )
 			} ),
 
-			new ThreeMeshUI.Text( { content: `\nIt works like a Block component, but can be positioned among inline components like text. Perfect for icons and emojis.` } )
+			new ThreeMeshUI.Inline( { textContent: `\nIt works like a Block component, but can be positioned among inline components like text. Perfect for icons and emojis.` } )
 		);
 
 	} );

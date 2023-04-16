@@ -1,17 +1,19 @@
-import { BufferAttribute, PlaneBufferGeometry } from 'three';
+import { BufferAttribute, PlaneGeometry } from 'three';
 
 //JSDoc related imports
 /* eslint-disable no-unused-vars */
+import MeshUIBaseElement from './../../core/elements/MeshUIBaseElement';
 import MSDFInlineGlyph from './MSDFInlineGlyph';
 /* eslint-enable no-unused-vars */
 
-export default class MSDFGeometricGlyph extends PlaneBufferGeometry {
+export default class MSDFGeometricGlyph extends PlaneGeometry {
 
 	/**
 	 *
 	 * @param {MSDFInlineGlyph} inline
+	 * @param {MeshUIBaseElement} element
 	 */
-	constructor( inline, segments = 1 ) {
+	constructor( inline, element ) {
 
 
 		// default w & h segments
@@ -20,8 +22,10 @@ export default class MSDFGeometricGlyph extends PlaneBufferGeometry {
 		// If charOBJ, try to distribute segments proportionally
 		const typographicFontSize = inline.typographic.font.size;
 
-		wS = Math.ceil((inline.typographic.width / typographicFontSize) * segments);
-		hS = Math.ceil((inline.typographic.height / typographicFontSize) * segments);
+		const segments = element._segments.value;
+
+		wS = Math.ceil((inline.typographic.width / typographicFontSize) * segments );
+		hS = Math.ceil((inline.typographic.height / typographicFontSize) * segments );
 
 		super( inline.width, inline.height, wS, hS );
 
@@ -42,6 +46,12 @@ export default class MSDFGeometricGlyph extends PlaneBufferGeometry {
 			this.translate( 0, inline.fontSize / 2, 0 );
 
 		}
+
+		this.name = "GlyphGeometry";
+		// Demo alter geometry
+		// const maxOffset = inline.fontSize / 10;
+		// this.translate(0 , -maxOffset + Math.random() * maxOffset*2, 0 )
+		// this.rotateZ(-0.1 + 0.2 * Math.random() )
 
 	}
 
@@ -108,7 +118,7 @@ export default class MSDFGeometricGlyph extends PlaneBufferGeometry {
 		// @TODO : Evaluate this as being a property. It can wait until splitGeometry
 		this.translate(
 			inline.width / 2,
-			( inline.height / 2 ) - inline.anchor,
+			-inline.height/2,
 			0
 		);
 

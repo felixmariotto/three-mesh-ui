@@ -35,118 +35,118 @@ describe( 'AlignItems', function () {
 	describe( '.START', function () {
 
 		beforeEach( () => {
-			container.set( { contentDirection: 'column', justifyContent: 'center', alignItems: 'start' } );
+			container.set( { flexDirection: 'column', justifyContent: 'center', alignItems: 'start' } );
 			render();
 		} );
 
 		it( 'Items should snap to half their size', () => {
 
 			// columns -> x snap align
-			expect( child1.position.x ).equals( -container.width / 2 + child1.width / 2 );
-			expect( child2.position.x ).equals( -container.width / 2 + child2.width / 2 );
-			expect( child3.position.x ).equals( -container.width / 2 + child3.width / 2 );
-			expect( child4.position.x ).equals( -container.width / 2 + child4.width / 2 );
-			expect( child5.position.x ).equals( -container.width / 2 + child5.width / 2 );
+			expect( child1.position.x ).equals( -container._width._value / 2 + child1._width._value / 2 );
+			expect( child2.position.x ).equals( -container._width._value / 2 + child2._width._value / 2 );
+			expect( child3.position.x ).equals( -container._width._value / 2 + child3._width._value / 2 );
+			expect( child4.position.x ).equals( -container._width._value / 2 + child4._width._value / 2 );
+			expect( child5.position.x ).equals( -container._width._value / 2 + child5._width._value / 2 );
 
 			container.set( { justifyContent: 'start' } );
 			render();
 
-			expect( child1.position.x ).equals( -container.width / 2 + child1.width / 2 );
-			expect( child2.position.x ).equals( -container.width / 2 + child2.width / 2 );
-			expect( child3.position.x ).equals( -container.width / 2 + child3.width / 2 );
-			expect( child4.position.x ).equals( -container.width / 2 + child4.width / 2 );
-			expect( child5.position.x ).equals( -container.width / 2 + child5.width / 2 );
+			expect( child1.position.x ).equals( -container._width._value / 2 + child1._width._value / 2 );
+			expect( child2.position.x ).equals( -container._width._value / 2 + child2._width._value / 2 );
+			expect( child3.position.x ).equals( -container._width._value / 2 + child3._width._value / 2 );
+			expect( child4.position.x ).equals( -container._width._value / 2 + child4._width._value / 2 );
+			expect( child5.position.x ).equals( -container._width._value / 2 + child5._width._value / 2 );
 
 			container.set( { justifyContent: 'end' } );
 			render();
 
-			expect( child1.position.x ).equals( -container.width / 2 + child1.width / 2 );
-			expect( child2.position.x ).equals( -container.width / 2 + child2.width / 2 );
-			expect( child3.position.x ).equals( -container.width / 2 + child3.width / 2 );
-			expect( child4.position.x ).equals( -container.width / 2 + child4.width / 2 );
-			expect( child5.position.x ).equals( -container.width / 2 + child5.width / 2 );
+			expect( child1.position.x ).equals( -container._width._value / 2 + child1._width._value / 2 );
+			expect( child2.position.x ).equals( -container._width._value / 2 + child2._width._value / 2 );
+			expect( child3.position.x ).equals( -container._width._value / 2 + child3._width._value / 2 );
+			expect( child4.position.x ).equals( -container._width._value / 2 + child4._width._value / 2 );
+			expect( child5.position.x ).equals( -container._width._value / 2 + child5._width._value / 2 );
 
 			container.set( { justifyContent: 'space-around' } );
 			render();
 
-			expect( child1.position.x ).equals( -container.width / 2 + child1.width / 2 );
-			expect( child2.position.x ).equals( -container.width / 2 + child2.width / 2 );
-			expect( child3.position.x ).equals( -container.width / 2 + child3.width / 2 );
-			expect( child4.position.x ).equals( -container.width / 2 + child4.width / 2 );
-			expect( child5.position.x ).equals( -container.width / 2 + child5.width / 2 );
+			expect( child1.position.x ).equals( -container._width._value / 2 + child1._width._value / 2 );
+			expect( child2.position.x ).equals( -container._width._value / 2 + child2._width._value / 2 );
+			expect( child3.position.x ).equals( -container._width._value / 2 + child3._width._value / 2 );
+			expect( child4.position.x ).equals( -container._width._value / 2 + child4._width._value / 2 );
+			expect( child5.position.x ).equals( -container._width._value / 2 + child5._width._value / 2 );
 
 			container.set( { justifyContent: 'space-evenly' } );
 			render();
 
-			expect( child1.position.x ).equals( -container.width / 2 + child1.width / 2 );
-			expect( child2.position.x ).equals( -container.width / 2 + child2.width / 2 );
-			expect( child3.position.x ).equals( -container.width / 2 + child3.width / 2 );
-			expect( child4.position.x ).equals( -container.width / 2 + child4.width / 2 );
-			expect( child5.position.x ).equals( -container.width / 2 + child5.width / 2 );
+			expect( child1.position.x ).equals( -container._width._value / 2 + child1._width._value / 2 );
+			expect( child2.position.x ).equals( -container._width._value / 2 + child2._width._value / 2 );
+			expect( child3.position.x ).equals( -container._width._value / 2 + child3._width._value / 2 );
+			expect( child4.position.x ).equals( -container._width._value / 2 + child4._width._value / 2 );
+			expect( child5.position.x ).equals( -container._width._value / 2 + child5._width._value / 2 );
 
 			container.set( { justifyContent: 'space-between' } );
 			render();
 
-			expect( child1.position.x ).equals( -container.width / 2 + child1.width / 2 );
-			expect( child2.position.x ).equals( -container.width / 2 + child2.width / 2 );
-			expect( child3.position.x ).equals( -container.width / 2 + child3.width / 2 );
-			expect( child4.position.x ).equals( -container.width / 2 + child4.width / 2 );
-			expect( child5.position.x ).equals( -container.width / 2 + child5.width / 2 );
+			expect( child1.position.x ).equals( -container._width._value / 2 + child1._width._value / 2 );
+			expect( child2.position.x ).equals( -container._width._value / 2 + child2._width._value / 2 );
+			expect( child3.position.x ).equals( -container._width._value / 2 + child3._width._value / 2 );
+			expect( child4.position.x ).equals( -container._width._value / 2 + child4._width._value / 2 );
+			expect( child5.position.x ).equals( -container._width._value / 2 + child5._width._value / 2 );
 
 			// row -> y snap align
-			container.set( { contentDirection: 'row', justifyContent: 'center' } );
+			container.set( { flexDirection: 'row', justifyContent: 'center' } );
 			render();
 
-			expect( child1.position.y ).equals( container.height / 2 - child1.height / 2 );
-			expect( child2.position.y ).equals( container.height / 2 - child2.height / 2 );
-			expect( child3.position.y ).equals( container.height / 2 - child3.height / 2 );
-			expect( child4.position.y ).equals( container.height / 2 - child4.height / 2 );
-			expect( child5.position.y ).equals( container.height / 2 - child5.height / 2 );
+			expect( child1.position.y ).equals( container._height._value / 2 - child1._height._value / 2 );
+			expect( child2.position.y ).equals( container._height._value / 2 - child2._height._value / 2 );
+			expect( child3.position.y ).equals( container._height._value / 2 - child3._height._value / 2 );
+			expect( child4.position.y ).equals( container._height._value / 2 - child4._height._value / 2 );
+			expect( child5.position.y ).equals( container._height._value / 2 - child5._height._value / 2 );
 
 			container.set( { justifyContent: 'start' } );
 			render();
 
-			expect( child1.position.y ).equals( container.height / 2 - child1.height / 2 );
-			expect( child2.position.y ).equals( container.height / 2 - child2.height / 2 );
-			expect( child3.position.y ).equals( container.height / 2 - child3.height / 2 );
-			expect( child4.position.y ).equals( container.height / 2 - child4.height / 2 );
-			expect( child5.position.y ).equals( container.height / 2 - child5.height / 2 );
+			expect( child1.position.y ).equals( container._height._value / 2 - child1._height._value / 2 );
+			expect( child2.position.y ).equals( container._height._value / 2 - child2._height._value / 2 );
+			expect( child3.position.y ).equals( container._height._value / 2 - child3._height._value / 2 );
+			expect( child4.position.y ).equals( container._height._value / 2 - child4._height._value / 2 );
+			expect( child5.position.y ).equals( container._height._value / 2 - child5._height._value / 2 );
 
 			container.set( { justifyContent: 'end' } );
 			render();
 
-			expect( child1.position.y ).equals( container.height / 2 - child1.height / 2 );
-			expect( child2.position.y ).equals( container.height / 2 - child2.height / 2 );
-			expect( child3.position.y ).equals( container.height / 2 - child3.height / 2 );
-			expect( child4.position.y ).equals( container.height / 2 - child4.height / 2 );
-			expect( child5.position.y ).equals( container.height / 2 - child5.height / 2 );
+			expect( child1.position.y ).equals( container._height._value / 2 - child1._height._value / 2 );
+			expect( child2.position.y ).equals( container._height._value / 2 - child2._height._value / 2 );
+			expect( child3.position.y ).equals( container._height._value / 2 - child3._height._value / 2 );
+			expect( child4.position.y ).equals( container._height._value / 2 - child4._height._value / 2 );
+			expect( child5.position.y ).equals( container._height._value / 2 - child5._height._value / 2 );
 
 			container.set( { justifyContent: 'space-around' } );
 			render();
 
-			expect( child1.position.y ).equals( container.height / 2 - child1.height / 2 );
-			expect( child2.position.y ).equals( container.height / 2 - child2.height / 2 );
-			expect( child3.position.y ).equals( container.height / 2 - child3.height / 2 );
-			expect( child4.position.y ).equals( container.height / 2 - child4.height / 2 );
-			expect( child5.position.y ).equals( container.height / 2 - child5.height / 2 );
+			expect( child1.position.y ).equals( container._height._value / 2 - child1._height._value / 2 );
+			expect( child2.position.y ).equals( container._height._value / 2 - child2._height._value / 2 );
+			expect( child3.position.y ).equals( container._height._value / 2 - child3._height._value / 2 );
+			expect( child4.position.y ).equals( container._height._value / 2 - child4._height._value / 2 );
+			expect( child5.position.y ).equals( container._height._value / 2 - child5._height._value / 2 );
 
 			container.set( { justifyContent: 'space-evenly' } );
 			render();
 
-			expect( child1.position.y ).equals( container.height / 2 - child1.height / 2 );
-			expect( child2.position.y ).equals( container.height / 2 - child2.height / 2 );
-			expect( child3.position.y ).equals( container.height / 2 - child3.height / 2 );
-			expect( child4.position.y ).equals( container.height / 2 - child4.height / 2 );
-			expect( child5.position.y ).equals( container.height / 2 - child5.height / 2 );
+			expect( child1.position.y ).equals( container._height._value / 2 - child1._height._value / 2 );
+			expect( child2.position.y ).equals( container._height._value / 2 - child2._height._value / 2 );
+			expect( child3.position.y ).equals( container._height._value / 2 - child3._height._value / 2 );
+			expect( child4.position.y ).equals( container._height._value / 2 - child4._height._value / 2 );
+			expect( child5.position.y ).equals( container._height._value / 2 - child5._height._value / 2 );
 
 			container.set( { justifyContent: 'space-between' } );
 			render();
 
-			expect( child1.position.y ).equals( container.height / 2 - child1.height / 2 );
-			expect( child2.position.y ).equals( container.height / 2 - child2.height / 2 );
-			expect( child3.position.y ).equals( container.height / 2 - child3.height / 2 );
-			expect( child4.position.y ).equals( container.height / 2 - child4.height / 2 );
-			expect( child5.position.y ).equals( container.height / 2 - child5.height / 2 );
+			expect( child1.position.y ).equals( container._height._value / 2 - child1._height._value / 2 );
+			expect( child2.position.y ).equals( container._height._value / 2 - child2._height._value / 2 );
+			expect( child3.position.y ).equals( container._height._value / 2 - child3._height._value / 2 );
+			expect( child4.position.y ).equals( container._height._value / 2 - child4._height._value / 2 );
+			expect( child5.position.y ).equals( container._height._value / 2 - child5._height._value / 2 );
 		} );
 
 	} );
@@ -154,118 +154,118 @@ describe( 'AlignItems', function () {
 	describe( '.END', () => {
 
 		beforeEach( () => {
-			container.set( { contentDirection: 'column', justifyContent: 'center', alignItems: 'end' } );
+			container.set( { flexDirection: 'column', justifyContent: 'center', alignItems: 'end' } );
 			render();
 		} );
 
 		it( 'Items should snap to half their size', () => {
 
 			// columns -> x snap align
-			expect( child1.position.x ).equals( container.width / 2 - child1.width / 2 );
-			expect( child2.position.x ).equals( container.width / 2 - child2.width / 2 );
-			expect( child3.position.x ).equals( container.width / 2 - child3.width / 2 );
-			expect( child4.position.x ).equals( container.width / 2 - child4.width / 2 );
-			expect( child5.position.x ).equals( container.width / 2 - child5.width / 2 );
+			expect( child1.position.x ).equals( container._width._value / 2 - child1._width._value / 2 );
+			expect( child2.position.x ).equals( container._width._value / 2 - child2._width._value / 2 );
+			expect( child3.position.x ).equals( container._width._value / 2 - child3._width._value / 2 );
+			expect( child4.position.x ).equals( container._width._value / 2 - child4._width._value / 2 );
+			expect( child5.position.x ).equals( container._width._value / 2 - child5._width._value / 2 );
 
 			container.set( { justifyContent: 'start' } );
 			render();
 
-			expect( child1.position.x ).equals( container.width / 2 - child1.width / 2 );
-			expect( child2.position.x ).equals( container.width / 2 - child2.width / 2 );
-			expect( child3.position.x ).equals( container.width / 2 - child3.width / 2 );
-			expect( child4.position.x ).equals( container.width / 2 - child4.width / 2 );
-			expect( child5.position.x ).equals( container.width / 2 - child5.width / 2 );
+			expect( child1.position.x ).equals( container._width._value / 2 - child1._width._value / 2 );
+			expect( child2.position.x ).equals( container._width._value / 2 - child2._width._value / 2 );
+			expect( child3.position.x ).equals( container._width._value / 2 - child3._width._value / 2 );
+			expect( child4.position.x ).equals( container._width._value / 2 - child4._width._value / 2 );
+			expect( child5.position.x ).equals( container._width._value / 2 - child5._width._value / 2 );
 
 			container.set( { justifyContent: 'end' } );
 			render();
 
-			expect( child1.position.x ).equals( container.width / 2 - child1.width / 2 );
-			expect( child2.position.x ).equals( container.width / 2 - child2.width / 2 );
-			expect( child3.position.x ).equals( container.width / 2 - child3.width / 2 );
-			expect( child4.position.x ).equals( container.width / 2 - child4.width / 2 );
-			expect( child5.position.x ).equals( container.width / 2 - child5.width / 2 );
+			expect( child1.position.x ).equals( container._width._value / 2 - child1._width._value / 2 );
+			expect( child2.position.x ).equals( container._width._value / 2 - child2._width._value / 2 );
+			expect( child3.position.x ).equals( container._width._value / 2 - child3._width._value / 2 );
+			expect( child4.position.x ).equals( container._width._value / 2 - child4._width._value / 2 );
+			expect( child5.position.x ).equals( container._width._value / 2 - child5._width._value / 2 );
 
 			container.set( { justifyContent: 'space-around' } );
 			render();
 
-			expect( child1.position.x ).equals( container.width / 2 - child1.width / 2 );
-			expect( child2.position.x ).equals( container.width / 2 - child2.width / 2 );
-			expect( child3.position.x ).equals( container.width / 2 - child3.width / 2 );
-			expect( child4.position.x ).equals( container.width / 2 - child4.width / 2 );
-			expect( child5.position.x ).equals( container.width / 2 - child5.width / 2 );
+			expect( child1.position.x ).equals( container._width._value / 2 - child1._width._value / 2 );
+			expect( child2.position.x ).equals( container._width._value / 2 - child2._width._value / 2 );
+			expect( child3.position.x ).equals( container._width._value / 2 - child3._width._value / 2 );
+			expect( child4.position.x ).equals( container._width._value / 2 - child4._width._value / 2 );
+			expect( child5.position.x ).equals( container._width._value / 2 - child5._width._value / 2 );
 
 			container.set( { justifyContent: 'space-evenly' } );
 			render();
 
-			expect( child1.position.x ).equals( container.width / 2 - child1.width / 2 );
-			expect( child2.position.x ).equals( container.width / 2 - child2.width / 2 );
-			expect( child3.position.x ).equals( container.width / 2 - child3.width / 2 );
-			expect( child4.position.x ).equals( container.width / 2 - child4.width / 2 );
-			expect( child5.position.x ).equals( container.width / 2 - child5.width / 2 );
+			expect( child1.position.x ).equals( container._width._value / 2 - child1._width._value / 2 );
+			expect( child2.position.x ).equals( container._width._value / 2 - child2._width._value / 2 );
+			expect( child3.position.x ).equals( container._width._value / 2 - child3._width._value / 2 );
+			expect( child4.position.x ).equals( container._width._value / 2 - child4._width._value / 2 );
+			expect( child5.position.x ).equals( container._width._value / 2 - child5._width._value / 2 );
 
 			container.set( { justifyContent: 'space-between' } );
 			render();
 
-			expect( child1.position.x ).equals( container.width / 2 - child1.width / 2 );
-			expect( child2.position.x ).equals( container.width / 2 - child2.width / 2 );
-			expect( child3.position.x ).equals( container.width / 2 - child3.width / 2 );
-			expect( child4.position.x ).equals( container.width / 2 - child4.width / 2 );
-			expect( child5.position.x ).equals( container.width / 2 - child5.width / 2 );
+			expect( child1.position.x ).equals( container._width._value / 2 - child1._width._value / 2 );
+			expect( child2.position.x ).equals( container._width._value / 2 - child2._width._value / 2 );
+			expect( child3.position.x ).equals( container._width._value / 2 - child3._width._value / 2 );
+			expect( child4.position.x ).equals( container._width._value / 2 - child4._width._value / 2 );
+			expect( child5.position.x ).equals( container._width._value / 2 - child5._width._value / 2 );
 
 			// row -> y snap align
-			container.set( { contentDirection: 'row', justifyContent: 'center' } );
+			container.set( { flexDirection: 'row', justifyContent: 'center' } );
 			render();
 
-			expect( child1.position.y ).equals( -container.height / 2 + child1.height / 2 );
-			expect( child2.position.y ).equals( -container.height / 2 + child2.height / 2 );
-			expect( child3.position.y ).equals( -container.height / 2 + child3.height / 2 );
-			expect( child4.position.y ).equals( -container.height / 2 + child4.height / 2 );
-			expect( child5.position.y ).equals( -container.height / 2 + child5.height / 2 );
+			expect( child1.position.y ).equals( -container._height._value / 2 + child1._height._value / 2 );
+			expect( child2.position.y ).equals( -container._height._value / 2 + child2._height._value / 2 );
+			expect( child3.position.y ).equals( -container._height._value / 2 + child3._height._value / 2 );
+			expect( child4.position.y ).equals( -container._height._value / 2 + child4._height._value / 2 );
+			expect( child5.position.y ).equals( -container._height._value / 2 + child5._height._value / 2 );
 
 			container.set( { justifyContent: 'start' } );
 			render();
 
-			expect( child1.position.y ).equals( -container.height / 2 + child1.height / 2 );
-			expect( child2.position.y ).equals( -container.height / 2 + child2.height / 2 );
-			expect( child3.position.y ).equals( -container.height / 2 + child3.height / 2 );
-			expect( child4.position.y ).equals( -container.height / 2 + child4.height / 2 );
-			expect( child5.position.y ).equals( -container.height / 2 + child5.height / 2 );
+			expect( child1.position.y ).equals( -container._height._value / 2 + child1._height._value / 2 );
+			expect( child2.position.y ).equals( -container._height._value / 2 + child2._height._value / 2 );
+			expect( child3.position.y ).equals( -container._height._value / 2 + child3._height._value / 2 );
+			expect( child4.position.y ).equals( -container._height._value / 2 + child4._height._value / 2 );
+			expect( child5.position.y ).equals( -container._height._value / 2 + child5._height._value / 2 );
 
 			container.set( { justifyContent: 'end' } );
 			render();
 
-			expect( child1.position.y ).equals( -container.height / 2 + child1.height / 2 );
-			expect( child2.position.y ).equals( -container.height / 2 + child2.height / 2 );
-			expect( child3.position.y ).equals( -container.height / 2 + child3.height / 2 );
-			expect( child4.position.y ).equals( -container.height / 2 + child4.height / 2 );
-			expect( child5.position.y ).equals( -container.height / 2 + child5.height / 2 );
+			expect( child1.position.y ).equals( -container._height._value / 2 + child1._height._value / 2 );
+			expect( child2.position.y ).equals( -container._height._value / 2 + child2._height._value / 2 );
+			expect( child3.position.y ).equals( -container._height._value / 2 + child3._height._value / 2 );
+			expect( child4.position.y ).equals( -container._height._value / 2 + child4._height._value / 2 );
+			expect( child5.position.y ).equals( -container._height._value / 2 + child5._height._value / 2 );
 
 			container.set( { justifyContent: 'space-around' } );
 			render();
 
-			expect( child1.position.y ).equals( -container.height / 2 + child1.height / 2 );
-			expect( child2.position.y ).equals( -container.height / 2 + child2.height / 2 );
-			expect( child3.position.y ).equals( -container.height / 2 + child3.height / 2 );
-			expect( child4.position.y ).equals( -container.height / 2 + child4.height / 2 );
-			expect( child5.position.y ).equals( -container.height / 2 + child5.height / 2 );
+			expect( child1.position.y ).equals( -container._height._value / 2 + child1._height._value / 2 );
+			expect( child2.position.y ).equals( -container._height._value / 2 + child2._height._value / 2 );
+			expect( child3.position.y ).equals( -container._height._value / 2 + child3._height._value / 2 );
+			expect( child4.position.y ).equals( -container._height._value / 2 + child4._height._value / 2 );
+			expect( child5.position.y ).equals( -container._height._value / 2 + child5._height._value / 2 );
 
 			container.set( { justifyContent: 'space-evenly' } );
 			render();
 
-			expect( child1.position.y ).equals( -container.height / 2 + child1.height / 2 );
-			expect( child2.position.y ).equals( -container.height / 2 + child2.height / 2 );
-			expect( child3.position.y ).equals( -container.height / 2 + child3.height / 2 );
-			expect( child4.position.y ).equals( -container.height / 2 + child4.height / 2 );
-			expect( child5.position.y ).equals( -container.height / 2 + child5.height / 2 );
+			expect( child1.position.y ).equals( -container._height._value / 2 + child1._height._value / 2 );
+			expect( child2.position.y ).equals( -container._height._value / 2 + child2._height._value / 2 );
+			expect( child3.position.y ).equals( -container._height._value / 2 + child3._height._value / 2 );
+			expect( child4.position.y ).equals( -container._height._value / 2 + child4._height._value / 2 );
+			expect( child5.position.y ).equals( -container._height._value / 2 + child5._height._value / 2 );
 
 			container.set( { justifyContent: 'space-between' } );
 			render();
 
-			expect( child1.position.y ).equals( -container.height / 2 + child1.height / 2 );
-			expect( child2.position.y ).equals( -container.height / 2 + child2.height / 2 );
-			expect( child3.position.y ).equals( -container.height / 2 + child3.height / 2 );
-			expect( child4.position.y ).equals( -container.height / 2 + child4.height / 2 );
-			expect( child5.position.y ).equals( -container.height / 2 + child5.height / 2 );
+			expect( child1.position.y ).equals( -container._height._value / 2 + child1._height._value / 2 );
+			expect( child2.position.y ).equals( -container._height._value / 2 + child2._height._value / 2 );
+			expect( child3.position.y ).equals( -container._height._value / 2 + child3._height._value / 2 );
+			expect( child4.position.y ).equals( -container._height._value / 2 + child4._height._value / 2 );
+			expect( child5.position.y ).equals( -container._height._value / 2 + child5._height._value / 2 );
 		} );
 
 	} );
@@ -273,7 +273,7 @@ describe( 'AlignItems', function () {
 	describe( '.CENTER', () => {
 
 		beforeEach( () => {
-			container.set( { contentDirection: 'column', justifyContent: 'center', alignItems: 'center' } );
+			container.set( { flexDirection: 'column', justifyContent: 'center', alignItems: 'center' } );
 			render();
 		} );
 
@@ -332,7 +332,7 @@ describe( 'AlignItems', function () {
 			expect( child5.position.x ).equals( 0 );
 
 			// row -> y snap align
-			container.set( { contentDirection: 'row', justifyContent: 'center' } );
+			container.set( { flexDirection: 'row', justifyContent: 'center' } );
 			render();
 
 			expect( child1.position.y ).equals( 0 );
@@ -392,7 +392,14 @@ describe( 'AlignItems', function () {
 	describe( '.STRETCH', () => {
 
 		beforeEach( () => {
-			container.set( { contentDirection: 'column', justifyContent: 'center', alignItems: 'stretch' } );
+			container.set( { flexDirection: 'column', justifyContent: 'center', alignItems: 'stretch' } );
+
+			// child1 keep its fixed size
+			child2.set({width:'auto',height:'auto'});
+			child3.set({width:'auto',height:'auto'});
+			child4.set({width:'auto',height:'auto'});
+			child5.set({width:'auto',height:'auto'});
+
 			render();
 		} );
 
@@ -451,7 +458,7 @@ describe( 'AlignItems', function () {
 			expect( child5.position.x ).equals( 0 );
 
 			// row -> y snap align
-			container.set( { contentDirection: 'row', justifyContent: 'center' } );
+			container.set( { flexDirection: 'row', justifyContent: 'center' } );
 			render();
 
 			expect( child1.position.y ).equals( 0 );
@@ -509,111 +516,118 @@ describe( 'AlignItems', function () {
 		it( 'Items should fill their parent size', () => {
 
 			// columns -> x snap align
-			expect( child1.getOffsetWidth() ).equals( container.width );
-			expect( child2.getOffsetWidth() ).equals( container.width );
-			expect( child3.getOffsetWidth() ).equals( container.width );
-			expect( child4.getOffsetWidth() ).equals( container.width );
-			expect( child5.getOffsetWidth() ).equals( container.width );
+			expect( child1._bounds._offsetWidth ).equals( 0.1 );
+			expect( child2._bounds._offsetWidth ).equals( container._width._value );
+			expect( child3._bounds._offsetWidth ).equals( container._width._value );
+			expect( child4._bounds._offsetWidth ).equals( container._width._value );
+			expect( child5._bounds._offsetWidth ).equals( container._width._value );
 
 			container.set( { justifyContent: 'start' } );
 			render();
 
-			expect( child1.getOffsetWidth() ).equals( container.width );
-			expect( child2.getOffsetWidth() ).equals( container.width );
-			expect( child3.getOffsetWidth() ).equals( container.width );
-			expect( child4.getOffsetWidth() ).equals( container.width );
-			expect( child5.getOffsetWidth() ).equals( container.width );
+			expect( child1._bounds._offsetWidth ).equals( 0.1 );
+			expect( child2._bounds._offsetWidth ).equals( container._width._value );
+			expect( child3._bounds._offsetWidth ).equals( container._width._value );
+			expect( child4._bounds._offsetWidth ).equals( container._width._value );
+			expect( child5._bounds._offsetWidth ).equals( container._width._value );
 
 			container.set( { justifyContent: 'end' } );
 			render();
 
-			expect( child1.getOffsetWidth() ).equals( container.width );
-			expect( child2.getOffsetWidth() ).equals( container.width );
-			expect( child3.getOffsetWidth() ).equals( container.width );
-			expect( child4.getOffsetWidth() ).equals( container.width );
-			expect( child5.getOffsetWidth() ).equals( container.width );
+			expect( child1._bounds._offsetWidth ).equals( 0.1 );
+			expect( child2._bounds._offsetWidth ).equals( container._width._value );
+			expect( child3._bounds._offsetWidth ).equals( container._width._value );
+			expect( child4._bounds._offsetWidth ).equals( container._width._value );
+			expect( child5._bounds._offsetWidth ).equals( container._width._value );
 
 			container.set( { justifyContent: 'space-around' } );
 			render();
 
-			expect( child1.getOffsetWidth() ).equals( container.width );
-			expect( child2.getOffsetWidth() ).equals( container.width );
-			expect( child3.getOffsetWidth() ).equals( container.width );
-			expect( child4.getOffsetWidth() ).equals( container.width );
-			expect( child5.getOffsetWidth() ).equals( container.width );
+			expect( child1._bounds._offsetWidth ).equals( 0.1 );
+			expect( child2._bounds._offsetWidth ).equals( container._width._value );
+			expect( child3._bounds._offsetWidth ).equals( container._width._value );
+			expect( child4._bounds._offsetWidth ).equals( container._width._value );
+			expect( child5._bounds._offsetWidth ).equals( container._width._value );
 
 			container.set( { justifyContent: 'space-evenly' } );
 			render();
 
-			expect( child1.getOffsetWidth() ).equals( container.width );
-			expect( child2.getOffsetWidth() ).equals( container.width );
-			expect( child3.getOffsetWidth() ).equals( container.width );
-			expect( child4.getOffsetWidth() ).equals( container.width );
-			expect( child5.getOffsetWidth() ).equals( container.width );
+			expect( child1._bounds._offsetWidth ).equals( 0.1 );
+			expect( child2._bounds._offsetWidth ).equals( container._width._value );
+			expect( child3._bounds._offsetWidth ).equals( container._width._value );
+			expect( child4._bounds._offsetWidth ).equals( container._width._value );
+			expect( child5._bounds._offsetWidth ).equals( container._width._value );
 
 			container.set( { justifyContent: 'space-between' } );
 			render();
 
-			expect( child1.getOffsetWidth() ).equals( container.width );
-			expect( child2.getOffsetWidth() ).equals( container.width );
-			expect( child3.getOffsetWidth() ).equals( container.width );
-			expect( child4.getOffsetWidth() ).equals( container.width );
-			expect( child5.getOffsetWidth() ).equals( container.width );
+			expect( child1._bounds._offsetWidth ).equals( 0.1 );
+			expect( child2._bounds._offsetWidth ).equals( container._width._value );
+			expect( child3._bounds._offsetWidth ).equals( container._width._value );
+			expect( child4._bounds._offsetWidth ).equals( container._width._value );
+			expect( child5._bounds._offsetWidth ).equals( container._width._value );
 
 			// row -> y snap align
-			container.set( { contentDirection: 'row', justifyContent: 'center' } );
+			container.set( { flexDirection: 'row', justifyContent: 'center' } );
 			render();
 
-			expect( child1.getOffsetHeight() ).equals( container.height );
-			expect( child2.getOffsetHeight() ).equals( container.height );
-			expect( child3.getOffsetHeight() ).equals( container.height );
-			expect( child4.getOffsetHeight() ).equals( container.height );
-			expect( child5.getOffsetHeight() ).equals( container.height );
+			expect( child1._bounds._offsetHeight  ).equals( 0.1 );
+			expect( child2._bounds._offsetHeight  ).equals( container._height._value );
+			expect( child3._bounds._offsetHeight  ).equals( container._height._value );
+			expect( child4._bounds._offsetHeight  ).equals( container._height._value );
+			expect( child5._bounds._offsetHeight  ).equals( container._height._value );
 
 			container.set( { justifyContent: 'start' } );
 			render();
 
-			expect( child1.getOffsetHeight() ).equals( container.height );
-			expect( child2.getOffsetHeight() ).equals( container.height );
-			expect( child3.getOffsetHeight() ).equals( container.height );
-			expect( child4.getOffsetHeight() ).equals( container.height );
-			expect( child5.getOffsetHeight() ).equals( container.height );
+			expect( child1._bounds._offsetHeight  ).equals( 0.1 );
+			expect( child2._bounds._offsetHeight  ).equals( container._height._value );
+			expect( child3._bounds._offsetHeight  ).equals( container._height._value );
+			expect( child4._bounds._offsetHeight  ).equals( container._height._value );
+			expect( child5._bounds._offsetHeight  ).equals( container._height._value );
 
 			container.set( { justifyContent: 'end' } );
 			render();
 
-			expect( child1.getOffsetHeight() ).equals( container.height );
-			expect( child2.getOffsetHeight() ).equals( container.height );
-			expect( child3.getOffsetHeight() ).equals( container.height );
-			expect( child4.getOffsetHeight() ).equals( container.height );
-			expect( child5.getOffsetHeight() ).equals( container.height );
+			expect( child1._bounds._offsetHeight  ).equals( 0.1 );
+			expect( child2._bounds._offsetHeight  ).equals( container._height._value );
+			expect( child3._bounds._offsetHeight  ).equals( container._height._value );
+			expect( child4._bounds._offsetHeight  ).equals( container._height._value );
+			expect( child5._bounds._offsetHeight  ).equals( container._height._value );
 
 			container.set( { justifyContent: 'space-around' } );
 			render();
 
-			expect( child1.getOffsetHeight() ).equals( container.height );
-			expect( child2.getOffsetHeight() ).equals( container.height );
-			expect( child3.getOffsetHeight() ).equals( container.height );
-			expect( child4.getOffsetHeight() ).equals( container.height );
-			expect( child5.getOffsetHeight() ).equals( container.height );
+			expect( child1._bounds._offsetHeight  ).equals( 0.1 );
+			expect( child2._bounds._offsetHeight  ).equals( container._height._value );
+			expect( child3._bounds._offsetHeight  ).equals( container._height._value );
+			expect( child4._bounds._offsetHeight  ).equals( container._height._value );
+			expect( child5._bounds._offsetHeight  ).equals( container._height._value );
 
 			container.set( { justifyContent: 'space-evenly' } );
 			render();
 
-			expect( child1.getOffsetHeight() ).equals( container.height );
-			expect( child2.getOffsetHeight() ).equals( container.height );
-			expect( child3.getOffsetHeight() ).equals( container.height );
-			expect( child4.getOffsetHeight() ).equals( container.height );
-			expect( child5.getOffsetHeight() ).equals( container.height );
+			expect( child1._bounds._offsetHeight  ).equals( 0.1 );
+			expect( child2._bounds._offsetHeight  ).equals( container._height._value );
+			expect( child3._bounds._offsetHeight  ).equals( container._height._value );
+			expect( child4._bounds._offsetHeight  ).equals( container._height._value );
+			expect( child5._bounds._offsetHeight  ).equals( container._height._value );
 
 			container.set( { justifyContent: 'space-between' } );
 			render();
 
-			expect( child1.getOffsetHeight() ).equals( container.height );
-			expect( child2.getOffsetHeight() ).equals( container.height );
-			expect( child3.getOffsetHeight() ).equals( container.height );
-			expect( child4.getOffsetHeight() ).equals( container.height );
-			expect( child5.getOffsetHeight() ).equals( container.height );
+			expect( child1._bounds._offsetHeight  ).equals( 0.1 );
+			expect( child2._bounds._offsetHeight  ).equals( container._height._value );
+			expect( child3._bounds._offsetHeight  ).equals( container._height._value );
+			expect( child4._bounds._offsetHeight  ).equals( container._height._value );
+			expect( child5._bounds._offsetHeight  ).equals( container._height._value );
+
+			// restore
+			child2.set({width:0.1});
+			child3.set({width:0.1});
+			child4.set({width:0.1});
+			child5.set({width:0.1});
+
 		} );
 
 	} );

@@ -1,4 +1,8 @@
-export default /* glsl */`
+/**
+ *
+ * @type {string}
+ */
+const program = /* glsl */`
 	float alpha;
 #ifdef NO_RGSS
 
@@ -36,4 +40,6 @@ export default /* glsl */`
 #endif
 
 	diffuseColor.a *= alpha;
-`
+`;
+
+export default program;

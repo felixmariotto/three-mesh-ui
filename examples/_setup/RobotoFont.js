@@ -1,14 +1,12 @@
 import { FontLibrary } from 'three-mesh-ui';
-import * as FontWeight from '../../src/utils/font/FontWeight';
-import * as FontStyle from '../../src/utils/font/FontStyle';
 import ROBOTO_ADJUSTMENT from 'three-mesh-ui/examples/assets/fonts/msdf/roboto/adjustment';
 
 export const ROBOTO_FAMILY = "Roboto";
 
-export const exampleFontRegister = function ( weight = FontWeight.NORMAL, style = FontStyle.NORMAL ) {
+export const exampleFontRegister = function ( weight = '400', style = 'normal' ) {
 
 	let filename = 'regular';
-	if( weight !== FontWeight.NORMAL || style !== FontStyle.NORMAL ){
+	if( weight !== '400' || style !== 'normal' ){
 
 		switch ( weight+style ){
 			case "400italic":
@@ -36,30 +34,42 @@ export const exampleFontRegister = function ( weight = FontWeight.NORMAL, style 
 
 }
 
-export const exampleFontPreloadAll = function ( callback ) {
+export const exampleFontPreloadRoboto = function ( callback ) {
 
 	FontLibrary.prepare(
 
-		FontLibrary
-			.addFontFamily(ROBOTO_FAMILY)
-			.addVariant(FontWeight.NORMAL, FontStyle.NORMAL, "./assets/fonts/msdf/roboto/regular.json", "./assets/fonts/msdf/roboto/regular.png" )
-			.addVariant(FontWeight.BOLD, FontStyle.ITALIC, "./assets/fonts/msdf/roboto/bold-italic.json", "./assets/fonts/msdf/roboto/bold-italic.png" )
-			.addVariant(FontWeight.BOLD, FontStyle.NORMAL, "./assets/fonts/msdf/roboto/bold.json", "./assets/fonts/msdf/roboto/bold.png" )
-			.addVariant(FontWeight.NORMAL, FontStyle.ITALIC, "./assets/fonts/msdf/roboto/italic.json", "./assets/fonts/msdf/roboto/italic.png" )
+		registerRobotoAndVariants(),
 
 	).then( () => {
 
 		// Adjusting font variants to correct some glitchs
-		const FF = FontLibrary.getFontFamily(ROBOTO_FAMILY);
-		FF.getVariant('700','normal').adjustTypographicGlyphs( ROBOTO_ADJUSTMENT );
-		FF.getVariant('700','italic').adjustTypographicGlyphs( ROBOTO_ADJUSTMENT );
-		FF.getVariant('400','italic').adjustTypographicGlyphs( ROBOTO_ADJUSTMENT );
-		FF.getVariant('400','normal').adjustTypographicGlyphs( ROBOTO_ADJUSTMENT );
+		adjustRobotoAndVariants();
 
 		callback();
 
 	});
 
 	return FontLibrary.getFontFamily( ROBOTO_FAMILY );
+
+}
+
+export const registerRobotoAndVariants = function() {
+
+	return FontLibrary
+		.addFontFamily(ROBOTO_FAMILY)
+		.addVariant("normal", "normal", "./assets/fonts/msdf/roboto/regular.json", "./assets/fonts/msdf/roboto/regular.png" )
+		.addVariant("bold", "italic", "./assets/fonts/msdf/roboto/bold-italic.json", "./assets/fonts/msdf/roboto/bold-italic.png" )
+		.addVariant("bold", "normal", "./assets/fonts/msdf/roboto/bold.json", "./assets/fonts/msdf/roboto/bold.png" )
+		.addVariant("normal", "italic", "./assets/fonts/msdf/roboto/italic.json", "./assets/fonts/msdf/roboto/italic.png" )
+
+}
+
+export const adjustRobotoAndVariants = function () {
+
+	const FF = FontLibrary.getFontFamily(ROBOTO_FAMILY);
+	FF.getVariant('bold','normal').adjustTypographicGlyphs( ROBOTO_ADJUSTMENT );
+	FF.getVariant('bold','italic').adjustTypographicGlyphs( ROBOTO_ADJUSTMENT );
+	FF.getVariant('normal','italic').adjustTypographicGlyphs( ROBOTO_ADJUSTMENT );
+	FF.getVariant('normal','normal').adjustTypographicGlyphs( ROBOTO_ADJUSTMENT );
 
 }

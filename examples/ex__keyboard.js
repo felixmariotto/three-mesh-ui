@@ -1,3 +1,7 @@
+// xfg:title 			Keyboard
+// xfg:category		practice
+// xfg:group			interactive
+
 /*
 
 This example is an advanced demo.
@@ -14,7 +18,6 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import { BoxLineGeometry } from 'three/examples/jsm/geometries/BoxLineGeometry.js';
 
 import ThreeMeshUI from 'three-mesh-ui';
-import VRControl from './utils/VRControl.js';
 import ShadowedLight from './utils/ShadowedLight.js';
 
 import FontJSON from 'three-mesh-ui/examples/assets/fonts/msdf/roboto/regular.json';
@@ -23,6 +26,22 @@ import FontImage from 'three-mesh-ui/examples/assets/fonts/msdf/roboto/regular.p
 import Backspace from 'three-mesh-ui/examples/assets/backspace.png';
 import Enter from 'three-mesh-ui/examples/assets/enter.png';
 import Shift from 'three-mesh-ui/examples/assets/shift.png';
+import Stats from 'three/examples/jsm/libs/stats.module';
+import InteractiveRaycaster from 'three-mesh-ui/examples/interactive/InteractiveRaycaster';
+import InteractiveCursor from 'three-mesh-ui/examples/interactive/listeners/InteractiveCursor';
+import KeyboardElement from 'three-mesh-ui/examples/elements/keyboard/KeyboardElement';
+import QwertyEnglish from 'three-mesh-ui/examples/elements/keyboard/keyboard-layouts/QwertyEnglish';
+import AzertyFrench from 'three-mesh-ui/examples/elements/keyboard/keyboard-layouts/AzertyFrench';
+import QwertzDeutsch from 'three-mesh-ui/examples/elements/keyboard/keyboard-layouts/QwertzDeutsch';
+import QwertyGreek from 'three-mesh-ui/examples/elements/keyboard/keyboard-layouts/QwertyGreek';
+import QwertyNordic from 'three-mesh-ui/examples/elements/keyboard/keyboard-layouts/QwertyNordic';
+import QwertyRussian from 'three-mesh-ui/examples/elements/keyboard/keyboard-layouts/QwertyRussian';
+import QwertySpanish from 'three-mesh-ui/examples/elements/keyboard/keyboard-layouts/QwertySpanish';
+import VRControl from 'three-mesh-ui/examples/controls/VRControl';
+import PhysicalKeyboardFeederBehavior from 'three-mesh-ui/examples/behaviors/input/PhysicalKeyboardFeederBehavior';
+import KeyboardsSynchronizerBehavior from 'three-mesh-ui/examples/behaviors/input/KeyboardsSynchronizerBehavior';
+import InteractiveTooltip from 'three-mesh-ui/examples/interactive/listeners/InteractiveTooltip';
+import SimpleStateBehavior from 'three-mesh-ui/examples/behaviors/states/SimpleStateBehavior';
 
 let scene,
 	camera,
@@ -31,12 +50,12 @@ let scene,
 	vrControl,
 	keyboard,
 	userText,
-	currentLayoutButton,
 	intersectionRoom,
-	layoutOptions;
-// stats;
-
-const objsToTest = [];
+	layoutOptions,
+	interactiveRaycaster,
+	interactiveCursor,
+	stats,
+	keyboardSync;
 
 // Colors
 
@@ -47,55 +66,6 @@ const colors = {
 	hovered: 0x1c1c1c,
 	selected: 0x109c5d
 };
-
-//
-
-const raycaster = new THREE.Raycaster();
-
-// compute mouse position in normalized device coordinates
-// (-1 to +1) for both directions.
-// Used to raycasting against the interactive elements
-
-const mouse = new THREE.Vector2();
-mouse.x = mouse.y = null;
-
-let selectState = false;
-let touchState = false;
-
-window.addEventListener( 'pointermove', ( event ) => {
-
-	mouse.x = ( event.clientX / window.innerWidth ) * 2 - 1;
-	mouse.y = -( event.clientY / window.innerHeight ) * 2 + 1;
-
-} );
-
-window.addEventListener( 'pointerdown', () => {
-
-	selectState = true;
-
-} );
-
-window.addEventListener( 'pointerup', () => {
-
-	selectState = false;
-
-} );
-
-window.addEventListener( 'touchstart', ( event ) => {
-
-	touchState = true;
-	mouse.x = ( event.touches[ 0 ].clientX / window.innerWidth ) * 2 - 1;
-	mouse.y = -( event.touches[ 0 ].clientY / window.innerHeight ) * 2 + 1;
-
-} );
-
-window.addEventListener( 'touchend', () => {
-
-	touchState = false;
-	mouse.x = null;
-	mouse.y = null;
-
-} );
 
 //
 
@@ -124,12 +94,12 @@ function init() {
 
 	// STATS
 
-	/*
+
 	stats = new Stats();
 	stats.dom.style.left = 'auto';
 	stats.dom.style.right = '0px';
 	document.body.appendChild( stats.dom );
-	*/
+
 
 	// LIGHT
 
@@ -152,20 +122,18 @@ function init() {
 
 	//
 
-	vrControl = VRControl( renderer, camera, scene );
-
+	vrControl = new VRControl( renderer );
 	scene.add( vrControl.controllerGrips[ 0 ], vrControl.controllers[ 0 ] );
 
-	vrControl.controllers[ 0 ].addEventListener( 'selectstart', () => {
+	interactiveRaycaster = new InteractiveRaycaster( camera, scene, renderer, vrControl );
 
-		selectState = true;
+	interactiveCursor = new InteractiveCursor( renderer.domElement );
+	interactiveRaycaster.addListener( interactiveCursor );
 
-	} );
-	vrControl.controllers[ 0 ].addEventListener( 'selectend', () => {
+	const interactiveTooltip = new InteractiveTooltip( renderer.domElement );
+	interactiveRaycaster.addListener( interactiveTooltip );
 
-		selectState = false;
-
-	} );
+	interactiveRaycaster.start();
 
 	// ROOM
 
@@ -177,14 +145,13 @@ function init() {
 	intersectionRoom = new THREE.Mesh(
 		new THREE.BoxGeometry( 6, 6, 6, 10, 10, 10 ).translate( 0, 3, 0 ),
 		new THREE.MeshBasicMaterial( {
-			side: THREE.BackSide,
+			side : THREE.BackSide,
 			transparent: true,
 			opacity: 0
 		} )
 	);
 
 	scene.add( room, intersectionRoom );
-	objsToTest.push( intersectionRoom );
 
 	// USER INTERFACE
 
@@ -213,7 +180,8 @@ function makeUI() {
 		fontFamily: FontJSON,
 		fontTexture: FontImage,
 		width: 1,
-		height: 0.35,
+		height: 0.32,
+		padding: 0.02,
 		backgroundColor: new THREE.Color( colors.panelBack ),
 		backgroundOpacity: 1
 	} );
@@ -223,27 +191,29 @@ function makeUI() {
 
 	//
 
-	const title = new ThreeMeshUI.Block( {
+	const title = new ThreeMeshUI.Text( {
 		width: 1,
 		height: 0.1,
 		justifyContent: 'center',
 		fontSize: 0.045,
-		backgroundOpacity: 0
-	} ).add(
-		new ThreeMeshUI.Text( { content: 'Type some text on the keyboard' } )
-	);
+		textContent: 'Type some text on the keyboard'
+	} )
 
-	userText = new ThreeMeshUI.Text( { content: '' } );
-
-	const textField = new ThreeMeshUI.Block( {
+	userText = new ThreeMeshUI.Text( {
 		width: 1,
-		height: 0.4,
+		// height: 0.4,
 		fontSize: 0.033,
 		padding: 0.02,
-		backgroundOpacity: 0
-	} ).add( userText );
+		boxSizing: 'border-box',
+		textContent: "",
+		textAlign: 'center'
+	} );
 
-	textPanel.add( title, textField );
+	// add keyboard input to userText
+	const feeder = new PhysicalKeyboardFeederBehavior( userText );
+	feeder.attach();
+
+	textPanel.add( title, userText );
 
 	////////////////////////
 	// LAYOUT OPTIONS PANEL
@@ -252,91 +222,68 @@ function makeUI() {
 	// BUTTONS
 
 	let layoutButtons = [
-		[ 'English', 'eng' ],
-		[ 'Nordic', 'nord' ],
-		[ 'German', 'de' ],
-		[ 'Spanish', 'es' ],
-		[ 'French', 'fr' ],
-		[ 'Russian', 'ru' ],
-		[ 'Greek', 'el' ]
+		[ 'English', QwertyEnglish ],
+		[ 'Nordic', QwertyNordic ],
+		[ 'German', QwertzDeutsch ],
+		[ 'Spanish', QwertySpanish ],
+		[ 'French', AzertyFrench ],
+		[ 'Russian', QwertyRussian ],
+		[ 'Greek', QwertyGreek ]
 	];
 
 	layoutButtons = layoutButtons.map( ( options ) => {
 
-		const button = new ThreeMeshUI.Block( {
-			height: 0.06,
-			width: 0.2,
+		const button = new ThreeMeshUI.Text( {
+
+			name: 'switch keyboard layout to '+options[ 0 ],
+			// height: 0.06,
+			width: 'auto',
+			padding : '0.01 0.05',
 			margin: 0.012,
 			justifyContent: 'center',
-			backgroundColor: new THREE.Color( colors.button ),
-			backgroundOpacity: 1
-		} ).add(
-			new ThreeMeshUI.Text( {
-				offset: 0,
-				fontSize: 0.035,
-				content: options[ 0 ]
-			} )
-		);
-
-		button.setupState( {
-			state: 'idle',
-			attributes: {
-				offset: 0.02,
-				backgroundColor: new THREE.Color( colors.button ),
-				backgroundOpacity: 1
-			}
+			// backgroundColor: new THREE.Color( colors.button ),
+			backgroundColor: colors.button ,
+			offset: 0.01,
+			backgroundOpacity: 1,
+			fontSize: 0.035,
+			textContent: options[ 0 ]
 		} );
 
-		button.setupState( {
-			state: 'hovered',
-			attributes: {
+		new SimpleStateBehavior( button, {
+			hover: {
 				offset: 0.02,
-				backgroundColor: new THREE.Color( colors.hovered ),
-				backgroundOpacity: 1
-			}
-		} );
-
-		button.setupState( {
-			state: 'selected',
-			attributes: {
-				offset: 0.01,
-				backgroundColor: new THREE.Color( colors.selected ),
-				backgroundOpacity: 1
+				backgroundColor: colors.hovered,
 			},
-			onSet: () => {
+			checked: {
+				backgroundColor: colors.selected,
+			},
+		});
 
-				// enable intersection checking for the previous layout button,
-				// then disable it for the current button
 
-				if ( currentLayoutButton ) objsToTest.push( currentLayoutButton );
+		button.addEventListener( 'click' , () => {
 
-				if ( keyboard ) {
+			if ( keyboard ) {
 
-					clear( keyboard );
+				interactiveRaycaster.removeObject( keyboard );
+				keyboard.clear();
 
-					keyboard.panels.forEach( panel => clear( panel ) );
-
-				}
-
-				currentLayoutButton = button;
-
-				makeKeyboard( options[ 1 ] );
+				keyboardSync.detach();
+				keyboardSync = null;
 
 			}
 
-		} );
+			for ( let i = 0; i < layoutButtons.length; i++ ) {
+				const layoutButton = layoutButtons[ i ];
+				layoutButton.deactivatePseudoState('checked');
+			}
 
-		objsToTest.push( button );
+			button.activatePseudoState('checked');
 
-		// Set English button as selected from the start
+			makeKeyboard( options[ 1 ] );
 
-		if ( options[ 1 ] === 'eng' ) {
+		});
 
-			button.setState( 'selected' );
-
-			currentLayoutButton = button;
-
-		}
+		interactiveRaycaster.addObject( button );
 
 		return button;
 
@@ -347,30 +294,25 @@ function makeUI() {
 	layoutOptions = new ThreeMeshUI.Block( {
 		fontFamily: FontJSON,
 		fontTexture: FontImage,
-		height: 0.25,
+		padding: 0.02,
 		width: 1,
-		offset: 0,
+		// offset: 0,
 		backgroundColor: new THREE.Color( colors.panelBack ),
 		backgroundOpacity: 1
 	} ).add(
-		new ThreeMeshUI.Block( {
-			height: 0.1,
-			width: 0.6,
-			offset: 0,
+		new ThreeMeshUI.Text( {
+			// offset: 0,
 			justifyContent: 'center',
-			backgroundOpacity: 0
-		} ).add(
-			new ThreeMeshUI.Text( {
-				fontSize: 0.04,
-				content: 'Select a keyboard layout :'
-			} )
-		),
+			backgroundOpacity: 0,
+			fontSize: 0.04,
+			textContent: 'Select a keyboard layout :'
+		} ),
 
 		new ThreeMeshUI.Block( {
 			height: 0.075,
 			width: 1,
-			offset: 0,
-			contentDirection: 'row',
+			// offset: 0,
+			flexDirection: 'row',
 			justifyContent: 'center',
 			backgroundOpacity: 0
 		} ).add(
@@ -383,8 +325,8 @@ function makeUI() {
 		new ThreeMeshUI.Block( {
 			height: 0.075,
 			width: 1,
-			offset: 0,
-			contentDirection: 'row',
+			// offset: 0,
+			flexDirection: 'row',
 			justifyContent: 'center',
 			backgroundOpacity: 0
 		} ).add(
@@ -396,7 +338,9 @@ function makeUI() {
 
 	layoutOptions.position.set( 0, 0.2, 0 );
 	container.add( layoutOptions );
-	objsToTest.push( layoutOptions );
+
+	// Set English button as selected from the start
+	makeKeyboard();
 
 }
 
@@ -416,10 +360,16 @@ mouse and touch interaction, and VR controllers pointing rays.
 
 */
 
-function makeKeyboard( language ) {
+function makeKeyboard( layout = null ) {
 
-	keyboard = new ThreeMeshUI.Keyboard( {
-		language: language,
+	keyboard = new KeyboardElement( {
+		// the default layout to display
+		layout : layout ? layout : QwertyEnglish,
+		// can detect automatically which layout to use
+		autoDetectLayout : !layout,
+		// between this list of keyboard layouts
+		availableLayouts : [QwertyEnglish,AzertyFrench,QwertzDeutsch, QwertyGreek, QwertyNordic, QwertyRussian],
+
 		fontFamily: FontJSON,
 		fontTexture: FontImage,
 		fontSize: 0.035, // fontSize will propagate to the keys blocks
@@ -427,96 +377,48 @@ function makeKeyboard( language ) {
 		backgroundOpacity: 1,
 		backspaceTexture: Backspace,
 		shiftTexture: Shift,
-		enterTexture: Enter
+		enterTexture: Enter,
+		keyOptions : {
+			color: 0xffffff,
+			backgroundColor: colors.button,
+			backgroundOpacity:1,
+			borderRadius: 0.01,
+			offset: 0.0085
+		}
 	} );
 
 	keyboard.position.set( 0, 0.88, -1 );
 	keyboard.rotation.x = -0.55;
+
+	keyboard.interactiveListener.bindText( userText )
+
 	scene.add( keyboard );
 
-	//
+	interactiveRaycaster.addObject( keyboard );
 
+	// Report physicalKeyboard even to virtual keyboard
+	keyboardSync = new KeyboardsSynchronizerBehavior( keyboard );
+	keyboardSync.attach();
+
+
+	// styles for keys
 	keyboard.keys.forEach( ( key ) => {
 
-		objsToTest.push( key );
-
-		key.setupState( {
-			state: 'idle',
-			attributes: {
-				offset: 0,
-				backgroundColor: new THREE.Color( colors.button ),
-				backgroundOpacity: 1
-			}
-		} );
-
-		key.setupState( {
-			state: 'hovered',
-			attributes: {
-				offset: 0,
-				backgroundColor: new THREE.Color( colors.hovered ),
-				backgroundOpacity: 1
-			}
-		} );
-
-		key.setupState( {
-			state: 'selected',
-			attributes: {
-				offset: -0.009,
-				backgroundColor: new THREE.Color( colors.selected ),
-				backgroundOpacity: 1
+		new SimpleStateBehavior(key,{
+			hover: {
+				backgroundColor: colors.hovered,
+				backgroundOpacity: 1,
 			},
-			// triggered when the user clicked on a keyboard's key
-			onSet: () => {
-
-				// if the key have a command (eg: 'backspace', 'switch', 'enter'...)
-				// special actions are taken
-				if ( key.info.command ) {
-
-					switch ( key.info.command ) {
-
-						// switch between panels
-						case 'switch' :
-							keyboard.setNextPanel();
-							break;
-
-						// switch between panel charsets (eg: russian/english)
-						case 'switch-set' :
-							keyboard.setNextCharset();
-							break;
-
-						case 'enter' :
-							userText.set( { content: userText.content + '\n' } );
-							break;
-
-						case 'space' :
-							userText.set( { content: userText.content + ' ' } );
-							break;
-
-						case 'backspace' :
-							if ( !userText.content.length ) break;
-							userText.set( {
-								content: userText.content.substring( 0, userText.content.length - 1 ) || ''
-							} );
-							break;
-
-						case 'shift' :
-							keyboard.toggleCase();
-							break;
-
-					}
-
-					// print a glyph, if any
-				} else if ( key.info.input ) {
-
-					userText.set( { content: userText.content + key.info.input } );
-
-				}
-
+			checked:{
+				backgroundColor: 0x00ff99
+			},
+			active: {
+				offset: 0.0025,
+				backgroundColor: colors.hovered,
 			}
-		} );
+		});
 
-	} );
-
+	});
 }
 
 //
@@ -533,141 +435,17 @@ function onWindowResize() {
 
 function loop() {
 
-	updateButtons();
-
 	// Don't forget, ThreeMeshUI must be updated manually.
 	// This has been introduced in version 3.0.0 in order
 	// to improve performance
 	ThreeMeshUI.update();
-
 	controls.update();
-	// stats.update();
+	interactiveRaycaster.update();
+
+	stats.update();
+
+
+
 	renderer.render( scene, camera );
-
-}
-
-/*
-
-Called in the loop, get intersection with either the mouse or the VR controllers,
-then update the buttons states according to result.
-
-As written above, three-mesh-ui provides only and strictly user interfaces, with tools to manage
-UI state (component.setupState and component.setState).
-
-Interacting with this UI must be done manually by the user, given the wide range of
-possibilities in this regard.
-
-*/
-
-function updateButtons() {
-
-	// Find closest intersecting object
-
-	let intersect;
-
-	if ( renderer.xr.isPresenting ) {
-
-		vrControl.setFromController( 0, raycaster.ray );
-
-		intersect = raycast();
-
-		if ( intersect ) console.log( intersect.point );
-
-		// Position the little white dot at the end of the controller pointing ray
-		if ( intersect ) vrControl.setPointerAt( 0, intersect.point );
-
-	} else if ( mouse.x !== null && mouse.y !== null ) {
-
-		raycaster.setFromCamera( mouse, camera );
-
-		intersect = raycast();
-
-	}
-
-	// Update targeted button state (if any)
-
-	if ( intersect && intersect.object.isUI ) {
-
-		if ( ( selectState && intersect.object.currentState === 'hovered' ) || touchState ) {
-
-			// Component.setState internally call component.set with the options you defined in component.setupState
-			if ( intersect.object.states[ 'selected' ] ) intersect.object.setState( 'selected' );
-
-		} else if ( !selectState && !touchState ) {
-
-			// Component.setState internally call component.set with the options you defined in component.setupState
-			if ( intersect.object.states[ 'hovered' ] ) intersect.object.setState( 'hovered' );
-
-		}
-
-	}
-
-	// Update non-targeted buttons state
-
-	objsToTest.forEach( ( obj ) => {
-
-		if ( ( !intersect || obj !== intersect.object ) && obj.isUI ) {
-
-			// Component.setState internally call component.set with the options you defined in component.setupState
-			if ( obj.states[ 'idle' ] ) obj.setState( 'idle' );
-
-		}
-
-	} );
-
-}
-
-//
-
-function raycast() {
-
-	return objsToTest.reduce( ( closestIntersection, obj ) => {
-
-		// keys in panels that are hidden are not tested
-		if ( !layoutOptions.getObjectById( obj.id ) &&
-			!keyboard.getObjectById( obj.id ) &&
-			intersectionRoom !== obj
-		) {
-
-			return closestIntersection;
-
-		}
-
-		const intersection = raycaster.intersectObject( obj, true );
-
-		// if intersection is an empty array, we skip
-		if ( !intersection[ 0 ] ) return closestIntersection;
-
-		// if this intersection is closer than any previous intersection, we keep it
-		if ( !closestIntersection || intersection[ 0 ].distance < closestIntersection.distance ) {
-
-			// Make sure to return the UI object, and not one of its children (text, frame...)
-			intersection[ 0 ].object = obj;
-
-			return intersection[ 0 ];
-
-		}
-
-		return closestIntersection;
-
-	}, null );
-
-}
-
-// Remove this ui component cleanly
-
-function clear( uiComponent ) {
-
-	scene.remove( uiComponent );
-
-	// We must call this method when removing a component,
-	// to make sure it's removed from the update registry.
-	uiComponent.clear();
-
-	uiComponent.traverse( ( child ) => {
-
-		if ( objsToTest.includes( child ) ) objsToTest.splice( objsToTest.indexOf( child ), 1 );
-
-	} );
 
 }

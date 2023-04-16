@@ -1,15 +1,24 @@
-import { Mesh, MeshBasicMaterial, PlaneBufferGeometry, Texture, Vector4 } from 'three';
-import Behavior from '../../../src/utils/Behavior';
+import { BufferAttribute, Mesh, MeshBasicMaterial, PlaneGeometry, RepeatWrapping, Texture, TextureLoader, Vector4 } from 'three';
+import { Behavior } from 'three-mesh-ui';
+
 
 export default class BoxLayoutBehavior extends Behavior{
 
 	/**
 	 *
-	 * @param {MeshUIComponent} subject
+	 * @param {MeshUIBaseElement} subject
+	 * @param {Function|null}onTextureLoadedCallback
+	 *
 	 */
-	constructor( subject ) {
+	constructor( subject, onTextureLoadedCallback = null ) {
 
 		super( subject );
+
+		const geometry = new PlaneGeometry( 1, 1 );
+
+		// Add additional uv for borders computations by copying initial uv
+		const uvB = new BufferAttribute( new Float32Array( geometry.getAttribute('uv').array ), 2);
+		geometry.setAttribute('uvB', uvB ).name = 'uvB';
 
 		/**
 		 *
@@ -17,17 +26,34 @@ export default class BoxLayoutBehavior extends Behavior{
 		 * @private
 		 */
 		this._overlay = new Mesh(
-			new PlaneBufferGeometry(1,1),
-			new BoxLayoutMaterial({map:new Texture(),opacity:0.8, transparent:true}) );
+			geometry,
+			new BoxLayoutMaterial({map:new Texture(),opacity:1, transparent:true}) );
+
+		new TextureLoader().load( "https://threejs.org/examples/textures/uv_grid_opengl.jpg", (texture) => {
+
+			this._texture = texture;
+			this._texture.matrixAutoUpdate = true;
+			this._texture.wrapS = this._texture.wrapT = RepeatWrapping;
+			this._overlay.material.map = this._texture;
+
+			this.act();
+
+			if( onTextureLoadedCallback ) {
+				onTextureLoadedCallback( texture );
+			}
+
+		});
 
 		this._overlay.position.z = 0.0001;
+
+		this._actor = this.act.bind( this );
 
 	}
 
 	attach() {
 
 		this._subject.add (this._overlay);
-		this._subject.addAfterUpdate( this.act );
+		this._subject.addAfterUpdate( this._actor );
 		this.act();
 
 	}
@@ -35,18 +61,20 @@ export default class BoxLayoutBehavior extends Behavior{
 	detach() {
 
 		this._subject.remove( this._overlay );
-		this._subject.removeAfterUpdate( this.act );
+		this._subject.removeAfterUpdate( this._actor );
 
 	}
 
-	act = () => {
+	act () {
 
-		const margin = this._subject._margin;
-		const border = this._subject._borderWidth;
-		const padding = this._subject._padding;
+		const margin = this._subject._margin._value;
+		const border = this._subject._borderWidth._value;
+		const padding = this._subject._padding._value;
 
-		const offsetWidth = this._subject.getOffsetWidth() + margin.w + margin.y;
-		const offsetHeight = this._subject.getOffsetHeight() + margin.x + margin.z;
+		const offsetWidth = this._subject._bounds._offsetWidth + margin.w + margin.y;
+		const offsetHeight = this._subject._bounds._offsetHeight + margin.x + margin.z;
+
+		if( offsetWidth === 0 || offsetHeight === 0 ) return;
 
 		this._overlay.scale.set( offsetWidth, offsetHeight, 1);
 
@@ -75,6 +103,19 @@ export default class BoxLayoutBehavior extends Behavior{
 			( margin.w + border.w + padding.w ) / offsetWidth
 		);
 
+
+		if( !this._texture ) return;
+
+		this._texture.repeat.set(
+			offsetWidth,
+			offsetHeight
+		);
+
+		this._texture.offset.set(
+			1 - ( margin.w + border.w + padding.w ),
+			- ( margin.z + border.z + padding.z )
+		);
+
 	}
 
 	clear() {
@@ -82,6 +123,10 @@ export default class BoxLayoutBehavior extends Behavior{
 		this._overlay.geometry.dispose();
 		this._overlay.material.dispose();
 
+	}
+
+	set color( v ) {
+		this._overlay.material.color.set( v );
 	}
 
 }
@@ -101,6 +146,16 @@ class BoxLayoutMaterial extends MeshBasicMaterial{
 			shader.uniforms.padding = this.userData.padding;
 			shader.uniforms.border = this.userData.border;
 
+			shader.vertexShader = shader.vertexShader.replace(
+				'#include <uv_pars_vertex>',
+				'#include <uv_pars_vertex>\n' + paddingColorParsVertex
+			);
+
+			shader.vertexShader = shader.vertexShader.replace(
+				'#include <uv_vertex>',
+				'#include <uv_vertex>\n' + paddingColorVertex
+			)
+
 			shader.fragmentShader = shader.fragmentShader.replace(
 				'#include <uv_pars_fragment>',
 				'#include <uv_pars_fragment>\n' + paddingColorParsFragment
@@ -117,7 +172,19 @@ class BoxLayoutMaterial extends MeshBasicMaterial{
 
 }
 
+// const pars vertex
+const paddingColorParsVertex = /* glsl */`
+attribute vec2 uvB;
+varying vec2 vUvB;
+`
+
+const paddingColorVertex = /* glsl */`
+vUvB = uvB;
+`
+
 const paddingColorParsFragment = /* glsl */`
+varying vec2 vUvB;
+
 uniform vec4 margin;
 uniform vec4 border;
 uniform vec4 padding;
@@ -125,17 +192,24 @@ uniform vec4 padding;
 
 
 const paddingColorFragment = /* glsl */`
-if( vUv.x < padding.w || vUv.x > padding.y || vUv.y > padding.x || vUv.y < padding.z ) {
+if( vUvB.x < padding.w || vUvB.x > padding.y || vUvB.y > padding.x || vUvB.y < padding.z ) {
 	diffuseColor = vec4( 0.76, 0.815, 0.545, opacity );
 }else{
-	diffuseColor.a = 0.02;
+
+	// greyscale
+	// float biggerColorComponent = diffuseColor.x;
+	// biggerColorComponent = max( biggerColorComponent, diffuseColor.y );
+	// biggerColorComponent = max( biggerColorComponent, diffuseColor.z );
+	// diffuseColor.xyz = vec3( biggerColorComponent );
+
+	diffuseColor.a = 1.;
 }
 
-if( vUv.x < border.w || vUv.x > border.y || vUv.y > border.x || vUv.y < border.z ) {
+if( vUvB.x < border.w || vUvB.x > border.y || vUvB.y > border.x || vUvB.y < border.z ) {
 	diffuseColor = vec4( 0.992, 0.86, 0.588, opacity );
 }
 
-if( vUv.x < margin.w || vUv.x > margin.y || vUv.y > margin.x || vUv.y < margin.z ) {
+if( vUvB.x < margin.w || vUvB.x > margin.y || vUvB.y > margin.x || vUvB.y < margin.z ) {
 	diffuseColor = vec4( 0.98, 0.8, 0.592, opacity );
 }
 

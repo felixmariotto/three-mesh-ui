@@ -1,4 +1,8 @@
-export default /* glsl */`
+/**
+ *
+ * @type {string}
+ */
+const program = /* glsl */`
 
 vec4 borderColor = vec4( borderColor, borderOpacity );
 
@@ -124,4 +128,6 @@ if( vUvB.x > cornerBR.x && vUvB.y < cornerBR.y ) {
 
 }
 
-`
+`;
+
+export default program;

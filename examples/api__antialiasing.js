@@ -1,3 +1,7 @@
+// xfg:title FontSmooth
+// xfg:category learn
+// xfg:type MSDF Only
+
 import * as THREE from 'three';
 import { VRButton } from 'three/examples/jsm/webxr/VRButton.js';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
@@ -50,8 +54,9 @@ function init() {
 
 	// attempt to have a pixel-perfect match to the reference MSDF implementation
 
-	makeTextPanel( 0.6, 0, 0, 0, true );
-	makeTextPanel( -0.6, 0, 0, 0, false );
+	const no = makeTextPanel( 0.6, 0, 0, 0, 'antialiased' );
+	window.no = no;
+	makeTextPanel( -0.6, 0, 0, 0, 'none' );
 
 	//
 
@@ -64,13 +69,13 @@ function init() {
 function makeTextPanel( x, rotX, rotY, rotZ, supersample ) {
 
 	const textContent = `
-  fontSupersampling: ${supersample}
+  fontSmooth: '${supersample}'
 
   Three-mesh-ui uses rotated-grid-super-sampling (RGSS) to smooth out the rendering of small characters on low res displays.
 
   This is especially important in VR. However you can improve performance slightly by disabling it, especially if you only render big texts.`;
 
-	const container = new ThreeMeshUI.Block( {
+	const container = new ThreeMeshUI.Text( {
 		width: 1,
 		height: 0.9,
 		padding: 0.05,
@@ -79,23 +84,25 @@ function makeTextPanel( x, rotX, rotY, rotZ, supersample ) {
 		alignItems: 'start',
 		fontFamily: FontJSON,
 		fontTexture: FontImage,
-		fontColor: new THREE.Color( 0xffffff ),
+		color: new THREE.Color( 0xffffff ),
 		backgroundOpacity: 1,
 		backgroundColor: new THREE.Color( 0x000000 ),
-		fontSupersampling: supersample,
+		fontSmooth: supersample,
+		fontSize: 0.045,
+		textContent
 	} );
 
 	scene.add( container );
 	container.position.set( x, 1.5, -4 );
 	container.rotation.set( rotX, rotY, rotZ );
 
-	container.add(
-		new ThreeMeshUI.Text( {
-			content: textContent,
-			fontKerning: 'normal',
-			fontSize: 0.045,
-		} )
-	);
+	// container.add(
+	// 	new ThreeMeshUI.Text( {
+	// 		content: textContent,
+	// 		fontKerning: 'normal',
+	// 		fontSize: 0.045,
+	// 	} )
+	// );
 
 	return container;
 

@@ -1,2 +1,6 @@
-declare var _default: "\n\n#ifdef USE_MAP\n\nvec4 sampleTexture() {\n\n\tvec2 uv = vUv;\n\n\t// default stretch\n\t#if BACKGROUND_MAPPING != 0\n\n\tfloat textureRatio = textureSize.x / textureSize.y;\n\tfloat panelRatio = frameSize.x / frameSize.y;\n\tfloat ratio = panelRatio / textureRatio;\n\tfloat ratio2 = textureRatio / panelRatio;\n\n\t\t// contain\n\t\t#if BACKGROUND_MAPPING == 1\n\t\tif ( textureRatio < panelRatio ) { // repeat on X\n\t\t\tfloat newX = uv.x * ratio;\n\t\t\tnewX += 0.5 - 0.5 * ratio;\n\t\t\tuv.x = newX;\n\t\t} else { // repeat on Y\n\t\t\tfloat newY = uv.y * ratio2;\n\t\t\tnewY += 0.5 - 0.5 * ratio2;\n\t\t\tuv.y = newY;\n\t\t}\n\t\t#else\n\t\t// cover\n\t\tif ( textureRatio < panelRatio ) { // stretch on Y\n\t\t\tfloat newY = uv.y * ratio2;\n\t\t\tnewY += 0.5 - 0.5 * ratio2;\n\t\t\tuv.y = newY;\n\t\t} else { // stretch on X\n\t\t\tfloat newX = uv.x * ratio;\n\t\t\tnewX += 0.5 - 0.5 * ratio;\n\t\t\tuv.x = newX;\n\t\t}\n\n\t\t#endif\n\n\t#endif\n\n\treturn texture2D( map, uv );\n\n}\n#endif\n";
-export default _default;
+export default program;
+/**
+ *
+ * @type {string}
+ */
+declare const program: string;

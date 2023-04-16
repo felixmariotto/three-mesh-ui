@@ -69,33 +69,35 @@ function makeTextPanel() {
 	const container = new ThreeMeshUI.Block( {
 		width: 1.2,
 		height: 0.5,
+		padding: 0.05,
 		justifyContent: 'center',
 		fontFamily: FontJSON,
-		fontTexture: FontImage
+		fontTexture: FontImage,
+		backgroundColor: 0x000000,
 	} );
 
 	container.position.set( 0, 1, -1.8 );
 	container.rotation.x = -0.55;
 	scene.add( container );
 
-	// onAfterUpdate can be set on any component ( Text, Block... ),
-	// and get called after any update to the component.
-
-	container.addAfterUpdate( function () {
-		container.frame.layers.set( count % 2 );
-	});
-
 	//
 
 	const text = new ThreeMeshUI.Text( {
-		content: 'onAfterUpdate get called after any update.\n\n',
+		textContent: 'onAfterUpdate get called after any update.\n\n',
 		fontSize: 0.055
 	} );
 
 	const counter = new ThreeMeshUI.Text( {
-		content: '0',
+		textContent: '0',
 		fontSize: 0.08
 	} );
+
+	// onAfterUpdate can be set on any component ( Text, Block... ),
+	// and get called after any update to the component.
+
+	counter.addAfterUpdate( function () {
+		container._backgroundMesh.layers.set( count % 2 );
+	});
 
 	container.add( text, counter );
 
@@ -104,7 +106,7 @@ function makeTextPanel() {
 	setInterval( () => {
 
 		count++;
-		counter.set( { content: String( count ) } );
+		counter.set( { textContent: String( count ) } );
 
 	}, 500 );
 

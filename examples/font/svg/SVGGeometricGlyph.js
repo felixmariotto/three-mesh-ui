@@ -1,35 +1,41 @@
-import { ExtrudeBufferGeometry } from 'three';
+import { ExtrudeGeometry } from 'three';
 
 // This implementation arbitrary choose to use ExtrudedGeometry, but it will also work with ShapeGeometry
-export default class SVGGeometricGlyph extends ExtrudeBufferGeometry {
+export default class SVGGeometricGlyph extends ExtrudeGeometry {
 
 	/**
 	 *
 	 * @param {SVGInlineGlyph} inline
+	 * @param {MeshUIBaseElement} element
 	 */
-	constructor( inline ) {
+	constructor( inline, element ) {
 
-		// @TODO: Retrieve segments properties
-		const segments = 1;
 
-		// default w & h segments
-		let wS = 1, hS=1;
+
+
 
 		// If charOBJ, try to distribute segments proportionally
 		const typographicFontSize = inline.typographic.font.size;
 		const divisor = inline.typographic.font.divisor;
 
-		wS = Math.ceil((inline.typographic.width / typographicFontSize) * segments);
-		hS = Math.ceil((inline.typographic.height / typographicFontSize) * segments);
+		/* eslint-disable no-unused-vars */
+		// default w & h segments
+		// @TODO: Retrieve segments properties
+		const segments = element.segments;
+		let wS = 1, hS = 1;
+		wS = Math.ceil( ( inline.typographic.width / typographicFontSize ) * segments );
+		hS = Math.ceil( ( inline.typographic.height / typographicFontSize ) * segments );  /* eslint-enable no-unused-vars */
 
-		super( inline.shape, {depth:.01} );
+		const depth = element._fontDepth.value;
+		super( inline.shape, {depth:1} );
 
 		this.name = "SVGGeometryGlyph("+inline.typographic.char+")";
 
-			this._transformGeometry( inline );
-			this.scale( 1/divisor * inline.fontFactor , 1/divisor * inline.fontFactor, 0.025 );
+			this._transformGeometry( inline, depth );
 
-			this.translate( 0, inline.fontSize / 2, 0 );
+			this.scale( 1/divisor * inline.fontFactor , 1/divisor * inline.fontFactor, depth );
+
+			// this.translate( 0, 0, 0 );
 
 	}
 
@@ -41,15 +47,15 @@ export default class SVGGeometricGlyph extends ExtrudeBufferGeometry {
 	 * @param {MSDFInlineGlyph} inline
 	 * @private
 	 */
-	_transformGeometry( inline ) {
+	_transformGeometry( inline, depth ) {
 
 		//
 
 		// @TODO : Evaluate this as being a property. It can wait until splitGeometry
 		this.translate(
 			inline.width / 2,
-			( inline.height / 2 ) - inline.anchor,
-			0
+			inline.height / 2,
+			-depth/2
 		);
 
 	}

@@ -1,17 +1,17 @@
+// xfg:title WhiteSpace
+// xfg:category develop
+
 /* Import everything we need from Three.js */
 
 import * as THREE from 'three';
+import { Mesh, MeshBasicMaterial, PlaneGeometry } from 'three';
 import { VRButton } from 'three/examples/jsm/webxr/VRButton.js';
 import { BoxLineGeometry } from 'three/examples/jsm/geometries/BoxLineGeometry.js';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 
 import ThreeMeshUI, { FontLibrary, MSDFFontMaterialUtils, ShaderChunkUI } from 'three-mesh-ui';
-
-
-import { Mesh, MeshBasicMaterial, PlaneBufferGeometry } from 'three';
-import * as FontWeight from '../src/utils/font/FontWeight';
-import * as FontStyle from '../src/utils/font/FontStyle';
 import ROBOTO_ADJUSTMENT from 'three-mesh-ui/examples/assets/fonts/msdf/roboto/adjustment';
+import TypographicLayoutBehavior from 'three-mesh-ui/examples/behaviors/helpers/TypographicLayoutBehavior';
 
 const WIDTH = window.innerWidth;
 const HEIGHT = window.innerHeight;
@@ -21,22 +21,20 @@ let scene, camera, renderer, controls;
 window.addEventListener( 'load', preloadFonts );
 window.addEventListener( 'resize', onWindowResize );
 
-function preloadFonts(){
+function preloadFonts() {
 	FontLibrary.prepare(
-
 		FontLibrary
-			.addFontFamily("Roboto")
-			.addVariant(FontWeight.NORMAL, FontStyle.NORMAL, "./assets/fonts/msdf/roboto/regular.json", "./assets/fonts/msdf/roboto/regular.png" )
-
+			.addFontFamily( 'Roboto' )
+			.addVariant( 'normal', 'normal', './assets/fonts/msdf/roboto/regular.json', './assets/fonts/msdf/roboto/regular.png' )
 	).then( () => {
 
 		// Adjusting font variants
-		const FF = FontLibrary.getFontFamily("Roboto");
-		FF.getVariant('400','normal').adjustTypographicGlyphs( ROBOTO_ADJUSTMENT );
+		const FF = FontLibrary.getFontFamily( 'Roboto' );
+		FF.getVariant( 'normal', 'normal' ).adjustTypographicGlyphs( ROBOTO_ADJUSTMENT );
 
 		init();
 
-	});
+	} );
 
 
 }
@@ -88,8 +86,7 @@ function init() {
 
 function makeUI() {
 	const container = new ThreeMeshUI.Block( {
-		height: 1.5,
-		width: 0.55,
+		width: 0.78,
 		justifyContent: 'center',
 		alignItems: 'center',
 		backgroundOpacity: 0,
@@ -101,16 +98,16 @@ function makeUI() {
 
 	//
 
-	const textBlock = new ThreeMeshUI.Block( {
-		height: 0.4,
-		width: 0.73,
+	const textBlock = new ThreeMeshUI.Text( {
 		margin: 0.05,
 		textAlign: 'right',
 		justifyContent: 'center',
-		padding: 0.025,
-		interLine: 0.01,
+		color: 'red',
+		// backgroundColor: 0x000000,
+		// backgroundOpacity: 0.15,
 		letterSpacing: 0,
-		breakOn: "- \n"
+		// breakOn: "- \n",
+		fontMaterial: new FontMaterialDebugger()
 	} );
 
 	container.add( textBlock );
@@ -118,106 +115,20 @@ function makeUI() {
 	//
 
 	container.set( {
-		fontFamily: "Roboto"
+		fontFamily: 'Roboto'
 	} );
 
 	const textContent = 'The spiny bush viper is known for its extremely keeled dorsal scales.';
 	// const textContent = 'The spiny bush viper is';
-	const text = new ThreeMeshUI.Text( {
+	const text = new ThreeMeshUI.Inline( {
 		fontSize: 0.06,
 		fontOpacity: 0.75,
-		content: textContent,
+		textContent,
 	} );
 
-	const text2 = new ThreeMeshUI.Text( {
-		fontSize: 0.015,
-		fontOpacity: 0.75,
-		content: 'The spiny bush viper is known for its extremely keeled dorsal scales.',
-	} );
+	new TypographicLayoutBehavior( textBlock, 0x9e9e9e, 0x000000 ).attach();
 
-	text.material = new FontMaterialDebugger();
-
-	// Lines properties. Lines are planes manually added behind each text lines
-	// in order to perceive and validate line width
-
-	const lineMat = new MeshBasicMaterial( { color: 0x696969, opacity: 0.5 } );
-	const baseMat = new MeshBasicMaterial( { color: 0xff00ff } );
-	const medianMat = new MeshBasicMaterial( { color: 0x99ff00 } );
-	let lines = [];
-
-	text.addAfterUpdate( function () {
-
-		// remove all lines previously added
-		for ( let i = 0; i < lines.length; i++ ) {
-			const lineMesh = lines[ i ];
-			text.remove( lineMesh );
-		}
-		lines = [];
-
-		console.log(textBlock.lines);
-
-		// retrieve all lines sent by InlineManager for the textBlock
-		for ( let i = 0; i < textBlock.lines.length; i++ ) {
-
-			const line = textBlock.lines[ i ];
-
-			if ( !line[ 0 ] ) continue;
-
-			const lineHeight = line.lineHeight;
-			const lineBase = line.lineBase;
-
-			const deltaLine = lineHeight - lineBase;
-
-			// TextBackground
-			const lineGeo = new PlaneBufferGeometry( line.width, lineHeight );
-			const lineMesh = new Mesh( lineGeo, lineMat );
-
-			lineMesh.position.x = line[ 0 ].offsetX + ( line.width / 2 );
-			lineMesh.position.y = line.y + lineHeight/2 - deltaLine/4; // Background
-
-
-			lines.push( lineMesh );
-			text.add( lineMesh );
-
-			// baseline
-			const baselineMesh = new Mesh( new PlaneBufferGeometry( line.width, 0.001 ), baseMat );
-			baselineMesh.position.x = line[ 0 ].offsetX + ( line.width / 2 );
-			baselineMesh.position.y = line.y + lineBase/2 - (lineHeight-lineBase) + 0.0005; // Baseline
-
-			lines.push( baselineMesh );
-			text.add( baselineMesh );
-
-
-			// Median
-			const medianMesh = new Mesh( new PlaneBufferGeometry( line.width, 0.001 ), medianMat );
-
-			medianMesh.position.x = line[ 0 ].offsetX + ( line.width / 2 );
-
-			const delta = baselineMesh.position.y - lineMesh.position.y;
-
-
-			medianMesh.position.y =  lineMesh.position.y - delta - 0.0005; // Baseline
-			lines.push( medianMesh );
-			text.add( medianMesh );
-
-			baselineMesh.position.z = medianMesh.position.z = text.children[0].position.z + 0.006;
-
-
-		}
-
-
-		//
-		// const heightMesh = new Mesh( new PlaneBufferGeometry( 0.5, textBlock.lines.height ),
-		// 	new MeshBasicMaterial({color:0xff0000}));
-		//
-		// lines.push( heightMesh );
-		// text.add( heightMesh );
-
-
-
-	});
-
-	textBlock.add( text , text2 );
+	textBlock.add( text );
 
 
 	//build html overlay for comparison and selection
@@ -410,15 +321,15 @@ class FontMaterialDebugger extends MeshBasicMaterial {
 
 			shader.fragmentShader = shader.fragmentShader.replace(
 				'#include <uv_pars_fragment>',
-				'#include <uv_pars_fragment>\n' + ShaderChunkUI.msdf_alphaglyph_pars_fragment
+				'#include <uv_pars_fragment>\n' + ShaderChunkUI.msdfAlphaglyphParsFragmentGlsl
 			);
 
 			// fragment chunks
 			shader.fragmentShader = shader.fragmentShader.replace(
 				'#include <alphamap_fragment>',
-				ShaderChunkUI.msdf_alphaglyph_fragment + `
+				ShaderChunkUI.msdfAlphaglyphFragmentGlsl + `
 				if( diffuseColor.a <= 0.02 ) {
-					diffuseColor = vec4(0.,0.,0.,0.75);
+					diffuseColor = vec4(1.-diffuseColor.x,1.-diffuseColor.y,1.-diffuseColor.z,0.75);
 				}
 				#include <alphamap_fragment>
 `

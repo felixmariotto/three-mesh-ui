@@ -232,7 +232,7 @@ const _fontToGlyphMapTransformer = function( fontMaterial, materialProperty, val
  */
 const _RGSSTransformer = function( fontMaterial, materialProperty, value){
 
-	if ( !value ) {
+	if ( value && value !== 'antialiased' ) {
 
 		fontMaterial.defines['NO_RGSS'] = '';
 
@@ -252,12 +252,12 @@ const _RGSSTransformer = function( fontMaterial, materialProperty, value){
  * @type {Object.<{m:string, t?:(fontMaterial:Material|ShaderMaterial, materialProperty:string, value:any) => void}>}
  */
 const mediationDefinitions = {
-	alphaTest: { m: 'alphaTest', t: alphaTestTransformer },
-	_side: { m: 'side' },
-	// side: { m: 'side' },
-	_font: { m: "glyphMap", t: _fontToGlyphMapTransformer },
-	fontColor: { m: 'color' },
+	clippingPlanes: { m: 'clippingPlanes' },
+	fontAlphaTest: { m: 'alphaTest', t: alphaTestTransformer },
+	fontSide: { m: 'side' },
+	font: { m: "glyphMap", t: _fontToGlyphMapTransformer },
+	color: { m: 'color' },
 	fontOpacity: { m: 'opacity' },
-	fontSupersampling: { m: 'NO_RGSS', t: _RGSSTransformer },
+	fontSmooth: { m: 'NO_RGSS', t: _RGSSTransformer },
 	invertAlpha: { m: 'INVERT_ALPHA', t: toPreprocessorTriggerTransformer },
 }

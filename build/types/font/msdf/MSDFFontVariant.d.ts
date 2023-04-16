@@ -3,8 +3,8 @@
  */
 export default class MSDFFontVariant extends FontVariant {
     constructor(weight: any, style: any, json: any, texture: any);
-    _unitRange: Vector2;
-    _defaultMaterialClass: typeof MSDFFontMaterial;
+
+
     get texture(): any;
     get unitRange(): Vector2;
     /**
@@ -12,46 +12,53 @@ export default class MSDFFontVariant extends FontVariant {
      * @param {MSDFJson} json
      * @private
      */
-    private _buildData;
-    _kernings: {
-        [x: string]: number;
-    };
-    _chars: {};
-    _distanceRange: number;
+
+    /**
+     *
+     * @type {import('../FontVariant').KerningPairs}
+     * @private
+     */
+
+
+
     /**
      *
      * @param texture
      * @private
      */
-    private _buildTexture;
+
     /**
      *
-     * @param {MSDFInlineGlyph} inline
+     * @override
+     * @param {import('./../InlineGlyph').default|import('./MSDFInlineGlyph').default} inline
+     * @param {import('./../../core/elements/MeshUIBaseElement').default} element
      * @returns {MSDFGeometricGlyph}
      */
-    getGeometricGlyph(inline: MSDFInlineGlyph, segments?: number): MSDFGeometricGlyph;
+    override getGeometricGlyph(inline: import('./../InlineGlyph').default | import('./MSDFInlineGlyph').default, element: import('./../../core/elements/MeshUIBaseElement').default): MSDFGeometricGlyph;
     /**
      * Ensure that each font variant has its kerning dictionary
      * @see src/font/msdf/FontVariantMSDF.js for an implementation
      *
      * @param {MSDFJson} json
-     *
-     * @returns {Object.<string, number>}
+     * @returns {import('../FontVariant').KerningPairs}
      * @private
      */
-    private _buildKerningPairs;
+
     /**
      *
      * @param {MSDFJson} json
      * @private
      */
-    private _buildCharacters;
+
     /**
      *
      * @param {MSDFJson} json
+     * @param char
+     * @param scaleX
+     * @param scaleY
      * @private
      */
-    private _buildCharacterWhite;
+
 }
 export type MSDFJson = {
     info: MSDFJsonInfo;
@@ -200,6 +207,14 @@ export type MSDFJsonChar = {
      * The texture channel where the character image is found (1 = blue, 2 = green, 4 = red, 8 = alpha, 15 = all channels).
      */
     chnl: number;
+    /**
+     * /
+     *
+     *
+     *
+     * /**
+     */
+    uv?: any;
 };
 export type MSDFJsonKerning = {
     /**
@@ -218,5 +233,4 @@ export type MSDFJsonKerning = {
 import FontVariant from "../FontVariant";
 import { Vector2 } from "three/src/math/Vector2";
 import MSDFFontMaterial from "./materials/MSDFFontMaterial";
-import MSDFInlineGlyph from "./MSDFInlineGlyph";
 import MSDFGeometricGlyph from "./MSDFGeometricGlyph";

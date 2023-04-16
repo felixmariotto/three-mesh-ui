@@ -1,8 +1,9 @@
 import { FileLoader, MeshBasicMaterial } from 'three';
-import { FontVariant } from 'three-mesh-ui';
+import { DefaultValues, FontVariant } from 'three-mesh-ui';
 import SVGTypographicGlyph from './SVGTypographicGlyph';
 import SVGTypographicFont from './SVGTypographicFont';
 import SVGGeometricGlyph from './SVGGeometricGlyph';
+import DepthProperty from 'three-mesh-ui/examples/font/svg/properties/DepthProperty';
 
 export default class SVGFontVariant extends FontVariant {
 
@@ -19,6 +20,8 @@ export default class SVGFontVariant extends FontVariant {
 			_loadSvg( this, svgFile );
 
 		}
+
+		DefaultValues.set({fontDepth:0.01});
 
 		// Default material is standard three material
 		this._defaultMaterialClass = MeshBasicMaterial;
@@ -70,11 +73,12 @@ export default class SVGFontVariant extends FontVariant {
 	/**
 	 *
 	 * @param {SVGInlineGlyph} inline
+	 * @param {MeshUIBaseElement} element
 	 * @returns {SVGGeometricGlyph}
 	 */
-	getGeometricGlyph( inline, segments = 1 ) {
+	getGeometricGlyph( inline, element = 1 ) {
 
-		return new SVGGeometricGlyph( inline, segments );
+		return new SVGGeometricGlyph( inline, element );
 
 	}
 
@@ -145,7 +149,6 @@ export default class SVGFontVariant extends FontVariant {
 
 			if( unicode.charCodeAt(0) === 160 ) continue;
 
-			console.log( "CAHRCODE  ",unicode.charCodeAt( 0 ), '-'+unicode+'-' );
 			friendlyChars[ unicode ] = new SVGTypographicGlyph( this._font, charOBJ );
 
 		}
@@ -166,6 +169,32 @@ export default class SVGFontVariant extends FontVariant {
 			});
 	}
 
+	/**
+	 *
+	 * @param element
+	 * @private
+	 */
+	_alterElementProperties( element ) {
+
+		SVGFontVariant.appendProperties( element );
+
+	}
+
+	/* eslint-disable no-unused-vars */
+	/**
+	 *
+	 * @param {MeshUIBaseElement} element
+	 */
+	static appendProperties( element ) {  /* eslint-enable no-unused-vars */
+
+		for ( let i = 0; i < arguments.length; i++ ) {
+			const el = arguments[ i ];
+			if( el.isUI && el._fontDepth === undefined ) {
+				el.appendProperty( 'fontDepth', new DepthProperty() );
+			}
+		}
+
+	}
 }
 
 /***********************************************************************************************************************
@@ -184,9 +213,6 @@ function _loadSvg( fontVariant, svgUrl ) {
 
 	new FileLoader().setResponseType( 'document' ).setMimeType("text/xml").load( svgUrl, ( response ) => {
 
-		// check what response is
-		var i = 2;
-
 		const firstElement = response.firstElementChild;
 		if( firstElement && firstElement.tagName.toLowerCase() === 'svg') {
 
@@ -202,8 +228,8 @@ function _loadSvg( fontVariant, svgUrl ) {
 
 
 
-	} , ( progressEvent) => { console.log( progressEvent)}, (event) => {
-		console.log( event );
+	} , null , (event) => {
+		console.error( event );
 	});
 
 }

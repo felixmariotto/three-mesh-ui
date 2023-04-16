@@ -1,14 +1,20 @@
+//JSDoc related imports
+/* eslint-disable no-unused-vars */
+import MeshUIBaseElement from '../core/elements/MeshUIBaseElement';
+/* eslint-enable no-unused-vars */
+
+
 export default class Behavior {
 
 	/**
 	 *
-	 * @param {MeshUIComponent} subject
+	 * @param {MeshUIBaseElement} subject
 	 */
 	constructor( subject ) {
 
 		/**
 		 *
-		 * @type {MeshUIComponent}
+		 * @type {MeshUIBaseElement}
 		 * @protected
 		 */
 		this._subject = subject;
@@ -26,6 +32,7 @@ export default class Behavior {
 
 	/**
 	 * @abstract
+	 * @returns {void}
 	 */
 	act() {
 

@@ -1,4 +1,4 @@
-import { Color, FrontSide, ShaderMaterial, Vector2, Vector4 } from 'three';
+import { Color, FrontSide, ShaderMaterial, Vector2, Vector3, Vector4 } from 'three';
 import { fragmentShader, vertexShader } from '../renderers/ShaderLib/framematerial.glsl';
 import FrameMaterialUtils from '../utils/FrameMaterialUtils';
 
@@ -24,17 +24,18 @@ export default class FrameMaterial extends ShaderMaterial {
 				map: { value: null },
 				diffuse: { value: new Color(0xffffff) },
 				opacity: { value: 1.0 },
-				borderColor: { value: null },
+				borderColor: { value: new Color(0x000000) },
+				borderOpacity: { value: 0 },
 				borderRadius: { value: new Vector4(0,0,0,0) },
 				// Corners for customized radius not all starting on center [0.5,0.5];
 				// Corners will be generated from borderRadiuses
-				cornerTL: { value : new Vector2(0,0) },
-				cornerTR: { value : new Vector2(0,0) },
-				cornerBR: { value : new Vector2(0,0) },
+				cornerTL: { value : new Vector2(0,1) },
+				cornerTR: { value : new Vector2(1,1) },
+				cornerBR: { value : new Vector2(1,0) },
 				cornerBL: { value : new Vector2(0,0) },
 				borderWidth: { value: new Vector4(0,0,0,0) },
-				borderOpacity: { value: null },
-				frameSize: { value: new Vector2( 1, 1 ) },
+
+				frameSize: { value: new Vector3( 1, 1, 1 ) },
 				textureSize: { value: new Vector2( 1, 1 ) }
 			},
 			side: FrontSide,

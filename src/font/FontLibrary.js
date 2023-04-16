@@ -15,7 +15,7 @@ const _fontFamilies = {};
  * @param {FontFamily} fontFamily
  * @returns {Promise<unknown>}
  */
-function prepare( fontFamily ) {
+const prepare = function ( fontFamily ) {
 
 	/**
 	 *
@@ -89,7 +89,7 @@ function prepare( fontFamily ) {
  * @param {string} name
  * @returns {FontFamily}
  */
-function addFontFamily( name ) {
+const addFontFamily = function ( name ) {
 
 	if ( _fontFamilies[ name ] ) {
 		console.error( `FontLibrary::addFontFamily - Font('${name}') is already registered` );
@@ -106,7 +106,7 @@ function addFontFamily( name ) {
  * @param {string} name
  * @returns {FontFamily}
  */
-function getFontFamily( name ) {
+const getFontFamily = function( name ) {
 
 	return _fontFamilies[ name ];
 
@@ -117,23 +117,11 @@ function getFontFamily( name ) {
  *
  * @param { (fontVariant:FontVariant, character:string ) => string|null } handler
  */
-function setMissingCharacterHandler( handler ) {
+const setMissingCharacterHandler = function ( handler ) {
 
 	_missingCharacterHandler = handler;
 
 }
-
-//
-
-const FontLibrary = {
-	addFontFamily,
-	getFontFamily,
-	prepare,
-	setMissingCharacterHandler,
-	missingCharacter
-};
-
-export default FontLibrary;
 
 /**
  *
@@ -164,3 +152,14 @@ function missingCharacter( fontVariant, character ) {
 }
 
 
+//
+
+const FontLibrary = {
+	addFontFamily,
+	getFontFamily,
+	prepare,
+	setMissingCharacterHandler,
+	missingCharacter
+};
+
+export default FontLibrary;

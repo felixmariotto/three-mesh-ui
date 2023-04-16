@@ -8,7 +8,7 @@ export const alphaTestTransformer = function ( target, targetProperty, value) {
 	// set the value in the material
 	target.alphaTest = value;
 
-	toPreprocessorTriggerTransformer(target, 'USE_ALPHATEST', value === 0 ? '' : null );
+	toPreprocessorTriggerTransformer(target, 'USE_ALPHATEST', value > 0 );
 
 }
 
@@ -17,6 +17,8 @@ export const alphaTestTransformer = function ( target, targetProperty, value) {
  * @type {import('../Mediator').MediationTransformer}
  */
 export const toPreprocessorTriggerTransformer = function ( target, targetProperty, value) {
+
+	if( !target.defines ) return;
 
 	if ( value ) {
 
