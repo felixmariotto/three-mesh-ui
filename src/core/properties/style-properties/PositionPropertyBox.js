@@ -4,7 +4,7 @@ export default class PositionPropertyBox extends PositionProperty {
 
 	constructor( ) {
 
-		super( 'position');
+		super( 'position' );
 
 	}
 

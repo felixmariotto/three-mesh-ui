@@ -587,6 +587,19 @@ export default class StyleComputedPropertyWrapper {
 	 */
 	get textAlign() { return this._element._textAlign._computed; }
 
+	/**
+	 *
+	 * @param {"baseline","super","sub","inherit"} v
+	 */
+	set verticalAlign( v ){
+		this._element._verticalAlign.computed = v;
+	}
+
+	/**
+	 *
+	 * @return {"baseline","super","sub","inherit"}
+	 */
+	get verticalAlign() { return this._element._verticalAlign.computed; }
 
 	/** Border Properties ----------------------------------------------------------------------------------------------*/
 

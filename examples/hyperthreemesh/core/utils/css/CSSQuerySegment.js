@@ -79,7 +79,7 @@ export default class CSSQuerySegment {
 					return target.pseudoClassList.containsEvery( condition.value );
 
 				case "tag":
-					return target.tagName === condition.value;
+					return target.tagName.toLowerCase() === condition.value;
 
 				case "attribute":
 					return target.attributes.matchEvery( condition.value );

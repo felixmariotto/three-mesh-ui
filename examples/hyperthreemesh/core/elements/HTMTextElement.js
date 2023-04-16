@@ -9,11 +9,11 @@ export default class HTMTextElement extends HTMBoxElement {
 
 	/**
 	 *
-	 * @param {Object.<string,any>} [values=null]
+	 * @param {Object.<string,any>} [values={}]
+	 * @param {Object.<string,any>} [properties={}]
 	 */
-	constructor( values= {}) {
+	constructor( values= {}, properties = {}) {
 
-		const properties = {};
 		TextElement.definePropertiesValues( properties, values );
 		super( properties, values );
 		TextElement.init( this );
@@ -50,7 +50,7 @@ export default class HTMTextElement extends HTMBoxElement {
 
 			} else {
 
-				console.warn( 'Block element can only contain Box elements.', argument );
+				console.warn( 'Text element can only contain Inline elements.', argument );
 
 			}
 

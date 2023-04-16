@@ -2,9 +2,9 @@ import FontWeightProperty from './FontWeightProperty';
 
 export default class FontWeightPropertyInline extends FontWeightProperty {
 
-	constructor() {
+	constructor( def ) {
 
-		super();
+		super( def );
 
 	}
 
@@ -24,14 +24,17 @@ export default class FontWeightPropertyInline extends FontWeightProperty {
 
 		}
 
+		element._font._needsUpdate = true;
+
 	}
 
 }
 
+// @TODO : Evaluate the need
 const LOOK_UP_TABLE = {
-	'light'		: '100',
-	'normal'	: '400',
-	'bold' 		: '700',
-	'bolder' 	: '900'
+	// 'light'		: '100',
+	// 'normal'	: '400',
+	// 'bold' 		: '700',
+	// 'bolder' 	: '900'
 }
 

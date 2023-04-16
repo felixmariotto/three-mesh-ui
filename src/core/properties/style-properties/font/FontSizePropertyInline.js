@@ -1,10 +1,11 @@
 import SubStyleProperty from '../SubStyleProperty';
+import FontSizeProperty from './FontSizeProperty';
 
-export default class FontSizePropertyInline extends SubStyleProperty {
+export default class FontSizePropertyInline extends FontSizeProperty {
 
 	constructor( ) {
 
-		super( 'fontSize', 'inherit', true );
+		super();
 
 		// Configure
 		this._allowsInherit = false;
@@ -13,12 +14,16 @@ export default class FontSizePropertyInline extends SubStyleProperty {
 
 	computeOutputValue( element ) {
 
-		this._value = this._inheritedInput;
+		// this._value = this._inheritedInput;
 
 		if( element._font._fontVariant ) {
 			element._bounds._needsProcess = true;
 			element._layouter._needsProcess = true;
 		}
+
+		// @TODO : FontRelatives properties?? instead of manual registering them?
+		// for em dimensions;
+		element._margin._needsProcess = true;
 
 	}
 

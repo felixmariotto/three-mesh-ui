@@ -29,7 +29,7 @@ export default class BorderRadius extends StyleVector4Property {
 		 * @type {Vector4}
 		 * @private
 		 */
-		this._input = new Vector4(0,0,0,0);
+		this._input = this._vector4ValueSetter(new Vector4(0,0,0,0), defaultValue);
 		/**
 		 *
 		 * @type {boolean}

@@ -2,16 +2,15 @@ import StyleColorProperty from '../StyleColorProperty';
 
 //JSDoc related imports
 /* eslint-disable no-unused-vars */
-import { Color } from 'three';
 /* eslint-enable no-unused-vars */
 
-export default class ColorProperty extends StyleColorProperty {
+export default class ColorPropertyInlineBlock extends StyleColorProperty {
 
-	constructor( defaultValue ) {
+	constructor() {
 
-		super( 'color', defaultValue, false );
+		super( 'color', 'inherit', false );
 
-		this._input = defaultValue;
+		this._input = 'inherit';
 
 		this.output = this._outputValue;
 
@@ -33,6 +32,9 @@ export default class ColorProperty extends StyleColorProperty {
 			this._value.set( this._input);
 
 		}
+
+		element._backgroundColor._needsUpdate = true;
+		element._borderColor._needsUpdate = true;
 
 	}
 

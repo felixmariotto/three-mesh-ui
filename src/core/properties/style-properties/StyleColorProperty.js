@@ -12,6 +12,12 @@ export default class StyleColorProperty extends SubStyleProperty {
 		super( propertyId, defaultValue, false );
 
 		/**
+		 * @type {Color|string|number}
+		 * @private
+		 */
+		this._input = defaultValue;
+
+		/**
 		 * @type {Color}
 		 * @protected
 		 */

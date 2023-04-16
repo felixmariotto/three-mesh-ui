@@ -62,6 +62,7 @@ export default class InlinesProperty extends BaseProperty{
 		}
 
 
+		element._verticalAlign._needsProcess = true;
 		element._fontSize._needsProcess = true;
 		element._lineBreak._needsProcess = true;
 		element._fontKerning._needsProcess = true;

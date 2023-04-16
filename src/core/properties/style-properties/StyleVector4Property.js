@@ -12,7 +12,7 @@ export default class StyleVector4Property extends SubStyleProperty {
 		 * @type {Vector4}
 		 * @private
 		 */
-		this._input = new Vector4(0,0,0,0);
+		this._input = this._vector4ValueSetter( new Vector4(0,0,0,0), defaultValue);
 
 		/**
 		 *
@@ -46,7 +46,7 @@ export default class StyleVector4Property extends SubStyleProperty {
 	 */
 	computeOutputValue( element ) { /* eslint-enable no-unused-vars */
 
-		this._vector4ValueSetter( this._value, this._input );
+		this._vector4ValueSetter( this._value, this._input, element );
 
 	}
 
@@ -153,8 +153,7 @@ export default class StyleVector4Property extends SubStyleProperty {
 
 		if ( value instanceof Vector4 ) {
 
-			vector4.copy( value );
-			return;
+			return vector4.copy( value );
 
 		}
 
@@ -171,26 +170,25 @@ export default class StyleVector4Property extends SubStyleProperty {
 			switch ( value.length ) {
 
 				case 1:
-					vector4.setScalar( value[ 0 ] );
-					return;
+					return vector4.setScalar( value[ 0 ] );
 
 				case 2:
 					vector4.x = vector4.z = value[ 0 ];
 					vector4.y = vector4.w = value[ 1 ];
-					return;
+					return vector4;
 
 				case 3:
 					vector4.x = value[ 0 ];
 					vector4.y = value[ 1 ];
 					vector4.z = value[ 2 ];
-					return;
+					return vector4;
 
 				case 4:
 					vector4.x = value[ 0 ];
 					vector4.y = value[ 1 ];
 					vector4.z = value[ 2 ];
 					vector4.w = value[ 3 ];
-					return;
+					return vector4;
 
 				default:
 					console.error( 'StyleVector4Property::set() Four Dimension property had more than four values' );
@@ -205,6 +203,8 @@ export default class StyleVector4Property extends SubStyleProperty {
 			vector4.setScalar( value );
 
 		}
+
+		return vector4;
 
 	}
 

@@ -1,4 +1,4 @@
-//xfg:title Basic setup
+//xfg:title Basic setup default
 
 import * as THREE from 'three';
 import { VRButton } from 'three/examples/jsm/webxr/VRButton.js';
@@ -6,13 +6,37 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import { BoxLineGeometry } from 'three/examples/jsm/geometries/BoxLineGeometry.js';
 
 import ThreeMeshUI from 'three-mesh-ui';
+import { Vector4 } from 'three';
 
 const WIDTH = window.innerWidth;
 const HEIGHT = window.innerHeight;
 
 let scene, camera, renderer, controls;
 
+
 window.addEventListener('load', step1BuildThreeJSElements );
+
+// define three-mesh-ui defaults
+ThreeMeshUI.DefaultValues.set({
+	backgroundColor: 0x00ff99,
+	backgroundOpacity: 1,
+	borderColor: 0xffffff,
+	borderOpacity: 1,
+	borderWidth: 0.02,
+	borderRadius: 0.05,
+	color: 0xff0000
+});
+
+ThreeMeshUI.DefaultValues.set({
+	padding: 0.1,
+	borderRadius: 0.02,
+	borderColor: 0x99ff00,
+	borderWidth: new Vector4(0.01,0.01,0.08,0.01)
+}, 'block');
+
+ThreeMeshUI.DefaultValues.set({
+	color: 0xff9900
+}, 'inline')
 
 /***********************************************************************************************************************
  * THREE-MESH-UI - BASIC SETUP
@@ -81,19 +105,13 @@ function step2BuildThreeMeshUIElements() {
 
 		name: 'rootBlock',
 		// A Block must define its "box-sizing" properties
-		width: 1.2,
+		width: 1.3,
 		height: 'auto', // the text will define the output height
-		padding: 0.05,
 		boxSizing: 'border-box',
 
 		// A Block can define its "layout" properties
 		justifyContent: 'center',
 		textAlign: 'left',
-
-		borderRadius: 0.015,
-
-		backgroundColor : 0x000000,
-		backgroundOpacity : 0.5,
 
 		// A Block can also define "text" properties that will propagate to any of its Text children
 		fontSize: 0.055,
@@ -141,9 +159,12 @@ function step2BuildThreeMeshUIElements() {
 			fontSize: 0.08,
 			fontFamily: './assets/fonts/msdf/roboto/italic.json',
 			fontTexture: './assets/fonts/msdf/roboto/italic.png',
+
+			color: 0xffffff
 		} ),
 
 		new ThreeMeshUI.Inline( {
+			color: 'inherit',
 			textContent: ' spacing!',
 			fontSize: 0.08,
 			fontFamily: './assets/fonts/msdf/roboto/bold-italic.json',
@@ -154,9 +175,8 @@ function step2BuildThreeMeshUIElements() {
 
 
 	setInterval( ()=>{
-		rootBlock.textContent = "'./assets/fonts/msdf/roboto/bold-italic.json'",
-			rootBlock.set({textContent:"'./assets/fonts/msdf/roboto/bold-italic.json'", color:0xff9900})
-	},2500)
+		rootBlock.set({color:Math.random()*0xffffff})
+	}, 2500 )
 
 }
 

@@ -315,6 +315,7 @@ const webpackConfig = env => {
 		resolve: {
 			alias: {
 				'three-mesh-ui/examples': path.resolve( __dirname, '../examples/' ),
+				'three-mesh-ui/src': path.resolve( __dirname, '../src/' ),
 				'three-mesh-ui': path.resolve( __dirname, '../src/three-mesh-ui.js' ),
 			},
 		},
@@ -350,6 +351,14 @@ const webpackConfig = env => {
 		},
 
 		devServer: {
+
+
+			headers: { "Content-Encoding": 'none' },
+
+			server: 'https',
+			host: 'local-ipv4',
+
+
 			hot: false,
 			// The static directory of assets
 			static: {

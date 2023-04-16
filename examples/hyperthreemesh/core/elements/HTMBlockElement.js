@@ -8,11 +8,11 @@ export default class HTMBlockElement extends HTMBoxElement {
 
 	/**
 	 *
-	 * @param {Object.<string,any>} [values=null]
+	 * @param {Object.<string,any>} [values={}]
+	 * @param {Object.<string,any>} [properties={}]
 	 */
-	constructor( values= {}) {
+	constructor( values= {}, properties={}) {
 
-		const properties = {};
 		BlockElement.definePropertiesValues( properties, values );
 		super( properties, values );
 		BlockElement.init( this );

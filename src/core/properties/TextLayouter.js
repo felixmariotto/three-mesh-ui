@@ -87,6 +87,8 @@ export default class TextLayouter extends BaseProperty {
 
 			const BREAKON = inlineElement._lineBreak._value;
 
+			const POSITION = inlineElement._position._value;
+
 			const whiteSpaceOptions = {
 				WHITESPACE,
 				LETTERSPACING,
@@ -95,6 +97,13 @@ export default class TextLayouter extends BaseProperty {
 			}
 
 			const inlineWrapper = inlineElement._whiteSpace._inlineWrapper;
+
+			// @TODO : absolute inlines in Texts
+			var remember = lastInlineOffset;
+			if( POSITION === 'absolute' ){
+					lastInlineOffset = 0;
+			}
+
 
 			lastInlineOffset += inlineElement._margin._value.w + inlineElement._padding._value.w;
 
@@ -149,6 +158,11 @@ export default class TextLayouter extends BaseProperty {
 
 			lastInlineOffset += inlineElement._margin._value.y + inlineElement._padding._value.y;
 
+			// @TODO : absolute inlines in Texts
+			if( POSITION === 'absolute'){
+				lastInlineOffset = remember;
+			}
+
 		} );
 
 		// Compute single line and combined lines dimensions
@@ -195,8 +209,19 @@ export default class TextLayouter extends BaseProperty {
 
 				inline.offsetY = lineOffsetY - inline.anchor;
 
+				// VERTICAL ALIGN
 				if( inline.lineHeight < line.lineHeight ){
-					inline.offsetY -= line.lineBase- inline.lineBase;
+
+					if ( inline.verticalAlign === 'super' ) {
+						inline.offsetY += inline.lineBase / 5;
+					}else if( inline.verticalAlign === 'sub'){
+						inline.offsetY -= line.lineBase * 1.2 - inline.lineBase;
+					}else{
+						// Baseline
+							inline.offsetY -= line.lineBase- inline.lineBase;
+					}
+
+
 				}
 
 			});
