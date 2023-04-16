@@ -95,7 +95,7 @@ const _values = {
 	textAlign : 'left',
 	boxSizing: 'content-box',
 	position: 'static',
-	color: 0xff99ff,
+	color: 0xffffff,
 	fontColor: 0xffffff,
 	fontOpacity: 1,
 	opacity: 1,
@@ -6793,6 +6793,7 @@ class MeshUIBaseElement extends external_three_namespaceObject.Object3D {
 		 */
 		this._components = [
 
+			this._textContent,
 			this._children,
 			this._parent,
 
@@ -6807,7 +6808,7 @@ class MeshUIBaseElement extends external_three_namespaceObject.Object3D {
 
 			this._whiteSpace,
 
-			this._textContent,
+
 			this._glyphs,
 
 			this._inlines,
@@ -13590,8 +13591,25 @@ class TextContentText extends TextContentEmpty{
 
 	}
 
+	set value( value ) {
+
+		// If content hasn't change, dont update it
+		if( this._value !== value ) {
+
+			this._value = value;
+
+			this._needsUpdate = true;
+
+		}
+
+	}
+
 	/* eslint-disable no-unused-vars */ update( element, out ) { /* eslint-enable no-unused-vars */
 
+		// prevent multiple update
+		this._needsUpdate = false;
+
+		// Remove all its children (Inlines)
 		for ( let i = element.children.length - 1 ; i >= 0; i-- ) {
 			const child = element.children[ i ];
 			if( child.isUI ) {
@@ -13603,7 +13621,12 @@ class TextContentText extends TextContentEmpty{
 
 		}
 
+		// Rebuild its child list
+		element._children._uis = [];
+
+		// If a value, add a child
 		if( this._value ) element.add( new InlineElement({name:'anonymousInline',textContent:this._value}));
+
 
 	}
 
@@ -13673,17 +13696,8 @@ class TextLayouter extends BaseProperty {
 
 
 		let INNER_WIDTH = element._width._value;
-		// if nowrap or pre => infinite then = re bounds;
 
-		// if auto => element.getInherited()
-		// if display inline => auto then if lines.width less than autoWidth => shrink
-
-
-		if( element._whiteSpace._value === 'nowrap' || element._whiteSpace._value === 'pre' ){
-
-			INNER_WIDTH = Infinity;
-
-		} else if ( element._width._auto ) {
+		if ( element._width._auto ) {
 
 			INNER_WIDTH = Infinity;
 
@@ -13692,16 +13706,6 @@ class TextLayouter extends BaseProperty {
 			INNER_WIDTH = element._bounds._innerWidth;
 
 		}
-
-		//console.log( INNER_WIDTH );
-
-		// let INNER_WIDTH = element._bounds._innerWidth;
-
-
-
-		// // got by MeshUIComponent
-		// const JUSTIFICATION = this.getJustifyContent();
-		// const ALIGNMENT = this.getTextAlign();
 
 		// Compute lines
 
@@ -14396,10 +14400,10 @@ class TextElement extends BoxElement {
 	/**
 	 *
 	 * @param {import('./../../core/elements/MeshUIBaseElement').Options} [values={}]
+	 * @param [properties={}]
 	 */
-	constructor( values = {}) {
+	constructor( values = {}, properties = {}) {
 
-		const properties = {};
 		TextElement.definePropertiesValues( properties, values );
 
 		super( properties, values );
@@ -14456,7 +14460,6 @@ class TextElement extends BoxElement {
 			this._layouter._needsProcess = true;
 		}
 
-
 		return this;
 
 	}
@@ -14464,29 +14467,15 @@ class TextElement extends BoxElement {
 
 	set textContent ( value ) {
 
-		for ( let i = this.children.length - 1 ; i >= 0; i-- ) {
-			const child = this.children[ i ];
-			if( child.isUI ) {
-
-				this.remove( child );
-				child.clear();
-
-			}
-
-		}
-
-		this._children._uis = [];
-
-		if( value ) {
-
-			this.add( new InlineElement({name:'anonymousInline',textContent:value}));
-
-		}
+		this._textContent.value = value;
 
 	}
 
-	get textContent ( ) {
+	// Must redefine getter also, or issue.
+	get textContent() {
+
 		return super.textContent;
+
 	}
 
 	set invertAlpha( value ) {
