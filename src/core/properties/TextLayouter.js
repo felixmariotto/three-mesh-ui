@@ -27,17 +27,8 @@ export default class TextLayouter extends BaseProperty {
 
 
 		let INNER_WIDTH = element._width._value;
-		// if nowrap or pre => infinite then = re bounds;
 
-		// if auto => element.getInherited()
-		// if display inline => auto then if lines.width less than autoWidth => shrink
-
-
-		if( element._whiteSpace._value === 'nowrap' || element._whiteSpace._value === 'pre' ){
-
-			INNER_WIDTH = Infinity;
-
-		} else if ( element._width._auto ) {
+		if ( element._width._auto ) {
 
 			INNER_WIDTH = Infinity;
 
@@ -46,16 +37,6 @@ export default class TextLayouter extends BaseProperty {
 			INNER_WIDTH = element._bounds._innerWidth;
 
 		}
-
-		//console.log( INNER_WIDTH );
-
-		// let INNER_WIDTH = element._bounds._innerWidth;
-
-
-
-		// // got by MeshUIComponent
-		// const JUSTIFICATION = this.getJustifyContent();
-		// const ALIGNMENT = this.getTextAlign();
 
 		// Compute lines
 

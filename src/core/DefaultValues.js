@@ -16,7 +16,7 @@ const _values = {
 	textAlign : 'left',
 	boxSizing: 'content-box',
 	position: 'static',
-	color: 0xff99ff,
+	color: 0xffffff,
 	fontColor: 0xffffff,
 	fontOpacity: 1,
 	opacity: 1,
