@@ -4,6 +4,18 @@
 /******/ 	var __webpack_require__ = {};
 /******/ 	
 /************************************************************************/
+/******/ 	/* webpack/runtime/define property getters */
+/******/ 	(() => {
+/******/ 		// define getter functions for harmony exports
+/******/ 		__webpack_require__.d = (exports, definition) => {
+/******/ 			for(var key in definition) {
+/******/ 				if(__webpack_require__.o(definition, key) && !__webpack_require__.o(exports, key)) {
+/******/ 					Object.defineProperty(exports, key, { enumerable: true, get: definition[key] });
+/******/ 				}
+/******/ 			}
+/******/ 		};
+/******/ 	})();
+/******/ 	
 /******/ 	/* webpack/runtime/global */
 /******/ 	(() => {
 /******/ 		__webpack_require__.g = (function() {
@@ -16,10 +28,39 @@
 /******/ 		})();
 /******/ 	})();
 /******/ 	
+/******/ 	/* webpack/runtime/hasOwnProperty shorthand */
+/******/ 	(() => {
+/******/ 		__webpack_require__.o = (obj, prop) => (Object.prototype.hasOwnProperty.call(obj, prop))
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/make namespace object */
+/******/ 	(() => {
+/******/ 		// define __esModule on exports
+/******/ 		__webpack_require__.r = (exports) => {
+/******/ 			if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
+/******/ 				Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
+/******/ 			}
+/******/ 			Object.defineProperty(exports, '__esModule', { value: true });
+/******/ 		};
+/******/ 	})();
+/******/ 	
 /************************************************************************/
 var __webpack_exports__ = {};
 
-// UNUSED EXPORTS: BaseProperty, Behavior, Block, DefaultValues, FontLibrary, FontVariant, InheritableProperty, Inline, InlineBlock, InlineGlyph, MSDFFontMaterialUtils, MaterialTransformers, MeshUIBaseElement, ShaderChunkUI, Text, TypographicFont, TypographicGlyph, default, update
+// EXPORTS
+__webpack_require__.d(__webpack_exports__, {
+  "wb": () => (/* reexport */ DefaultValues_namespaceObject)
+});
+
+// UNUSED EXPORTS: BaseProperty, Behavior, Block, FontLibrary, FontVariant, InheritableProperty, Inline, InlineBlock, InlineGlyph, MSDFFontMaterialUtils, MaterialTransformers, MeshUIBaseElement, ShaderChunkUI, Text, TypographicFont, TypographicGlyph, default, update
+
+// NAMESPACE OBJECT: ./src/core/DefaultValues.js
+var DefaultValues_namespaceObject = {};
+__webpack_require__.r(DefaultValues_namespaceObject);
+__webpack_require__.d(DefaultValues_namespaceObject, {
+  "get": () => (get),
+  "set": () => (set)
+});
 
 ;// CONCATENATED MODULE: ./src/core/DefaultValues.js
 /** List the default values of the lib components */
@@ -28,7 +69,7 @@ const _values = {
 	fontSize: 0.05,
 	fontKerning: 'normal',
 	fontStyle: 'normal',
-	fontWeight : '400',
+	fontWeight : 'normal',
 	offset: 0.005,
 	lineHeight: 1.2,
 	lineBreak: '- ,.:?!\n',// added '\n' to also acts as friendly breaks when white-space:normal
@@ -41,7 +82,6 @@ const _values = {
 	boxSizing: 'content-box',
 	position: 'static',
 	color: 0xffffff,
-	fontColor: 0xffffff,
 	fontOpacity: 1,
 	opacity: 1,
 	fontPXRange: 4,
@@ -52,22 +92,48 @@ const _values = {
 	borderColor: 'black',
 	borderOpacity: 1,
 	backgroundSize: "cover",
-	backgroundColor: 0x222222,
-	backgroundOpacity: 0.5,
+	backgroundColor: 0x000000,
+	backgroundOpacity: 0,
 	overflow: 'visible',
 	letterSpacing: 0,
 	invertAlpha : false,
-	segments: 1
+	segments: 1,
+	backgroundSide : 0, //FrontSide
+	backgroundAlphaTest: 0.02,
+	fontSide: 0, // FrontSide
+	fontAlphaTest: 0.02,
+	padding: 0,
+	margin: 0,
+	verticalAlign: "baseline"
 };
+
+const _blocks = {
+
+};
+
+const _inlines = {
+	fontStyle: 'inherit',
+	fontWeight: 'inherit',
+	color: 'inherit'
+}
+
+const _registry = {
+	default: _values,
+	block: _blocks,
+	inline : _inlines
+}
 
 /**
  * @param {import('./../core/elements/MeshUIBaseElement').Options} overrideProperties
+ * @param [type='default']
  */
-const set = function ( overrideProperties ) {
+const set = function ( overrideProperties , type = 'default' ) {
+
+	const values = _registry[type] || _registry.default;
 
 	for ( const property in overrideProperties ) {
 
-		_values[property] = overrideProperties[property];
+		values[property] = overrideProperties[property];
 
 	}
 
@@ -78,15 +144,19 @@ const set = function ( overrideProperties ) {
  * @param {string} property
  * @return {any}
  */
-const get = function ( property ) {
+const get = function ( property, type = 'default' ) {
 
-	if( !Object.prototype.hasOwnProperty.call( _values, property) ) {
+	const values = _registry[type] ? {..._values,..._registry[type]} : {..._registry.default};
+
+	if( !property ) return values;
+
+	if( !Object.prototype.hasOwnProperty.call( values, property) ) {
 
 		console.warn( `ThreeMeshUI::DefaultValues is trying to retrieve non-existing property '${property}'`);
 
 	}
 
-	return _values[property];
+	return values[property];
 
 }
 
@@ -600,6 +670,9 @@ class SubStyleProperty extends BaseProperty{
 		for ( const childUIElement of element._children._uis ) {
 
 			const property = childUIElement[`_${this._id}`];
+
+			if( !property ) continue;
+
 			const target = property._input ? property._input : property._value;
 
 			if( target === 'inherit' ) childUIElement[`_${this._id}`]._needsUpdate = true;
@@ -690,6 +763,10 @@ class SubStyleProperty extends BaseProperty{
 		const parent = element._parent._value;
 		if( parent ) {
 
+			const parentProperty = parent[`_${this._id}`];
+
+			if( !parentProperty ) return this.getDefaultValue();
+
 			return parent[`_${this._id}`].getInheritedInput( parent )
 
 		}
@@ -716,7 +793,7 @@ class StyleVector4Property extends SubStyleProperty {
 		 * @type {Vector4}
 		 * @private
 		 */
-		this._input = new external_THREE_namespaceObject.Vector4(0,0,0,0);
+		this._input = this._vector4ValueSetter( new external_THREE_namespaceObject.Vector4(0,0,0,0), defaultValue);
 
 		/**
 		 *
@@ -750,7 +827,7 @@ class StyleVector4Property extends SubStyleProperty {
 	 */
 	computeOutputValue( element ) { /* eslint-enable no-unused-vars */
 
-		this._vector4ValueSetter( this._value, this._input );
+		this._vector4ValueSetter( this._value, this._input, element );
 
 	}
 
@@ -857,8 +934,7 @@ class StyleVector4Property extends SubStyleProperty {
 
 		if ( value instanceof external_THREE_namespaceObject.Vector4 ) {
 
-			vector4.copy( value );
-			return;
+			return vector4.copy( value );
 
 		}
 
@@ -875,26 +951,25 @@ class StyleVector4Property extends SubStyleProperty {
 			switch ( value.length ) {
 
 				case 1:
-					vector4.setScalar( value[ 0 ] );
-					return;
+					return vector4.setScalar( value[ 0 ] );
 
 				case 2:
 					vector4.x = vector4.z = value[ 0 ];
 					vector4.y = vector4.w = value[ 1 ];
-					return;
+					return vector4;
 
 				case 3:
 					vector4.x = value[ 0 ];
 					vector4.y = value[ 1 ];
 					vector4.z = value[ 2 ];
-					return;
+					return vector4;
 
 				case 4:
 					vector4.x = value[ 0 ];
 					vector4.y = value[ 1 ];
 					vector4.z = value[ 2 ];
 					vector4.w = value[ 3 ];
-					return;
+					return vector4;
 
 				default:
 					console.error( 'StyleVector4Property::set() Four Dimension property had more than four values' );
@@ -910,6 +985,8 @@ class StyleVector4Property extends SubStyleProperty {
 
 		}
 
+		return vector4;
+
 	}
 
 }
@@ -920,11 +997,12 @@ class StyleVector4Property extends SubStyleProperty {
 
 
 
+
 class PaddingProperty extends StyleVector4Property {
 
-	constructor() {
+	constructor( defaultValue ) {
 
-		super('padding', new external_THREE_namespaceObject.Vector4(0,0,0,0) )
+		super('padding', defaultValue )
 
 	}
 
@@ -944,11 +1022,121 @@ class PaddingProperty extends StyleVector4Property {
 
 }
 
+;// CONCATENATED MODULE: ./src/core/properties/style-properties/Style4DimensionsProperty.js
+
+
+
+
+class Style4DimensionsProperty extends StyleVector4Property {
+
+	constructor( propertyId, defaultValue ) {
+
+		super( propertyId, defaultValue, false );
+
+	}
+
+	computeOutputValue( element ) { /* eslint-enable no-unused-vars */
+
+		console.log( this._value, this._input)
+		this._vector4ValueSetterFinal( this._value, this._input, element );
+
+	}
+
+	set inline( value ) {
+
+		this._input = value;
+
+		this._needsUpdate = true;
+
+	}
+
+	/**
+	 *
+	 * @param {Vector4} vector4
+	 * @param {Vector4|Array.<Number>|Number|String} value
+	 * @protected
+	 */
+	_vector4ValueSetterFinal( vector4, value, element ) {
+
+		if ( value instanceof external_THREE_namespaceObject.Vector4 ) {
+
+			return vector4.copy( value );
+
+		}
+
+		if ( typeof value === 'string' || value instanceof String ) {
+
+			value = value.split( ' ' );
+
+		}
+
+		if ( Array.isArray( value ) ) {
+
+			switch ( value.length ) {
+
+				case 1:
+					return vector4.setScalar( this._parseValue( value[ 0 ], element ) );
+
+				case 2:
+					vector4.x = vector4.z = this._parseValue(value[ 0 ]);
+					vector4.y = vector4.w = this._parseValue(value[ 1 ]);
+					return vector4;
+
+				case 3:
+					vector4.x = this._parseValue(value[ 0 ]);
+					vector4.y = this._parseValue(value[ 1 ]);
+					vector4.z = this._parseValue(value[ 2 ]);
+					return vector4;
+
+				case 4:
+					vector4.x = this._parseValue(value[ 0 ]);
+					vector4.y = this._parseValue(value[ 1 ]);
+					vector4.z = this._parseValue(value[ 2 ]);
+					vector4.w = this._parseValue(value[ 3 ]);
+					return vector4;
+
+				default:
+					console.error( 'StyleVector4Property::set() Four Dimension property had more than four values' );
+					return;
+
+			}
+
+		}
+
+		if ( !isNaN( value ) ) {
+
+			vector4.setScalar( value );
+
+		}
+
+		return vector4;
+
+	}
+
+
+	_parseValue( v , element ){
+
+		if( !isNaN(v) ) return parseFloat(v);
+
+		if( v.endsWith('em') ) {
+
+			return parseFloat( v.replace(/[^0-9.]+/,"") ) * element._fontSize._value;
+
+		}
+
+	}
+
+}
+
+
+
 ;// CONCATENATED MODULE: ./src/core/properties/style-properties/bounds/MarginProperty.js
 
 
 
-class MarginProperty extends StyleVector4Property {
+
+// export default class MarginProperty extends StyleVector4Property {
+class MarginProperty extends Style4DimensionsProperty {
 
 	constructor() {
 
@@ -1672,7 +1860,8 @@ class FontProperty extends BaseProperty{
 
 
 			const fontFamily = element._fontFamily._value;
-			if( fontFamily ) {
+
+			if( typeof fontFamily !== 'string'  ) {
 
 				this._fontVariant = fontFamily.getVariant(
 					element._fontWeight._value,
@@ -1923,6 +2112,12 @@ class StyleColorProperty extends SubStyleProperty {
 	constructor( propertyId, defaultValue ) {
 
 		super( propertyId, defaultValue, false );
+
+		/**
+		 * @type {Color|string|number}
+		 * @private
+		 */
+		this._input = defaultValue;
 
 		/**
 		 * @type {Color}
@@ -2435,7 +2630,7 @@ class BorderRadius extends StyleVector4Property {
 		 * @type {Vector4}
 		 * @private
 		 */
-		this._input = new external_THREE_namespaceObject.Vector4(0,0,0,0);
+		this._input = this._vector4ValueSetter(new external_THREE_namespaceObject.Vector4(0,0,0,0), defaultValue);
 		/**
 		 *
 		 * @type {boolean}
@@ -3114,9 +3309,7 @@ class BackgroundColorProperty extends StyleColorProperty {
 
 		super( 'backgroundColor', defaultValue, false );
 
-		this._input = 'transparent';
-
-		this._allowsInherit = false;
+		this._input = new external_THREE_namespaceObject.Color(defaultValue);
 
 	}
 
@@ -3138,6 +3331,27 @@ class BackgroundColorProperty extends StyleColorProperty {
 			this._value.set( this._input );
 
 		}
+
+	}
+
+	/**
+	 *
+	 * @param {any} value
+	 */
+	set inline( value ) {
+
+		if( ! this.isValidValue( value ) ) return;
+
+		if( value === this._inline ) {
+
+			// do nothing no update, the value hasn't changed
+			return;
+
+		}
+
+		this._input = this._inline = value;
+
+		this._needsUpdate = true;
 
 	}
 
@@ -3817,9 +4031,9 @@ function FontStyleProperty_isValid( value ) {
 
 class FontWeightProperty extends SubStyleProperty {
 
-	constructor( ) {
+	constructor( def ) {
 
-		super( 'fontWeight', 'inherit', true );
+		super( 'fontWeight', def , true );
 
 		this.isValid = FontWeightProperty_isValid;
 	}
@@ -6237,8 +6451,69 @@ class FontSizeProperty extends SubStyleProperty {
 
 		super( 'fontSize', 'inherit', true );
 
+		this._fontRelative = false;
 	}
 
+	/**
+	 *
+	 * @param {MeshUIBaseElement} element
+	 * @param {Object.<string,any> } out
+	 */
+	update( element, out ) {
+
+		console.log("fontSize update")
+		// /if( !this._allowsInherit ) {
+
+			this._inheritedInput = this.getInheritedInput( element );
+			console.log( 'inherit?', this._inheritedInput )
+			this._value = _parseValue( this._inheritedInput, element );
+
+		// }else{
+		//
+		// 	console.log( this._input )
+		// 	this._value = _parseValue( this._input, element )
+		// }
+
+		console.log( "    = ", this._value )
+
+		this.computeOutputValue( element );
+
+		// rebuild same properties on children 'inheritance'
+		for ( const childUIElement of element._children._uis ) {
+
+			const property = childUIElement[`_${this._id}`];
+
+			if( !property ) continue;
+
+			const target = property._input ? property._input : property._value;
+
+			if( target === 'inherit' || property._fontRelative ) childUIElement[`_${this._id}`]._needsUpdate = true;
+
+		}
+
+		this.output( out );
+
+	}
+
+	computeOutputValue( element ) {}
+
+}
+
+function _parseValue( v, element ){
+
+	element._fontSize._fontRelative = false;
+
+	if( !isNaN(v) ) return v;
+
+	if( v.endsWith('em') ) {
+
+		element._fontSize._fontRelative = true;
+
+		console.log("VVVVVV", v);
+
+		return parseFloat( v.replace(/[^0-9.]+/,"") ) * element._parent._value._fontSize.getInheritedInput(element._parent._value);
+
+	}
 }
 
 
@@ -6435,6 +6710,47 @@ class InheritableMaterialProperty extends InheritableProperty {
 
 }
 
+;// CONCATENATED MODULE: ./src/core/properties/style-properties/font/VerticalAlignProperty.js
+
+
+
+class VerticalAlignProperty extends SubStyleProperty {
+
+	constructor() {
+
+		super( 'verticalAlign', 'inherit', true );
+
+		this.isValidValue = VerticalAlignProperty_isValid;
+
+	}
+
+}
+
+/**
+ *
+ * @type {Array.<string>}
+ */
+const VerticalAlignProperty_AVAILABLE_VALUES = ['inherit', 'baseline', 'sub', 'super'];
+
+/**
+ *
+ * @param {any} value
+ * @return {boolean}
+ * @private
+ */
+const VerticalAlignProperty_isValid = function ( value ) {
+
+	if( VerticalAlignProperty_AVAILABLE_VALUES.indexOf( value ) === -1 ) {
+
+		console.warn( `(.style) verticalAlign value '${value}' is not valid. Aborted` );
+		return false;
+
+	}
+
+	return true;
+
+}
+
 ;// CONCATENATED MODULE: ./src/core/elements/MeshUIBaseElement.js
 
 
@@ -6491,6 +6807,8 @@ class InheritableMaterialProperty extends InheritableProperty {
 
 
 
+
+
 /* eslint-enable no-unused-vars */
 
 class MeshUIBaseElement extends external_THREE_namespaceObject.Object3D {
@@ -6513,14 +6831,26 @@ class MeshUIBaseElement extends external_THREE_namespaceObject.Object3D {
 			}
 		);
 
+		let uiType = values.uiType || 'default';
+		if( values.uiType ){
+			delete values.uiType;
+		}
+
+		Object.defineProperties( this, {
+				uiType: {
+					configurable: false,
+					enumerable: true,
+					value: uiType
+				}
+			}
+		);
+
 		/**
 		 *
 		 * @type {Mesh|null}
 		 * @internal
 		 */
 		this._backgroundMesh = null;
-
-
 
 		/**
 		 *
@@ -6590,6 +6920,8 @@ class MeshUIBaseElement extends external_THREE_namespaceObject.Object3D {
 
 		// Children lists
 
+
+		const defaults = get(null, this.uiType );
 		/**
 		 *
 		 * @type {EmptyProperty|ChildrenBox|ChildrenText}
@@ -6603,10 +6935,10 @@ class MeshUIBaseElement extends external_THREE_namespaceObject.Object3D {
 		this.addEventListener( 'removed', this._rebuildParentUI );
 
 		//material properties
-		this._backgroundSide = new SideProperty( 'backgroundSide' );
-		this._fontSide = new SideProperty( 'fontSide' );
-		this._backgroundAlphaTest = new NumberProperty( 'backgroundAlphaTest', 0.02 );
-		this._fontAlphaTest = new NumberProperty( 'fontAlphaTest', 0.02 );
+		this._backgroundSide = new SideProperty( 'backgroundSide', defaults.backgroundSide );
+		this._fontSide = new SideProperty( 'fontSide', defaults.fontSide );
+		this._backgroundAlphaTest = new NumberProperty( 'backgroundAlphaTest', defaults.backgroundAlphaTest );
+		this._fontAlphaTest = new NumberProperty( 'fontAlphaTest', defaults.fontAlphaTest );
 
 		// mesh properties
 		this._visible = new VisibleProperty( 'visible', true );
@@ -6635,11 +6967,11 @@ class MeshUIBaseElement extends external_THREE_namespaceObject.Object3D {
 
 		this._order = new OrderProperty();
 
-		this._padding = new PaddingProperty();
-		this._margin = new MarginProperty();
+		this._padding = new PaddingProperty( defaults.padding );
+		this._margin = new MarginProperty( defaults.margin );
 
 
-		this._position = new PositionProperty();
+		this._position = new PositionProperty( defaults.position );
 
 		/**
 		 *
@@ -6658,19 +6990,19 @@ class MeshUIBaseElement extends external_THREE_namespaceObject.Object3D {
 		this._width = new WidthProperty();
 		this._height = new HeightProperty();
 
-		this._backgroundColor = properties.backgroundColor ? new properties.backgroundColor() : new BackgroundColorProperty();
-		this._backgroundOpacity = new StyleFactorProperty('backgroundOpacity', 0.5);
+		this._backgroundColor = properties.backgroundColor ? new properties.backgroundColor( defaults.backgroundColor ) : new BackgroundColorProperty(defaults.backgroundColor);
+		this._backgroundOpacity = new StyleFactorProperty('backgroundOpacity', defaults.backgroundOpacity);
 		this._backgroundImage = new BackgroundImage();
 		this._backgroundSize = new BackgroundSize( 'cover' );
 
-		this._color = properties.color ? new properties.color() : new StyleColorProperty('color', 'inherit');
+		this._color = properties.color ? new properties.color( defaults.color ) : new StyleColorProperty('color', defaults.color);
 		this._fontOpacity = new StyleFactorProperty( 'fontOpacity', 'inherit');
 
 		this._whiteSpace = properties.whiteSpace ? new properties.whiteSpace() : new WhiteSpaceProperty();
 
 		this._fontFamily = properties.fontFamily ? new properties.fontFamily() : new FontFamilyProperty();
-		this._fontStyle = properties.fontStyle ? new properties.fontStyle() : new FontStyleProperty( 'normal' );
-		this._fontWeight = properties.fontWeight ? new properties.fontWeight() : new FontWeightProperty();
+		this._fontStyle = properties.fontStyle ? new properties.fontStyle(defaults.fontStyle) : new FontStyleProperty( defaults.fontStyle );
+		this._fontWeight = properties.fontWeight ? new properties.fontWeight( defaults.fontWeight ) : new FontWeightProperty(defaults.fontWeight);
 		this._fontSize = properties.fontSize ? new properties.fontSize() : new FontSizeProperty();
 
 		this._lineHeight = properties.lineHeight ? new properties.lineHeight() : new LineHeightProperty();
@@ -6680,10 +7012,10 @@ class MeshUIBaseElement extends external_THREE_namespaceObject.Object3D {
 
 		this._overflow = new Overflow( 'visible' );
 
-		this._borderRadius = new BorderRadius( 0 );
-		this._borderWidth = new BorderWidth( 0 );
-		this._borderColor = new StyleColorProperty( 'borderColor', 0xff00ff );
-		this._borderOpacity = new StyleFactorProperty( 'borderOpacity', 1);
+		this._borderRadius = new BorderRadius( defaults.borderRadius );
+		this._borderWidth = new BorderWidth( defaults.borderWidth );
+		this._borderColor = properties.borderColor ? new properties.borderColor() : new StyleColorProperty( 'borderColor', defaults.borderColor );
+		this._borderOpacity = new StyleFactorProperty( 'borderOpacity', defaults.borderOpacity);
 
 		// styles ---;
 
@@ -6718,6 +7050,8 @@ class MeshUIBaseElement extends external_THREE_namespaceObject.Object3D {
 		this._inlineJustificator = new InlineJustificator();
 
 		this._textAlign = properties.textAlign ? new properties.textAlign() : new TextAlignProperty();
+
+		this._verticalAlign = properties.verticalAlign ? new properties.verticalAlign() : new VerticalAlignProperty();
 
 		this._autoSize = properties.autoSize ? new properties.autoSize() : new EmptyProperty("autoSize");
 
@@ -6771,6 +7105,8 @@ class MeshUIBaseElement extends external_THREE_namespaceObject.Object3D {
 			this._segments,
 			// styles ---;
 
+			this._fontSize,
+
 			this._padding,
 			this._margin,
 			this._width,
@@ -6790,19 +7126,22 @@ class MeshUIBaseElement extends external_THREE_namespaceObject.Object3D {
 
 
 			this._display,
+
+			this._fontOpacity,
+			this._color,
+
 			this._backgroundColor,
 			this._backgroundOpacity,
 			this._backgroundImage,
 			this._backgroundSize,
-			this._fontOpacity,
-			this._color,
+
 
 
 			// font : update order : WhiteSpace > Glyph > Inlines > Kerning > newlineBreakability > LineBreak > FontSize
 			// font : process order : ??
 			// this._font,
 
-			this._fontSize,
+
 			this._lineHeight,
 			this._fontKerning,
 			this._letterSpacing,
@@ -6815,6 +7154,8 @@ class MeshUIBaseElement extends external_THREE_namespaceObject.Object3D {
 			// styles ---;
 			this._lineBreak,
 			this._offset,
+
+			this._verticalAlign,
 			this._layouter,
 
 			this._inlineJustificator,
@@ -6953,7 +7294,8 @@ class MeshUIBaseElement extends external_THREE_namespaceObject.Object3D {
 				if ( !fontFamily ) {
 
 					const fontStyle = options.fontStyle ? options.fontStyle : 'normal';
-					const fontWeight = options.fontWeight ? options.fontWeight : '400';
+					// const fontWeight = options.fontWeight ? options.fontWeight : '400';
+					const fontWeight = options.fontWeight ? options.fontWeight : 'normal';
 
 					fontFamily = font_FontLibrary.addFontFamily( fontName )
 						.addVariant( fontWeight, fontStyle, options.fontFamily, options.fontTexture );
@@ -7065,6 +7407,8 @@ class MeshUIBaseElement extends external_THREE_namespaceObject.Object3D {
 					case 'overflow' :
 					case 'order':
 					case 'boxSizing':
+					case 'position':
+					case 'verticalAlign':
 						if( this[`_${prop}`] ){
 							this[`_${prop}`].inline = value;
 						}
@@ -7148,7 +7492,12 @@ class MeshUIBaseElement extends external_THREE_namespaceObject.Object3D {
 
 					default:
 
+						console.log(prop)
+
 						if( this[ prop ] !== undefined ) {
+
+							console.log(`--		${prop} has setter`)
+
 							this[ prop ] = value
 						}else if( this[`_${prop}`] !== undefined ) {
 							this[`_${prop}`].value = value;
@@ -7729,8 +8078,8 @@ class MeshUIBaseElement extends external_THREE_namespaceObject.Object3D {
 
 			this.remove( this._fontMesh );
 
-			if ( this._fontMesh.material ) this._fontMesh.material.dispose();
-			if ( this._fontMesh.geometry ) this._fontMesh.geometry.dispose();
+			if ( this._fontMesh.material ) this._fontMesh.material.dispose?.();
+			if ( this._fontMesh.geometry ) this._fontMesh.geometry.dispose?.();
 
 			this._fontMesh = null;
 			// deepDelete( this._fontMesh );
@@ -7958,6 +8307,9 @@ class MeshUIBaseElement extends external_THREE_namespaceObject.Object3D {
  * @property [options.whiteSpace] {"normal"|"nowrap"|"pre"|"pre-line"|"pre-wrap"}
  * @property [options.fontTexture] {Texture|string} @deprecated
  * @property [options.textContent] {string}
+ *
+ * @property [options.verticalAlign] {"baseline","super","sub","inherit"}
+ *
  *
  */
 
@@ -10219,7 +10571,7 @@ class PositionPropertyBox extends PositionProperty {
 
 	constructor( ) {
 
-		super( 'position');
+		super( 'position' );
 
 	}
 
@@ -10577,6 +10929,8 @@ class BoxElement extends MeshUIBaseElement {
 		if ( !values.backgroundCastShadow ) values.backgroundCastShadow = false;
 		if ( !values.backgroundReceiveShadow ) values.backgroundReceiveShadow = false;
 
+		if( !values.uiType ) values.uiType = 'block';
+
 	}
 
 	/**
@@ -10922,6 +11276,7 @@ class InlinesProperty extends BaseProperty{
 		}
 
 
+		element._verticalAlign._needsProcess = true;
 		element._fontSize._needsProcess = true;
 		element._lineBreak._needsProcess = true;
 		element._fontKerning._needsProcess = true;
@@ -11021,9 +11376,11 @@ class GlyphsProperty extends BaseProperty{
 
 class ColorProperty extends StyleColorProperty {
 
-	constructor( ) {
+	constructor( defaultValue ) {
 
-		super( 'color', 'inherit', false );
+		super( 'color', defaultValue, false );
+
+		this._input = defaultValue;
 
 		this.output = this._outputValue;
 
@@ -11237,6 +11594,14 @@ class FontStylePropertyInline extends FontStyleProperty {
 		this.computeOutputValue = this._computeFromInherited;
 	}
 
+	_computeFromInherited( element ) {
+
+		super._computeFromInherited(element);
+
+		element._font._needsUpdate = true;
+
+	}
+
 }
 
 ;// CONCATENATED MODULE: ./src/core/properties/style-properties/font/FontWeightPropertyInline.js
@@ -11244,9 +11609,9 @@ class FontStylePropertyInline extends FontStyleProperty {
 
 class FontWeightPropertyInline extends FontWeightProperty {
 
-	constructor() {
+	constructor( def ) {
 
-		super();
+		super( def );
 
 	}
 
@@ -11266,15 +11631,18 @@ class FontWeightPropertyInline extends FontWeightProperty {
 
 		}
 
+		element._font._needsUpdate = true;
+
 	}
 
 }
 
+// @TODO : Evaluate the need
 const LOOK_UP_TABLE = {
-	'light'		: '100',
-	'normal'	: '400',
-	'bold' 		: '700',
-	'bolder' 	: '900'
+	// 'light'		: '100',
+	// 'normal'	: '400',
+	// 'bold' 		: '700',
+	// 'bolder' 	: '900'
 }
 
 
@@ -11851,11 +12219,12 @@ class LetterSpacingPropertyInline extends LetterSpacingProperty {
 ;// CONCATENATED MODULE: ./src/core/properties/style-properties/font/FontSizePropertyInline.js
 
 
-class FontSizePropertyInline extends SubStyleProperty {
+
+class FontSizePropertyInline extends FontSizeProperty {
 
 	constructor( ) {
 
-		super( 'fontSize', 'inherit', true );
+		super();
 
 		// Configure
 		this._allowsInherit = false;
@@ -11864,12 +12233,16 @@ class FontSizePropertyInline extends SubStyleProperty {
 
 	computeOutputValue( element ) {
 
-		this._value = this._inheritedInput;
+		// this._value = this._inheritedInput;
 
 		if( element._font._fontVariant ) {
 			element._bounds._needsProcess = true;
 			element._layouter._needsProcess = true;
 		}
+
+		// @TODO : FontRelatives properties?? instead of manual registering them?
+		// for em dimensions;
+		element._margin._needsProcess = true;
 
 	}
 
@@ -13318,10 +13691,10 @@ class RendererPropertyInline extends BaseProperty{
 		if( !element._inlines._value || !element._inlines._value.length ) return;
 
 			const charactersAsGeometries = element._inlines._value.map(
-				inline =>
-					element._font._fontVariant.getGeometricGlyph( inline, element )
+				inline => {
+					return element._font._fontVariant.getGeometricGlyph( inline, element )
 						.translate( inline.offsetX, inline.offsetY, 0 )
-
+				}
 			);
 
 			const mergedGeom = mergeBufferGeometries( charactersAsGeometries );
@@ -13363,6 +13736,44 @@ class TextAlignPropertyInline extends TextAlignProperty {
 
 }
 
+;// CONCATENATED MODULE: ./src/core/properties/style-properties/font/VerticalAlignPropertyInline.js
+
+
+
+class VerticalAlignPropertyInline extends VerticalAlignProperty {
+
+	constructor() {
+
+		super();
+
+		// configure
+		this._allowsInherit = false;
+		this._needsUpdate = false;
+
+	}
+
+
+	/* eslint-disable no-unused-vars */ computeOutputValue( element ) { /* eslint-enable no-unused-vars */
+
+		this._value = this._inheritedInput;
+
+		this._needsProcess = true;
+		element._layouter._needsProcess = true;
+
+	}
+
+	process( element ) {
+
+		if( !element._inlines.value ) return;
+
+		element._inlines.value.forEach( inline => {
+			inline.verticalAlign = this._value;
+		});
+
+	}
+
+}
+
 ;// CONCATENATED MODULE: ./src/elements/basic/InlineElement.js
 
 
@@ -13387,6 +13798,7 @@ class TextAlignPropertyInline extends TextAlignProperty {
 
 //JSDoc related imports
 /* eslint-disable no-unused-vars */
+
 
 /* eslint-enable no-unused-vars */
 
@@ -13495,10 +13907,13 @@ class InlineElement extends MeshUIBaseElement {
 		if( !properties.whiteSpace ) properties.whiteSpace = WhiteSpacePropertyInline;
 		if( !properties.segments ) properties.segments = SegmentsPropertyInline;
 		if( !properties.textAlign ) properties.textAlign = TextAlignPropertyInline;
+		if( !properties.verticalAlign ) properties.verticalAlign = VerticalAlignPropertyInline;
 
 		if( !properties.fontKerning ) properties.fontKerning = FontKerningPropertyInline;
 
 		// if( !properties.inlines ) properties.inlines = InlinesProperty;
+
+		if( !values.uiType ) values.uiType = 'inline';
 
 	}
 
@@ -13541,6 +13956,8 @@ class TextContentText extends TextContentEmpty{
 
 			this._value = value;
 
+			console.log( this._value );
+
 			this._needsUpdate = true;
 
 		}
@@ -13568,8 +13985,20 @@ class TextContentText extends TextContentEmpty{
 		element._children._uis = [];
 
 		// If a value, add a child
-		if( this._value ) element.add( new InlineElement({name:'anonymousInline',textContent:this._value}));
+		if( this._value ) {
+			element.add( new InlineElement({name:'anonymousInline',textContent:this._value}));
+		}
 
+
+	}
+
+	process( element ) {
+
+		// If not already updated, return raw values
+		if( this._needsUpdate ) return this._value;
+
+		// or default traverse all children to concat textContent
+		return super.process(element);
 
 	}
 
@@ -13680,6 +14109,8 @@ class TextLayouter extends BaseProperty {
 
 			const BREAKON = inlineElement._lineBreak._value;
 
+			const POSITION = inlineElement._position._value;
+
 			const whiteSpaceOptions = {
 				WHITESPACE,
 				LETTERSPACING,
@@ -13688,6 +14119,13 @@ class TextLayouter extends BaseProperty {
 			}
 
 			const inlineWrapper = inlineElement._whiteSpace._inlineWrapper;
+
+			// @TODO : absolute inlines in Texts
+			var remember = lastInlineOffset;
+			if( POSITION === 'absolute' ){
+					lastInlineOffset = 0;
+			}
+
 
 			lastInlineOffset += inlineElement._margin._value.w + inlineElement._padding._value.w;
 
@@ -13742,6 +14180,11 @@ class TextLayouter extends BaseProperty {
 
 			lastInlineOffset += inlineElement._margin._value.y + inlineElement._padding._value.y;
 
+			// @TODO : absolute inlines in Texts
+			if( POSITION === 'absolute'){
+				lastInlineOffset = remember;
+			}
+
 		} );
 
 		// Compute single line and combined lines dimensions
@@ -13788,8 +14231,19 @@ class TextLayouter extends BaseProperty {
 
 				inline.offsetY = lineOffsetY - inline.anchor;
 
+				// VERTICAL ALIGN
 				if( inline.lineHeight < line.lineHeight ){
-					inline.offsetY -= line.lineBase- inline.lineBase;
+
+					if ( inline.verticalAlign === 'super' ) {
+						inline.offsetY += inline.lineBase / 5;
+					}else if( inline.verticalAlign === 'sub'){
+						inline.offsetY -= line.lineBase * 1.2 - inline.lineBase;
+					}else{
+						// Baseline
+							inline.offsetY -= line.lineBase- inline.lineBase;
+					}
+
+
 				}
 
 			});
@@ -13911,11 +14365,13 @@ function _process( element ) {
 
 		const line = lines[ i ];
 
-		// compute the alignment offset of the line
-		const offsetX = _computeLineOffset( element, line, i === lines.length - 1 );
-
 		const padding = element._padding._value;
 		const border = element._borderWidth._value;
+
+		// compute the alignment offset of the line
+		const offsetX = _computeLineOffset( element, line, i === lines.length - 1 , padding);
+
+
 
 		// const paddingAmount = - ( padding.w + padding.y ) / 2 - ( border.w + border.y ) / 2;
 		// const paddingAmount = - ( padding.w + padding.y ) / 2;
@@ -13997,18 +14453,18 @@ function _process( element ) {
 
 }
 
-function _computeLineOffset ( element, line, lastLine ) {
+function _computeLineOffset ( element, line, lastLine, padding ) {
 
 	switch ( element._textAlign._value ) {
 
 		case 'justify-left':
 		case 'justify':
 		case 'left':
-			return - element._bounds._innerWidth / 2;
+			return - element._bounds._innerWidth / 2 + padding.w;
 
 		case 'justify-right':
 		case 'right':
-			return -line.width + ( element._bounds._innerWidth / 2 );
+			return -line.width + ( element._bounds._innerWidth / 2 ) - padding.y;
 
 
 		case 'center':
@@ -14023,7 +14479,7 @@ function _computeLineOffset ( element, line, lastLine ) {
 			}
 
 			// left alignment
-			return - element._bounds._innerWidth / 2;
+			return - element._bounds._innerWidth / 2 + padding.w;
 
 		default:
 			console.warn( `textAlign: '${element._textAlign._value}' is not valid` );
@@ -14621,7 +15077,167 @@ class BoundsInlineBlock extends BaseProperty {
 }
 
 
+;// CONCATENATED MODULE: ./src/core/properties/style-properties/background/BackgroundColorPropertyInlineBlock.js
+
+
+//JSDoc related imports
+/* eslint-disable no-unused-vars */
+/* eslint-enable no-unused-vars */
+
+class BackgroundColorPropertyInlineBlock extends StyleColorProperty {
+
+	constructor() {
+
+		super( 'backgroundColor', 'inherit', false );
+
+		this._allowsInherit = false;
+
+		this._input = 'inherit';
+
+	}
+
+	computeOutputValue( element ) { /* eslint-enable no-unused-vars */
+
+		element._backgroundMesh.visible = !(this._input === 'none' || this._input === 'transparent');
+
+		if( this._input === 'inherit' ) {
+
+			this._value.set(this.getInheritedInput( element ));
+
+		} else {
+
+			this._value.set( this._input );
+
+		}
+
+	}
+
+	// background color of inlineBlock looks for parent color instead of backgroundColor
+	getInheritedInput( element ) {
+
+		if ( this._input !== 'inherit' ) return this._input;
+
+		return element._color._value;
+
+	}
+
+	/**
+	 *
+	 * @param {any} value
+	 */
+	set inline( value ) {
+
+		if( ! this.isValidValue( value ) ) return;
+
+		if( value === this._inline ) {
+
+			// do nothing no update, the value hasn't changed
+			return;
+
+		}
+
+		this._input = this._inline = value;
+
+		this._needsUpdate = true;
+
+	}
+
+}
+
+
+
+;// CONCATENATED MODULE: ./src/core/properties/style-properties/font/ColorPropertyInlineBlock.js
+
+
+//JSDoc related imports
+/* eslint-disable no-unused-vars */
+/* eslint-enable no-unused-vars */
+
+class ColorPropertyInlineBlock extends StyleColorProperty {
+
+	constructor() {
+
+		super( 'color', 'inherit', false );
+
+		this._input = 'inherit';
+
+		this.output = this._outputValue;
+
+	}
+
+	/* eslint-disable no-unused-vars */
+	/**
+	 *
+	 * @param {MeshUIBaseElement} element
+	 */
+	computeOutputValue( element ) { /* eslint-enable no-unused-vars */
+
+		if( this._input === 'inherit' ) {
+
+			this._value.set( this.getInheritedInput( element ) );
+
+		} else {
+
+			this._value.set( this._input);
+
+		}
+
+		element._backgroundColor._needsUpdate = true;
+		element._borderColor._needsUpdate = true;
+
+	}
+
+}
+
+;// CONCATENATED MODULE: ./src/core/properties/style-properties/border/BorderColorPropertyInlineBlock.js
+
+
+//JSDoc related imports
+/* eslint-disable no-unused-vars */
+/* eslint-enable no-unused-vars */
+
+class BorderColorPropertyInlineBlock extends StyleColorProperty {
+
+	constructor() {
+
+		super( 'borderColor', 'inherit', false );
+
+		this._allowsInherit = false;
+
+		this._input = 'inherit';
+
+	}
+
+	computeOutputValue( element ) { /* eslint-enable no-unused-vars */
+
+		if( this._input === 'inherit' ) {
+
+			this._value.set(this.getInheritedInput( element ));
+
+		} else {
+
+			this._value.set( this._input );
+
+		}
+
+	}
+
+	// background color of inlineBlock looks for parent color instead of backgroundColor
+	getInheritedInput( element ) {
+
+		if ( this._input !== 'inherit' ) return this._input;
+
+		return element._color._value;
+
+	}
+
+}
+
+
+
 ;// CONCATENATED MODULE: ./src/elements/basic/InlineBlockElement.js
+
+
 
 
 
@@ -14751,12 +15367,16 @@ class InlineBlockElement extends MeshUIBaseElement {
 		if( !properties.fontStyle ) properties.fontStyle = FontStylePropertyInline;
 		if( !properties.fontSize ) properties.fontSize = FontSizePropertyInline;
 
-		if( !properties.backgroundColor ) properties.backgroundColor = BackgroundColorProperty;
+		if( !properties.backgroundColor ) properties.backgroundColor = BackgroundColorPropertyInlineBlock;
+		if( !properties.borderColor ) properties.borderColor = BorderColorPropertyInlineBlock;
+		if( !properties.color ) properties.color = ColorPropertyInlineBlock;
 
 		if( !properties.lineBreak ) properties.lineBreak = LineBreakProperty;
 		if( !properties.letterSpacing ) properties.letterSpacing = LetterSpacingPropertyInline;
 		if( !properties.whiteSpace ) properties.whiteSpace = WhiteSpacePropertyInline;
 		if( !properties.fontKerning ) properties.fontKerning = FontKerningProperty;
+
+		if( values.backgroundOpacity === undefined) values.backgroundOpacity = 1;
 
 		if( !values.backgroundSize ) values.backgroundSize = 'cover';
 		if( !values.width ) values.width = '100%';
@@ -15017,7 +15637,8 @@ const ThreeMeshUI = {
 	MSDFFontMaterialUtils: MSDFFontMaterialUtils,
 	ShaderChunkUI: ShaderChunkUI,
 	Behavior: Behavior,
-	FontVariant: font_FontVariant
+	FontVariant: font_FontVariant,
+	DefaultValues: DefaultValues_namespaceObject
 };
 
 
