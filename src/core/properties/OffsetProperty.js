@@ -13,7 +13,8 @@ export default class OffsetProperty extends InheritableProperty {
 
 		super.update( element, out);
 
-			element.position.z = this._notInheritedValue;
+		// only process if element has ui parent
+		if( element._parent._value !== null ) element.position.z = this._notInheritedValue;
 
 	}
 
