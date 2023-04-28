@@ -25,6 +25,7 @@ import FontVariant from './font/FontVariant';
 const update = () => UpdateManager.update();
 
 const ThreeMeshUI = {
+	BaseProperty,
 	Block: BlockElement,
 	Text : TextElement,
 	Inline: InlineElement,

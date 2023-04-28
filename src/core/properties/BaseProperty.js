@@ -77,9 +77,9 @@ export default class BaseProperty {
 	 */
 	set value( value ) {
 
-		if( ! this.isValid( value) ) return;
+		if ( !this.isValid( value ) ) return;
 
-		if( this._value !== value ) {
+		if ( this._value !== value ) {
 
 			this._value = value;
 
@@ -95,7 +95,7 @@ export default class BaseProperty {
 	 * @param element
 	 * @param {Object.<string,any>} out
 	 */
-	update( element , out ) { 	/* eslint-enable no-unused-vars */
+	update( element, out ) { 	/* eslint-enable no-unused-vars */
 
 		// the value has been updated from setter
 		// if there is no additional logic
@@ -124,14 +124,13 @@ export default class BaseProperty {
 	}
 
 
-
 	/**
 	 *
 	 * @param {Out} out
 	 */
 	_outputValue( out ) {
 
-		out[this._id] = this._value;
+		out[ this._id ] = this._value;
 
 	}
 
@@ -153,14 +152,14 @@ export default class BaseProperty {
 	 *
 	 * @param {MeshUIBaseElement} element
 	 */
-	getInheritedInput ( element ) {
+	getInheritedInput( element ) {
 
-		if( this._value !== 'inherit' ) return this._value;
+		if ( this._value !== 'inherit' ) return this._value;
 
 		const parent = element._parent._value;
-		if( parent && parent[`_${this._id}`] ) {
+		if ( parent && parent[ `_${this._id}` ] ) {
 
-			return parent[`_${this._id}`].getInheritedInput( parent )
+			return parent[ `_${this._id}` ].getInheritedInput( parent )
 
 		}
 
@@ -193,10 +192,22 @@ export default class BaseProperty {
 	/**
 	 *
 	 */
-	emptyStrategyLogic () {
+	emptyStrategyLogic() {
 
 		throw new Error( `ThreeMeshUI::${this.constructor.name} has empty strategy. Update has not been processed.` );
 
+	}
+
+	requestUpdate() {
+		this._needsUpdate = true;
+	}
+
+	requestProcess() {
+		this._needsProcess = false;
+	}
+
+	requestRender() {
+		this._needsRender = false;
 	}
 
 }

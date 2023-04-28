@@ -210,7 +210,9 @@ function loop() {
 	textContainer.position.x = x * 0.6;
 	textContainer.position.y = y * 0.6;
 
-	container._overflow._needsUpdate = true;
+	container.getProperty("overflow").requestUpdate();
+	// container._overflow._needsUpdate = true;
+	// container._overflow._needsUpdate = true;
 
 	// Don't forget, ThreeMeshUI must be updated manually.
 	// This has been introduced in version 3.0.0 in order
