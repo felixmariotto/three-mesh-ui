@@ -8,11 +8,12 @@ export default class SimpleStateBehavior extends Behavior{
 		super(subject);
 
 		// build a simple style set
+		/* eslint-disable camelcase */
 		subject._simpleState__activeStates = [];
 		subject._simpleState__normalStyles = {};
 		subject._simpleState__states = states;
 		subject._simpleState__statesProperties = {};
-
+		/* eslint-enable camelcase */
 		for ( const statesKey in states ) {
 			for ( const styleProperty in states[ statesKey ] ) {
 
@@ -118,7 +119,7 @@ export default class SimpleStateBehavior extends Behavior{
 	}
 
 	deactivatePseudoState ( state ) {
-		let index = this._simpleState__activeStates.indexOf(state);
+		const index = this._simpleState__activeStates.indexOf(state);
 		if( index > -1 ){
 			this._simpleState__activeStates.splice( index,1);
 			this.renderStates();
@@ -127,7 +128,7 @@ export default class SimpleStateBehavior extends Behavior{
 
 	togglePseudoState ( state ) {
 
-		let index = this._simpleState__activeStates.indexOf(state);
+		const index = this._simpleState__activeStates.indexOf(state);
 		if( index > -1 ){
 			this._simpleState__activeStates.splice( index,1);
 		}else{
@@ -139,11 +140,13 @@ export default class SimpleStateBehavior extends Behavior{
 	}
 
 	setState( states ){
+		/* eslint-disable camelcase */
 		if( Array.isArray(states) ){
 			this._simpleState__activeStates = states;
 		}else{
 			this._simpleState__activeStates = [ states ];
 		}
+		/* eslint-enable camelcase */
 
 		this.renderStates();
 	}

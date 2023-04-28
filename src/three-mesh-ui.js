@@ -63,7 +63,7 @@ export { FontVariant }
 
 export default ThreeMeshUI;
 
-console.warn("ThreeMeshUI v7.1.x - Three "+window.__THREE__)
+// console.warn("ThreeMeshUI v7.1.x - Three "+window.__THREE__)
 
 
 

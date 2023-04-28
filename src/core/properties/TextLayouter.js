@@ -160,7 +160,7 @@ export default class TextLayouter extends BaseProperty {
 			line.lineHeight = lineHeight;
 			line.lineBase = lineBase;
 
-			const baseLineDelta = lineHeight - lineBase;
+			// const baseLineDelta = lineHeight - lineBase;
 
 			if( i === 0 ){
 				lineOffsetY = -(lineHeight*INTERLINE - lineHeight) * 0.5;

@@ -2,7 +2,13 @@
 // xfg:type tool
 // xfg:copyright Rye font author is Nicole Fally
 
-import { Block, Text } from 'three-mesh-ui';
+import { Block, DefaultValues, FontLibrary, Inline, Text } from 'three-mesh-ui';
+import { exampleAddResizer, exampleManualRender, exampleNoRenderLoop, exampleRender, exampleThreeSetup } from 'three-mesh-ui/examples/_setup/ThreeSetup';
+import { adjustRobotoAndVariants, registerRobotoAndVariants } from 'three-mesh-ui/examples/_setup/RobotoFont';
+import { exampleCameraOrthographic, exampleCameraOrthographicResize } from 'three-mesh-ui/examples/_setup/CameraOrthographic';
+import exampleGUI from 'three-mesh-ui/examples/_setup/gui/exampleGUI';
+import { Texture } from 'three';
+import TypographicLayoutBehavior from 'three-mesh-ui/examples/behaviors/helpers/TypographicLayoutBehavior';
 
 let text;
 //
@@ -84,14 +90,6 @@ function example(){
  * Above this comment, you could find the contextual setup of this example.
  * Not really related to the example itself : Creating three renderer, scene, lights, etc...
  **********************************************************************************************************************/
-
-import { exampleAddResizer, exampleManualRender, exampleNoRenderLoop, exampleRender, exampleThreeSetup } from 'three-mesh-ui/examples/_setup/ThreeSetup';
-import { adjustRobotoAndVariants, registerRobotoAndVariants } from 'three-mesh-ui/examples/_setup/RobotoFont';
-import { exampleCameraOrthographic, exampleCameraOrthographicResize } from 'three-mesh-ui/examples/_setup/CameraOrthographic';
-import exampleGUI from 'three-mesh-ui/examples/_setup/gui/exampleGUI';
-import { DefaultValues, FontLibrary, Inline } from 'three-mesh-ui';
-import { Mesh, MeshBasicMaterial, PlaneGeometry, Texture } from 'three';
-import TypographicLayoutBehavior from 'three-mesh-ui/examples/behaviors/helpers/TypographicLayoutBehavior';
 /* eslint-disable no-unused-vars */
 
 // building three setup

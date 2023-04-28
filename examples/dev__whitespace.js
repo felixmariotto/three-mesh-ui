@@ -4,7 +4,7 @@
 /* Import everything we need from Three.js */
 
 import * as THREE from 'three';
-import { Mesh, MeshBasicMaterial, PlaneGeometry } from 'three';
+import { MeshBasicMaterial } from 'three';
 import { VRButton } from 'three/examples/jsm/webxr/VRButton.js';
 import { BoxLineGeometry } from 'three/examples/jsm/geometries/BoxLineGeometry.js';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';

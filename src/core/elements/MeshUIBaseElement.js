@@ -53,6 +53,7 @@ import { uniformOrUserDataTransformer } from '../../utils/mediator/transformers/
 import { Color, Texture, Vector4, Mesh, Material, ShaderMaterial } from 'three';
 import BaseProperty from './../properties/BaseProperty';
 import FontFamily from '../../font/FontFamily';
+import { defaultOptions } from 'acorn';
 /* eslint-enable no-unused-vars */
 
 export default class MeshUIBaseElement extends Object3D {
@@ -221,7 +222,7 @@ export default class MeshUIBaseElement extends Object3D {
 		this._height = new HeightProperty();
 
 		this._backgroundColor = properties.backgroundColor ? new properties.backgroundColor() : new BackgroundColorProperty();
-		this._backgroundOpacity = new StyleFactorProperty('backgroundOpacity', 0.5);
+		this._backgroundOpacity = new StyleFactorProperty('backgroundOpacity', 0.5 );
 		this._backgroundImage = new BackgroundImage();
 		this._backgroundSize = new BackgroundSize( 'cover' );
 

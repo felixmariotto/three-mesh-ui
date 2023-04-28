@@ -1,4 +1,3 @@
-import { Color } from 'three';
 import StyleColorProperty from '../StyleColorProperty';
 
 //JSDoc related imports
@@ -13,7 +12,7 @@ export default class BackgroundColorPropertyInline extends StyleColorProperty {
 
 		this._allowsInherit = false;
 
-		this._input = 'transparent';
+		this._input = 0x000000;
 
 
 	}

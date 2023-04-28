@@ -3,7 +3,6 @@ import TextContentText from '../../core/properties/TextContentText';
 import TextLayouter from '../../core/properties/TextLayouter';
 import TextAlignPropertyText from '../../core/properties/style-properties/font/TextAlignPropertyText';
 import FlexDirectionPropertyText from '../../core/properties/style-properties/flex/FlexDirectionPropertyText';
-import InlineElement from './InlineElement';
 import JustifyContentProperty from '../../core/properties/style-properties/flex/JustifyContentProperty';
 import AlignItemsProperty from '../../core/properties/style-properties/flex/AlignItemsProperty';
 import LineHeightPropertyInline from '../../core/properties/style-properties/font/LineHeightPropertyInline';
