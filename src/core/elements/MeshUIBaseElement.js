@@ -1510,7 +1510,7 @@ export default class MeshUIBaseElement extends Object3D {
  * @property [options.segments] {number}
  * @property [options.fontFamily] {FontFamily|string}
  * @property [options.fontStyle] {"normal"|"italic"}
- * @property [options.fontWeight] {"light"|"normal"|"bold"|"bolder"|100|200|300|400|500|600|700|800|900}
+ * @property [options.fontWeight] {"light"|"normal"|"bold"|"bolder"|100|200|300|400|500|600|700|800|900|"100"|"200"|"300"|"400"|"500"|"600"|"700"|"800"|"900"}
  *
  * @property [options.color]{Color|number|string} The font color
  *
@@ -1539,4 +1539,8 @@ export default class MeshUIBaseElement extends Object3D {
  * @property [options.fontTexture] {Texture|string} @deprecated
  * @property [options.textContent] {string}
  *
+ */
+
+/**
+ * @typedef {"light"|"normal"|"bold"|"bolder"|100|200|300|400|500|600|700|800|900|"100"|"200"|"300"|"400"|"500"|"600"|"700"|"800"|"900"} FontWeightFormat
  */

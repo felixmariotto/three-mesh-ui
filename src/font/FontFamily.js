@@ -5,6 +5,7 @@ import MSDFFontVariant from './msdf/MSDFFontVariant';
 /* eslint-disable no-unused-vars */
 import FontVariant from './FontVariant';
 import { Texture } from 'three';
+import { uniformizeFontWeight } from './utils/FontUtils';
 /* eslint-enable no-unused-vars */
 
 export default class FontFamily extends EventDispatcher {
@@ -121,6 +122,8 @@ export default class FontFamily extends EventDispatcher {
 	 */
 	getVariant( weight, style ){
 
+		weight = uniformizeFontWeight(weight);
+
 		return this._variants.find( fontVariant => fontVariant.weight === weight && fontVariant.style === style );
 
 	}
@@ -156,3 +159,5 @@ function _setReady( fontFamily ) {
 	fontFamily.dispatchEvent( _readyEvent );
 
 }
+
+

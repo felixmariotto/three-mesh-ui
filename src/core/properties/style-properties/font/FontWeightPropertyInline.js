@@ -1,4 +1,5 @@
 import FontWeightProperty from './FontWeightProperty';
+import { uniformizeFontWeight } from '../../../../font/utils/FontUtils';
 
 export default class FontWeightPropertyInline extends FontWeightProperty {
 
@@ -10,28 +11,8 @@ export default class FontWeightPropertyInline extends FontWeightProperty {
 
 	computeOutputValue( element ) {
 
-		const input = this.getInheritedInput( element );
-
-		const converted = LOOK_UP_TABLE[ input ];
-
-		if ( converted ) {
-
-			this._value = converted
-
-		} else {
-
-			this._value = input;
-
-		}
+		this._value = uniformizeFontWeight( this.getInheritedInput( element )	);
 
 	}
 
 }
-
-const LOOK_UP_TABLE = {
-	'light'		: '100',
-	'normal'	: '400',
-	'bold' 		: '700',
-	'bolder' 	: '900'
-}
-

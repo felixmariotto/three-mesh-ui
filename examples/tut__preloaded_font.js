@@ -39,7 +39,7 @@ FontLibrary.prepare(
 				.addVariant(
 					// The weight of the variant '100'|'200'|'300'|'400'|'600'|'700'|'800'|'900'
 					//														LIGHTER					NORMAL			BOLD				BOLDER
-					"400",
+					"normal",
 
 					// The style of the variant 'normal'|'italic'|'oblique'|'oblique(x deg)'
 					"normal",
@@ -63,7 +63,7 @@ FontLibrary.prepare(
 	const RobotoFamily = FontLibrary.getFontFamily("Roboto");
 
 	// And then retrieve a fontVariant defined in this Family
-	const RobotoRegular = RobotoFamily.getVariant('400','normal');
+	const RobotoRegular = RobotoFamily.getVariant('normal','normal');
 
 	// Having font variant allows us to perform some modifications
 	// 1. Adjustments

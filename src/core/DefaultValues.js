@@ -2,9 +2,9 @@
 const _values = {
 	fontFamily: null,
 	fontSize: 0.05,
-	fontKerning: 'normal',
+	fontKerning: 'auto',
 	fontStyle: 'normal',
-	fontWeight : '400',
+	fontWeight : 'normal',
 	offset: 0.005,
 	lineHeight: 1.2,
 	lineBreak: '- ,.:?!\n',// added '\n' to also acts as friendly breaks when white-space:normal

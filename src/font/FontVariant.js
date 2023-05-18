@@ -8,6 +8,7 @@ import InlineGlyph from './InlineGlyph';
 import MeshUIBaseElement from './../core/elements/MeshUIBaseElement';
 import TypographicFont from './TypographicFont';
 import TypographicGlyph from './TypographicGlyph';
+import { uniformizeFontWeight } from './utils/FontUtils';
 /* eslint-enable no-unused-vars */
 
 
@@ -18,8 +19,8 @@ class FontVariant extends EventDispatcher {
 
 	/**
 	 *
-	 * @param {string} weight
-	 * @param {string} style
+	 * @param {import('./../core/elements/MeshUIBaseElement').FontWeightFormat} weight
+	 * @param {"normal"|"italic"} style
 	 */
 	constructor( weight, style ) {
 
@@ -27,7 +28,7 @@ class FontVariant extends EventDispatcher {
 
 		/** @private */ this._isReady = false;
 
-		/** @protected */ this._weight = weight;
+		/** @protected */ this._weight = uniformizeFontWeight( weight );
 		/** @protected */ this._style = style;
 
 		/** @protected */ this._size = 42;
