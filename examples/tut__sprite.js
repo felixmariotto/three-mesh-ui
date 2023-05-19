@@ -7,7 +7,7 @@ let rootBlock;
 
 function example() {
 
-	const texture = new TextureLoader().load("/assets/spiny_bush_viper_sprite.jpg", ()=>{
+	const texture = new TextureLoader().load("./assets/spiny_bush_viper_sprite.jpg", ()=>{
 		exampleRender();
 	});
 	texture.minFilter = LinearFilter;
@@ -36,7 +36,7 @@ function example() {
 		// Must provide slice in instanciation
 		// top left right bottom are normalized
 		// width and height can be use to define scale
-		slice : {top:0.12,left:0.08,right:0.12,bottom:0.08, width: 2, height:2}
+		slice : {top:0.1,left:.1,right:0.2,bottom:0.1, width: 2, height:2}
 
 	} );
 
@@ -249,12 +249,12 @@ function boxSizingUI() {
 
 
 
-	rootBlockGui.add( params, 'width', 0, 3, 0.1 ).onChange( w => {
+	rootBlockGui.add( params, 'width', 0, 3, 0.01 ).onChange( w => {
 		rootBlock.set({width:w});
 		exampleRender();
 	})
 
-	rootBlockGui.add( params, 'height', 0, 3, 0.1 ).onChange( h => {
+	rootBlockGui.add( params, 'height', 0, 3, 0.01 ).onChange( h => {
 		rootBlock.set({height:h});
 		exampleRender();
 	})

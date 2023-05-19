@@ -16016,6 +16016,15 @@ class Frame extends external_three_namespaceObject.Mesh {
 
 	updateScaleSlice(){
 
+		const s = new external_three_namespaceObject.Vector3(1,1,1);
+		if( this.scale.x < (this.slice.left+this.slice.right)* this.sliceScale.x ){
+			s.x = this.scale.x / ((this.slice.left+this.slice.right) * this.sliceScale.x);
+		}
+
+		if( this.scale.y < (this.slice.bottom+this.slice.top)* this.sliceScale.y ){
+			s.y = this.scale.y / ((this.slice.bottom+this.slice.top) * this.sliceScale.y);
+		}
+
 		for ( const sliceSide in this.slices ) {
 			const slice = this.slices[sliceSide];
 
@@ -16034,6 +16043,7 @@ class Frame extends external_three_namespaceObject.Mesh {
 				if( scale.x ){
 					slice.position.x = this.sliceScale.x * 0.5 * (this.slice.left - this.slice.right) * (1/this.scale.x);
 				}
+
 				if( scale.y ){
 					slice.position.y = this.sliceScale.y *0.5 * (this.slice.bottom - this.slice.top) * (1/this.scale.y);
 				}
@@ -16041,11 +16051,30 @@ class Frame extends external_three_namespaceObject.Mesh {
 				for ( const scaleAxis in scale ) {
 
 					const natural = this.scale[scaleAxis]-((1-this.sliceSize[scaleAxis])*this.sliceScale[scaleAxis])
-					slice.scale[ scaleAxis ] = natural * (1/this.scale[scaleAxis]);
+					slice.scale[ scaleAxis ] = Math.max(0,natural * (1/this.scale[scaleAxis]) ) ;
 
 				}
 			}
 		}
+
+		if( s.x !== 1){
+			this.slices.left.scale.x *= s.x;
+			this.slices.topLeft.scale.x *= s.x;
+			this.slices.bottomLeft.scale.x *= s.x;
+			this.slices.right.scale.x *= s.x;
+			this.slices.topRight.scale.x *= s.x;
+			this.slices.bottomRight.scale.x *= s.x;
+		}
+
+		if( s.y !== 1){
+			this.slices.top.scale.y *= s.y;
+			this.slices.topLeft.scale.y *= s.y;
+			this.slices.topRight.scale.y *= s.y;
+			this.slices.bottom.scale.y *= s.y;
+			this.slices.bottomLeft.scale.y *= s.y;
+			this.slices.bottomRight.scale.y *= s.y;
+		}
+
 	}
 }
 
