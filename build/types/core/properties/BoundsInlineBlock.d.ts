@@ -11,6 +11,7 @@ export default class BoundsInlineBlock extends BaseProperty {
 
 
     update(element: any, out: any): void;
+    process(element: any): void;
     render(element: any): void;
 }
 import BaseProperty from "./BaseProperty";

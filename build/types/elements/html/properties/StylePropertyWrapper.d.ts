@@ -293,12 +293,12 @@ export default class StylePropertyWrapper {
      *
      * @param {100|200|300|400|500|600|700|800|900|"light"|"normal"|"bold"|"bolder"}  v
      */
-    set fontWeight(arg: "bold" | "normal" | 100 | "light" | "bolder" | 200 | 300 | 400 | 500 | 600 | 700 | 800 | 900);
+    set fontWeight(arg: "bold" | "normal" | "light" | "bolder" | 100 | 200 | 300 | 400 | 500 | 600 | 700 | 800 | 900);
     /**
      *
      * @return {100|200|300|400|500|600|700|800|900|"light"|"normal"|"bold"|"bolder"}
      */
-    get fontWeight(): "bold" | "normal" | 100 | "light" | "bolder" | 200 | 300 | 400 | 500 | 600 | 700 | 800 | 900;
+    get fontWeight(): "bold" | "normal" | "light" | "bolder" | 100 | 200 | 300 | 400 | 500 | 600 | 700 | 800 | 900;
     /**
      *
      * @param {"normal"|"none"} v

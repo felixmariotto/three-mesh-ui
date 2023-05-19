@@ -12,6 +12,11 @@ export default class TextLayouter extends BaseProperty {
      * @override
      */
     override process(element: any): void;
+    /**
+     *
+     * @param inlineElement
+     * @protected
+     */
 
 }
 import BaseProperty from "./BaseProperty";

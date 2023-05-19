@@ -34,12 +34,12 @@ export default class FontProperty extends BaseProperty {
      * @override
      * @param {FontVariant} value
      */
-    override set value(arg: FontVariant);
+    set value(arg: FontVariant);
     /**
      *
      * @return {FontVariant}
      */
-    override get value(): FontVariant;
+    get value(): FontVariant;
     /**
      *
      * @return {FontVariant|null}

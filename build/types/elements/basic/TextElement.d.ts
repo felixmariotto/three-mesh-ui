@@ -2,8 +2,9 @@ export default class TextElement extends BoxElement {
     /**
      *
      * @param {import('./../../core/elements/MeshUIBaseElement').Options} [values={}]
+     * @param [properties={}]
      */
-    constructor(values?: import('./../../core/elements/MeshUIBaseElement').Options);
+    constructor(values?: import('./../../core/elements/MeshUIBaseElement').Options, properties?: {});
     /**
      * A Text Element can only contains inline elements
      * @override

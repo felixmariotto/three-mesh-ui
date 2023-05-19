@@ -5,7 +5,7 @@ export default class MSDFFontVariant extends FontVariant {
     constructor(weight: any, style: any, json: any, texture: any);
 
 
-    get texture(): any;
+
     get unitRange(): Vector2;
     /**
      *
@@ -232,5 +232,6 @@ export type MSDFJsonKerning = {
 };
 import FontVariant from "../FontVariant";
 import { Vector2 } from "three/src/math/Vector2";
+import { Texture } from "three/src/textures/Texture";
 import MSDFFontMaterial from "./materials/MSDFFontMaterial";
 import MSDFGeometricGlyph from "./MSDFGeometricGlyph";

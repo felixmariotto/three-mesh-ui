@@ -8,10 +8,10 @@ export type KerningPairs = {
 declare class FontVariant extends EventDispatcher<import("three").Event> {
     /**
      *
-     * @param {string} weight
-     * @param {string} style
+     * @param {import('./../core/elements/MeshUIBaseElement').FontWeightFormat} weight
+     * @param {"normal"|"italic"} style
      */
-    constructor(weight: string, style: string);
+    constructor(weight: import('./../core/elements/MeshUIBaseElement').FontWeightFormat, style: "normal" | "italic");
 
 
 

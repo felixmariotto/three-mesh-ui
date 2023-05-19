@@ -1,6 +1,6 @@
 {
   "name": "three-mesh-ui",
-  "version": "7.1.4",
+  "version": "7.1.5",
   "description": "a library on top of three.js to help in creating 3D user interfaces",
   "engines": {
     "node": "x.x.x"
@@ -18,7 +18,7 @@
     "test": "karma start --single-run --browsers ChromeHeadless config/karma.conf.js",
     "lint": "eslint -c config/codestyle/.eslintrc src examples",
     "dts": "npx tsc",
-    "strip": "npx ./config/scripts/tsc-strip-internals.js",
+    "strip": "node config/scripts/tsc-strip-internals.js",
     "tdd:test": "karma start --auto-watch --browsers ChromeHeadless config/karma.conf.js",
     "tdd:build": "npx webpack --config config/webpack.config.test.js --watch",
     "build": "npx webpack --config webpack.config.js",

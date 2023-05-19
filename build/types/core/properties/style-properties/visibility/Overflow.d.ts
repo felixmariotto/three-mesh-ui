@@ -18,6 +18,7 @@ export default class Overflow extends SubStyleProperty {
     render(element: any): void;
 
 
+
 }
 import SubStyleProperty from "../SubStyleProperty";
 

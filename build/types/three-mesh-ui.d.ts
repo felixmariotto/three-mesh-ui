@@ -18,6 +18,7 @@ import * as MaterialTransformers from "./utils/mediator/transformers/MaterialTra
 import Behavior from "./utils/Behavior";
 import FontVariant from "./font/FontVariant";
 declare namespace ThreeMeshUI {
+    export { BaseProperty };
     export { BlockElement as Block };
     export { TextElement as Text };
     export { InlineElement as Inline };

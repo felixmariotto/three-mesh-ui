@@ -25,13 +25,13 @@ export default class FontFamily extends EventDispatcher<import("three").Event> {
     get isReady(): boolean;
     /**
      *
-     * @param {string} weight
+     * @param {string|number} weight
      * @param {string} style
      * @param {string|Object} json
      * @param {string|Texture} texture
      * @param {boolean} [override=false]
      */
-    addVariant(weight: string, style: string, json: string | any, texture: string | Texture, override?: boolean): FontFamily;
+    addVariant(weight: string | number, style: string, json: string | any, texture: string | Texture, override?: boolean): FontFamily;
     /**
      *
      * @param {FontVariant} variantImplementation
@@ -40,11 +40,11 @@ export default class FontFamily extends EventDispatcher<import("three").Event> {
     addCustomImplementationVariant(variantImplementation: FontVariant, override?: boolean): FontFamily;
     /**
      *
-     * @param {string} weight
+     * @param {string|number} weight
      * @param {string} style
      * @returns {FontVariant|null}
      */
-    getVariant(weight: string, style: string): FontVariant | null;
+    getVariant(weight: string | number, style: string): FontVariant | null;
     /**
      *
      * @return {string}

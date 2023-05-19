@@ -326,6 +326,7 @@ export default class MeshUIBaseElement extends Object3D<import("three").Event> {
     activatePseudoState(state: any): void;
     deactivatePseudoState(state: any): void;
     togglePseudoState(state: any): void;
+    hasPseudoState(state: any): boolean;
     set borderRadiusMediation(arg: any);
     /**
      *
@@ -424,6 +425,12 @@ export default class MeshUIBaseElement extends Object3D<import("three").Event> {
      */
     performAfterUpdate(): void;
     /**
+     * Retrieve a property
+     * @param propertyName
+     * @return {BaseProperty|null}
+     */
+    getProperty(propertyName: any): BaseProperty | null;
+    /**
      *
      * @param {string} name
      * @param {BaseProperty} instance
@@ -452,15 +459,24 @@ export type DocumentedOptions = {
     overflow?: "visible" | "hidden";
     fontKerning?: "normal" | "none";
     segments?: number;
+    fontFamily?: FontFamily | string;
     fontStyle?: "normal" | "italic";
-    fontWeight?: "light" | "normal" | "bold" | "bolder" | 100 | 200 | 300 | 400 | 500 | 600 | 700 | 800 | 900;
+    fontWeight?: "light" | "normal" | "bold" | "bolder" | 100 | 200 | 300 | 400 | 500 | 600 | 700 | 800 | 900 | "100" | "200" | "300" | "400" | "500" | "600" | "700" | "800" | "900";
+    /**
+     * The font color
+     */
+    color?: Color | number | string;
+    /**
+     * The background color
+     */
     backgroundColor?: Color | number | string;
     backgroundOpacity?: number;
     backgroundSize?: "cover" | "contain" | "stretch";
     backgroundImage?: Texture | string;
+    borderColor?: Color | number | string;
+    borderOpacity?: number;
     borderRadius?: Vector4 | Array<number> | number | string;
     borderWidth?: Vector4 | Array<number> | number | string;
-    borderColor?: Color | number | string;
     boxSizing?: "content-box" | "border-box";
     width?: number | string | "100%" | "auto";
     height?: number | string | "100%" | "auto";
@@ -472,6 +488,7 @@ export type DocumentedOptions = {
     whiteSpace?: "normal" | "nowrap" | "pre" | "pre-line" | "pre-wrap";
     fontTexture?: Texture | string;
 };
+export type FontWeightFormat = "light" | "normal" | "bold" | "bolder" | 100 | 200 | 300 | 400 | 500 | 600 | 700 | 800 | 900 | "100" | "200" | "300" | "400" | "500" | "600" | "700" | "800" | "900";
 import { Object3D } from "three/src/core/Object3D";
 import { Mesh } from "three/src/objects/Mesh";
 import { Material } from "three/src/materials/Material";
@@ -506,6 +523,7 @@ import OffsetProperty from "../properties/OffsetProperty";
 import InvertAlphaProperty from "../properties/InvertAlphaProperty";
 import BaseProperty from "./../properties/BaseProperty";
 import { ShaderMaterial } from "three/src/materials/ShaderMaterial";
+import FontFamily from "../../font/FontFamily";
 import { Color } from "three/src/math/Color";
 import { Texture } from "three/src/textures/Texture";
 import { Vector4 } from "three/src/math/Vector4";

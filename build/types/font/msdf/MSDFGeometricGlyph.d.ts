@@ -1,4 +1,4 @@
-export default class MSDFGeometricGlyph extends PlaneBufferGeometry {
+export default class MSDFGeometricGlyph extends PlaneGeometry {
     /**
      *
      * @param {MSDFInlineGlyph} inline
@@ -26,6 +26,6 @@ export default class MSDFGeometricGlyph extends PlaneBufferGeometry {
      */
 
 }
-import { PlaneBufferGeometry } from "three/src/geometries/PlaneGeometry";
+import { PlaneGeometry } from "three/src/geometries/PlaneGeometry";
 import MSDFInlineGlyph from "./MSDFInlineGlyph";
 import MeshUIBaseElement from "./../../core/elements/MeshUIBaseElement";

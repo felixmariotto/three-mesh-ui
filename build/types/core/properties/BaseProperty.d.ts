@@ -107,6 +107,9 @@ export default class BaseProperty {
      *
      */
     emptyStrategyLogic(): void;
+    requestUpdate(): void;
+    requestProcess(): void;
+    requestRender(): void;
 }
 export type Out = any & {
     [x: string]: any;

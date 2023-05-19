@@ -5,12 +5,12 @@ export default class SegmentsPropertyText extends SegmentsProperty {
      *
      * @param {number|"inherit"} v
      */
-    set value(arg: number);
+    override set value(arg: number);
     /**
      *
      * @override
      * @return {number}
      */
-    get value(): number;
+    override get value(): number;
 }
 import SegmentsProperty from "./SegmentsProperty";

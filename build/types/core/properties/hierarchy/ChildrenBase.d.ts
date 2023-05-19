@@ -1,15 +1,9 @@
-export default class ChildrenText extends BaseProperty {
+export default class ChildrenBox extends BaseProperty {
     constructor();
     /**
      *
      * @type {Array.<MeshUIBaseElement>}
-     * @internal
-     */
-
-    /**
-     *
-     * @type {Array.<MeshUIBaseElement>}
-     * @internal
+     * @private
      */
 
     /**
