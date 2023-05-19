@@ -81,15 +81,7 @@ function makeUI() {
     width: 1,
   });
 
-  const textBlock = new ThreeMeshUI.Text({
-		boxSizing: 'border-box',
-    width: 0.8,
-    margin: 0.05,
-		backgroundColor : 0x000000,
-		textContent : "The spiny bush viper is known for its extremely keeled dorsal scales."
-  });
 
-  container.add(imageBlock, textBlock);
 
   //
 
@@ -110,20 +102,28 @@ function makeUI() {
     fontTexture: FontImage,
   });
 
+	const textBlock = new ThreeMeshUI.Text({
+		boxSizing: 'border-box',
+		width: 0.8,
+		margin: 0.05,
+		backgroundColor : 0x000000,
+		color: new THREE.Color(0xd2ffbd),
+		fontSize: 0.06,
+		textAlign: "right",
+		justifyContent: "end",
+		padding: 0.03,
+	});
+
 	textBlock.add( new ThreeMeshUI.Inline({
+		textContent : "The spiny bush viper is known for its extremely keeled dorsal scales.",
+	}),
+		new ThreeMeshUI.Inline({
 		textContent: " Mind your fingers.",
 		fontSize: 0.07,
 		color: new THREE.Color(0xefffe8),
 	}) )
 
-
-  textBlock.set({
-		color: new THREE.Color(0xd2ffbd),
-		fontSize: 0.06,
-    textAlign: "right",
-    justifyContent: "end",
-    padding: 0.03,
-  });
+	container.add(imageBlock, textBlock);
 }
 
 // Function that resize the renderer when the browser window is resized

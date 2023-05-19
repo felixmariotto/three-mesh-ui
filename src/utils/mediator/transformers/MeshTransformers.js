@@ -3,7 +3,7 @@ export const renderOrderTransformer = function ( target, targetProperty, value )
 	/**
 	 * Propagate the render order to each child
 	 */
-	target.parent.traverse( ( child ) => {
+	target.traverse( ( child ) => {
 
 		child.renderOrder = value;
 

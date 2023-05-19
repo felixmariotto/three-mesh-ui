@@ -10,7 +10,7 @@ function example() {
 	const texture = new TextureLoader().load("/assets/spiny_bush_viper_sprite.jpg", ()=>{
 		exampleRender();
 	});
-	texture.minFilter = NearestFilter;
+	texture.minFilter = LinearFilter;
 
 	// If we are going to display ThreeMeshUI Text elements
 	rootBlock = new Block( {
@@ -25,8 +25,8 @@ function example() {
 		justifyContent: 'start',
 		textAlign: 'left',
 
-		backgroundOpacity: 0.75,
-		backgroundColor: 'red',
+		backgroundOpacity: 1,
+		backgroundColor: 0xffffff,
 
 		// Must be stretch for slice
 		backgroundSize: "stretch",
@@ -34,9 +34,14 @@ function example() {
 		backgroundImage : texture,
 
 		// Must provide slice in instanciation
-		slice : {top:0.1,left:0.1,right:0.1,bottom:0.1, width: 2, height:2}
+		// top left right bottom are normalized
+		// width and height can be use to define scale
+		slice : {top:0.12,left:0.08,right:0.12,bottom:0.08, width: 2, height:2}
 
 	} );
+
+	rootBlock.renderOrder = -1;
+	// rootBlock.backgroundMaterial.depthTest = false;
 
 	// three-mesh-ui root elements must be added on threejs display stack
 	// In the scene, or in another Object3D of our choice
@@ -44,9 +49,8 @@ function example() {
 
 	// three-mesh-ui Block, Text (or Boxes) are Object3D agreemented with three-mesh-ui capabilities
 	// so you can use any existing Object3D methods and properties
-	rootBlock.position.set( 0, 1.8, -3 );
-
-	rootBlock._borderWidth.units = WORLD_UNITS;
+	rootBlock.position.set(0, 1, -1.8);
+	rootBlock.rotation.x = -0.55;
 
 }
 
@@ -92,47 +96,54 @@ function example() {
 
 import { exampleAddResizer, exampleManualRenderThreeOnly, exampleNoRenderLoop, exampleRender, exampleThreeSetup } from 'three-mesh-ui/examples/_setup/ThreeSetup';
 import { exampleFontPreloadRoboto } from 'three-mesh-ui/examples/_setup/RobotoFont';
-import { exampleCameraOrthographic, exampleCameraOrthographicResize } from 'three-mesh-ui/examples/_setup/CameraOrthographic';
-import { exampleRulers } from 'three-mesh-ui/examples/_setup/RulersVR';
+
 import exampleGUI from 'three-mesh-ui/examples/_setup/gui/exampleGUI';
-import BoxLayoutBehavior from 'three-mesh-ui/examples/behaviors/helpers/BoxLayoutBehavior';
 import { DefaultValues, Inline, Text } from 'three-mesh-ui';
-import { NearestFilter, SpriteMaterial, TextureLoader } from 'three';
-import { PERCENT, UV, WORLD_UNITS } from '../src/utils/Units';
+import { LinearFilter, TextureLoader } from 'three';
+import { exampleCameraPerspective, exampleCameraPerspectiveResize } from './_setup/CameraPerspective';
+import { exampleRoomVR } from './_setup/RoomVR';
 /* eslint-disable no-unused-vars */
 
 // building three setup
-const { camera } = exampleCameraOrthographic();
-exampleAddResizer( exampleCameraOrthographicResize );
+const { camera } = exampleCameraPerspective();
+exampleAddResizer( exampleCameraPerspectiveResize );
+
+camera.position.set(0, 1.6, 0);
+// controls.target = new THREE.Vector3(0, 1, -1.8);
 
 const { scene, renderer } = exampleThreeSetup( camera );
 exampleNoRenderLoop();
 exampleAddResizer( exampleRender );
 
-const { ruler, rulerHalf } = exampleRulers( scene );
+exampleRoomVR( scene );
 
 // preload fonts and run example() after
 const defaultFontFamily = exampleFontPreloadRoboto( () => { example(); additionalUI(); exampleRender(); boxSizingUI(); });
 DefaultValues.set({fontFamily:defaultFontFamily});
 
-let infoBlock, border, content;
+let infoBlock, border;
 function additionalUI(){
 
 	infoBlock = new Block({
 		name: 'info-block',
-		width:  2.4,
+		width: 'auto',
 		padding: 0.05,
 		height: 'auto',
 		flexDirection: 'row',
 		justifyContent: 'start',
 		alignItems: 'center',
 		backgroundColor: 0x000000,
-		backgroundOpacity : 0.75,
 		borderRadius : 0.025,
 	});
 
+	infoBlock.backgroundMaterial.depthWrite = false;
+
 	infoBlock.position.z = -2
 	infoBlock.position.y = 0.4;
+
+	infoBlock.position.set(0, 0.6, -1.5);
+	infoBlock.rotation.x = -0.35;
+
 	scene.add( infoBlock );
 
 	border = new Block({
@@ -147,6 +158,7 @@ function additionalUI(){
 	const borderContent = new Text({
 		name: 'border-content',
 		textAlign: "left",
+		lineHeight: 0.8
 	}).add(
 		new Inline({
 			textContent: 'A slice definition '
@@ -216,6 +228,7 @@ function boxSizingUI() {
 		borderWidth: rootBlock._borderWidth._value.clone(),
 		backgroundSize: rootBlock._backgroundSize._value,
 		render: exampleManualRenderThreeOnly,
+		opacity: rootBlock._backgroundOpacity._value,
 	}
 
 	gui.add( params, 'infoBox' ).onChange( ib => {
@@ -236,18 +249,23 @@ function boxSizingUI() {
 
 
 
-	rootBlockGui.add( params, 'width', 0, 2, 0.1 ).onChange( w => {
+	rootBlockGui.add( params, 'width', 0, 3, 0.1 ).onChange( w => {
 		rootBlock.set({width:w});
 		exampleRender();
 	})
 
-	rootBlockGui.add( params, 'height', 0, 2, 0.1 ).onChange( h => {
+	rootBlockGui.add( params, 'height', 0, 3, 0.1 ).onChange( h => {
 		rootBlock.set({height:h});
 		exampleRender();
 	})
 
 	rootBlockGui.add( params, 'backgroundSize', {"cover":"cover", "contain":"contain",'stretch':'stretch'}).onChange( bs => {
 		rootBlock.set({backgroundSize:bs});
+		exampleRender();
+	})
+
+	rootBlockGui.add( params, 'opacity', 0,1,0.01).onChange( o => {
+		rootBlock.set({backgroundOpacity: o});
 		exampleRender();
 	})
 
