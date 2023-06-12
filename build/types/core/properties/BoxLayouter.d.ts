@@ -9,7 +9,7 @@ export default class BoxLayouter extends BaseProperty {
      * @type {ChildrenPos}
      * @internal
      */
-
+    _childrenPos: any;
     /**
      * Updated when :
      * 	- New child added

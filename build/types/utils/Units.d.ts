@@ -1,4 +1,4 @@
-
+export const WORLD_UNITS: "rem";
 export const CENTIMETERS: "cm";
 export const MILLIMETERS: "mm";
 export const INCHES: "in";

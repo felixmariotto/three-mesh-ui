@@ -1,4 +1,4 @@
-import { Color, FrontSide, ShaderMaterial, Vector2, Vector3, Vector4 } from 'three';
+import { Color, FrontSide, ShaderMaterial, UniformsLib, Vector2, Vector3, Vector4 } from 'three';
 import { fragmentShader, vertexShader } from '../renderers/ShaderLib/framematerial.glsl';
 import FrameMaterialUtils from '../utils/FrameMaterialUtils';
 
@@ -36,7 +36,9 @@ export default class FrameMaterial extends ShaderMaterial {
 				borderWidth: { value: new Vector4(0,0,0,0) },
 
 				frameSize: { value: new Vector3( 1, 1, 1 ) },
-				textureSize: { value: new Vector2( 1, 1 ) }
+				textureSize: { value: new Vector2( 1, 1 ) },
+
+				...UniformsLib.fog,
 			},
 			side: FrontSide,
 			transparent: true,
@@ -50,6 +52,9 @@ export default class FrameMaterial extends ShaderMaterial {
 
 		// webgl preprocessor AlphaTest set by default
 		this.defines[ 'USE_ALPHATEST' ] = '';
+		// Set fog as default
+		this.fog = false;
+
 		this.needsUpdate = true;
 	}
 

@@ -5,7 +5,7 @@ export default class LineBreakProperty extends BaseProperty {
      * @type {"mandatory"|"possible"|null}
      * @private
      */
-
+    private _newLineBreakability;
     update(element: any, out: any): void;
     process(element: any): void;
     /**

@@ -30,5 +30,6 @@ declare namespace ThreeMeshUI {
     export { ShaderChunkUI };
     export { Behavior };
     export { FontVariant };
+    export { DefaultValues };
 }
 export { BlockElement as Block, TextElement as Text, InlineElement as Inline, InlineBlockElement as InlineBlock, FontLibrary, ShaderChunkUI, MSDFFontMaterialUtils, TypographicFont, TypographicGlyph, InlineGlyph, MeshUIBaseElement, DefaultValues, InheritableProperty, BaseProperty, MaterialTransformers, Behavior, FontVariant };

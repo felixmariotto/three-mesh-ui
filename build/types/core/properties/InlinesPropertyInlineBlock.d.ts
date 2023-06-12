@@ -8,7 +8,7 @@ export default class InlinesPropertyInlineBlock extends BaseProperty {
      * @type {Array.<Inline>}
      * @internal
      */
-
+    _value: Array<Inline>;
     process(element: any): void;
 }
 import BaseProperty from "./BaseProperty";

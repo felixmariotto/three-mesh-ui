@@ -10,7 +10,7 @@ export default class BooleanProperty extends BaseProperty {
      * @type {boolean}
      * @private
      */
-
+    private override _value;
     output: (out: any) => void;
     /**
      *

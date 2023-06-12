@@ -12,32 +12,32 @@
  */
 export default class WhiteSpacePropertyInline extends WhiteSpaceProperty {
     computeOutputValue: (element: any) => void;
-
+    _whiteSpacedContent: string;
     /**
      *
      * @type {StringCollapserStrategy}
      * @internal
      */
-
+    _stringCollapser: StringCollapserStrategy;
     /**
      *
      * @type {InlineCollapserStrategy}
      * @internal
      */
-
+    _inlineCollapser: InlineCollapserStrategy;
     /**
      *
      * @type {InlineWrapperStrategy}
      * @internal
      */
-
+    _inlineWrapper: InlineWrapperStrategy;
     /**
      *
      * @param element
      * @private
      */
-
-
+    private _computeFromInherited;
+    _newLineBreakability: string;
     process(element: any): void;
 }
 export type StringCollapserStrategy = (textContent: {

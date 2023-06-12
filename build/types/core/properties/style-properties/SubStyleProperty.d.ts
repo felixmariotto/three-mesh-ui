@@ -10,25 +10,25 @@ export default class SubStyleProperty extends BaseProperty {
      * @type {any}
      * @internal
      */
-
+    _input: any;
     /**
      *
      * @type {boolean}
      * @protected
      */
-
+    protected _allowsInherit: boolean;
     /**
      * The input value that won't be 'inherit'
      * @type {any}
      * @protected
      */
-
+    protected _inheritedInput: any;
     /**
      *
      * @type {any}
      * @internal
      */
-
+    _inline: any;
     /**
      *
      * @param {MeshUIBaseElement} element
@@ -46,7 +46,7 @@ export default class SubStyleProperty extends BaseProperty {
      *
      * @param {MeshUIBaseElement} element
      */
-
+    _computeFromInherited(element: MeshUIBaseElement): void;
     /**
      *
      * @param {any} value

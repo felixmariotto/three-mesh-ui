@@ -5,13 +5,13 @@ export default class StyleVector4Property extends SubStyleProperty {
      * @type {Vector4}
      * @private
      */
-
+    private _input;
     /**
      * @override
      * @type {Vector4}
      * @protected
      */
-
+    protected override _value: Vector4;
     /**
      * @override
      * @return {Vector4}
@@ -62,15 +62,15 @@ export default class StyleVector4Property extends SubStyleProperty {
      */
     get left(): number;
     dispose(): void;
-
-
+    _computed: any;
+    _output: any;
     /**
      *
      * @param {Vector4} vector4
      * @param {Vector4|Array.<Number>|Number|String} value
      * @protected
      */
-
+    protected _vector4ValueSetter(vector4: Vector4, value: Vector4 | Array<number> | number | string): void;
 }
 import SubStyleProperty from "./SubStyleProperty";
 import { Vector4 } from "three/src/math/Vector4";

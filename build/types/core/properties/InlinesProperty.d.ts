@@ -5,7 +5,7 @@ export default class InlinesProperty extends BaseProperty {
      * @type {Array.<Inline>}
      * @private
      */
-
+    private _value;
     process(element: any): void;
     /**
      *

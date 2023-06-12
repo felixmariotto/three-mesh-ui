@@ -11,37 +11,37 @@ export default class BaseProperty {
      * @type {string}
      * @internal
      */
-
+    _id: string;
     /**
      *
      * @type {any}
      * @internal
      */
-
+    _value: any;
     /**
      *
      * @type {boolean}
      * @internal
      */
-
+    _needsUpdate: boolean;
     /**
      *
      * @type {boolean}
      * @internal
      */
-
+    _needsProcess: boolean;
     /**
      *
      * @type {boolean}
      * @internal
      */
-
+    _needsRender: boolean;
     /**
      *
      * @type {boolean}
      * @protected
      */
-
+    protected _isPrimitive: boolean;
     /**
      *
      * @return {string}
@@ -76,7 +76,7 @@ export default class BaseProperty {
      *
      * @param {Out} out
      */
-
+    _outputValue(out: Out): void;
     /**
      * Execute additional process after all properties have been updated
      * @param {MeshUIBaseElement} element

@@ -9,44 +9,44 @@ export default class BorderRadius extends StyleVector4Property {
      * @type {Vector4}
      * @private
      */
-
+    private _valueUV;
     /**
      *
      * @type {boolean}
      * @private
      */
-
+    private _mediation;
     /**
      *
      * @type {Vector2}
      * @private
      */
-
+    private _cornerTL;
     /**
      *
      * @type {Vector2}
      * @private
      */
-
+    private _cornerTR;
     /**
      *
      * @type {Vector2}
      * @private
      */
-
+    private _cornerBR;
     /**
      *
      * @type {Vector2}
      * @private
      */
-
+    private _cornerBL;
     /**
      *
      * @type {Array.<BorderRadiusMediator>}
      * @private
      */
-
-
+    private _sideMediators;
+    _units: string;
     /**
      *
      * @param {string} units

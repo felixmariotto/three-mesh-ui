@@ -1,4 +1,4 @@
-import { ShaderMaterial, Vector2 } from 'three';
+import { ShaderMaterial, UniformsLib, Vector2 } from 'three';
 import MSDFFontMaterialUtils from '../utils/MSDFFontMaterialUtils';
 import { vertexShader, fragmentShader } from '../renderers/ShaderLib/msdf-fontmaterial.glsl';
 
@@ -37,6 +37,8 @@ export default class MSDFFontMaterial extends ShaderMaterial {
 				'opacity': { value: 1 },
 				'unitRange': { value: new Vector2(0,0) }, // vec2
 				'alphaTest': { value: ALPHA_TEST },
+
+				...UniformsLib.fog,
 			},
 			transparent: true,
 			clipping: true,
@@ -54,6 +56,8 @@ export default class MSDFFontMaterial extends ShaderMaterial {
 		// initiate additional properties
 		this.noRGSS = materialOptions.noRGSS || false;
 
+		// Set fog as default
+		this.fog = false;
 	}
 
 	/**

@@ -5,19 +5,19 @@ export default class ChildrenText extends BaseProperty {
      * @type {Array.<MeshUIBaseElement>}
      * @internal
      */
-
+    _uis: Array<MeshUIBaseElement>;
     /**
      *
      * @type {Array.<MeshUIBaseElement>}
      * @internal
      */
-
+    _inlines: Array<MeshUIBaseElement>;
     /**
      *
      * @type {Array.<MeshUIBaseElement>}
      * @internal
      */
-
+    _boxes: Array<MeshUIBaseElement>;
     /**
      * Update requested when :
      * 		- New child has been added
@@ -34,7 +34,7 @@ export default class ChildrenText extends BaseProperty {
      * @param element
      */
     process(element: any): void;
-
+    _compute(element: any): void;
     /**
      *
      */
@@ -48,7 +48,7 @@ export default class ChildrenText extends BaseProperty {
      * @return {number}
      * @private
      */
-
+    private _sortOrder;
 }
 import BaseProperty from "../BaseProperty";
 import MeshUIBaseElement from "../../elements/MeshUIBaseElement";

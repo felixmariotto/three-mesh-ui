@@ -55,6 +55,7 @@ import BaseProperty from './../properties/BaseProperty';
 import FontFamily from '../../font/FontFamily';
 import { defaultOptions } from 'acorn';
 import { renderOrderTransformer } from '../../utils/mediator/transformers/MeshTransformers';
+import BooleanProperty from '../properties/BooleanProperty';
 /* eslint-enable no-unused-vars */
 
 export default class MeshUIBaseElement extends Object3D {
@@ -117,6 +118,9 @@ export default class MeshUIBaseElement extends Object3D {
 			backgroundReceiveShadow: { m: 'receiveShadow' },
 			renderOrder: {m: 'renderOrder', t: renderOrderTransformer }
 		};
+
+
+		this._fog = new InheritableBooleanProperty("fog");
 
 		/**
 		 *
@@ -307,6 +311,8 @@ export default class MeshUIBaseElement extends Object3D {
 
 			this._autoSize,
 
+
+			this._fog,
 
 			this._fontFamily,
 			this._fontStyle,
@@ -1327,6 +1333,30 @@ export default class MeshUIBaseElement extends Object3D {
 	 *
 	 */
 	unbindFontMeshProperties () { }
+
+
+	/**
+	 *
+	 * @param {boolean} value
+	 */
+	set fog( value ) {
+
+		this._fog.value = value;
+		console.log( this._fog.value )
+
+	}
+
+	/**
+	 *
+	 * @return {boolean}
+	 */
+	get fog() {
+
+		if ( this._fog ) return this._fog.value;
+
+		return false;
+	}
+
 
 	/**
 	 *

@@ -9,7 +9,7 @@ export default class FontProperty extends BaseProperty {
      * @type {FontVariant|null}
      * @internal
      */
-
+    _fontVariant: FontVariant | null;
     /**
      * @typedef ReadyClosure
      * @type { ()=> void|null }
@@ -19,11 +19,11 @@ export default class FontProperty extends BaseProperty {
      * @type {ReadyClosure}
      * @private
      */
-
+    private _handleFontReadyClosure;
     /**
      * @override
      */
-
+    override isValid: typeof _isValid;
     output(out: any): void;
     /**
      *
@@ -34,12 +34,12 @@ export default class FontProperty extends BaseProperty {
      * @override
      * @param {FontVariant} value
      */
-    set value(arg: FontVariant);
+    override set value(arg: FontVariant);
     /**
      *
      * @return {FontVariant}
      */
-    get value(): FontVariant;
+    override get value(): FontVariant;
     /**
      *
      * @return {FontVariant|null}
@@ -58,5 +58,5 @@ import FontVariant from "../../font/FontVariant";
  * @return {boolean}
  * @private
  */
-
+declare function _isValid(value: number): boolean;
 export {};

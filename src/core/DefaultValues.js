@@ -1,5 +1,6 @@
 /** List the default values of the lib components */
 const _values = {
+	fog: false,
 	fontFamily: null,
 	fontSize: 0.05,
 	fontKerning: 'auto',

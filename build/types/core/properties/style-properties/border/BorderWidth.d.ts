@@ -4,9 +4,9 @@ export default class BorderWidth extends StyleVector4Property {
      * @param defaultValue
      */
     constructor(defaultValue: any);
-
+    _valueUV: import("three").Vector4;
     output: (out: any) => void;
-
+    _units: string;
     /**
      *
      * @param {string} units
@@ -17,7 +17,7 @@ export default class BorderWidth extends StyleVector4Property {
      * @returns {string}
      */
     get units(): string;
-
+    _outputValue(out: any): void;
     /**
      *
      * @override

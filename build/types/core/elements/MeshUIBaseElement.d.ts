@@ -10,155 +10,156 @@ export default class MeshUIBaseElement extends Object3D<import("three").Event> {
      * @type {Mesh|null}
      * @internal
      */
-
+    _backgroundMesh: Mesh | null;
     /**
      *
      * @type {Material}
      * @internal
      */
-
+    _backgroundMaterial: Material;
     /**
      *
      * @type {Material}
      * @protected
      */
-
+    protected _backgroundCustomDepthMaterial: Material;
     /**
      *
      * @type {Object.<{m:string, t?:(target:any, targetProperty:string, value:any) => void}>}
      * @protected
      */
-
+    protected _backgroundMaterialMediation: any;
     /**
      *
      * @type {Object.<{m:string, t?:(value:any) => any}>}
      * @private
      */
-
+    private _backgroundMeshMediation;
+    _fog: InheritableBooleanProperty;
     /**
      *
      * @type {Mesh|null}
      * @internal
      */
-
+    _fontMesh: Mesh | null;
     /**
      *
      * @type {InheritableMaterialProperty}
      * @internal
      */
-
+    _fontMaterial: InheritableMaterialProperty;
     /**
      *
      * @type {InheritableMaterialProperty}
      * @private
      */
-
+    private _fontCustomDepthMaterial;
     /**
      *
      * @type {Object.<{m:string, t?:(value:any) => any}>}
      * @private
      */
-
+    private _fontMeshMediation;
     /**
      *
      * @type {EmptyProperty|ChildrenBox|ChildrenText}
      * @internal
      */
-
-
-
-
-
-
-
-
-
-
-
-
-
+    _children: EmptyProperty | ChildrenBox | ChildrenText;
+    _parent: ParentProperty;
+    _backgroundSide: SideProperty;
+    _fontSide: SideProperty;
+    _backgroundAlphaTest: NumberProperty;
+    _fontAlphaTest: NumberProperty;
+    _visible: VisibleProperty;
+    _backgroundCastShadow: InheritableBooleanProperty;
+    _fontCastShadow: InheritableBooleanProperty;
+    _backgroundReceiveShadow: InheritableBooleanProperty;
+    _fontReceiveShadow: InheritableBooleanProperty;
+    _renderOrder: RenderOrderProperty;
+    _segments: any;
     /**
      *
      * @type {BoundsBox|BoundsText|EmptyProperty}
      * @ignore
      * @internal
      */
-
-
-
-
-
+    _bounds: BoundsBox | BoundsText | EmptyProperty;
+    _order: OrderProperty;
+    _padding: PaddingProperty;
+    _margin: MarginProperty;
+    _position: PositionProperty;
     /**
      *
      * @type {FlexDirectionProperty}
      * @internal
      */
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    _flexDirection: FlexDirectionProperty;
+    _justifyContent: any;
+    _alignItems: any;
+    _display: Display;
+    _boxSizing: BoxSizing;
+    _width: WidthProperty;
+    _height: HeightProperty;
+    _backgroundColor: any;
+    _backgroundOpacity: StyleFactorProperty;
+    _backgroundImage: BackgroundImage;
+    _backgroundSize: BackgroundSize;
+    _color: any;
+    _fontOpacity: StyleFactorProperty;
+    _whiteSpace: any;
+    _fontFamily: any;
+    _fontStyle: any;
+    _fontWeight: any;
+    _fontSize: any;
+    _lineHeight: any;
+    _fontKerning: any;
+    _letterSpacing: any;
+    _overflow: Overflow;
+    _borderRadius: BorderRadius;
+    _borderWidth: BorderWidth;
+    _borderColor: StyleColorProperty;
+    _borderOpacity: StyleFactorProperty;
+    _font: FontProperty;
+    _lineBreak: any;
     /**
      *
      * @type {TextContentEmpty|TextContentText|TextContentInline}
      * @internal
      */
-
+    _textContent: TextContentEmpty | TextContentText | TextContentInline;
     /**
      *
      * @type {GlyphsProperty}
      * @internal
      */
-
-
+    _glyphs: GlyphsProperty;
+    _inlines: any;
     /**
      *
      * @type {BoxLayouter|TextLayouter|EmptyProperty}
      * @internal
      */
-
-
-
-
-
-
-
-
+    _layouter: BoxLayouter | TextLayouter | EmptyProperty;
+    _inlineJustificator: InlineJustificator;
+    _textAlign: any;
+    _autoSize: any;
+    _renderer: any;
+    _offset: OffsetProperty;
+    _invertAlpha: InvertAlphaProperty;
+    _fontSmooth: any;
     /**
      *
      * @type {Array.<BaseProperty>}
      * @internal
      */
-
+    _components: Array<BaseProperty>;
     /**
      *
      * @type {*[]}
      * @private
      */
-
+    private _onAfterUpdates;
     update(): void;
     process(): void;
     render(): void;
@@ -172,12 +173,12 @@ export default class MeshUIBaseElement extends Object3D<import("three").Event> {
      * Filters children in order to compute only one times children lists
      * @private
      */
-
+    private _rebuildChildrenLists;
     /**
      * Try to retrieve parentUI after each structural change
      * @protected
      */
-
+    protected _rebuildParentUI: () => void;
     /**
      * When the user calls component.add, it registers for updates,
      * then call THREE.Object3D.add.
@@ -231,7 +232,7 @@ export default class MeshUIBaseElement extends Object3D<import("three").Event> {
      * @param {Object} [options=null]
      * @private
      */
-
+    private _transferToBackgroundMaterial;
     /**
      *
      * @param {number} value
@@ -279,7 +280,7 @@ export default class MeshUIBaseElement extends Object3D<import("three").Event> {
      * @param {Object} [options=null]
      * @private
      */
-
+    private _transferToFontMaterial;
     /**
      *
      * @param {number} value
@@ -309,7 +310,7 @@ export default class MeshUIBaseElement extends Object3D<import("three").Event> {
      * @param {Object} [options=null]
      * @private
      */
-
+    private _transferToBackgroundMesh;
     /**
      * @internal
      * @param {Mesh|Array.<Mesh>|null} mesh
@@ -355,7 +356,7 @@ export default class MeshUIBaseElement extends Object3D<import("three").Event> {
      * @param {Object} [options=null]
      * @private
      */
-
+    private _transferToFontMesh;
     /**
      * @internal
      * @param {Mesh|Array.<Mesh>|null} mesh
@@ -369,6 +370,16 @@ export default class MeshUIBaseElement extends Object3D<import("three").Event> {
      *
      */
     unbindFontMeshProperties(): void;
+    /**
+     *
+     * @param {boolean} value
+     */
+    set fog(arg: boolean);
+    /**
+     *
+     * @return {boolean}
+     */
+    get fog(): boolean;
     /**
      *
      * @param {boolean} value
@@ -492,13 +503,13 @@ export type FontWeightFormat = "light" | "normal" | "bold" | "bolder" | 100 | 20
 import { Object3D } from "three/src/core/Object3D";
 import { Mesh } from "three/src/objects/Mesh";
 import { Material } from "three/src/materials/Material";
+import InheritableBooleanProperty from "../properties/InheritableBooleanProperty";
 import InheritableMaterialProperty from "../properties/InheritableMaterialProperty";
 import EmptyProperty from "../properties/EmptyProperty";
 import ParentProperty from "../properties/hierarchy/ParentProperty";
 import SideProperty from "../properties/SideProperty";
 import NumberProperty from "../properties/NumberProperty";
 import VisibleProperty from "../properties/VisibleProperty";
-import InheritableBooleanProperty from "../properties/InheritableBooleanProperty";
 import RenderOrderProperty from "../properties/RenderOrderProperty";
 import OrderProperty from "../properties/style-properties/flex/OrderProperty";
 import PaddingProperty from "../properties/style-properties/bounds/PaddingProperty";

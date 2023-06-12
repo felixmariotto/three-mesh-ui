@@ -10,13 +10,17 @@ import msdfAlphaglyphVertexGlsl from '../ShaderChunks/msdf-alphaglyph.vertex.gls
  */
 export const vertexShader = /* glsl */`
 ${msdfAlphaglyphParsVertexGlsl}
+
+#include <fog_pars_vertex>
 #include <clipping_planes_pars_vertex>
+
 void main() {
 	${msdfAlphaglyphVertexGlsl}
 	#include <begin_vertex>
 	#include <project_vertex>
 	${msdfOffsetglyphVertexGlsl}
 	#include <clipping_planes_vertex>
+	#include <fog_vertex>
 }
 `
 
@@ -29,6 +33,7 @@ uniform vec3 diffuse;
 uniform float opacity;
 ${msdfAlphaglyphParsFragmentGlsl}
 #include <alphatest_pars_fragment>
+#include <fog_pars_fragment>
 #include <clipping_planes_pars_fragment>
 void main() {
 	// instead of <color_fragment> : vec4 diffuseColor
@@ -37,6 +42,9 @@ void main() {
 	#include <alphatest_fragment>
 	// instead of <output_fragment>
 	gl_FragColor = diffuseColor;
+
+
 	#include <clipping_planes_fragment>
+	#include <fog_fragment>
 }
 `

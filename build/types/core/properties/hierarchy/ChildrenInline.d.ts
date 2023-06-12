@@ -5,7 +5,7 @@ export default class ChildrenInline extends BaseProperty {
      * @type {Array.<MeshUIBaseElement>}
      * @internal
      */
-
+    _uis: Array<MeshUIBaseElement>;
     /**
      * Update requested when :
      * 		- New child has been added
@@ -22,7 +22,7 @@ export default class ChildrenInline extends BaseProperty {
      * @param element
      */
     process(element: any): void;
-
+    _compute(element: any): void;
     /**
      *
      */

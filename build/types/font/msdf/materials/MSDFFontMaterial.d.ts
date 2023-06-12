@@ -1,4 +1,4 @@
-
+export const ALPHA_TEST: 0.02;
 /**
  * This material implements the msdf rendering shader
  */

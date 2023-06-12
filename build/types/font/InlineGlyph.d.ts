@@ -4,7 +4,7 @@ export default class InlineGlyph extends Inline {
      * @param {TypographicGlyph} characterDesc
      */
     constructor(characterDesc: TypographicGlyph);
-
+    /** @protected */ protected _typographic: TypographicGlyph;
     /**
      *
      * @returns {TypographicGlyph}

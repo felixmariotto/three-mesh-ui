@@ -4,6 +4,18 @@
 /******/ 	var __webpack_require__ = {};
 /******/ 	
 /************************************************************************/
+/******/ 	/* webpack/runtime/define property getters */
+/******/ 	(() => {
+/******/ 		// define getter functions for harmony exports
+/******/ 		__webpack_require__.d = (exports, definition) => {
+/******/ 			for(var key in definition) {
+/******/ 				if(__webpack_require__.o(definition, key) && !__webpack_require__.o(exports, key)) {
+/******/ 					Object.defineProperty(exports, key, { enumerable: true, get: definition[key] });
+/******/ 				}
+/******/ 			}
+/******/ 		};
+/******/ 	})();
+/******/ 	
 /******/ 	/* webpack/runtime/global */
 /******/ 	(() => {
 /******/ 		__webpack_require__.g = (function() {
@@ -16,14 +28,39 @@
 /******/ 		})();
 /******/ 	})();
 /******/ 	
+/******/ 	/* webpack/runtime/hasOwnProperty shorthand */
+/******/ 	(() => {
+/******/ 		__webpack_require__.o = (obj, prop) => (Object.prototype.hasOwnProperty.call(obj, prop))
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/make namespace object */
+/******/ 	(() => {
+/******/ 		// define __esModule on exports
+/******/ 		__webpack_require__.r = (exports) => {
+/******/ 			if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
+/******/ 				Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
+/******/ 			}
+/******/ 			Object.defineProperty(exports, '__esModule', { value: true });
+/******/ 		};
+/******/ 	})();
+/******/ 	
 /************************************************************************/
 var __webpack_exports__ = {};
 
 // UNUSED EXPORTS: BaseProperty, Behavior, Block, DefaultValues, FontLibrary, FontVariant, InheritableProperty, Inline, InlineBlock, InlineGlyph, MSDFFontMaterialUtils, MaterialTransformers, MeshUIBaseElement, ShaderChunkUI, Text, TypographicFont, TypographicGlyph, default, update
 
+// NAMESPACE OBJECT: ./src/core/DefaultValues.js
+var DefaultValues_namespaceObject = {};
+__webpack_require__.r(DefaultValues_namespaceObject);
+__webpack_require__.d(DefaultValues_namespaceObject, {
+  "get": () => (get),
+  "set": () => (set)
+});
+
 ;// CONCATENATED MODULE: ./src/core/DefaultValues.js
 /** List the default values of the lib components */
 const _values = {
+	fog: false,
 	fontFamily: null,
 	fontSize: 0.05,
 	fontKerning: 'auto',
@@ -98,7 +135,7 @@ const get = function ( property ) {
 
 /* eslint-enable no-unused-vars */
 
-class BaseProperty {
+class BaseProperty_BaseProperty {
 
 	/**
 	 *
@@ -314,7 +351,7 @@ class BaseProperty {
 ;// CONCATENATED MODULE: ./src/core/properties/RenderOrderProperty.js
 
 
-class RenderOrderProperty extends BaseProperty{
+class RenderOrderProperty extends BaseProperty_BaseProperty{
 
 	constructor() {
 
@@ -389,7 +426,7 @@ class RenderOrderProperty extends BaseProperty{
 ;// CONCATENATED MODULE: ./src/core/properties/InheritableProperty.js
 
 
-class InheritableProperty extends BaseProperty {
+class InheritableProperty extends BaseProperty_BaseProperty {
 
 	/**
 	 *
@@ -551,7 +588,7 @@ const external_THREE_namespaceObject = THREE;
 /* eslint-enable no-unused-vars */
 
 /* eslint-disable no-unused-vars */
-class SubStyleProperty extends BaseProperty{
+class SubStyleProperty extends BaseProperty_BaseProperty{
 
 	/**
 	 *
@@ -1129,7 +1166,7 @@ class Mediator{
 
 /* eslint-enable no-unused-vars */
 
-class ParentProperty extends BaseProperty {
+class ParentProperty extends BaseProperty_BaseProperty {
 
 	constructor() {
 
@@ -1255,7 +1292,7 @@ const numberPrecise = function ( unprecisedNumber, precision = 6 ) {
 
 
 
-class NumberProperty extends BaseProperty{
+class NumberProperty extends BaseProperty_BaseProperty{
 
 	/**
 	 *
@@ -1641,7 +1678,7 @@ function _setReady( fontVariant ) {
 
 
 
-class FontProperty extends BaseProperty{
+class FontProperty extends BaseProperty_BaseProperty{
 
 	/**
 	 *
@@ -3091,7 +3128,7 @@ class BorderWidth extends StyleVector4Property{
 ;// CONCATENATED MODULE: ./src/core/properties/VisibleProperty.js
 
 
-class VisibleProperty extends BaseProperty{
+class VisibleProperty extends BaseProperty_BaseProperty{
 
 	/**
 	 *
@@ -3184,7 +3221,7 @@ class BackgroundColorProperty extends StyleColorProperty {
 ;// CONCATENATED MODULE: ./src/core/properties/EmptyProperty.js
 
 
-class EmptyProperty extends BaseProperty {
+class EmptyProperty extends BaseProperty_BaseProperty {
 
 	/**
 	 *
@@ -3216,7 +3253,7 @@ class EmptyProperty extends BaseProperty {
 ;// CONCATENATED MODULE: ./src/core/properties/InlineJustificator.js
 
 
-class InlineJustificator extends BaseProperty {
+class InlineJustificator extends BaseProperty_BaseProperty {
 
 	constructor() {
 		super( 'inlineJustificator', null, false );
@@ -5169,10 +5206,11 @@ const _RGSSTransformer = function( fontMaterial, materialProperty, value){
  */
 const mediationDefinitions = {
 	clippingPlanes: { m: 'clippingPlanes' },
+	color: { m: 'color' },
+	fog: { m: 'fog' },
+	font: { m: "glyphMap", t: _fontToGlyphMapTransformer },
 	fontAlphaTest: { m: 'alphaTest', t: alphaTestTransformer },
 	fontSide: { m: 'side' },
-	font: { m: "glyphMap", t: _fontToGlyphMapTransformer },
-	color: { m: 'color' },
 	fontOpacity: { m: 'opacity' },
 	fontSmooth: { m: 'NO_RGSS', t: _RGSSTransformer },
 	invertAlpha: { m: 'INVERT_ALPHA', t: toPreprocessorTriggerTransformer },
@@ -5191,13 +5229,17 @@ const mediationDefinitions = {
  */
 const vertexShader = /* glsl */`
 ${msdf_alphaglyph_pars_vertex_glsl}
+
+#include <fog_pars_vertex>
 #include <clipping_planes_pars_vertex>
+
 void main() {
 	${msdf_alphaglyph_vertex_glsl}
 	#include <begin_vertex>
 	#include <project_vertex>
 	${msdf_offsetglyph_vertex_glsl}
 	#include <clipping_planes_vertex>
+	#include <fog_vertex>
 }
 `
 
@@ -5210,6 +5252,7 @@ uniform vec3 diffuse;
 uniform float opacity;
 ${msdf_alphaglyph_pars_fragment_glsl}
 #include <alphatest_pars_fragment>
+#include <fog_pars_fragment>
 #include <clipping_planes_pars_fragment>
 void main() {
 	// instead of <color_fragment> : vec4 diffuseColor
@@ -5218,7 +5261,10 @@ void main() {
 	#include <alphatest_fragment>
 	// instead of <output_fragment>
 	gl_FragColor = diffuseColor;
+
+
 	#include <clipping_planes_fragment>
+	#include <fog_fragment>
 }
 `
 
@@ -5262,6 +5308,8 @@ class MSDFFontMaterial extends external_THREE_namespaceObject.ShaderMaterial {
 				'opacity': { value: 1 },
 				'unitRange': { value: new external_THREE_namespaceObject.Vector2(0,0) }, // vec2
 				'alphaTest': { value: ALPHA_TEST },
+
+				...external_THREE_namespaceObject.UniformsLib.fog,
 			},
 			transparent: true,
 			clipping: true,
@@ -5279,6 +5327,8 @@ class MSDFFontMaterial extends external_THREE_namespaceObject.ShaderMaterial {
 		// initiate additional properties
 		this.noRGSS = materialOptions.noRGSS || false;
 
+		// Set fog as default
+		this.fog = false;
 	}
 
 	/**
@@ -6287,7 +6337,7 @@ class FontSizeProperty extends SubStyleProperty {
 ;// CONCATENATED MODULE: ./src/core/properties/geometry/SegmentsProperty.js
 
 
-class SegmentsProperty extends BaseProperty {
+class SegmentsProperty extends BaseProperty_BaseProperty {
 
 	constructor() {
 
@@ -12079,6 +12129,51 @@ const MeshTransformers_layer = function ( target, targetProperty, value ) {
 
 }
 
+;// CONCATENATED MODULE: ./src/core/properties/BooleanProperty.js
+
+
+class BooleanProperty extends (/* unused pure expression or super */ null && (BaseProperty)) {
+
+	/**
+	 *
+	 * @param {string} propertyId
+	 * @param {any} [value=null]
+	 */
+	constructor( propertyId, value = true ) {
+
+		super( propertyId, value, true );
+
+		/**
+		 * @override
+		 * @type {boolean}
+		 * @private
+		 */
+		this._value = value;
+
+		this.output = this._outputValue;
+
+	}
+
+	/**
+	 *
+	 * @param {boolean} value
+	 */
+	set value( value ) {
+
+		this._value = value;
+
+		this._needsUpdate = true;
+
+	}
+
+	/**
+	 *
+	 * @return {boolean}
+	 */
+	get value() { return this._value; }
+
+}
+
 ;// CONCATENATED MODULE: ./src/core/elements/MeshUIBaseElement.js
 
 
@@ -12132,6 +12227,7 @@ const MeshTransformers_layer = function ( target, targetProperty, value ) {
 
 //JSDoc related imports
 /* eslint-disable no-unused-vars */
+
 
 
 
@@ -12199,6 +12295,9 @@ class MeshUIBaseElement extends external_THREE_namespaceObject.Object3D {
 			backgroundReceiveShadow: { m: 'receiveShadow' },
 			renderOrder: {m: 'renderOrder', t: renderOrderTransformer }
 		};
+
+
+		this._fog = new InheritableBooleanProperty("fog");
 
 		/**
 		 *
@@ -12389,6 +12488,8 @@ class MeshUIBaseElement extends external_THREE_namespaceObject.Object3D {
 
 			this._autoSize,
 
+
+			this._fog,
 
 			this._fontFamily,
 			this._fontStyle,
@@ -13410,6 +13511,30 @@ class MeshUIBaseElement extends external_THREE_namespaceObject.Object3D {
 	 */
 	unbindFontMeshProperties () { }
 
+
+	/**
+	 *
+	 * @param {boolean} value
+	 */
+	set fog( value ) {
+
+		this._fog.value = value;
+		console.log( this._fog.value )
+
+	}
+
+	/**
+	 *
+	 * @return {boolean}
+	 */
+	get fog() {
+
+		if ( this._fog ) return this._fog.value;
+
+		return false;
+	}
+
+
 	/**
 	 *
 	 * @param {boolean} value
@@ -14054,6 +14179,7 @@ varying vec2 vUv;
 
 ${frame_border_pars_vertex_glsl}
 
+#include <fog_pars_vertex>
 #include <clipping_planes_pars_vertex>
 
 void main() {
@@ -14068,6 +14194,7 @@ void main() {
 	gl_Position = projectionMatrix * mvPosition;
 
 	#include <clipping_planes_vertex>
+	#include <fog_vertex>
 
 }
 `
@@ -14094,6 +14221,7 @@ uniform sampler2D map;
 
 ${frame_background_pars_fragment_glsl}
 
+#include <fog_pars_fragment>
 #include <clipping_planes_pars_fragment>
 
 void main() {
@@ -14116,6 +14244,7 @@ void main() {
 
 
 	#include <clipping_planes_fragment>
+	#include <fog_fragment>
 }
 `
 
@@ -14330,6 +14459,7 @@ const _mediationDefinitions = {
 	cornerBR : { m: 'cornerBR', t: uniformOrUserDataTransformer },
 	cornerBL : { m: 'cornerBL', t: uniformOrUserDataTransformer },
 	borderOpacity: { m: 'borderOpacity', t: uniformOrUserDataTransformer },
+	fog: {m : "fog"},
 	size: { m: 'frameSize', t: uniformOrUserDataTransformer },
 	tSize: { m: 'textureSize', t: uniformOrUserDataTransformer }
 }
@@ -14373,7 +14503,9 @@ class FrameMaterial extends external_THREE_namespaceObject.ShaderMaterial {
 				borderWidth: { value: new external_THREE_namespaceObject.Vector4(0,0,0,0) },
 
 				frameSize: { value: new external_THREE_namespaceObject.Vector3( 1, 1, 1 ) },
-				textureSize: { value: new external_THREE_namespaceObject.Vector2( 1, 1 ) }
+				textureSize: { value: new external_THREE_namespaceObject.Vector2( 1, 1 ) },
+
+				...external_THREE_namespaceObject.UniformsLib.fog,
 			},
 			side: external_THREE_namespaceObject.FrontSide,
 			transparent: true,
@@ -14387,6 +14519,9 @@ class FrameMaterial extends external_THREE_namespaceObject.ShaderMaterial {
 
 		// webgl preprocessor AlphaTest set by default
 		this.defines[ 'USE_ALPHATEST' ] = '';
+		// Set fog as default
+		this.fog = false;
+
 		this.needsUpdate = true;
 	}
 
@@ -14488,7 +14623,7 @@ class FrameMaterial extends external_THREE_namespaceObject.ShaderMaterial {
 
 /* eslint-enable no-unused-vars */
 
-class ChildrenBox extends BaseProperty {
+class ChildrenBox extends BaseProperty_BaseProperty {
 
 	constructor() {
 
@@ -14605,7 +14740,7 @@ class ChildrenBox extends BaseProperty {
 
 
 
-class BoundsBox extends BaseProperty {
+class BoundsBox extends BaseProperty_BaseProperty {
 
 	constructor() {
 
@@ -16067,7 +16202,7 @@ function _sliceUV( geometry, uMin, uMax, vMin, vMax ){
 
 
 
-class RendererPropertyBox extends BaseProperty{
+class RendererPropertyBox extends BaseProperty_BaseProperty{
 
 	constructor() {
 
@@ -16117,7 +16252,7 @@ class PositionPropertyBox extends PositionProperty {
 /**
  * Autosize are only trigger when natural size changed
  */
-class AutoSizePropertyBox extends BaseProperty {
+class AutoSizePropertyBox extends BaseProperty_BaseProperty {
 
 	constructor() {
 
@@ -16539,7 +16674,7 @@ class Line extends Array {
 
 /* eslint-enable no-unused-vars */
 
-class BoxLayouter extends BaseProperty {
+class BoxLayouter extends BaseProperty_BaseProperty {
 
 	constructor() {
 
@@ -16717,7 +16852,7 @@ class BlockElement extends BoxElement {
 ;// CONCATENATED MODULE: ./src/core/properties/TextContentInline.js
 
 
-class TextContentInline extends BaseProperty{
+class TextContentInline extends BaseProperty_BaseProperty{
 
 	constructor() {
 
@@ -16744,7 +16879,7 @@ class TextContentInline extends BaseProperty{
 
 /* eslint-enable no-unused-vars */
 
-class InlinesProperty extends BaseProperty{
+class InlinesProperty extends BaseProperty_BaseProperty{
 
 	constructor() {
 
@@ -16823,7 +16958,7 @@ class InlinesProperty extends BaseProperty{
 
 /* eslint-enable no-unused-vars */
 
-class GlyphsProperty extends BaseProperty{
+class GlyphsProperty extends BaseProperty_BaseProperty{
 
 	constructor() {
 
@@ -16936,7 +17071,7 @@ class ColorProperty extends StyleColorProperty {
 /* eslint-disable no-unused-vars */
 /* eslint-enable no-unused-vars */
 
-class LineBreakProperty extends BaseProperty{
+class LineBreakProperty extends BaseProperty_BaseProperty{
 
 	constructor( defaultValue = "- ,.:?!\n" ) {
 
@@ -17009,7 +17144,7 @@ class LineBreakProperty extends BaseProperty{
 ;// CONCATENATED MODULE: ./src/core/properties/InlineLayouter.js
 
 
-class InlineLayouter extends BaseProperty {
+class InlineLayouter extends BaseProperty_BaseProperty {
 
 	constructor() {
 
@@ -17890,7 +18025,7 @@ class FontKerningPropertyInline extends FontKerningProperty {
 
 /* eslint-enable no-unused-vars */
 
-class ChildrenInline extends BaseProperty {
+class ChildrenInline extends BaseProperty_BaseProperty {
 
 	constructor() {
 
@@ -19162,7 +19297,7 @@ function mergeGroups( geometry ) {
 
 
 
-class RendererPropertyInline extends BaseProperty{
+class RendererPropertyInline extends BaseProperty_BaseProperty{
 
 	constructor() {
 
@@ -19472,7 +19607,7 @@ class Lines extends Array {
 
 
 
-class TextLayouter extends BaseProperty {
+class TextLayouter extends BaseProperty_BaseProperty {
 
 	constructor() {
 
@@ -19995,7 +20130,7 @@ class BoundsText extends BoundsBox {
 
 /* eslint-enable no-unused-vars */
 
-class ChildrenText extends BaseProperty {
+class ChildrenText extends BaseProperty_BaseProperty {
 
 	constructor() {
 
@@ -20104,7 +20239,7 @@ class ChildrenText extends BaseProperty {
 /**
  * Autosize are only trigger when natural size changed
  */
-class AutoSizePropertyText extends BaseProperty {
+class AutoSizePropertyText extends BaseProperty_BaseProperty {
 
 	constructor() {
 
@@ -20350,7 +20485,7 @@ class TextElement extends BoxElement {
 /**
  * @property {Array.<InlineGlyph>} value
  */
-class InlinesPropertyInlineBlock extends BaseProperty{
+class InlinesPropertyInlineBlock extends BaseProperty_BaseProperty{
 
 	constructor() {
 
@@ -20384,7 +20519,7 @@ class InlinesPropertyInlineBlock extends BaseProperty{
 
 
 
-class RendererPropertyInlineBox extends BaseProperty{
+class RendererPropertyInlineBox extends BaseProperty_BaseProperty{
 
 	constructor() {
 
@@ -20415,7 +20550,7 @@ class RendererPropertyInlineBox extends BaseProperty{
 
 
 
-class BoundsInlineBlock extends BaseProperty {
+class BoundsInlineBlock extends BaseProperty_BaseProperty {
 
 	constructor() {
 
@@ -20863,7 +20998,7 @@ class Behavior {
 const update = () => UpdateManager.update();
 
 const ThreeMeshUI = {
-	BaseProperty: BaseProperty,
+	BaseProperty: BaseProperty_BaseProperty,
 	Block: BlockElement,
 	Text : TextElement,
 	Inline: InlineElement,
@@ -20875,7 +21010,8 @@ const ThreeMeshUI = {
 	MSDFFontMaterialUtils: MSDFFontMaterialUtils,
 	ShaderChunkUI: ShaderChunkUI,
 	Behavior: Behavior,
-	FontVariant: font_FontVariant
+	FontVariant: font_FontVariant,
+	DefaultValues: DefaultValues_namespaceObject
 };
 
 

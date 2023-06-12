@@ -10,15 +10,15 @@ export default class StyleSideProperty extends SubStyleProperty {
      * @type {boolean}
      * @internal
      */
-
+    _auto: boolean;
     /**
      *
      * @type {boolean}
      * @internal
      */
-
-
-
+    _relative: boolean;
+    _updateRequired: boolean;
+    _parseInput(): void;
     update(element: any, out: any): void;
     computeOutputValue(element: any): void;
     getInheritedInput(element: any): any;

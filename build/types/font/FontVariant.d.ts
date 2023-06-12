@@ -12,18 +12,18 @@ declare class FontVariant extends EventDispatcher<import("three").Event> {
      * @param {"normal"|"italic"} style
      */
     constructor(weight: import('./../core/elements/MeshUIBaseElement').FontWeightFormat, style: "normal" | "italic");
-
-
-
-
-
-
+    /** @private */ private _isReady;
+    /** @protected */ protected _weight: string;
+    /** @protected */ protected _style: "normal" | "italic";
+    /** @protected */ protected _size: number;
+    /** @protected */ protected _lineHeight: number;
+    /** @protected */ protected _lineBase: number;
     /**
      *
      * @type {TypographicFont}
      * @protected
      */
-
+    protected _font: TypographicFont;
     /**
      *
      * @returns {TypographicFont}
@@ -76,7 +76,7 @@ declare class FontVariant extends EventDispatcher<import("three").Event> {
      * @param {string} missingChar
      * @returns {string|null}
      */
-
+    protected _getFallbackCharacter(missingChar: string): string | null;
     /**
      * Convert an InlineCharacter to a geometry
      *
@@ -105,20 +105,20 @@ declare class FontVariant extends EventDispatcher<import("three").Event> {
      *
      * @private
      */
-
+    private _checkReadiness;
     /**
      * @abstract
      * @param element
      * @internal
      */
-
+    _alterElementProperties(element: any): void;
     /**
      *
      * @abstract
      * @returns {boolean}
      * @protected
      */
-
+    protected _readyCondition(): boolean;
 }
 import { EventDispatcher } from "three/src/core/EventDispatcher";
 import TypographicFont from "./TypographicFont";

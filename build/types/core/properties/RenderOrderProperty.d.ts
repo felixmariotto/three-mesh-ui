@@ -1,7 +1,7 @@
 export default class RenderOrderProperty extends BaseProperty {
     constructor();
     output: (out: any) => void;
-
+    _actualValue: number;
     /**
      *
      * @param {number} value
@@ -13,6 +13,6 @@ export default class RenderOrderProperty extends BaseProperty {
      */
     get value(): number;
     update(element: any, out: any): void;
-
+    _outputValue(out: any): void;
 }
 import BaseProperty from "./BaseProperty";

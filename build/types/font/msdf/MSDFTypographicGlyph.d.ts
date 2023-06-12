@@ -1,5 +1,5 @@
 /**
-
+ * @property {MSDFTypographicFont} _font
  */
 export default class MSDFTypographicGlyph extends TypographicGlyph {
     /**
@@ -7,7 +7,7 @@ export default class MSDFTypographicGlyph extends TypographicGlyph {
      * @param {import('./MSDFFontVariant').MSDFJsonChar} characterData
      */
     constructor(fontDescription: MSDFTypographicFont, characterData: import('./MSDFFontVariant').MSDFJsonChar);
-
+    _uv: any;
     /**
      *
      * @returns {{left: number, right: number, top: number, bottom: number}|null}

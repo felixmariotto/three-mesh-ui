@@ -5,7 +5,7 @@ export default class BackgroundImage extends SubStyleProperty {
      * @type {Vector2}
      * @internal
      */
-
+    _textureSize: Vector2;
     /**
      * @override
      * @return {any|Texture|null}

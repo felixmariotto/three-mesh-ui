@@ -3,17 +3,17 @@
  * Inline can be positioned according to text rules
  */
 export default class Inline {
-
-
-
-
-
-
-
-
-
-
-
+    /** @protected */ protected _offsetX: number;
+    /** @protected */ protected _offsetY: number;
+    /** @protected */ protected _lineBreak: string;
+    /** @protected */ protected _kerning: number;
+    /** @protected */ protected _fontFactor: number;
+    /** @protected */ protected _fontSize: number;
+    /** @protected */ protected _cumulativeWidth: number;
+    /** @protected */ protected _paddingLeft: number;
+    /** @protected */ protected _paddingRight: number;
+    /** @protected */ protected _marginLeft: number;
+    /** @protected */ protected _marginRight: number;
     /**
      * @returns {void}
      */

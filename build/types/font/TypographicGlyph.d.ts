@@ -8,18 +8,18 @@ export default class TypographicGlyph {
      * @param {TypographicFont} typographicFont
      */
     constructor(typographicFont: TypographicFont);
-
-
-
-
-
-
+    /** @protected */ protected _char: string;
+    /** @protected */ protected _width: number;
+    /** @protected */ protected _heigth: number;
+    /** @protected */ protected _xadvance: number;
+    /** @protected */ protected _xoffset: number;
+    /** @protected */ protected _yoffset: number;
     /**
      *
      * @type {TypographicFont}
      * @protected
      */
-
+    protected _font: TypographicFont;
     /**
      *
      * @returns {TypographicFont}

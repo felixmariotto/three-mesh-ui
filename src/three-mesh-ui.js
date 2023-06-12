@@ -37,7 +37,8 @@ const ThreeMeshUI = {
 	MSDFFontMaterialUtils,
 	ShaderChunkUI,
 	Behavior,
-	FontVariant
+	FontVariant,
+	DefaultValues
 };
 
 

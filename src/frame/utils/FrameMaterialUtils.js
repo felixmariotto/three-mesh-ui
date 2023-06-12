@@ -208,6 +208,7 @@ const _mediationDefinitions = {
 	cornerBR : { m: 'cornerBR', t: uniformOrUserDataTransformer },
 	cornerBL : { m: 'cornerBL', t: uniformOrUserDataTransformer },
 	borderOpacity: { m: 'borderOpacity', t: uniformOrUserDataTransformer },
+	fog: {m : "fog"},
 	size: { m: 'frameSize', t: uniformOrUserDataTransformer },
 	tSize: { m: 'textureSize', t: uniformOrUserDataTransformer }
 }

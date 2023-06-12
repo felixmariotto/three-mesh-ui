@@ -5,7 +5,7 @@ export default class TextLayouter extends BaseProperty {
      * @type {Lines}
      * @private
      */
-
+    private _value;
     update(element: any, out: any): void;
     /**
      *
@@ -17,6 +17,6 @@ export default class TextLayouter extends BaseProperty {
      * @param inlineElement
      * @protected
      */
-
+    protected _resetInlines(inlineElement: any): void;
 }
 import BaseProperty from "./BaseProperty";

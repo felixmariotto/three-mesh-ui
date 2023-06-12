@@ -13,18 +13,18 @@ export namespace ShaderChunkUI {
     export { frameBackgroundFragmentGlsl };
 }
 export type ChunksUI = {
-
-
-
-
-
-
-
-
-
-
-
-
+    msdf_alphaglyph_vertex: string;
+    frame_border_fragment: string;
+    frame_background_pars_fragment: string;
+    frame_common_pars: string;
+    msdf_alphaglyph_pars_vertex: string;
+    frame_border_pars_fragment: string;
+    msdf_offset_vertex: string;
+    frame_border_pars_vertex: string;
+    msdf_alphaglyph_pars_fragment: string;
+    frame_border_vertex: string;
+    frame_background_fragment: string;
+    msdf_alphaglyph_fragment: string;
 };
 import msdfAlphaglyphParsVertexGlsl from "../../font/msdf/renderers/ShaderChunks/msdf-alphaglyph.pars.vertex.glsl";
 import msdfAlphaglyphVertexGlsl from "../../font/msdf/renderers/ShaderChunks/msdf-alphaglyph.vertex.glsl";

@@ -5,43 +5,43 @@ export default class BoundsBox extends BaseProperty {
      * @type {Vector3}
      * @internal
      */
-
+    _size: Vector3;
     /**
      *
      * @type {number}
      * @internal
      */
-
+    _offsetWidth: number;
     /**
      *
      * @type {number}
      * @internal
      */
-
+    _offsetHeight: number;
     /**
      *
      * @type {number}
      * @internal
      */
-
+    _innerWidth: number;
     /**
      *
      * @type {number}
      * @internal
      */
-
+    _innerHeight: number;
     /**
      *
      * @type {number}
      * @internal
      */
-
+    _centerX: number;
     /**
      *
      * @type {number}
      * @internal
      */
-
+    _centerY: number;
     /**
      * Set the value of the width 100%
      * @param element
@@ -67,16 +67,16 @@ export default class BoundsBox extends BaseProperty {
      * @param element
      * @internal
      */
-
+    _computeChildrenSideWidth(element: any): number;
     /**
      *
      * @param element
      * @internal
      */
-
-
-
-
+    _computeChildrenSideHeight(element: any): number;
+    _propagateWidth(element: any): void;
+    _propagateHeight(element: any): void;
+    _triggerCascadingDependencies(element: any): void;
 }
 import BaseProperty from "./BaseProperty";
 import { Vector3 } from "three/src/math/Vector3";

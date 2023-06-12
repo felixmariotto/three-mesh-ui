@@ -5,7 +5,7 @@ export default class GlyphsProperty extends BaseProperty {
      * @type {Array.<TypographicGlyph>}
      * @private
      */
-
+    private _value;
     process(element: any): void;
     /**
      *

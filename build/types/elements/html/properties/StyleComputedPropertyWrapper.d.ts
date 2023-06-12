@@ -12,7 +12,7 @@ export default class StyleComputedPropertyWrapper {
      * @type {MeshUIBaseElement}
      * @private
      */
-
+    private _element;
     set(values: any): void;
     /***********************************************************************************************************************
      * computed GETTERS - SETTERS

@@ -9,7 +9,7 @@ export default class Behavior {
      * @type {MeshUIBaseElement}
      * @protected
      */
-
+    protected _subject: MeshUIBaseElement;
     /**
      * @abstract
      */

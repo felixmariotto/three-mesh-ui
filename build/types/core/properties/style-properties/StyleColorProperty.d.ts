@@ -4,7 +4,7 @@ export default class StyleColorProperty extends SubStyleProperty {
      * @type {Color}
      * @protected
      */
-
+    protected _value: Color;
     output: (out: any) => void;
     /**
      * @override

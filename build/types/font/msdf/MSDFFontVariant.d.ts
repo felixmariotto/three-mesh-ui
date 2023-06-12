@@ -3,30 +3,30 @@
  */
 export default class MSDFFontVariant extends FontVariant {
     constructor(weight: any, style: any, json: any, texture: any);
-
-
-
+    _unitRange: Vector2;
+    _texture: Texture;
+    _defaultMaterialClass: typeof MSDFFontMaterial;
     get unitRange(): Vector2;
     /**
      *
      * @param {MSDFJson} json
      * @private
      */
-
+    private _buildData;
     /**
      *
      * @type {import('../FontVariant').KerningPairs}
      * @private
      */
-
-
-
+    private _kernings;
+    _chars: {};
+    _distanceRange: number;
     /**
      *
      * @param texture
      * @private
      */
-
+    private _buildTexture;
     /**
      *
      * @override
@@ -43,13 +43,13 @@ export default class MSDFFontVariant extends FontVariant {
      * @returns {import('../FontVariant').KerningPairs}
      * @private
      */
-
+    private _buildKerningPairs;
     /**
      *
      * @param {MSDFJson} json
      * @private
      */
-
+    private _buildCharacters;
     /**
      *
      * @param {MSDFJson} json
@@ -58,7 +58,7 @@ export default class MSDFFontVariant extends FontVariant {
      * @param scaleY
      * @private
      */
-
+    private _buildCharacterWhite;
 }
 export type MSDFJson = {
     info: MSDFJsonInfo;

@@ -253,10 +253,11 @@ const _RGSSTransformer = function( fontMaterial, materialProperty, value){
  */
 const mediationDefinitions = {
 	clippingPlanes: { m: 'clippingPlanes' },
+	color: { m: 'color' },
+	fog: { m: 'fog' },
+	font: { m: "glyphMap", t: _fontToGlyphMapTransformer },
 	fontAlphaTest: { m: 'alphaTest', t: alphaTestTransformer },
 	fontSide: { m: 'side' },
-	font: { m: "glyphMap", t: _fontToGlyphMapTransformer },
-	color: { m: 'color' },
 	fontOpacity: { m: 'opacity' },
 	fontSmooth: { m: 'NO_RGSS', t: _RGSSTransformer },
 	invertAlpha: { m: 'INVERT_ALPHA', t: toPreprocessorTriggerTransformer },

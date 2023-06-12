@@ -1,6 +1,6 @@
 export default class FontSmoothProperty extends InheritableProperty {
     constructor();
-
+    isValid: typeof _isValid;
 }
 import InheritableProperty from "./InheritableProperty";
 /**
@@ -9,5 +9,5 @@ import InheritableProperty from "./InheritableProperty";
  * @return {boolean}
  * @private
  */
-
+declare function _isValid(value: string): boolean;
 export {};

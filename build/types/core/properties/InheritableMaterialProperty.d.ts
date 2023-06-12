@@ -12,13 +12,13 @@ export default class InheritableMaterialProperty extends InheritableProperty {
      * @type {Object.<{m:string, t?:(target:any, targetProperty:string, value:any) => void}>}
      * @internal
      */
-
+    _mediation: any;
     /**
      *
      * @type {null}
      * @internal
      */
-
+    _defaultMaterial: any;
     /**
      * @override
      */

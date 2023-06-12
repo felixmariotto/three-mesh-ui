@@ -30,7 +30,7 @@ export default class Mediator {
      * @type {MediationDefinition}
      * @private
      */
-
+    private _definition;
     /**
      *
      * @param {MediationDefinition} value

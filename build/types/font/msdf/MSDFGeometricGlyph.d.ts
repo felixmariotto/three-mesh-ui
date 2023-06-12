@@ -11,12 +11,12 @@ export default class MSDFGeometricGlyph extends PlaneGeometry {
      * @param {MSDFInlineGlyph} inline
      * @private
      */
-
+    private _mapUVs;
     /**
      * Set all UVs to 0, so that none of the glyphs on the texture will appear
      * @private
      * */
-
+    private _nullifyUVs;
     /**
      *
      * @TODO: Apply pivot properties when splitText isset
@@ -24,7 +24,7 @@ export default class MSDFGeometricGlyph extends PlaneGeometry {
      * @param {MSDFInlineGlyph} inline
      * @private
      */
-
+    private _transformGeometry;
 }
 import { PlaneGeometry } from "three/src/geometries/PlaneGeometry";
 import MSDFInlineGlyph from "./MSDFInlineGlyph";

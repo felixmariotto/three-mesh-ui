@@ -5,13 +5,13 @@ export default class ChildrenBox extends BaseProperty {
      * @type {Array.<MeshUIBaseElement>}
      * @private
      */
-
+    private _uis;
     /**
      *
      * @type {Array.<MeshUIBaseElement>}
      * @internal
      */
-
+    _boxes: Array<MeshUIBaseElement>;
     /**
      * Update requested when :
      * 		- New child has been added
@@ -28,7 +28,7 @@ export default class ChildrenBox extends BaseProperty {
      * @param element
      */
     process(element: any): void;
-
+    _compute(element: any): void;
     /**
      *
      */
@@ -42,7 +42,7 @@ export default class ChildrenBox extends BaseProperty {
      * @return {number}
      * @private
      */
-
+    private _sortOrder;
 }
 import BaseProperty from "../BaseProperty";
 import MeshUIBaseElement from "../../elements/MeshUIBaseElement";

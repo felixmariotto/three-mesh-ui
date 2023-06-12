@@ -6,6 +6,6 @@ export default class StyleFactorProperty extends SubStyleProperty {
      */
     constructor(propertyId: string, defaultValue: any);
     output: (out: any) => void;
-
+    _outputValue(out: any): void;
 }
 import SubStyleProperty from "./SubStyleProperty";

@@ -14,6 +14,7 @@ varying vec2 vUv;
 
 ${frameBorderParsVertexGlsl}
 
+#include <fog_pars_vertex>
 #include <clipping_planes_pars_vertex>
 
 void main() {
@@ -28,6 +29,7 @@ void main() {
 	gl_Position = projectionMatrix * mvPosition;
 
 	#include <clipping_planes_vertex>
+	#include <fog_vertex>
 
 }
 `
@@ -54,6 +56,7 @@ uniform sampler2D map;
 
 ${frameBackgroundParsFragmentGlsl}
 
+#include <fog_pars_fragment>
 #include <clipping_planes_pars_fragment>
 
 void main() {
@@ -76,5 +79,6 @@ void main() {
 
 
 	#include <clipping_planes_fragment>
+	#include <fog_fragment>
 }
 `
