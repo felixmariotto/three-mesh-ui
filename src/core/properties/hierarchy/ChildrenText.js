@@ -60,7 +60,7 @@ export default class ChildrenText extends BaseProperty {
 	 */
 	process( element ) {
 
-		this._compute( element );
+		// this._compute( element );
 
 		element._overflow._needsRender = true;
 

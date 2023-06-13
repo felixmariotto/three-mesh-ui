@@ -1,5 +1,5 @@
 import BoxElement from './BoxElement';
-import TextContentText from '../../core/properties/TextContentText';
+import TextContentProperty from '../../core/properties/TextContentProperty';
 import TextLayouter from '../../core/properties/TextLayouter';
 import TextAlignPropertyText from '../../core/properties/style-properties/font/TextAlignPropertyText';
 import FlexDirectionPropertyText from '../../core/properties/style-properties/flex/FlexDirectionPropertyText';
@@ -129,7 +129,7 @@ export default class TextElement extends BoxElement {
 		properties.renderer = RendererPropertyText;
 
 		if( !properties.children ) properties.children = ChildrenText;
-		if( !properties.textContent ) properties.textContent = TextContentText;
+		if( !properties.textContent ) properties.textContent = TextContentProperty;
 		if( !properties.layouter ) properties.layouter = TextLayouter;
 		if( !properties.lineHeight ) properties.lineHeight = LineHeightPropertyInline;
 		if( !properties.textAlign ) properties.textAlign = TextAlignPropertyText;

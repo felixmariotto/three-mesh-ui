@@ -1,7 +1,7 @@
 import InlineElement from '../../elements/basic/InlineElement';
-import TextContentEmpty from './TextContentEmpty';
+import TextContentDefault from './TextContentDefault';
 
-export default class TextContentText extends TextContentEmpty{
+export default class TextContentProperty extends TextContentDefault{
 
 	constructor() {
 
@@ -45,8 +45,34 @@ export default class TextContentText extends TextContentEmpty{
 		element._children._uis = [];
 
 		// If a value, add a child
-		if( this._value ) element.add( new InlineElement({name:'anonymousInline',textContent:this._value}));
+		if( this._value ) {
 
+			const childrenInlines = this.buildInlines( this._value );
+			if( childrenInlines.length ){
+
+				element.add( ...childrenInlines );
+
+			}
+
+		}
+
+		if( element.isInline ) {
+
+			element._glyphs._needsUpdate = true;
+			element._whiteSpace._needsProcess = true;
+
+		}
+
+	}
+
+	/**
+	 *
+	 * @param {string} textContent
+	 * @return {InlineElement[]}
+	 */
+	buildInlines( textContent ) {
+
+		return [ new InlineElement({name:'anonymousInline',textContent}) ];
 
 	}
 

@@ -18,6 +18,7 @@ import BaseProperty from './core/properties/BaseProperty';
 import * as MaterialTransformers from './utils/mediator/transformers/MaterialTransformers';
 import Behavior from './utils/Behavior';
 import FontVariant from './font/FontVariant';
+import TextContentProperty from './core/properties/TextContentProperty';
 
 
 
@@ -38,7 +39,9 @@ const ThreeMeshUI = {
 	ShaderChunkUI,
 	Behavior,
 	FontVariant,
-	DefaultValues
+	DefaultValues,
+	InheritableProperty,
+	TextContentProperty,
 };
 
 
@@ -62,6 +65,7 @@ export { BaseProperty }
 export { MaterialTransformers }
 export { Behavior }
 export { FontVariant }
+export { TextContentProperty }
 
 export default ThreeMeshUI;
 

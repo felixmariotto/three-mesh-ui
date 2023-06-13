@@ -31,7 +31,7 @@ import OrderProperty from '../properties/style-properties/flex/OrderProperty';
 import PositionProperty from '../properties/style-properties/PositionProperty';
 import WidthProperty from '../properties/style-properties/bounds/WidthProperty';
 import HeightProperty from '../properties/style-properties/bounds/HeightProperty';
-import TextContentEmpty from '../properties/TextContentEmpty';
+import TextContentDefault from '../properties/TextContentDefault';
 import FontStyleProperty from '../properties/style-properties/font/FontStyleProperty';
 import FontWeightProperty from '../properties/style-properties/font/FontWeightProperty';
 import FontFamilyProperty from '../properties/style-properties/font/FontFamilyProperty';
@@ -261,10 +261,10 @@ export default class MeshUIBaseElement extends Object3D {
 
 		/**
 		 *
-		 * @type {TextContentEmpty|TextContentText|TextContentInline}
+		 * @type {TextContentDefault|TextContentText|TextContentInline}
 		 * @internal
 		 */
-		this._textContent = properties.textContent ? new properties.textContent() : new TextContentEmpty();
+		this._textContent = properties.textContent ? new properties.textContent() : new TextContentDefault();
 
 		/**
 		 *
@@ -594,7 +594,9 @@ export default class MeshUIBaseElement extends Object3D {
 				// properties
 
 				// As textContent property might alter the hierarchy, do not wait until update
-				// 	case 'textContent' :
+				case 'textContent' :
+					this.textContent = value;
+					break;
 
 					case 'fontSmooth':
 					case 'renderOrder':

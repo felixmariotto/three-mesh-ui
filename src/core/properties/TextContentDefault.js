@@ -1,6 +1,6 @@
 import EmptyProperty from './EmptyProperty';
 
-export default class TextContentEmpty extends EmptyProperty{
+export default class TextContentDefault extends EmptyProperty{
 
 	constructor() {
 
