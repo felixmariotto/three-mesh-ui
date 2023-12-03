@@ -69,7 +69,7 @@ function init() {
 	renderer = new THREE.WebGLRenderer( { antialias: true } );
 	renderer.setPixelRatio( window.devicePixelRatio );
 	renderer.setSize( window.innerWidth, window.innerHeight );
-	renderer.outputEncoding = THREE.sRGBEncoding;
+	renderer.outputColorSpace = THREE.SRGBColorSpace;
 	renderer.xr.enabled = true;
 	document.body.appendChild( VRButton.createButton( renderer ) );
 	document.body.appendChild( renderer.domElement );
@@ -141,17 +141,17 @@ function init() {
 	//
 
 	const sphere = new THREE.Mesh(
-		new THREE.IcosahedronBufferGeometry( 0.3, 1 ),
+		new THREE.IcosahedronGeometry( 0.3, 1 ),
 		new THREE.MeshStandardMaterial( { color: 0x3de364, flatShading: true } )
 	);
 
 	const box = new THREE.Mesh(
-		new THREE.BoxBufferGeometry( 0.45, 0.45, 0.45 ),
+		new THREE.BoxGeometry( 0.45, 0.45, 0.45 ),
 		new THREE.MeshStandardMaterial( { color: 0x643de3, flatShading: true } )
 	);
 
 	const cone = new THREE.Mesh(
-		new THREE.ConeBufferGeometry( 0.28, 0.5, 10 ),
+		new THREE.ConeGeometry( 0.28, 0.5, 10 ),
 		new THREE.MeshStandardMaterial( { color: 0xe33d4e, flatShading: true } )
 	);
 

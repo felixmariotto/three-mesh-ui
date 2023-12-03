@@ -1,18 +1,18 @@
 # three-mesh-ui
 
-<a href="https://three-mesh-ui.herokuapp.com/#interactive_button">
+<a href="https://felixmariotto.github.io/three-mesh-ui/#interactive_button">
   <img alt="buttons example" target="_blank" src="https://felixmariotto.s3.eu-west-3.amazonaws.com/three-mesh-ui-teasers/buttons_opti.gif" width="45%">
 </a>
 
-<a href="https://three-mesh-ui.herokuapp.com/#hidden_overflow">
+<a href="https://felixmariotto.github.io/three-mesh-ui/#hidden_overflow">
   <img alt="tuto example" target="_blank" src="https://felixmariotto.s3.eu-west-3.amazonaws.com/three-mesh-ui-teasers/hidden_overflow_opti.gif" width="45%">
 </a>
 
-<a href="https://three-mesh-ui.herokuapp.com/#nested_blocks">
+<a href="https://felixmariotto.github.io/three-mesh-ui/#nested_blocks">
   <img alt="big text example" target="_blank" src="https://felixmariotto.s3.eu-west-3.amazonaws.com/three-mesh-ui-teasers/nested_layout_opti.gif" width="45%">
 </a>
 
-<a href="https://three-mesh-ui.herokuapp.com/#keyboard">
+<a href="https://felixmariotto.github.io/three-mesh-ui/#keyboard">
   <img alt="big text example" target="_blank" src="https://felixmariotto.s3.eu-west-3.amazonaws.com/three-mesh-ui-teasers/keyboard_opti.gif" width="45%">
 </a>
 
