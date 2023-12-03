@@ -116,7 +116,7 @@ function init() {
 	renderer = new THREE.WebGLRenderer( { antialias: true } );
 	renderer.setPixelRatio( window.devicePixelRatio );
 	renderer.setSize( window.innerWidth, window.innerHeight );
-	renderer.outputEncoding = THREE.sRGBEncoding;
+	renderer.outputColorSpace = THREE.SRGBColorSpace;
 	renderer.xr.enabled = true;
 	document.body.appendChild( VRButton.createButton( renderer ) );
 	document.body.appendChild( renderer.domElement );
